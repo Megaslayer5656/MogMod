@@ -22,6 +22,7 @@ namespace MogMod.Items
 			Item.rare = 2;
 			Item.UseSound = SoundID.Item1;
 			Item.autoReuse = true;
+			Item.shoot = ProjectileID.EnchantedBoomerang;
 		}
 
 		public override void AddRecipes()
