@@ -6,7 +6,7 @@ namespace MogMod.Items
 {
 	public class Dabdadblade : ModItem
 	{
-        // The Display Name and Tooltip of this item can be edited in the Localization/en-US_Mods.MogMod.hjson file.
+		// The Display Name and Tooltip of this item can be edited in the Localization/en-US_Mods.MogMod.hjson file.
 
 		public override void SetDefaults()
 		{
@@ -17,12 +17,13 @@ namespace MogMod.Items
 			Item.useTime = 20;
 			Item.useAnimation = 20;
 			Item.useStyle = 1;
-			Item.knockBack = 6;
+			Item.knockBack = 6.5f;
 			Item.value = 10000;
 			Item.rare = 2;
-			Item.UseSound = SoundID.Item1;
+			Item.UseSound = SoundID.Item7;
 			Item.autoReuse = true;
-			Item.shoot = ProjectileID.EnchantedBoomerang;
+			Item.shoot = ProjectileID.CursedFlameFriendly;
+			Item.shootSpeed = 10f;
 		}
 
 		public override void AddRecipes()
