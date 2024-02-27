@@ -1,0 +1,3 @@
+displayName = Mog Mod
+author = Megaslayer_
+version = 0.1
