@@ -25,4 +25,9 @@ Items: {
 		DisplayName: True Boulder Fury
 		Tooltip: ""
 	}
+
+	MageShotgun: {
+		Tooltip: ""
+		DisplayName: Mage Shotgun
+	}
 }
