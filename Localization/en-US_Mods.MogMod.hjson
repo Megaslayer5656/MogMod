@@ -20,4 +20,9 @@ Items: {
 		Tooltip: ""
 		DisplayName: Bouncer Fury
 	}
+
+	TrueBoulderFury: {
+		DisplayName: True Boulder Fury
+		Tooltip: ""
+	}
 }
