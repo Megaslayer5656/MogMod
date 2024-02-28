@@ -3,8 +3,10 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace MogMod.Items
 {
+
     public class BoulderGun : ModItem
     {
         // The Display Name and Tooltip of this item can be edited in the Localization/en-US_Mods.MogMod.hjson file.

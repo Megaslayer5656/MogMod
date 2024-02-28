@@ -8,6 +8,16 @@ Items: {
 
 	BoulderGun: {
 		DisplayName: Boulder Gun
-		Tooltip: "Make sure to aim straight down"
+		Tooltip: Make sure to aim straight down
+	}
+
+	BoulderFury: {
+		DisplayName: Boulder Fury
+		Tooltip: ""
+	}
+
+	BouncerFury: {
+		Tooltip: ""
+		DisplayName: Bouncer Fury
 	}
 }

@@ -29,9 +29,17 @@ namespace MogMod.Items
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();
-			recipe.AddIngredient(ItemID.DirtBlock, 10);
-			recipe.AddTile(TileID.WorkBenches);
+			recipe.AddIngredient(ItemID.Emerald, 15);
+			recipe.AddIngredient(ItemID.PalladiumBar, 15);
+			recipe.AddIngredient(ItemID.CursedFlame, 20);
+			recipe.AddTile(TileID.Anvils);
 			recipe.Register();
+			Recipe recipe2 = CreateRecipe();
+			recipe2.AddIngredient(ItemID.Emerald, 15);
+			recipe2.AddIngredient(ItemID.CobaltBar, 15);
+			recipe2.AddIngredient(ItemID.CursedFlame, 20);
+			recipe2.AddTile(TileID.Anvils);
+			recipe2.Register();
 		}
-	}
+    }
 }
