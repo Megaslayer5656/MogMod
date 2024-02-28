@@ -5,4 +5,9 @@ Items: {
 		DisplayName: Dabdad's Axe
 		Tooltip: When there's no exit...
 	}
+
+	BoulderGun: {
+		DisplayName: Boulder Gun
+		Tooltip: "Make sure to aim straight down"
+	}
 }
