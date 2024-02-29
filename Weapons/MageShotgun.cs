@@ -62,7 +62,6 @@ namespace MogMod.Weapons
             float rotation = MathHelper.ToRadians(15);
             if (player.altFunctionUse == 2)
             {
-                
                 Vector2 cvelocity = Vector2.Normalize(velocity) * 5f;
                 int proj = Projectile.NewProjectile(source, position, cvelocity, ProjectileID.ChlorophyteOrb, 500, knockback, player.whoAmI);
                 Main.projectile[proj].friendly = true;

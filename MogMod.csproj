@@ -13,7 +13,7 @@
   <ItemGroup>
     <Folder Include="Armor\" />
     <Folder Include="Buffs\" />
-    <Folder Include="Enemies\" />
+    <Folder Include="NPCs\" />
     <Folder Include="Projectiles\" />
     <Folder Include="Sounds\" />
   </ItemGroup>

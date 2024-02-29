@@ -16,7 +16,6 @@ namespace MogMod.Accessories
             Item.height = 16;
             Item.rare = 8;
             Item.accessory = true;
-            
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
