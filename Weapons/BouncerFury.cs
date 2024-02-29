@@ -1,29 +1,31 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace MogMod.Items
+using Terraria.Utilities;
+namespace MogMod.Weapons
 {
-    public class BoulderFury : ModItem
+    public class BouncerFury : ModItem
     {
         // The Display Name and Tooltip of this item can be edited in the Localization/en-US_Mods.MogMod.hjson file.
 
         public override void SetDefaults()
         {
-            Item.damage = 35;
+            Item.damage = 80;
             Item.DamageType = DamageClass.Melee;
             Item.width = 80;
             Item.height = 80;
             Item.useTime = 40;
             Item.useAnimation = 40;
             Item.useStyle = 1;
-            Item.knockBack = 7f;
+            Item.knockBack = 20f;
             Item.value = 10000;
-            Item.rare = 4;
+            Item.rare = 5;
             Item.UseSound = SoundID.Item70;
             Item.autoReuse = true;
-            Item.shoot = ProjectileID.Boulder;
+            Item.shoot = ProjectileID.BouncyBoulder;
             Item.shootSpeed = 30f;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -36,11 +38,9 @@ namespace MogMod.Items
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.Starfury, 1);
-            recipe.AddIngredient(ItemID.Boulder, 50);
-            recipe.AddIngredient(ItemID.DemoniteBar, 15);
-            recipe.AddIngredient(ItemID.HellstoneBar, 10);
-            recipe.AddIngredient(ItemID.Obsidian, 20);
+            recipe.AddIngredient(Mod, "BoulderFury");
+            recipe.AddIngredient(ItemID.BouncyBoulder, 50);
+            recipe.AddIngredient(ItemID.SoulofMight, 15);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }

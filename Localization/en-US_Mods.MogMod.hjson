@@ -3,7 +3,7 @@
 Items: {
 	Dabdadblade: {
 		DisplayName: Dabdad's Axe
-		Tooltip: When there's no exit...
+		Tooltip: "...I'll kill when I'm desperate"
 	}
 
 	BoulderGun: {
@@ -27,7 +27,17 @@ Items: {
 	}
 
 	MageShotgun: {
-		Tooltip: ""
+		Tooltip: "Made by Jobius Job (kinda)"
 		DisplayName: Mage Shotgun
+	}
+
+	DesperationCharm: {
+		DisplayName: Desperation Charm
+		Tooltip: "When there's no exit..."
+	}
+
+	GunLance: {
+		DisplayName: Gun Lance
+		Tooltip: "Time to hunt some monsters"
 	}
 }
