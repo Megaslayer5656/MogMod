@@ -15,8 +15,8 @@ namespace MogMod.NPCs.Bosses
         public override void SetDefaults()
         {
             NPC.aiStyle = NPCID.EyeofCthulhu;
-            NPC.width = 130;
-            NPC.height = 130;
+            NPC.width = 256;
+            NPC.height = 315;
             NPC.damage = 50;
             NPC.defense = 20;
             NPC.lifeMax = 10000;
