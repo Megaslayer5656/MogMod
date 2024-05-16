@@ -45,6 +45,18 @@ Items: {
 		DisplayName: Dabdad Wings
 		Tooltip: ""
 	}
+
+	ETGC: {
+		Tooltip: ""
+		DisplayName: ETG-C
+	}
 }
 
 NPCs.DabDad.DisplayName: Dab Dad
+
+Buffs: {
+	ETGCbuff: {
+		Description: Empowered by the ETG-C!
+		DisplayName: ETG-C Regen
+	}
+}
