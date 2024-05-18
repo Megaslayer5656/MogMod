@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using MogMod.Projectiles;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -25,14 +26,14 @@ namespace MogMod.Items.Weapons
             Item.rare = 5;
             Item.UseSound = SoundID.Item70;
             Item.autoReuse = true;
-            Item.shoot = ProjectileID.BouncyBoulder;
+            Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 30f;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float PosX = Main.MouseWorld.X; //Makes the projectile always spawn above the cursor
             float PosY = player.position.Y - 600f; //makes the projectile spawn in the sky so it can shoot down
-            int proj = Projectile.NewProjectile(source, PosX, PosY, 0f, 1f, type, damage, knockback, player.whoAmI);
+            int proj = Projectile.NewProjectile(source, PosX, PosY, 0f, 1f, ProjectileID.BouncyBoulder, damage, knockback, player.whoAmI);
             Main.projectile[proj].friendly = true;
             return false;
         }

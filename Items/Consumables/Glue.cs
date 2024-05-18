@@ -6,28 +6,27 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace MogMod.Items.Consumables
 {
-    public class ETGC : ModItem
+    public class Glue : ModItem
     {
         public override void SetDefaults()
         {
             Item.width = 5;
             Item.height = 5;
             Item.useStyle = ItemUseStyleID.DrinkLong;
-            Item.useAnimation = 25;
-            Item.useTime = 25;
+            Item.useAnimation = 60;
+            Item.useTime = 60;
             Item.useTurn = true;
-            Item.UseSound = Item.UseSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Inject")
-            {
-                Volume = 0.9f,
-                PitchVariance = 0.2f,
-                MaxInstances = 3,
-            };
+            Item.UseSound = SoundID.Item3;
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.White;
             Item.value = 10000;
-            Item.buffType = ModContent.BuffType<Buffs.ETGCbuff>();
-            Item.buffTime = 60 * 60;
+            Item.buffType = ModContent.BuffType<Buffs.GlueBuff>();
+            Item.buffTime = 5 * 60;
+        }
+        public override void UseItemFrame(Player player)
+        {
+            player.AddBuff(ModContent.BuffType<Buffs.GlueDebuff>(), 10000 * 60);
         }
     }
 }

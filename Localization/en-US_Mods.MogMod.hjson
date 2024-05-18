@@ -68,7 +68,12 @@ Items: {
 
 	RedX: {
 		DisplayName: RedX
-		Tooltip: "What the muddy A-60"
+		Tooltip: What the muddy A-60
+	}
+
+	Glue: {
+		DisplayName: Glue
+		Tooltip: ""
 	}
 }
 
@@ -79,4 +84,20 @@ Buffs: {
 		Description: Empowered by the ETG-C!
 		DisplayName: ETG-C Regen
 	}
+
+	GlueBuff: {
+		DisplayName: Glue Buff
+		Description: Mods.MogMod.Buffs.GlueBuff.Description
+	}
+
+	GlueDebuff: {
+		DisplayName: Glue Debuff
+		Description: Mods.MogMod.Buffs.GlueDebuff.Description
+	}
+}
+
+Projectiles: {
+	BBoulder2.DisplayName: B Boulder2
+	Boulder2.DisplayName: Boulder2
+	MBoulder2.DisplayName: M Boulder2
 }
