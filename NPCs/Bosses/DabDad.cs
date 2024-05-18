@@ -8,6 +8,7 @@ using Terraria.Graphics.CameraModifiers;
 using Terraria.Audio;
 using MogMod.Items.Weapons;
 using MogMod.Items.Consumables;
+using MogMod.Items.Other;
 namespace MogMod.NPCs.Bosses
 {
     public class DabDad : ModNPC
@@ -41,7 +42,9 @@ namespace MogMod.NPCs.Bosses
         {
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {   
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LedX>()));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DabDadBossBag>()));
         }
     }
  }

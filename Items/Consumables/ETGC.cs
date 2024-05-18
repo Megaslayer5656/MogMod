@@ -14,7 +14,7 @@ namespace MogMod.Items.Consumables
             Item.height = 5;
             Item.useStyle = ItemUseStyleID.DrinkLong;
             Item.useAnimation = 25;
-            Item.useTime = 10;
+            Item.useTime = 25;
             Item.useTurn = true;
             Item.UseSound = Item.UseSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Inject")
             {
@@ -27,8 +27,8 @@ namespace MogMod.Items.Consumables
             Item.consumable = true;
             Item.rare = ItemRarityID.Green;
             Item.value = 10000;
-            Item.buffType = ModContent.BuffType<Buffs.ETGCbuff>(); // Specify an existing buff to be applied when used.
-            Item.buffTime = 3 * 60;
+            Item.buffType = ModContent.BuffType<Buffs.ETGCbuff>();
+            Item.buffTime = 60 * 60;
         }
     }
 }

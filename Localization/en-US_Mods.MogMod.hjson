@@ -50,6 +50,26 @@ Items: {
 		Tooltip: ""
 		DisplayName: ETG-C
 	}
+
+	LedX: {
+		DisplayName: LedX
+		Tooltip: ""
+	}
+
+	DabDadBossBag: {
+		DisplayName: DabDad Boss Bag
+		Tooltip: ""
+	}
+
+	DabDadSpawner: {
+		DisplayName: Minecraft Animation
+		Tooltip: ""
+	}
+
+	RedX: {
+		DisplayName: RedX
+		Tooltip: "What the muddy A-60"
+	}
 }
 
 NPCs.DabDad.DisplayName: DabDad Minecraft
