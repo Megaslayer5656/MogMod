@@ -6,11 +6,6 @@ Items: {
 		Tooltip: ...I'll kill when I'm desperate
 	}
 
-	BoulderGun: {
-		DisplayName: Boulder Gun
-		Tooltip: Make sure to aim straight down
-	}
-
 	BoulderFury: {
 		DisplayName: Boulder Fury
 		Tooltip: ""
@@ -63,7 +58,7 @@ Items: {
 
 	DabDadSpawner: {
 		DisplayName: Minecraft Animation
-		Tooltip: ""
+		Tooltip: Challenges the ultimate animator to a battle
 	}
 
 	RedX: {
@@ -73,11 +68,38 @@ Items: {
 
 	Glue: {
 		DisplayName: Glue
-		Tooltip: ""
+		Tooltip: POTEMKIN BUSTER
+	}
+
+	MewingGuide: {
+		DisplayName: Mewing Guide
+		Tooltip: Teaches the sacred art of Mewing
+	}
+
+	SigmaCharm: {
+		DisplayName: Sigma Charm
+		Tooltip: Turns the user into a lone wolf
 	}
 }
 
-NPCs.DabDad.DisplayName: DabDad Minecraft
+NPCs: {
+	DabDad.DisplayName: DabDad Minecraft
+
+	SolBadguy: {
+		DisplayName: Sol Badguy
+
+		TownNPCMood: {
+			Content: I have ample munting material here.
+			NoHome: Real sigmas don't need a home.
+			FarFromHome: I'm too far from my goon cavern.
+			LoveSpace: I love having so much space to edge.
+			DislikeCrowded: I dislike how crowded I am, as I cannot edge as efficiently.
+			HateCrowded: I hate how crowded I am, all these betas make me soft.
+			LikeNPC_Princess: I like {NPCName}.
+			Princess_LovesNPC: I like {NPCName}.
+		}
+	}
+}
 
 Buffs: {
 	ETGCbuff: {
@@ -87,12 +109,12 @@ Buffs: {
 
 	GlueBuff: {
 		DisplayName: Glue Buff
-		Description: Mods.MogMod.Buffs.GlueBuff.Description
+		Description: POTEMKIN BUSTER
 	}
 
 	GlueDebuff: {
 		DisplayName: Glue Debuff
-		Description: Mods.MogMod.Buffs.GlueDebuff.Description
+		Description: Potemkin Withdrawls
 	}
 }
 
