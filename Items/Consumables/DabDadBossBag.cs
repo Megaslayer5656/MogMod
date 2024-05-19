@@ -1,4 +1,5 @@
 ﻿using MogMod.Items.Accessories;
+using MogMod.Items.Other;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace MogMod.Items.Consumables
             itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<DesperationCharm>()));
             itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<ETGC>(), 1, 1, 5));
             itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<DabdadWings>(), 0, 1, 1));
+            itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<SoulOfDabdad>(), 1, 15, 30));
         }
     }
 }

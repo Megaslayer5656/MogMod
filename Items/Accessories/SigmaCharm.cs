@@ -19,6 +19,7 @@ namespace MogMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.wereWolf = true;
+            player.team = 0;
         }
     }
 }

@@ -9,6 +9,9 @@ using Terraria.Audio;
 using MogMod.Items.Weapons;
 using MogMod.Items.Consumables;
 using MogMod.Items.Other;
+using MogMod.Common.Systems;
+
+using MogMod.Tiles;
 namespace MogMod.NPCs.Bosses
 {
     public class DabDad : ModNPC
@@ -45,6 +48,14 @@ namespace MogMod.NPCs.Bosses
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LedX>()));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DabDadBossBag>()));
+        }
+        public override void OnKill()
+        {
+            if (!DownedBossSystem.downedDabDad)
+            {
+                ModContent.GetInstance<DabDadOreSystem>().BlessWorldWithDabDadOre();
+            }
+            NPC.SetEventFlagCleared(ref DownedBossSystem.downedDabDad, -1);
         }
     }
  }

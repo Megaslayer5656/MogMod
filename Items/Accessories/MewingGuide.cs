@@ -17,7 +17,7 @@ namespace MogMod.Items.Accessories
             Item.rare = ItemRarityID.Green;
             Item.accessory = true;
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateEquip(Player player)
         {
         }
     }
