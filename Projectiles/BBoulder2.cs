@@ -14,6 +14,7 @@ namespace MogMod.Projectiles
         {
             AIType = ProjectileID.BouncyBoulder;
             Projectile.CloneDefaults(ProjectileID.BouncyBoulder);
+            owner = Main.myPlayer;
         }
     }
 }
