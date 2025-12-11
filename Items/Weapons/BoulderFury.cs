@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Projectiles;
+using MogMod.Common.Classes;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -11,7 +11,7 @@ namespace MogMod.Items.Weapons
         public override void SetDefaults()
         {
             Item.damage = 35;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = ModContent.GetInstance<BoulderClass>();
             Item.width = 80;
             Item.height = 80;
             Item.useTime = 40;
@@ -29,8 +29,11 @@ namespace MogMod.Items.Weapons
         {
             float PosX = Main.MouseWorld.X;
             float PosY = player.position.Y - 600f; 
-            int proj = Projectile.NewProjectile(source, PosX, PosY, 0f, 1f, ProjectileID.Boulder, damage, knockback, player.whoAmI);
+            int proj = Projectile.NewProjectile(source, PosX, PosY, 0f, 1f, ProjectileID.Boulder, damage, knockback, Main.myPlayer);
             Main.projectile[proj].friendly = true;
+            Main.projectile[proj].DamageType = ModContent.GetInstance<BoulderClass>();
+            Main.projectile[proj].netUpdate = true;
+            Main.projectile[proj].numHits = 20;
             return false;
         }
         public override void AddRecipes()

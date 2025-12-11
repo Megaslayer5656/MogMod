@@ -25,6 +25,7 @@ namespace MogMod.Items.Weapons
             Item.autoReuse = true;
             Item.shoot = ProjectileID.Bullet;
             Item.shootSpeed = 20f;
+            Item.scale = .5f;
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -44,13 +45,13 @@ namespace MogMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                Item.damage = 40;
+                Item.damage = 70;
                 Item.DamageType = DamageClass.Melee;
                 Item.width = 10;
                 Item.height = 10;
                 Item.useTime = 20;
                 Item.useAnimation = 20;
-                Item.useStyle = 3;
+                Item.useStyle = ItemUseStyleID.Rapier;
                 Item.knockBack = 6.5f;
                 Item.value = 10000;
                 Item.rare = 3;

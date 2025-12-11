@@ -33,7 +33,7 @@ Items: {
 
 	GunLance: {
 		DisplayName: Gun Lance
-		Tooltip: Time to hunt some monsters
+		Tooltip: Time to hunt some monsters.
 	}
 
 	DabdadWings: {
@@ -48,7 +48,7 @@ Items: {
 
 	LedX: {
 		DisplayName: LedX
-		Tooltip: ""
+		Tooltip: I'm popping a leddy. -Mq
 	}
 
 	DabDadBossBag: {
@@ -95,6 +95,36 @@ Items: {
 		DisplayName: DabDad Bar
 		Tooltip: ""
 	}
+
+	IdeaRig: {
+		DisplayName: Idea Rig
+		Tooltip: ""
+	}
+
+	Salewa: {
+		DisplayName: Salewa
+		Tooltip: ""
+	}
+
+	Switch: {
+		Tooltip: I ain't lookin for no trouble, I jus looking out for me.
+		DisplayName: Switch
+	}
+
+	GreenTracerAmmo: {
+		Tooltip: The ammo of true tigla slimers.
+		DisplayName: Green Tracer
+	}
+
+	Butterfly: {
+		Tooltip:
+			'''
+			Only the mightiest and most experienced of warriors can wield the Butterfly, but it provides incredible dexterity in combat. 
+			+55% Attack Speed 
+			+25% Attack Damage
+			'''
+		DisplayName: Butterfly
+	}
 }
 
 NPCs: {
@@ -137,6 +167,7 @@ Projectiles: {
 	BBoulder2.DisplayName: B Boulder2
 	Boulder2.DisplayName: Boulder2
 	MBoulder2.DisplayName: M Boulder2
+	GreenTracerProj.DisplayName: Green Tracer Proj
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore
@@ -145,3 +176,50 @@ WorldGen: {
 	DabDadOrePassMessage: Your world has been blessed with the essence of Dabdad Minecraft!
 	BlessedWithDabDadOreMessage: Your world has been blessed with the essence of Dabdad Minecraft!
 }
+
+Configs: {
+	RigSlotConfig: {
+		AllowEquippingInOtherSlots: {
+			Tooltip: ""
+			Label: Allow Equipping In Other Slots
+		}
+
+		DisplayName: Rig Slot Config
+
+		Headers: {
+			SlotLocation: Slot Location Header
+			OtherOptions: Other Options Header
+		}
+
+		SlotLocation: {
+			Label: Slot Location
+			Tooltip: ""
+		}
+
+		ShowCustomLocationPanel: {
+			Label: Show Custom Location Panel
+			Tooltip: ""
+		}
+
+		ResetCustomSlotLocation: {
+			Label: Reset Custom Slot Location
+			Tooltip: ""
+		}
+	}
+
+	Location: {
+		Tooltip: ""
+
+		Default: {
+			Label: Default
+			Tooltip: ""
+		}
+
+		Custom: {
+			Label: Custom
+			Tooltip: ""
+		}
+	}
+}
+
+DamageClasses.BoulderClass.DisplayName: Boulder Damage

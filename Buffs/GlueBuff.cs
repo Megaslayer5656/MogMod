@@ -17,7 +17,7 @@ namespace MogMod.Buffs
             player.GetAttackSpeed(DamageClass.Generic) += 175 / 100f;
             player.moveSpeed += 175 / 100f;
             player.GetDamage(DamageClass.Generic) += 199 / 100f;
-            player.lifeRegen += 20;
+            player.lifeRegen += 25;
         }
     }
 }

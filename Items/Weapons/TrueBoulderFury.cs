@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Projectiles;
+using MogMod.Common.Classes;
 using System;
 using Terraria;
 using Terraria.DataStructures;
@@ -12,7 +12,7 @@ namespace MogMod.Items.Weapons
         public override void SetDefaults()
         {
             Item.damage = 100;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = ModContent.GetInstance<BoulderClass>();
             Item.width = 80;
             Item.height = 80;
             Item.useTime = 35;
@@ -48,10 +48,16 @@ namespace MogMod.Items.Weapons
                 float PosY = player.position.Y - 600f;
                 float PosX2 = Main.MouseWorld.X - r.Next(100);
                 float PosY2 = player.position.Y - r.Next(600, 800);
-                int proj = Projectile.NewProjectile(source, PosX, PosY, 0f, 1f, ProjectileID.Boulder, 70, 8f, player.whoAmI);
-                int proj2 = Projectile.NewProjectile(source, PosX2 - -50, PosY2, 0f, 1f, ProjectileID.MiniBoulder, 35, 5f, player.whoAmI);
+                int proj = Projectile.NewProjectile(source, PosX, PosY, 0f, 1f, ProjectileID.Boulder, 70, 8f, Main.myPlayer);
+                int proj2 = Projectile.NewProjectile(source, PosX2 - -50, PosY2, 0f, 1f, ProjectileID.MiniBoulder, 35, 5f, Main.myPlayer);
                 Main.projectile[proj].friendly = true;
                 Main.projectile[proj2].friendly = true;
+                Main.projectile[proj].DamageType = ModContent.GetInstance<BoulderClass>();
+                Main.projectile[proj2].DamageType = ModContent.GetInstance<BoulderClass>();
+                Main.projectile[proj].netUpdate = true;
+                Main.projectile[proj2].netUpdate = true;
+                Main.projectile[proj].numHits = 20;
+                Main.projectile[proj2].numHits = 20;
             }
             return false;
         }
