@@ -24,8 +24,17 @@ namespace MogMod.Items.Accessories
             player.GetAttackSpeed(DamageClass.Generic) += .20f;
             player.GetAttackSpeed(DamageClass.Generic) += .35f;
             player.GetDamage(DamageClass.Generic) += .25f;
-            player.shadowDodge = true;
-            player.shadowDodgeTimer = 3;
+            Random random = new Random();
+            int rand100 = random.Next(100);
+            if (rand100 <= 35)
+            {
+                player.shadowDodge = true;
+                player.shadowDodgeTimer = 3;
+            }
+            else
+            {
+                player.shadowDodge = false;
+            }
         }
     }
 }

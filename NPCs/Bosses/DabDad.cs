@@ -14,11 +14,12 @@ using MogMod.Common.Systems;
 using MogMod.Tiles;
 namespace MogMod.NPCs.Bosses
 {
+    [AutoloadBossHead]
     public class DabDad : ModNPC
     {
+        
         public override void SetDefaults()
         {
-            NPC.aiStyle = NPCID.EyeofCthulhu;
             NPC.width = 256;
             NPC.height = 315;
             NPC.damage = 50;
@@ -33,6 +34,7 @@ namespace MogMod.NPCs.Bosses
             NPC.noTileCollide = true;
             NPC.netAlways = true;
             NPC.npcSlots = 10f;
+            NPC.aiStyle = -1;
             if (!Main.dedServ)
             {
                 Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Desperate");
@@ -40,6 +42,31 @@ namespace MogMod.NPCs.Bosses
         }
         public override void AI()
         {
+            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+            {
+                NPC.TargetClosest();
+            }
+            
+            Player player = Main.player[NPC.target];
+
+            if (player.dead)
+            {
+                
+                NPC.velocity.Y -= 0.04f;
+                
+                NPC.EncourageDespawn(10);
+                return;
+            }
+
+
+
+
+        }
+
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        {
+            cooldownSlot = ImmunityCooldownID.Bosses;
+            return true;
         }
         public override void HitEffect(NPC.HitInfo hit)
         {

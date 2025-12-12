@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles
 {
-    public class GreenTracerProj : ModProjectile
+    public class VonGreenTracerProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -26,8 +26,8 @@ namespace MogMod.Projectiles
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
-            Projectile.friendly = true;
-            Projectile.hostile = false;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;

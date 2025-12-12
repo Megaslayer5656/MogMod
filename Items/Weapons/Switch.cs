@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using System.Runtime.CompilerServices;
 using Terraria.Social.WeGame;
+using Mono.Cecil;
 namespace MogMod.Items.Weapons
 {
     public class Switch : ModItem {
@@ -22,8 +23,8 @@ namespace MogMod.Items.Weapons
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 2f;
             Item.UseSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Switch_Shot_2") {
-                Volume = .4f,
-                MaxInstances = 1,
+                Volume = .2f,
+                PitchVariance = .02f,
             };
             Item.value = 10000;
             Item.rare = 3;
@@ -43,7 +44,6 @@ namespace MogMod.Items.Weapons
             {
                 position += muzzleOffset;
             }
-            
         }
         public override Vector2? HoldoutOffset()
         {
