@@ -40,7 +40,7 @@ namespace MogMod.NPCs.Bosses
         }
 
         public static int Phase2HeadSlot = -1;
-        public static int shotTimer = 0;
+        public int shotTimer = 0;
         public int shotTimerMax = 3;
         public static readonly SoundStyle VonShot = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Switch_Shot_2")
         {
@@ -134,6 +134,8 @@ namespace MogMod.NPCs.Bosses
 
 
             //TODO: Make him have real attacks instead of just shooting at you repeatedly
+            for (int i = 0; i <= 60; i++){
+            if (i <= 30){
             if (shotTimer >= shotTimerMax)
             {
                 if (NPC.HasValidTarget && Main.netMode != NetmodeID.MultiplayerClient)
@@ -147,6 +149,9 @@ namespace MogMod.NPCs.Bosses
             {
                 shotTimer += 1;
             }
+        } else {
+        
+        }
         }
 
         private void DoPhase2(Player player)
