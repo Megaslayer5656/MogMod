@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Terraria.Audio;
 using Microsoft.Xna;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 
 namespace MogMod.NPCs.Bosses
 {
@@ -27,25 +28,44 @@ namespace MogMod.NPCs.Bosses
             NPC.lifeMax = 50000;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            NPC.knockBackResist = .5f;
+            NPC.knockBackResist = 0f;
             NPC.boss = true;
             NPC.lavaImmune = true;
             NPC.netAlways = true;
             NPC.npcSlots = 6f;
             NPC.aiStyle = -1;
+            NPC.noGravity = false;
             if (!Main.dedServ)
             {
                 Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/VonTheme1");
             }
         }
-
+        
+        static Random random = new Random();
         public static int Phase2HeadSlot = -1;
-        public int shotTimer = 0;
-        public int shotTimerMax = 3;
+        public int vonShotTimer = 0;
+        public static int vonShotTimerMax = 3;
+        public int vonTpTimer = 0;
+        public static int vonTpTimerMax = 600;
+        public int vonReloadTimer = 0;
+        public static int vonReloadTimerMax = 175;
+        public int vonSpecialTimer = 0;
+        public static int vonSpecialTimerMax = 420;
+        public int vonRageTimer = 0;
+        public static int vonRageTimerMax = 300;
+        
+        
+        
+        
         public static readonly SoundStyle VonShot = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Switch_Shot_2")
         {
             Volume = .2f,
             PitchVariance = .2f
+        };
+
+        public static readonly SoundStyle VonNade = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/VonNadeThrow")
+        {
+            Volume = 1.5f
         };
 
         public bool Phase2
@@ -118,53 +138,97 @@ namespace MogMod.NPCs.Bosses
 
         private void DoPhase1(Player player)
         {
+            var entitySource = NPC.GetSource_FromAI();
             Vector2 toPlayer = player.Center - NPC.Center;
-            float speed = .025f;
+            float speed = .015f;
+            float fastSpeed = .04f;
+            float nadeSpeed = .03f;
             float inertia = 40f;
             Vector2 moveTo = toPlayer * speed;
+            Vector2 moveToFast = toPlayer * fastSpeed;
+            Vector2 nadeToPlayer = toPlayer * nadeSpeed;
             NPC.velocity = (NPC.velocity * (inertia - 1) + moveTo) / inertia;
-            NPC.velocity.Y = 2f;
             // TODO: Make him jump over obstacles
-            while (NPC.velocity.Y < 2f)
+            if (vonReloadTimer <= vonReloadTimerMax * .55)
             {
-                NPC.velocity.Y += .5f;
+                if (vonShotTimer >= vonShotTimerMax)
+                {
+                    if (NPC.HasValidTarget && Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        Projectile.NewProjectile(entitySource, NPC.Center, toPlayer * 15, ModContent.ProjectileType<VonGreenTracerProj>(), 10, .5f, Main.myPlayer);
+                        SoundEngine.PlaySound(VonShot, NPC.Center);
+                        vonShotTimer = 0;
+                    }
+                }
+                else
+                {
+                    vonShotTimer += 1;
+                    
+                }
+            }
+            
+            vonReloadTimer += 1;
+            
+            if (vonReloadTimer >= vonReloadTimerMax)
+            {
+                vonReloadTimer = 0;
             }
 
+            vonTpTimer += 1;
 
-
-
-            //TODO: Make him have real attacks instead of just shooting at you repeatedly
-            for (int i = 0; i <= 60; i++){
-            if (i <= 30){
-            if (shotTimer >= shotTimerMax)
+            if (vonTpTimer >= vonTpTimerMax && Main.netMode != NetmodeID.MultiplayerClient)
             {
+                //TODO: Make him tp
+                vonTpTimer = 0;
+            }
+
+            if (vonSpecialTimer >= vonSpecialTimerMax)
+            {
+                int vonRandAttack = random.Next(0, 11);
                 if (NPC.HasValidTarget && Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    var entitySource = NPC.GetSource_FromAI();
-                    Projectile.NewProjectile(entitySource, NPC.Center, toPlayer * 15, ModContent.ProjectileType<VonGreenTracerProj>(), 10, .5f, Main.myPlayer);
-                    SoundEngine.PlaySound(VonShot, NPC.Center);
-                    shotTimer = 0;
+                    if (vonRandAttack > 5)
+                    {
+                        //TODO: Make a custom grenade with a bigger explosion
+                        int vonNade = Projectile.NewProjectile(entitySource, NPC.Center, nadeToPlayer, ProjectileID.Grenade, 100, 2f, Main.myPlayer);
+                        Main.projectile[vonNade].friendly = false;
+                        Main.projectile[vonNade].hostile = true;
+                        Main.projectile[vonNade].scale = 2f;
+                        Main.projectile[vonNade].timeLeft = 60;
+                        SoundEngine.PlaySound(VonNade, NPC.Center);
+                        vonSpecialTimer = 0;
+                    }
+                    else
+                    {
+                        //TODO: Make a sound queue for when he jumps
+                        while (vonRageTimer < vonRageTimerMax)
+                        {
+                            NPC.velocity = (NPC.velocity * (inertia - 1) + moveToFast) / inertia;
+                            NPC.velocity.Y = -30;
+                            vonRageTimer += 1;
+                        }
+                        vonRageTimer = 0;
+                        vonSpecialTimer = 0;
+                        NPC.velocity = (NPC.velocity * (inertia - 1) + moveTo) / inertia;
+                    }
                 }
-            } else
-            {
-                shotTimer += 1;
             }
-        } else {
-        
-        }
+            vonSpecialTimer += 1;
         }
 
         private void DoPhase2(Player player)
         {
-            //TODO: Give him ai for phase 2
+            NPC.noGravity = true;
+            NPC.setNPCName("Von, Evil Incarnate", ModContent.NPCType<KingVon>());
             if (!Main.dedServ)
             {
                 Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/VonTheme2");
             }
+            //TODO: Give him ai for phase 2
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-                       
+            //TODO: Give him loot, boss bag. (Von switch, things of the sort)
         }
     }
 }

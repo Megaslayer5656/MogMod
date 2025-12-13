@@ -10,6 +10,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using MogMod.Buffs;
 
 namespace MogMod.Projectiles
 {
@@ -29,13 +30,14 @@ namespace MogMod.Projectiles
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = 1;
+            Projectile.penetrate = -1;
             Projectile.timeLeft = 600;
             Projectile.light = .5f;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;
             Projectile.extraUpdates = 1;
             Projectile.scale = .60f;
+            Projectile.tileCollide = false;
 
             AIType = ProjectileID.Bullet;
         }
@@ -46,10 +48,9 @@ namespace MogMod.Projectiles
             return false;
         }
 
-        public override void OnKill(int timeLeft)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
-            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
+            target.AddBuff(ModContent.BuffType<VonDebuff>(), 240);
         }
     }
 }
