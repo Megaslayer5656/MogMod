@@ -133,6 +133,26 @@ Items: {
 		Tooltip: A diss on the evil king himself...
 	}
 
+	BoulderSwitch: {
+		DisplayName: Boulder Switch
+		Tooltip: ""
+	}
+
+	BoulderAmmo: {
+		DisplayName: Boulder Ammo
+		Tooltip: ""
+	}
+
+	BouncyBoulderAmmo: {
+		DisplayName: Bouncy Boulder Ammo
+		Tooltip: ""
+	}
+
+	BouncerSwitch: {
+		DisplayName: Bouncer Switch
+		Tooltip: ""
+	}
+
 	Daedalus: {
 		DisplayName: Daedalus
 		Tooltip:
