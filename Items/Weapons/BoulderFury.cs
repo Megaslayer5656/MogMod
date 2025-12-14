@@ -29,7 +29,7 @@ namespace MogMod.Items.Weapons
         {
             float PosX = Main.MouseWorld.X;
             float PosY = player.position.Y - 600f; 
-            int proj = Projectile.NewProjectile(source, PosX, PosY, 0f, 1f, ProjectileID.Boulder, damage, knockback, Main.myPlayer);
+            int proj = Projectile.NewProjectile(source, PosX, PosY, 0f, 1f, ProjectileID.Boulder, damage, knockback, player.whoAmI);
             Main.projectile[proj].friendly = true;
             Main.projectile[proj].DamageType = ModContent.GetInstance<BoulderClass>();
             Main.projectile[proj].netUpdate = true;

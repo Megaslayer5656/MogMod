@@ -1,20 +1,25 @@
-using Microsoft.Xna.Framework;
-using MogMod.Items.Consumables;
-using System;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria.ModLoader;
+using Terraria;
+using MogMod.Items.Consumables;
 using Terraria.Audio;
-using System.Runtime.CompilerServices;
-using Terraria.Social.WeGame;
-using Mono.Cecil;
+using Terraria.ID;
+using Microsoft.Xna.Framework;
+using MogMod.Common.Classes;
+using Terraria.DataStructures;
+
 namespace MogMod.Items.Weapons
 {
-    public class Switch : ModItem {
-        public override void SetDefaults() {
-            Item.damage = 20;
-            Item.DamageType = DamageClass.Ranged;
+    public class BoulderSwitch : ModItem
+    {
+        public override void SetDefaults()
+        {
+            Item.damage = 80;
+            Item.DamageType = ModContent.GetInstance<BoulderClass>();
             Item.width = 50;
             Item.height = 34;
             Item.scale = .5f;
@@ -22,7 +27,8 @@ namespace MogMod.Items.Weapons
             Item.useAnimation = 3;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 2f;
-            Item.UseSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Switch_Shot_2") {
+            Item.UseSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Switch_Shot_2")
+            {
                 Volume = .2f,
                 PitchVariance = .02f,
             };
@@ -30,8 +36,8 @@ namespace MogMod.Items.Weapons
             Item.rare = 3;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;
-            Item.shootSpeed = 10f;
-            Item.useAmmo = ModContent.ItemType<GreenTracerAmmo>();
+            Item.shootSpeed = 20f;
+            Item.useAmmo = ModContent.ItemType<BoulderAmmo>();
             Item.noMelee = true;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
@@ -43,6 +49,12 @@ namespace MogMod.Items.Weapons
             {
                 position += muzzleOffset;
             }
+            type = ProjectileID.Boulder;
+            Main.projectile[type].friendly = true;
+            Main.projectile[type].DamageType = ModContent.GetInstance<BoulderClass>();
+            Main.projectile[type].owner = player.whoAmI;
+            Main.projectile[type].numHits = 20;
+            Main.projectile[type].netUpdate = true;
         }
         public override Vector2? HoldoutOffset()
         {
