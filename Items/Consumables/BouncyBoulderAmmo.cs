@@ -5,17 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
+using MogMod.Common.Classes;
 using Terraria.ID;
-using MogMod.Projectiles;
 
 namespace MogMod.Items.Consumables
 {
-    public class GreenTracerAmmo : ModItem
+    public class BouncyBoulderAmmo : ModItem
     {
         public override void SetDefaults()
         {
-            Item.damage = 58;
-            Item.DamageType = DamageClass.Ranged;
+            Item.damage = 80;
+            Item.DamageType = ModContent.GetInstance<BoulderClass>();
             Item.width = 8;
             Item.height = 8;
             Item.maxStack = Item.CommonMaxStack;
@@ -23,7 +23,7 @@ namespace MogMod.Items.Consumables
             Item.knockBack = 1f;
             Item.value = 10;
             Item.rare = ItemRarityID.Green;
-            Item.shoot = ModContent.ProjectileType<GreenTracerProj>();
+            Item.shoot = ProjectileID.BouncyBoulder;
             Item.shootSpeed = 4.5f;
             Item.ammo = Item.type;
         }

@@ -33,11 +33,11 @@ namespace MogMod.Items.Weapons
         {
             float PosX = Main.MouseWorld.X; //Makes the projectile always spawn above the cursor
             float PosY = player.position.Y - 600f; //makes the projectile spawn in the sky so it can shoot down
-            int proj = Projectile.NewProjectile(source, PosX, PosY, 0f, 1f, ProjectileID.BouncyBoulder, damage, knockback, Main.myPlayer);
+            int proj = Projectile.NewProjectile(source, PosX, PosY, 0f, 1f, ProjectileID.BouncyBoulder, damage, knockback, player.whoAmI);
             Main.projectile[proj].friendly = true;
             Main.projectile[proj].DamageType = ModContent.GetInstance<BoulderClass>();
-            Main.projectile[proj].netUpdate = true;
             Main.projectile[proj].numHits = 20;
+            Main.projectile[proj].netUpdate = true;
             return false;
         }
         public override void AddRecipes()

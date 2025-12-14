@@ -18,7 +18,9 @@ namespace MogMod.Buffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.lifeRegen -= 10;
+            player.lifeRegen -= 50;
+            player.moveSpeed -= .15f;
+            player.GetDamage(DamageClass.Generic) -= .15f;
             //TODO: Add more effects
         }
     }

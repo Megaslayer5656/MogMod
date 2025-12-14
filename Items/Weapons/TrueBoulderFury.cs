@@ -47,9 +47,9 @@ namespace MogMod.Items.Weapons
                 float PosX = Main.MouseWorld.X;
                 float PosY = player.position.Y - 600f;
                 float PosX2 = Main.MouseWorld.X - r.Next(100);
-                float PosY2 = player.position.Y - r.Next(600, 800);
-                int proj = Projectile.NewProjectile(source, PosX, PosY, 0f, 1f, ProjectileID.Boulder, 70, 8f, Main.myPlayer);
-                int proj2 = Projectile.NewProjectile(source, PosX2 - -50, PosY2, 0f, 1f, ProjectileID.MiniBoulder, 35, 5f, Main.myPlayer);
+                float PosY2 = player.position.Y - r.Next(600, 800); 
+                int proj = Projectile.NewProjectile(source, PosX, PosY, 0f, 1f, ProjectileID.Boulder, 70, 8f, player.whoAmI);
+                int proj2 = Projectile.NewProjectile(source, PosX2 - -50, PosY2, 0f, 1f, ProjectileID.MiniBoulder, 35, 5f, player.whoAmI);
                 Main.projectile[proj].friendly = true;
                 Main.projectile[proj2].friendly = true;
                 Main.projectile[proj].DamageType = ModContent.GetInstance<BoulderClass>();

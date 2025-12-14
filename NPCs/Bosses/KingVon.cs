@@ -53,6 +53,7 @@ namespace MogMod.NPCs.Bosses
         public static int vonSpecialTimerMax = 420;
         public int vonRageTimer = 0;
         public static int vonRageTimerMax = 300;
+        public int randRotate = random.Next(0, 11);
         
         
         
@@ -147,6 +148,7 @@ namespace MogMod.NPCs.Bosses
             Vector2 moveTo = toPlayer * speed;
             Vector2 moveToFast = toPlayer * fastSpeed;
             Vector2 nadeToPlayer = toPlayer * nadeSpeed;
+            
             NPC.velocity = (NPC.velocity * (inertia - 1) + moveTo) / inertia;
             // TODO: Make him jump over obstacles
             if (vonReloadTimer <= vonReloadTimerMax * .55)
@@ -224,7 +226,15 @@ namespace MogMod.NPCs.Bosses
             {
                 Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/VonTheme2");
             }
-            //TODO: Give him ai for phase 2
+            var entitySource = NPC.GetSource_FromAI();
+            Vector2 toPlayer = player.Center - NPC.Center;
+            float speed = .015f;
+            float fastSpeed = .04f;
+            float nadeSpeed = .03f;
+            float inertia = 40f;
+            Vector2 moveTo = toPlayer * speed;
+            Vector2 moveToFast = toPlayer * fastSpeed;
+            NPC.velocity = (NPC.velocity * (inertia - 1) + moveTo) / inertia;
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {

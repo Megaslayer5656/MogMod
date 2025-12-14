@@ -31,6 +31,7 @@
     <None Remove="app.config" />
     <None Remove="Buffs\GlueBuff.png" />
     <None Remove="Buffs\GlueDebuff.png" />
+    <None Remove="Buffs\VonDebuff.png" />
     <None Remove="build.txt" />
     <None Remove="Common\Tiles\DabDadOre.png" />
     <None Remove="description.txt" />
@@ -40,12 +41,15 @@
     <None Remove="Items\Accessories\SigmaCharm.png" />
     <None Remove="Items\Consumables\Glue.png" />
     <None Remove="Items\Consumables\GreenTracerAmmo.png" />
+    <None Remove="Items\Consumables\VonSpawner.png" />
     <None Remove="Items\Other\SoulOfDabdad.png" />
     <None Remove="Items\Placeable\DabdadOreP.png" />
     <None Remove="Items\Weapons\Switch.png" />
+    <None Remove="NPCs\Bosses\KingVon_Head_Boss.png" />
     <None Remove="NPCs\TownNpc\SolBadguy.png" />
     <None Remove="NPCs\TownNpc\SolBadguy_Head.png" />
     <None Remove="Projectiles\GreenTracerProj.png" />
+    <None Remove="Projectiles\VonNade.png" />
     <None Remove="README.md" />
   </ItemGroup>
   <ItemGroup>
