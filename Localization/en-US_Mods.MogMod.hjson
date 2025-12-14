@@ -119,9 +119,11 @@ Items: {
 	Butterfly: {
 		Tooltip:
 			'''
-			Only the mightiest and most experienced of warriors can wield the Butterfly, but it provides incredible dexterity in combat. 
 			+55% Attack Speed 
 			+25% Attack Damage
+			'Only the mightiest and most experienced of 
+			warriors can wield the Butterfly, but it 
+			provides incredible dexterity in combat.' 
 			'''
 		DisplayName: Butterfly
 	}
@@ -129,6 +131,39 @@ Items: {
 	VonSpawner: {
 		DisplayName: Diss Track
 		Tooltip: A diss on the evil king himself...
+	}
+
+	Daedalus: {
+		DisplayName: Daedalus
+		Tooltip:
+			'''
+			+40% Attack Damage 
+			+30% Crit Chance
+			'A weapon of incredible power that is difficult 
+			for even the strongest of warriors to control.'
+
+			'''
+	}
+
+	HeartOfTarrasque: {
+		DisplayName: Heart Of Tarrasque
+		Tooltip:
+			'''
+			+100 Max Health
+			+2 Regen
+			+10% Attack Damage
+			'Preserved heart of an extinct monster, it 
+			bolsters the bearer's fortitude.'
+			'''
+	}
+
+	BootsOfTravel: {
+		DisplayName: Boots Of Travel
+		Tooltip:
+			'''
+			Vastly increase movement speed
+			'Winged boots that grant omnipresence.'
+			'''
 	}
 }
 
