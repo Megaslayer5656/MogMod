@@ -16,6 +16,8 @@ namespace MogMod.Common.Systems
         public static ModKeybind RefresherOrbKeybind { get; private set; }
         public static ModKeybind WandKeybind { get; private set; }
         public static ModKeybind MagicStickKeybind { get; private set; }
+        public static ModKeybind HelmOfDominatorKeybind { get; private set; }
+        
 
         public override void Load()
         {
@@ -28,6 +30,7 @@ namespace MogMod.Common.Systems
             RefresherOrbKeybind = KeybindLoader.RegisterKeybind(Mod, "RefresherOrb", "V");
             WandKeybind = KeybindLoader.RegisterKeybind(Mod, "MagicWand", "C");
             MagicStickKeybind = KeybindLoader.RegisterKeybind(Mod, "MagicStick", "C");
+            HelmOfDominatorKeybind = KeybindLoader.RegisterKeybind(Mod, "HelmOfTheDominator", "V");
         }
 
         public override void Unload()
@@ -40,6 +43,7 @@ namespace MogMod.Common.Systems
             RefresherOrbKeybind = null;
             WandKeybind = null;
             MagicStickKeybind = null;
+            HelmOfDominatorKeybind = null;
         }
     }
 }

@@ -143,6 +143,13 @@ namespace MogMod.Common.Player
                 Player.AddBuff(debuff5, 9000);
             }
 
+            int helmOfDominator = ModContent.BuffType<Buffs.HelmOfDominatorDebuff>();
+            if (KeybindSystem.HelmOfDominatorKeybind.JustPressed && wearingHelmOfDominator && !Player.HasBuff(helmOfDominator))
+            {
+                // for now it summons a mount (change to make it summon a friendly npc to damage enemies)
+                Player.AddBuff(BuffID.BasiliskMount, 1);
+                Player.AddBuff(helmOfDominator, 1800);
+            }
 
             //Wand
             int buff4 = ModContent.BuffType<WandBuff>();
