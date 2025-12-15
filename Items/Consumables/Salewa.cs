@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,6 +18,10 @@ namespace MogMod.Items.Consumables
             Item.useTime = 180;
             Item.useAnimation = 180;
             Item.useStyle = ItemUseStyleID.EatFood;
+        }
+        public override void UseItemFrame(Player player)
+        {
+            player.statLife = player.statLifeMax2;
         }
     }
 }
