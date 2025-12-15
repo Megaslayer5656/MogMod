@@ -6,8 +6,7 @@ Mods: {
 			Satanic.DisplayName: Satanic
 			ArcaneBoots.DisplayName: Arcane Boots
 			RefresherOrb.DisplayName: Refresher Orb
-			MagicWand.DisplayName: Magic Wand
-			MagicStick.DisplayName: Magic Stick
+			HelmOfTheDominator.DisplayName: Helm Of The Dominator
 		}
 
 		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage
