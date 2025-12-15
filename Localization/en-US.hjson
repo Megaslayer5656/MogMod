@@ -1,1 +1,6 @@
-Mods.MogMod.Keybinds.GlimmerCape.DisplayName: Activate Glimmer Cape
+Mods: {
+	MogMod: {
+		Keybinds.GlimmerCape.DisplayName: Activate Glimmer Cape
+		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage
+	}
+}

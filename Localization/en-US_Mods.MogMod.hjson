@@ -289,7 +289,7 @@ Items: {
 		Tooltip:
 			'''
 			+10% Magic Hybrid Damage
-			Pressing 'keybind' will turn you invisible and increase movement speed
+			Pressing {$GlimmerCapeKeybind} will turn you invisible and increase movement speed
 			'The stolen cape of a master illusionist.'
 			'''
 	}
