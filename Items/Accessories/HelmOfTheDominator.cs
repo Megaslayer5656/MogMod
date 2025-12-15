@@ -9,22 +9,22 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    public class HeartOfTarrasque : ModItem
+    public class HelmOfTheDominator : ModItem
     {
         public override void SetDefaults()
         {
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.Red;
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statLifeMax2 += 100;
-            player.lifeRegen += 8;
-            player.statDefense += 20;
-            player.GetDamage(DamageClass.Melee) += .10f;
+            player.GetDamage(DamageClass.MagicSummonHybrid) += .15f;
+            player.statManaMax2 += 50;
+            player.maxTurrets += 2;
+            player.maxMinions += 2;
         }
     }
 }

@@ -169,9 +169,10 @@ Items: {
 		DisplayName: Heart Of Tarrasque
 		Tooltip:
 			'''
+			20 Defense
 			+100 Max Health
-			+2 Regen
-			+10% Attack Damage
+			+10% Melee Damage
+			Vastly increased health regeneration
 			'Preserved heart of an extinct monster, it 
 			bolsters the bearer's fortitude.'
 			'''
@@ -181,9 +182,145 @@ Items: {
 		DisplayName: Boots Of Travel
 		Tooltip:
 			'''
-			Vastly increase movement speed
+			Vastly increased movement speed
 			'Winged boots that grant omnipresence.'
 			'''
+	}
+
+	Satanic: {
+		DisplayName: Satanic
+		Tooltip:
+			'''
+			+50 Max Health
+			+15% Melee Damage
+			+10% Attack Damage
+			Vastly increases lifesteal of weapons that utilize it
+			'Immense power at the cost of your soul.'
+			'''
+	}
+
+	ArcaneBoots: {
+		DisplayName: Arcane Boots
+		Tooltip:
+			'''
+			Increases movement speed
+			Increases mana regeneration rate
+			Increased maximum mana by 50
+			Pressing 'button' will restore 200 mana
+			'Magi equipped with these boots are valued 
+			in battle.'
+			'''
+	}
+
+	VeilOfDiscord: {
+		DisplayName: Veil Of Discord
+		Tooltip:
+			'''
+			5 Defense
+			+5% Magic Damage
+			+5% Attack Damage
+			+5% Attack Speed
+			Increased maximum health and mana by 20
+			Slightly increased health regeneration
+			'The headwear of corrupt magi.'
+			'''
+	}
+
+	Crown: {
+		DisplayName: Crown
+		Tooltip:
+			'''
+			+5% Attack Damage
+			+5% Attack Speed
+			'A stately crown created to ensure a well-
+			meaning but ungifted heir could fend off 
+			usurpers and govern with a strong hand.'
+			'''
+	}
+
+	HelmOfIronWill: {
+		DisplayName: Helm Of Iron Will
+		Tooltip:
+			'''
+			5 Defense
+			Increased maximum health by 20
+			Slightly increased health regeneration
+			'The helmet of a legendary warrior who fell in 
+			battle.'
+			'''
+	}
+
+	Vanguard: {
+		DisplayName: Vanguard
+		Tooltip:
+			'''
+			15 Defense
+			Increased maximum health by 80
+			Increased health regeneration
+			'A powerful shield that defends its wielder 
+			from even the most vicious of attacks.'
+			'''
+	}
+
+	CrimsonGuard: {
+		DisplayName: Crimson Guard
+		Tooltip:
+			'''
+			30 Defense
+			Increased maximum health by 100
+			Greatly increased health regeneration
+			'A cuirass originally built to protect against 
+			the dreaded Year Beast.'
+			'''
+	}
+
+	Diadem: {
+		DisplayName: Diadem
+		Tooltip:
+			'''
+			Increases your max number of minions by 1
+			Increases your max number of sentries by 1
+			+7% Summon Damage
+			'''
+	}
+
+	GlimmerCape: {
+		DisplayName: Glimmer Cape
+		Tooltip:
+			'''
+			+10% Magic Hybrid Damage
+			Pressing 'keybind' will turn you invisible and increase movement speed
+			'The stolen cape of a master illusionist.'
+			'''
+	}
+
+	HelmOfTheDominator: {
+		DisplayName: Helm Of The Dominator
+		Tooltip:
+			'''
+			Increases your max number of minions by 2
+			Increases your max number of sentries by 2
+			+15% Magic Hybrid Damage
+			Increased Maximum mana by 50
+			'The powerful headpiece of a dead
+			necromancer.'
+			'''
+	}
+
+	BladesOfAttack: {
+		DisplayName: Blades Of Attack
+		Tooltip:
+			'''
+			+3% Crit Chance
+			+5% Attack Damage
+			'The damage of these small, concealable 
+			blades should not be underestimated.'
+			'''
+	}
+
+	ArmletOfMordiggian: {
+		DisplayName: Armlet Of Mordiggian
+		Tooltip: ""
 	}
 }
 
@@ -227,6 +364,21 @@ Buffs: {
 	VonDebuff: {
 		Description: Cursed by King Von
 		DisplayName: Von's Curse
+	}
+
+	GlimmerCapeBuff: {
+		DisplayName: Glimmer Cape Buff
+		Description: Mods.MogMod.Buffs.GlimmerCapeBuff.Description
+	}
+
+	GlimmerCapeDebuff: {
+		DisplayName: Glimmer Cape Debuff
+		Description: Mods.MogMod.Buffs.GlimmerCapeDebuff.Description
+	}
+
+	ArmletOfMordiggianBuff: {
+		DisplayName: Armlet Of Mordiggian Buff
+		Description: Mods.MogMod.Buffs.ArmletOfMordiggianBuff.Description
 	}
 }
 

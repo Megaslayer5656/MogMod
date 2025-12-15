@@ -9,22 +9,21 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    public class HeartOfTarrasque : ModItem
+    public class Vanguard : ModItem
     {
         public override void SetDefaults()
         {
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.Red;
+            Item.rare = ItemRarityID.Yellow;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statLifeMax2 += 100;
-            player.lifeRegen += 8;
-            player.statDefense += 20;
-            player.GetDamage(DamageClass.Melee) += .10f;
+            player.statLifeMax2 += 80;
+            player.lifeRegen += 4;
+            player.statDefense += 15;
         }
     }
 }

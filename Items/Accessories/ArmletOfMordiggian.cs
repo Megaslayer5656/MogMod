@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MogMod.Common.Player;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,22 +10,23 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    public class HeartOfTarrasque : ModItem
+    public class ArmletOfMordiggian : ModItem
     {
         public override void SetDefaults()
         {
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.Red;
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statLifeMax2 += 100;
-            player.lifeRegen += 8;
-            player.statDefense += 20;
-            player.GetDamage(DamageClass.Melee) += .10f;
+            player.statDefense += 7;
+            player.GetAttackSpeed(DamageClass.Generic) += .20f;
+            player.GetDamage(DamageClass.Generic) += .15f;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.armletActive = true;
         }
     }
 }

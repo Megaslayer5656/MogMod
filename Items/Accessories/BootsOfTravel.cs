@@ -26,16 +26,6 @@ namespace MogMod.Items.Accessories
             if (!hideVisual)
             {
                 player.CancelAllBootRunVisualEffects(); // This ensures that boot visual effects don't overlap if multiple are equipped
-
-                // Hellfire Treads sprint dust. For more info on sprint dusts see Player.SpawnFastRunParticles() method in Player.cs
-                player.hellfireTreads = true;
-                // Other boot run visual effects include: sailDash, coldDash, desertDash, fairyBoots
-
-                if (!player.mount.Active || player.mount.Type != MountID.WallOfFleshGoat)
-                {
-                    // Spawns flames when walking, like Flame Waker Boots. We also check the Goat Skull mount so the effects don't overlap.
-                    player.DoBootsEffect(player.DoBootsEffect_PlaceFlamesOnTile);
-                }
             }
         }
     }

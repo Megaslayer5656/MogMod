@@ -1,0 +1,8 @@
+Mods: {
+	MogMod: {
+		Keybinds: {
+			GlimmerCape.DisplayName: Activate Glimmer Cape
+			ArmletOfMordiggian.DisplayName: Armlet Of Mordiggian
+		}
+	}
+}
