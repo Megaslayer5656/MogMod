@@ -14,6 +14,8 @@ namespace MogMod.Common.Systems
         public static ModKeybind SatanicKeybind { get; private set; }
         public static ModKeybind ArcaneBootsKeybind { get; private set; }
         public static ModKeybind RefresherOrbKeybind { get; private set; }
+        public static ModKeybind WandKeybind { get; private set; }
+        public static ModKeybind MagicStickKeybind { get; private set; }
 
         public override void Load()
         {
@@ -24,9 +26,10 @@ namespace MogMod.Common.Systems
             SatanicKeybind = KeybindLoader.RegisterKeybind(Mod, "Satanic", "G");
             ArcaneBootsKeybind = KeybindLoader.RegisterKeybind(Mod, "ArcaneBoots", "G");
             RefresherOrbKeybind = KeybindLoader.RegisterKeybind(Mod, "RefresherOrb", "V");
+            WandKeybind = KeybindLoader.RegisterKeybind(Mod, "MagicWand", "C");
+            MagicStickKeybind = KeybindLoader.RegisterKeybind(Mod, "MagicStick", "C");
         }
 
-        // Please see ExampleMod.cs' Unload() method for a detailed explanation of the unloading process.
         public override void Unload()
         {
             // Not required if your AssemblyLoadContext is unloading properly, but nulling out static fields can help you figure out what's keeping it loaded.
@@ -35,6 +38,8 @@ namespace MogMod.Common.Systems
             SatanicKeybind = null;
             ArcaneBootsKeybind = null;
             RefresherOrbKeybind = null;
+            WandKeybind = null;
+            MagicStickKeybind = null;
         }
     }
 }

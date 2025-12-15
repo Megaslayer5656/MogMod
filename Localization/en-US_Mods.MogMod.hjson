@@ -359,6 +359,16 @@ Items: {
 			one's enemies when held perfectly still.'
 			'''
 	}
+
+	MagicWand: {
+		DisplayName: Magic Wand
+		Tooltip: ""
+	}
+
+	MagicStick: {
+		DisplayName: Magic Stick
+		Tooltip: ""
+	}
 }
 
 NPCs: {
@@ -436,6 +446,16 @@ Buffs: {
 	RefresherOrbDebuff: {
 		DisplayName: Refresher Orb Cooldown
 		Description: Refresher orb needs to recharge!
+	}
+
+	WandBuff: {
+		DisplayName: Wand Buff
+		Description: Mods.MogMod.Buffs.WandBuff.Description
+	}
+
+	MagicStickBuff: {
+		DisplayName: Magic Stick Buff
+		Description: Mods.MogMod.Buffs.MagicStickBuff.Description
 	}
 }
 
