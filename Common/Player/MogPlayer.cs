@@ -36,6 +36,7 @@ namespace MogMod.Common.Player
         public int armletTimer = 0;
         public int armletTimerMax = 120;
         public bool armletOn = false;
+        public bool wearingHelmOfDominator = false;
         public enum MewingType
         {
             mewingguide = 0
@@ -214,6 +215,7 @@ namespace MogMod.Common.Player
             wearingRefresherOrb = false;
             wandActive = false;
             stickActive = false;
+            wearingHelmOfDominator = false;
         }
     }
 }
