@@ -4,5 +4,7 @@ Mods: {
 			GlimmerCape.DisplayName: Activate Glimmer Cape
 			ArmletOfMordiggian.DisplayName: Armlet Of Mordiggian
 		}
+
+		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage
 	}
 }
