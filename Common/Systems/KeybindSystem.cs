@@ -11,6 +11,9 @@ namespace MogMod.Common.Systems
     {
         public static ModKeybind GlimmerCapeKeybind { get; private set; }
         public static ModKeybind ArmletKeybind { get; private set; }
+        public static ModKeybind SatanicKeybind { get; private set; }
+        public static ModKeybind ArcaneBootsKeybind { get; private set; }
+        public static ModKeybind RefresherOrbKeybind { get; private set; }
 
         public override void Load()
         {
@@ -18,6 +21,9 @@ namespace MogMod.Common.Systems
             // We localize keybinds by adding a Mods.{ModName}.Keybind.{KeybindName} entry to our localization files. The actual text displayed to English users is in en-US.hjson
             GlimmerCapeKeybind = KeybindLoader.RegisterKeybind(Mod, "GlimmerCape", "G");
             ArmletKeybind = KeybindLoader.RegisterKeybind(Mod, "ArmletOfMordiggian", "T");
+            SatanicKeybind = KeybindLoader.RegisterKeybind(Mod, "Satanic", "G");
+            ArcaneBootsKeybind = KeybindLoader.RegisterKeybind(Mod, "ArcaneBoots", "G");
+            RefresherOrbKeybind = KeybindLoader.RegisterKeybind(Mod, "RefresherOrb", "V");
         }
 
         // Please see ExampleMod.cs' Unload() method for a detailed explanation of the unloading process.
@@ -26,6 +32,9 @@ namespace MogMod.Common.Systems
             // Not required if your AssemblyLoadContext is unloading properly, but nulling out static fields can help you figure out what's keeping it loaded.
             GlimmerCapeKeybind = null;
             ArmletKeybind = null;
+            SatanicKeybind = null;
+            ArcaneBootsKeybind = null;
+            RefresherOrbKeybind = null;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MogMod.Items.Other;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,40 @@ namespace MogMod.Items.Accessories
             player.lifeRegen += 2;
             player.statDefense += 5;
             player.statLifeMax2 += 20;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.GoldHelmet, 1).
+                AddIngredient(ItemID.GoldBar, 15).
+                AddIngredient(ItemID.SilverBar, 12).
+                AddIngredient(ItemID.Diamond, 1).
+                AddTile(TileID.Anvils).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.PlatinumHelmet, 1).
+                AddIngredient(ItemID.PlatinumBar, 15).
+                AddIngredient(ItemID.SilverBar, 12).
+                AddIngredient(ItemID.Diamond, 1).
+                AddTile(TileID.Anvils).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.GoldHelmet, 1).
+                AddIngredient(ItemID.GoldBar, 15).
+                AddIngredient(ItemID.TungstenBar, 12).
+                AddIngredient(ItemID.Diamond, 1).
+                AddTile(TileID.Anvils).
+               Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.PlatinumHelmet, 1).
+                AddIngredient(ItemID.PlatinumBar, 15).
+                AddIngredient(ItemID.TungstenBar, 12).
+                AddIngredient(ItemID.Diamond, 1).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

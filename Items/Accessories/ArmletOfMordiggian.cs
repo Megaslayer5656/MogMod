@@ -1,4 +1,5 @@
 ﻿using MogMod.Common.Player;
+using MogMod.Items.Other;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace MogMod.Items.Accessories
 {
     public class ArmletOfMordiggian : ModItem
     {
+        ModKeybind keybindActive = null;
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -23,10 +25,20 @@ namespace MogMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.statDefense += 7;
-            player.GetAttackSpeed(DamageClass.Generic) += .20f;
-            player.GetDamage(DamageClass.Generic) += .15f;
+            player.GetAttackSpeed(DamageClass.Generic) += .10f;
+            player.GetDamage(DamageClass.Generic) += .10f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.armletActive = true;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<HelmOfIronWill>().
+                AddIngredient(ItemID.FeralClaws, 1).
+                AddIngredient<BladesOfAttack>().
+                AddIngredient<CraftingRecipe>(1).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
         }
     }
 }

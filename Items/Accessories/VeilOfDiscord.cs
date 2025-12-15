@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MogMod.Items.Other;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,17 @@ namespace MogMod.Items.Accessories
             player.lifeRegen += 2;
             player.statManaMax2 += 20;
             player.statLifeMax2 += 20;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<HelmOfIronWill>(1).
+                AddIngredient<Crown>(1).
+                AddIngredient(ItemID.Bone, 40).
+                AddIngredient(ItemID.LargeAmethyst, 1).
+                AddIngredient<CraftingRecipe>(1).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
         }
     }
 }

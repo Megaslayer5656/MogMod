@@ -21,7 +21,8 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.MagicSummonHybrid) += .15f;
+            player.GetDamage(DamageClass.Magic) += .15f;
+            player.GetDamage(DamageClass.Summon) += .15f;
             player.statManaMax2 += 50;
             player.maxTurrets += 2;
             player.maxMinions += 2;

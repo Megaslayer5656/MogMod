@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Common.Player;
+using MogMod.Items.Other;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,31 +11,31 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    public class Vanguard : ModItem
+    public class ShadowAmulet : ModItem
     {
         public override void SetDefaults()
         {
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.Yellow;
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statLifeMax2 += 80;
-            player.lifeRegen += 4;
-            player.statDefense += 15;
-            player.noKnockback = true;
+            // check if player is not moving for 5 seconds and if so turn player invis
+            player.invis = true;
+
+            player.statManaMax2 += 30;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.CobaltShield, 1).
-                AddIngredient(ItemID.LifeCrystal, 10).
-                AddIngredient(ItemID.BandofRegeneration, 1).
-                AddIngredient(ItemID.Ruby, 2).
-                AddTile(TileID.Hellforge).
+                AddIngredient(ItemID.Amethyst, 7).
+                AddIngredient(ItemID.ManaCrystal, 1).
+                AddIngredient(ItemID.InvisibilityPotion, 2).
+                AddIngredient(ItemID.Sapphire, 3).
+                AddTile(TileID.Anvils).
                 Register();
         }
     }

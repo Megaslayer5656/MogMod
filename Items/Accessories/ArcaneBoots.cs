@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MogMod.Common.Player;
+using MogMod.Items.Other;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +13,7 @@ namespace MogMod.Items.Accessories
 {
     public class ArcaneBoots : ModItem
     {
+        ModKeybind keybindActive = null;
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -25,6 +28,34 @@ namespace MogMod.Items.Accessories
             player.moveSpeed += .15f;
             player.accRunSpeed = 7f;
             player.statManaMax2 += 50;
+            // a check on whether the player is wearing boots
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.wearingManaBoots = true;
+
+            // Determines whether the boots count as rocket boots
+            // 0 - These are not rocket boots
+            // Anything else - These are rocket boots
+            player.rocketBoots = 2;
+
+            // Sets which dust and sound to use for the rocket flight
+            // 1 - Rocket Boots
+            // 2 - Fairy Boots, Spectre Boots, Lightning Boots
+            // 3 - Frostspark Boots
+            // 4 - Terrraspark Boots
+            // 5 - Hellfire Treads
+            player.vanityRocketBoots = 2;
+
+            // unique boot effects
+            //player.waterWalk2 = true; // Allows walking on all liquids without falling into it
+            //player.waterWalk = true; // Allows walking on water, honey, and shimmer without falling into it
+            //player.iceSkate = true; // Grant the player improved speed on ice and not breaking thin ice when falling onto it
+            //player.desertBoots = true; // Grants the player increased movement speed while running on sand
+            //player.fireWalk = true; // Grants the player immunity from Meteorite and Hellstone tile damage
+            //player.noFallDmg = true; // Grants the player the Lucky Horseshoe effect of nullifying fall damage
+            //player.lavaRose = true; // Grants the Lava Rose effect
+            //player.lavaMax += LavaImmunityTime * 60; // Grants the player 2 additional seconds of lava immunity
+
+
             if (!hideVisual)
             {
                 player.CancelAllBootRunVisualEffects();
@@ -39,6 +70,19 @@ namespace MogMod.Items.Accessories
                 //    player.DoBootsEffect(player.DoBootsEffect_PlaceFlamesOnTile);
                 //}
             }
+        }
+        public override void AddRecipes()
+        {
+            // gives the item a recipe
+            CreateRecipe().
+                // add a vanilla item to the crafting recipe
+                AddIngredient(ItemID.SpectreBoots, 1).
+                AddIngredient(ItemID.ManaCrystal, 5).
+                // add a modded item to the crafting recipe
+                AddIngredient<CraftingRecipe>(1).
+                // add where the item can be crafted
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
         }
     }
 }

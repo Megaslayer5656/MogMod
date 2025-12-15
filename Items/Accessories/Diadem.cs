@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MogMod.Items.Other;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,23 @@ namespace MogMod.Items.Accessories
             player.GetDamage(DamageClass.Summon) += .07f;
             player.maxTurrets += 1;
             player.maxMinions += 1;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.GoldBar, 20).
+                AddIngredient(ItemID.ManaCrystal, 5).
+                AddIngredient(ItemID.Sapphire, 7).
+                AddIngredient(ItemID.CrimtaneBar, 3).
+                AddTile(TileID.Anvils).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.GoldBar, 20).
+                AddIngredient(ItemID.ManaCrystal, 5).
+                AddIngredient(ItemID.Sapphire, 7).
+                AddIngredient(ItemID.DemoniteBar, 3).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -3,6 +3,9 @@ Mods: {
 		Keybinds: {
 			GlimmerCape.DisplayName: Activate Glimmer Cape
 			ArmletOfMordiggian.DisplayName: Armlet Of Mordiggian
+			Satanic.DisplayName: Satanic
+			ArcaneBoots.DisplayName: Arcane Boots
+			RefresherOrb.DisplayName: Refresher Orb
 		}
 
 		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage

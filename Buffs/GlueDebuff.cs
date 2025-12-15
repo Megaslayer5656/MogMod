@@ -8,7 +8,7 @@ namespace MogMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            Main.buffNoSave[Type] = true;
+            Main.buffNoSave[Type] = false;
             Main.debuff[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
         }

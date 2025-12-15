@@ -17,9 +17,14 @@ namespace MogMod.Common.Player
     {
         public bool mewing = false;
         public float mewingguide = 0;
-        // add this for every buff you apply
+        // buffs for the accessories
         public bool isWearingGlimmerCape = false;
         public bool armletActive = false;
+        public bool wearingManaBoots = false;
+        public bool wearingSatanic = false;
+        public bool wearingRefresherOrb = false;
+
+
         public int armletTimer = 0;
         public int armletTimerMax = 120;
         public enum MewingType
@@ -41,6 +46,36 @@ namespace MogMod.Common.Player
                 // Main.NewText("applied glimmer cape"); //RandomBuffText.Format(Lang.GetBuffName(buff)));
             }
 
+            // best code to ctrlv ctrlc
+            int debuff3 = ModContent.BuffType<Buffs.SatanicDebuff>();
+            if (KeybindSystem.SatanicKeybind.JustPressed && wearingSatanic && !Player.HasBuff(debuff1))
+            {
+                int buff3 = ModContent.BuffType<Buffs.SatanicBuff>();
+                Player.AddBuff(buff3, 1800);
+                Player.AddBuff(debuff3, 3600);
+            }
+
+            // arcane boots
+            int debuff4 = ModContent.BuffType<Buffs.ArcaneBootsDebuff>();
+            if (KeybindSystem.ArcaneBootsKeybind.JustPressed && wearingManaBoots && !Player.HasBuff(debuff4))
+            {
+                // make it play a sound when activating
+                Player.statMana += 200;
+                Player.AddBuff(debuff4, 1800);
+            }
+
+            // refresher orb
+            int debuff5 = ModContent.BuffType<Buffs.RefresherOrbDebuff>();
+            if (KeybindSystem.RefresherOrbKeybind.JustPressed && wearingRefresherOrb && !Player.HasBuff(debuff5))
+            {
+                // make it play a sound when activating (add any additional debuffs here unless it shouldn't be cleared by refresher)
+                Player.ClearBuff(debuff1);
+                Player.ClearBuff(debuff3);
+                Player.ClearBuff(debuff4);
+                Player.AddBuff(debuff5, 9000);
+            }
+
+            // armlet timer
             int buff2 = ModContent.BuffType<Buffs.ArmletOfMordiggianBuff>();
 
             if (KeybindSystem.ArmletKeybind.JustPressed && armletActive) //&& !Player.HasBuff(buff2))
@@ -66,6 +101,9 @@ namespace MogMod.Common.Player
         {
             isWearingGlimmerCape = false;
             armletActive = false;
+            wearingManaBoots = false;
+            wearingSatanic = false;
+            wearingRefresherOrb = false;
 
         }
     }

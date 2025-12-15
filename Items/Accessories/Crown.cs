@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MogMod.Items.Other;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,16 @@ namespace MogMod.Items.Accessories
         {
             player.GetDamage(DamageClass.Generic) += .05f;
             player.GetAttackSpeed(DamageClass.Generic) += .05f;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.GoldBar, 15).
+                AddIngredient(ItemID.PlatinumBar, 10).
+                AddIngredient(ItemID.Diamond, 7).
+                AddIngredient(ItemID.LargeRuby, 1).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

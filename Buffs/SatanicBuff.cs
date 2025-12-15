@@ -6,23 +6,19 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace MogMod.Buffs
 {
-    public class ArmletOfMordiggianBuff : ModBuff
+    public class SatanicBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            Main.buffNoSave[Type] = true;
+            Main.buffNoSave[Type] = false;
             Main.debuff[Type] = false;
-            Main.buffNoTimeDisplay[Type] = true;
-            BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
+            Main.buffNoTimeDisplay[Type] = false;
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetAttackSpeed(DamageClass.Generic) += 0.20f;
-            player.GetDamage(DamageClass.Generic) += .20f;
-            player.lifeRegen += -30;
+            player.lifeSteal += 90;
         }
     }
 }

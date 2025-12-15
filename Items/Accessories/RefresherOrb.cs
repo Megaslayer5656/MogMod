@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    public class Satanic : ModItem
+    public class RefresherOrb : ModItem
     {
         ModKeybind keybindActive = null;
         public override void SetDefaults()
@@ -18,18 +18,16 @@ namespace MogMod.Items.Accessories
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.Red;
+            Item.rare = ItemRarityID.Green;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statLifeMax2 += 50;
-            // makes vampire knives crazy
-            player.lifeSteal += 10;
-            player.GetDamage(DamageClass.Melee) += .15f;
-            player.GetDamage(DamageClass.Generic) += .10f;
+            player.statManaMax2 += 50;
+            player.GetDamage(DamageClass.Magic) += .10f;
+            player.GetDamage(DamageClass.Summon) += .10f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            mogPlayer.wearingSatanic = true;
+            mogPlayer.wearingRefresherOrb = true;
         }
     }
 }

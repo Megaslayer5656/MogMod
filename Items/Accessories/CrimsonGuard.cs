@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MogMod.Items.Other;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,9 +22,20 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statLifeMax2 += 100;
+            player.statLifeMax2 += 80;
             player.lifeRegen += 6;
             player.statDefense += 20;
+            player.noKnockback = true;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<Vanguard>(1).
+                AddIngredient<HelmOfIronWill>(1).
+                AddIngredient(ItemID.HallowedBar, 10).
+                AddIngredient<CraftingRecipe>(1).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
         }
     }
 }

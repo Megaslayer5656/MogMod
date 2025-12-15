@@ -195,6 +195,7 @@ Items: {
 			+15% Melee Damage
 			+10% Attack Damage
 			Vastly increases lifesteal of weapons that utilize it
+			Press [KEY] to increase lifesteal affectiveness
 			'Immense power at the cost of your soul.'
 			'''
 	}
@@ -206,7 +207,7 @@ Items: {
 			Increases movement speed
 			Increases mana regeneration rate
 			Increased maximum mana by 50
-			Pressing 'button' will restore 200 mana
+			Pressing [KEY] will restore 200 mana
 			'Magi equipped with these boots are valued 
 			in battle.'
 			'''
@@ -255,7 +256,7 @@ Items: {
 		Tooltip:
 			'''
 			15 Defense
-			Increased maximum health by 80
+			Increased maximum health by 60
 			Increased health regeneration
 			'A powerful shield that defends its wielder 
 			from even the most vicious of attacks.'
@@ -266,8 +267,8 @@ Items: {
 		DisplayName: Crimson Guard
 		Tooltip:
 			'''
-			30 Defense
-			Increased maximum health by 100
+			20 Defense
+			Increased maximum health by 80
 			Greatly increased health regeneration
 			'A cuirass originally built to protect against 
 			the dreaded Year Beast.'
@@ -289,7 +290,7 @@ Items: {
 		Tooltip:
 			'''
 			+10% Magic Hybrid Damage
-			Pressing 'keybind' will turn you invisible and increase movement speed
+			Pressing [KEY] will turn you invisible and increase movement speed
 			'The stolen cape of a master illusionist.'
 			'''
 	}
@@ -320,7 +321,43 @@ Items: {
 
 	ArmletOfMordiggian: {
 		DisplayName: Armlet Of Mordiggian
-		Tooltip: ""
+		Tooltip:
+			'''
+			7 Defense
+			+10% Attack Damage
+			+10% Attack Speed
+			Pressing [KEY] will increase attack damage 
+			and speed by 20% when activated
+			'Weapon of choice among brutes, the bearer
+			sacrifices his life energy to gain immense
+			strength and power.'
+			'''
+	}
+
+	CraftingRecipe: {
+		DisplayName: Crafting Recipe
+		Tooltip: Can combine regular items into more powerful variations!
+	}
+
+	RefresherOrb: {
+		DisplayName: Refresher Orb
+		Tooltip:
+			'''
+			+10% Magic Hybrid Damage
+			Increases maximum mana by 50
+			'A powerful artifact created for wizards.'
+			'''
+	}
+
+	ShadowAmulet: {
+		DisplayName: Shadow Amulet
+		Tooltip:
+			'''
+			Increases maximum mana by 30
+			When not moving for 5 seconds, turn completely invisible!
+			'A small talisman that clouds the senses of 
+			one's enemies when held perfectly still.'
+			'''
 	}
 }
 
@@ -362,23 +399,43 @@ Buffs: {
 	}
 
 	VonDebuff: {
-		Description: Cursed by King Von
+		Description: Cursed and Von'd
 		DisplayName: Von's Curse
 	}
 
 	GlimmerCapeBuff: {
-		DisplayName: Glimmer Cape Buff
-		Description: Mods.MogMod.Buffs.GlimmerCapeBuff.Description
+		DisplayName: Glimmer Cape
+		Description: Your invisible! And also much faster!
 	}
 
 	GlimmerCapeDebuff: {
-		DisplayName: Glimmer Cape Debuff
-		Description: Mods.MogMod.Buffs.GlimmerCapeDebuff.Description
+		DisplayName: Glimmer Cape Cooldown
+		Description: Teamfight ult failed...
 	}
 
 	ArmletOfMordiggianBuff: {
-		DisplayName: Armlet Of Mordiggian Buff
-		Description: Mods.MogMod.Buffs.ArmletOfMordiggianBuff.Description
+		DisplayName: Armlet Of Mordiggian
+		Description: You feel a searing, yet bolstering pain...
+	}
+
+	ArcaneBootsDebuff: {
+		DisplayName: Used Arcane Boots
+		Description: Out of mana...
+	}
+
+	SatanicBuff: {
+		DisplayName: Satanic
+		Description: You thirst for their blood...
+	}
+
+	SatanicDebuff: {
+		DisplayName: Satanic Cooldown
+		Description: Satanic is out of power...
+	}
+
+	RefresherOrbDebuff: {
+		DisplayName: Refresher Orb Cooldown
+		Description: Refresher orb needs to recharge!
 	}
 }
 
