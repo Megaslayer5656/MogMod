@@ -1,5 +1,7 @@
 ﻿using MogMod.Common.Player;
+using MogMod.Common.Systems;
 using MogMod.Items.Other;
+using MogMod.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +13,10 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    public class ArmletOfMordiggian : ModItem
+    public class ArmletOfMordiggian : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Accessories";
+        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.ArmletKeybind);
         ModKeybind keybindActive = null;
         public override void SetDefaults()
         {

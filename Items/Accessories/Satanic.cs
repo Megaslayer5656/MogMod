@@ -1,4 +1,6 @@
 ﻿using MogMod.Common.Player;
+using MogMod.Common.Systems;
+using MogMod.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,8 @@ namespace MogMod.Items.Accessories
 {
     public class Satanic : ModItem
     {
+        public new string LocalizationCategory => "Items.Accessories";
+        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.SatanicKeybind);
         ModKeybind keybindActive = null;
         public override void SetDefaults()
         {

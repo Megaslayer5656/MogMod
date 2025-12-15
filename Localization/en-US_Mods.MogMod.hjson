@@ -200,19 +200,6 @@ Items: {
 			'''
 	}
 
-	ArcaneBoots: {
-		DisplayName: Arcane Boots
-		Tooltip:
-			'''
-			Increases movement speed
-			Increases mana regeneration rate
-			Increased maximum mana by 50
-			Pressing [KEY] will restore 200 mana
-			'Magi equipped with these boots are valued 
-			in battle.'
-			'''
-	}
-
 	VeilOfDiscord: {
 		DisplayName: Veil Of Discord
 		Tooltip:
@@ -270,6 +257,7 @@ Items: {
 			20 Defense
 			Increased maximum health by 80
 			Greatly increased health regeneration
+			Absorbs 25% of damage done to players on your team when above 25% life
 			'A cuirass originally built to protect against 
 			the dreaded Year Beast.'
 			'''
@@ -303,6 +291,7 @@ Items: {
 			Increases your max number of sentries by 2
 			+15% Magic Hybrid Damage
 			Increased Maximum mana by 50
+			Press [KEY] to summon a mighty beast!
 			'The powerful headpiece of a dead
 			necromancer.'
 			'''
@@ -319,21 +308,6 @@ Items: {
 			'''
 	}
 
-	ArmletOfMordiggian: {
-		DisplayName: Armlet Of Mordiggian
-		Tooltip:
-			'''
-			7 Defense
-			+10% Attack Damage
-			+10% Attack Speed
-			Pressing [KEY] will increase attack damage 
-			and speed by 20% when activated
-			'Weapon of choice among brutes, the bearer
-			sacrifices his life energy to gain immense
-			strength and power.'
-			'''
-	}
-
 	CraftingRecipe: {
 		DisplayName: Crafting Recipe
 		Tooltip: Can combine regular items into more powerful variations!
@@ -345,6 +319,7 @@ Items: {
 			'''
 			+10% Magic Hybrid Damage
 			Increases maximum mana by 50
+			Pressing [KEY] will refresh the cooldowns of all items
 			'A powerful artifact created for wizards.'
 			'''
 	}
@@ -358,6 +333,36 @@ Items: {
 			'A small talisman that clouds the senses of 
 			one's enemies when held perfectly still.'
 			'''
+	}
+
+	Accessories: {
+		ArcaneBoots: {
+			DisplayName: Arcane Boots
+			Tooltip:
+				'''
+				Increases movement speed
+				Increases mana regeneration rate
+				Increased maximum mana by 50
+				Pressing [KEY] will restore 200 mana
+				'Magi equipped with these boots are valued 
+				in battle.'
+				'''
+		}
+
+		ArmletOfMordiggian: {
+			DisplayName: Armlet Of Mordiggian
+			Tooltip:
+				'''
+				7 Defense
+				+10% Attack Damage
+				+10% Attack Speed
+				Pressing [KEY] will increase attack damage 
+				and speed by 20% when activated
+				'Weapon of choice among brutes, the bearer
+				sacrifices his life energy to gain immense
+				strength and power.'
+				'''
+		}
 	}
 }
 
@@ -436,6 +441,11 @@ Buffs: {
 	RefresherOrbDebuff: {
 		DisplayName: Refresher Orb Cooldown
 		Description: Refresher orb needs to recharge!
+	}
+
+	HelmOfDominatorDebuff: {
+		Description: Mods.MogMod.Buffs.HelmOfDominatorDebuff.Description
+		DisplayName: Helm Of Dominator Debuff
 	}
 }
 

@@ -2,6 +2,7 @@
 using MogMod.Common.Player;
 using MogMod.Common.Systems;
 using MogMod.Items.Other;
+using MogMod.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace MogMod.Items.Accessories
 {
     public class GlimmerCape : ModItem
     {
+        public new string LocalizationCategory => "Items.Accessories";
+        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.GlimmerCapeKeybind);
         ModKeybind keybindActive = null;
 
         public override void Load()
@@ -46,7 +49,15 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.SapphireRobe, 1).
                 AddIngredient<ShadowAmulet>(1).
-                AddIngredient(ItemID.InvisibilityPotion, 3).
+                AddIngredient(ItemID.ShadowScale, 7 ).
+                AddIngredient(ItemID.FallenStar, 5).
+                AddIngredient<CraftingRecipe>(1).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SapphireRobe, 1).
+                AddIngredient<ShadowAmulet>(1).
+                AddIngredient(ItemID.TissueSample, 7).
                 AddIngredient(ItemID.FallenStar, 5).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).

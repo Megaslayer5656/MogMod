@@ -23,6 +23,7 @@ namespace MogMod.Common.Player
         public bool wearingManaBoots = false;
         public bool wearingSatanic = false;
         public bool wearingRefresherOrb = false;
+        public bool wearingHelmOfDominator = false;
 
 
         public int armletTimer = 0;
@@ -75,6 +76,14 @@ namespace MogMod.Common.Player
                 Player.AddBuff(debuff5, 9000);
             }
 
+            // helm of the dominator
+            int helmOfDominator = ModContent.BuffType<Buffs.HelmOfDominatorDebuff>();
+            if (KeybindSystem.HelmOfDominatorKeybind.JustPressed && wearingHelmOfDominator && !Player.HasBuff(helmOfDominator))
+            {
+                // for now it summons a mount (change to make it summon a friendly npc to damage enemies)
+                Player.AddBuff(BuffID.BasiliskMount, 1);
+                Player.AddBuff(helmOfDominator, 1800);
+            }
             // armlet timer
             int buff2 = ModContent.BuffType<Buffs.ArmletOfMordiggianBuff>();
 
@@ -104,6 +113,7 @@ namespace MogMod.Common.Player
             wearingManaBoots = false;
             wearingSatanic = false;
             wearingRefresherOrb = false;
+            wearingHelmOfDominator = false;
 
         }
     }

@@ -6,6 +6,7 @@ Mods: {
 			Satanic.DisplayName: Satanic
 			ArcaneBoots.DisplayName: Arcane Boots
 			RefresherOrb.DisplayName: Refresher Orb
+			HelmOfTheDominator.DisplayName: Helm Of The Dominator
 		}
 
 		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage

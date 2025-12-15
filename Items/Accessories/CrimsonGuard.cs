@@ -26,6 +26,21 @@ namespace MogMod.Items.Accessories
             player.lifeRegen += 6;
             player.statDefense += 20;
             player.noKnockback = true;
+            if (player.statLife > player.statLifeMax2 * 0.25f)
+            {
+                player.hasPaladinShield = true;
+                if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
+                {
+                    int myPlayer = Main.myPlayer;
+                    if (Main.player[myPlayer].team == player.team && player.team != 0)
+                    {
+                        float teamPlayerXDist = player.position.X - Main.player[myPlayer].position.X;
+                        float teamPlayerYDist = player.position.Y - Main.player[myPlayer].position.Y;
+                        if ((float)Math.Sqrt(teamPlayerXDist * teamPlayerXDist + teamPlayerYDist * teamPlayerYDist) < 800f)
+                            Main.player[myPlayer].AddBuff(BuffID.PaladinsShield, 20);
+                    }
+                }
+            }
         }
         public override void AddRecipes()
         {

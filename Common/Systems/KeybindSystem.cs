@@ -14,6 +14,7 @@ namespace MogMod.Common.Systems
         public static ModKeybind SatanicKeybind { get; private set; }
         public static ModKeybind ArcaneBootsKeybind { get; private set; }
         public static ModKeybind RefresherOrbKeybind { get; private set; }
+        public static ModKeybind HelmOfDominatorKeybind { get; private set; }
 
         public override void Load()
         {
@@ -24,6 +25,7 @@ namespace MogMod.Common.Systems
             SatanicKeybind = KeybindLoader.RegisterKeybind(Mod, "Satanic", "G");
             ArcaneBootsKeybind = KeybindLoader.RegisterKeybind(Mod, "ArcaneBoots", "G");
             RefresherOrbKeybind = KeybindLoader.RegisterKeybind(Mod, "RefresherOrb", "V");
+            HelmOfDominatorKeybind = KeybindLoader.RegisterKeybind(Mod, "HelmOfTheDominator", "V");
         }
 
         // Please see ExampleMod.cs' Unload() method for a detailed explanation of the unloading process.
@@ -35,6 +37,7 @@ namespace MogMod.Common.Systems
             SatanicKeybind = null;
             ArcaneBootsKeybind = null;
             RefresherOrbKeybind = null;
+            HelmOfDominatorKeybind = null;
         }
     }
 }
