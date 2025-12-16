@@ -7,6 +7,8 @@ Mods: {
 			ArcaneBoots.DisplayName: Arcane Boots
 			RefresherOrb.DisplayName: Refresher Orb
 			HelmOfTheDominator.DisplayName: Helm Of The Dominator
+			MagicStick.DisplayName: Magic Stick
+			MagicWand.DisplayName: Magic Wand
 		}
 
 		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage

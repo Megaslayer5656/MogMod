@@ -364,6 +364,21 @@ Items: {
 				'''
 		}
 	}
+
+	MagicStick: {
+		DisplayName: Magic Stick
+		Tooltip: ""
+	}
+
+	MagicWand: {
+		DisplayName: Magic Wand
+		Tooltip: ""
+	}
+
+	IronBranch: {
+		DisplayName: Iron Branch
+		Tooltip: ""
+	}
 }
 
 NPCs: {
@@ -385,6 +400,7 @@ NPCs: {
 	}
 
 	KingVon.DisplayName: King Von
+	RadiantCreep.DisplayName: Radiant Creep
 }
 
 Buffs: {
@@ -446,6 +462,16 @@ Buffs: {
 	HelmOfDominatorDebuff: {
 		Description: Mods.MogMod.Buffs.HelmOfDominatorDebuff.Description
 		DisplayName: Helm Of Dominator Debuff
+	}
+
+	MagicStickBuff: {
+		DisplayName: Magic Stick Buff
+		Description: Mods.MogMod.Buffs.MagicStickBuff.Description
+	}
+
+	WandBuff: {
+		DisplayName: Wand Buff
+		Description: Mods.MogMod.Buffs.WandBuff.Description
 	}
 }
 
