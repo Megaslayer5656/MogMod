@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    public class ShadowAmulet : ModItem
+    public class ShadowAmulet : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -25,8 +26,9 @@ namespace MogMod.Items.Accessories
         {
             // check if player is not moving for 5 seconds and if so turn player invis
             player.invis = true;
-
-            player.statManaMax2 += 30;
+            // remove these if done so
+            player.GetDamage(DamageClass.Generic) += -.20f;
+            player.statManaMax2 += -100;
         }
         public override void AddRecipes()
         {

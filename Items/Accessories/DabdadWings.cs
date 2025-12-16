@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace MogMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Wings)]
-    public class DabdadWings : ModItem //Me when I'm dabdadding it
+    public class DabdadWings : ModItem, ILocalizedModType //Me when I'm dabdadding it
     {
+        public new string LocalizationCategory => "Items.Accessories";
 
         public override void SetStaticDefaults()
         {

@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.Exceptions;
 namespace MogMod.Items.Accessories
 {
-    public class DesperationCharm : ModItem
+    public class DesperationCharm : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Accessories";
         public static readonly int AdditiveDamageBonus = 100;
         public static readonly int AttackSpeedBonus = 25;
         public override void SetDefaults() 

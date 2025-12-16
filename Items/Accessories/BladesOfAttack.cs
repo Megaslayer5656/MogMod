@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    public class BladesOfAttack : ModItem
+    public class BladesOfAttack : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.accessory = true;

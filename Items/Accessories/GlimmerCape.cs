@@ -14,7 +14,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    public class GlimmerCape : ModItem
+    public class GlimmerCape : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.GlimmerCapeKeybind);
@@ -47,7 +47,7 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.SapphireRobe, 1).
+                AddIngredient(ItemID.Robe, 1).
                 AddIngredient<ShadowAmulet>(1).
                 AddIngredient(ItemID.ShadowScale, 7 ).
                 AddIngredient(ItemID.FallenStar, 5).
@@ -55,7 +55,7 @@ namespace MogMod.Items.Accessories
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
             CreateRecipe().
-                AddIngredient(ItemID.SapphireRobe, 1).
+                AddIngredient(ItemID.Robe, 1).
                 AddIngredient<ShadowAmulet>(1).
                 AddIngredient(ItemID.TissueSample, 7).
                 AddIngredient(ItemID.FallenStar, 5).

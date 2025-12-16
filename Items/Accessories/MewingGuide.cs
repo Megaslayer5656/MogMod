@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    public class MewingGuide : ModItem
+    public class MewingGuide : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.value = 10000;

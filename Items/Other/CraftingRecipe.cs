@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using MogMod.Items.Accessories;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -19,6 +20,14 @@ namespace MogMod.Items.Other
             Item.height = 32;
             Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.White;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<IronBranch>(3).
+                AddIngredient(ItemID.GoldCoin, 5).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

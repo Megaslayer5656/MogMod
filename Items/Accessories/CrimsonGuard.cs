@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    public class CrimsonGuard : ModItem
+    public class CrimsonGuard : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -47,9 +48,10 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<Vanguard>(1).
                 AddIngredient<HelmOfIronWill>(1).
+                AddIngredient(ItemID.PaladinsShield, 1).
                 AddIngredient(ItemID.HallowedBar, 10).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
+                AddTile(TileID.MythrilAnvil).
                 Register();
         }
     }

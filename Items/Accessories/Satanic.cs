@@ -12,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    public class Satanic : ModItem
+    public class Satanic : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.SatanicKeybind);

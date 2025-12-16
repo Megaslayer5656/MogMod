@@ -7,6 +7,12 @@ Mods: {
 			ArcaneBoots.DisplayName: Arcane Boots
 			RefresherOrb.DisplayName: Refresher Orb
 			HelmOfTheDominator.DisplayName: Helm Of The Dominator
+			MagicStick.DisplayName: Magic Stick
+			MagicWand.DisplayName: Magic Wand
+			GuardianGreaves.DisplayName: Guardian Greaves
+			Mekansm.DisplayName: Mekansm
+			ForceStaff.DisplayName: Force Staff
+			BladeMail.DisplayName: Blade Mail
 		}
 
 		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage

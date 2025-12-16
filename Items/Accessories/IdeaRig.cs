@@ -15,8 +15,9 @@ using Terraria.GameContent.ItemDropRules;
 
 namespace MogMod.Items.Accessories
 {
-    public class IdeaRig : ModItem
+    public class IdeaRig : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Accessories";
         public CustomItemSlot idearigslot;
         public override void SetStaticDefaults()
         {

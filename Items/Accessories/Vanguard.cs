@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    public class Vanguard : ModItem
+    public class Vanguard : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -30,8 +31,8 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient<VitalityBooster>(1).
                 AddIngredient(ItemID.CobaltShield, 1).
-                AddIngredient(ItemID.LifeCrystal, 10).
                 AddIngredient(ItemID.BandofRegeneration, 1).
                 AddIngredient(ItemID.Ruby, 2).
                 AddTile(TileID.Hellforge).

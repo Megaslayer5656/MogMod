@@ -26,19 +26,9 @@ Items: {
 		DisplayName: Mage Shotgun
 	}
 
-	DesperationCharm: {
-		DisplayName: Desperation Charm
-		Tooltip: When there's no exit...
-	}
-
 	GunLance: {
 		DisplayName: Gun Lance
 		Tooltip: Time to hunt some monsters.
-	}
-
-	DabdadWings: {
-		DisplayName: Dabdad Wings
-		Tooltip: ""
 	}
 
 	ETGC: {
@@ -71,16 +61,6 @@ Items: {
 		Tooltip: POTEMKIN BUSTER
 	}
 
-	MewingGuide: {
-		DisplayName: Mewing Guide
-		Tooltip: Teaches the sacred art of Mewing
-	}
-
-	SigmaCharm: {
-		DisplayName: Sigma Charm
-		Tooltip: Turns the user into a lone wolf
-	}
-
 	SoulOfDabdad: {
 		DisplayName: Soul Of Dabdad
 		Tooltip: ""
@@ -93,11 +73,6 @@ Items: {
 
 	DabDadBar: {
 		DisplayName: DabDad Bar
-		Tooltip: ""
-	}
-
-	IdeaRig: {
-		DisplayName: Idea Rig
 		Tooltip: ""
 	}
 
@@ -114,18 +89,6 @@ Items: {
 	GreenTracerAmmo: {
 		Tooltip: The ammo of true tigla slimers.
 		DisplayName: Green Tracer
-	}
-
-	Butterfly: {
-		Tooltip:
-			'''
-			+55% Attack Speed 
-			+25% Attack Damage
-			'Only the mightiest and most experienced of 
-			warriors can wield the Butterfly, but it 
-			provides incredible dexterity in combat.' 
-			'''
-		DisplayName: Butterfly
 	}
 
 	VonSpawner: {
@@ -153,186 +116,9 @@ Items: {
 		Tooltip: ""
 	}
 
-	Daedalus: {
-		DisplayName: Daedalus
-		Tooltip:
-			'''
-			+40% Attack Damage 
-			+30% Crit Chance
-			'A weapon of incredible power that is difficult 
-			for even the strongest of warriors to control.'
-
-			'''
-	}
-
-	HeartOfTarrasque: {
-		DisplayName: Heart Of Tarrasque
-		Tooltip:
-			'''
-			20 Defense
-			+100 Max Health
-			+10% Melee Damage
-			Vastly increased health regeneration
-			'Preserved heart of an extinct monster, it 
-			bolsters the bearer's fortitude.'
-			'''
-	}
-
-	BootsOfTravel: {
-		DisplayName: Boots Of Travel
-		Tooltip:
-			'''
-			Vastly increased movement speed
-			'Winged boots that grant omnipresence.'
-			'''
-	}
-
-	Satanic: {
-		DisplayName: Satanic
-		Tooltip:
-			'''
-			+50 Max Health
-			+15% Melee Damage
-			+10% Attack Damage
-			Vastly increases lifesteal of weapons that utilize it
-			Press [KEY] to increase lifesteal affectiveness
-			'Immense power at the cost of your soul.'
-			'''
-	}
-
-	VeilOfDiscord: {
-		DisplayName: Veil Of Discord
-		Tooltip:
-			'''
-			5 Defense
-			+5% Magic Damage
-			+5% Attack Damage
-			+5% Attack Speed
-			Increased maximum health and mana by 20
-			Slightly increased health regeneration
-			'The headwear of corrupt magi.'
-			'''
-	}
-
-	Crown: {
-		DisplayName: Crown
-		Tooltip:
-			'''
-			+5% Attack Damage
-			+5% Attack Speed
-			'A stately crown created to ensure a well-
-			meaning but ungifted heir could fend off 
-			usurpers and govern with a strong hand.'
-			'''
-	}
-
-	HelmOfIronWill: {
-		DisplayName: Helm Of Iron Will
-		Tooltip:
-			'''
-			5 Defense
-			Increased maximum health by 20
-			Slightly increased health regeneration
-			'The helmet of a legendary warrior who fell in 
-			battle.'
-			'''
-	}
-
-	Vanguard: {
-		DisplayName: Vanguard
-		Tooltip:
-			'''
-			15 Defense
-			Increased maximum health by 60
-			Increased health regeneration
-			'A powerful shield that defends its wielder 
-			from even the most vicious of attacks.'
-			'''
-	}
-
-	CrimsonGuard: {
-		DisplayName: Crimson Guard
-		Tooltip:
-			'''
-			20 Defense
-			Increased maximum health by 80
-			Greatly increased health regeneration
-			Absorbs 25% of damage done to players on your team when above 25% life
-			'A cuirass originally built to protect against 
-			the dreaded Year Beast.'
-			'''
-	}
-
-	Diadem: {
-		DisplayName: Diadem
-		Tooltip:
-			'''
-			Increases your max number of minions by 1
-			Increases your max number of sentries by 1
-			+7% Summon Damage
-			'''
-	}
-
-	GlimmerCape: {
-		DisplayName: Glimmer Cape
-		Tooltip:
-			'''
-			+10% Magic Hybrid Damage
-			Pressing [KEY] will turn you invisible and increase movement speed
-			'The stolen cape of a master illusionist.'
-			'''
-	}
-
-	HelmOfTheDominator: {
-		DisplayName: Helm Of The Dominator
-		Tooltip:
-			'''
-			Increases your max number of minions by 2
-			Increases your max number of sentries by 2
-			+15% Magic Hybrid Damage
-			Increased Maximum mana by 50
-			Press [KEY] to summon a mighty beast!
-			'The powerful headpiece of a dead
-			necromancer.'
-			'''
-	}
-
-	BladesOfAttack: {
-		DisplayName: Blades Of Attack
-		Tooltip:
-			'''
-			+3% Crit Chance
-			+5% Attack Damage
-			'The damage of these small, concealable 
-			blades should not be underestimated.'
-			'''
-	}
-
 	CraftingRecipe: {
 		DisplayName: Crafting Recipe
 		Tooltip: Can combine regular items into more powerful variations!
-	}
-
-	RefresherOrb: {
-		DisplayName: Refresher Orb
-		Tooltip:
-			'''
-			+10% Magic Hybrid Damage
-			Increases maximum mana by 50
-			Pressing [KEY] will refresh the cooldowns of all items
-			'A powerful artifact created for wizards.'
-			'''
-	}
-
-	ShadowAmulet: {
-		DisplayName: Shadow Amulet
-		Tooltip:
-			'''
-			Increases maximum mana by 30
-			When not moving for 5 seconds, turn completely invisible!
-			'A small talisman that clouds the senses of 
-			one's enemies when held perfectly still.'
-			'''
 	}
 
 	Accessories: {
@@ -341,7 +127,6 @@ Items: {
 			Tooltip:
 				'''
 				Increases movement speed
-				Increases mana regeneration rate
 				Increased maximum mana by 50
 				Pressing [KEY] will restore 200 mana
 				'Magi equipped with these boots are valued 
@@ -363,6 +148,463 @@ Items: {
 				strength and power.'
 				'''
 		}
+
+		GuardianGreaves: {
+			DisplayName: Guardian Greaves
+			Tooltip:
+				'''
+				-30% Melee Damage
+				Greatly increases placement speed and range
+				Increased maximum mana by 50
+				Provides you and nearby team members +20 Maximum health, +50 Maximum mana, 
+				+6 HP/s life regen, +5 Defense and +10% increased damage
+				Pressing [KEY] will restore 100 health and 300 mana to you and nearby team members
+				'One of many holy instruments constructed to 
+				honor the Omniscience.'
+				'''
+		}
+
+		Headdress: {
+			DisplayName: Headdress
+			Tooltip:
+				'''
+				-30% Melee Damage
+				Provides you and nearby team members +4 HP/s life regen
+				'Creates a soothing aura that restores allies in 
+				battle.'
+				'''
+		}
+
+		Mekansm: {
+			DisplayName: Mekansm
+			Tooltip:
+				'''
+				5 Defense
+				-30% Melee Damage
+				Increases placement speed and range
+				Provides you and nearby team members +4 HP/s life regen
+				Pressing [KEY] will restore 50 health to you and nearby team members
+				'A glowing jewel formed out of assorted parts 
+				that somehow fit together perfectly.'
+				'''
+		}
+
+		Satanic: {
+			DisplayName: Satanic
+			Tooltip:
+				'''
+				+50 Max Health
+				+15% Melee Damage
+				+10% Attack Damage
+				Vastly increases lifesteal of weapons that utilize it
+				Press [KEY] to increase lifesteal affectiveness
+				'Immense power at the cost of your soul.'
+				'''
+		}
+
+		RefresherOrb: {
+			DisplayName: Refresher Orb
+			Tooltip:
+				'''
+				+10% Magic Damage
+				+10% Summon Damage
+				Increases maximum mana by 50
+				Pressing [KEY] will refresh the cooldowns of all items
+				'A powerful artifact created for wizards.'
+				'''
+		}
+
+		MagicWand: {
+			DisplayName: Magic Wand
+			Tooltip:
+				'''
+				+5% Magic Damage
+				Increased maximum mana by 30
+				Taking damage adds a charge to the wand
+				Pressing [KEY] expends all charges and heals 7 health and mana for each charge
+				'A simple wand used to channel magic 
+				energies, it is favored by apprentice wizards 
+				and great warlocks alike.'
+				'''
+		}
+
+		MagicStick: {
+			DisplayName: Magic Stick
+			Tooltip:
+				'''
+				Taking damage adds a charge to the stick
+				Pressing [KEY] expends all charges and heals 5 health and mana for each charge
+				'A simple stick used to channel magic 
+				energies, it is favored by apprentice wizards 
+				and great warlocks alike.'
+				'''
+		}
+
+		HelmOfTheDominator: {
+			DisplayName: Helm Of The Dominator
+			Tooltip:
+				'''
+				Increases your max number of minions by 2
+				Increases your max number of sentries by 2
+				Does not stack with downgrades
+				+15% Magic Damage
+				+15% Summon Damage
+				Increased Maximum mana by 50
+				Press [KEY] to summon a mighty beast!
+				'The powerful headpiece of a dead
+				necromancer.'
+				'''
+		}
+
+		GlimmerCape: {
+			DisplayName: Glimmer Cape
+			Tooltip:
+				'''
+				+10% Magic Damage
+				+10% Summon Damage
+				Pressing [KEY] will turn you invisible and increase movement speed
+				'The stolen cape of a master illusionist.'
+				'''
+		}
+
+		ForceStaff: {
+			DisplayName: Force Staff
+			Tooltip:
+				'''
+				+7% Magic Damage
+				+7% Summon Damage
+				+20% Knockback
+				Pressing [KEY] will boost you forward in the direction you are facing
+				'Allows you to manipulate others, for good or 
+				evil.'
+				'''
+		}
+
+		HurricanePike: {
+			DisplayName: Hurricane Pike
+			Tooltip:
+				'''
+				+15% Attack Speed
+				+15% Ranged Damage
+				+15% Magic Damage
+				+15% Summon Damage
+				+30% Knockback
+				Increases block placement range by 3
+				Pressing [KEY] will boost you forward in the direction you are facing
+				'A legendary pike once held as royal sigil of
+				the ancient wyvern riders.'
+				'''
+		}
+
+		VeilOfDiscord: {
+			DisplayName: Veil Of Discord
+			Tooltip:
+				'''
+				5 Defense
+				+5% Magic Damage
+				+5% Attack Damage
+				+5% Attack Speed
+				Increased maximum health and mana by 20
+				Slightly increased health regeneration
+				'The headwear of corrupt magi.'
+				'''
+		}
+
+		Vanguard: {
+			DisplayName: Vanguard
+			Tooltip:
+				'''
+				15 Defense
+				Increased maximum health by 60
+				Increased health regeneration
+				'A powerful shield that defends its wielder 
+				from even the most vicious of attacks.'
+				'''
+		}
+
+		UltraBootsOfTravel: {
+			DisplayName: Ultra Boots Of Travel
+			Tooltip:
+				'''
+				Run like the wind!
+				'Winged boots that grant ultra-omnipresence.'
+				'''
+		}
+
+		SigmaCharm: {
+			DisplayName: Sigma Charm
+			Tooltip: Turns the user into a lone wolf
+		}
+
+		ShadowAmulet: {
+			DisplayName: Shadow Amulet
+			Tooltip:
+				'''
+				-20% Attack Damage
+				Decreases maximum mana by 100
+				Turns you completely invisible!
+				'A small talisman that clouds the senses of 
+				one's enemies when held perfectly still.'
+				'''
+		}
+
+		MewingGuide: {
+			DisplayName: Mewing Guide
+			Tooltip: Teaches the sacred art of Mewing
+		}
+
+		IdeaRig: {
+			Tooltip: ""
+			DisplayName: Idea Rig
+		}
+
+		HelmOfIronWill: {
+			DisplayName: Helm Of Iron Will
+			Tooltip:
+				'''
+				5 Defense
+				Increased maximum health by 20
+				Slightly increased health regeneration
+				'The helmet of a legendary warrior who fell in 
+				battle.'
+				'''
+		}
+
+		HeartOfTarrasque: {
+			DisplayName: Heart Of Tarrasque
+			Tooltip:
+				'''
+				20 Defense
+				+100 Max Health
+				+10% Melee Damage
+				Vastly increased health regeneration
+				'Preserved heart of an extinct monster, it 
+				bolsters the bearer's fortitude.'
+				'''
+		}
+
+		DragonLance: {
+			DisplayName: Dragon Lance
+			Tooltip:
+				'''
+				+10% Attack Speed
+				+7% Ranged Damage
+				Increases block placement range by 1
+				'The forward charge of the wyvern host grants 
+				no quarter.'
+				'''
+		}
+
+		Diadem: {
+			DisplayName: Diadem
+			Tooltip:
+				'''
+				Increases your max number of minions by 1
+				+7% Summon Damage
+				'''
+		}
+
+		DesperationCharm: {
+			DisplayName: Desperation Charm
+			Tooltip: When there's no exit...
+		}
+
+		Daedalus: {
+			DisplayName: Daedalus
+			Tooltip:
+				'''
+				+40% Attack Damage 
+				+30% Crit Chance
+				'A weapon of incredible power that is difficult 
+				for even the strongest of warriors to control.'
+
+				'''
+		}
+
+		DabdadWings: {
+			Tooltip: ""
+			DisplayName: Dabdad Wings
+		}
+
+		Crown: {
+			DisplayName: Crown
+			Tooltip:
+				'''
+				+5% Attack Damage
+				+5% Attack Speed
+				'A stately crown created to ensure a well-
+				meaning but ungifted heir could fend off 
+				usurpers and govern with a strong hand.'
+				'''
+		}
+
+		CrimsonGuard: {
+			DisplayName: Crimson Guard
+			Tooltip:
+				'''
+				20 Defense
+				Increased maximum health by 80
+				Greatly increased health regeneration
+				Absorbs 25% of damage done to players on your team when above 25% life
+				'A cuirass originally built to protect against 
+				the dreaded Year Beast.'
+				'''
+		}
+
+		Butterfly: {
+			Tooltip:
+				'''
+				+55% Attack Speed 
+				+25% Attack Damage
+				'Only the mightiest and most experienced of 
+				warriors can wield the Butterfly, but it 
+				provides incredible dexterity in combat.' 
+				'''
+			DisplayName: Butterfly
+		}
+
+		BootsOfTravel: {
+			DisplayName: Boots Of Travel
+			Tooltip:
+				'''
+				Vastly increased movement speed
+				'Winged boots that grant omnipresence.'
+				'''
+		}
+
+		BladesOfAttack: {
+			DisplayName: Blades Of Attack
+			Tooltip:
+				'''
+				+3% Crit Chance
+				+5% Attack Damage
+				'The damage of these small, concealable 
+				blades should not be underestimated.'
+				'''
+		}
+
+		BeltOfStrength: {
+			DisplayName: Belt Of Strength
+			Tooltip:
+				'''
+				+5% Attack Damage
+				+10% Knockback
+				'A valued accessory for improving strength.'
+				'''
+		}
+
+		BladeMail: {
+			DisplayName: Blade Mail
+			Tooltip:
+				'''
+				7 Defense
+				+7% Attack Damage
+				Enemies take damage when they hit you
+				Pressing [KEY] will 10x thorns damage
+				'A razor-sharp coat of mail, it is the choice of 
+				selfless martyrs in combat.'
+				'''
+		}
+
+		DrumOfEndurance: {
+			DisplayName: Drum Of Endurance
+			Tooltip:
+				'''
+				Increases your max number of minions by 1
+				+5% Summon Damage
+				-30% Melee Damage
+				Grants you and nearby team members 
+				30% movement speed and 15% attack speed
+				'A relic that enchants the bodies of those 
+				around it for swifter movement in times of 
+				crisis.'
+				'''
+		}
+
+		HelmOfTheOverlord: {
+			DisplayName: Helm Of The Overlord
+			Tooltip:
+				'''
+				Increases your max number of minions by 3
+				Increases your max number of sentries by 3
+				Does not stack with downgrades
+				+20% Magic Damage
+				+20% Summon Damage
+				Increased Maximum mana by 100
+				Press [KEY] to summon a flying beast!
+				'The powerful headpiece of a dead
+				overlord.'
+				'''
+		}
+
+		EyeOfSkadi: {
+			DisplayName: Eye Of Skadi
+			Tooltip:
+				'''
+				+15% Attack Damage
+				Increases maximum health by 50
+				Increases maximum mana by 100
+				Attacks inflict the Cold Attack debuff
+				'Extremely rare artifact, guarded by the azure 
+				dragons.'
+				'''
+		}
+
+		HolyLocket: {
+			DisplayName: Holy Locket
+			Tooltip:
+				'''
+				+10% Magic Damage
+				+10% Summon Damage
+				Increased maximum mana by 70
+				Taking damage adds a charge to the wand
+				Pressing [KEY] expends all charges and heals 10 health and mana for each charge
+				'A prized relic long thought lost forever in a 
+				failed crusade.'
+				'''
+		}
+
+		ShivasGuard: {
+			DisplayName: Shivas Guard
+			Tooltip:
+				'''
+				10 Defense
+				-30% Ranged Damage
+				+10% Magic Damage
+				+10% Attack Damage
+				+10% Attack Speed
+				Increases Health Regeneration
+				Increases Maximum Health by 50
+				Increases Maximum Mana by 50
+				Pressing [KEY] does something slow idk
+				'Said to have belonged to a goddess, today it 
+				retains much of its former power.'
+				'''
+		}
+	}
+
+	IronBranch: {
+		DisplayName: Iron Branch
+		Tooltip:
+			'''
+			A seemingly ordinary branch, its ironlike 
+			qualities look to be quite useful.
+			'''
+	}
+
+	UltimateOrb: {
+		DisplayName: Ultimate Orb
+		Tooltip: ""
+	}
+
+	PointBooster: {
+		DisplayName: Point Booster
+		Tooltip: ""
+	}
+
+	VitalityBooster: {
+		DisplayName: Vitality Booster
+		Tooltip: ""
 	}
 }
 
@@ -446,6 +688,76 @@ Buffs: {
 	HelmOfDominatorDebuff: {
 		Description: Mods.MogMod.Buffs.HelmOfDominatorDebuff.Description
 		DisplayName: Helm Of Dominator Debuff
+	}
+
+	WandBuff: {
+		Description: Mods.MogMod.Buffs.WandBuff.Description
+		DisplayName: Wand Buff
+	}
+
+	MagicStickBuff: {
+		Description: Mods.MogMod.Buffs.MagicStickBuff.Description
+		DisplayName: Magic Stick Buff
+	}
+
+	GuardianGreavesAura: {
+		DisplayName: Guardian Greaves Aura
+		Description: Mods.MogMod.Buffs.GuardianGreavesAura.Description
+	}
+
+	GuardianGreavesBuff: {
+		DisplayName: Guardian Greaves Buff
+		Description: Mods.MogMod.Buffs.GuardianGreavesBuff.Description
+	}
+
+	GuardianGreavesDebuff: {
+		DisplayName: Guardian Greaves Debuff
+		Description: Mods.MogMod.Buffs.GuardianGreavesDebuff.Description
+	}
+
+	HeaddressBuff: {
+		DisplayName: Headdress Buff
+		Description: Mods.MogMod.Buffs.HeaddressBuff.Description
+	}
+
+	MekansmBuff: {
+		DisplayName: Mekansm Buff
+		Description: Mods.MogMod.Buffs.MekansmBuff.Description
+	}
+
+	MekansmDebuff: {
+		DisplayName: Mekansm Debuff
+		Description: Mods.MogMod.Buffs.MekansmDebuff.Description
+	}
+
+	ForceStaffDebuff: {
+		Description: Mods.MogMod.Buffs.ForceStaffDebuff.Description
+		DisplayName: Force Staff Debuff
+	}
+
+	BladeMailBuff: {
+		DisplayName: Blade Mail Buff
+		Description: Mods.MogMod.Buffs.BladeMailBuff.Description
+	}
+
+	BladeMailDebuff: {
+		DisplayName: Blade Mail Debuff
+		Description: Mods.MogMod.Buffs.BladeMailDebuff.Description
+	}
+
+	DrumOfEnduranceBuff: {
+		DisplayName: Drum Of Endurance Buff
+		Description: Mods.MogMod.Buffs.DrumOfEnduranceBuff.Description
+	}
+
+	EyeOfSkadiDebuff: {
+		DisplayName: Eye Of Skadi Debuff
+		Description: Mods.MogMod.Buffs.EyeOfSkadiDebuff.Description
+	}
+
+	HolyLocketBuff: {
+		DisplayName: Holy Locket Buff
+		Description: Mods.MogMod.Buffs.HolyLocketBuff.Description
 	}
 }
 

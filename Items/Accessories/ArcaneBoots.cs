@@ -1,13 +1,10 @@
-﻿using MogMod.Common.Player;
+﻿using MogMod.Buffs;
+using MogMod.Common.Player;
 using MogMod.Common.Systems;
 using MogMod.Items.Other;
 using MogMod.Utilities;
-
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,6 +13,7 @@ namespace MogMod.Items.Accessories
 {
     public class ArcaneBoots : ModItem, ILocalizedModType
     {
+        int teamBuff = ModContent.BuffType<Buffs.GlimmerCapeBuff>();
         public new string LocalizationCategory => "Items.Accessories";
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.ArcaneBootsKeybind);
         ModKeybind keybindActive = null;
@@ -36,6 +34,20 @@ namespace MogMod.Items.Accessories
             // a check on whether the player is wearing boots
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingManaBoots = true;
+
+            // provides a buff to players on your team
+            //if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
+            //{
+            //    int myPlayer = Main.myPlayer;
+            //    if (Main.player[myPlayer].team == player.team && player.team != 0)
+            //    {
+            //        float teamPlayerXDist = player.position.X - Main.player[myPlayer].position.X;
+            //        float teamPlayerYDist = player.position.Y - Main.player[myPlayer].position.Y;
+            //        if ((float)Math.Sqrt(teamPlayerXDist * teamPlayerXDist + teamPlayerYDist * teamPlayerYDist) < 800f)
+            //            Main.player[myPlayer].statManaMax2 += 100;
+            //            Main.player[myPlayer].AddBuff(teamBuff, 20);
+            //    }
+            //}
 
             // Determines whether the boots count as rocket boots
             // 0 - These are not rocket boots
@@ -76,6 +88,13 @@ namespace MogMod.Items.Accessories
                 //}
             }
         }
+
+        // this might do nothing idk
+        private float Distance(Microsoft.Xna.Framework.Vector2 center1, Microsoft.Xna.Framework.Vector2 center2)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void AddRecipes()
         {
             // gives the item a recipe

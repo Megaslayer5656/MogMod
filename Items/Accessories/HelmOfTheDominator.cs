@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.Player;
 using MogMod.Common.Systems;
+using MogMod.Items.Other;
 using MogMod.Utilities;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    public class HelmOfTheDominator : ModItem
+    public class HelmOfTheDominator : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.HelmOfDominatorKeybind);
@@ -31,10 +32,21 @@ namespace MogMod.Items.Accessories
             player.GetDamage(DamageClass.Summon) += .15f;
 
             player.statManaMax2 += 50;
-            player.maxTurrets += 2;
-            player.maxMinions += 2;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.dominatorMinion = true;
+            mogPlayer.diademMinion = true;
             mogPlayer.wearingHelmOfDominator = true;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<HelmOfIronWill>(1).
+                AddIngredient<Diadem>(1).
+                AddIngredient(ItemID.Topaz, 2).
+                AddIngredient(ItemID.Bone, 8).
+                AddIngredient<CraftingRecipe>(1).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
         }
     }
 }

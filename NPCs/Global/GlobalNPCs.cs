@@ -13,6 +13,7 @@ namespace MogMod.NPCs.Global
     {
         public override void ModifyGlobalLoot(GlobalLoot globalLoot)
         {
+            // do something for eye of skadi
             globalLoot.Add(new CommonDrop(ModContent.ItemType<LedX>(), 10000, 1, 1, 1));
             globalLoot.Add(new CommonDrop(ModContent.ItemType<RedX>(), 100000, 1, 1, 1));
         }
