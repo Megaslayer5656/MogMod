@@ -8,12 +8,15 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using System.Transactions;
 
 namespace MogMod.Items.Accessories
 {
     public class ShadowAmulet : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public int i;
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -24,11 +27,12 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            // check if player is not moving for 5 seconds and if so turn player invis
+            //TODO: Make it turn you invis after 5 seconds of standing still
             player.invis = true;
             // remove these if done so
             player.GetDamage(DamageClass.Generic) += -.20f;
             player.statManaMax2 += -100;
+            player.statManaMax2 += 30;
         }
         public override void AddRecipes()
         {

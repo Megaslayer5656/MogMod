@@ -406,7 +406,7 @@ namespace MogMod.Common.Player
         }
         public override void UpdateBadLifeRegen()
         {
-            if (armletOn)
+            if (armletOn && Player.HasBuff<ArmletOfMordiggianBuff>())
             {
                 Player.lifeRegen += -30;
             }

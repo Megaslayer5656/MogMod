@@ -606,6 +606,21 @@ Items: {
 		DisplayName: Vitality Booster
 		Tooltip: ""
 	}
+
+	MagicStick: {
+		DisplayName: Magic Stick
+		Tooltip: ""
+	}
+
+	MagicWand: {
+		DisplayName: Magic Wand
+		Tooltip: ""
+	}
+
+	IronBranch: {
+		DisplayName: Iron Branch
+		Tooltip: ""
+	}
 }
 
 NPCs: {
@@ -627,6 +642,7 @@ NPCs: {
 	}
 
 	KingVon.DisplayName: King Von
+	RadiantCreep.DisplayName: Radiant Creep
 }
 
 Buffs: {
@@ -690,16 +706,6 @@ Buffs: {
 		DisplayName: Helm Of Dominator Debuff
 	}
 
-	WandBuff: {
-		Description: Mods.MogMod.Buffs.WandBuff.Description
-		DisplayName: Wand Buff
-	}
-
-	MagicStickBuff: {
-		Description: Mods.MogMod.Buffs.MagicStickBuff.Description
-		DisplayName: Magic Stick Buff
-	}
-
 	GuardianGreavesAura: {
 		DisplayName: Guardian Greaves Aura
 		Description: Mods.MogMod.Buffs.GuardianGreavesAura.Description
@@ -758,6 +764,16 @@ Buffs: {
 	HolyLocketBuff: {
 		DisplayName: Holy Locket Buff
 		Description: Mods.MogMod.Buffs.HolyLocketBuff.Description
+	}
+
+	MagicStickBuff: {
+		DisplayName: Magic Stick Buff
+		Description: Mods.MogMod.Buffs.MagicStickBuff.Description
+	}
+
+	WandBuff: {
+		DisplayName: Wand Buff
+		Description: Mods.MogMod.Buffs.WandBuff.Description
 	}
 }
 
