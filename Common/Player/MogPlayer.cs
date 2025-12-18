@@ -119,7 +119,6 @@ namespace MogMod.Common.Player
         {
             if (wearingEyeOfSkadi)
             {
-                SoundEngine.PlaySound(WandUse, Player.Center);
                  target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 600);
                 
             }
@@ -306,7 +305,7 @@ namespace MogMod.Common.Player
 
             if (KeybindSystem.BladeMailKeybind.JustPressed && wearingBladeMail && !Player.HasBuff(blademailCooldown))
             {
-                Player.AddBuff(blademailBuff, 360);
+                Player.AddBuff(blademailBuff, 600);
                 Player.AddBuff(blademailCooldown, 3600);
             }
 

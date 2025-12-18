@@ -12,7 +12,7 @@ namespace MogMod.Buffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.thorns += (player.statLifeMax2 / 15);
+            player.thorns += 30;
         }
     }
 }

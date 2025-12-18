@@ -46,7 +46,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.SoulofMight, 7).
                 AddIngredient(ItemID.Silk, 3).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
             CreateRecipe().
                 AddIngredient<DragonLance>(1).
@@ -55,7 +55,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.SoulofFright, 7).
                 AddIngredient(ItemID.Silk, 3).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
     }

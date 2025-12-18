@@ -27,6 +27,10 @@ namespace MogMod.Items.Accessories
             player.statLifeMax2 += 50;
             player.statManaMax2 += 100;
             player.GetDamage(DamageClass.Generic) += .15f;
+            // change to .35
+            player.GetAttackSpeed(DamageClass.Generic) += 35f;
+            // remove
+            player.maxMinions += 500;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingEyeOfSkadi = true;
         }
@@ -35,18 +39,18 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<UltimateOrb>(1).
                 AddIngredient<PointBooster>(1).
-                AddIngredient(ItemID.Phantasm, 10).
+                AddIngredient(ItemID.Ectoplasm, 10).
                 AddIngredient(ItemID.TitaniumBar, 5).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
             CreateRecipe().
                 AddIngredient<UltimateOrb>(1).
                 AddIngredient<PointBooster>(1).
-                AddIngredient(ItemID.Phantasm, 10).
+                AddIngredient(ItemID.Ectoplasm, 10).
                 AddIngredient(ItemID.AdamantiteBar, 5).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
     }

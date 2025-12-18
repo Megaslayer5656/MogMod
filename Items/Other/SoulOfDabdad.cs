@@ -23,6 +23,7 @@ namespace MogMod.Items.Other
         {
             Item.width = 22;
             Item.height = 22;
+            Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.Green;
             Item.value = 20000;
         }

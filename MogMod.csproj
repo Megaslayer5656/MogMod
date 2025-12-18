@@ -36,7 +36,6 @@
     <None Remove="Common\Tiles\DabDadOre.png" />
     <None Remove="description.txt" />
     <None Remove="icon.png" />
-    <None Remove="Items\Accessories\Butterfly.png" />
     <None Remove="Items\Accessories\MewingGuide.png" />
     <None Remove="Items\Accessories\SigmaCharm.png" />
     <None Remove="Items\Consumables\Glue.png" />

@@ -16,6 +16,7 @@ namespace MogMod.Items.Accessories
     public class ShivasGuard : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        int teamBuff = ModContent.BuffType<Buffs.ShivasGuardBuff>();
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -34,8 +35,19 @@ namespace MogMod.Items.Accessories
             player.lifeRegen += 4;
             player.statManaMax2 += 50;
             player.statLifeMax2 += 50;
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            mogPlayer.wearingShivasGuard = true;
+            if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
+            {
+                int myPlayer = Main.myPlayer;
+                if (Main.player[myPlayer].team == player.team && player.team != 0)
+                {
+                    float teamPlayerXDist = player.position.X - Main.player[myPlayer].position.X;
+                    float teamPlayerYDist = player.position.Y - Main.player[myPlayer].position.Y;
+                    if ((float)Math.Sqrt(teamPlayerXDist * teamPlayerXDist + teamPlayerYDist * teamPlayerYDist) < 800f)
+                    {
+                        Main.player[myPlayer].AddBuff(teamBuff, 20);
+                    }
+                }
+            }
         }
         public override void AddRecipes()
         {
@@ -44,14 +56,14 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.TitaniumBreastplate, 1).
                 AddIngredient(ItemID.FrostCore, 1).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
             CreateRecipe().
                 AddIngredient<VeilOfDiscord>(1).
                 AddIngredient(ItemID.AdamantiteBreastplate, 1).
                 AddIngredient(ItemID.FrostCore, 1).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
     }

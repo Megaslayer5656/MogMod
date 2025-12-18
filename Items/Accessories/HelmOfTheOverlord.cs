@@ -42,14 +42,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<HelmOfTheDominator>(1).
                 AddIngredient<UltimateOrb>(1).
-                AddIngredient(ItemID.CobaltBar, 7).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient<HelmOfTheDominator>(1).
-                AddIngredient<UltimateOrb>(1).
-                AddIngredient(ItemID.PalladiumBar, 7).
+                AddIngredient(ItemID.ChlorophyteBar, 7).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

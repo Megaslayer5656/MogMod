@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MogMod.Items.Other;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,6 +37,17 @@ namespace MogMod.Items.Accessories
             {
                 player.shadowDodge = false;
             }
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.ChlorophyteClaymore, 1).
+                AddIngredient(ItemID.Tabi, 1).
+                AddIngredient(ItemID.AnkletoftheWind, 1).
+                AddIngredient(ItemID.EmpressBlade, 1).
+                AddIngredient<CraftingRecipe>(1).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
         }
     }
 }

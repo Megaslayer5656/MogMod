@@ -42,7 +42,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient<BladesOfAttack>().
                 AddIngredient(ItemID.TitaniumBar, 10).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
             CreateRecipe().
                 AddIngredient<HelmOfIronWill>().
@@ -50,7 +50,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient<BladesOfAttack>().
                 AddIngredient(ItemID.AdamantiteBar, 10).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
     }

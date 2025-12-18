@@ -85,7 +85,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.CobaltBar, 5).
                 AddIngredient(ItemID.SoulofNight, 7).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
             CreateRecipe().
                 AddIngredient<ArcaneBoots>(1).
@@ -94,7 +94,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.PalladiumBar, 5).
                 AddIngredient(ItemID.SoulofNight, 7).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
     }

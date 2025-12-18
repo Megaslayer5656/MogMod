@@ -58,7 +58,8 @@ namespace MogMod.NPCs.TownNpc
             return new List<string>()
             {
                  "Sol Badguy",
-                 "Frederick"
+                 "Frederick",
+                 "The Big SBG"
             };
         }
         public override void SetChatButtons(ref string button, ref string button2)
@@ -97,6 +98,7 @@ namespace MogMod.NPCs.TownNpc
                     return "Only real sigmas jelq.";
             }
         }
+        public override bool CanGoToStatue(bool toKingStatue) => true;
         public override void OnKill()
         {
             Item.NewItem(NPC.GetSource_Death(), NPC.getRect(), ModContent.ItemType<MewingGuide>(), 1, false, 0, false, false);

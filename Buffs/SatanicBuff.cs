@@ -18,6 +18,7 @@ namespace MogMod.Buffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
+            // find a way to give life steal to everything using global.item
             player.lifeSteal += 90;
         }
     }

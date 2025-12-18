@@ -51,7 +51,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.PaladinsShield, 1).
                 AddIngredient(ItemID.HallowedBar, 10).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
     }

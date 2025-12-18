@@ -30,7 +30,7 @@ namespace MogMod.Items.Accessories
         {
             player.statDefense += 7;
             player.GetDamage(DamageClass.Generic) += .07f;
-            player.thorns += (player.statLifeMax2 / 150);
+            player.thorns += 3f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingBladeMail = true;
         }

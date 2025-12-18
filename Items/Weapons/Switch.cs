@@ -19,7 +19,8 @@ namespace MogMod.Items.Weapons
             Item.height = 34;
             Item.scale = .5f;
             Item.useTime = 3; //Accurate to Glock 18c firerate (at least in Tarkov)
-            Item.useAnimation = 3;
+            // set to 15 for burst fire
+            Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 2f;
             Item.UseSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Switch_Shot_2") {

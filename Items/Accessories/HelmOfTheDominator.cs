@@ -43,7 +43,15 @@ namespace MogMod.Items.Accessories
                 AddIngredient<HelmOfIronWill>(1).
                 AddIngredient<Diadem>(1).
                 AddIngredient(ItemID.Topaz, 2).
-                AddIngredient(ItemID.Bone, 8).
+                AddIngredient(ItemID.CobaltBar, 8).
+                AddIngredient<CraftingRecipe>(1).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
+            CreateRecipe().
+                AddIngredient<HelmOfIronWill>(1).
+                AddIngredient<Diadem>(1).
+                AddIngredient(ItemID.Topaz, 2).
+                AddIngredient(ItemID.PalladiumBar, 8).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

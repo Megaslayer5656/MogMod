@@ -576,7 +576,7 @@ Items: {
 				Increases Health Regeneration
 				Increases Maximum Health by 50
 				Increases Maximum Mana by 50
-				Pressing [KEY] does something slow idk
+				Provides nearby team members +10 defense and +30% ranged damage
 				'Said to have belonged to a goddess, today it 
 				retains much of its former power.'
 				'''
@@ -585,11 +585,7 @@ Items: {
 
 	IronBranch: {
 		DisplayName: Iron Branch
-		Tooltip:
-			'''
-			A seemingly ordinary branch, its ironlike 
-			qualities look to be quite useful.
-			'''
+		Tooltip: ""
 	}
 
 	UltimateOrb: {
@@ -617,8 +613,44 @@ Items: {
 		Tooltip: ""
 	}
 
-	IronBranch: {
-		DisplayName: Iron Branch
+	Phasma: {
+		DisplayName: Phasma
+		Tooltip:
+			'''
+			67 Ranged Damage
+			41% Attack Speed
+			Very fast speed
+			Very weak knockback
+			67% chance to save ammo
+			'''
+	}
+
+	Weapons: {
+		Melee: {
+			Crystalys: {
+				DisplayName: Crystalys
+				Tooltip: ""
+			}
+		}
+	}
+
+	RajangBossBag: {
+		DisplayName: Rajang Boss Bag
+		Tooltip: ""
+	}
+
+	VonBossBag: {
+		DisplayName: Von Boss Bag
+		Tooltip: ""
+	}
+
+	BizarreMusicBox: {
+		DisplayName: Bizarre Music Box
+		Tooltip: ""
+	}
+
+	RajangMusicBox: {
+		DisplayName: Rajang Music Box
 		Tooltip: ""
 	}
 }
@@ -643,6 +675,22 @@ NPCs: {
 
 	KingVon.DisplayName: King Von
 	RadiantCreep.DisplayName: Radiant Creep
+	Rajang.DisplayName: Rajang
+
+	Mendez: {
+		DisplayName: Mendez
+
+		TownNPCMood: {
+			Content: I am content.
+			NoHome: I hate not having a home.
+			FarFromHome: I am too far from home.
+			LoveSpace: I love having so much space.
+			DislikeCrowded: I dislike how crowded I am.
+			HateCrowded: I hate how crowded I am.
+			LikeNPC_Princess: I like {NPCName}.
+			Princess_LovesNPC: I like {NPCName}.
+		}
+	}
 }
 
 Buffs: {
@@ -774,6 +822,11 @@ Buffs: {
 	WandBuff: {
 		DisplayName: Wand Buff
 		Description: Mods.MogMod.Buffs.WandBuff.Description
+	}
+
+	ShivasGuardBuff: {
+		DisplayName: Shivas Guard Buff
+		Description: Mods.MogMod.Buffs.ShivasGuardBuff.Description
 	}
 }
 

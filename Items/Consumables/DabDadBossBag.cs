@@ -1,10 +1,6 @@
 ﻿using MogMod.Items.Accessories;
 using MogMod.Items.Other;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,7 +18,8 @@ namespace MogMod.Items.Consumables
             Item.consumable = true;
             Item.width = 24;
             Item.height = 24;
-            Item.rare = ItemRarityID.Purple;
+            Item.rare = ItemRarityID.Expert;
+            Item.maxStack = Item.CommonMaxStack;
         }
         public override bool CanRightClick()
         {

@@ -1,8 +1,8 @@
-﻿using Steamworks;
-using System;
+﻿using MogMod.NPCs.Global;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace MogMod.Buffs
 {
     public class EyeOfSkadiDebuff : ModBuff
@@ -15,26 +15,12 @@ namespace MogMod.Buffs
             BuffID.Sets.NurseCannotRemoveDebuff[Type] = false;
             Main.pvpBuff[Type] = true;
         }
+
         public override void Update(NPC npc, ref int buffIndex)
         {
-            EyeOfSkadiNPCDebuff modNPC = npc.ModNPC.
-
-            // fix eye of skadi
-            npc.lifeRegen -= 100;
-            defenseDown npc. += 200
-            npc.defense -= 20;
-        }
-        public override bool ReApply(NPC npc, int time, int buffIndex)
-        {
-            return true;
-        }
-    }
-    public class EyeOfSkadiNPCDebuff : ModNPC
-    {
-        public bool skadiApplied = false;
-        public override void ResetEffects()
-        {
-            skadiApplied = false;
+            npc.lifeRegen -= 250;
+            // change to make it apply a buff instead of constant hp regen reduction
+            // npc.GetGlobalNPC<EyeOfSkadiNPCDebuff>().skadiApplied = true;
         }
     }
 }

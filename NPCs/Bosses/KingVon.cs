@@ -1,4 +1,7 @@
 ﻿using Microsoft.Build.Framework;
+using Microsoft.Xna;
+using Microsoft.Xna.Framework;
+using MogMod.Items.Consumables;
 using MogMod.Projectiles;
 using System;
 using System.Collections.Generic;
@@ -6,13 +9,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using Terraria.Audio;
-using Microsoft.Xna;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.NPCs.Bosses
 {
@@ -238,7 +240,9 @@ namespace MogMod.NPCs.Bosses
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            //TODO: Give him loot, boss bag. (Von switch, things of the sort)
+
+            npcLoot.Add(ItemDropRule.Common(ItemID.GreaterHealingPotion, 1, 1, 5));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<VonBossBag>()));
         }
     }
 }

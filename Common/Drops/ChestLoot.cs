@@ -50,6 +50,18 @@ namespace MogMod.Common.Drops
                             }
                         }
                     }
+                    if (isDeadManChest)
+                    {
+                        for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                        {
+                            if (chest.item[inventoryIndex].IsAir)
+                            {
+                                chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<BeltOfStrength>());
+                                chest.item[inventoryIndex].stack = 1;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         }

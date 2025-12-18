@@ -43,7 +43,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.Glass, 20).
                 AddIngredient(ItemID.TitaniumBar, 15).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
             CreateRecipe().
                 AddIngredient<MagicWand>(1).
@@ -51,7 +51,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.Glass, 20).
                 AddIngredient(ItemID.AdamantiteBar, 15).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
     }
