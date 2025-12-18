@@ -6,7 +6,6 @@ namespace MogMod
 {
     public class MogMod : Mod
     {
-        public static ModKeybind mewingkey;
         public override void Load()
         {
             
