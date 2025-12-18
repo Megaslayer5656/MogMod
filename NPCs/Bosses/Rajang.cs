@@ -1,4 +1,4 @@
-﻿using Microsoft.Build.Framework;
+using Microsoft.Build.Framework;
 using Microsoft.Xna;
 using Microsoft.Xna.Framework;
 using MogMod.Items.Consumables;
@@ -287,6 +287,7 @@ namespace MogMod.NPCs.Bosses
                     target.AddBuff(BuffID.Dazed, 180, true);
                     // add to electric projectiles
                     //target.AddBuff(BuffID.Electrified, 360, true);
+                    //Hey Will to do this I think you'd put this in the file for the custom projectile, not the boss
                 }
             }
         }
