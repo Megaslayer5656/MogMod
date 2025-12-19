@@ -20,6 +20,7 @@ namespace MogMod.Common.Systems
         public static ModKeybind MekansmKeybind { get; private set; }
         public static ModKeybind ForceStaffKeybind { get; private set; }
         public static ModKeybind BladeMailKeybind { get; private set; }
+        public static ModKeybind ShivasKeybind {  get; private set; }
 
 
         public override void Load()
@@ -37,6 +38,7 @@ namespace MogMod.Common.Systems
             GuardianGreavesKeybind = KeybindLoader.RegisterKeybind(Mod, "GuardianGreaves", "Z");
             ForceStaffKeybind = KeybindLoader.RegisterKeybind(Mod, "ForceStaff", "V");
             BladeMailKeybind = KeybindLoader.RegisterKeybind(Mod, "BladeMail", "C");
+            ShivasKeybind = KeybindLoader.RegisterKeybind(Mod, "Shiva'sGuard", "C");
         }
 
         public override void Unload()
@@ -53,6 +55,7 @@ namespace MogMod.Common.Systems
             MekansmKeybind = null;
             ForceStaffKeybind = null;
             BladeMailKeybind = null;
+            ShivasKeybind = null;
         }
     }
 }
