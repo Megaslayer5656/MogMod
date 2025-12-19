@@ -26,11 +26,7 @@ namespace MogMod.Items.Accessories
         {
             player.statLifeMax2 += 50;
             player.statManaMax2 += 100;
-            player.GetDamage(DamageClass.Generic) += .15f;
-            // change to .35
-            player.GetAttackSpeed(DamageClass.Generic) += 35f;
-            // remove
-            player.maxMinions += 500;
+            player.GetDamage(DamageClass.Generic) += .10f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingEyeOfSkadi = true;
         }

@@ -24,7 +24,7 @@ namespace MogMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.moveSpeed += 0.30f;
-            player.GetAttackSpeed(DamageClass.Generic) += .15f;
+            player.GetAttackSpeed(DamageClass.Generic) += .10f;
             player.GetDamage(DamageClass.Melee) += -.30f;
             player.GetDamage(DamageClass.Summon) += .05f;
             player.maxMinions += 1;

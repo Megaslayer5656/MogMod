@@ -28,8 +28,8 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Magic) += .15f;
-            player.GetDamage(DamageClass.Summon) += .15f;
+            player.GetDamage(DamageClass.Magic) += .10f;
+            player.GetDamage(DamageClass.Summon) += .10f;
 
             player.statManaMax2 += 50;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();

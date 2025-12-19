@@ -20,6 +20,7 @@ namespace MogMod.Items.Consumables
             Item.width = 24;
             Item.height = 24;
             Item.rare = ItemRarityID.Expert;
+            Item.expert = true;
             Item.maxStack = Item.CommonMaxStack;
         }
         public override bool CanRightClick()

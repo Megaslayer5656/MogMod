@@ -38,8 +38,8 @@ namespace MogMod.Items.Accessories
             // Mod.Logger.Info("updated glimmer cape");
             // make a keybind to turn player invisible and grant movement speed for 1 minute with a 2 minute cooldown
             player.statManaMax2 += 50;
-            player.GetDamage(DamageClass.Magic) += .10f;
-            player.GetDamage(DamageClass.Summon) += .10f;
+            player.GetDamage(DamageClass.Magic) += .07f;
+            player.GetDamage(DamageClass.Summon) += .07f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.isWearingGlimmerCape = true;
             

@@ -23,9 +23,9 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statLifeMax2 += 80;
+            player.statLifeMax2 += 50;
             player.lifeRegen += 4;
-            player.statDefense += 15;
+            player.statDefense += 12;
             player.noKnockback = true;
         }
         public override void AddRecipes()

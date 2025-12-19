@@ -250,6 +250,7 @@ namespace MogMod.NPCs.Bosses
             Vector2 moveToFast = toPlayer * fastSpeed;
             NPC.velocity = (NPC.velocity * (inertia - 1) + moveTo) / inertia;
         }
+        // makes it drop greater healing potion compared to lesser healing potion
         public override void BossLoot(ref string name, ref int potionType)
         {
             potionType = ItemID.GreaterHealingPotion;
@@ -266,7 +267,7 @@ namespace MogMod.NPCs.Bosses
             //    normalOnly.Add(ModContent.ItemType<UltimateOrb>(), 1, 8, 10);
             //}
 
-            npcLoot.Add(ItemDropRule.Common(ItemID.Banana, 1, 1, 3));
+            npcLoot.Add(ItemDropRule.Common(ItemID.Banana, 1, 2, 7));
 
             // Trophy (always directly from boss, never in bag) (also not in the game right now)
             // npcLoot.Add(ModContent.ItemType<RajangTrophy>(), 10);
@@ -285,7 +286,7 @@ namespace MogMod.NPCs.Bosses
                 else
                 {
                     target.AddBuff(BuffID.Dazed, 180, true);
-                    // add to electric projectiles
+                    // add to electric projectiles <-- i was gonna do that
                     //target.AddBuff(BuffID.Electrified, 360, true);
                     //Hey Will to do this I think you'd put this in the file for the custom projectile, not the boss
                 }

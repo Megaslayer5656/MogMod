@@ -2,24 +2,20 @@
 using System;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace MogMod.Items.Other
 {
-    public class RedX : ModItem
+    public class RajangHeart : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 7));
-        }
         public override void SetDefaults()
         {
-            Item.width = 5;
-            Item.height = 5;
+            Item.width = 32;
+            Item.height = 32;
             Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.Master;
-            Item.value = 100000000;
+            // (platcoin, goldcoin, silvercoin, coppercoin)
+            Item.value = Item.buyPrice(0, 24, 42, 0);
         }
     }
 }

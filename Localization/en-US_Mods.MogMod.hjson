@@ -43,7 +43,7 @@ Items: {
 
 	DabDadBossBag: {
 		DisplayName: DabDad Boss Bag
-		Tooltip: ""
+		Tooltip: Right click to open
 	}
 
 	DabDadSpawner: {
@@ -247,8 +247,8 @@ Items: {
 				Increases your max number of minions by 2
 				Increases your max number of sentries by 2
 				Does not stack with downgrades
-				+15% Magic Damage
-				+15% Summon Damage
+				+10% Magic Damage
+				+10% Summon Damage
 				Increased Maximum mana by 50
 				Press [KEY] to summon a mighty beast!
 				'The powerful headpiece of a dead
@@ -260,8 +260,8 @@ Items: {
 			DisplayName: Glimmer Cape
 			Tooltip:
 				'''
-				+10% Magic Damage
-				+10% Summon Damage
+				+7% Magic Damage
+				+7% Summon Damage
 				Pressing [KEY] will turn you invisible and increase movement speed
 				'The stolen cape of a master illusionist.'
 				'''
@@ -314,8 +314,8 @@ Items: {
 			DisplayName: Vanguard
 			Tooltip:
 				'''
-				15 Defense
-				Increased maximum health by 60
+				12 Defense
+				Increased maximum health by 50
 				Increased health regeneration
 				'A powerful shield that defends its wielder 
 				from even the most vicious of attacks.'
@@ -375,8 +375,11 @@ Items: {
 			Tooltip:
 				'''
 				20 Defense
-				+100 Max Health
 				+10% Melee Damage
+				-20% Magic Damage
+				-20% Summon Damage
+				Increases maximum health by 100
+				Decreases maximum mana by 100
 				Vastly increased health regeneration
 				'Preserved heart of an extinct monster, it 
 				bolsters the bearer's fortitude.'
@@ -400,7 +403,7 @@ Items: {
 			Tooltip:
 				'''
 				Increases your max number of minions by 1
-				+7% Summon Damage
+				+5% Summon Damage
 				'''
 		}
 
@@ -415,6 +418,7 @@ Items: {
 				'''
 				+40% Attack Damage 
 				+30% Crit Chance
+				GONNA BE A WEAPON
 				'A weapon of incredible power that is difficult 
 				for even the strongest of warriors to control.'
 
@@ -514,7 +518,7 @@ Items: {
 				+5% Summon Damage
 				-30% Melee Damage
 				Grants you and nearby team members 
-				30% movement speed and 15% attack speed
+				30% movement speed and 10% attack speed
 				'A relic that enchants the bodies of those 
 				around it for swifter movement in times of 
 				crisis.'
@@ -528,8 +532,8 @@ Items: {
 				Increases your max number of minions by 3
 				Increases your max number of sentries by 3
 				Does not stack with downgrades
-				+20% Magic Damage
-				+20% Summon Damage
+				+15% Magic Damage
+				+15% Summon Damage
 				Increased Maximum mana by 100
 				Press [KEY] to summon a flying beast!
 				'The powerful headpiece of a dead
@@ -541,7 +545,7 @@ Items: {
 			DisplayName: Eye Of Skadi
 			Tooltip:
 				'''
-				+15% Attack Damage
+				+10% Attack Damage
 				Increases maximum health by 50
 				Increases maximum mana by 100
 				Attacks inflict the Cold Attack debuff
@@ -579,6 +583,24 @@ Items: {
 				Provides nearby team members +10 defense and +30% ranged damage
 				'Said to have belonged to a goddess, today it 
 				retains much of its former power.'
+				'''
+		}
+
+		DivineRapier: {
+			DisplayName: Divine Rapier
+			Tooltip:
+				'''
+				+40% Attack Damage when at full health
+				'So powerful, it cannot have a single owner.'
+				'''
+		}
+
+		EyeOfMendez: {
+			DisplayName: Eye Of Mendez
+			Tooltip:
+				'''
+				Enhances you with the power of Mendez
+				'O na.'
 				'''
 		}
 	}
@@ -629,28 +651,72 @@ Items: {
 		Melee: {
 			Crystalys: {
 				DisplayName: Crystalys
-				Tooltip: ""
+				Tooltip:
+					'''
+					'A blade forged from rare crystals, it seeks 
+					weak points in enemy armor.'
+					'''
 			}
 		}
 	}
 
 	RajangBossBag: {
-		DisplayName: Rajang Boss Bag
-		Tooltip: ""
+		DisplayName: Boss Bag (Rajang)
+		Tooltip: Right click to open
 	}
 
 	VonBossBag: {
-		DisplayName: Von Boss Bag
-		Tooltip: ""
+		DisplayName: Boss Bag (King Von)
+		Tooltip: Right click to open
 	}
 
 	BizarreMusicBox: {
-		DisplayName: Bizarre Music Box
+		DisplayName: Music Box (Bizarre)
 		Tooltip: ""
 	}
 
 	RajangMusicBox: {
-		DisplayName: Rajang Music Box
+		DisplayName: Music Box (Rajang - Phase 1)
+		Tooltip: ""
+	}
+
+	KingVonMusicBox: {
+		DisplayName: Music Box (King Von)
+		Tooltip: ""
+	}
+
+	VonEvilIncarnateMusicBox: {
+		DisplayName: Music Box (Von Evil Incarnate)
+		Tooltip: ""
+	}
+
+	GhoulishGoldGorer: {
+		DisplayName: Ghoulish Gold Gorer
+		Tooltip: ""
+	}
+
+	GoldRajangPelt: {
+		DisplayName: Gold Rajang Pelt
+		Tooltip: ""
+	}
+
+	RajangApoplexy: {
+		DisplayName: Rajang Apoplexy
+		Tooltip: ""
+	}
+
+	RajangHardclaw: {
+		DisplayName: Rajang Hardclaw
+		Tooltip: ""
+	}
+
+	RajangHardHorn: {
+		DisplayName: Rajang Hard Horn
+		Tooltip: ""
+	}
+
+	RajangHeart: {
+		DisplayName: Rajang Heart
 		Tooltip: ""
 	}
 }
@@ -681,14 +747,14 @@ NPCs: {
 		DisplayName: Mendez
 
 		TownNPCMood: {
-			Content: I am content.
-			NoHome: I hate not having a home.
-			FarFromHome: I am too far from home.
-			LoveSpace: I love having so much space.
-			DislikeCrowded: I dislike how crowded I am.
-			HateCrowded: I hate how crowded I am.
-			LikeNPC_Princess: I like {NPCName}.
-			Princess_LovesNPC: I like {NPCName}.
+			Content: o na.
+			NoHome: o na where my bed i so sleepy rizzler.
+			FarFromHome: o na wheres my goon.
+			LoveSpace: o na no scavs.
+			DislikeCrowded: o na extract camped by tigs.
+			HateCrowded: TBD.
+			LikeNPC_Princess: o na scavvy-o luve {NPCName}.
+			Princess_LovesNPC: o na scavvy-o freaky-b didden-goon {NPCName}.
 		}
 	}
 }

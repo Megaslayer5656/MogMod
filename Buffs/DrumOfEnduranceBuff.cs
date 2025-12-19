@@ -12,7 +12,7 @@ namespace MogMod.Buffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetAttackSpeed(DamageClass.Generic) += .15f;
+            player.GetAttackSpeed(DamageClass.Generic) += .10f;
             player.moveSpeed += 0.30f;
         }
     }

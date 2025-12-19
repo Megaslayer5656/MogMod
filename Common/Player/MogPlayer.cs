@@ -117,11 +117,15 @@ namespace MogMod.Common.Player
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (wearingEyeOfSkadi)
-            {
-                 target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 600);
-                
-            }
+            for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    NPC otherNPC = Main.npc[i];
+                        if (wearingEyeOfSkadi)
+                    {
+                        target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 600);
+                        otherNPC.defense -= Convert.ToInt32(otherNPC.defense * 0.1);
+                    }
+                }
         }
         public override void OnHitByNPC(NPC npc, Terraria.Player.HurtInfo hurtInfo)
         {
