@@ -580,6 +580,7 @@ Items: {
 				Increases Health Regeneration
 				Increases Maximum Health by 50
 				Increases Maximum Mana by 50
+				Pressing [KEY] damages nearby enemies and lowers their armor by 15%
 				Provides nearby team members +10 defense and +30% ranged damage
 				'Said to have belonged to a goddess, today it 
 				retains much of its former power.'
@@ -681,12 +682,12 @@ Items: {
 	}
 
 	KingVonMusicBox: {
-		DisplayName: Music Box (King Von)
+		DisplayName: King Von Music Box
 		Tooltip: ""
 	}
 
 	VonEvilIncarnateMusicBox: {
-		DisplayName: Music Box (Von Evil Incarnate)
+		DisplayName: Von Evil Incarnate Music Box
 		Tooltip: ""
 	}
 
@@ -717,16 +718,6 @@ Items: {
 
 	RajangHeart: {
 		DisplayName: Rajang Heart
-		Tooltip: ""
-	}
-
-	KingVonMusicBox: {
-		DisplayName: King Von Music Box
-		Tooltip: ""
-	}
-
-	VonEvilIncarnateMusicBox: {
-		DisplayName: Von Evil Incarnate Music Box
 		Tooltip: ""
 	}
 }

@@ -29,7 +29,6 @@ namespace MogMod.Items.Accessories
         {
             player.moveSpeed += .45f;
             player.accRunSpeed = 12f;
-
             player.rocketBoots = player.vanityRocketBoots = 3;
 
             // unique boot effects
