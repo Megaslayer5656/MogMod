@@ -29,7 +29,6 @@ namespace MogMod.Common.Player
         public bool wearingRefresherOrb = false;
         public bool wearingGigaManaBoots = false;
         public bool wearingMekansm = false;
-        public bool wearingShivasGuard = false;
         public bool wearingEyeOfSkadi = false;
 
         public int locketCharges = 0;
@@ -47,7 +46,7 @@ namespace MogMod.Common.Player
         public int armletTimer = 0;
         public int armletTimerMax = 120;
         public bool armletOn = false;
-        
+
         public bool wearingHelmOfDominator = false;
         public bool wearingHelmOfOverlord = false;
         public bool wearingForceStaff = false;
@@ -57,6 +56,10 @@ namespace MogMod.Common.Player
         public bool diademMinion = false;
         public bool dominatorMinion = false;
         public bool overlordMinion = false;
+
+        public bool wearingShivasGuard = false;
+        public int shivasSlowTimer = 0;
+        public int shivasSlowTimerMax = 36000;
 
         public int forceDirection = -1;
         public const int DashDown = 0;
@@ -83,6 +86,12 @@ namespace MogMod.Common.Player
             MaxInstances = 1,
         };
         public static readonly SoundStyle ArmletOffSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ArmletOff")
+        {
+            Volume = .4f,
+            PitchVariance = .2f,
+            MaxInstances = 1,
+        };
+        public static readonly SoundStyle ShivasActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ShivasActivate")
         {
             Volume = .4f,
             PitchVariance = .2f,
@@ -271,7 +280,7 @@ namespace MogMod.Common.Player
             int forceStaffCooldown = ModContent.BuffType<Buffs.ForceStaffDebuff>();
             int blademailBuff = ModContent.BuffType<Buffs.BladeMailBuff>();
             int blademailCooldown = ModContent.BuffType<Buffs.BladeMailDebuff>();
-
+            int ShivasCooldown = ModContent.BuffType<ShivasDebuff>();
             int locketHeal = ModContent.BuffType<HolyLocketBuff>();
             int wandHeal = ModContent.BuffType<WandBuff>();
             int stickHeal = ModContent.BuffType<MagicStickBuff>();
@@ -381,6 +390,35 @@ namespace MogMod.Common.Player
                 {
                     Player.AddBuff(stickHeal, 6);
                     SoundEngine.PlaySound(WandUse, Player.Center);
+                }
+            }
+
+            //Shiva's Guard
+            if (KeybindSystem.ShivasKeybind.JustPressed && wearingShivasGuard && !Player.HasBuff(ShivasCooldown))
+            {
+                for (int i = 0; i < Main.maxNPCs; i++) //Every npc is in an index, this goes through all of them
+                {
+                    NPC otherNPC = Main.npc[i]; //This sets the var otherNPC to the current npc we are targeting in the index
+                    if (otherNPC.active && otherNPC.townNPC == false && otherNPC.whoAmI != otherNPC.whoAmI - 1) //Makes shivas not hit inactive npcs, townNpcs, and not cast on the same npc twice.
+                    {
+                        if (Microsoft.Xna.Framework.Vector2.Distance(Player.Center, otherNPC.Center) < 1200f)
+                        {
+                            var hitInfo = new NPC.HitInfo //Hit info used in otherNPC.StrikeNPC(hitInfo)
+                            {
+                                Damage = 200,
+                                Knockback = 0,
+                                HitDirection = Player.direction,
+                                Crit = false,
+                                DamageType = DamageClass.Generic
+                            };
+                            otherNPC.StrikeNPC(hitInfo); //Must use this instead of modifying the npc's life stat
+                            NetMessage.SendStrikeNPC(otherNPC, hitInfo); //Vital for sending the hit to other clients (stops desync)
+                            otherNPC.defense -= Convert.ToInt32(otherNPC.defense * .15); //Removes 15% of enemy's defense (rounded)
+                            //TODO: Put the stat decreases on a timer, slow enemies.
+                        }
+                    }
+                    Player.AddBuff(ShivasCooldown, 3600);
+                    //TODO: Add a screen effect using dusts.
                 }
             }
 

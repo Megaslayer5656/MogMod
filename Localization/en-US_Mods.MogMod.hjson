@@ -719,6 +719,16 @@ Items: {
 		DisplayName: Rajang Heart
 		Tooltip: ""
 	}
+
+	KingVonMusicBox: {
+		DisplayName: King Von Music Box
+		Tooltip: ""
+	}
+
+	VonEvilIncarnateMusicBox: {
+		DisplayName: Von Evil Incarnate Music Box
+		Tooltip: ""
+	}
 }
 
 NPCs: {
@@ -893,6 +903,11 @@ Buffs: {
 	ShivasGuardBuff: {
 		DisplayName: Shivas Guard Buff
 		Description: Mods.MogMod.Buffs.ShivasGuardBuff.Description
+	}
+
+	ShivasDebuff: {
+		DisplayName: Shivas Debuff
+		Description: Mods.MogMod.Buffs.ShivasDebuff.Description
 	}
 }
 

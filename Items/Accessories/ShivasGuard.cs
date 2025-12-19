@@ -27,6 +27,8 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.wearingShivasGuard = true;
             player.statDefense += 10;
             player.GetDamage(DamageClass.Ranged) -= .30f;
             player.GetDamage(DamageClass.Magic) += .10f;

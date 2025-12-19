@@ -13,6 +13,7 @@ Mods: {
 			Mekansm.DisplayName: Mekansm
 			ForceStaff.DisplayName: Force Staff
 			BladeMail.DisplayName: Blade Mail
+			"Shiva'sGuard.DisplayName": Shiva's Guard
 		}
 
 		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage
