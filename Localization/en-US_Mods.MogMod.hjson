@@ -743,6 +743,57 @@ Items: {
 		DisplayName: Yasha
 		Tooltip: ""
 	}
+
+	YashaAndKaya: {
+		DisplayName: Yasha And Kaya
+		Tooltip:
+			'''
+			Greatly increases attack speed
+			Increases movement speed
+			Increases attack damage
+			Increases magic damage
+			Greatly increases mana regen
+			Increases max mana by 50
+			'''
+	}
+
+	Sange: {
+		DisplayName: Sange
+		Tooltip:
+			'''
+			'Sange is an unusually accurate weapon, 
+			 seeking weak points automatically.'
+			'''
+	}
+
+	SangeAndYasha: {
+		DisplayName: Sange And Yasha
+		Tooltip:
+			'''
+			Greatly increases melee attack speed
+			Increases max health by 50
+			Increases health regen
+			Grants immunity to most debuffs
+			Increases attack damage
+			Increases movement speed
+			Increases lifesteal amplification by 25%
+			'''
+	}
+
+	KayaAndSange: {
+		DisplayName: Kaya And Sange
+		Tooltip:
+			'''
+			Increases max health by 50
+			Increases health regen
+			Grants immunity to most debuffs
+			Increases attack damage
+			Increases magic damage
+			Greatly increases mana regen
+			Increases max mana by 50
+			Increases lifesteal amplification by 25%
+			'''
+	}
 }
 
 NPCs: {
