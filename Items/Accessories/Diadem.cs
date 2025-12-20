@@ -34,14 +34,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.GoldBar, 20).
                 AddIngredient(ItemID.ManaCrystal, 5).
                 AddIngredient(ItemID.Sapphire, 7).
-                AddIngredient(ItemID.CrimtaneBar, 3).
-                AddTile(TileID.Anvils).
-                Register();
-            CreateRecipe().
-                AddIngredient(ItemID.GoldBar, 20).
-                AddIngredient(ItemID.ManaCrystal, 5).
-                AddIngredient(ItemID.Sapphire, 7).
-                AddIngredient(ItemID.DemoniteBar, 3).
+                AddRecipeGroup("CrimtaneBar", 3).
                 AddTile(TileID.Anvils).
                 Register();
         }

@@ -38,14 +38,7 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.FalconBlade, 1).
-                AddIngredient(ItemID.IronChainmail, 1).
-                AddIngredient(ItemID.Spike, 15).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient(ItemID.FalconBlade, 1).
-                AddIngredient(ItemID.LeadChainmail, 1).
+                AddRecipeGroup(RecipeGroupID.IronBar, 25).
                 AddIngredient(ItemID.Spike, 15).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).

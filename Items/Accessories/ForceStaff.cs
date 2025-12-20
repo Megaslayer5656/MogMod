@@ -40,15 +40,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.MagicMissile, 1).
                 AddIngredient(ItemID.PinkEskimoHood, 1).
                 AddIngredient(ItemID.RichMahogany, 12).
-                AddIngredient(ItemID.CrimtaneBar, 3).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient(ItemID.MagicMissile, 1).
-                AddIngredient(ItemID.PinkEskimoHood, 1).
-                AddIngredient(ItemID.RichMahogany, 12).
-                AddIngredient(ItemID.DemoniteBar, 3).
+                AddRecipeGroup("CrimtaneBar", 3).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

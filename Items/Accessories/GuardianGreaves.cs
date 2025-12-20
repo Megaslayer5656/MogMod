@@ -82,16 +82,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient<ArcaneBoots>(1).
                 AddIngredient<Mekansm>(1).
                 AddIngredient(ItemID.TerrasparkBoots, 1).
-                AddIngredient(ItemID.CobaltBar, 5).
-                AddIngredient(ItemID.SoulofNight, 7).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient<ArcaneBoots>(1).
-                AddIngredient<Mekansm>(1).
-                AddIngredient(ItemID.TerrasparkBoots, 1).
-                AddIngredient(ItemID.PalladiumBar, 5).
+                AddRecipeGroup("CobaltBar", 5).
                 AddIngredient(ItemID.SoulofNight, 7).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).

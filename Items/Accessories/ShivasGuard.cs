@@ -55,14 +55,7 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<VeilOfDiscord>(1).
-                AddIngredient(ItemID.TitaniumBreastplate, 1).
-                AddIngredient(ItemID.FrostCore, 1).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient<VeilOfDiscord>(1).
-                AddIngredient(ItemID.AdamantiteBreastplate, 1).
+                AddRecipeGroup("AdamantiteBar", 25).
                 AddIngredient(ItemID.FrostCore, 1).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).

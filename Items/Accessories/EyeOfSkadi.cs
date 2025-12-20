@@ -36,15 +36,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient<UltimateOrb>(1).
                 AddIngredient<PointBooster>(1).
                 AddIngredient(ItemID.Ectoplasm, 10).
-                AddIngredient(ItemID.TitaniumBar, 5).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient<UltimateOrb>(1).
-                AddIngredient<PointBooster>(1).
-                AddIngredient(ItemID.Ectoplasm, 10).
-                AddIngredient(ItemID.AdamantiteBar, 5).
+                AddRecipeGroup("AdamantiteBar", 5).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

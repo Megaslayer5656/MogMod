@@ -11,6 +11,7 @@ namespace MogMod.Items.Accessories
 {
     public class BeltOfStrength : ModItem, ILocalizedModType
     {
+        // MAKE OBTAINABLE FROM FISHING
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {

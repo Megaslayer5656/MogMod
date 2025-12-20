@@ -48,9 +48,9 @@ namespace MogMod.Items.Accessories
                 AddIngredient<BeltOfStrength>(1).
                 AddIngredient(ItemID.Robe, 1).
                 AddIngredient(ItemID.AnkletoftheWind, 1).
+                AddIngredient(ItemID.RichMahogany, 15).
                 AddIngredient(ItemID.JungleSpores, 7).
                 AddIngredient(ItemID.SoulofLight, 5).
-                AddIngredient(ItemID.RichMahogany, 15).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

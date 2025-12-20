@@ -49,15 +49,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.Robe, 1).
                 AddIngredient<ShadowAmulet>(1).
-                AddIngredient(ItemID.ShadowScale, 7 ).
-                AddIngredient(ItemID.FallenStar, 5).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient(ItemID.Robe, 1).
-                AddIngredient<ShadowAmulet>(1).
-                AddIngredient(ItemID.TissueSample, 7).
+                AddRecipeGroup("TissueSample", 7).
                 AddIngredient(ItemID.FallenStar, 5).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).

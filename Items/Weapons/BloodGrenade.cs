@@ -56,14 +56,9 @@ namespace MogMod.Items.Weapons
         public override void AddRecipes()
         {
             CreateRecipe(50).
-                AddIngredient(ItemID.EbonstoneBlock, 5).
                 AddIngredient(ItemID.Grenade, 50).
-                AddTile(ItemID.TinkerersWorkshop).
-                Register();
-            CreateRecipe(50).
-                AddIngredient(ItemID.CrimstoneBlock, 5).
-                AddIngredient(ItemID.Grenade, 50).
-                AddTile(ItemID.TinkerersWorkshop).
+                AddRecipeGroup("CrimtaneBar", 1).
+                AddTile(TileID.Anvils).
                 Register();
         }
     }

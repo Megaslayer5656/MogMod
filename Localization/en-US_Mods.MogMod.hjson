@@ -718,7 +718,11 @@ Items: {
 
 	RajangHeart: {
 		DisplayName: Rajang Heart
-		Tooltip: Its flesh-searing rage unleashes massive power with every beat.
+		Tooltip:
+			'''
+			Very rare Rajang Material. 
+			Its flesh-searing rage unleashes massive power with every beat.
+			'''
 	}
 
 	BloodGrenade: {

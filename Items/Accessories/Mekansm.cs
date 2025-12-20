@@ -50,37 +50,10 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<Headdress>(1).
-                AddIngredient(ItemID.IronChainmail, 1).
-                AddIngredient(ItemID.Diamond, 1).
-                AddIngredient(ItemID.GoldBar, 3).
+                AddRecipeGroup(RecipeGroupID.IronBar, 25).
+                AddRecipeGroup("GoldBar", 3).
                 AddIngredient(ItemID.Book, 3).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient<Headdress>(1).
-                AddIngredient(ItemID.LeadChainmail, 1).
                 AddIngredient(ItemID.Diamond, 1).
-                AddIngredient(ItemID.GoldBar, 3).
-                AddIngredient(ItemID.Book, 3).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient<Headdress>(1).
-                AddIngredient(ItemID.IronChainmail, 1).
-                AddIngredient(ItemID.Diamond, 1).
-                AddIngredient(ItemID.PlatinumBar, 3).
-                AddIngredient(ItemID.Book, 3).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient<Headdress>(1).
-                AddIngredient(ItemID.LeadChainmail, 1).
-                AddIngredient(ItemID.Diamond, 1).
-                AddIngredient(ItemID.PlatinumBar, 3).
-                AddIngredient(ItemID.Book, 3).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
