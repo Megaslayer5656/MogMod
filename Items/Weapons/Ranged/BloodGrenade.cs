@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace MogMod.Items.Weapons
+namespace MogMod.Items.Weapons.Ranged
 {
     public class BloodGrenade : ModItem
     {

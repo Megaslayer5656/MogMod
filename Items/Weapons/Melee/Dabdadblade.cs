@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace MogMod.Items.Weapons
+namespace MogMod.Items.Weapons.Melee
 {
 	public class Dabdadblade : ModItem
 	{

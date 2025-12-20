@@ -5,7 +5,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Social.WeGame;
-namespace MogMod.Items.Weapons
+namespace MogMod.Items.Weapons.Mage
 {
     public class MageShotgun : ModItem
     {

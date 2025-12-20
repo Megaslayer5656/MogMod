@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace MogMod.Items.Weapons
+namespace MogMod.Items.Weapons.Boulder
 {
     public class TrueBoulderFury : ModItem
     {

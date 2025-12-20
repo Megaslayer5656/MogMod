@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Weapons
+namespace MogMod.Items.Weapons.Melee
 {
     public class Crystalys : ModItem, ILocalizedModType
     {

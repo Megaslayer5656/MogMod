@@ -9,7 +9,7 @@ using Terraria.Audio;
 using System.Runtime.CompilerServices;
 using Terraria.Social.WeGame;
 using Mono.Cecil;
-namespace MogMod.Items.Weapons
+namespace MogMod.Items.Weapons.Ranged
 {
     public class Switch : ModItem {
         public override void SetDefaults() {

@@ -9,7 +9,7 @@ using MogMod.Projectiles;
 using Terraria.ID;
 using MogMod.Items.Other;
 
-namespace MogMod.Items.Weapons
+namespace MogMod.Items.Weapons.Melee
 {
     public class Sange : ModItem
     {

@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
-namespace MogMod.Items.Weapons
+namespace MogMod.Items.Weapons.Boulder
 {
     public class BouncerFury : ModItem
     {

@@ -8,14 +8,14 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Weapons
+namespace MogMod.Items.Weapons.Ranged
 {
     public class Yasha : ModItem
     {
         public override void SetDefaults()
         {
-            Item.width = 32;
-            Item.height = 40;
+            Item.width = 14;
+            Item.height = 66;
             Item.damage = 70;
             Item.knockBack = 5;
             Item.noMelee = true;
