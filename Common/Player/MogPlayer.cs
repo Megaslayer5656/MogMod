@@ -93,7 +93,7 @@ namespace MogMod.Common.Player
         };
         public static readonly SoundStyle ShivasActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ShivasActivate")
         {
-            Volume = .4f,
+            Volume = .25f,
             PitchVariance = .2f,
             MaxInstances = 1,
         };
@@ -418,6 +418,7 @@ namespace MogMod.Common.Player
                         }
                     }
                     Player.AddBuff(ShivasCooldown, 3600);
+                    SoundEngine.PlaySound(ShivasActivateSound, Player.Center);
                     //TODO: Add a screen effect using dusts.
                 }
             }

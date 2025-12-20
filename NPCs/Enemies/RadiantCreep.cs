@@ -25,7 +25,7 @@ namespace MogMod.NPCs.Enemies
             NPC.height = 40;
             NPC.damage = 14;
             NPC.defense = 6;
-            NPC.lifeMax = 200;
+            NPC.lifeMax = 30;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath2;
             NPC.value = 60f;

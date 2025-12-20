@@ -201,6 +201,13 @@ namespace MogMod.NPCs.Bosses
                         Main.projectile[vonNade].timeLeft = 60;
                         SoundEngine.PlaySound(VonNade, NPC.Center);
                         vonSpecialTimer = 0; //Reset special timer
+                            int vonNade = Projectile.NewProjectile(entitySource, NPC.Center, nadeToPlayer, ProjectileID.Grenade, 100, 2f, Main.myPlayer);
+                            Main.projectile[vonNade].friendly = false;
+                            Main.projectile[vonNade].hostile = true;
+                            Main.projectile[vonNade].scale = 2f;
+                            Main.projectile[vonNade].timeLeft = 60;
+                            SoundEngine.PlaySound(VonNade, NPC.Center); //TODO: Fix this to make sound play in multiplayer
+                            vonSpecialTimer = 0; //Reset special timer
                     }
                     else //If the random int is 5 or less
                     {
@@ -210,6 +217,12 @@ namespace MogMod.NPCs.Bosses
                             NPC.velocity = (NPC.velocity * (inertia - 1) + moveToFast) / inertia; //Change velocity towards player
                             NPC.velocity.Y = -30; //Change velocity upwards
                             vonRageTimer += 1; //Adds 1 to dash timer (how long he dashes for) every tick
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                NPC.velocity = (NPC.velocity * (inertia - 1) + moveToFast) / inertia; //Change velocity towards player
+                                NPC.velocity.Y = -30; //Change velocity upwards
+                                vonRageTimer += 1; //Adds 1 to dash timer (how long he dashes for) every tick
+                            }
                         }
                         vonRageTimer = 0; //Reset dash timer
                         vonSpecialTimer = 0; //Reset special timer
