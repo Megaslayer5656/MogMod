@@ -199,28 +199,19 @@ namespace MogMod.NPCs.Bosses
                         Main.projectile[vonNade].hostile = true;
                         Main.projectile[vonNade].scale = 2f;
                         Main.projectile[vonNade].timeLeft = 60;
-                        SoundEngine.PlaySound(VonNade, NPC.Center);
+                        SoundEngine.PlaySound(VonNade, NPC.Center); //TODO: Make this change in multiplayer
                         vonSpecialTimer = 0; //Reset special timer
-                            int vonGreNade = Projectile.NewProjectile(entitySource, NPC.Center, nadeToPlayer, ProjectileID.Grenade, 100, 2f, Main.myPlayer);
-                            Main.projectile[vonGreNade].friendly = false;
-                            Main.projectile[vonGreNade].hostile = true;
-                            Main.projectile[vonGreNade].scale = 2f;
-                            Main.projectile[vonGreNade].timeLeft = 60;
-                            SoundEngine.PlaySound(VonNade, NPC.Center); //TODO: Fix this to make sound play in multiplayer
-                            vonSpecialTimer = 0; //Reset special timer
                     }
                     else //If the random int is 5 or less
                     {
                         //TODO: Make a sound queue for when he jumps
                         while (vonRageTimer < vonRageTimerMax) //How long he is dashing for
                         {
-                            NPC.velocity = (NPC.velocity * (inertia - 1) + moveToFast) / inertia; //Change velocity towards player
-                            NPC.velocity.Y = -30; //Change velocity upwards
-                            vonRageTimer += 1; //Adds 1 to dash timer (how long he dashes for) every tick
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 NPC.velocity = (NPC.velocity * (inertia - 1) + moveToFast) / inertia; //Change velocity towards player
                                 NPC.velocity.Y = -30; //Change velocity upwards
+                                NPC.netUpdate = true;
                                 vonRageTimer += 1; //Adds 1 to dash timer (how long he dashes for) every tick
                             }
                         }
