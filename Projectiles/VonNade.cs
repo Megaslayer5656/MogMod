@@ -9,8 +9,9 @@ using Terraria.ID;
 
 namespace MogMod.Projectiles
 {
-    public class VonNade : ModProjectile
+    public class VonNade : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles";
         public override void SetDefaults()
         {
             Projectile.CloneDefaults(ProjectileID.Grenade);

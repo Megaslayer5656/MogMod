@@ -591,7 +591,7 @@ Items: {
 			DisplayName: Divine Rapier
 			Tooltip:
 				'''
-				+40% Attack Damage when at full health
+				+35% Attack Damage when at full health
 				'So powerful, it cannot have a single owner.'
 				'''
 		}
@@ -682,42 +682,61 @@ Items: {
 	}
 
 	KingVonMusicBox: {
-		DisplayName: King Von Music Box
+		DisplayName: Music Box (King Von - Phase 1)
 		Tooltip: ""
 	}
 
 	VonEvilIncarnateMusicBox: {
-		DisplayName: Von Evil Incarnate Music Box
+		DisplayName: Music Box (King Von - Phase 2)
 		Tooltip: ""
 	}
 
 	GhoulishGoldGorer: {
 		DisplayName: Ghoulish Gold Gorer
-		Tooltip: ""
+		Tooltip: A golden horn that, even when broken, is filled with the rage of a Rajang
 	}
 
 	GoldRajangPelt: {
 		DisplayName: Gold Rajang Pelt
-		Tooltip: ""
+		Tooltip: Hard to obtain, but greatly increases the effectiveness of equipment.
 	}
 
 	RajangApoplexy: {
 		DisplayName: Rajang Apoplexy
-		Tooltip: ""
+		Tooltip: A long, fine mane that is extremely robust.
 	}
 
 	RajangHardclaw: {
 		DisplayName: Rajang Hardclaw
-		Tooltip: ""
+		Tooltip: Sharp, used in many weapons.
 	}
 
 	RajangHardHorn: {
 		DisplayName: Rajang Hard Horn
-		Tooltip: ""
+		Tooltip: Stout, used in many weapons.
 	}
 
 	RajangHeart: {
 		DisplayName: Rajang Heart
+		Tooltip: Its flesh-searing rage unleashes massive power with every beat.
+	}
+
+	BloodGrenade: {
+		DisplayName: Blood Grenade
+		Tooltip: Damages the player on use
+	}
+
+	Kaya: {
+		DisplayName: Kaya
+		Tooltip:
+			'''
+			'The staff of a renowned sorceress, 
+			lost for countless millennia.'
+			'''
+	}
+
+	Yasha: {
+		DisplayName: Yasha
 		Tooltip: ""
 	}
 }
@@ -753,7 +772,7 @@ NPCs: {
 			FarFromHome: o na wheres my goon.
 			LoveSpace: o na no scavs.
 			DislikeCrowded: o na extract camped by tigs.
-			HateCrowded: TBD.
+			HateCrowded: o na tis' be to the o na.
 			LikeNPC_Princess: o na scavvy-o luve {NPCName}.
 			Princess_LovesNPC: o na scavvy-o freaky-b didden-goon {NPCName}.
 		}
@@ -817,88 +836,88 @@ Buffs: {
 	}
 
 	HelmOfDominatorDebuff: {
-		Description: Mods.MogMod.Buffs.HelmOfDominatorDebuff.Description
-		DisplayName: Helm Of Dominator Debuff
+		DisplayName: Helm Of The Dominator Cooldown
+		Description: The Helm is out of power...
 	}
 
 	GuardianGreavesAura: {
 		DisplayName: Guardian Greaves Aura
-		Description: Mods.MogMod.Buffs.GuardianGreavesAura.Description
+		Description: +6 HP/s, +4 Defense, +20 Max HP, +50 Max Mana, +10% Damage
 	}
 
 	GuardianGreavesBuff: {
-		DisplayName: Guardian Greaves Buff
-		Description: Mods.MogMod.Buffs.GuardianGreavesBuff.Description
+		DisplayName: Guardian Greaves Heal
+		Description: +100 Health and +300 Mana!
 	}
 
 	GuardianGreavesDebuff: {
-		DisplayName: Guardian Greaves Debuff
-		Description: Mods.MogMod.Buffs.GuardianGreavesDebuff.Description
+		DisplayName: Guardian Greaves Cooldown
+		Description: Out of mana...
 	}
 
 	HeaddressBuff: {
-		DisplayName: Headdress Buff
-		Description: Mods.MogMod.Buffs.HeaddressBuff.Description
+		DisplayName: Headdress Aura
+		Description: Increased life regeneration
 	}
 
 	MekansmBuff: {
-		DisplayName: Mekansm Buff
-		Description: Mods.MogMod.Buffs.MekansmBuff.Description
+		DisplayName: Mekansm Heal
+		Description: Healed by a team member!
 	}
 
 	MekansmDebuff: {
-		DisplayName: Mekansm Debuff
-		Description: Mods.MogMod.Buffs.MekansmDebuff.Description
+		DisplayName: Mekansm Cooldown
+		Description: Mekansm needs to recharge!
 	}
 
 	ForceStaffDebuff: {
-		Description: Mods.MogMod.Buffs.ForceStaffDebuff.Description
-		DisplayName: Force Staff Debuff
+		DisplayName: Force Staff Cooldown
+		Description: Force staff is out of power...
 	}
 
 	BladeMailBuff: {
-		DisplayName: Blade Mail Buff
-		Description: Mods.MogMod.Buffs.BladeMailBuff.Description
+		DisplayName: Blade Mail
+		Description: Covered in spikes!
 	}
 
 	BladeMailDebuff: {
-		DisplayName: Blade Mail Debuff
-		Description: Mods.MogMod.Buffs.BladeMailDebuff.Description
+		DisplayName: Blade Mail Cooldown
+		Description: Out of spikes...
 	}
 
 	DrumOfEnduranceBuff: {
-		DisplayName: Drum Of Endurance Buff
-		Description: Mods.MogMod.Buffs.DrumOfEnduranceBuff.Description
+		DisplayName: Drum Of Endurance Aura
+		Description: +30% Movement Speed, +10% Attack Speed
 	}
 
 	EyeOfSkadiDebuff: {
-		DisplayName: Eye Of Skadi Debuff
-		Description: Mods.MogMod.Buffs.EyeOfSkadiDebuff.Description
+		DisplayName: Cold Attack
+		Description: Rapidly losing health!
 	}
 
 	HolyLocketBuff: {
-		DisplayName: Holy Locket Buff
-		Description: Mods.MogMod.Buffs.HolyLocketBuff.Description
+		DisplayName: Holy Locket Heal
+		Description: You've been healed!
 	}
 
 	MagicStickBuff: {
-		DisplayName: Magic Stick Buff
-		Description: Mods.MogMod.Buffs.MagicStickBuff.Description
+		DisplayName: Magic Stick Heal
+		Description: You've been healed!
 	}
 
 	WandBuff: {
-		DisplayName: Wand Buff
-		Description: Mods.MogMod.Buffs.WandBuff.Description
+		DisplayName: Magic Wand Heal
+		Description: You've been healed!
 	}
 
 	ShivasGuardBuff: {
-		DisplayName: Shivas Guard Buff
-		Description: Mods.MogMod.Buffs.ShivasGuardBuff.Description
+		DisplayName: Shivas Guard Aura
+		Description: +10 Defense and +30% Ranged Damage
 	}
 
 	ShivasDebuff: {
-		DisplayName: Shivas Debuff
-		Description: Mods.MogMod.Buffs.ShivasDebuff.Description
+		DisplayName: Shiva's Guard Cooldown
+		Description: Shiva's is recharging...
 	}
 }
 
@@ -906,6 +925,9 @@ Projectiles: {
 	GreenTracerProj.DisplayName: Green Tracer
 	VonGreenTracerProj.DisplayName: Green Tracer
 	VonNade.DisplayName: Von Grenade
+	BloodGrenadeProjectile.DisplayName: Blood Grenade Projectile
+	KayaProjectile.DisplayName: Kaya Projectile
+	YashaProjectile.DisplayName: Yasha Projectile
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore

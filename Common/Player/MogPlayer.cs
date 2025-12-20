@@ -418,7 +418,6 @@ namespace MogMod.Common.Player
                         }
                     }
                     Player.AddBuff(ShivasCooldown, 3600);
-                    SoundEngine.PlaySound(ShivasActive, Player.Center);
                     //TODO: Add a screen effect using dusts.
                 }
             }

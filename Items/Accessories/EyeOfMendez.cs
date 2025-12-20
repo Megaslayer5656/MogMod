@@ -20,6 +20,7 @@ namespace MogMod.Items.Accessories
             Item.width = 50;
             Item.height = 42;
             Item.rare = ItemRarityID.Master;
+            Item.value = Item.buyPrice(1000, 0, 0, 67);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

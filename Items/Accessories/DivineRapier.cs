@@ -30,7 +30,7 @@ namespace MogMod.Items.Accessories
             // == is when AT base max health
             if (player.statLife >= (player.statLifeMax2 * 1))
             {
-                player.GetDamage(DamageClass.Generic) += 0.4f;
+                player.GetDamage(DamageClass.Generic) += 0.35f;
             }
         }
         public override void AddRecipes()

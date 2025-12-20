@@ -20,7 +20,7 @@ namespace MogMod.Items.Weapons
             Item.scale = .5f;
             Item.useTime = 3; //Accurate to Glock 18c firerate (at least in Tarkov)
             // set to 15 for burst fire
-            Item.useAnimation = 15;
+            Item.useAnimation = 3;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 2f;
             Item.UseSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Switch_Shot_2") {
@@ -39,6 +39,8 @@ namespace MogMod.Items.Weapons
         {
             //TODO: Give spread to the shots
             Vector2 muzzleOffset = Vector2.Normalize(velocity) * 25f;
+            // this does that
+            velocity = velocity.RotatedByRandom(MathHelper.ToRadians(5));
 
             if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
             {

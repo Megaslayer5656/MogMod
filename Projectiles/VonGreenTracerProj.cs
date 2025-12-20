@@ -14,8 +14,9 @@ using MogMod.Buffs;
 
 namespace MogMod.Projectiles
 {
-    public class VonGreenTracerProj : ModProjectile
+    public class VonGreenTracerProj : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 5;

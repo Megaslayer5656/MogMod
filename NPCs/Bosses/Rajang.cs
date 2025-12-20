@@ -27,8 +27,13 @@ namespace MogMod.NPCs.Bosses
         {
             NPC.width = 200;
             NPC.height = 100;
-            NPC.damage = 50;
-            NPC.defense = 20;
+            NPC.damage = 52;
+            NPC.defense = 12;
+            if (Phase2)
+            {
+                NPC.damage = 92;
+                NPC.defense = 60;
+            }
             NPC.lifeMax = 40000;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;

@@ -157,12 +157,9 @@ namespace MogMod.NPCs.Bosses
             {
                 if (vonShotTimer >= vonShotTimerMax) //Timer between shots
                 {
-                    if (NPC.HasValidTarget)
+                    if (NPC.HasValidTarget && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
-                        {
                         Projectile.NewProjectile(entitySource, NPC.Center, toPlayer * 15, ModContent.ProjectileType<VonGreenTracerProj>(), 80, .5f, Main.myPlayer);
-                        }
                         SoundEngine.PlaySound(VonShot, NPC.Center);
                         vonShotTimer = 0; //Reset timer
                     }
@@ -192,19 +189,16 @@ namespace MogMod.NPCs.Bosses
             if (vonSpecialTimer >= vonSpecialTimerMax) //Checks if cooldown for special is up
             {
                 int vonRandAttack = random.Next(0, 11); //creates random int to choose between the 2 special options
-                if (NPC.HasValidTarget) //Makes sure the client doesn't try to run it to avoid desync (it should be ran by the server)
+                if (NPC.HasValidTarget && Main.netMode != NetmodeID.MultiplayerClient) //Makes sure the client doesn't try to run it to avoid desync (it should be ran by the server)
                 {
                     if (vonRandAttack > 5) //If the random int is greater than 5 throw a nade
                     {
                         //TODO: Make a custom grenade with a bigger explosion
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
-                        {
                         int vonNade = Projectile.NewProjectile(entitySource, NPC.Center, nadeToPlayer, ProjectileID.Grenade, 100, 2f, Main.myPlayer);
                         Main.projectile[vonNade].friendly = false;
                         Main.projectile[vonNade].hostile = true;
                         Main.projectile[vonNade].scale = 2f;
                         Main.projectile[vonNade].timeLeft = 60;
-                        }
                         SoundEngine.PlaySound(VonNade, NPC.Center);
                         vonSpecialTimer = 0; //Reset special timer
                     }
@@ -213,12 +207,9 @@ namespace MogMod.NPCs.Bosses
                         //TODO: Make a sound queue for when he jumps
                         while (vonRageTimer < vonRageTimerMax) //How long he is dashing for
                         {
-                            if (Main.netMode != NetmodeID.MultiplayerClient) 
-                            {
                             NPC.velocity = (NPC.velocity * (inertia - 1) + moveToFast) / inertia; //Change velocity towards player
                             NPC.velocity.Y = -30; //Change velocity upwards
                             vonRageTimer += 1; //Adds 1 to dash timer (how long he dashes for) every tick
-                            }
                         }
                         vonRageTimer = 0; //Reset dash timer
                         vonSpecialTimer = 0; //Reset special timer
