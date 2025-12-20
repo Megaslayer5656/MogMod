@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Utilities;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -48,8 +50,21 @@ namespace MogMod.Projectiles
                 Main.dust[d].position = Projectile.Center;
                 Main.dust[d].noLight = true;
             }
+
         }
 
+        // makes it summon an additional projectile
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            int projAmt = 2; // number of projectiles to summon
+            var source = Projectile.GetSource_FromThis();
+            for (int x = 0; x < projAmt; x++)
+            {
+                if (Projectile.owner == Main.myPlayer && Projectile.numHits == 0)
+                    // proj barrage does (source, Vector2 originVec, Vector2 targetPos, T/F fromRight, xOffsetMin, xOffsetMax, yOffsetMin, yOffsetMax, projSpeed, projType, damage, knockback, owner, T/F clamped, innacuracy)
+                    MogModUtils.ProjectileBarrage(source, Projectile.Center, target.Center, true, 100f, 100f, 0f, 100f, 1f, ModContent.ProjectileType<YashaProj>(), Convert.ToInt32(Projectile.damage * 0.5), 0f, Projectile.owner, false, 0f);
+            }   
+        }
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
@@ -62,49 +77,5 @@ namespace MogMod.Projectiles
                 dustsplash += 1;
             }
         }
-
-        // TODO: make it hit a second time
-
-        //This makes the projectile only bounce once
-
-        //public override bool OnTileCollide(Vector2 oldVelocity)
-        //{
-        //    
-        //    if (Projectile.ai[0] == 1)
-        //    {
-        //        if (Projectile.ai[1] >= 1f)
-        //        {
-        //            Projectile.Kill();
-        //        }
-        //        else
-        //        {
-        //            //Code for bouncing
-        //            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
-        //            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
-        //            if (Projectile.velocity.X != oldVelocity.X)
-        //            {
-        //                Projectile.velocity.X = -oldVelocity.X;
-        //            }
-        //            if (Projectile.velocity.Y != oldVelocity.Y)
-        //            {
-        //                Projectile.velocity.Y = -oldVelocity.Y;
-        //            }
-        //            Projectile.ai[1] += 1f;
-        //        }
-        //        return false;
-        //    }
-        //    return true;
-        //}
-
-        // does something
-        //public override bool PreDraw(ref Color lightColor)
-        //{
-        //    if (Projectile.ai[0] == 1)
-        //    {
-        //        CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
-        //        return false;
-        //    }
-        //    return true;
-        //}
     }
 }

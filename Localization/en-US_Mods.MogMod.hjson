@@ -932,6 +932,7 @@ Projectiles: {
 	BloodGrenadeProjectile.DisplayName: Blood Grenade Projectile
 	KayaProjectile.DisplayName: Kaya Projectile
 	YashaProjectile.DisplayName: Yasha Projectile
+	YashaProj.DisplayName: Yasha Proj
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore
