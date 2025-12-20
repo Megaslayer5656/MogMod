@@ -1,5 +1,6 @@
 ﻿using MogMod.Items.Other;
-using MogMod.Items.Weapons;
+using MogMod.Items.Weapons.Melee;
+using MogMod.Items.Weapons.Ranged;
 using System;
 using System.Collections.Generic;
 using System.Linq;

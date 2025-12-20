@@ -36,17 +36,13 @@
     <None Remove="Common\Tiles\DabDadOre.png" />
     <None Remove="description.txt" />
     <None Remove="icon.png" />
-    <None Remove="Items\Accessories\KayaAndSange.png" />
     <None Remove="Items\Accessories\MewingGuide.png" />
-    <None Remove="Items\Accessories\SangeAndYasha.png" />
     <None Remove="Items\Accessories\SigmaCharm.png" />
-    <None Remove="Items\Accessories\YashaAndKaya.png" />
     <None Remove="Items\Consumables\Glue.png" />
     <None Remove="Items\Consumables\GreenTracerAmmo.png" />
     <None Remove="Items\Consumables\VonSpawner.png" />
     <None Remove="Items\Other\SoulOfDabdad.png" />
     <None Remove="Items\Placeable\DabdadOreP.png" />
-    <None Remove="Items\Weapons\Sange.png" />
     <None Remove="Items\Weapons\Switch.png" />
     <None Remove="NPCs\Bosses\KingVon_Head_Boss.png" />
     <None Remove="NPCs\Enemies\RadiantCreep.png" />
@@ -60,7 +56,6 @@
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Biomes\" />
     <Folder Include="NPCs\Gores\" />
   </ItemGroup>
 </Project>

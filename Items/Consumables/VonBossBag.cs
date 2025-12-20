@@ -1,6 +1,6 @@
 ﻿using MogMod.Items.Accessories;
 using MogMod.Items.Other;
-using MogMod.Items.Weapons;
+using MogMod.Items.Weapons.Ranged;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;

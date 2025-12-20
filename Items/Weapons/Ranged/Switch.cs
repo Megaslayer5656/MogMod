@@ -19,7 +19,6 @@ namespace MogMod.Items.Weapons.Ranged
             Item.height = 34;
             Item.scale = .5f;
             Item.useTime = 3; //Accurate to Glock 18c firerate (at least in Tarkov)
-            // set to 15 for burst fire
             Item.useAnimation = 3;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 2f;
@@ -37,9 +36,7 @@ namespace MogMod.Items.Weapons.Ranged
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            //TODO: Give spread to the shots
             Vector2 muzzleOffset = Vector2.Normalize(velocity) * 25f;
-            // this does that
             velocity = velocity.RotatedByRandom(MathHelper.ToRadians(5));
 
             if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))

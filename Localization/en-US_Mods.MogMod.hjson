@@ -794,6 +794,16 @@ Items: {
 			Increases lifesteal amplification by 25%
 			'''
 	}
+
+	Mosin: {
+		DisplayName: Mosin
+		Tooltip: "'The great equalizer'"
+	}
+
+	MosinLPS: {
+		DisplayName: LPS Ammo
+		Tooltip: ""
+	}
 }
 
 NPCs: {
@@ -830,6 +840,21 @@ NPCs: {
 			HateCrowded: o na tis' be to the o na.
 			LikeNPC_Princess: o na scavvy-o luve {NPCName}.
 			Princess_LovesNPC: o na scavvy-o freaky-b didden-goon {NPCName}.
+		}
+	}
+
+	Prapor: {
+		DisplayName: Prapor
+
+		TownNPCMood: {
+			Content: I am content.
+			NoHome: I hate not having a home.
+			FarFromHome: I am too far from home.
+			LoveSpace: I love having so much space.
+			DislikeCrowded: I dislike how crowded I am.
+			HateCrowded: I hate how crowded I am.
+			LikeNPC_Princess: I like {NPCName}.
+			Princess_LovesNPC: I like {NPCName}.
 		}
 	}
 }
@@ -984,6 +1009,7 @@ Projectiles: {
 	KayaProjectile.DisplayName: Kaya Projectile
 	YashaProjectile.DisplayName: Yasha Projectile
 	YashaProj.DisplayName: Yasha Proj
+	MosinLPSProj.DisplayName: Mosin L P S Proj
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore

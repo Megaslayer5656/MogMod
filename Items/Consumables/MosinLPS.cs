@@ -1,30 +1,30 @@
-﻿using System;
+﻿using MogMod.Projectiles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
-using Terraria.ID;
-using MogMod.Projectiles;
 
 namespace MogMod.Items.Consumables
 {
-    public class GreenTracerAmmo : ModItem
+    public class MosinLPS : ModItem
     {
         public override void SetDefaults()
         {
-            Item.damage = 58;
+            Item.damage = 31;
             Item.DamageType = DamageClass.Ranged;
-            Item.width = 8;
-            Item.height = 8;
+            Item.width = 150;
+            Item.height = 94;
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
             Item.knockBack = 1f;
-            Item.value = Item.buyPrice(0, 0, 2, 0);
-            Item.rare = ItemRarityID.Green;
-            Item.shoot = ModContent.ProjectileType<GreenTracerProj>();
-            Item.shootSpeed = 4.5f;
+            Item.value = Item.buyPrice(0, 0, 1, 3);
+            Item.rare = ItemRarityID.White;
+            Item.shoot = ModContent.ProjectileType<MosinLPSProj>();
+            Item.shootSpeed = 15f;
             Item.ammo = Item.type;
         }
     }
