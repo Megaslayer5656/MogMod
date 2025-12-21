@@ -12,10 +12,13 @@ using Terraria.GameContent.UI.Elements;
 using System.Security.Cryptography.X509Certificates;
 using MogMod.Items.Other;
 using Terraria.GameContent.ItemDropRules;
+using MogMod.Common;
+using MogMod.Common.Systems;
+using MogMod.Common.Interfaces;
 
 namespace MogMod.Items.Accessories
 {
-    public class IdeaRig : ModItem, ILocalizedModType
+    public class IdeaRig : ModItem, ILocalizedModType, IRigItem
     {
         public new string LocalizationCategory => "Items.Accessories";
         public CustomItemSlot idearigslot;

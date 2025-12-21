@@ -49,6 +49,7 @@
     <None Remove="Items\Other\SoulOfDabdad.png" />
     <None Remove="Items\Placeable\DabdadOreP.png" />
     <None Remove="Items\Weapons\Melee\BlinkDagger.png" />
+    <None Remove="Items\Weapons\Melee\HydrakanLatch.png" />
     <None Remove="Items\Weapons\Ranged\Mosin.png" />
     <None Remove="Items\Weapons\Sange.png" />
     <None Remove="Items\Weapons\Switch.png" />

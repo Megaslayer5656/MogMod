@@ -30,10 +30,6 @@ namespace MogMod.Common.Config
         [DefaultValue(false)]
         public bool ResetCustomSlotLocation;
 
-        [Header("OtherOptions")]
-        [DefaultValue(false)]
-        public bool AllowEquippingInOtherSlots;
-
         public override void OnChanged()
         {
             if (SlotLocation == Location.Default)

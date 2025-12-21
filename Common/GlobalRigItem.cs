@@ -1,4 +1,5 @@
 ﻿using MogMod.Common.Config;
+using MogMod.Common.Interfaces;
 using MogMod.Items.Accessories;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,16 @@ using Terraria.UI;
 
 namespace MogMod.Common
 {
-    internal class GlobalRigItem : GlobalItem
+    public class GlobalRigItem : GlobalItem
     {
-        public override bool AppliesToEntity(Item entity, bool lateInstantiation) => entity.waistSlot > 0;
+        public override bool AppliesToEntity(Item entity, bool lateInstantiation)
+        {
+            return entity is IRigItem;
+        }
         public override bool CanEquipAccessory(Item item, Terraria.Player player, int slot, bool modded)  
         {
-            return modded || ModContent.GetInstance<RigSlotConfig>().AllowEquippingInOtherSlots;
+                return modded || false;
+            
         }
     }
 }

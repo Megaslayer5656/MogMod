@@ -27,6 +27,35 @@ namespace MogMod.NPCs.Global
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BlinkDagger>(), 10));
             }
+            
+            if (npc.type == NPCID.BlueJellyfish)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 15));
+            }
+            if (npc.type == NPCID.GreenJellyfish)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 15));
+            }
+            if (npc.type == NPCID.PinkJellyfish)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 15));
+            }
+            if (npc.type == NPCID.BloodJelly)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 15));
+            }
+            if (npc.type == NPCID.Shark)
+            {
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 8));
+            }
+            if (npc.type == NPCID.Squid)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 15));
+            }
+            if (npc.type == NPCID.Crab)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 15));
+            }
         }
     }
 }
