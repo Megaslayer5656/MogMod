@@ -1,4 +1,5 @@
 ﻿using MogMod.Items.Other;
+using MogMod.Items.Weapons.Melee;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,14 @@ namespace MogMod.NPCs.Global
         {
             globalLoot.Add(new CommonDrop(ModContent.ItemType<LedX>(), 10000, 1, 1, 1));
             globalLoot.Add(new CommonDrop(ModContent.ItemType<RedX>(), 100000, 1, 1, 1));
+        }
+
+        public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
+        {
+            if (npc.type == NPCID.DarkCaster)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BlinkDagger>(), 10));
+            }
         }
     }
 }

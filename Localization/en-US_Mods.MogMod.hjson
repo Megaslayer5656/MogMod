@@ -804,6 +804,16 @@ Items: {
 		DisplayName: LPS Ammo
 		Tooltip: ""
 	}
+
+	BlinkDagger: {
+		DisplayName: Blink Dagger
+		Tooltip:
+			'''
+			Allows for teleportation, granted you don't get hit
+			'The fabled dagger used by the fastest 
+			 assassin ever to walk the lands.'
+			'''
+	}
 }
 
 NPCs: {
@@ -998,6 +1008,11 @@ Buffs: {
 	ShivasDebuff: {
 		DisplayName: Shiva's Guard Cooldown
 		Description: Shiva's is recharging...
+	}
+
+	BlinkDebuff: {
+		DisplayName: Blink Debuff
+		Description: Mods.MogMod.Buffs.BlinkDebuff.Description
 	}
 }
 

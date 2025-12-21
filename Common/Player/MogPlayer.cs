@@ -2,6 +2,7 @@
 using MogMod.Buffs;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
+using MogMod.Items.Weapons.Melee;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -164,6 +165,11 @@ namespace MogMod.Common.Player
                     stickCharges = maxStickCharges;
                 }
             }
+
+            if (Player.HasItemInAnyInventory(ModContent.ItemType<BlinkDagger>()))
+            {
+                Player.AddBuff(ModContent.BuffType<BlinkDebuff>(), 600);
+            }
         }
         public override void OnHitByProjectile(Projectile proj, Terraria.Player.HurtInfo hurtInfo)
         {
@@ -192,6 +198,11 @@ namespace MogMod.Common.Player
                 {
                     stickCharges = maxStickCharges;
                 }
+            }
+
+            if (Player.HasItemInAnyInventory(ModContent.ItemType<BlinkDagger>()))
+            {
+                Player.AddBuff(ModContent.BuffType<BlinkDebuff>(), 600);
             }
         }
         public override void PreUpdateMovement()
@@ -439,6 +450,11 @@ namespace MogMod.Common.Player
                     armletTimer = 0;
                     SoundEngine.PlaySound(ArmletOffSound, Player.Center);
                 }
+            }
+
+            if (!armletActive)
+            {
+                Player.ClearBuff(armletToggled);
             }
 
             while (armletTimer >= 1 && armletTimer <= armletTimerMax + 1)

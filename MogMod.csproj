@@ -29,6 +29,7 @@
   <ItemGroup>
     <None Remove=".gitignore" />
     <None Remove="app.config" />
+    <None Remove="Buffs\BlinkDebuff.png" />
     <None Remove="Buffs\GlueBuff.png" />
     <None Remove="Buffs\GlueDebuff.png" />
     <None Remove="Buffs\VonDebuff.png" />
@@ -43,13 +44,18 @@
     <None Remove="Items\Accessories\YashaAndKaya.png" />
     <None Remove="Items\Consumables\Glue.png" />
     <None Remove="Items\Consumables\GreenTracerAmmo.png" />
+    <None Remove="Items\Consumables\MosinLPS.png" />
     <None Remove="Items\Consumables\VonSpawner.png" />
     <None Remove="Items\Other\SoulOfDabdad.png" />
     <None Remove="Items\Placeable\DabdadOreP.png" />
+    <None Remove="Items\Weapons\Melee\BlinkDagger.png" />
+    <None Remove="Items\Weapons\Ranged\Mosin.png" />
     <None Remove="Items\Weapons\Sange.png" />
     <None Remove="Items\Weapons\Switch.png" />
     <None Remove="NPCs\Bosses\KingVon_Head_Boss.png" />
     <None Remove="NPCs\Enemies\RadiantCreep.png" />
+    <None Remove="NPCs\TownNpc\Prapor.png" />
+    <None Remove="NPCs\TownNpc\Prapor_Head.png" />
     <None Remove="NPCs\TownNpc\SolBadguy.png" />
     <None Remove="NPCs\TownNpc\SolBadguy_Head.png" />
     <None Remove="Projectiles\GreenTracerProj.png" />
@@ -61,6 +67,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Biomes\" />
+    <Folder Include="Items\Weapons\Mage\" />
+    <Folder Include="Items\Weapons\Other\" />
+    <Folder Include="Items\Weapons\Summoner\" />
     <Folder Include="NPCs\Gores\" />
   </ItemGroup>
 </Project>
