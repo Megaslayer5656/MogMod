@@ -30,5 +30,13 @@ namespace MogMod.Utilities
             }
             return Projectile.NewProjectileDirect(source, spawnPosition, velocity, projType, damage, knockback, owner);
         }
+        public static Color MulticolorLerp(float increment, params Color[] colors)
+        {
+            increment %= 0.999f;
+            int currentColorIndex = (int)(increment * colors.Length);
+            Color currentColor = colors[currentColorIndex];
+            Color nextColor = colors[(currentColorIndex + 1) % colors.Length];
+            return Color.Lerp(currentColor, nextColor, increment * colors.Length % 1f);
+        }
     }
 }

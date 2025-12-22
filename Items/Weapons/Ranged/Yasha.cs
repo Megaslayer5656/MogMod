@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.Xna.Framework;
 using MogMod.Items.Other;
 using MogMod.Projectiles;
 using System;
@@ -16,16 +17,16 @@ namespace MogMod.Items.Weapons.Ranged
         {
             Item.width = 14;
             Item.height = 66;
-            Item.damage = 70;
+            Item.damage = 50;
             Item.knockBack = 5;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.consumable = false;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.UseSound = SoundID.Item1;
-            Item.useTime = 20;
-            Item.useAnimation = 20;
-            Item.value = Item.buyPrice(0, 20, 0, 0);
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.value = Item.buyPrice(0, 50, 0, 0);
             Item.rare = ItemRarityID.Lime;
             Item.shootSpeed = 8f;
             Item.shoot = ModContent.ProjectileType<YashaProjectile>();
@@ -34,8 +35,12 @@ namespace MogMod.Items.Weapons.Ranged
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 18;
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 46;
 
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            type = ModContent.ProjectileType<YashaProjectile>();
+        }
         public override void AddRecipes()
         {
             CreateRecipe().
@@ -44,7 +49,7 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.SoulofSight, 7).
                 AddIngredient(ItemID.SoulofFlight, 7).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(ItemID.MythrilAnvil).
+                AddTile(TileID.MythrilAnvil).
                 Register();
         }
     }

@@ -22,6 +22,7 @@ namespace MogMod.Projectiles
             Projectile.DamageType = DamageClass.Magic;
         }
 
+        // TODO: fix color to be cyan or blue instead of red
         public override void AI()
         {
             DelegateMethods.v3_1 = new Vector3(0.6f, 1f, 1f) * 0.2f;
@@ -39,7 +40,7 @@ namespace MogMod.Projectiles
                     Vector2 dustRotate = Vector2.UnitX * 0f;
                     dustRotate += -Vector2.UnitY.RotatedBy((double)((float)dustIncr * (6.28318548f / dustLoopcheck)), default) * new Vector2(1f, 4f);
                     dustRotate = dustRotate.RotatedBy((double)Projectile.velocity.ToRotation(), default);
-                    int deepRed = Dust.NewDust(Projectile.Center, 0, 0, DustID.TheDestroyer, 0f, 0f, 0, default, 1f);
+                    int deepRed = Dust.NewDust(Projectile.Center, 0, 0, DustID.TheDestroyer, 0f, 0f, 0, Color.Aqua, 1f);
                     Main.dust[deepRed].scale = 1.5f;
                     Main.dust[deepRed].noGravity = true;
                     Main.dust[deepRed].position = Projectile.Center + dustRotate;

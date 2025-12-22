@@ -30,7 +30,7 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.GoldHelmet, 1).
+                AddRecipeGroup("IronBar", 20).
                 AddRecipeGroup("GoldBar", 15).
                 AddRecipeGroup("SilverBar", 12).
                 AddIngredient(ItemID.Diamond, 1).

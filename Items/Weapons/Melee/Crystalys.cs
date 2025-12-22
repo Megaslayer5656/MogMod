@@ -29,17 +29,20 @@ namespace MogMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.LightRed;
         }
 
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 26;
+
         //public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         //{
         //    Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/MajesticGuardGlow").Value);
         //}
 
-        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            int heal = (int)(player.lifeSteal * .1f);
-            player.statLife += heal;
-            player.HealEffect(heal);
-        }
+        // lifesteal effect
+        //public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
+        //{
+        //    int heal = (int)(player.lifeSteal * .1f);
+        //    player.statLife += heal;
+        //    player.HealEffect(heal);
+        //}
 
         public override void AddRecipes()
         {

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.Build.Evaluation;
+using Microsoft.Xna.Framework;
 using MogMod.Utilities;
 using System;
 using Terraria;
@@ -29,6 +30,7 @@ namespace MogMod.Projectiles
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 40;
             Projectile.extraUpdates = 2;
+            AIType = ProjectileID.JavelinFriendly;
             Projectile.DamageType = DamageClass.Ranged; 
         }
 
@@ -37,20 +39,21 @@ namespace MogMod.Projectiles
             //Code to make it not shoot backwards
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+
             //Gravity
-            Projectile.velocity.Y = Projectile.velocity.Y + 0.04f;
+            Projectile.velocity.Y = Projectile.velocity.Y + 0.030f;
             if (Projectile.velocity.Y > 16f)
             {
                 Projectile.velocity.Y = 16f;
             }
+
             //Dust trail
             if (Main.rand.NextBool(25))
             {
-                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.VilePowder, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 150, default, 0.9f);
+                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.TerraBlade, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 150, default, 0.9f);
                 Main.dust[d].position = Projectile.Center;
                 Main.dust[d].noLight = true;
             }
-
         }
 
         // makes it summon an additional projectile
@@ -60,9 +63,11 @@ namespace MogMod.Projectiles
             var source = Projectile.GetSource_FromThis();
             for (int x = 0; x < projAmt; x++)
             {
-                if (Projectile.owner == Main.myPlayer && Projectile.numHits == 0)
+                if (Projectile.owner == Main.myPlayer && Projectile.numHits <= 2)
+                {
                     // proj barrage does (source, Vector2 originVec, Vector2 targetPos, T/F fromRight, xOffsetMin, xOffsetMax, yOffsetMin, yOffsetMax, projSpeed, projType, damage, knockback, owner, T/F clamped, innacuracy)
-                    MogModUtils.ProjectileBarrage(source, Projectile.Center, target.Center, true, 100f, 100f, 0f, 100f, 1f, ModContent.ProjectileType<YashaProj>(), Convert.ToInt32(Projectile.damage * 0.5), 0f, Projectile.owner, false, 0f);
+                    MogModUtils.ProjectileBarrage(source, Projectile.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<YashaProj>(), Convert.ToInt32(Projectile.damage * 0.5), 0f, Projectile.owner, false, 0f);
+                }  
             }   
         }
         public override void OnKill(int timeLeft)

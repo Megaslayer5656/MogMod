@@ -741,7 +741,11 @@ Items: {
 
 	Yasha: {
 		DisplayName: Yasha
-		Tooltip: ""
+		Tooltip:
+		'''
+		Strikes two extra times on each hit
+		'Yasha is regarded as the swiftest weapon ever created.'
+		'''
 	}
 
 	YashaAndKaya: {
@@ -807,12 +811,17 @@ Items: {
 
 	BlinkDagger: {
 		DisplayName: Blink Dagger
-		Tooltip:
-			'''
-			Allows for teleportation, granted you don't get hit
-			'The fabled dagger used by the fastest 
-			 assassin ever to walk the lands.'
-			'''
+		Tooltip: ""
+	}
+
+	Phylactery: {
+		DisplayName: Phylactery
+		Tooltip: ""
+	}
+
+	Khanda: {
+		DisplayName: Khanda
+		Tooltip: ""
 	}
 }
 
@@ -1025,6 +1034,11 @@ Projectiles: {
 	YashaProjectile.DisplayName: Yasha Projectile
 	YashaProj.DisplayName: Yasha Proj
 	MosinLPSProj.DisplayName: Mosin L P S Proj
+	PhylacteryBeam.DisplayName: Phylactery Beam
+	PhylacteryBeamHoldout.DisplayName: Phylactery Beam Holdout
+	PhylacteryPrism.DisplayName: Phylactery Prism
+	KhandaBeam.DisplayName: Khanda Beam
+	KhandaPrism.DisplayName: Khanda Prism
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore

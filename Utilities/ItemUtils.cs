@@ -10,6 +10,8 @@ namespace MogMod.Utilities
 {
     public static partial class ItemUtils
     {
+        public static Item ActiveItem(this Player player) => Main.mouseItem.IsAir ? player.HeldItem : Main.mouseItem;
+        public static bool CantUseHoldout(this Player player, bool needsToHold = true) => player == null || !player.active || player.dead || (!player.channel && needsToHold) || player.CCed || player.noItems;
         public static string TooltipHotkeyString(this ModKeybind mhk)
         {
             if (Main.dedServ || mhk is null)

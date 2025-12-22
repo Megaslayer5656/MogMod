@@ -10,6 +10,10 @@ namespace MogMod.Items.Weapons.Mage
     public class Kaya : ModItem
     {
         // CHANGE SPRITE TO WAND
+        public override void SetStaticDefaults()
+        {
+            Item.staff[Item.type] = true; //so it doesn't look weird af when holding it
+        }
         public override void SetDefaults()
         {
             Item.width = 50;
@@ -71,7 +75,7 @@ namespace MogMod.Items.Weapons.Mage
                 AddIngredient(ItemID.SoulofMight, 7).
                 AddIngredient(ItemID.SoulofLight, 7).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(ItemID.MythrilAnvil).
+                AddTile(TileID.MythrilAnvil).
                 Register();
         }
     }

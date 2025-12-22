@@ -31,7 +31,7 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.GoldBar, 20).
+                AddRecipeGroup("GoldBar", 15).
                 AddIngredient(ItemID.ManaCrystal, 5).
                 AddIngredient(ItemID.Sapphire, 7).
                 AddRecipeGroup("CrimtaneBar", 3).
