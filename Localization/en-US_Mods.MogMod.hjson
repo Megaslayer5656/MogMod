@@ -823,6 +823,16 @@ Items: {
 		DisplayName: Khanda
 		Tooltip: ""
 	}
+
+	HydrakanLatch: {
+		DisplayName: Hydrakan Latch
+		Tooltip:
+			'''
+			Increases your attack speed and movement speed on hit
+			(Excluding target dummies)
+			'The shiv of an escapee of dark reef.'
+			'''
+	}
 }
 
 NPCs: {
@@ -1021,7 +1031,12 @@ Buffs: {
 
 	BlinkDebuff: {
 		DisplayName: Blink Debuff
-		Description: Mods.MogMod.Buffs.BlinkDebuff.Description
+		Description: Blink Dagger is on cooldown!
+	}
+
+	EssenceShift: {
+		DisplayName: Essence Shift
+		Description: Attack speed and movement speed increased
 	}
 }
 

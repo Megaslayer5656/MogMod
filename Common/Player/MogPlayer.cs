@@ -69,6 +69,9 @@ namespace MogMod.Common.Player
         public const int DashLeft = 3;
         public const float ForceVelocity = 12f;
         public const float PikeVelocity = 25f;
+
+        public int essenceShiftLevel = 0;
+        public static int essenceShiftLevelMax = 60;
         public enum MewingType
         {
             mewingguide = 0
@@ -123,6 +126,21 @@ namespace MogMod.Common.Player
                         Player.maxMinions++;
                     }
                 }
+            }
+
+            if (Player.HasBuff<EssenceShift>() && Player.HeldItem.Name == "Hydrakan Latch")
+            {
+                if (essenceShiftLevel > essenceShiftLevelMax)
+                {
+                    essenceShiftLevel = essenceShiftLevelMax;
+                }
+                Player.GetAttackSpeed(DamageClass.Melee) += .1f * essenceShiftLevel;
+                Player.moveSpeed += .025f * essenceShiftLevel;
+                Player.accRunSpeed += Player.accRunSpeed * .025f * essenceShiftLevel;
+            } else
+            {
+                essenceShiftLevel = 0;
+                Player.ClearBuff(ModContent.BuffType<EssenceShift>());
             }
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -491,7 +509,7 @@ namespace MogMod.Common.Player
             wearingShivasGuard = false;
             wearingEyeOfSkadi = false;
 
-        diademMinion = false;
+                diademMinion = false;
             dominatorMinion = false;
             overlordMinion = false;
 
