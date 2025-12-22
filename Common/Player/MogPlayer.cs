@@ -128,7 +128,7 @@ namespace MogMod.Common.Player
                 }
             }
 
-            if (Player.HasBuff<EssenceShift>() && Player.HeldItem.Name == "Hydrakan Latch")
+            if (Player.HasBuff<EssenceShift>() && (Player.HeldItem.Name == "Hydrakan Latch" || Player.HeldItem.Name == "Golden Hydrakan Latch"))
             {
                 if (essenceShiftLevel > essenceShiftLevelMax)
                 {

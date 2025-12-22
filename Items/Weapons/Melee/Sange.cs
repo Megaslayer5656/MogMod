@@ -17,7 +17,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 50;
             Item.height = 59;
-            Item.damage = 150;
+            Item.damage = 50;
             Item.scale = 1.5f;
             Item.DamageType = DamageClass.Melee;
             Item.useTime = 16;
@@ -36,7 +36,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.AdamantiteSword, 1).
-                AddIngredient(ItemID.HallowedBar, 15).
+                AddIngredient(ItemID.ChlorophyteBar, 15).
                 AddIngredient(ItemID.SoulofFright, 7).
                 AddIngredient(ItemID.SoulofNight, 7).
                 AddIngredient<CraftingRecipe>(1).

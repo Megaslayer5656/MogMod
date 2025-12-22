@@ -18,9 +18,9 @@ namespace MogMod.Items.Weapons.Mage
         {
             Item.width = 50;
             Item.height = 50;
-            Item.damage = 55;
+            Item.damage = 25;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 22;
+            Item.mana = 15;
             Item.useTime = 3;
             Item.useAnimation = 15;
             Item.reuseDelay = Item.useAnimation + 2;
@@ -71,7 +71,7 @@ namespace MogMod.Items.Weapons.Mage
         {
             CreateRecipe().
                 AddIngredient(ItemID.SkyFracture, 1).
-                AddIngredient(ItemID.HallowedBar, 15).
+                AddIngredient(ItemID.ChlorophyteBar, 15).
                 AddIngredient(ItemID.SoulofMight, 7).
                 AddIngredient(ItemID.SoulofLight, 7).
                 AddIngredient<CraftingRecipe>(1).

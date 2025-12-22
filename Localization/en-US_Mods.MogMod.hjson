@@ -742,10 +742,10 @@ Items: {
 	Yasha: {
 		DisplayName: Yasha
 		Tooltip:
-		'''
-		Strikes two extra times on each hit
-		'Yasha is regarded as the swiftest weapon ever created.'
-		'''
+			'''
+			Strikes two extra times on each hit
+			'Yasha is regarded as the swiftest weapon ever created.'
+			'''
 	}
 
 	YashaAndKaya: {
@@ -832,6 +832,26 @@ Items: {
 			(Excluding target dummies)
 			'The shiv of an escapee of dark reef.'
 			'''
+	}
+
+	Revolver: {
+		DisplayName: Revolver
+		Tooltip: ""
+	}
+
+	R8Revolver: {
+		DisplayName: R8 Revolver
+		Tooltip: Right click to put lead down range quickly
+	}
+
+	BloodMagic: {
+		DisplayName: Blood Magic
+		Tooltip: ""
+	}
+
+	GoldenHydrakanLatch: {
+		DisplayName: Golden Hydrakan Latch
+		Tooltip: ""
 	}
 }
 
@@ -1054,6 +1074,7 @@ Projectiles: {
 	PhylacteryPrism.DisplayName: Phylactery Prism
 	KhandaBeam.DisplayName: Khanda Beam
 	KhandaPrism.DisplayName: Khanda Prism
+	BloodMagicProjectile.DisplayName: Blood Magic Projectile
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore
