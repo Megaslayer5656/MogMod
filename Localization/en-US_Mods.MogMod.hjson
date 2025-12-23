@@ -742,10 +742,10 @@ Items: {
 	Yasha: {
 		DisplayName: Yasha
 		Tooltip:
-		'''
-		Strikes two extra times on each hit
-		'Yasha is regarded as the swiftest weapon ever created.'
-		'''
+			'''
+			Strikes two extra times on each hit
+			'Yasha is regarded as the swiftest weapon ever created.'
+			'''
 	}
 
 	YashaAndKaya: {
@@ -811,17 +811,17 @@ Items: {
 
 	BlinkDagger: {
 		DisplayName: Blink Dagger
-		Tooltip: ""
+		Tooltip: Right click to teleport to your cursor
 	}
 
 	Phylactery: {
 		DisplayName: Phylactery
-		Tooltip: ""
+		Tooltip: Fires a magical beam
 	}
 
 	Khanda: {
 		DisplayName: Khanda
-		Tooltip: ""
+		Tooltip: Fires a powerful magical beam
 	}
 
 	HydrakanLatch: {
@@ -831,6 +831,26 @@ Items: {
 			Increases your attack speed and movement speed on hit
 			(Excluding target dummies)
 			'The shiv of an escapee of dark reef.'
+			'''
+	}
+
+	LagunaBlade: {
+		DisplayName: Laguna Blade
+		Tooltip:
+			'''
+			Hitting enemies grants a stack of Fiery Soul, 
+			increasing magic attack speed and movement speed per stack.
+			Right click to fire a bolt of lightning, granting max stacks of Fiery Soul
+			'Words hurt more than Laguna Blade'
+			'''
+	}
+
+	FierySoul: {
+		DisplayName: Fiery Soul
+		Tooltip:
+			'''
+			Hitting enemies grants a stack of Fiery Soul,
+			increasing magic attack speed and movement speed per stack.
 			'''
 	}
 }
@@ -849,7 +869,7 @@ NPCs: {
 			DislikeCrowded: I dislike how crowded I am, as I cannot edge as efficiently.
 			HateCrowded: I hate how crowded I am, all these betas make me soft.
 			LikeNPC_Princess: I like {NPCName}.
-			Princess_LovesNPC: I like {NPCName}.
+			Princess_LovesNPC: The aura radiating off of {NPCName} is sooo sweet to loot at.
 		}
 	}
 
@@ -868,7 +888,7 @@ NPCs: {
 			DislikeCrowded: o na extract camped by tigs.
 			HateCrowded: o na tis' be to the o na.
 			LikeNPC_Princess: o na scavvy-o luve {NPCName}.
-			Princess_LovesNPC: o na scavvy-o freaky-b didden-goon {NPCName}.
+			Princess_LovesNPC: I love {NPCName}'s way with words!
 		}
 	}
 
@@ -1026,7 +1046,7 @@ Buffs: {
 
 	ShivasDebuff: {
 		DisplayName: Shiva's Guard Cooldown
-		Description: Shiva's is recharging...
+		Description: Recharging...
 	}
 
 	BlinkDebuff: {
@@ -1038,22 +1058,35 @@ Buffs: {
 		DisplayName: Essence Shift
 		Description: Attack speed and movement speed increased
 	}
+
+	LagunaBladeCooldown: {
+		DisplayName: Laguna Blade Cooldown
+		Description: Recharging...
+	}
+
+	FierySoulStack: {
+		DisplayName: Fiery Soul
+		Description: Magic attack speed and movement speed increased, mana cost decreased
+	}
 }
 
 Projectiles: {
 	GreenTracerProj.DisplayName: Green Tracer
 	VonGreenTracerProj.DisplayName: Green Tracer
-	VonNade.DisplayName: Von Grenade
-	BloodGrenadeProjectile.DisplayName: Blood Grenade Projectile
-	KayaProjectile.DisplayName: Kaya Projectile
-	YashaProjectile.DisplayName: Yasha Projectile
-	YashaProj.DisplayName: Yasha Proj
-	MosinLPSProj.DisplayName: Mosin L P S Proj
+	VonNade.DisplayName: Von Nade
+	BloodGrenadeProjectile.DisplayName: Blood Grenade
+	KayaProjectile.DisplayName: Kaya
+	YashaProjectile.DisplayName: Yasha
+	YashaProj.DisplayName: Yasha
+	MosinLPSProj.DisplayName: Mosin LPS
 	PhylacteryBeam.DisplayName: Phylactery Beam
-	PhylacteryBeamHoldout.DisplayName: Phylactery Beam Holdout
-	PhylacteryPrism.DisplayName: Phylactery Prism
-	KhandaBeam.DisplayName: Khanda Beam
-	KhandaPrism.DisplayName: Khanda Prism
+	PhylacteryBeamHoldout.DisplayName: Phylactery Beam
+	PhylacteryPrism.DisplayName: Phylactery
+	KhandaBeam.DisplayName: Khanda
+	KhandaPrism.DisplayName: Khanda
+	LagunaBladeProjectile.DisplayName: Laguna Blade
+	FierySoulProjectile.DisplayName: Fiery Soul
+	LagunaBladeBoom.DisplayName: Laguna Blade Explosion
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore

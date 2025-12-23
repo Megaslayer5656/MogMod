@@ -47,7 +47,7 @@ namespace MogMod.Projectiles
             int yaaasha = Dust.NewDust(projPos, 1, 1, DustID.ShimmerSpark, 0f, 0f, 0, default, 0.2f);
             Main.dust[yaaasha].position = projPos;
             Main.dust[yaaasha].scale = Main.rand.Next(10, 30) * 0.014f;
-            Main.dust[yaaasha].velocity *= 0.2f;
+            Main.dust[yaaasha].velocity *= 0.8f;
             Main.dust[yaaasha].noLight = true;
         }
         //public override void OnKill(int timeLeft)

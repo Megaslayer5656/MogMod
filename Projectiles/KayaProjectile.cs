@@ -21,8 +21,6 @@ namespace MogMod.Projectiles
             Projectile.timeLeft = 300;
             Projectile.DamageType = DamageClass.Magic;
         }
-
-        // TODO: fix color to be cyan or blue instead of red
         public override void AI()
         {
             DelegateMethods.v3_1 = new Vector3(0.6f, 1f, 1f) * 0.2f;
@@ -40,7 +38,8 @@ namespace MogMod.Projectiles
                     Vector2 dustRotate = Vector2.UnitX * 0f;
                     dustRotate += -Vector2.UnitY.RotatedBy((double)((float)dustIncr * (6.28318548f / dustLoopcheck)), default) * new Vector2(1f, 4f);
                     dustRotate = dustRotate.RotatedBy((double)Projectile.velocity.ToRotation(), default);
-                    int deepRed = Dust.NewDust(Projectile.Center, 0, 0, DustID.TheDestroyer, 0f, 0f, 0, Color.Aqua, 1f);
+                    // Change Color.___ to change the spawning dust color
+                    int deepRed = Dust.NewDust(Projectile.Center, 0, 0, DustID.RainbowTorch, 0f, 0f, 0, Color.Blue, 1f);
                     Main.dust[deepRed].scale = 1.5f;
                     Main.dust[deepRed].noGravity = true;
                     Main.dust[deepRed].position = Projectile.Center + dustRotate;
@@ -58,7 +57,8 @@ namespace MogMod.Projectiles
             int dustAmt = Main.rand.Next(4, 10);
             for (int d = 0; d < dustAmt; d++)
             {
-                int fire = Dust.NewDust(Projectile.Center, 0, 0, DustID.TheDestroyer, 0f, 0f, 100, default, 1f);
+                // Change Color.___ to change the on kill dust color
+                int fire = Dust.NewDust(Projectile.Center, 0, 0, DustID.RainbowTorch, 0f, 0f, 100, Color.Blue, 1f);
                 Dust dust = Main.dust[fire];
                 dust.velocity *= 1.6f;
                 dust.velocity.Y -= 1f;
@@ -69,7 +69,10 @@ namespace MogMod.Projectiles
             }
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(255, 50, 50, 0);
+        //new Color(0, 255, 255, 50), //Cyan
+        //new Color(0, 128, 255, 50), //Light Blue
+        //new Color(0, 0, 255, 50), //Blue
+        public override Color? GetAlpha(Color lightColor) => new Color(0, 128, 255, 50);
 
         public override bool PreDraw(ref Color lightColor)
         {

@@ -52,6 +52,7 @@ namespace MogMod.Items.Weapons.Mage
         {
             CreateRecipe().
                 AddIngredient<Diadem>(1).
+                AddIngredient(ItemID.LargeAmethyst, 1).
                 AddIngredient(ItemID.StoneBlock, 80).
                 AddIngredient(ItemID.PinkGel, 18).
                 AddIngredient<CraftingRecipe>(1).

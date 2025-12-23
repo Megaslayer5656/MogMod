@@ -3,6 +3,7 @@ using MogMod.Buffs;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
 using MogMod.Items.Weapons.Melee;
+using MogMod.Items.Weapons.Ranged;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -72,6 +73,9 @@ namespace MogMod.Common.Player
 
         public int essenceShiftLevel = 0;
         public static int essenceShiftLevelMax = 60;
+
+        public int fierySoulLevel = 0;
+        public static int fierySoulLevelMax = 30;
         public enum MewingType
         {
             mewingguide = 0
@@ -128,6 +132,7 @@ namespace MogMod.Common.Player
                 }
             }
 
+            // essence shift stacking buff
             if (Player.HasBuff<EssenceShift>() && Player.HeldItem.Name == "Hydrakan Latch")
             {
                 if (essenceShiftLevel > essenceShiftLevelMax)
@@ -141,6 +146,23 @@ namespace MogMod.Common.Player
             {
                 essenceShiftLevel = 0;
                 Player.ClearBuff(ModContent.BuffType<EssenceShift>());
+            }
+
+            // fiery soul stacking buff
+            if (Player.HasBuff<FierySoulStack>())
+            {
+                if (fierySoulLevel > fierySoulLevelMax)
+                {
+                    fierySoulLevel = fierySoulLevelMax;
+                }
+                Player.GetAttackSpeed(DamageClass.Magic) += .015f * fierySoulLevel;
+                Player.manaCost -= .015f * fierySoulLevel;
+                Player.moveSpeed += .0225f * fierySoulLevel;
+                Player.accRunSpeed += Player.accRunSpeed * .0225f * fierySoulLevel;
+            }
+            else
+            {
+                fierySoulLevel = 0;
             }
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -448,7 +470,24 @@ namespace MogMod.Common.Player
                     }
                     Player.AddBuff(ShivasCooldown, 3600);
                     SoundEngine.PlaySound(ShivasActivateSound, Player.Center);
-                    //TODO: Add a screen effect using dusts.
+                }
+
+                for (int i = 0; i < 80; i++)
+                {
+                    Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                    dustVelocity.Normalize();
+                    dustVelocity *= 6;
+
+                    int dustPos = 20;
+
+                    int shiva1 = Dust.NewDust(Entity.Center, dustPos, dustPos, DustID.SnowSpray, dustVelocity.X * 3, dustVelocity.Y * 3, 0, default, 3f);
+                    Main.dust[shiva1].noGravity = true;
+                    Main.dust[shiva1].fadeIn = 5f;
+                    Main.dust[shiva1].velocity *= 3f;
+                    int shiva2 = Dust.NewDust(Entity.Center, dustPos-5, dustPos-5, DustID.Snow, dustVelocity.X * 2, dustVelocity.Y * 2, 0, Color.White, 9f);
+                    Main.dust[shiva2].noGravity = true;
+                    Main.dust[shiva2].fadeIn = 5f;
+                    Main.dust[shiva2].velocity *= 3f;
                 }
             }
 
@@ -534,5 +573,5 @@ namespace MogMod.Common.Player
                 forceDirection = -1;
             }
         }
-        }
+    }
 }
