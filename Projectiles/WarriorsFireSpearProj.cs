@@ -6,40 +6,44 @@ using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
-using System.Net.Mail;
 using Terraria.Audio;
 
 namespace MogMod.Projectiles
 {
-    public class BloodMagicProjectile : ModProjectile
+    public class WarriorsFireSpearProj : ModProjectile
     {
         public override void SetDefaults()
         {
             Projectile.width = 10;
             Projectile.height = 10;
             Projectile.friendly = true;
-            Projectile.alpha = 255;
-            Projectile.penetrate = 1;
-            Projectile.ignoreWater = true;
+            Projectile.ignoreWater = false;
             Projectile.tileCollide = true;
             Projectile.timeLeft = 300;
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.DamageType = DamageClass.Ranged;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.scale = .5f;
-            AIType = ProjectileID.Bullet;
+            AIType = ProjectileID.JavelinFriendly;
+            Projectile.penetrate = 1;
+            Projectile.scale = 1.15f;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            Player player = Main.player[Projectile.owner];
+                target.AddBuff(BuffID.OnFire, 300);            
+        }
 
-            int healAmount = (int)(player.statLifeMax2 * 0.0125f);
-
-            player.statLife += healAmount;
-            if (player.statLife > player.statLifeMax2)
-                player.statLife = player.statLifeMax2;
-
-            player.HealEffect(healAmount);
+        public override void AI()
+        {
+            if (Main.rand.NextBool(5))
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 150, default, 0.9f);
+                    Main.dust[d].position = Projectile.Center;
+                    Main.dust[d].noLight = false;
+                }
+            }
         }
 
         public override void OnKill(int timeLeft)

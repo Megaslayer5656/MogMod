@@ -133,7 +133,7 @@ namespace MogMod.Common.Player
             }
 
             // essence shift stacking buff
-            if (Player.HasBuff<EssenceShift>() && Player.HeldItem.Name == "Hydrakan Latch")
+            if (Player.HasBuff<EssenceShift>() && (Player.HeldItem.Name == "Hydrakan Latch" || Player.HeldItem.Name == "Golden Hydrakan Latch"))
             {
                 if (essenceShiftLevel > essenceShiftLevelMax)
                 {

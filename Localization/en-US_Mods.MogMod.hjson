@@ -853,6 +853,37 @@ Items: {
 			increasing magic attack speed and movement speed per stack.
 			'''
 	}
+
+	BloodMagic: {
+		DisplayName: Blood Magic
+		Tooltip: ""
+	}
+
+	ChaosBlade: {
+		DisplayName: Chaos Blade
+		Tooltip: ""
+	}
+
+	GoldenHydrakanLatch: {
+		DisplayName: Golden Hydrakan Latch
+		Tooltip: ""
+	}
+
+	R8Revolver: {
+		DisplayName: R8 Revolver
+		Tooltip: ""
+	}
+
+	WarriorsSpear: {
+		DisplayName: Warrior's Spear
+		Tooltip:
+			'''
+			Right click to throw a flaming spear
+			Flaming spear deals damage to self
+			Flaming spear deals increased damage
+			'My blood boils!'
+			'''
+	}
 }
 
 NPCs: {
@@ -1087,6 +1118,10 @@ Projectiles: {
 	LagunaBladeProjectile.DisplayName: Laguna Blade
 	FierySoulProjectile.DisplayName: Fiery Soul
 	LagunaBladeBoom.DisplayName: Laguna Blade Explosion
+	BloodMagicProjectile.DisplayName: Blood Magic Projectile
+	ChaosBladeProj.DisplayName: Chaos Blade Proj
+	WarriorsFireSpearProj.DisplayName: Warriors Fire Spear
+	WarriorsSpearProj.DisplayName: Warriors Spear
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore
