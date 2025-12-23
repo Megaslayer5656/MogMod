@@ -9,6 +9,8 @@ using MogMod.Buffs;
 using MogMod.Common.Player;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using MogMod.Items.Other;
+using MogMod.Utilities;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -20,7 +22,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.width = 68;
             Item.height = 90;
             Item.scale = .65f;
-            Item.damage = 45;
+            Item.damage = 30;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 25;
             Item.useStyle = ItemUseStyleID.Swing;
@@ -30,7 +32,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.rare = ItemRarityID.Yellow;
-            Item.shoot = ProjectileID.IchorArrow;
+            Item.shoot = ProjectileID.IchorSplash;
             Item.shootSpeed = 3.5f;
         }
 
@@ -42,6 +44,16 @@ namespace MogMod.Items.Weapons.Melee
                 MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
                 mogPlayer.essenceShiftLevel += 1;
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.GoldBar, 20).
+                AddRecipeGroup("Ichor", 20).
+                AddIngredient<HydrakanLatch>(1).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -846,12 +846,33 @@ Items: {
 
 	BloodMagic: {
 		DisplayName: Blood Magic
-		Tooltip: ""
+		Tooltip:
+			'''
+			Heals for 1.25% of max health on hit
+			'Created by the famous sorcerer Vlad'
+			'''
 	}
 
 	GoldenHydrakanLatch: {
 		DisplayName: Golden Hydrakan Latch
-		Tooltip: ""
+		Tooltip:
+			'''
+			Increases your attack speed and movement speed on hit
+			(Excluding target dummies)
+			'The golden shiv of an escapee of dark reef.'
+			'''
+	}
+
+	ChaosBlade: {
+		DisplayName: Chaos Blade
+		Tooltip:
+			'''
+			Randomized damage and crit each hit
+			Chance for an ultra crit
+			Ultra crits heal and spawn projectiles
+			'The light shall be blackened,
+			 and chaos shall reign.'
+			'''
 	}
 }
 
@@ -1075,6 +1096,7 @@ Projectiles: {
 	KhandaBeam.DisplayName: Khanda Beam
 	KhandaPrism.DisplayName: Khanda Prism
 	BloodMagicProjectile.DisplayName: Blood Magic Projectile
+	ChaosBladeProj.DisplayName: Chaos Blade Proj
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore
