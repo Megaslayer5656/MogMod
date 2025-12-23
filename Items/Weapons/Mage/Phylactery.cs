@@ -21,7 +21,7 @@ namespace MogMod.Items.Weapons.Mage
         {
             Item.width = 32;
             Item.height = 32;
-            Item.damage = 9;
+            Item.damage = 6;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useTime = Item.useAnimation = 13;
             Item.useTurn = true;

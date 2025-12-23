@@ -71,7 +71,10 @@ namespace MogMod.Content
 
             RecipeGroup AdamantiteBarRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.AdamantiteBar)}", ItemID.AdamantiteBar, ItemID.TitaniumBar);
             RecipeGroup.RegisterGroup(nameof(ItemID.AdamantiteBar), AdamantiteBarRecipeGroup);
-        }
+
+            RecipeGroup HardmodeEvilMaterialGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.Ichor)}", ItemID.Ichor, ItemID.CursedFlame);
+            RecipeGroup.RegisterGroup(nameof(ItemID.Ichor), HardmodeEvilMaterialGroup);
+        }   
 
         public override void AddRecipes()
         {

@@ -17,7 +17,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             Item.width = 14;
             Item.height = 66;
-            Item.damage = 50;
+            Item.damage = 20;
             Item.knockBack = 5;
             Item.noMelee = true;
             Item.noUseGraphic = true;
@@ -45,7 +45,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.Javelin, 25).
-                AddIngredient(ItemID.HallowedBar, 15).
+                AddIngredient(ItemID.ChlorophyteBar, 15).
                 AddIngredient(ItemID.SoulofSight, 7).
                 AddIngredient(ItemID.SoulofFlight, 7).
                 AddIngredient<CraftingRecipe>(1).
