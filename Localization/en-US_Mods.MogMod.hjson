@@ -856,22 +856,42 @@ Items: {
 
 	BloodMagic: {
 		DisplayName: Blood Magic
-		Tooltip: ""
+		Tooltip:
+			'''
+			Heals for 1.25% of max health on hit
+			'Created by the famous sorcerer Vlad'
+			'''
 	}
 
 	ChaosBlade: {
 		DisplayName: Chaos Blade
-		Tooltip: ""
+		Tooltip: 
+			'''
+			Randomized damage and crit each hit
+			Chance for an ultra crit
+			Ultra crits heal and spawn projectiles
+			'The light shall be blackened,
+			 and chaos shall reign.'
+			'''
 	}
 
 	GoldenHydrakanLatch: {
 		DisplayName: Golden Hydrakan Latch
-		Tooltip: ""
+		Tooltip: 
+			'''
+			Increases your attack speed and movement speed on hit
+			(Excluding target dummies)
+			'The golden shiv of an escapee of dark reef.'
+			'''
 	}
 
 	R8Revolver: {
 		DisplayName: R8 Revolver
-		Tooltip: ""
+		Tooltip: 
+			'''
+			Right click to shoot fast but inaccurately
+			'I'm moving like prime kenny.' - Mq
+			'''
 	}
 
 	WarriorsSpear: {
