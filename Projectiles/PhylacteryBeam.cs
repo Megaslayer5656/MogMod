@@ -12,8 +12,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles
 {
-    class PhylacteryBeam : BaseLaserbeamProjectile
+    class PhylacteryBeam : BaseLaserbeamProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles";
         public override string Texture => "MogMod/Projectiles/KhandaBeam";
 
         public static readonly Color[] Colors = new Color[]

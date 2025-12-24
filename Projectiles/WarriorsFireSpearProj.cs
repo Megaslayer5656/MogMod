@@ -10,8 +10,9 @@ using Terraria.Audio;
 
 namespace MogMod.Projectiles
 {
-    public class WarriorsFireSpearProj : ModProjectile
+    public class WarriorsFireSpearProj : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles";
         public override void SetDefaults()
         {
             Projectile.width = 10;

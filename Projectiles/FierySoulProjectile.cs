@@ -15,8 +15,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles
 {
-    public class FierySoulProjectile : ModProjectile
+    public class FierySoulProjectile : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;

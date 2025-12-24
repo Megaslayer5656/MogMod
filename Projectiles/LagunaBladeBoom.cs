@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles
 {
-    public class LagunaBladeBoom : ModProjectile
+    public class LagunaBladeBoom : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles";
         public override string Texture => "MogMod/Projectiles/InvisibleProj";
 
         private const float radius = 50f;

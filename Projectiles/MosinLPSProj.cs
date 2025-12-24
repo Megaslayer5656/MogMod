@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 
 namespace MogMod.Projectiles
 {
-    public class MosinLPSProj : ModProjectile
+    public class MosinLPSProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles";
         public override void SetStaticDefaults()

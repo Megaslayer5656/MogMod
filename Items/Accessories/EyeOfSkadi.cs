@@ -26,6 +26,7 @@ namespace MogMod.Items.Accessories
         {
             player.statLifeMax2 += 50;
             player.statManaMax2 += 100;
+            player.GetArmorPenetration(DamageClass.Generic) += 25;
             player.GetDamage(DamageClass.Generic) += .10f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingEyeOfSkadi = true;

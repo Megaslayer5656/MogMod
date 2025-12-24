@@ -82,5 +82,12 @@ namespace MogMod.Projectiles
                 dustsplash += 1;
             }
         }
+
+        // blurs the projectile
+        public override bool PreDraw(ref Color lightColor)
+        {
+            MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
+        }
     }
 }

@@ -546,6 +546,7 @@ Items: {
 			Tooltip:
 				'''
 				+10% Attack Damage
+				+25 Armor Penetration
 				Increases maximum health by 50
 				Increases maximum mana by 100
 				Attacks inflict the Cold Attack debuff
@@ -734,6 +735,7 @@ Items: {
 		DisplayName: Kaya
 		Tooltip:
 			'''
+			Fires a barrage of swords
 			'The staff of a renowned sorceress, 
 			lost for countless millennia.'
 			'''
@@ -865,7 +867,7 @@ Items: {
 
 	ChaosBlade: {
 		DisplayName: Chaos Blade
-		Tooltip: 
+		Tooltip:
 			'''
 			Randomized damage and crit each hit
 			Chance for an ultra crit
@@ -877,7 +879,7 @@ Items: {
 
 	GoldenHydrakanLatch: {
 		DisplayName: Golden Hydrakan Latch
-		Tooltip: 
+		Tooltip:
 			'''
 			Increases your attack speed and movement speed on hit
 			(Excluding target dummies)
@@ -887,7 +889,7 @@ Items: {
 
 	R8Revolver: {
 		DisplayName: R8 Revolver
-		Tooltip: 
+		Tooltip:
 			'''
 			Right click to shoot fast but inaccurately
 			'I'm moving like prime kenny.' - Mq
@@ -902,6 +904,31 @@ Items: {
 			Flaming spear deals damage to self
 			Flaming spear deals increased damage
 			'My blood boils!'
+			'''
+	}
+
+	MeteorHammer: {
+		DisplayName: Meteor Hammer
+		Tooltip: Summons a powerful meteor
+	}
+
+	AghanimScepter: {
+		DisplayName: Aghanim's Scepter
+		Tooltip:
+			'''
+			Fires a barrage of homing swords
+			'The scepter of a wizard with demigod-like powers.'
+			'''
+	}
+
+	AghanimShard: {
+		DisplayName: Aghanim's Shard
+		Tooltip:
+			'''
+			Permanently increases maximum mana by 100
+			'With origins known only to a single wizard, 
+			fragments of this impossible crystal are nearly 
+			as coveted as the renowned scepter itself.'
 			'''
 	}
 }
@@ -933,11 +960,11 @@ NPCs: {
 
 		TownNPCMood: {
 			Content: o na.
-			NoHome: o na where my bed i so sleepy rizzler.
+			NoHome: O NA VASS VASS VASS O NA.
 			FarFromHome: o na wheres my goon.
 			LoveSpace: o na no scavs.
-			DislikeCrowded: o na extract camped by tigs.
-			HateCrowded: o na tis' be to the o na.
+			DislikeCrowded: o na vass-tract camped by tigs o na.
+			HateCrowded: o na tis' be to the o vass.
 			LikeNPC_Princess: o na scavvy-o luve {NPCName}.
 			Princess_LovesNPC: I love {NPCName}'s way with words!
 		}
@@ -1142,6 +1169,9 @@ Projectiles: {
 	ChaosBladeProj.DisplayName: Chaos Blade Proj
 	WarriorsFireSpearProj.DisplayName: Warriors Fire Spear
 	WarriorsSpearProj.DisplayName: Warriors Spear
+	MeteorHammerHoldout.DisplayName: Meteor Hammer Holdout
+	MeteorHammerProjectile.DisplayName: Meteor Hammer Projectile
+	AghanimProjectile.DisplayName: Aghanim Projectile
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore
@@ -1191,6 +1221,16 @@ Configs: {
 
 		Custom: {
 			Label: Custom
+			Tooltip: ""
+		}
+	}
+
+	MogClientConfig: {
+		DisplayName: Mog Client Config
+		Headers.Graphics: Graphics Header
+
+		Afterimages: {
+			Label: Afterimages
 			Tooltip: ""
 		}
 	}

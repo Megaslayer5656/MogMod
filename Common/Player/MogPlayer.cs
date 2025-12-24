@@ -2,8 +2,10 @@
 using MogMod.Buffs;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
+using MogMod.Items.Consumables;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Items.Weapons.Ranged;
+using MogMod.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -16,6 +18,8 @@ using Terraria.Audio;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
+using Terraria.UI;
 
 namespace MogMod.Common.Player
 {
