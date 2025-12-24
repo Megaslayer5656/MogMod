@@ -80,6 +80,7 @@ namespace MogMod.Common.Player
 
         public int fierySoulLevel = 0;
         public static int fierySoulLevelMax = 30;
+
         public enum MewingType
         {
             mewingguide = 0
@@ -530,6 +531,15 @@ namespace MogMod.Common.Player
                 Player.lifeRegen += -30;
             }
         }
+
+        public override void UpdateLifeRegen()
+        {
+           if (Player.HeldItem.Name == "Berserker's Spear")
+            {
+                float percentLifeLeft = (float)Player.statLife / Player.statLifeMax2;
+                Player.lifeRegen += Convert.ToInt32((1 / (percentLifeLeft + .065)));
+            }
+        }
         public override void ResetEffects()
         {
             isWearingGlimmerCape = false;
@@ -555,6 +565,7 @@ namespace MogMod.Common.Player
                 diademMinion = false;
             dominatorMinion = false;
             overlordMinion = false;
+
 
             if (Player.controlDown)
             {

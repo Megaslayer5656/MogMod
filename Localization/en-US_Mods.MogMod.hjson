@@ -931,6 +931,27 @@ Items: {
 			as coveted as the renowned scepter itself.'
 			'''
 	}
+	BerserkersSpear: {
+		DisplayName: Berserker's Spear
+		Tooltip:
+			'''
+			Right click to throw a flaming spear
+			Flaming spear deals damage to self
+			Flaming spear deals increased damage
+			Flaming spear has lifesteal
+			'While holding this weapon,
+			 the lower health you are,
+			 the more regen, attack
+			 speed, and attack damage 
+			 you gain.'
+			'Huskar!'
+			'''
+	}
+
+	BloodInfusion: {
+		DisplayName: Blood Infusion
+		Tooltip: ""
+	}
 }
 
 NPCs: {
@@ -1172,6 +1193,8 @@ Projectiles: {
 	MeteorHammerHoldout.DisplayName: Meteor Hammer Holdout
 	MeteorHammerProjectile.DisplayName: Meteor Hammer Projectile
 	AghanimProjectile.DisplayName: Aghanim Projectile
+	BerserkersFireSpearProj.DisplayName: Berserkers Fire Spear Proj
+	BerserkersSpearProj.DisplayName: Berserkers Spear Proj
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore
