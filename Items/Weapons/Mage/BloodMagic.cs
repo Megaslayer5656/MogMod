@@ -31,5 +31,15 @@ namespace MogMod.Items.Weapons.Mage
             Item.shoot = ModContent.ProjectileType<BloodMagicProjectile>();
             Item.shootSpeed = 10f;
         }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+              AddIngredient(ItemID.Book, 1).
+              AddRecipeGroup("CrimtaneBar", 15).
+              AddRecipeGroup("TissueSample", 10).
+              AddTile(TileID.Anvils).
+              Register();
+        }
     }
 }

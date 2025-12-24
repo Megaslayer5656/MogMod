@@ -915,7 +915,9 @@ Items: {
 			Flaming spear has lifesteal
 			'While holding this weapon,
 			 the lower health you are,
-			 the more regen you gain'
+			 the more regen, attack
+			 speed, and attack damage 
+			 you gain.'
 			'Huskar!'
 			'''
 	}

@@ -41,6 +41,7 @@
     <None Remove="Items\Accessories\SangeAndYasha.png" />
     <None Remove="Items\Accessories\SigmaCharm.png" />
     <None Remove="Items\Accessories\YashaAndKaya.png" />
+    <None Remove="Items\BloodInfusion.png" />
     <None Remove="Items\Consumables\Glue.png" />
     <None Remove="Items\Consumables\GreenTracerAmmo.png" />
     <None Remove="Items\Consumables\VonSpawner.png" />
@@ -48,13 +49,16 @@
     <None Remove="Items\Placeable\DabdadOreP.png" />
     <None Remove="Items\Weapons\Mage\BloodMagic.png" />
     <None Remove="Items\Weapons\Melee\GoldenHydrakanLatch.png" />
+    <None Remove="Items\Weapons\Ranged\BerserkersSpear.png" />
     <None Remove="Items\Weapons\Ranged\R8Revolver.png" />
     <None Remove="Items\Weapons\Sange.png" />
     <None Remove="NPCs\Bosses\KingVon_Head_Boss.png" />
     <None Remove="NPCs\Enemies\RadiantCreep.png" />
     <None Remove="NPCs\TownNpc\SolBadguy.png" />
     <None Remove="NPCs\TownNpc\SolBadguy_Head.png" />
+    <None Remove="Projectiles\BaseProjectiles\BerserkersSpearProj.png" />
     <None Remove="Projectiles\BaseProjectiles\BloodMagicProjectile.png" />
+    <None Remove="Projectiles\BerserkersFireSpearProj.png" />
     <None Remove="Projectiles\GreenTracerProj.png" />
     <None Remove="Projectiles\VonNade.png" />
     <None Remove="README.md" />
