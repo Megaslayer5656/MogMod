@@ -540,6 +540,17 @@ namespace MogMod.Common.Player
                 Player.lifeRegen += Convert.ToInt32((1 / (percentLifeLeft + .065)));
             }
         }
+
+        public override void ModifyZoom(ref float zoom)
+        {
+            if (Player.HeldItem.Name == "AXMC")
+            {
+                if (Main.mouseRight == true)
+                {
+                    zoom = Player.scope ? 0.8f : 0.6666667f;
+                }
+            }
+        }
         public override void ResetEffects()
         {
             isWearingGlimmerCape = false;

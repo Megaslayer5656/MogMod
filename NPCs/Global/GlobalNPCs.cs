@@ -8,6 +8,8 @@ using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using MogMod.Buffs;
 
 namespace MogMod.NPCs.Global
 {
@@ -18,6 +20,14 @@ namespace MogMod.NPCs.Global
         {
             globalLoot.Add(new CommonDrop(ModContent.ItemType<LedX>(), 10000, 1, 1, 1));
             globalLoot.Add(new CommonDrop(ModContent.ItemType<RedX>(), 100000, 1, 1, 1));
+        }
+
+        public override void UpdateLifeRegen(NPC npc, ref int damage)
+        {
+            if (npc.HasBuff<HeavyBleed>())
+            {
+                npc.lifeRegen -= Convert.ToInt32(npc.lifeMax * .01); //TODO: Make this activate not every tick, add bleeding vfx
+            }
         }
     }
 }

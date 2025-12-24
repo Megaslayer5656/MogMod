@@ -931,6 +931,7 @@ Items: {
 			as coveted as the renowned scepter itself.'
 			'''
 	}
+
 	BerserkersSpear: {
 		DisplayName: Berserker's Spear
 		Tooltip:
@@ -951,6 +952,16 @@ Items: {
 	BloodInfusion: {
 		DisplayName: Blood Infusion
 		Tooltip: ""
+	}
+
+	AXMC: {
+		DisplayName: AXMC
+		Tooltip: 
+			'''
+			Shoots AP Lapua rounds
+			Right click to scope in
+			'Time for some area brainrot.'
+			'''
 	}
 }
 
@@ -1167,6 +1178,11 @@ Buffs: {
 		DisplayName: Fiery Soul
 		Description: Magic attack speed and movement speed increased, mana cost decreased
 	}
+
+	HeavyBleed: {
+		DisplayName: Heavy Bleed
+		Description: Mods.MogMod.Buffs.HeavyBleed.Description
+	}
 }
 
 Projectiles: {
@@ -1195,6 +1211,7 @@ Projectiles: {
 	AghanimProjectile.DisplayName: Aghanim Projectile
 	BerserkersFireSpearProj.DisplayName: Berserkers Fire Spear Proj
 	BerserkersSpearProj.DisplayName: Berserkers Spear Proj
+	APLapua.DisplayName: A P Lapua
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore
