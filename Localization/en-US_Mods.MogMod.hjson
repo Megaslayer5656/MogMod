@@ -865,7 +865,7 @@ Items: {
 
 	ChaosBlade: {
 		DisplayName: Chaos Blade
-		Tooltip: 
+		Tooltip:
 			'''
 			Randomized damage and crit each hit
 			Chance for an ultra crit
@@ -877,7 +877,7 @@ Items: {
 
 	GoldenHydrakanLatch: {
 		DisplayName: Golden Hydrakan Latch
-		Tooltip: 
+		Tooltip:
 			'''
 			Increases your attack speed and movement speed on hit
 			(Excluding target dummies)
@@ -887,7 +887,7 @@ Items: {
 
 	R8Revolver: {
 		DisplayName: R8 Revolver
-		Tooltip: 
+		Tooltip:
 			'''
 			Right click to shoot fast but inaccurately
 			'I'm moving like prime kenny.' - Mq
@@ -903,6 +903,26 @@ Items: {
 			Flaming spear deals increased damage
 			'My blood boils!'
 			'''
+	}
+
+	BerserkersSpear: {
+		DisplayName: Berserker's Spear
+		Tooltip:
+			'''
+			Right click to throw a flaming spear
+			Flaming spear deals damage to self
+			Flaming spear deals increased damage
+			Flaming spear has lifesteal
+			'While holding this weapon,
+			 the lower health you are,
+			 the more regen you gain'
+			'Huskar!'
+			'''
+	}
+
+	BloodInfusion: {
+		DisplayName: Blood Infusion
+		Tooltip: ""
 	}
 }
 
@@ -1142,6 +1162,8 @@ Projectiles: {
 	ChaosBladeProj.DisplayName: Chaos Blade Proj
 	WarriorsFireSpearProj.DisplayName: Warriors Fire Spear
 	WarriorsSpearProj.DisplayName: Warriors Spear
+	BerserkersFireSpearProj.DisplayName: Berserkers Fire Spear Proj
+	BerserkersSpearProj.DisplayName: Berserkers Spear Proj
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore
