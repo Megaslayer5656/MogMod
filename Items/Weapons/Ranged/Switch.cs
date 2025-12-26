@@ -11,7 +11,9 @@ using Terraria.Social.WeGame;
 using Mono.Cecil;
 namespace MogMod.Items.Weapons.Ranged
 {
-    public class Switch : ModItem {
+    public class Switch : ModItem, ILocalizedModType
+    {
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults() {
             Item.damage = 20;
             Item.DamageType = DamageClass.Ranged;

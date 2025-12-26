@@ -45,6 +45,12 @@ namespace MogMod.Projectiles
         }
         public override void Kill(int timeLeft)
         {
+            if (Projectile.owner == Main.myPlayer)
+            {
+                Projectile.localAI[1] = -1f;
+                Projectile.maxPenetrate = 0;
+                Projectile.Damage();
+            }
             for (int i = 0; i < 20; i++)
             {
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Blood, 0f, 0f, 0, default(Color), 1f);

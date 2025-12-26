@@ -21,7 +21,7 @@ namespace MogMod.Items.Other
             Item.rare = ItemRarityID.Master;
             Item.master = true;
             // (platcoin, goldcoin, silvercoin, coppercoin)
-            Item.value = Item.buyPrice(2, 50, 0, 0);
+            Item.value = Item.buyPrice(6, 50, 0, 0);
         }
 
         // gets rid of "Master" text in tooltip

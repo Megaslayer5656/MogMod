@@ -35,6 +35,7 @@ namespace MogMod.Items.Accessories
             player.tileSpeed += .40f;
             player.lifeRegen += 6;
             player.statDefense += 5;
+            player.manaRegen += (int)Math.Round(player.manaRegen * .5f);
             player.GetDamage(DamageClass.Melee) += -.30f;
             player.GetDamage(DamageClass.Generic) += .10f;
             Player.tileRangeX = Player.tileRangeY += 3;

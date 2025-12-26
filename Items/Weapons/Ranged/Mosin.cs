@@ -12,8 +12,9 @@ using Microsoft.Xna.Framework;
 
 namespace MogMod.Items.Weapons.Ranged
 {
-    public class Mosin : ModItem
+    public class Mosin : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.damage = 50;

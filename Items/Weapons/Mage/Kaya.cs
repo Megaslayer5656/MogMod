@@ -37,7 +37,7 @@ namespace MogMod.Items.Weapons.Mage
         }
 
         // here instead of SetDefaults since terraria doesnt like it being in there for some reason
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 25;
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 26;
 
         // copy pasted from infernal rift in calamity
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

@@ -10,8 +10,9 @@ using MogMod.Common.Player;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class HydrakanLatch : ModItem
+    public class HydrakanLatch : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
             Item.width = 68;

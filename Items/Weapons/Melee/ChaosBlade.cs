@@ -13,7 +13,7 @@ using MogMod.Utilities;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class ChaosBlade : ModItem
+    public class ChaosBlade : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         Random random = new Random();

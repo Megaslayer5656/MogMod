@@ -14,8 +14,9 @@ using System.Security.Cryptography.X509Certificates;
 namespace MogMod.Items.Weapons.Ranged
 {
     //143x85
-    public class BerserkersSpear : ModItem
+    public class BerserkersSpear : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.damage = 75;

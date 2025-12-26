@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles
 {
-    public class YashaProjectile : ModProjectile, ILocalizedModType
+    public class HeavensHalberdProjectile : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles";
         public override void SetStaticDefaults()
@@ -20,8 +20,8 @@ namespace MogMod.Projectiles
 
         public override void SetDefaults()
         {
-            Projectile.width = 14;
-            Projectile.height = 14;
+            Projectile.width = 40;
+            Projectile.height = 26;
             Projectile.friendly = true;
             Projectile.penetrate = 3;
             DrawOffsetX = -10;
@@ -31,7 +31,7 @@ namespace MogMod.Projectiles
             Projectile.localNPCHitCooldown = 40;
             Projectile.extraUpdates = 2;
             AIType = ProjectileID.JavelinFriendly;
-            Projectile.DamageType = DamageClass.Ranged; 
+            Projectile.DamageType = DamageClass.Ranged;
         }
 
         public override void AI()
@@ -41,7 +41,7 @@ namespace MogMod.Projectiles
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
             //Gravity
-            Projectile.velocity.Y = Projectile.velocity.Y + 0.030f;
+            Projectile.velocity.Y = Projectile.velocity.Y + 0.020f;
             if (Projectile.velocity.Y > 16f)
             {
                 Projectile.velocity.Y = 16f;
@@ -50,7 +50,7 @@ namespace MogMod.Projectiles
             //Dust trail
             if (Main.rand.NextBool(25))
             {
-                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.TerraBlade, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 150, default, 0.9f);
+                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.TerraBlade, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 150, default, 1.2f);
                 Main.dust[d].position = Projectile.Center;
                 Main.dust[d].noLight = true;
             }
@@ -59,16 +59,37 @@ namespace MogMod.Projectiles
         // makes it summon an additional projectile
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            int projAmt = 2; // number of projectiles to summon
             var source = Projectile.GetSource_FromThis();
-            for (int x = 0; x < projAmt; x++)
+            SoundEngine.PlaySound(SoundID.Item72, Projectile.Center);
+            for (int n = 0; n < 5; n++)
             {
-                if (Projectile.owner == Main.myPlayer && Projectile.numHits <= 2)
-                {
-                    // proj barrage does (source, Vector2 originVec, Vector2 targetPos, T/F fromRight, xOffsetMin, xOffsetMax, yOffsetMin, yOffsetMax, projSpeed, projType, damage, knockback, owner, T/F clamped, innacuracy)
-                    MogModUtils.ProjectileBarrage(source, Projectile.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<YashaProj>(), Convert.ToInt32(Projectile.damage * 0.8), 0f, Projectile.owner, false, 0f);
-                }  
-            }   
+                MogModUtils.ProjectileRain(source, Projectile.Center, 200f, 100f, 1500f, 1500f, 29f, ModContent.ProjectileType<HeavensHalberdProj>(), Convert.ToInt32(Projectile.damage * .65), Projectile.knockBack, Projectile.owner);
+            }
+            Projectile.ExpandHitboxBy(36);
+            int dustAmt = 36;
+            for (int j = 0; j < dustAmt; j++)
+            {
+                Vector2 dustRotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 1f; //0.75
+                dustRotate = dustRotate.RotatedBy((double)((float)(j - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default) + Projectile.Center;
+                Vector2 dustDirection = dustRotate - Projectile.Center;
+                int killDust = Dust.NewDust(dustRotate + dustDirection, 0, 0, DustID.ShimmerSpark, dustDirection.X, dustDirection.Y, 100, default, 1.2f);
+                Main.dust[killDust].noGravity = true;
+                Main.dust[killDust].noLight = true;
+                Main.dust[killDust].velocity = dustDirection;
+            }
+            for (int j = 0; j < dustAmt; j++)
+            {
+                Vector2 dustRotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                dustRotate = dustRotate.RotatedBy((double)((float)(j - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default) + Projectile.Center;
+                Vector2 dustDirection = dustRotate - Projectile.Center;
+                int killDust = Dust.NewDust(dustRotate + dustDirection, 0, 0, DustID.TerraBlade, dustDirection.X, dustDirection.Y, 100, default, 1.2f);
+                Main.dust[killDust].noGravity = true;
+                Main.dust[killDust].noLight = true;
+                Main.dust[killDust].velocity = dustDirection;
+            }
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
         }
         public override void OnKill(int timeLeft)
         {

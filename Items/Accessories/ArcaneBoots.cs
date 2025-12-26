@@ -31,6 +31,7 @@ namespace MogMod.Items.Accessories
             player.moveSpeed += .15f;
             player.accRunSpeed = 7f;
             player.statManaMax2 += 50;
+            player.manaRegen += (int)Math.Round(player.manaRegen * .2f);
             // a check on whether the player is wearing boots
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingManaBoots = true;

@@ -3,9 +3,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace MogMod.Items.Weapons.Melee
 {
-	public class Dabdadblade : ModItem
-	{
-		public override void SetDefaults()
+	public class Dabdadblade : ModItem, ILocalizedModType
+    {
+        public new string LocalizationCategory => "Items.Weapons.Melee";
+        public override void SetDefaults()
 		{
 			Item.damage = 50;
 			Item.DamageType = DamageClass.Melee;

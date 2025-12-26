@@ -9,8 +9,9 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace MogMod.Items.Weapons.Ranged
 {
-    public class BloodGrenade : ModItem
+    public class BloodGrenade : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;

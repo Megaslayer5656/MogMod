@@ -13,8 +13,9 @@ using MogMod.Items.Other;
 
 namespace MogMod.Items.Weapons.Ranged
 {
-    public class R8Revolver :ModItem
+    public class R8Revolver :ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         public bool rotated = false;
         public override void SetDefaults()
         {

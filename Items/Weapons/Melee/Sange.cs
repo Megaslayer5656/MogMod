@@ -11,8 +11,9 @@ using MogMod.Items.Other;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class Sange : ModItem
+    public class Sange : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
             Item.width = 50;

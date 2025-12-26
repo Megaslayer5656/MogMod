@@ -11,8 +11,9 @@ using Terraria.Audio;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class BlinkDagger : ModItem
+    public class BlinkDagger : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
             Item.width = 42;
