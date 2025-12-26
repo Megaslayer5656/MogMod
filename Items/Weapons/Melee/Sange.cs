@@ -18,30 +18,30 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 50;
             Item.height = 59;
-            Item.damage = 50;
+            Item.damage = 58;
             Item.scale = 1.5f;
             Item.DamageType = DamageClass.Melee;
             Item.useTime = 16;
             Item.useAnimation = 16;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 7f;
-            Item.value = Item.buyPrice(0, 7, 30, 50);
+            Item.value = Item.buyPrice(0, 65, 0, 0);
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
         }
 
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 76;
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 66;
 
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.AdamantiteSword, 1).
-                AddIngredient(ItemID.ChlorophyteBar, 15).
+                AddIngredient<Crystalys>(1).
+                AddRecipeGroup("AdamantiteBar", 12).
                 AddIngredient(ItemID.SoulofFright, 7).
                 AddIngredient(ItemID.SoulofNight, 7).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(ItemID.MythrilAnvil).
+                AddTile(TileID.MythrilAnvil).
                 Register();
         }
     }

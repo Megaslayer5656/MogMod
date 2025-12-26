@@ -949,8 +949,8 @@ Items: {
 		Tooltip:
 			'''
 			Permanently increases maximum mana by 100
-			'With origins known only to a single wizard, 
-			fragments of this impossible crystal are nearly 
+			'With origins known only to a single wizard,
+			fragments of this impossible crystal are nearly
 			as coveted as the renowned scepter itself.'
 			'''
 	}
@@ -960,19 +960,18 @@ Items: {
 		Tooltip: ""
 	}
 
-	HeavensHalberd: {
-		Tooltip: ""
-		DisplayName: Heavens Halberd
-	}
-
 	BlockOfCheese: {
 		DisplayName: Block Of Cheese
-		Tooltip: ""
+		Tooltip: Try me!
 	}
 
 	Cheese: {
 		DisplayName: Cheese
-		Tooltip: ""
+		Tooltip:
+			'''
+			'Made from the milk of a long lost Furbolg vendor,
+			it restores the vitality of those who taste it.'
+			'''
 	}
 
 	GreaterHealingLotus: {
@@ -988,6 +987,16 @@ Items: {
 	HealingLotus: {
 		DisplayName: Healing Lotus
 		Tooltip: ""
+	}
+
+	AXMC: {
+		DisplayName: AXMC
+		Tooltip:
+			'''
+			Shoots AP Lapua rounds
+			Right click to scope in
+			'Time for some area brainrot.'
+			'''
 	}
 }
 
@@ -1186,7 +1195,7 @@ Buffs: {
 	}
 
 	BlinkDebuff: {
-		DisplayName: Blink Debuff
+		DisplayName: Blink Cooldown
 		Description: Blink Dagger is on cooldown!
 	}
 
@@ -1206,8 +1215,13 @@ Buffs: {
 	}
 
 	CheeseBuff: {
-		DisplayName: Cheese Buff
-		Description: Mods.MogMod.Buffs.CheeseBuff.Description
+		DisplayName: Delicious Cheese
+		Description: Scrumptious!
+	}
+
+	HeavyBleed: {
+		DisplayName: Heavy Bleed
+		Description: Mods.MogMod.Buffs.HeavyBleed.Description
 	}
 }
 
@@ -1240,6 +1254,7 @@ Projectiles: {
 	SkullBashProjectile.DisplayName: Skull Bash
 	HeavensHalberdProjectile.DisplayName: Heaven's Halberd
 	HeavensHalberdProj.DisplayName: Heavenly Beam
+	APLapua.DisplayName: AP Lapua
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore

@@ -46,7 +46,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.Javelin, 25).
-                AddIngredient(ItemID.ChlorophyteBar, 15).
+                AddRecipeGroup("CobaltBar", 16).
                 AddIngredient(ItemID.SoulofSight, 7).
                 AddIngredient(ItemID.SoulofFlight, 7).
                 AddIngredient<CraftingRecipe>(1).

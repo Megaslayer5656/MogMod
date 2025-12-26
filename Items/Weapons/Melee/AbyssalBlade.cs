@@ -42,12 +42,11 @@ namespace MogMod.Items.Weapons.Melee
             Item.scale = 1.5f;
             Item.shootSpeed = 10f;
         }
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 66;
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_OnHit(target);
             Item.damage = 68;
-            Item.crit = 76;
+            Item.crit = 66;
             randChance = random.Next(1, 4);
             if (skullBash)
             {

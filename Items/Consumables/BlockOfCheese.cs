@@ -32,7 +32,7 @@ namespace MogMod.Items.Consumables
             Item.master = true;
             Item.value = Item.buyPrice(0, 18, 40, 0);
             Item.buffType = ModContent.BuffType<Buffs.CheeseBuff>();
-            Item.buffTime = 18000;
+            Item.buffTime = 1800;
         }
         
         // gets rid of "Master" text in tooltip
@@ -50,7 +50,7 @@ namespace MogMod.Items.Consumables
                 AddIngredient<GreaterHealingLotus>(3).
                 AddIngredient<Cheese>(1).
                 AddIngredient(ItemID.EndurancePotion, 1).
-                AddIngredient(ItemID.Ectoplasm, 1).
+                AddIngredient(ItemID.LihzahrdPowerCell, 1).
                 AddTile(TileID.Bottles).
                 Register()
                 .DisableDecraft();

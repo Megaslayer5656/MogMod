@@ -32,8 +32,8 @@ namespace MogMod.Items.Consumables
         public override void AddRecipes()
         {
             CreateRecipe(3).
-                AddIngredient(ItemID.Moonglow, 2).
-                AddIngredient(ItemID.FallenStar, 3).
+                AddIngredient(ItemID.Moonglow, 3).
+                AddIngredient(ItemID.FallenStar, 2).
                 AddTile(TileID.Bottles).
                 Register()
                 .DisableDecraft();

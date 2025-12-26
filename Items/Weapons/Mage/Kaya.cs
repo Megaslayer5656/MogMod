@@ -28,7 +28,7 @@ namespace MogMod.Items.Weapons.Mage
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 7f;
-            Item.value = Item.buyPrice(0, 7, 30, 50);
+            Item.value = Item.buyPrice(0, 58, 0, 0);
             Item.rare = ItemRarityID.Cyan;
             Item.UseSound = SoundID.Item9;
             Item.autoReuse = true;
@@ -71,7 +71,7 @@ namespace MogMod.Items.Weapons.Mage
         {
             CreateRecipe().
                 AddIngredient(ItemID.SkyFracture, 1).
-                AddIngredient(ItemID.ChlorophyteBar, 15).
+                AddRecipeGroup("MythrilBar", 14).
                 AddIngredient(ItemID.SoulofMight, 7).
                 AddIngredient(ItemID.SoulofLight, 7).
                 AddIngredient<CraftingRecipe>(1).
