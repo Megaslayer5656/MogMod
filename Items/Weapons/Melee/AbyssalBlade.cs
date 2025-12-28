@@ -47,6 +47,9 @@ namespace MogMod.Items.Weapons.Melee
             var source = player.GetSource_OnHit(target);
             Item.damage = 68;
             Item.crit = 66;
+            int heal = (int)(player.lifeSteal * .12f);
+            player.statLife += heal;
+            player.HealEffect(heal);
             randChance = random.Next(1, 4);
             if (skullBash)
             {

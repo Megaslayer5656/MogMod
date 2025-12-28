@@ -69,5 +69,6 @@ namespace MogMod.Items.Weapons.Ranged
             return base.AltFunctionUse(player);
         }
         //TODO: Add way to craft the AXMC
+        // make it use 8 vortex frags and TileID.LunarCraftingStation
     }
 }

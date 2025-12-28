@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Items.Accessories;
+using MogMod.Items.Other;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -47,15 +48,10 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.AdamantiteSword, 1).
+                AddRecipeGroup("AdamantiteBar", 28).
                 AddIngredient<BladesOfAttack>(1).
                 AddIngredient(ItemID.SoulofNight, 7).
-                AddTile(TileID.MythrilAnvil).
-                Register();
-            CreateRecipe().
-                AddIngredient(ItemID.TitaniumSword, 1).
-                AddIngredient<BladesOfAttack>(1).
-                AddIngredient(ItemID.SoulofNight, 7).
+                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

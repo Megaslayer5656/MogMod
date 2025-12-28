@@ -32,7 +32,12 @@ namespace MogMod.Items.Weapons.Melee
         }
 
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 66;
-
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            int heal = (int)(player.lifeSteal * .06f);
+            player.statLife += heal;
+            player.HealEffect(heal);
+        }
         public override void AddRecipes()
         {
             CreateRecipe().

@@ -390,8 +390,8 @@ Items: {
 			Tooltip: When there's no exit...
 		}
 
-		Daedalus: {
-			DisplayName: Daedalus
+		DaedalusUnused: {
+			DisplayName: Daedalus (ACCESSORY)
 			Tooltip:
 				'''
 				+40% Attack Damage 
@@ -624,6 +624,17 @@ Items: {
 				'Yasha and Kaya when paired together share a natural resonance.'
 				'''
 		}
+
+		VladmirsOffering: {
+			DisplayName: Vladmirs Offering
+			Tooltip:
+				'''
+				Increases your max number of sentries by 2
+				Provides you and nearby team members 3 defense, +7% increased attack damage,
+				increased mana regeneration, and increased lifesteal effectiveness
+				'An eerie mask that is haunted with the malice of a fallen vampire.'
+				'''
+		}
 	}
 
 	IronBranch: {
@@ -743,6 +754,33 @@ Items: {
 					Has a chance to bash enemies multiple times
 					'The lost blade of the Commander of the Abyss, 
 					this edge cuts into an enemy's soul.'
+					'''
+			}
+
+			EchoSabre: {
+				DisplayName: Echo Sabre
+				Tooltip:
+					'''
+					Strikes twice on every swing
+					'A deceptively swift blade imbued with resonant magic.'
+					'''
+			}
+
+			BattleFury: {
+				DisplayName: Battle Fury
+				Tooltip:
+					'''
+					'The bearer of this mighty axe gains the
+					ability to cut down swaths of enemies at once.'
+					'''
+			}
+
+			Daedalus: {
+				DisplayName: Daedalus
+				Tooltip:
+					'''
+					'A weapon of incredible power that is difficult 
+					for even the strongest of warriors to control.'
 					'''
 			}
 		}
@@ -1223,6 +1261,11 @@ Buffs: {
 		DisplayName: Heavy Bleed
 		Description: Mods.MogMod.Buffs.HeavyBleed.Description
 	}
+
+	VladmirsBuff: {
+		DisplayName: Vladmirs Buff
+		Description: +3 Defense, +7% Attack Damage, Increased mana regeneration and lifesteal effectiveness
+	}
 }
 
 Projectiles: {
@@ -1245,16 +1288,19 @@ Projectiles: {
 	BloodMagicProjectile.DisplayName: Blood Magic
 	ChaosBladeProj.DisplayName: Chaos Blade
 	WarriorsFireSpearProj.DisplayName: Fire Spear
-	WarriorsSpearProj.DisplayName: Warriors Spear
+	WarriorsSpearProj.DisplayName: Warrior Spear
 	MeteorHammerHoldout.DisplayName: Meteor Hammer
 	MeteorHammerProjectile.DisplayName: Colossal Meteor
-	AghanimProjectile.DisplayName: Aghanim's Energy Sword
+	AghanimProjectile.DisplayName: Energy Sword
 	BerserkersFireSpearProj.DisplayName: Blazing Spear
-	BerserkersSpearProj.DisplayName: Berserkers Spear
+	BerserkersSpearProj.DisplayName: Berserker Spear
 	SkullBashProjectile.DisplayName: Skull Bash
-	HeavensHalberdProjectile.DisplayName: Heaven's Halberd
+	HeavensHalberdProjectile.DisplayName: Heavenly Halberd
 	HeavensHalberdProj.DisplayName: Heavenly Beam
 	APLapua.DisplayName: AP Lapua
+	BattleFuryProjectile.DisplayName: Battle Fury
+	DaedalusBoom.DisplayName: Daedalus Boom
+	DaedalusProjectile.DisplayName: Daedalus Projectile
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore

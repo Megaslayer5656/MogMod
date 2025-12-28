@@ -96,9 +96,9 @@ namespace MogMod.Items.Weapons.Mage
                 AddIngredient<Kaya>(1).
                 AddIngredient(ItemID.MeteorStaff, 1).
                 AddIngredient(ItemID.StaffofEarth, 1).
-                AddIngredient(ItemID.FragmentVortex, 8).
+                AddIngredient(ItemID.FragmentNebula, 8).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.LunarCraftingStation).
                 Register();
         }
     }
