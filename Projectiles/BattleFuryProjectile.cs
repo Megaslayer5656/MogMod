@@ -33,6 +33,7 @@ namespace MogMod.Projectiles
 
         public override void AI()
         {
+            //TODO: Add firey dust trail
             // makes the projectile rotate
             float rotateratio = 0.019f;
             float rotation = (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * rotateratio;
