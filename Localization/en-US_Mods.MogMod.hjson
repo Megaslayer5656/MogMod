@@ -1036,6 +1036,11 @@ Items: {
 			'Time for some area brainrot.'
 			'''
 	}
+
+	ThunderSeal: {
+		DisplayName: Thunder Seal
+		Tooltip: ""
+	}
 }
 
 NPCs: {
@@ -1266,6 +1271,11 @@ Buffs: {
 		DisplayName: Vladmirs Buff
 		Description: +3 Defense, +7% Attack Damage, Increased mana regeneration and lifesteal effectiveness
 	}
+
+	ShockState: {
+		DisplayName: Shock State
+		Description: Mods.MogMod.Buffs.ShockState.Description
+	}
 }
 
 Projectiles: {
@@ -1301,6 +1311,8 @@ Projectiles: {
 	BattleFuryProjectile.DisplayName: Battle Fury
 	DaedalusBoom.DisplayName: Daedalus Boom
 	DaedalusProjectile.DisplayName: Daedalus Projectile
+	StunEdge.DisplayName: Stun Edge
+	ThunderSealProj.DisplayName: Thunder Seal Proj
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore

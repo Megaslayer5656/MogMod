@@ -29,7 +29,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.knockBack = 10f;
             Item.UseSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/AXMCShot")
             {
-                Volume = 1.75f,
+                Volume = 2.25f,
                 PitchVariance = .02f,
             };
             Item.value = Item.buyPrice(0, 32, 82, 5);
