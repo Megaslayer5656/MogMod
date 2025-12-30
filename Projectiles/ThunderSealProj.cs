@@ -45,7 +45,7 @@ namespace MogMod.Projectiles
 
             Vector2 projPos = Projectile.position;
             projPos -= Projectile.velocity;
-            int Bolt = Dust.NewDust(projPos, 1, 1, DustID.IchorTorch, 0f, 0f, 0, default, 0.2f);
+            int Bolt = Dust.NewDust(projPos, 1, 1, DustID.IceTorch, 0f, 0f, 0, default, 0.2f);
             Main.dust[Bolt].position = projPos;
             Main.dust[Bolt].scale = Main.rand.Next(10, 30) * 0.014f;
             Main.dust[Bolt].velocity *= 0.8f;

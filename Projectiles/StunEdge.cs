@@ -48,14 +48,17 @@ namespace MogMod.Projectiles
         {
             Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
-            //TODO: Add cool dust effect on kill
+            for (int i = 0; i < 4; i++)
+            {
+                int stunEdgeKill = Dust.NewDust(Projectile.position, 1, 1, DustID.Electric, 0, 0, 0, default, 1f);
+            }
         }
 
         public override void AI()
         {
             if (Main.rand.NextBool(15))
             {
-                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.IchorTorch, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 150, default, 0.9f);
+                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.IceTorch, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 150, default, 1.25f);
                 Main.dust[d].position = Projectile.Center;
                 Main.dust[d].noLight = true;
             }

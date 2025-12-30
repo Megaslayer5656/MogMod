@@ -1039,7 +1039,14 @@ Items: {
 
 	ThunderSeal: {
 		DisplayName: Thunder Seal
-		Tooltip: ""
+		Tooltip: 
+			'''
+			Right click to shoot a projectile
+			The projectile inflicts shock state
+			While in shock state, enemies hit with
+			 the Thunder Seal get shocked
+			'A king's blade is not just for show'
+			'''
 	}
 }
 

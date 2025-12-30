@@ -13,20 +13,27 @@ using MogMod.Projectiles;
 using Terraria.Audio;
 using MogMod.Utilities;
 using Mono.Cecil;
+using MogMod.Items.Other;
+using MogMod.Utilities;
 
 namespace MogMod.Items.Weapons.Melee
 {
     public class ThunderSeal : ModItem
     {
+        SoundStyle shockStateMeleeProc = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ShockStateMeleeProc")
+        {
+            Volume = .67f,
+            PitchVariance = .02f,
+        };
         public override void SetDefaults()
         {
             Item.width = 99;
             Item.height = 100;
-            Item.damage = 58;
-            Item.scale = .5f;
+            Item.damage = 60;
+            Item.scale = .65f;
             Item.DamageType = DamageClass.Melee;
-            Item.useTime = 16;
-            Item.useAnimation = 16;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 7f;
             Item.value = Item.buyPrice(0, 65, 0, 0);
@@ -41,11 +48,12 @@ namespace MogMod.Items.Weapons.Melee
         }
         public override bool CanUseItem(Player player)
         {
-            Item.useTime = 16;
-            Item.useAnimation = 16;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.shoot = 0;
             Item.UseSound = SoundID.Item1;
+            Item.noMelee = false;
             if (player.altFunctionUse == 2)
             {
                 //Somehow make it not melee
@@ -58,13 +66,15 @@ namespace MogMod.Items.Weapons.Melee
                     Volume = .67f,
                     PitchVariance = .02f,
                 };
+                Item.noMelee = true;
             } else
             {
-                Item.useTime = 16;
-                Item.useAnimation = 16;
+                Item.useTime = 20;
+                Item.useAnimation = 20;
                 Item.useStyle = ItemUseStyleID.Swing;
                 Item.shoot = 0;
                 Item.UseSound = SoundID.Item1;
+                Item.noMelee = false;
             }
             return true;
         }
@@ -74,19 +84,30 @@ namespace MogMod.Items.Weapons.Melee
             if (target.HasBuff<ShockState>())
             {
                 //TODO: Eventually make it a lightning strike instead of a dust particle attack
-                //TODO: Add different lightning sound on hit
                 var source = target.GetSource_FromAI();
                 for (int x = 0; x < 4; x++)
                 {
-                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ThunderSealProj>(), Convert.ToInt32(Item.damage * 1.1), 0f, player.whoAmI, false, 0f);
+                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ThunderSealProj>(), 75, 0f, player.whoAmI, false, 0f);
                 }
                 target.DelBuff(target.FindBuffIndex(ModContent.BuffType<ShockState>()));
-                }
+                SoundEngine.PlaySound(shockStateMeleeProc, target.Center);
             }
+        }
 
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             damage = 20;
+        }
+
+        public override void AddRecipes()
+        {
+            //TODO: Make this recipe more interesting but not too grindy
+            CreateRecipe().
+                AddIngredient(ItemID.SoulofLight, 10).
+                AddIngredient(ItemID.SoulofFlight, 5).
+                AddRecipeGroup("CobaltBar", 15).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

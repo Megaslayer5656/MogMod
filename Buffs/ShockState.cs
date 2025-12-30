@@ -21,7 +21,7 @@ namespace MogMod.Buffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-           //TODO: Add dust effect for npc
+            int shockDust = Dust.NewDust(npc.Center, 1, 1, DustID.Electric, 0, 0, 0, default, .5f); //Shock state effect on target
         }
     }
 }
