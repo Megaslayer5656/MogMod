@@ -16,8 +16,8 @@ namespace MogMod.Projectiles
     {
         public override void SetDefaults()
         {
-            Projectile.width = 136;
-            Projectile.height = 2;
+            Projectile.width = 20;
+            Projectile.height = 20;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.friendly = true;
             Projectile.hostile = false;

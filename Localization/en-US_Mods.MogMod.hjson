@@ -1083,6 +1083,18 @@ Items: {
 		DisplayName: Healing Lotus
 		Tooltip: ""
 	}
+
+	ThunderSeal: {
+		DisplayName: Thunder Seal
+		Tooltip: 
+			'''
+			Right click to shoot a projectile
+			The projectile inflicts shock state
+			While in shock state, enemies hit with
+			 the Thunder Seal get shocked
+			'A king's blade is not just for show'
+			'''
+	}
 }
 
 NPCs: {
@@ -1313,6 +1325,11 @@ Buffs: {
 		DisplayName: Vladmirs Buff
 		Description: +3 Defense, +7% Attack Damage, Increased mana regeneration and lifesteal effectiveness
 	}
+
+	ShockState: {
+		DisplayName: Shock State
+		Description: Mods.MogMod.Buffs.ShockState.Description
+	}
 }
 
 Projectiles: {
@@ -1362,6 +1379,8 @@ Projectiles: {
 	DagonFiveOrb.DisplayName: Dagon Five Orb
 	DagonFiveExplosion.DisplayName: Dagon Five Explosion
 	DagonFiveSkyProj.DisplayName: Dagon Five Sky Proj
+	StunEdge.DisplayName: Stun Edge
+	ThunderSealProj.DisplayName: Thunder Seal Proj
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore

@@ -31,6 +31,7 @@
     <None Remove="app.config" />
     <None Remove="Buffs\GlueBuff.png" />
     <None Remove="Buffs\GlueDebuff.png" />
+    <None Remove="Buffs\ShockState.png" />
     <None Remove="Buffs\VonDebuff.png" />
     <None Remove="build.txt" />
     <None Remove="Common\Tiles\DabDadOre.png" />
@@ -49,6 +50,7 @@
     <None Remove="Items\Placeable\DabdadOreP.png" />
     <None Remove="Items\Weapons\Magic\BloodMagic.png" />
     <None Remove="Items\Weapons\Melee\GoldenHydrakanLatch.png" />
+    <None Remove="Items\Weapons\Melee\ThunderSeal.png" />
     <None Remove="Items\Weapons\Ranged\BerserkersSpear.png" />
     <None Remove="Items\Weapons\Ranged\R8Revolver.png" />
     <None Remove="Items\Weapons\Sange.png" />
@@ -60,6 +62,7 @@
     <None Remove="Projectiles\BaseProjectiles\BloodMagicProjectile.png" />
     <None Remove="Projectiles\BerserkersFireSpearProj.png" />
     <None Remove="Projectiles\GreenTracerProj.png" />
+    <None Remove="Projectiles\StunEdge.png" />
     <None Remove="Projectiles\VonNade.png" />
     <None Remove="README.md" />
   </ItemGroup>
