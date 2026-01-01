@@ -16,11 +16,6 @@ Items: {
 		Tooltip: ""
 	}
 
-	MageShotgun: {
-		Tooltip: Made by Jobius Job (kinda)
-		DisplayName: Mage Shotgun
-	}
-
 	GunLance: {
 		DisplayName: Gun Lance
 		Tooltip: Time to hunt some monsters.
@@ -805,7 +800,7 @@ Items: {
 				DisplayName: Heaven's Halberd
 				Tooltip:
 					'''
-					When hitting an enemy, cast down heavenly beams from the sky
+					Casts down heavenly beams from the sky
 					'This halberd moves with the speed of a smaller weapon, 
 					allowing the bearer to win duels that a heavy edge would not.'
 					'''
@@ -846,6 +841,131 @@ Items: {
 					Strikes two extra times on each hit
 					'Yasha is regarded as the swiftest weapon ever created.'
 					'''
+			}
+
+			AXMC: {
+				DisplayName: AXMC
+				Tooltip:
+					'''
+					Shoots AP Lapua rounds
+					Right click to scope in
+					'Time for some area brainrot.'
+					'''
+			}
+		}
+
+		Magic: {
+			AghanimScepter: {
+				DisplayName: Aghanim's Scepter
+				Tooltip:
+					'''
+					Fires a barrage of homing swords
+					'The scepter of a wizard with demigod-like powers.'
+					'''
+			}
+
+			BloodMagic: {
+				DisplayName: Blood Magic
+				Tooltip:
+					'''
+					Heals for 1.25% of max health on hit
+					'Created by the famous sorcerer Vlad'
+					'''
+			}
+
+			DagonOne: {
+				DisplayName: Dagon
+				Tooltip:
+					'''
+					Fires a weak bolt
+					'A lesser wand that brings magic
+					to the fingertips of the user.'
+					'''
+			}
+
+			FierySoul: {
+				DisplayName: Fiery Soul
+				Tooltip:
+					'''
+					Hitting enemies grants a stack of Fiery Soul,
+					increasing magic attack speed and movement speed per stack.
+					'''
+			}
+
+			Kaya: {
+				DisplayName: Kaya
+				Tooltip:
+					'''
+					Fires a barrage of swords
+					'The staff of a renowned sorceress, 
+					lost for countless millennia.'
+					'''
+			}
+
+			Khanda: {
+				DisplayName: Khanda
+				Tooltip: Fires a powerful magical beam
+			}
+
+			LagunaBlade: {
+				DisplayName: Laguna Blade
+				Tooltip:
+					'''
+					Hitting enemies grants a stack of Fiery Soul, 
+					increasing magic attack speed and movement speed per stack.
+					Right click to fire a bolt of lightning, granting max stacks of Fiery Soul
+					'Words hurt more than Laguna Blade'
+					'''
+			}
+
+			MageShotgun: {
+				Tooltip: Made by Jobius Job (kinda)
+				DisplayName: Mage Shotgun
+			}
+
+			MeteorHammer: {
+				DisplayName: Meteor Hammer
+				Tooltip: Summons a world-ending meteor
+			}
+
+			Phylactery: {
+				DisplayName: Phylactery
+				Tooltip: Fires a magical beam
+			}
+
+			DagonTwo: {
+				DisplayName: Dagon
+				Tooltip:
+					'''
+					Fires a flaming bolt
+					'A wand that brings magic
+					to the fingertips of the user.'
+					'''
+			}
+
+			DagonThree: {
+				DisplayName: Dagon
+				Tooltip:
+					'''
+					Fires a blazing volatile bolt
+					'A wand that brings volatile magic
+					to the fingertips of the user.'
+					'''
+			}
+
+			DagonFour: {
+				DisplayName: Dagon
+				Tooltip:
+					'''
+					Fires multiple blazing bolts that summon homing volatile orbs on hit
+					'A superior staff that brings volatile 
+					magic to the fingertips of the user.'
+					'''
+			}
+
+			DagonFive: {
+				DisplayName: Dagon
+				Tooltip: ""
 			}
 		}
 	}
@@ -914,72 +1034,9 @@ Items: {
 			'''
 	}
 
-	Kaya: {
-		DisplayName: Kaya
-		Tooltip:
-			'''
-			Fires a barrage of swords
-			'The staff of a renowned sorceress, 
-			lost for countless millennia.'
-			'''
-	}
-
 	MosinLPS: {
 		DisplayName: LPS Ammo
 		Tooltip: ""
-	}
-
-	Phylactery: {
-		DisplayName: Phylactery
-		Tooltip: Fires a magical beam
-	}
-
-	Khanda: {
-		DisplayName: Khanda
-		Tooltip: Fires a powerful magical beam
-	}
-
-	LagunaBlade: {
-		DisplayName: Laguna Blade
-		Tooltip:
-			'''
-			Hitting enemies grants a stack of Fiery Soul, 
-			increasing magic attack speed and movement speed per stack.
-			Right click to fire a bolt of lightning, granting max stacks of Fiery Soul
-			'Words hurt more than Laguna Blade'
-			'''
-	}
-
-	FierySoul: {
-		DisplayName: Fiery Soul
-		Tooltip:
-			'''
-			Hitting enemies grants a stack of Fiery Soul,
-			increasing magic attack speed and movement speed per stack.
-			'''
-	}
-
-	BloodMagic: {
-		DisplayName: Blood Magic
-		Tooltip:
-			'''
-			Heals for 1.25% of max health on hit
-			'Created by the famous sorcerer Vlad'
-			'''
-	}
-
-	MeteorHammer: {
-		DisplayName: Meteor Hammer
-		Tooltip: Summons a world-ending meteor
-	}
-
-	AghanimScepter: {
-		DisplayName: Aghanim's Scepter
-		Tooltip:
-			'''
-			Fires a barrage of homing swords
-			'The scepter of a wizard with demigod-like powers.'
-			'''
 	}
 
 	AghanimShard: {
@@ -1025,16 +1082,6 @@ Items: {
 	HealingLotus: {
 		DisplayName: Healing Lotus
 		Tooltip: ""
-	}
-
-	AXMC: {
-		DisplayName: AXMC
-		Tooltip:
-			'''
-			Shoots AP Lapua rounds
-			Right click to scope in
-			'Time for some area brainrot.'
-			'''
 	}
 }
 
@@ -1301,6 +1348,20 @@ Projectiles: {
 	BattleFuryProjectile.DisplayName: Battle Fury
 	DaedalusBoom.DisplayName: Daedalus Boom
 	DaedalusProjectile.DisplayName: Daedalus Projectile
+	DaedalusProj.DisplayName: Daedalus Proj
+	DaedalusSplitProj.DisplayName: Daedalus Split Proj
+	DagonOneProj.DisplayName: Dagon One Proj
+	DagonTwoProj.DisplayName: Dagon Two Proj
+	DagonThreeProj.DisplayName: Dagon Three Proj
+	DagonExplosion.DisplayName: Dagon Explosion
+	DagonFourProj.DisplayName: Dagon Four Proj
+	DagonBeam.DisplayName: Dagon Beam
+	DagonOrb.DisplayName: Dagon Orb
+	HeavensExplosion.DisplayName: Heavens Explosion
+	DagonFiveProj.DisplayName: Dagon Five Proj
+	DagonFiveOrb.DisplayName: Dagon Five Orb
+	DagonFiveExplosion.DisplayName: Dagon Five Explosion
+	DagonFiveSkyProj.DisplayName: Dagon Five Sky Proj
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore

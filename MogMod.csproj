@@ -47,7 +47,7 @@
     <None Remove="Items\Consumables\VonSpawner.png" />
     <None Remove="Items\Other\SoulOfDabdad.png" />
     <None Remove="Items\Placeable\DabdadOreP.png" />
-    <None Remove="Items\Weapons\Mage\BloodMagic.png" />
+    <None Remove="Items\Weapons\Magic\BloodMagic.png" />
     <None Remove="Items\Weapons\Melee\GoldenHydrakanLatch.png" />
     <None Remove="Items\Weapons\Ranged\BerserkersSpear.png" />
     <None Remove="Items\Weapons\Ranged\R8Revolver.png" />

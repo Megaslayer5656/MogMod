@@ -1,5 +1,5 @@
 ﻿using MogMod.Items.Other;
-using MogMod.Items.Weapons.Mage;
+using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Melee;
 using System;
 using System.Collections.Generic;

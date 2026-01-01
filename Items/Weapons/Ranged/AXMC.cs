@@ -14,8 +14,9 @@ using Terraria.DataStructures;
 
 namespace MogMod.Items.Weapons.Ranged
 {
-    public class AXMC : ModItem
+    public class AXMC : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.damage = 1150; //Damage of ap lapua in tarkov * 10
@@ -32,8 +33,8 @@ namespace MogMod.Items.Weapons.Ranged
                 Volume = 1.75f,
                 PitchVariance = .02f,
             };
-            Item.value = Item.buyPrice(0, 32, 82, 5);
-            Item.rare = ItemRarityID.Orange;
+            Item.value = Item.buyPrice(0, 75, 0, 0);
+            Item.rare = ItemRarityID.Red;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 200f;

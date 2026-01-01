@@ -1,68 +1,39 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Xna.Framework;
+using MogMod.Buffs;
+using MogMod.Common.Player;
+using MogMod.Items.Weapons.Magic;
 using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles
 {
-    public class HeavensHalberdProj : ModProjectile, ILocalizedModType
+    public class HeavensExplosion : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles";
         public override string Texture => "MogMod/Projectiles/InvisibleProj";
-        public override void SetStaticDefaults()
-        {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
-        }
+
+        private const float radius = 30f;
+
         public override void SetDefaults()
         {
-            Projectile.width = 4;
-            Projectile.height = 4;
+            Projectile.width = 170;
+            Projectile.height = 170;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            Projectile.penetrate = 1;
-            Projectile.alpha = 255;
-            Projectile.timeLeft = 250;
-            Projectile.MaxUpdates = 20;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 10;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
-
+            Projectile.DamageType = DamageClass.Ranged;
         }
+
         public override void AI()
         {
-            if (Projectile.timeLeft < 100)
-            {
-                Projectile.tileCollide = true;
-            }
-            Projectile.ai[0] += 1f;
-            if (Projectile.ai[0] > 6f)
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    Dust dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.YellowStarDust, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 0.5f)];
-                    dust.velocity = Vector2.Zero;
-                    dust.position -= Projectile.velocity / 5f * (float)i;
-                    dust.noGravity = true;
-                    dust.noLight = true;
-                    Dust dust2 = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldFlame, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 0.5f)];
-                    dust2.velocity = Vector2.Zero;
-                    dust2.position -= Projectile.velocity / 5f * (float)i;
-                    dust2.noGravity = true;
-                    dust2.noLight = true;
-                }
-            }
-        }
-        public override void OnKill(int timeLeft)
-        {
-            int explosionDamage = Projectile.damage;
-            float explosionKB = 6f;
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<HeavensExplosion>(), Convert.ToInt32(explosionDamage * 0.70), explosionKB, Projectile.owner);
-            SoundEngine.PlaySound(SoundID.Item60, Projectile.Center);
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 16;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
@@ -88,7 +59,11 @@ namespace MogMod.Projectiles
                 Main.dust[killDust].noLight = true;
                 Main.dust[killDust].velocity = dustDirection;
             }
+        }
+        public override void OnKill(int timeLeft)
+        {
             Projectile.Damage();
         }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => MogModUtils.CircularHitboxCollision(Projectile.Center, radius, targetHitbox);
     }
 }

@@ -1,16 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using tModPorter;
 
 namespace MogMod.Projectiles
 {
@@ -23,14 +17,6 @@ namespace MogMod.Projectiles
             {
                 new Color(110, 0, 255, 50), //Violet
             };
-        private NPC HomingTarget
-        {
-            get => Projectile.ai[0] == 0 ? null : Main.npc[(int)Projectile.ai[0] - 1];
-            set
-            {
-                Projectile.ai[0] = value == null ? 0 : value.whoAmI + 1;
-            }
-        }
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true; // Make the cultist resistant to this projectile, as it's resistant to all homing projectiles.
@@ -49,7 +35,7 @@ namespace MogMod.Projectiles
         }
         public override void AI()
         {
-
+            Projectile.ai[1] += 1f;
             DelegateMethods.v3_1 = new Vector3(0.6f, 1f, 1f) * 0.2f;
             Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * 10f, 8f, DelegateMethods.CastLightOpen);
             if (Projectile.alpha > 0)
@@ -75,38 +61,13 @@ namespace MogMod.Projectiles
                 }
             }
             Projectile.rotation = Projectile.velocity.ToRotation() + 0.7853982f;
+
             // homing AI
-            float maxDetectRadius = 400f; // The maximum radius at which a projectile can detect a target
+            if (Projectile.timeLeft < 590)
+                Projectile.ai[0] = 1f;
 
-            // A short delay to homing behavior after being fired
-            if (DelayTimer < 10)
-            {
-                DelayTimer += 1;
-                return;
-            }
-
-            // First, we find a homing target if we don't have one
-            if (HomingTarget == null)
-            {
-                HomingTarget = FindClosestNPC(maxDetectRadius);
-            }
-
-            // If we have a homing target, make sure it is still valid. If the NPC dies or moves away, we'll want to find a new target
-            if (HomingTarget != null && !IsValidTarget(HomingTarget))
-            {
-                HomingTarget = null;
-            }
-
-            // If we don't have a target, don't adjust trajectory
-            if (HomingTarget == null)
-                return;
-
-            // If found, we rotate the projectile velocity in the direction of the target.
-            // We only rotate by 3 degrees an update to give it a smooth trajectory. Increase the rotation speed here to make tighter turns
-            float length = Projectile.velocity.Length();
-            float targetAngle = Projectile.AngleTo(HomingTarget.Center);
-            Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(targetAngle, MathHelper.ToRadians(10)).ToRotationVector2() * length;
-            //Projectile.rotation = Projectile.velocity.ToRotation();
+            if (Projectile.ai[0] >= 1f)
+                MogModUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 250f, 8f, 20f);
         }
 
         public override void OnKill(int timeLeft)
@@ -168,48 +129,6 @@ namespace MogMod.Projectiles
             
             MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
-        }
-
-        // Finding the closest NPC to attack within maxDetectDistance range
-        // If not found then returns null
-        public NPC FindClosestNPC(float maxDetectDistance)
-        {
-            NPC closestNPC = null;
-
-            // Using squared values in distance checks will let us skip square root calculations, drastically improving this method's speed.
-            float sqrMaxDetectDistance = maxDetectDistance * maxDetectDistance;
-
-            // Loop through all NPCs (Main.ActiveNPCs is error in editor but works fine ingame)
-            foreach (var target in Main.ActiveNPCs)
-            {
-                // Check if NPC able to be targeted. 
-                if (IsValidTarget(target))
-                {
-                    // The DistanceSquared function returns a squared distance between 2 points, skipping relatively expensive square root calculations
-                    float sqrDistanceToTarget = Vector2.DistanceSquared(target.Center, Projectile.Center);
-
-                    // Check if it is within the radius
-                    if (sqrDistanceToTarget < sqrMaxDetectDistance)
-                    {
-                        sqrMaxDetectDistance = sqrDistanceToTarget;
-                        closestNPC = target;
-                    }
-                }
-            }
-
-            return closestNPC;
-        }
-        public bool IsValidTarget(NPC target)
-        {
-            // This method checks that the NPC is:
-            // 1. active (alive)
-            // 2. chaseable (e.g. not a cultist archer)
-            // 3. max life bigger than 5 (e.g. not a critter)
-            // 4. can take damage (e.g. moonlord core after all it's parts are downed)
-            // 5. hostile (!friendly)
-            // 6. not immortal (e.g. not a target dummy)
-            // 7. doesn't have solid tiles blocking a line of sight between the projectile and NPC
-            return target.CanBeChasedBy() && Collision.CanHit(Projectile.Center, 1, 1, target.position, target.width, target.height);
         }
     }
 }

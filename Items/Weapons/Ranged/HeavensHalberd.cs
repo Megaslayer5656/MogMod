@@ -18,7 +18,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             Item.width = 80;
             Item.height = 80;
-            Item.damage = 42;
+            Item.damage = 52;
             Item.knockBack = 7;
             Item.noMelee = true;
             Item.noUseGraphic = true;

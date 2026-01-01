@@ -69,7 +69,6 @@ namespace MogMod.Items.Weapons.Melee
             CreateRecipe().
                 AddRecipeGroup("IronBar", 20).
                 AddRecipeGroup("CrimtaneBar", 18).
-                AddRecipeGroup("TissueSample", 14).
                 AddIngredient(ItemID.Skull, 1).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.Anvils).

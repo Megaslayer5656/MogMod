@@ -57,15 +57,6 @@ namespace MogMod.Projectiles
                     dust.scale = 1.15f;
                     dust.color = Color.Lerp(Color.DarkOrchid, Color.IndianRed, colorRando);
                 }
-                // calamity's cool special effects
-
-                //for (int k = 0; k < 5; k++)
-                //{
-                //    Vector2 velocity = new Vector2(15, 15).RotatedByRandom(100) * Main.rand.NextFloat(0.6f, 1.2f);
-                //    float colorRando = Main.rand.NextFloat(0, 1);
-                //    Particle spark = new SparkParticle(Projectile.Center + velocity, velocity, true, 50, Main.rand.NextFloat(0.7f, 0.95f), Color.Lerp(Color.DarkOrchid, Color.IndianRed, colorRando));
-                //    GeneralParticleHandler.SpawnParticle(spark);
-                //}
             }
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)

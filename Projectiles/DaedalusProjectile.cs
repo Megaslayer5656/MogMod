@@ -54,7 +54,7 @@ namespace MogMod.Projectiles
                 Vector2 dustvel = -Projectile.velocity;
                 Dust dust = Dust.NewDustPerfect(Projectile.Center, 267, dustvel * Main.rand.NextFloat(0.1f, 1.2f), 0, default, Main.rand.NextFloat(0.7f, 0.9f));
                 dust.noGravity = true;
-                dust.color = Color.Lerp(Color.DarkOrchid, Color.IndianRed, Main.rand.NextFloat(0, 1));
+                dust.color = Color.Lerp(Color.LightGoldenrodYellow, Color.PaleVioletRed, Main.rand.NextFloat(0, 1));
             }
 
             // Update animation
@@ -69,10 +69,10 @@ namespace MogMod.Projectiles
 
             time++;
         }
-
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.ShadowFlame, 180);
+            target.AddBuff(BuffID.Dazed, 480);
+            target.AddBuff(BuffID.Daybreak, 480);
         }
 
         // Explodes
@@ -91,7 +91,7 @@ namespace MogMod.Projectiles
                 Dust dust = Dust.NewDustPerfect(Projectile.Center + velocity, 278, velocity * Main.rand.NextFloat(0.2f, 1f));
                 dust.noGravity = true;
                 dust.scale = Main.rand.NextFloat(0.3f, 0.65f);
-                dust.color = Color.Lerp(Color.DarkOrchid, Color.IndianRed, colorRando);
+                dust.color = Color.Lerp(Color.LightGoldenrodYellow, Color.PaleVioletRed, colorRando);
                 dust.noLight = true;
                 dust.noLightEmittence = true;
             }

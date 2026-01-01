@@ -20,10 +20,10 @@ namespace MogMod.Projectiles
 
         public override void SetDefaults()
         {
-            Projectile.width = 40;
-            Projectile.height = 26;
+            Projectile.width = 20;
+            Projectile.height = 12;
             Projectile.friendly = true;
-            Projectile.penetrate = 3;
+            Projectile.penetrate = 1;
             DrawOffsetX = -10;
             DrawOriginOffsetY = 0;
             DrawOriginOffsetX = 0;
@@ -57,16 +57,27 @@ namespace MogMod.Projectiles
         }
 
         // makes it summon an additional projectile
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        public override void OnKill(int timeLeft)
         {
             var source = Projectile.GetSource_FromThis();
-            SoundEngine.PlaySound(SoundID.Item72, Projectile.Center);
-            for (int n = 0; n < 5; n++)
+            SoundEngine.PlaySound(SoundID.NPCDeath55, Projectile.Center);
+            for (int n = 0; n < 4; n++)
             {
-                MogModUtils.ProjectileRain(source, Projectile.Center, 200f, 100f, 1500f, 1500f, 29f, ModContent.ProjectileType<HeavensHalberdProj>(), Convert.ToInt32(Projectile.damage * .65), Projectile.knockBack, Projectile.owner);
+                MogModUtils.ProjectileRain(source, Projectile.Center, 100f, 50f, 1500f, 1500f, 10f, ModContent.ProjectileType<HeavensHalberdProj>(), Convert.ToInt32(Projectile.damage * .55), Projectile.knockBack, Projectile.owner);
             }
-            Projectile.ExpandHitboxBy(36);
-            int dustAmt = 36;
+            Projectile.ExpandHitboxBy(18);
+            int dustAmt = 18;
+            for (int j = 0; j < dustAmt; j++)
+            {
+                Vector2 dustRotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                dustRotate = dustRotate.RotatedBy((double)((float)(j - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default) + Projectile.Center;
+                Vector2 dustDirection = dustRotate - Projectile.Center;
+                int killDust = Dust.NewDust(dustRotate + dustDirection, 0, 0, DustID.YellowStarDust, dustDirection.X, dustDirection.Y, 100, default, 1.2f);
+                Main.dust[killDust].noGravity = true;
+                Main.dust[killDust].noLight = true;
+                Main.dust[killDust].velocity = dustDirection;
+            }
+            Projectile.ExpandHitboxBy(18);
             for (int j = 0; j < dustAmt; j++)
             {
                 Vector2 dustRotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 1f; //0.75
@@ -77,22 +88,9 @@ namespace MogMod.Projectiles
                 Main.dust[killDust].noLight = true;
                 Main.dust[killDust].velocity = dustDirection;
             }
-            for (int j = 0; j < dustAmt; j++)
-            {
-                Vector2 dustRotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                dustRotate = dustRotate.RotatedBy((double)((float)(j - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default) + Projectile.Center;
-                Vector2 dustDirection = dustRotate - Projectile.Center;
-                int killDust = Dust.NewDust(dustRotate + dustDirection, 0, 0, DustID.TerraBlade, dustDirection.X, dustDirection.Y, 100, default, 1.2f);
-                Main.dust[killDust].noGravity = true;
-                Main.dust[killDust].noLight = true;
-                Main.dust[killDust].velocity = dustDirection;
-            }
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = 2;
             Projectile.Damage();
-        }
-        public override void OnKill(int timeLeft)
-        {
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             //Dust splash
             int dustsplash = 0;

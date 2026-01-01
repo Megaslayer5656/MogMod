@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs;
 using MogMod.Common.Player;
-using MogMod.Items.Weapons.Mage;
+using MogMod.Items.Weapons.Magic;
 using MogMod.Utilities;
 using System;
 using System.Collections.Generic;

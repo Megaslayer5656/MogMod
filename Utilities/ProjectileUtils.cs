@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Config;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -13,7 +14,26 @@ namespace MogMod.Utilities
 {
     public static partial class MogModUtils
     {
-        // copy pasted from calamity
+        public static T ModProjectile<T>(this Projectile projectile) where T : ModProjectile
+        {
+            return projectile.ModProjectile as T;
+        }
+        public static bool AnyProjectiles(int projectileID)
+        {
+            // Efficiently loop through all projectiles, using a specially designed continue continue that attempts to minimize the amount of OR
+            // checks per iteration.
+            foreach (Projectile p in Main.ActiveProjectiles)
+            {
+                if (p.type != projectileID)
+                    continue;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        // summons projectiles from the sky
         public static Projectile ProjectileRain(IEntitySource source, Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner)
         {
             float x = targetPos.X + Main.rand.NextFloat(-xLimit, xLimit);
@@ -28,6 +48,8 @@ namespace MogMod.Utilities
             velocity.Y *= targetDist;
             return Projectile.NewProjectileDirect(source, spawnPosition, velocity, projType, damage, knockback, owner);
         }
+
+        // summons lots of projectiles
         public static Projectile ProjectileBarrage(IEntitySource source, Vector2 originVec, Vector2 targetPos, bool fromRight, float xOffsetMin, float xOffsetMax, float yOffsetMin, float yOffsetMax, float projSpeed, int projType, int damage, float knockback, int owner, bool clamped = false, float inaccuracyOffset = 5f)
         {
             float xPos = originVec.X + Main.rand.NextFloat(xOffsetMin, xOffsetMax) * fromRight.ToDirectionInt();
@@ -46,6 +68,61 @@ namespace MogMod.Utilities
             }
             return Projectile.NewProjectileDirect(source, spawnPosition, velocity, projType, damage, knockback, owner);
         }
+
+        // homing code (doesnt work)
+        public static void HomeInOnNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float inertia)
+        {
+            if (!projectile.friendly)
+                return;
+
+            // Set amount of extra updates.
+            if (projectile.MogMod().defExtraUpdates == -1)
+                projectile.MogMod().defExtraUpdates = projectile.extraUpdates;
+
+            Vector2 destination = projectile.Center;
+            float maxDistance = distanceRequired;
+            bool locatedTarget = false;
+
+            // Find the closest target.
+            float npcDistCompare = 25000f; // Initializing the value to a large number so the first entry is basically guaranteed to replace it.
+            int index = -1;
+            foreach (NPC n in Main.ActiveNPCs)
+            {
+                float extraDistance = (n.width / 2) + (n.height / 2);
+                if (!n.CanBeChasedBy(projectile, false) || !projectile.WithinRange(n.Center, maxDistance + extraDistance))
+                    continue;
+
+                float currentNPCDist = Vector2.Distance(n.Center, projectile.Center);
+                if ((currentNPCDist < npcDistCompare) && (ignoreTiles || Collision.CanHit(projectile.Center, 1, 1, n.Center, 1, 1)))
+                {
+                    npcDistCompare = currentNPCDist;
+                    index = n.whoAmI;
+                }
+            }
+            // If the index was never changed, don't do anything. Otherwise, tell the projectile where to home.
+            if (index != -1)
+            {
+                destination = Main.npc[index].Center;
+                locatedTarget = true;
+            }
+
+            if (locatedTarget)
+            {
+                // Increase amount of extra updates to greatly increase homing velocity.
+                projectile.extraUpdates = projectile.MogMod().defExtraUpdates + 1;
+
+                // Home in on the target.
+                Vector2 homeDirection = (destination - projectile.Center).SafeNormalize(Vector2.UnitY);
+                projectile.velocity = (projectile.velocity * inertia + homeDirection * homingVelocity) / (inertia + 1f);
+            }
+            else
+            {
+                // Set amount of extra updates to default amount.
+                projectile.extraUpdates = projectile.MogMod().defExtraUpdates;
+            }
+        }
+
+        // expands hitbox
         public static void ExpandHitboxBy(this Projectile projectile, int width, int height)
         {
             projectile.position = projectile.Center;

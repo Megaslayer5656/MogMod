@@ -22,6 +22,8 @@ namespace MogMod.Projectiles
             Projectile.timeLeft = 300;
             Projectile.DamageType = DamageClass.Magic;
         }
+
+        // i dont know what this does
         public override void AI()
         {
             DelegateMethods.v3_1 = new Vector3(0.6f, 1f, 1f) * 0.2f;
@@ -50,7 +52,8 @@ namespace MogMod.Projectiles
             }
             Projectile.rotation = Projectile.velocity.ToRotation() + 0.7853982f;
         }
-
+        
+        // dust on block hit
         public override void OnKill(int timeLeft)
         {
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
@@ -75,6 +78,7 @@ namespace MogMod.Projectiles
         //new Color(0, 0, 255, 50), //Blue
         public override Color? GetAlpha(Color lightColor) => new Color(0, 128, 255, 50);
 
+        // cool blur effect and other stuff
         public override bool PreDraw(ref Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
