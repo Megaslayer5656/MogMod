@@ -1,6 +1,7 @@
 ﻿using MogMod.Items.Accessories;
 using MogMod.Items.Other;
 using MogMod.Items.Weapons.Ranged;
+using MogMod.NPCs.Bosses;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -29,6 +30,8 @@ namespace MogMod.Items.Consumables
         }
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+            // money from boss
+            itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<KingVon>()));
             // switch the switch to vons switch
             itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<Switch>()));
             // what is <ETGC>(), 1, 1, 5 ??

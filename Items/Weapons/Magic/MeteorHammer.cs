@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Other;
-using MogMod.Projectiles;
+using MogMod.Projectiles.MagicProjectiles;
 using System;
 using Terraria;
 using Terraria.DataStructures;
@@ -30,9 +30,9 @@ namespace MogMod.Items.Weapons.Magic
         {
             Item.width = 64;
             Item.height = 64;
-            Item.damage = 1250;
+            Item.damage = 2000;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 64;
+            Item.mana = 120;
             Item.useTime = Item.useAnimation = 80;
             Item.rare = ItemRarityID.Red;
             Item.useStyle = ItemUseStyleID.Swing;
@@ -41,7 +41,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.UseSound = SoundID.Item88;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<MeteorHammerProjectile>();
-            Item.shootSpeed = 12f;
+            Item.shootSpeed = 8f; // was 12
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -98,6 +98,7 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient<Kaya>(1).
                 AddIngredient(ItemID.MeteorStaff, 1).
                 AddIngredient(ItemID.StaffofEarth, 1).
+                AddIngredient(ItemID.LunarBar, 15).
                 AddIngredient(ItemID.FragmentNebula, 8).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.LunarCraftingStation).

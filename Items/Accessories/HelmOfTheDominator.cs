@@ -30,7 +30,6 @@ namespace MogMod.Items.Accessories
         {
             player.GetDamage(DamageClass.Magic) += .10f;
             player.GetDamage(DamageClass.Summon) += .10f;
-
             player.statManaMax2 += 50;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.dominatorMinion = true;
@@ -42,6 +41,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<HelmOfIronWill>(1).
                 AddIngredient<Diadem>(1).
+                AddRecipeGroup("WarriorEmblem", 1).
                 AddRecipeGroup("CobaltBar", 8).
                 AddIngredient(ItemID.Topaz, 2).
                 AddIngredient<CraftingRecipe>(1).

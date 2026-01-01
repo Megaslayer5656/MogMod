@@ -1,4 +1,4 @@
-﻿using MogMod.Projectiles;
+﻿using MogMod.Projectiles.BaseProjectiles;
 using Terraria;
 
 namespace MogMod.Utilities

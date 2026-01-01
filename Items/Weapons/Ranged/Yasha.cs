@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using MogMod.Items.Other;
-using MogMod.Projectiles;
+using MogMod.Projectiles.RangedProjectiles;
 using System;
 using System.Runtime.CompilerServices;
 using Terraria;
@@ -18,8 +18,8 @@ namespace MogMod.Items.Weapons.Ranged
         {
             Item.width = 14;
             Item.height = 66;
-            Item.damage = 20;
-            Item.knockBack = 5;
+            Item.damage = 22;
+            Item.knockBack = 3;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.consumable = false;

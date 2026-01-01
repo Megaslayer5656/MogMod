@@ -1,6 +1,7 @@
 ﻿using MogMod.Items.Accessories;
 using MogMod.Items.Other;
 using MogMod.Items.Weapons;
+using MogMod.NPCs.Bosses;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -29,6 +30,7 @@ namespace MogMod.Items.Consumables
         }
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+            itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Rajang>()));
             itemLoot.Add(ItemDropRule.NotScalingWithLuck(ItemID.Banana, 1, 1, 3));
             // what is <>(), chance , stack min, stack max
             itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<GoldRajangPelt>(), 1, 2, 6));

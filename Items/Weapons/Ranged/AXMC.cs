@@ -1,16 +1,17 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Consumables;
+using MogMod.Items.Other;
+using MogMod.Projectiles.RangedProjectiles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Terraria.ModLoader;
 using Terraria;
-using MogMod.Items.Consumables;
 using Terraria.Audio;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
-using MogMod.Projectiles;
 using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
 {
@@ -69,7 +70,16 @@ namespace MogMod.Items.Weapons.Ranged
             }
             return base.AltFunctionUse(player);
         }
-        //TODO: Add way to craft the AXMC
-        // make it use 8 vortex frags and TileID.LunarCraftingStation
+        //TODO: make AXMC crafting recipe cooler
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<Mosin>(1). // change to somehting else
+                AddIngredient(ItemID.SniperRifle, 1).
+                AddIngredient(ItemID.VortexBeater, 1).
+                AddIngredient(ItemID.FragmentVortex, 8).
+                AddTile(TileID.LunarCraftingStation). // ancient manipulator
+                Register();
+        }
     }
 }

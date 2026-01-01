@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Other;
+using MogMod.Projectiles.RangedProjectiles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using Terraria.ModLoader;
 using Terraria;
-using MogMod.Projectiles;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
-using System.Security.Cryptography.X509Certificates;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
 {
@@ -82,8 +83,9 @@ namespace MogMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient<WarriorsSpear>(1).
                 AddIngredient(ItemID.ShadowFlameKnife, 1).
-                AddIngredient(ItemID.Ectoplasm, 10).
                 AddRecipeGroup("Ichor", 15).
+                AddIngredient(ItemID.Ectoplasm, 10).
+                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

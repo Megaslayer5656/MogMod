@@ -29,8 +29,8 @@ namespace MogMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetKnockback(DamageClass.Generic) += .20f;
-            player.GetDamage(DamageClass.Magic) += .07f;
-            player.GetDamage(DamageClass.Summon) += .07f;
+            player.GetDamage(DamageClass.Magic) += .05f;
+            player.GetDamage(DamageClass.Summon) += .05f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingForceStaff = true;
         }

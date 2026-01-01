@@ -74,6 +74,9 @@ namespace MogMod.Content
 
             RecipeGroup HardmodeEvilMaterialGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.Ichor)}", ItemID.Ichor, ItemID.CursedFlame);
             RecipeGroup.RegisterGroup(nameof(ItemID.Ichor), HardmodeEvilMaterialGroup);
+
+            RecipeGroup DamageClassEmblemGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.WarriorEmblem)}", ItemID.WarriorEmblem, ItemID.RangerEmblem, ItemID.SorcererEmblem, ItemID.SummonerEmblem);
+            RecipeGroup.RegisterGroup(nameof(ItemID.WarriorEmblem), DamageClassEmblemGroup);
         }   
 
         public override void AddRecipes()
@@ -81,10 +84,15 @@ namespace MogMod.Content
 
             // In addition to these methods, there are also methods relating to shimmer decrafting. See ShimmerShowcase.cs for that.
 
-            Recipe baseRecipe = Recipe.Create(ItemID.EskimoHood, 1);
-            baseRecipe.AddIngredient(ItemID.Silk, 10)
+            Recipe hoodRecipe = Recipe.Create(ItemID.EskimoHood, 1);
+            hoodRecipe.AddIngredient(ItemID.Silk, 10)
                 .AddIngredient(ItemID.FlinxFur, 3)
                 .AddTile(TileID.Loom)
+                .Register();
+            Recipe skullRecipe = Recipe.Create(ItemID.Skull, 1);
+            skullRecipe.AddIngredient(ItemID.Bone, 50)
+                .AddRecipeGroup("SilverBar", 8)
+                .AddTile(TileID.HeavyWorkBench)
                 .Register();
         }
     }

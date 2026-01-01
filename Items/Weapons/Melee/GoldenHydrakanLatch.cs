@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
-using MogMod.Buffs;
 using MogMod.Common.Player;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using MogMod.Items.Other;
 using MogMod.Utilities;
+using MogMod.Buffs.PotionBuffs;
 
 namespace MogMod.Items.Weapons.Melee
 {

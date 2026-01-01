@@ -113,7 +113,8 @@ Items: {
 				'''
 				Increases movement speed
 				Increased maximum mana by 50
-				Pressing [KEY] will restore 200 mana
+				Slightly increased mana regeneration
+				Pressing [KEY] will restore 200 mana to you and nearby allies
 				'Magi equipped with these boots are valued in battle.'
 				'''
 		}
@@ -139,6 +140,8 @@ Items: {
 				-30% Melee Damage
 				Greatly increases placement speed and range
 				Increased maximum mana by 50
+				Enemies are less likely to target you
+				Greatly increased mana regeneration
 				Provides you and nearby team members +20 Maximum health, +50 Maximum mana, 
 				+6 HP/s life regen, +5 Defense and +10% increased damage
 				Pressing [KEY] will restore 100 health and 300 mana to you and nearby team members
@@ -198,7 +201,7 @@ Items: {
 			DisplayName: Magic Wand
 			Tooltip:
 				'''
-				+5% Magic Damage
+				+3% Magic Damage
 				Increased maximum mana by 30
 				Taking damage adds a charge to the wand
 				Pressing [KEY] expends all charges and heals 7 health and mana for each charge
@@ -225,8 +228,8 @@ Items: {
 				Increases your max number of minions by 2
 				Increases your max number of sentries by 2
 				Does not stack with downgrades
-				+10% Magic Damage
-				+10% Summon Damage
+				+5% Magic Damage
+				+5% Summon Damage
 				Increased Maximum mana by 50
 				Press [KEY] to summon a mighty beast!
 				'The powerful headpiece of a dead necromancer.'
@@ -237,8 +240,9 @@ Items: {
 			DisplayName: Glimmer Cape
 			Tooltip:
 				'''
-				+7% Magic Damage
-				+7% Summon Damage
+				Increased maximum mana by 50
+				Increased mana regeneration
+				Enemies are less likely to target you
 				Pressing [KEY] will turn you invisible and increase movement speed
 				'The stolen cape of a master illusionist.'
 				'''
@@ -248,8 +252,8 @@ Items: {
 			DisplayName: Force Staff
 			Tooltip:
 				'''
-				+7% Magic Damage
-				+7% Summon Damage
+				+5% Magic Damage
+				+5% Summon Damage
 				+20% Knockback
 				Pressing [KEY] will boost you forward in the direction you are facing
 				'Allows you to manipulate yourself, for good or evil.'
@@ -289,9 +293,12 @@ Items: {
 			DisplayName: Vanguard
 			Tooltip:
 				'''
-				12 Defense
+				8 Defense
+				-10% Magic Damage
+				-10% Summon Damage
 				Increased maximum health by 50
 				Increased health regeneration
+				Decreased mana regeneration
 				'A powerful shield that defends its wielder 
 				from even the most vicious of attacks.'
 				'''
@@ -338,8 +345,11 @@ Items: {
 			Tooltip:
 				'''
 				5 Defense
+				-10% Magic Damage
+				-10% Summon Damage
 				Increased maximum health by 20
 				Slightly increased health regeneration
+				Decreased mana regeneration
 				'The helmet of a legendary warrior who fell in battle.'
 				'''
 		}
@@ -364,8 +374,8 @@ Items: {
 			DisplayName: Dragon Lance
 			Tooltip:
 				'''
-				+10% Attack Speed
-				+7% Ranged Damage
+				+7% Ranged Attack Speed
+				+5% Ranged Damage
 				Increases block placement range by 1
 				'The forward charge of the wyvern host grants no quarter.'
 				'''
@@ -373,11 +383,7 @@ Items: {
 
 		Diadem: {
 			DisplayName: Diadem
-			Tooltip:
-				'''
-				Increases your max number of minions by 1
-				+5% Summon Damage
-				'''
+			Tooltip: Increases your max number of minions by 1
 		}
 
 		DesperationCharm: {
@@ -422,6 +428,7 @@ Items: {
 				20 Defense
 				Increased maximum health by 80
 				Greatly increased health regeneration
+				Enemies are more likely to target you
 				Absorbs 25% of damage done to players on your team when above 25% life
 				'A cuirass originally built to protect against the dreaded Year Beast.'
 				'''
@@ -474,7 +481,7 @@ Items: {
 			Tooltip:
 				'''
 				7 Defense
-				+7% Attack Damage
+				+5% Attack Damage
 				Enemies take damage when they hit you
 				Pressing [KEY] will 10x thorns damage
 				'A razor-sharp coat of mail, it is the 
@@ -517,8 +524,6 @@ Items: {
 				'''
 				+10% Attack Damage
 				+25 Armor Penetration
-				Increases maximum health by 50
-				Increases maximum mana by 100
 				Attacks inflict the Cold Attack debuff
 				'Extremely rare artifact, guarded by the azure dragons.'
 				'''
@@ -528,8 +533,8 @@ Items: {
 			DisplayName: Holy Locket
 			Tooltip:
 				'''
-				+10% Magic Damage
-				+10% Summon Damage
+				+7% Magic Damage
+				+7% Summon Damage
 				Increased maximum mana by 70
 				Taking damage adds a charge to the wand
 				Pressing [KEY] expends all charges and heals 10 health and mana for each charge
@@ -577,8 +582,8 @@ Items: {
 			DisplayName: Kaya And Sange
 			Tooltip:
 				'''
-				+16% increased attack damage
-				+12% increased magic damage
+				+16% Attack Damage
+				+12% Magic Damage
 				Vastly increases lifesteal of weapons that utilize it
 				Greatly increased health regen
 				Greatly increases mana regen
@@ -595,8 +600,8 @@ Items: {
 			Tooltip:
 				'''
 				+24% increased movement speed
-				+16% increased attack damage
-				+24% increased melee speed
+				+16% Attack damage
+				+24% Melee speed
 				Vastly increases lifesteal of weapons that utilize it
 				Greatly increased health regen
 				Increased maximum health by 50
@@ -611,8 +616,8 @@ Items: {
 			Tooltip:
 				'''
 				+24% increased movement speed
-				+24% increased attack speed
-				+16% increased attack damage
+				+24% Attack speed
+				+16% Attack damage
 				+12%s increased magic damage
 				Greatly increased mana regen
 				Increases maximum mana by 50
@@ -625,7 +630,7 @@ Items: {
 			Tooltip:
 				'''
 				Increases your max number of sentries by 2
-				Provides you and nearby team members 3 defense, +7% increased attack damage,
+				Provides you and nearby team members 3 defense, +7% Attack damage,
 				increased mana regeneration, and increased lifesteal effectiveness
 				'An eerie mask that is haunted with the malice of a fallen vampire.'
 				'''
@@ -838,7 +843,7 @@ Items: {
 				DisplayName: Yasha
 				Tooltip:
 					'''
-					Strikes two extra times on each hit
+					Strikes two extra times on the first hit
 					'Yasha is regarded as the swiftest weapon ever created.'
 					'''
 			}
@@ -948,7 +953,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires a blazing volatile bolt
-					'A wand that brings volatile magic
+					'A staff that brings volatile magic
 					to the fingertips of the user.'
 					'''
 			}
@@ -957,15 +962,19 @@ Items: {
 				DisplayName: Dagon
 				Tooltip:
 					'''
-					Fires multiple blazing bolts that summon homing volatile orbs on hit
-					'A superior staff that brings volatile 
-					magic to the fingertips of the user.'
+					Fires three blazing bolts that summon homing volatile orbs on hit
+					'A superior staff that brings volatile magic to the fingertips of the user.'
 					'''
 			}
 
 			DagonFive: {
 				DisplayName: Dagon
-				Tooltip: ""
+				Tooltip:
+					'''
+					Fires five randomized infernal bolts
+					On hit, bolts either explode, summon beams from the sky, or split into solar orbs
+					'A legendary staff that holds unimaginable power.'
+					'''
 			}
 		}
 	}
@@ -1043,10 +1052,8 @@ Items: {
 		DisplayName: Aghanim's Shard
 		Tooltip:
 			'''
-			Permanently increases maximum mana by 100
-			'With origins known only to a single wizard,
-			fragments of this impossible crystal are nearly
-			as coveted as the renowned scepter itself.'
+			10% increased magic damage, 100 additional maximum mana, and greatly increased mana regeneration
+			'With origins known only to a single wizard, fragments of this impossible crystal are nearly as coveted as the renowned scepter itself.'
 			'''
 	}
 
@@ -1086,7 +1093,7 @@ Items: {
 
 	ThunderSeal: {
 		DisplayName: Thunder Seal
-		Tooltip: 
+		Tooltip:
 			'''
 			Right click to shoot a projectile
 			The projectile inflicts shock state
@@ -1330,6 +1337,11 @@ Buffs: {
 		DisplayName: Shock State
 		Description: Mods.MogMod.Buffs.ShockState.Description
 	}
+
+	AghanimShardBuff: {
+		DisplayName: Aghanim Shard Buff
+		Description: +100 maximum mana, +10% increased magic attack damage, greatly increased mana regeneration
+	}
 }
 
 Projectiles: {
@@ -1363,24 +1375,24 @@ Projectiles: {
 	HeavensHalberdProj.DisplayName: Heavenly Beam
 	APLapua.DisplayName: AP Lapua
 	BattleFuryProjectile.DisplayName: Battle Fury
-	DaedalusBoom.DisplayName: Daedalus Boom
-	DaedalusProjectile.DisplayName: Daedalus Projectile
-	DaedalusProj.DisplayName: Daedalus Proj
-	DaedalusSplitProj.DisplayName: Daedalus Split Proj
-	DagonOneProj.DisplayName: Dagon One Proj
-	DagonTwoProj.DisplayName: Dagon Two Proj
-	DagonThreeProj.DisplayName: Dagon Three Proj
+	DaedalusBoom.DisplayName: Daedalus
+	DaedalusProjectile.DisplayName: Daedalus
+	DaedalusProj.DisplayName: Daedalus
+	DaedalusSplitProj.DisplayName: Daedalus
+	DagonOneProj.DisplayName: Dagon Bolt
+	DagonTwoProj.DisplayName: Dagon Bolt
+	DagonThreeProj.DisplayName: Dagon Bolt
 	DagonExplosion.DisplayName: Dagon Explosion
-	DagonFourProj.DisplayName: Dagon Four Proj
-	DagonBeam.DisplayName: Dagon Beam
+	DagonFourProj.DisplayName: Dagon Bolt
+	DagonBeam.DisplayName: Dagon Bolt
 	DagonOrb.DisplayName: Dagon Orb
-	HeavensExplosion.DisplayName: Heavens Explosion
-	DagonFiveProj.DisplayName: Dagon Five Proj
-	DagonFiveOrb.DisplayName: Dagon Five Orb
-	DagonFiveExplosion.DisplayName: Dagon Five Explosion
-	DagonFiveSkyProj.DisplayName: Dagon Five Sky Proj
+	HeavensExplosion.DisplayName: Heavenly Explosion
+	DagonFiveProj.DisplayName: Dagon Bolt
+	DagonFiveOrb.DisplayName: Dagon Orb
+	DagonFiveExplosion.DisplayName: Dagon Explosion
+	DagonFiveSkyProj.DisplayName: Dagon Beam
 	StunEdge.DisplayName: Stun Edge
-	ThunderSealProj.DisplayName: Thunder Seal Proj
+	ThunderSealProj.DisplayName: Thunder Seal
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore

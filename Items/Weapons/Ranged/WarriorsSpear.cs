@@ -8,8 +8,8 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-using MogMod.Projectiles;
 using Terraria.DataStructures;
+using MogMod.Projectiles.RangedProjectiles;
 
 namespace MogMod.Items.Weapons.Ranged
 {
@@ -75,16 +75,16 @@ namespace MogMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Torch, 20).
-                AddIngredient(ItemID.Javelin, 1).
-                AddRecipeGroup("CrimtaneBar", 15).
+                AddIngredient(ItemID.Torch, 30).
+                AddIngredient(ItemID.Javelin, 15).
+                AddRecipeGroup("CrimtaneBar", 12).
                 AddTile(TileID.Anvils).
                 Register();
 
             CreateRecipe().
-                AddIngredient(ItemID.Torch, 20).
-                AddIngredient(ItemID.BoneJavelin, 1).
-                AddRecipeGroup("CrimtaneBar", 15).
+                AddIngredient(ItemID.Torch, 30).
+                AddIngredient(ItemID.BoneJavelin, 15).
+                AddRecipeGroup("CrimtaneBar", 12).
                 AddTile(TileID.Anvils).
                 Register();
         }

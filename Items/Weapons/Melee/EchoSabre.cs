@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Other;
-using MogMod.Projectiles;
+using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Utilities;
 using Mono.Cecil;
 using System;

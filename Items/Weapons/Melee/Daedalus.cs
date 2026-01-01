@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Other;
-using MogMod.Projectiles;
+using MogMod.Projectiles.MeleeProjectiles;
 using MogMod.Utilities;
 using System;
 using System.Collections.Generic;

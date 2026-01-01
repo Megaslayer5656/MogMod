@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Items.Accessories;
 using MogMod.Items.Other;
-using MogMod.Projectiles;
+using MogMod.Projectiles.MeleeProjectiles;
 using System;
 using Terraria;
 using Terraria.ID;

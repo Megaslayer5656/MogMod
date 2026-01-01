@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
-using MogMod.Projectiles;
 using Terraria.ID;
+using MogMod.Projectiles.MagicProjectiles;
 
 namespace MogMod.Items.Weapons.Magic
 {

@@ -25,12 +25,15 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statLifeMax2 += 500;
-            player.statManaMax2 += 500;
+            player.statLifeMax2 += 1500;
+            player.statManaMax2 += 2000;
             player.GetDamage(DamageClass.Generic) += 25f;
             player.GetAttackSpeed(DamageClass.Generic) += 50f;
             player.maxMinions += 500;
             player.maxTurrets += 500;
+            player.statDefense += 500;
+            player.aggro += -2500;
+            player.endurance *= 5f;
         }
     }
 }

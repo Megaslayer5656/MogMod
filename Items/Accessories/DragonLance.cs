@@ -23,8 +23,8 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetAttackSpeed(DamageClass.Ranged) += .10f;
-            player.GetDamage(DamageClass.Ranged) += .07f;
+            player.GetAttackSpeed(DamageClass.Ranged) += .07f;
+            player.GetDamage(DamageClass.Ranged) += .05f;
             Player.tileRangeX = Player.tileRangeY += 1;
         }
         public override void AddRecipes()

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Buffs;
+using MogMod.Buffs.Cooldowns;
+using MogMod.Buffs.Debuffs;
+using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
 using MogMod.Items.Consumables;
@@ -252,7 +254,7 @@ namespace MogMod.Common.Player
         }
         public override void PreUpdateMovement()
         {
-            int forceStaffCooldown = ModContent.BuffType<Buffs.ForceStaffDebuff>();
+            int forceStaffCooldown = ModContent.BuffType<Buffs.Cooldowns.ForceStaffDebuff>();
             // if force staff isn't on cooldown and was equipped and player just pressed keybind
             if (wearingForceStaff && !Player.mount.Active &&  KeybindSystem.ForceStaffKeybind.JustPressed && !Player.HasBuff(forceStaffCooldown))
             {
@@ -324,23 +326,23 @@ namespace MogMod.Common.Player
         }
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            int refresherCooldown = ModContent.BuffType<Buffs.RefresherOrbDebuff>();
-            int glimmerBuff = ModContent.BuffType<Buffs.GlimmerCapeBuff>();
-            int glimmerCooldown = ModContent.BuffType<Buffs.GlimmerCapeDebuff>();
-            int satanicBuff = ModContent.BuffType<Buffs.SatanicBuff>();
-            int satanicCooldown = ModContent.BuffType<Buffs.SatanicDebuff>();
-            int manabootsCooldown = ModContent.BuffType<Buffs.ArcaneBootsDebuff>();
-            int guardianCooldown = ModContent.BuffType<Buffs.GuardianGreavesDebuff>();
-            int mekansmCooldown = ModContent.BuffType<Buffs.MekansmDebuff>();
-            int helmOfDominator = ModContent.BuffType<Buffs.HelmOfDominatorDebuff>();
-            int forceStaffCooldown = ModContent.BuffType<Buffs.ForceStaffDebuff>();
-            int blademailBuff = ModContent.BuffType<Buffs.BladeMailBuff>();
-            int blademailCooldown = ModContent.BuffType<Buffs.BladeMailDebuff>();
+            int refresherCooldown = ModContent.BuffType<Buffs.Cooldowns.RefresherOrbDebuff>();
+            int glimmerBuff = ModContent.BuffType<Buffs.PotionBuffs.GlimmerCapeBuff>();
+            int glimmerCooldown = ModContent.BuffType<Buffs.Cooldowns.GlimmerCapeDebuff>();
+            int satanicBuff = ModContent.BuffType<Buffs.PotionBuffs.SatanicBuff>();
+            int satanicCooldown = ModContent.BuffType<Buffs.Cooldowns.SatanicDebuff>();
+            int manabootsCooldown = ModContent.BuffType<Buffs.Cooldowns.ArcaneBootsDebuff>();
+            int guardianCooldown = ModContent.BuffType<Buffs.Cooldowns.GuardianGreavesDebuff>();
+            int mekansmCooldown = ModContent.BuffType<Buffs.Cooldowns.MekansmDebuff>();
+            int helmOfDominator = ModContent.BuffType<Buffs.Cooldowns.HelmOfDominatorDebuff>();
+            int forceStaffCooldown = ModContent.BuffType<Buffs.Cooldowns.ForceStaffDebuff>();
+            int blademailBuff = ModContent.BuffType<Buffs.PotionBuffs.BladeMailBuff>();
+            int blademailCooldown = ModContent.BuffType<Buffs.Cooldowns.BladeMailDebuff>();
             int ShivasCooldown = ModContent.BuffType<ShivasDebuff>();
             int locketHeal = ModContent.BuffType<HolyLocketBuff>();
             int wandHeal = ModContent.BuffType<WandBuff>();
             int stickHeal = ModContent.BuffType<MagicStickBuff>();
-            int armletToggled = ModContent.BuffType<Buffs.ArmletOfMordiggianBuff>();
+            int armletToggled = ModContent.BuffType<Buffs.PotionBuffs.ArmletOfMordiggianBuff>();
 
             // refresher orb
             if (KeybindSystem.RefresherOrbKeybind.JustPressed && wearingRefresherOrb && !Player.HasBuff(refresherCooldown))

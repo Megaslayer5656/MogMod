@@ -27,6 +27,7 @@ namespace MogMod.Items.Accessories
             player.lifeRegen += 6;
             player.statDefense += 20;
             player.noKnockback = true;
+            player.aggro += 1000;
             if (player.statLife > player.statLifeMax2 * 0.25f)
             {
                 player.hasPaladinShield = true;

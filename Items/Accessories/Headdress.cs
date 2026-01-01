@@ -1,5 +1,4 @@
-﻿using MogMod.Buffs;
-using MogMod.Common.Player;
+﻿using MogMod.Common.Player;
 using MogMod.Common.Systems;
 using MogMod.Items.Other;
 using MogMod.Utilities;
@@ -12,7 +11,7 @@ namespace MogMod.Items.Accessories
 {
     public class Headdress : ModItem, ILocalizedModType
     {
-        int teamBuff = ModContent.BuffType<Buffs.HeaddressBuff>();
+        int teamBuff = ModContent.BuffType<Buffs.AccessoryAuras.HeaddressBuff>();
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {

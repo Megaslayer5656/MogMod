@@ -1,5 +1,4 @@
-﻿using MogMod.Buffs;
-using MogMod.Common.Player;
+﻿using MogMod.Common.Player;
 using MogMod.Common.Systems;
 using MogMod.Items.Other;
 using MogMod.Utilities;
@@ -13,7 +12,7 @@ namespace MogMod.Items.Accessories
 {
     public class ArcaneBoots : ModItem, ILocalizedModType
     {
-        int teamBuff = ModContent.BuffType<Buffs.GlimmerCapeBuff>();
+        int teamBuff = ModContent.BuffType<Buffs.PotionBuffs.GlimmerCapeBuff>();
         public new string LocalizationCategory => "Items.Accessories";
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.ArcaneBootsKeybind);
         ModKeybind keybindActive = null;

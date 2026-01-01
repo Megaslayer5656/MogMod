@@ -24,8 +24,6 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statLifeMax2 += 50;
-            player.statManaMax2 += 100;
             player.GetArmorPenetration(DamageClass.Generic) += 25;
             player.GetDamage(DamageClass.Generic) += .10f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
@@ -39,7 +37,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.Ectoplasm, 10).
                 AddRecipeGroup("AdamantiteBar", 5).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
+                AddTile(TileID.MythrilAnvil).
                 Register();
         }
     }

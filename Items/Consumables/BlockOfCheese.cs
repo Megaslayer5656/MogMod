@@ -31,7 +31,7 @@ namespace MogMod.Items.Consumables
             Item.rare = ItemRarityID.Master;
             Item.master = true;
             Item.value = Item.buyPrice(0, 18, 40, 0);
-            Item.buffType = ModContent.BuffType<Buffs.CheeseBuff>();
+            Item.buffType = ModContent.BuffType<Buffs.PotionBuffs.CheeseBuff>();
             Item.buffTime = 1800;
         }
         

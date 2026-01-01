@@ -15,8 +15,6 @@ namespace MogMod.Items.Consumables
             Volume = 1.1f,
             PitchVariance = .2f
         };
-        public static readonly int ManaBoost = 100;
-        public static readonly int ManaBoostMax = 100;
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 1;
@@ -25,42 +23,29 @@ namespace MogMod.Items.Consumables
         {
             Item.width = 32;
             Item.height = 32;
-            Item.useAnimation = 30;
-            Item.rare = ItemRarityID.Cyan;
-            Item.useTime = 30;
+            Item.useAnimation = Item.useTime = 15;
+            Item.useTurn = true;
             Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.rare = ItemRarityID.Cyan;
+            Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
-        }
-
-        public override bool CanUseItem(Player player)
-        {
-            return player.ConsumedManaCrystals == Player.ManaCrystalMax;
+            Item.buffType = ModContent.BuffType<Buffs.PotionBuffs.AghanimShardBuff>(); // Specify an existing buff to be applied when used.
+            Item.buffTime = 36000; // The amount of time the buff declared in Item.buffType will last in ticks. 36000 / 60 is 600, so this buff will last 10 minutes.
         }
 
         public override bool? UseItem(Player player)
         {
-            // for some reason it doesnt stop the player from using it multiple times
             SoundEngine.PlaySound(aghanimUse, player.Center);
-            if (player.GetModPlayer<MogPlayerStatIncrease>().aghanimShard >= ManaBoostMax)
-            {
-                // Returning null will make the item not be consumed
-                return null;
-            }
-            // This method handles permanently increasing the player's max mana and displaying the blue mana text
-            player.UseManaMaxIncreasingItem(ManaBoost);
-            // This field tracks how many of the example crystals have been consumed
-            player.GetModPlayer<MogPlayerStatIncrease>().aghanimShard++;
             return true;
         }
         public override void AddRecipes()
         {
-            CreateRecipe().
-                AddIngredient(ItemID.CrystalShard, 25).
-                AddIngredient(ItemID.FallenStar, 15).
-                AddIngredient(ItemID.Ectoplasm, 7).
+            CreateRecipe(5).
+                AddIngredient(ItemID.CrystalShard, 4).
+                AddIngredient(ItemID.FallenStar, 3).
+                AddIngredient(ItemID.Ectoplasm, 2).
                 AddIngredient<UltimateOrb>(1).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.CrystalBall).
                 Register();
         }
     }

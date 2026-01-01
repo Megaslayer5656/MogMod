@@ -29,8 +29,8 @@ namespace MogMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.statDefense += 7;
-            player.GetDamage(DamageClass.Generic) += .07f;
-            player.thorns += .3f;
+            player.GetDamage(DamageClass.Generic) += .05f;
+            player.thorns += 1f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingBladeMail = true;
         }

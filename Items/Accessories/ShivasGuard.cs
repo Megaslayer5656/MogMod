@@ -18,7 +18,7 @@ namespace MogMod.Items.Accessories
         public new string LocalizationCategory => "Items.Accessories";
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.ShivasKeybind);
         ModKeybind keybindActive = null;
-        int teamBuff = ModContent.BuffType<Buffs.ShivasGuardBuff>();
+        int teamBuff = ModContent.BuffType<Buffs.AccessoryAuras.ShivasGuardBuff>();
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -58,6 +58,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<VeilOfDiscord>(1).
                 AddRecipeGroup("AdamantiteBar", 25).
+                AddIngredient(ItemID.SoulofMight, 15).
                 AddIngredient(ItemID.FrostCore, 1).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).

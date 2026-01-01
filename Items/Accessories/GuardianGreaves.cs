@@ -1,5 +1,4 @@
-﻿using MogMod.Buffs;
-using MogMod.Common.Player;
+﻿using MogMod.Common.Player;
 using MogMod.Common.Systems;
 using MogMod.Items.Other;
 using MogMod.Utilities;
@@ -13,7 +12,7 @@ namespace MogMod.Items.Accessories
 {
     public class GuardianGreaves : ModItem, ILocalizedModType
     {
-        int teamBuff = ModContent.BuffType<Buffs.GuardianGreavesAura>();
+        int teamBuff = ModContent.BuffType<Buffs.AccessoryAuras.GuardianGreavesAura>();
         public new string LocalizationCategory => "Items.Accessories";
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.GuardianGreavesKeybind);
         ModKeybind keybindActive = null;
@@ -35,7 +34,9 @@ namespace MogMod.Items.Accessories
             player.tileSpeed += .40f;
             player.lifeRegen += 6;
             player.statDefense += 5;
+            player.aggro -= 1000;
             player.manaRegen += (int)Math.Round(player.manaRegen * .5f);
+            player.manaRegenDelay -= 5f;
             player.GetDamage(DamageClass.Melee) += -.30f;
             player.GetDamage(DamageClass.Generic) += .10f;
             Player.tileRangeX = Player.tileRangeY += 3;

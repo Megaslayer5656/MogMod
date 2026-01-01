@@ -1,5 +1,6 @@
 ﻿using MogMod.Items.Accessories;
 using MogMod.Items.Other;
+using MogMod.NPCs.Bosses;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -28,6 +29,7 @@ namespace MogMod.Items.Consumables
         }
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+            itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<DabDad>()));
             itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<DesperationCharm>()));
             itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<ETGC>(), 1, 1, 5));
             itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<DabdadWings>(), 0, 1, 1));

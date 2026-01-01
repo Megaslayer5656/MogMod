@@ -2,7 +2,7 @@
 using MogMod.Buffs;
 using MogMod.Common.Player;
 using MogMod.Items.Other;
-using MogMod.Projectiles;
+using MogMod.Projectiles.MagicProjectiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;

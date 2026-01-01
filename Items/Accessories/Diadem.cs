@@ -24,7 +24,6 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Summon) += .05f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.diademMinion = true;
         }

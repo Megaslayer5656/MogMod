@@ -41,6 +41,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient<HelmOfIronWill>().
                 AddIngredient(ItemID.FeralClaws, 1).
                 AddIngredient<BladesOfAttack>().
+                AddRecipeGroup("WarriorEmblem", 1).
                 AddRecipeGroup("AdamantiteBar", 10).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).

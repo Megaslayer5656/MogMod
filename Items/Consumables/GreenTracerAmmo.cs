@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
-using MogMod.Projectiles;
+using MogMod.Projectiles.RangedProjectiles;
 
 namespace MogMod.Items.Consumables
 {

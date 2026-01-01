@@ -87,6 +87,7 @@ namespace MogMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
+               AddIngredient(ItemID.Revolver, 1).
                AddRecipeGroup("IronBar", 20).
                AddRecipeGroup("GoldBar", 15).
                AddTile(TileID.Anvils).

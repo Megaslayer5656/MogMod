@@ -14,7 +14,7 @@ namespace MogMod.Items.Accessories
     public class VladmirsOffering : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        int teamBuff = ModContent.BuffType<Buffs.VladmirsBuff>();
+        int teamBuff = ModContent.BuffType<Buffs.AccessoryAuras.VladmirsBuff>();
         public override void SetDefaults()
         {
             Item.accessory = true;

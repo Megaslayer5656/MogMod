@@ -25,8 +25,12 @@ namespace MogMod.Items.Accessories
         {
             player.statLifeMax2 += 50;
             player.lifeRegen += 4;
-            player.statDefense += 12;
+            player.statDefense += 8;
             player.noKnockback = true;
+            player.manaRegen -= (int)Math.Round(player.manaRegen * .5f);
+            player.manaRegenDelay += 6f;
+            player.GetDamage(DamageClass.Magic) += -.07f;
+            player.GetDamage(DamageClass.Summon) += -.07f;
         }
         public override void AddRecipes()
         {

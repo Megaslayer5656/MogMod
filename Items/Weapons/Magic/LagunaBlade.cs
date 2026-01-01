@@ -9,8 +9,8 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using MogMod.Projectiles;
-using MogMod.Buffs;
+using MogMod.Buffs.Cooldowns;
+using MogMod.Projectiles.MagicProjectiles;
 
 namespace MogMod.Items.Weapons.Magic
 {
@@ -39,7 +39,7 @@ namespace MogMod.Items.Weapons.Magic
         public override bool CanUseItem(Player player)
         {
             Item.UseSound = player.altFunctionUse == 2 ? SoundID.Item43 : SoundID.Item66;
-            if (player.altFunctionUse == 2 && player.HasBuff(ModContent.BuffType<Buffs.LagunaBladeCooldown>()))
+            if (player.altFunctionUse == 2 && player.HasBuff(ModContent.BuffType<Buffs.Cooldowns.LagunaBladeCooldown>()))
             {
                 return false;
             }
@@ -56,7 +56,7 @@ namespace MogMod.Items.Weapons.Magic
 
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            if (player.altFunctionUse == 2 && !player.HasBuff(ModContent.BuffType<Buffs.LagunaBladeCooldown>()))
+            if (player.altFunctionUse == 2 && !player.HasBuff(ModContent.BuffType<Buffs.Cooldowns.LagunaBladeCooldown>()))
             {
                 type = ModContent.ProjectileType<LagunaBladeProjectile>();
                 knockback *= 4f;

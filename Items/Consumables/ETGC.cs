@@ -26,7 +26,7 @@ namespace MogMod.Items.Consumables
             Item.consumable = true;
             Item.rare = ItemRarityID.Green;
             Item.value = 10000;
-            Item.buffType = ModContent.BuffType<Buffs.ETGCbuff>();
+            Item.buffType = ModContent.BuffType<Buffs.PotionBuffs.ETGCbuff>();
             Item.buffTime = 60 * 60;
         }
     }

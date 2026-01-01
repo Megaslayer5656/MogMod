@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MogMod.Projectiles;
 using MogMod.Items.Other;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,6 +7,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using MogMod.Items.Weapons.Melee;
+using MogMod.Projectiles.MagicProjectiles;
 
 namespace MogMod.Items.Weapons.Magic
 {

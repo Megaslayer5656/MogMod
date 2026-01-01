@@ -8,13 +8,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
-using MogMod.Buffs;
-using MogMod.Projectiles;
 using Terraria.Audio;
 using MogMod.Utilities;
 using Mono.Cecil;
 using MogMod.Items.Other;
 using MogMod.Utilities;
+using MogMod.Buffs.Debuffs;
+using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.RangedProjectiles;
 
 namespace MogMod.Items.Weapons.Melee
 {

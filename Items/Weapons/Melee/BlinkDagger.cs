@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
-using MogMod.Buffs;
 using Terraria.Audio;
+using MogMod.Buffs.Cooldowns;
 
 namespace MogMod.Items.Weapons.Melee
 {

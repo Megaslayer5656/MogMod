@@ -1,5 +1,4 @@
-﻿using MogMod.Buffs;
-using MogMod.Common.Player;
+﻿using MogMod.Common.Player;
 using MogMod.Common.Systems;
 using MogMod.Items.Other;
 using MogMod.Utilities;
@@ -12,7 +11,7 @@ namespace MogMod.Items.Accessories
 {
     public class DrumOfEndurance : ModItem, ILocalizedModType
     {
-        int teamBuff = ModContent.BuffType<Buffs.DrumOfEnduranceBuff>();
+        int teamBuff = ModContent.BuffType<Buffs.AccessoryAuras.DrumOfEnduranceBuff>();
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {

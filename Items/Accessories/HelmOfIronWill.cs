@@ -26,6 +26,10 @@ namespace MogMod.Items.Accessories
             player.lifeRegen += 2;
             player.statDefense += 5;
             player.statLifeMax2 += 20;
+            player.manaRegen -= (int)Math.Round(player.manaRegen * .4f);
+            player.manaRegenDelay += 5f;
+            player.GetDamage(DamageClass.Magic) += -.10f;
+            player.GetDamage(DamageClass.Summon) += -.10f;
         }
         public override void AddRecipes()
         {
@@ -33,7 +37,7 @@ namespace MogMod.Items.Accessories
                 AddRecipeGroup("IronBar", 20).
                 AddRecipeGroup("GoldBar", 15).
                 AddRecipeGroup("SilverBar", 12).
-                AddIngredient(ItemID.Diamond, 1).
+                AddIngredient(ItemID.LargeDiamond, 1).
                 AddTile(TileID.Anvils).
                 Register();
         }
