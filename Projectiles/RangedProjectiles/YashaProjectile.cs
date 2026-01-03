@@ -70,7 +70,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                     if (Projectile.owner == Main.myPlayer && Projectile.numHits <= 2)
                     {
                         // proj barrage does (source, Vector2 originVec, Vector2 targetPos, T/F fromRight, xOffsetMin, xOffsetMax, yOffsetMin, yOffsetMax, projSpeed, projType, damage, knockback, owner, T/F clamped, innacuracy)
-                        MogModUtils.ProjectileBarrage(source, Projectile.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<YashaProj>(), Convert.ToInt32(Projectile.damage * .8), 0f, Projectile.owner, false, 0f);
+                        MogModUtils.ProjectileBarrage(source, Projectile.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<YashaProj>(), Convert.ToInt32(Projectile.damage * .65), 0f, Projectile.owner, false, 0f);
                     }
                 }
             }

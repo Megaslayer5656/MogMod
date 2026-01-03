@@ -1102,6 +1102,11 @@ Items: {
 			'A king's blade is not just for show'
 			'''
 	}
+
+	OversizedAnchor: {
+		DisplayName: Oversized Anchor
+		Tooltip: ""
+	}
 }
 
 NPCs: {
@@ -1393,6 +1398,7 @@ Projectiles: {
 	DagonFiveSkyProj.DisplayName: Dagon Beam
 	StunEdge.DisplayName: Stun Edge
 	ThunderSealProj.DisplayName: Thunder Seal
+	AnchorProj.DisplayName: Anchor Proj
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore

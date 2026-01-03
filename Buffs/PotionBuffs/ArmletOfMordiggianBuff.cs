@@ -17,6 +17,8 @@ namespace MogMod.Buffs.PotionBuffs
         {
             player.GetAttackSpeed(DamageClass.Generic) += 0.20f;
             player.GetDamage(DamageClass.Generic) += .20f;
+            float dim = .02f;
+            Lighting.AddLight(player.Center, 136f * dim, 8f * dim, 8f * dim);
         }
     }
 }

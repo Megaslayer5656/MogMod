@@ -23,7 +23,6 @@ namespace MogMod.Items.Weapons.Melee
             Item.useAnimation = 5;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 5;
-            Item.useTurn = false;
             Item.knockBack = 1f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;

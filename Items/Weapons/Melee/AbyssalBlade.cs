@@ -34,7 +34,6 @@ namespace MogMod.Items.Weapons.Melee
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 22;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTurn = false;
             Item.knockBack = 9f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
