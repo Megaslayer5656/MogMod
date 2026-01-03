@@ -1105,7 +1105,11 @@ Items: {
 
 	OversizedAnchor: {
 		DisplayName: Oversized Anchor
-		Tooltip: ""
+		Tooltip:
+			'''
+			Summons homing dolphins on hit
+			'Totsugeki!'
+			'''
 	}
 }
 
