@@ -1,5 +1,4 @@
-﻿using MogMod.Buffs;
-using MogMod.Common.Player;
+﻿using MogMod.Common.Player;
 using MogMod.Common.Systems;
 using MogMod.Items.Other;
 using MogMod.Utilities;
@@ -15,7 +14,7 @@ namespace MogMod.Items.Accessories
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.MekansmKeybind);
         ModKeybind keybindActive = null;
         public new string LocalizationCategory => "Items.Accessories";
-        int teamBuff = ModContent.BuffType<Buffs.HeaddressBuff>();
+        int teamBuff = ModContent.BuffType<Buffs.AccessoryAuras.HeaddressBuff>();
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -50,37 +49,10 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<Headdress>(1).
-                AddIngredient(ItemID.IronChainmail, 1).
-                AddIngredient(ItemID.Diamond, 1).
-                AddIngredient(ItemID.GoldBar, 3).
+                AddRecipeGroup(RecipeGroupID.IronBar, 25).
+                AddRecipeGroup("GoldBar", 3).
                 AddIngredient(ItemID.Book, 3).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient<Headdress>(1).
-                AddIngredient(ItemID.LeadChainmail, 1).
                 AddIngredient(ItemID.Diamond, 1).
-                AddIngredient(ItemID.GoldBar, 3).
-                AddIngredient(ItemID.Book, 3).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient<Headdress>(1).
-                AddIngredient(ItemID.IronChainmail, 1).
-                AddIngredient(ItemID.Diamond, 1).
-                AddIngredient(ItemID.PlatinumBar, 3).
-                AddIngredient(ItemID.Book, 3).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient<Headdress>(1).
-                AddIngredient(ItemID.LeadChainmail, 1).
-                AddIngredient(ItemID.Diamond, 1).
-                AddIngredient(ItemID.PlatinumBar, 3).
-                AddIngredient(ItemID.Book, 3).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

@@ -1,0 +1,61 @@
+﻿using MogMod.Common.Player;
+using MogMod.Items.Other;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace MogMod.Items.Accessories
+{
+    public class VladmirsOffering : ModItem, ILocalizedModType
+    {
+        public new string LocalizationCategory => "Items.Accessories";
+        int teamBuff = ModContent.BuffType<Buffs.AccessoryAuras.VladmirsBuff>();
+        public override void SetDefaults()
+        {
+            Item.accessory = true;
+            Item.width = 50;
+            Item.height = 42;
+            Item.rare = ItemRarityID.Green;
+        }
+
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            player.statDefense += 3;
+            player.maxTurrets += 2;
+            player.GetDamage(DamageClass.Generic) += .07f;
+            player.lifeSteal += 35;
+            player.manaRegen += (int)Math.Round(player.manaRegen * .05f);
+            if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
+            {
+                int myPlayer = Main.myPlayer;
+                if (Main.player[myPlayer].team == player.team && player.team != 0)
+                {
+                    float teamPlayerXDist = player.position.X - Main.player[myPlayer].position.X;
+                    float teamPlayerYDist = player.position.Y - Main.player[myPlayer].position.Y;
+                    if ((float)Math.Sqrt(teamPlayerXDist * teamPlayerXDist + teamPlayerYDist * teamPlayerYDist) < 800f)
+                    {
+                        Main.player[myPlayer].AddBuff(teamBuff, 20);
+                    }
+                }
+            }
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.ManaRegenerationBand, 1).
+                AddIngredient<BladesOfAttack>(1).
+                AddRecipeGroup("IronBar", 18).
+                AddIngredient(ItemID.Silk, 12).
+                AddRecipeGroup("TissueSample", 7).
+                AddIngredient(ItemID.Skull, 1).
+                AddIngredient<CraftingRecipe>(1).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
+        }
+    }
+}

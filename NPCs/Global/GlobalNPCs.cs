@@ -8,6 +8,9 @@ using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using MogMod.Buffs;
+using System.Net.Http.Headers;
 
 namespace MogMod.NPCs.Global
 {

@@ -8,6 +8,7 @@ namespace MogMod.Items.Other
 {
     public class Phasma : ModItem
     {
+        // make phasma play sound when used
         public override void SetDefaults()
         {
             Item.width = 5;

@@ -78,10 +78,11 @@ namespace MogMod.NPCs.TownNpc
         }
         public override void AddShops()
         {
-            new NPCShop(Type)
-                .Add<LedX>()
-                .Add(ItemID.ChlorophyteShotbow)
+            NPCShop shop = new(Type);
+            shop.Add<LedX>()
+                .Add((ItemID.ChlorophyteShotbow), Condition.DownedMechBossAny)
                 .Add<Phasma>()
+                .Add(ModContent.ItemType<EyeOfMendez>(), Condition.PlayerCarriesItem(ModContent.ItemType<RedX>()))
                 .Register();
         }
         public override string GetChat()

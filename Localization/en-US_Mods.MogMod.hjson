@@ -1,11 +1,6 @@
 # This file will automatically update with entries for new content after a build and reload
 
 Items: {
-	Dabdadblade: {
-		DisplayName: Dabdad's Axe
-		Tooltip: ...I'll kill when I'm desperate
-	}
-
 	BoulderFury: {
 		DisplayName: Boulder Fury
 		Tooltip: ""
@@ -19,11 +14,6 @@ Items: {
 	TrueBoulderFury: {
 		DisplayName: True Boulder Fury
 		Tooltip: ""
-	}
-
-	MageShotgun: {
-		Tooltip: Made by Jobius Job (kinda)
-		DisplayName: Mage Shotgun
 	}
 
 	GunLance: {
@@ -81,11 +71,6 @@ Items: {
 		Tooltip: ""
 	}
 
-	Switch: {
-		Tooltip: I ain't lookin for no trouble, I jus looking out for me.
-		DisplayName: Switch
-	}
-
 	GreenTracerAmmo: {
 		Tooltip: The ammo of true tigla slimers.
 		DisplayName: Green Tracer
@@ -127,10 +112,10 @@ Items: {
 			Tooltip:
 				'''
 				Increases movement speed
-				Increased maximum mana by 50
-				Pressing [KEY] will restore 200 mana
-				'Magi equipped with these boots are valued 
-				in battle.'
+				Increased Maximum Mana by 50
+				Slightly Increased Mana Regeneration
+				Pressing [KEY] will restore 200 Mana to you and nearby allies
+				'Magi equipped with these boots are valued in battle.'
 				'''
 		}
 
@@ -143,9 +128,8 @@ Items: {
 				+10% Attack Speed
 				Pressing [KEY] will increase attack damage 
 				and speed by 20% when activated
-				'Weapon of choice among brutes, the bearer
-				sacrifices his life energy to gain immense
-				strength and power.'
+				'Weapon of choice among brutes, the bearer sacrifices 
+				their life energy to gain immense strength and power.'
 				'''
 		}
 
@@ -154,13 +138,14 @@ Items: {
 			Tooltip:
 				'''
 				-30% Melee Damage
-				Greatly increases placement speed and range
-				Increased maximum mana by 50
-				Provides you and nearby team members +20 Maximum health, +50 Maximum mana, 
-				+6 HP/s life regen, +5 Defense and +10% increased damage
-				Pressing [KEY] will restore 100 health and 300 mana to you and nearby team members
-				'One of many holy instruments constructed to 
-				honor the Omniscience.'
+				Greatly Increases placement speed and range
+				Increased Maximum Mana by 50
+				Enemies are less likely to target you
+				Greatly Increased Mana regeneration
+				Provides you and nearby team members +20 Maximum Life, +50 Maximum Mana, 
+				+6 HP/s Life regen, +5 Defense and +10% Increased damage
+				Pressing [KEY] will restore 100 Life and 300 Mana to you and nearby team members
+				'One of many holy instruments constructed to honor the Omniscience.'
 				'''
 		}
 
@@ -169,9 +154,8 @@ Items: {
 			Tooltip:
 				'''
 				-30% Melee Damage
-				Provides you and nearby team members +4 HP/s life regen
-				'Creates a soothing aura that restores allies in 
-				battle.'
+				Provides you and nearby team members +4 HP/s Life regen
+				'Creates a soothing aura that restores allies in battle.'
 				'''
 		}
 
@@ -179,13 +163,12 @@ Items: {
 			DisplayName: Mekansm
 			Tooltip:
 				'''
-				5 Defense
+				4 Defense
 				-30% Melee Damage
 				Increases placement speed and range
-				Provides you and nearby team members +4 HP/s life regen
-				Pressing [KEY] will restore 50 health to you and nearby team members
-				'A glowing jewel formed out of assorted parts 
-				that somehow fit together perfectly.'
+				Provides you and nearby team members +4 HP/s Life regen
+				Pressing [KEY] will restore 50 Life to you and nearby team members
+				'A glowing jewel formed out of assorted parts that somehow fit together perfectly.'
 				'''
 		}
 
@@ -193,10 +176,10 @@ Items: {
 			DisplayName: Satanic
 			Tooltip:
 				'''
-				+50 Max Health
+				+50 Max Life
 				+15% Melee Damage
 				+10% Attack Damage
-				Vastly increases lifesteal of weapons that utilize it
+				Vastly Increases lifesteal of weapons that utilize it
 				Press [KEY] to increase lifesteal affectiveness
 				'Immense power at the cost of your soul.'
 				'''
@@ -208,7 +191,7 @@ Items: {
 				'''
 				+10% Magic Damage
 				+10% Summon Damage
-				Increases maximum mana by 50
+				Increases Maximum Mana by 50
 				Pressing [KEY] will refresh the cooldowns of all items
 				'A powerful artifact created for wizards.'
 				'''
@@ -218,13 +201,12 @@ Items: {
 			DisplayName: Magic Wand
 			Tooltip:
 				'''
-				+5% Magic Damage
-				Increased maximum mana by 30
+				+3% Magic Damage
+				Increased Maximum Mana by 30
 				Taking damage adds a charge to the wand
-				Pressing [KEY] expends all charges and heals 7 health and mana for each charge
-				'A simple wand used to channel magic 
-				energies, it is favored by apprentice wizards 
-				and great warlocks alike.'
+				Pressing [KEY] expends all charges and heals 7 Life and Mana for each charge
+				'A simple wand used to channel magic energies, it is 
+				favored by apprentice wizards and great warlocks alike.'
 				'''
 		}
 
@@ -233,10 +215,9 @@ Items: {
 			Tooltip:
 				'''
 				Taking damage adds a charge to the stick
-				Pressing [KEY] expends all charges and heals 5 health and mana for each charge
-				'A simple stick used to channel magic 
-				energies, it is favored by apprentice wizards 
-				and great warlocks alike.'
+				Pressing [KEY] expends all charges and heals 5 Life and Mana for each charge
+				'A simple stick used to channel magic energies, it is 
+				favored by apprentice wizards and great warlocks alike.'
 				'''
 		}
 
@@ -247,12 +228,11 @@ Items: {
 				Increases your max number of minions by 2
 				Increases your max number of sentries by 2
 				Does not stack with downgrades
-				+10% Magic Damage
-				+10% Summon Damage
-				Increased Maximum mana by 50
+				+5% Magic Damage
+				+5% Summon Damage
+				Increased Maximum Mana by 50
 				Press [KEY] to summon a mighty beast!
-				'The powerful headpiece of a dead
-				necromancer.'
+				'The powerful headpiece of a dead necromancer.'
 				'''
 		}
 
@@ -260,8 +240,8 @@ Items: {
 			DisplayName: Glimmer Cape
 			Tooltip:
 				'''
-				+7% Magic Damage
-				+7% Summon Damage
+				Increased Maximum Mana by 50
+				Enemies are less likely to target you
 				Pressing [KEY] will turn you invisible and increase movement speed
 				'The stolen cape of a master illusionist.'
 				'''
@@ -271,12 +251,11 @@ Items: {
 			DisplayName: Force Staff
 			Tooltip:
 				'''
-				+7% Magic Damage
-				+7% Summon Damage
+				+4% Magic Damage
+				+4% Summon Damage
 				+20% Knockback
 				Pressing [KEY] will boost you forward in the direction you are facing
-				'Allows you to manipulate others, for good or 
-				evil.'
+				'Allows you to manipulate yourself, for good or evil.'
 				'''
 		}
 
@@ -291,8 +270,7 @@ Items: {
 				+30% Knockback
 				Increases block placement range by 3
 				Pressing [KEY] will boost you forward in the direction you are facing
-				'A legendary pike once held as royal sigil of
-				the ancient wyvern riders.'
+				'A legendary pike once held as royal sigil of the ancient wyvern riders.'
 				'''
 		}
 
@@ -304,8 +282,8 @@ Items: {
 				+5% Magic Damage
 				+5% Attack Damage
 				+5% Attack Speed
-				Increased maximum health and mana by 20
-				Slightly increased health regeneration
+				Increased Maximum Life and Mana by 20
+				Slightly Increased Life Regeneration
 				'The headwear of corrupt magi.'
 				'''
 		}
@@ -314,9 +292,12 @@ Items: {
 			DisplayName: Vanguard
 			Tooltip:
 				'''
-				12 Defense
-				Increased maximum health by 50
-				Increased health regeneration
+				8 Defense
+				-10% Magic Damage
+				-10% Summon Damage
+				Increased Maximum Life by 50
+				Increased Life Regeneration
+				Greatly Decreased Mana Regeneration
 				'A powerful shield that defends its wielder 
 				from even the most vicious of attacks.'
 				'''
@@ -341,7 +322,7 @@ Items: {
 			Tooltip:
 				'''
 				-20% Attack Damage
-				Decreases maximum mana by 100
+				Decreases Maximum Mana by 100
 				Turns you completely invisible!
 				'A small talisman that clouds the senses of 
 				one's enemies when held perfectly still.'
@@ -363,10 +344,12 @@ Items: {
 			Tooltip:
 				'''
 				5 Defense
-				Increased maximum health by 20
-				Slightly increased health regeneration
-				'The helmet of a legendary warrior who fell in 
-				battle.'
+				-10% Magic Damage
+				-10% Summon Damage
+				Increased Maximum Life by 20
+				Slightly Increased Life Regeneration
+				Decreased Mana Regeneration
+				'The helmet of a legendary warrior who fell in battle.'
 				'''
 		}
 
@@ -378,11 +361,11 @@ Items: {
 				+10% Melee Damage
 				-20% Magic Damage
 				-20% Summon Damage
-				Increases maximum health by 100
-				Decreases maximum mana by 100
-				Vastly increased health regeneration
-				'Preserved heart of an extinct monster, it 
-				bolsters the bearer's fortitude.'
+				Increases Maximum Life by 100
+				Decreases Maximum Mana by 100
+				Vastly Increased Life Regeneration
+				'Preserved heart of an extinct monster, 
+				it bolsters the bearer's fortitude.'
 				'''
 		}
 
@@ -390,21 +373,16 @@ Items: {
 			DisplayName: Dragon Lance
 			Tooltip:
 				'''
-				+10% Attack Speed
-				+7% Ranged Damage
+				+7% Ranged Attack Speed
+				+5% Ranged Damage
 				Increases block placement range by 1
-				'The forward charge of the wyvern host grants 
-				no quarter.'
+				'The forward charge of the wyvern host grants no quarter.'
 				'''
 		}
 
 		Diadem: {
 			DisplayName: Diadem
-			Tooltip:
-				'''
-				Increases your max number of minions by 1
-				+5% Summon Damage
-				'''
+			Tooltip: Increases your max number of minions by 1
 		}
 
 		DesperationCharm: {
@@ -412,8 +390,8 @@ Items: {
 			Tooltip: When there's no exit...
 		}
 
-		Daedalus: {
-			DisplayName: Daedalus
+		DaedalusUnused: {
+			DisplayName: Daedalus (ACCESSORY)
 			Tooltip:
 				'''
 				+40% Attack Damage 
@@ -447,11 +425,11 @@ Items: {
 			Tooltip:
 				'''
 				20 Defense
-				Increased maximum health by 80
-				Greatly increased health regeneration
+				Increased Maximum Life by 80
+				Greatly Increased Life Regeneration
+				Enemies are more likely to target you
 				Absorbs 25% of damage done to players on your team when above 25% life
-				'A cuirass originally built to protect against 
-				the dreaded Year Beast.'
+				'A cuirass originally built to protect against the dreaded Year Beast.'
 				'''
 		}
 
@@ -471,7 +449,7 @@ Items: {
 			DisplayName: Boots Of Travel
 			Tooltip:
 				'''
-				Vastly increased movement speed
+				Vastly Increased movement speed
 				'Winged boots that grant omnipresence.'
 				'''
 		}
@@ -502,11 +480,11 @@ Items: {
 			Tooltip:
 				'''
 				7 Defense
-				+7% Attack Damage
+				+5% Attack Damage
 				Enemies take damage when they hit you
 				Pressing [KEY] will 10x thorns damage
-				'A razor-sharp coat of mail, it is the choice of 
-				selfless martyrs in combat.'
+				'A razor-sharp coat of mail, it is the 
+				choice of selfless martyrs in combat.'
 				'''
 		}
 
@@ -520,8 +498,7 @@ Items: {
 				Grants you and nearby team members 
 				30% movement speed and 10% attack speed
 				'A relic that enchants the bodies of those 
-				around it for swifter movement in times of 
-				crisis.'
+				around it for swifter movement in times of crisis.'
 				'''
 		}
 
@@ -534,10 +511,9 @@ Items: {
 				Does not stack with downgrades
 				+15% Magic Damage
 				+15% Summon Damage
-				Increased Maximum mana by 100
+				Increased Maximum Mana by 100
 				Press [KEY] to summon a flying beast!
-				'The powerful headpiece of a dead
-				overlord.'
+				'The powerful headpiece of a dead overlord.'
 				'''
 		}
 
@@ -546,11 +522,9 @@ Items: {
 			Tooltip:
 				'''
 				+10% Attack Damage
-				Increases maximum health by 50
-				Increases maximum mana by 100
+				+25 Armor Penetration
 				Attacks inflict the Cold Attack debuff
-				'Extremely rare artifact, guarded by the azure 
-				dragons.'
+				'Extremely rare artifact, guarded by the azure dragons.'
 				'''
 		}
 
@@ -558,13 +532,12 @@ Items: {
 			DisplayName: Holy Locket
 			Tooltip:
 				'''
-				+10% Magic Damage
-				+10% Summon Damage
-				Increased maximum mana by 70
+				+7% Magic Damage
+				+7% Summon Damage
+				Increased Maximum Mana by 70
 				Taking damage adds a charge to the wand
-				Pressing [KEY] expends all charges and heals 10 health and mana for each charge
-				'A prized relic long thought lost forever in a 
-				failed crusade.'
+				Pressing [KEY] expends all charges and heals 10 Life and Mana for each charge
+				'A prized relic long thought lost forever in a failed crusade.'
 				'''
 		}
 
@@ -577,13 +550,12 @@ Items: {
 				+10% Magic Damage
 				+10% Attack Damage
 				+10% Attack Speed
-				Increases Health Regeneration
-				Increases Maximum Health by 50
+				Increases Life Regeneration
+				Increases Maximum Life by 50
 				Increases Maximum Mana by 50
 				Pressing [KEY] damages nearby enemies and lowers their armor by 15%
 				Provides nearby team members +10 defense and +30% ranged damage
-				'Said to have belonged to a goddess, today it 
-				retains much of its former power.'
+				'Said to have belonged to a goddess, today it retains much of its former power.'
 				'''
 		}
 
@@ -591,7 +563,7 @@ Items: {
 			DisplayName: Divine Rapier
 			Tooltip:
 				'''
-				+40% Attack Damage when at full health
+				+35% Attack Damage when at full life
 				'So powerful, it cannot have a single owner.'
 				'''
 		}
@@ -602,6 +574,64 @@ Items: {
 				'''
 				Enhances you with the power of Mendez
 				'O na.'
+				'''
+		}
+
+		KayaAndSange: {
+			DisplayName: Kaya And Sange
+			Tooltip:
+				'''
+				+16% Attack Damage
+				+12% Magic Damage
+				Vastly Increases lifesteal of weapons that utilize it
+				Greatly Increased Life Regeneration
+				Greatly Increases Mana Regeneration
+				Increases Maximum Life by 50
+				Increases Maximum Mana by 50
+				Grants immunity to most debuffs
+				'Two of three known items of unimaginable power that many 
+				believe were crafted at the same enchanter's forge.'
+				'''
+		}
+
+		SangeAndYasha: {
+			DisplayName: Sange And Yasha
+			Tooltip:
+				'''
+				+24% Increased movement speed
+				+16% Attack damage
+				+24% Melee speed
+				Vastly Increases lifesteal of weapons that utilize it
+				Greatly Increased Life Regeneration
+				Increased Maximum Life by 50
+				Grants immunity to most debuffs
+				'Sange and Yasha, when attuned by the moonlight and 
+				used together, become a very powerful combination.'
+				'''
+		}
+
+		YashaAndKaya: {
+			DisplayName: Yasha And Kaya
+			Tooltip:
+				'''
+				+24% Increased movement speed
+				+24% Attack speed
+				+16% Attack damage
+				+12%s Increased magic damage
+				Greatly Increased Mana Regeneration
+				Increases Maximum Mana by 50
+				'Yasha and Kaya when paired together share a natural resonance.'
+				'''
+		}
+
+		VladmirsOffering: {
+			DisplayName: Vladmirs Offering
+			Tooltip:
+				'''
+				Increases your max number of sentries by 2
+				Provides you and nearby team members 3 defense, +7% Attack damage,
+				Increased Mana Regeneration, and Increased lifesteal effectiveness
+				'An eerie mask that is haunted with the malice of a fallen vampire.'
 				'''
 		}
 	}
@@ -654,8 +684,338 @@ Items: {
 				DisplayName: Crystalys
 				Tooltip:
 					'''
-					'A blade forged from rare crystals, it seeks 
-					weak points in enemy armor.'
+					'A blade forged from rare crystals, 
+					it seeks weak points in enemy armor.'
+					'''
+			}
+
+			BlinkDagger: {
+				DisplayName: Blink Dagger
+				Tooltip: Right click to teleport to your cursor
+			}
+
+			ChaosBlade: {
+				DisplayName: Chaos Blade
+				Tooltip:
+					'''
+					Randomized damage and crit chance on each hit, with a small chance for an ultra crit
+					'The light shall be blackened, and chaos shall reign.'
+					'''
+			}
+
+			Dabdadblade: {
+				DisplayName: Dabdad's Axe
+				Tooltip: ...I'll kill when I'm desperate
+			}
+
+			GoldenHydrakanLatch: {
+				DisplayName: Golden Hydrakan Latch
+				Tooltip:
+					'''
+					Increases your attack speed and movement speed on hit
+					'The golden shiv of an escapee of dark reef.'
+					'''
+			}
+
+			HydrakanLatch: {
+				DisplayName: Hydrakan Latch
+				Tooltip:
+					'''
+					Increases your attack speed and movement speed on hit
+					'The shiv of an escapee of dark reef.'
+					'''
+			}
+
+			Sange: {
+				DisplayName: Sange
+				Tooltip:
+					'''
+					'Sange is an unusually accurate weapon, 
+					seeking weak points automatically.'
+					'''
+			}
+
+			SkullBasher: {
+				DisplayName: Skull Basher
+				Tooltip:
+					'''
+					Has a chance to bash enemies
+					'A feared weapon in the right hands, 
+					this maul's ability to shatter the defenses 
+					of its opponents should not be underestimated.'
+					'''
+			}
+
+			AbyssalBlade: {
+				DisplayName: Abyssal Blade
+				Tooltip:
+					'''
+					Has a chance to bash enemies multiple times
+					'The lost blade of the Commander of the Abyss, 
+					this edge cuts into an enemy's soul.'
+					'''
+			}
+
+			EchoSabre: {
+				DisplayName: Echo Sabre
+				Tooltip:
+					'''
+					Strikes twice on every swing
+					'A deceptively swift blade imbued with resonant magic.'
+					'''
+			}
+
+			BattleFury: {
+				DisplayName: Battle Fury
+				Tooltip:
+					'''
+					'The bearer of this mighty axe gains the
+					ability to cut down swaths of enemies at once.'
+					'''
+			}
+
+			Daedalus: {
+				DisplayName: Daedalus
+				Tooltip:
+					'''
+					'A weapon of incredible power that is difficult 
+					for even the strongest of warriors to control.'
+					'''
+			}
+
+			ThunderSeal: {
+				DisplayName: Thunder Seal
+				Tooltip: ""
+			}
+		}
+
+		Ranged: {
+			BerserkersSpear: {
+				DisplayName: Berserker's Spear
+				Tooltip:
+					'''
+					Right click to throw a flaming spear at the cost of your life
+					When at low life the spear gains a huge stat boost
+					'Huskar!'
+					'''
+			}
+
+			BloodGrenade: {
+				DisplayName: Blood Grenade
+				Tooltip: Damages the player on use
+			}
+
+			HeavensHalberd: {
+				DisplayName: Heaven's Halberd
+				Tooltip:
+					'''
+					Casts down heavenly beams from the sky
+					'This halberd moves with the speed of a smaller weapon, 
+					allowing the bearer to win duels that a heavy edge would not.'
+					'''
+			}
+
+			Mosin: {
+				DisplayName: Mosin
+				Tooltip: The great equalizer
+			}
+
+			R8Revolver: {
+				DisplayName: R8 Revolver
+				Tooltip:
+					'''
+					Right click to fire rapidly at the cost of accuracy
+					'I'm moving like prime kenny.' - Mq
+					'''
+			}
+
+			Switch: {
+				DisplayName: Switch
+				Tooltip: "'I ain't lookin for no trouble, I jus looking out for me.'"
+			}
+
+			WarriorsSpear: {
+				DisplayName: Warrior's Spear
+				Tooltip:
+					'''
+					Right click to throw a flaming spear at the cost of your life
+					'My blood boils!'
+					'''
+			}
+
+			Yasha: {
+				DisplayName: Yasha
+				Tooltip:
+					'''
+					Strikes two extra times on the first hit
+					'Yasha is regarded as the swiftest weapon ever created.'
+					'''
+			}
+
+			AXMC: {
+				DisplayName: AXMC
+				Tooltip:
+					'''
+					Shoots AP Lapua rounds
+					Right click to scope in
+					'Time for some area brainrot.'
+					'''
+			}
+
+			WindrunnersBow: {
+				DisplayName: Windrunners Bow
+				Tooltip:
+					'''
+					Rapidly fires arrows at the cost of accuracy
+					Right click to fire a powershot
+					'Feel the wind in your hair!'
+					'''
+			}
+
+			ArchbeastParagon: {
+				DisplayName: Archbeast Paragon
+				Tooltip:
+					'''
+					Can be charged to increase power
+					Right click to fire a Dragon Piercer
+					'''
+			}
+		}
+
+		Magic: {
+			AghanimScepter: {
+				DisplayName: Aghanim's Scepter
+				Tooltip:
+					'''
+					Fires a barrage of homing swords
+					'The scepter of a wizard with demigod-like powers.'
+					'''
+			}
+
+			BloodMagic: {
+				DisplayName: Blood Magic
+				Tooltip:
+					'''
+					Heals for 1.25% of max life on hit
+					'Created by the famous sorcerer Vlad'
+					'''
+			}
+
+			DagonOne: {
+				DisplayName: Dagon
+				Tooltip:
+					'''
+					Fires a weak bolt
+					'A lesser wand that brings magic
+					to the fingertips of the user.'
+					'''
+			}
+
+			FierySoul: {
+				DisplayName: Fiery Soul
+				Tooltip:
+					'''
+					Hitting enemies grants a stack of Fiery Soul,
+					increasing magic attack speed and movement speed per stack.
+					'''
+			}
+
+			Kaya: {
+				DisplayName: Kaya
+				Tooltip:
+					'''
+					Fires a barrage of swords
+					'The staff of a renowned sorceress, 
+					lost for countless millennia.'
+					'''
+			}
+
+			Khanda: {
+				DisplayName: Khanda
+				Tooltip: Fires a powerful magical beam
+			}
+
+			LagunaBlade: {
+				DisplayName: Laguna Blade
+				Tooltip:
+					'''
+					Hitting enemies grants a stack of Fiery Soul, 
+					increasing magic attack speed and movement speed per stack.
+					Right click to fire a bolt of lightning, granting max stacks of Fiery Soul
+					'Words hurt more than Laguna Blade'
+					'''
+			}
+
+			MageShotgun: {
+				Tooltip: Made by Jobius Job (kinda)
+				DisplayName: Mage Shotgun
+			}
+
+			MeteorHammer: {
+				DisplayName: Meteor Hammer
+				Tooltip: Summons a world-ending meteor
+			}
+
+			Phylactery: {
+				DisplayName: Phylactery
+				Tooltip: Fires a magical beam
+			}
+
+			DagonTwo: {
+				DisplayName: Dagon
+				Tooltip:
+					'''
+					Fires a flaming bolt
+					'A wand that brings magic
+					to the fingertips of the user.'
+					'''
+			}
+
+			DagonThree: {
+				DisplayName: Dagon
+				Tooltip:
+					'''
+					Fires a blazing volatile bolt
+					'A staff that brings volatile magic
+					to the fingertips of the user.'
+					'''
+			}
+
+			DagonFour: {
+				DisplayName: Dagon
+				Tooltip:
+					'''
+					Fires three blazing bolts that summon homing volatile orbs on hit
+					'A superior staff that brings volatile magic to the fingertips of the user.'
+					'''
+			}
+
+			DagonFive: {
+				DisplayName: Dagon
+				Tooltip:
+					'''
+					Fires five randomized infernal bolts
+					On hit, bolts either explode, summon beams from the sky, or split into solar orbs
+					'A legendary staff that holds unimaginable power.'
+					'''
+			}
+
+			OrchidMalevolence: {
+				DisplayName: Orchid Malevolence
+				Tooltip:
+					'''
+					Launches an orb that fires a homing beam
+					'A garnet rod constructed from the essence of a fire demon.'
+					'''
+			}
+
+			Bloodthorn: {
+				DisplayName: Bloodthorn
+				Tooltip:
+					'''
+					Launches 3 orbs that fire homing beams
+					'A reviled blade that bites deeper with 
+					each wriggle of its victim's final throes.'
 					'''
 			}
 		}
@@ -682,43 +1042,137 @@ Items: {
 	}
 
 	KingVonMusicBox: {
-		DisplayName: King Von Music Box
+		DisplayName: Music Box (King Von - Phase 1)
 		Tooltip: ""
 	}
 
 	VonEvilIncarnateMusicBox: {
-		DisplayName: Von Evil Incarnate Music Box
+		DisplayName: Music Box (King Von - Phase 2)
 		Tooltip: ""
 	}
 
 	GhoulishGoldGorer: {
 		DisplayName: Ghoulish Gold Gorer
-		Tooltip: ""
+		Tooltip: A golden horn that, even when broken, is filled with the rage of a Rajang
 	}
 
 	GoldRajangPelt: {
 		DisplayName: Gold Rajang Pelt
-		Tooltip: ""
+		Tooltip: Hard to obtain, but greatly Increases the effectiveness of equipment.
 	}
 
 	RajangApoplexy: {
 		DisplayName: Rajang Apoplexy
-		Tooltip: ""
+		Tooltip: A long, fine mane that is extremely robust.
 	}
 
 	RajangHardclaw: {
 		DisplayName: Rajang Hardclaw
-		Tooltip: ""
+		Tooltip: Sharp, used in many weapons.
 	}
 
 	RajangHardHorn: {
 		DisplayName: Rajang Hard Horn
-		Tooltip: ""
+		Tooltip: Stout, used in many weapons.
 	}
 
 	RajangHeart: {
 		DisplayName: Rajang Heart
+		Tooltip:
+			'''
+			Very rare Rajang Material. 
+			Its flesh-searing rage unleashes massive power with every beat.
+			'''
+	}
+
+	MosinLPS: {
+		DisplayName: LPS Ammo
 		Tooltip: ""
+	}
+
+	AghanimShard: {
+		DisplayName: Aghanim's Shard
+		Tooltip:
+			'''
+			20% Increased magic damage
+			100 additional Maximum Mana
+			Greatly Increased Mana Regeneration
+			'With origins known only to a single wizard, fragments of this impossible crystal are nearly as coveted as the renowned scepter itself.'
+			'''
+	}
+
+	BloodInfusion: {
+		DisplayName: Blood Infusion
+		Tooltip: ""
+	}
+
+	BlockOfCheese: {
+		DisplayName: Block Of Cheese
+		Tooltip: Try me!
+	}
+
+	Cheese: {
+		DisplayName: Cheese
+		Tooltip:
+			'''
+			Major improvements to all stats
+			'Made from the milk of a long lost Furbolg vendor,
+			it restores the vitality of those who taste it.'
+			'''
+	}
+
+	GreaterHealingLotus: {
+		DisplayName: Greater Healing Lotus
+		Tooltip: ""
+	}
+
+	GreatHealingLotus: {
+		DisplayName: Great Healing Lotus
+		Tooltip: ""
+	}
+
+	HealingLotus: {
+		DisplayName: Healing Lotus
+		Tooltip: ""
+	}
+
+	ThunderSeal: {
+		DisplayName: Thunder Seal
+		Tooltip:
+			'''
+			Right click to shoot a projectile
+			The projectile inflicts shock state
+			While in shock state, enemies hit with
+			 the Thunder Seal get shocked
+			'A king's blade is not just for show'
+			'''
+	}
+
+	Clarity: {
+		DisplayName: Clarity
+		Tooltip:
+			'''
+			Greatly increased mana regeneration, but is lost on hit
+			'Clear water that enhances the ability to meditate.'
+			'''
+	}
+
+	HealingSalve: {
+		DisplayName: Healing Salve
+		Tooltip:
+			'''
+			Greatly increased life regeneration, but is lost on hit
+			'A magical salve that can quickly mend even the deepest of wounds.'
+			'''
+	}
+
+	MoonShard: {
+		DisplayName: Moon Shard
+		Tooltip:
+			'''
+			Greatly increases attack speed
+			'Said to be a tear from the lunar goddess Selemene.'
+			'''
 	}
 }
 
@@ -736,7 +1190,7 @@ NPCs: {
 			DislikeCrowded: I dislike how crowded I am, as I cannot edge as efficiently.
 			HateCrowded: I hate how crowded I am, all these betas make me soft.
 			LikeNPC_Princess: I like {NPCName}.
-			Princess_LovesNPC: I like {NPCName}.
+			Princess_LovesNPC: The aura radiating off of {NPCName} is sooo sweet to loot at.
 		}
 	}
 
@@ -749,13 +1203,28 @@ NPCs: {
 
 		TownNPCMood: {
 			Content: o na.
-			NoHome: o na where my bed i so sleepy rizzler.
+			NoHome: O NA VASS VASS VASS O NA.
 			FarFromHome: o na wheres my goon.
 			LoveSpace: o na no scavs.
-			DislikeCrowded: o na extract camped by tigs.
-			HateCrowded: TBD.
+			DislikeCrowded: o na vass-tract camped by tigs o na.
+			HateCrowded: o na tis' be to the o vass.
 			LikeNPC_Princess: o na scavvy-o luve {NPCName}.
-			Princess_LovesNPC: o na scavvy-o freaky-b didden-goon {NPCName}.
+			Princess_LovesNPC: I love {NPCName}'s way with words!
+		}
+	}
+
+	Prapor: {
+		DisplayName: Prapor
+
+		TownNPCMood: {
+			Content: I am content.
+			NoHome: I hate not having a home.
+			FarFromHome: I am too far from home.
+			LoveSpace: I love having so much space.
+			DislikeCrowded: I dislike how crowded I am.
+			HateCrowded: I hate how crowded I am.
+			LikeNPC_Princess: I like {NPCName}.
+			Princess_LovesNPC: I like {NPCName}.
 		}
 	}
 }
@@ -783,7 +1252,7 @@ Buffs: {
 
 	GlimmerCapeBuff: {
 		DisplayName: Glimmer Cape
-		Description: Your invisible! And also much faster!
+		Description: Your invisible, regen mana much quicker and move faster!
 	}
 
 	GlimmerCapeDebuff: {
@@ -798,7 +1267,7 @@ Buffs: {
 
 	ArcaneBootsDebuff: {
 		DisplayName: Used Arcane Boots
-		Description: Out of mana...
+		Description: Out of Mana...
 	}
 
 	SatanicBuff: {
@@ -817,95 +1286,221 @@ Buffs: {
 	}
 
 	HelmOfDominatorDebuff: {
-		Description: Mods.MogMod.Buffs.HelmOfDominatorDebuff.Description
-		DisplayName: Helm Of Dominator Debuff
+		DisplayName: Helm Of The Dominator Cooldown
+		Description: The Helm is out of power...
 	}
 
 	GuardianGreavesAura: {
 		DisplayName: Guardian Greaves Aura
-		Description: Mods.MogMod.Buffs.GuardianGreavesAura.Description
+		Description: +6 HP/s, +4 Defense, +20 Max HP, +50 Max Mana, +10% Damage
 	}
 
 	GuardianGreavesBuff: {
-		DisplayName: Guardian Greaves Buff
-		Description: Mods.MogMod.Buffs.GuardianGreavesBuff.Description
+		DisplayName: Guardian Greaves Heal
+		Description: +100 Life and +300 Mana!
 	}
 
 	GuardianGreavesDebuff: {
-		DisplayName: Guardian Greaves Debuff
-		Description: Mods.MogMod.Buffs.GuardianGreavesDebuff.Description
+		DisplayName: Guardian Greaves Cooldown
+		Description: Out of Mana...
 	}
 
 	HeaddressBuff: {
-		DisplayName: Headdress Buff
-		Description: Mods.MogMod.Buffs.HeaddressBuff.Description
+		DisplayName: Headdress Aura
+		Description: Increased Life Regeneration
 	}
 
 	MekansmBuff: {
-		DisplayName: Mekansm Buff
-		Description: Mods.MogMod.Buffs.MekansmBuff.Description
+		DisplayName: Mekansm Heal
+		Description: Healed by a team member!
 	}
 
 	MekansmDebuff: {
-		DisplayName: Mekansm Debuff
-		Description: Mods.MogMod.Buffs.MekansmDebuff.Description
+		DisplayName: Mekansm Cooldown
+		Description: Mekansm needs to recharge!
 	}
 
 	ForceStaffDebuff: {
-		Description: Mods.MogMod.Buffs.ForceStaffDebuff.Description
-		DisplayName: Force Staff Debuff
+		DisplayName: Force Staff Cooldown
+		Description: Force staff is out of power...
 	}
 
 	BladeMailBuff: {
-		DisplayName: Blade Mail Buff
-		Description: Mods.MogMod.Buffs.BladeMailBuff.Description
+		DisplayName: Blade Mail
+		Description: Covered in spikes!
 	}
 
 	BladeMailDebuff: {
-		DisplayName: Blade Mail Debuff
-		Description: Mods.MogMod.Buffs.BladeMailDebuff.Description
+		DisplayName: Blade Mail Cooldown
+		Description: Out of spikes...
 	}
 
 	DrumOfEnduranceBuff: {
-		DisplayName: Drum Of Endurance Buff
-		Description: Mods.MogMod.Buffs.DrumOfEnduranceBuff.Description
+		DisplayName: Drum Of Endurance Aura
+		Description: +30% Movement Speed, +10% Attack Speed
 	}
 
 	EyeOfSkadiDebuff: {
-		DisplayName: Eye Of Skadi Debuff
-		Description: Mods.MogMod.Buffs.EyeOfSkadiDebuff.Description
+		DisplayName: Cold Attack
+		Description: Rapidly losing Life!
 	}
 
 	HolyLocketBuff: {
-		DisplayName: Holy Locket Buff
-		Description: Mods.MogMod.Buffs.HolyLocketBuff.Description
+		DisplayName: Holy Locket Heal
+		Description: You've been healed!
 	}
 
 	MagicStickBuff: {
-		DisplayName: Magic Stick Buff
-		Description: Mods.MogMod.Buffs.MagicStickBuff.Description
+		DisplayName: Magic Stick Heal
+		Description: You've been healed!
 	}
 
 	WandBuff: {
-		DisplayName: Wand Buff
-		Description: Mods.MogMod.Buffs.WandBuff.Description
+		DisplayName: Magic Wand Heal
+		Description: You've been healed!
 	}
 
 	ShivasGuardBuff: {
-		DisplayName: Shivas Guard Buff
-		Description: Mods.MogMod.Buffs.ShivasGuardBuff.Description
+		DisplayName: Shivas Guard Aura
+		Description: +10 Defense and +30% Ranged Damage
 	}
 
 	ShivasDebuff: {
-		DisplayName: Shivas Debuff
-		Description: Mods.MogMod.Buffs.ShivasDebuff.Description
+		DisplayName: Shiva's Guard Cooldown
+		Description: Recharging...
+	}
+
+	BlinkDebuff: {
+		DisplayName: Blink Cooldown
+		Description: Blink Dagger is on cooldown!
+	}
+
+	EssenceShift: {
+		DisplayName: Essence Shift
+		Description: Attack speed and movement speed Increased
+	}
+
+	LagunaBladeCooldown: {
+		DisplayName: Laguna Blade Cooldown
+		Description: Recharging...
+	}
+
+	FierySoulStack: {
+		DisplayName: Fiery Soul
+		Description: Magic attack speed and movement speed Increased, Mana cost decreased
+	}
+
+	CheeseBuff: {
+		DisplayName: Delicious Cheese
+		Description: Scrumptious!
+	}
+
+	HeavyBleed: {
+		DisplayName: Heavy Bleed
+		Description: Mods.MogMod.Buffs.HeavyBleed.Description
+	}
+
+	VladmirsBuff: {
+		DisplayName: Vladmir's Aura
+		Description: +3 Defense, +7% Attack Damage, Increased Mana Regeneration and Lifesteal Effectiveness
+	}
+
+	ShockState: {
+		DisplayName: Shock State
+		Description: Mods.MogMod.Buffs.ShockState.Description
+	}
+
+	AghanimShardBuff: {
+		DisplayName: Aghanim Shard
+		Description: +100 Maximum Mana, +20% Magic Attack Damage, Greatly Increased Mana Regeneration
+	}
+
+	ClarityBuff: {
+		DisplayName: Clarity
+		Description: Greatly Increased Mana Regeneration
+	}
+
+	HealingSalveBuff: {
+		DisplayName: Healing Salve
+		Description: Greatly Increased Life Regeneration
+	}
+
+	MoonShardBuff: {
+		DisplayName: Moon Shard
+		Description: +30% Attack Speed
+	}
+
+	ChargingShot: {
+		DisplayName: Charging Shot
+		Description: You must focus!
+	}
+
+	DragonPiercerShot: {
+		DisplayName: Charging Shot
+		Description: You must focus!
 	}
 }
 
 Projectiles: {
-	GreenTracerProj.DisplayName: Green Tracer
-	VonGreenTracerProj.DisplayName: Green Tracer
-	VonNade.DisplayName: Von Grenade
+	MagicProjectiles: {
+		BloodthornBeam.DisplayName: Bloodthorn
+		OrchidBeam.DisplayName: Orchid Malevolence
+		AghanimProjectile.DisplayName: Scepter
+		BloodMagicProjectile.DisplayName: Blood Magic
+		BloodthornOrb.DisplayName: Bloodthorn
+		DagonExplosion.DisplayName: Dagon Explosion
+		DagonFiveExplosion.DisplayName: Dagon Explosion
+		DagonFiveOrb.DisplayName: Dagon Orb
+		DagonFiveProj.DisplayName: Dagon Bolt
+		DagonFiveSkyProj.DisplayName: Dagon Beam
+		DagonFourProj.DisplayName: Dagon Beam
+		DagonOneProj.DisplayName: Dagon Bolt
+		DagonOrb.DisplayName: Dagon Orb
+		DagonThreeProj.DisplayName: Dagon Bolt
+		DagonTwoProj.DisplayName: Dagon Bolt
+		FierySoulProjectile.DisplayName: Fiery Soul
+		KayaProjectile.DisplayName: Kaya
+		KhandaBeam.DisplayName: Khanda
+		LagunaBladeBoom.DisplayName: Laguna Blade
+		LagunaBladeProjectile.DisplayName: Laguna Blade
+		MeteorHammerProjectile.DisplayName: World-Ending Meteor
+		OrchidOrb.DisplayName: Orchid Malevolence
+		PhylacteryBeam.DisplayName: Phylactery
+	}
+
+	RangedProjectiles: {
+		APLapua.DisplayName: AP Lapua
+		ArchbeastArrow.DisplayName: Dragon Piercer
+		ArchbeastHoldout.DisplayName: Archbeast Holdout
+		BerserkersFireSpearProj.DisplayName: Blazing Spear
+		BerserkersSpearProj.DisplayName: Spear
+		BloodGrenadeProjectile.DisplayName: Blood Grenade
+		GreenTracerProj.DisplayName: Green Tracer
+		HeavensExplosion.DisplayName: Heaven's Halberd
+		HeavensHalberdProj.DisplayName: Heaven's Halberd
+		HeavensHalberdProjectile.DisplayName: Heaven's Halberd
+		MosinLPSProj.DisplayName: Mosin LPS
+		Powershot.DisplayName: Powershot
+		WarriorsFireSpearProj.DisplayName: Fire Spear
+		WarriorsSpearProj.DisplayName: Spear
+		WindrunnerHoldout.DisplayName: Windrunner Holdout
+		YashaProj.DisplayName: Yasha
+		YashaProjectile.DisplayName: Yasha
+		ArchbeastBowCharge.DisplayName: Archbeast Bow Charge
+		DragonPiercerArrow.DisplayName: Dragon Piercer Arrow
+	}
+
+	ThunderSealProj.DisplayName: Thunder Seal Proj
+	StunEdge.DisplayName: Stun Edge
+	SkullBashProjectile.DisplayName: Skull Bash Projectile
+	DaedalusSplitProj.DisplayName: Daedalus Split Proj
+	DaedalusProjectile.DisplayName: Daedalus Projectile
+	DaedalusProj.DisplayName: Daedalus Proj
+	DaedalusBoom.DisplayName: Daedalus Boom
+	ChaosBladeProj.DisplayName: Chaos Blade Proj
+	BattleFuryProjectile.DisplayName: Battle Fury Projectile
+	VonNade.DisplayName: Von Nade
+	VonGreenTracerProj.DisplayName: Von Green Tracer Proj
 }
 
 Tiles.DabDadOre.MapEntry: DabDad Ore
@@ -955,6 +1550,16 @@ Configs: {
 
 		Custom: {
 			Label: Custom
+			Tooltip: ""
+		}
+	}
+
+	MogClientConfig: {
+		DisplayName: Mog Client Config
+		Headers.Graphics: Graphics Header
+
+		Afterimages: {
+			Label: Afterimages
 			Tooltip: ""
 		}
 	}

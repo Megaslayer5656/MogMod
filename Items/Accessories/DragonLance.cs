@@ -23,8 +23,8 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetAttackSpeed(DamageClass.Ranged) += .10f;
-            player.GetDamage(DamageClass.Ranged) += .07f;
+            player.GetAttackSpeed(DamageClass.Ranged) += .07f;
+            player.GetDamage(DamageClass.Ranged) += .05f;
             Player.tileRangeX = Player.tileRangeY += 1;
         }
         public override void AddRecipes()
@@ -32,18 +32,9 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<BeltOfStrength>(1).
                 AddIngredient(ItemID.GreenPhaseblade, 1).
-                AddIngredient(ItemID.TissueSample, 7).
-                AddIngredient(ItemID.AntlionMandible, 3).
+                AddRecipeGroup("TissueSample", 7).
                 AddIngredient(ItemID.Ruby, 5).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient<BeltOfStrength>(1).
-                AddIngredient(ItemID.GreenPhaseblade, 1).
-                AddIngredient(ItemID.ShadowScale, 7).
                 AddIngredient(ItemID.AntlionMandible, 3).
-                AddIngredient(ItemID.Ruby, 5).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

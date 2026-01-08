@@ -93,50 +93,6 @@ namespace MogMod.Utilities
             {
                 protectionTime = DefaultDropProtectionTime;
             }
-
-            /// Overriding CanDrop is unnecessary. This drop rule has no condition.
-            /// If you want to use a condition with PerPlayerDropRule, use DropHelper.If
-
-            //public override ItemDropAttemptResult TryDroppingItem(DropAttemptInfo info)
-            //{
-            //    ItemDropAttemptResult result = default;
-            //    if (info.rng.Next(chanceDenominator) < chanceNumerator)
-            //    {
-            //        int stack = info.rng.Next(amountDroppedMinimum, amountDroppedMaximum + 1);
-            //        TryDropInternal(info, itemId, stack);
-            //        result.State = ItemDropAttemptResultState.Success;
-            //        return result;
-            //    }
-
-            //    result.State = ItemDropAttemptResultState.FailedRandomRoll;
-            //    return result;
-            //}
-
-            /// The contents of this method are more or less copied from CommonCode.DropItemLocalPerClientAndSetNPCMoneyTo0
-
-            //private void TryDropInternal(DropAttemptInfo info, int itemId, int stack)
-            //{
-            //    if (itemId <= 0 || itemId >= ItemLoader.ItemCount)
-            //        return;
-
-            //    // If server-side, then the item must be spawned for each client individually.
-            //    if (Main.netMode == NetmodeID.Server)
-            //    {
-            //        NPC npc = info.npc;
-            //        int idx = Item.NewItem(npc.GetSource_Loot(), npc.Center, itemId, stack, true, -1);
-            //        Main.timeItemSlotCannotBeReusedFor[idx] = protectionTime;
-            //        foreach (Player player in Main.ActivePlayers)
-            //        {
-            //            NetMessage.SendData(MessageID.InstancedItem, player.whoAmI, -1, null, idx);
-            //        }
-
-            //        Main.item[idx].active = false;
-            //    }
-
-            //    // Otherwise just drop the item.
-            //    else
-            //        CommonCode.DropItem(info, itemId, stack);
-            //}
         }
     }
 }

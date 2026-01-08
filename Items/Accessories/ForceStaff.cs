@@ -29,26 +29,18 @@ namespace MogMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetKnockback(DamageClass.Generic) += .20f;
-            player.GetDamage(DamageClass.Magic) += .07f;
-            player.GetDamage(DamageClass.Summon) += .07f;
+            player.GetDamage(DamageClass.Magic) += .04f;
+            player.GetDamage(DamageClass.Summon) += .04f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingForceStaff = true;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.MagicMissile, 1).
+                AddIngredient(ItemID.EmeraldStaff, 1).
                 AddIngredient(ItemID.PinkEskimoHood, 1).
                 AddIngredient(ItemID.RichMahogany, 12).
-                AddIngredient(ItemID.CrimtaneBar, 3).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient(ItemID.MagicMissile, 1).
-                AddIngredient(ItemID.PinkEskimoHood, 1).
-                AddIngredient(ItemID.RichMahogany, 12).
-                AddIngredient(ItemID.DemoniteBar, 3).
+                AddRecipeGroup("CrimtaneBar", 3).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

@@ -9,6 +9,7 @@ namespace MogMod.Common.Systems
 {
     public class KeybindSystem : ModSystem
     {
+        #region Keybind Setup
         public static ModKeybind GlimmerCapeKeybind { get; private set; }
         public static ModKeybind ArmletKeybind { get; private set; }
         public static ModKeybind SatanicKeybind { get; private set; }
@@ -21,28 +22,37 @@ namespace MogMod.Common.Systems
         public static ModKeybind ForceStaffKeybind { get; private set; }
         public static ModKeybind BladeMailKeybind { get; private set; }
         public static ModKeybind ShivasKeybind {  get; private set; }
-
+        #endregion
 
         public override void Load()
         {
             // Registers a new keybind
             // We localize keybinds by adding a Mods.{ModName}.Keybind.{KeybindName} entry to our localization files. The actual text displayed to English users is in en-US.hjson
-            ArmletKeybind = KeybindLoader.RegisterKeybind(Mod, "ArmletOfMordiggian", "T");
-            GlimmerCapeKeybind = KeybindLoader.RegisterKeybind(Mod, "GlimmerCape", "G");
-            SatanicKeybind = KeybindLoader.RegisterKeybind(Mod, "Satanic", "C");
-            RefresherOrbKeybind = KeybindLoader.RegisterKeybind(Mod, "RefresherOrb", "X");
-            WandKeybind = KeybindLoader.RegisterKeybind(Mod, "MagicWand", "C");
-            HelmOfDominatorKeybind = KeybindLoader.RegisterKeybind(Mod, "HelmOfTheDominator", "V");
-            MekansmKeybind = KeybindLoader.RegisterKeybind(Mod, "Mekansm", "X");
-            ArcaneBootsKeybind = KeybindLoader.RegisterKeybind(Mod, "ArcaneBoots", "Z");
-            GuardianGreavesKeybind = KeybindLoader.RegisterKeybind(Mod, "GuardianGreaves", "Z");
-            ForceStaffKeybind = KeybindLoader.RegisterKeybind(Mod, "ForceStaff", "V");
-            BladeMailKeybind = KeybindLoader.RegisterKeybind(Mod, "BladeMail", "C");
-            ShivasKeybind = KeybindLoader.RegisterKeybind(Mod, "Shiva'sGuard", "C");
+            #region Healing/Mana
+            RefresherOrbKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateRefresherOrb", "V");
+            ArcaneBootsKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateManaBoots", "C");
+            GuardianGreavesKeybind = ArcaneBootsKeybind;
+            WandKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateMagicWand", "Z");
+            MekansmKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateMekansm", "C");
+            #endregion
+
+            #region Defensive/Mobility
+            GlimmerCapeKeybind = KeybindLoader.RegisterKeybind(Mod, "GlimmerCape", "X");
+            SatanicKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateSatanic", "X");
+            ForceStaffKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateForceStaff", "F");
+            HelmOfDominatorKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateHelmOfTheDominator", "G");
+            #endregion
+
+            #region Attack
+            ShivasKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateShiva'sGuard", "C");
+            BladeMailKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateBladeMail", "X");
+            ArmletKeybind = KeybindLoader.RegisterKeybind(Mod, "ToggleArmletOfMordiggian", "T");
+            #endregion
         }
 
         public override void Unload()
         {
+            #region Keybind Reset
             // Not required if your AssemblyLoadContext is unloading properly, but nulling out static fields can help you figure out what's keeping it loaded.
             GlimmerCapeKeybind = null;
             ArmletKeybind = null;
@@ -56,6 +66,7 @@ namespace MogMod.Common.Systems
             ForceStaffKeybind = null;
             BladeMailKeybind = null;
             ShivasKeybind = null;
+            #endregion
         }
     }
 }

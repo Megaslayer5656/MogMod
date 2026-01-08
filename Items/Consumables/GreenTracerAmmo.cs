@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
-using MogMod.Projectiles;
+using MogMod.Projectiles.RangedProjectiles;
 
 namespace MogMod.Items.Consumables
 {
@@ -21,7 +21,7 @@ namespace MogMod.Items.Consumables
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
             Item.knockBack = 1f;
-            Item.value = 10;
+            Item.value = Item.buyPrice(0, 0, 2, 0);
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<GreenTracerProj>();
             Item.shootSpeed = 4.5f;

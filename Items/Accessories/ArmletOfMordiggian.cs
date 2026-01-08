@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.Player;
 using MogMod.Common.Systems;
+using MogMod.Content;
 using MogMod.Items.Other;
 using MogMod.Utilities;
 using System;
@@ -40,15 +41,8 @@ namespace MogMod.Items.Accessories
                 AddIngredient<HelmOfIronWill>().
                 AddIngredient(ItemID.FeralClaws, 1).
                 AddIngredient<BladesOfAttack>().
-                AddIngredient(ItemID.TitaniumBar, 10).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient<HelmOfIronWill>().
-                AddIngredient(ItemID.FeralClaws, 1).
-                AddIngredient<BladesOfAttack>().
-                AddIngredient(ItemID.AdamantiteBar, 10).
+                AddRecipeGroup("WarriorEmblem", 1).
+                AddRecipeGroup("AdamantiteBar", 10).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

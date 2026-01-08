@@ -11,6 +11,7 @@ namespace MogMod.Items.Accessories
 {
     public class BeltOfStrength : ModItem, ILocalizedModType
     {
+        // MAKE OBTAINABLE FROM FISHING
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
@@ -24,6 +25,12 @@ namespace MogMod.Items.Accessories
         {
             player.GetDamage(DamageClass.Generic) += .05f;
             player.GetKnockback(DamageClass.Generic) += .10f;
+        }
+
+        // makes it drop from crates
+        public override void ModifyItemLoot(ItemLoot itemLoot)
+        {
+
         }
     }
 }

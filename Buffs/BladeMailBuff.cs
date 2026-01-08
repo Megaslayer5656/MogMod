@@ -12,7 +12,7 @@ namespace MogMod.Buffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.thorns += 30;
+            player.thorns += 3f;
         }
     }
 }

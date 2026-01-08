@@ -29,8 +29,8 @@ namespace MogMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.statDefense += 7;
-            player.GetDamage(DamageClass.Generic) += .07f;
-            player.thorns += 3f;
+            player.GetDamage(DamageClass.Generic) += .05f;
+            player.thorns += 1f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingBladeMail = true;
         }
@@ -38,14 +38,7 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.FalconBlade, 1).
-                AddIngredient(ItemID.IronChainmail, 1).
-                AddIngredient(ItemID.Spike, 15).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient(ItemID.FalconBlade, 1).
-                AddIngredient(ItemID.LeadChainmail, 1).
+                AddRecipeGroup(RecipeGroupID.IronBar, 25).
                 AddIngredient(ItemID.Spike, 15).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).

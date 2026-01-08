@@ -2,7 +2,7 @@
 using Microsoft.Xna;
 using Microsoft.Xna.Framework;
 using MogMod.Items.Consumables;
-using MogMod.Projectiles;
+using MogMod.Projectiles.EnemyProjectiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +30,7 @@ namespace MogMod.NPCs.Bosses
             NPC.lifeMax = 50000;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.value = Item.buyPrice(2, 50, 0, 0);
             NPC.knockBackResist = 0f;
             NPC.boss = true;
             NPC.lavaImmune = true;
@@ -199,7 +200,7 @@ namespace MogMod.NPCs.Bosses
                         Main.projectile[vonNade].hostile = true;
                         Main.projectile[vonNade].scale = 2f;
                         Main.projectile[vonNade].timeLeft = 60;
-                        SoundEngine.PlaySound(VonNade, NPC.Center);
+                        SoundEngine.PlaySound(VonNade, NPC.Center); //TODO: Make this change in multiplayer
                         vonSpecialTimer = 0; //Reset special timer
                     }
                     else //If the random int is 5 or less
@@ -207,9 +208,13 @@ namespace MogMod.NPCs.Bosses
                         //TODO: Make a sound queue for when he jumps
                         while (vonRageTimer < vonRageTimerMax) //How long he is dashing for
                         {
-                            NPC.velocity = (NPC.velocity * (inertia - 1) + moveToFast) / inertia; //Change velocity towards player
-                            NPC.velocity.Y = -30; //Change velocity upwards
-                            vonRageTimer += 1; //Adds 1 to dash timer (how long he dashes for) every tick
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                NPC.velocity = (NPC.velocity * (inertia - 1) + moveToFast) / inertia; //Change velocity towards player
+                                NPC.velocity.Y = -30; //Change velocity upwards
+                                NPC.netUpdate = true;
+                                vonRageTimer += 1; //Adds 1 to dash timer (how long he dashes for) every tick
+                            }
                         }
                         vonRageTimer = 0; //Reset dash timer
                         vonSpecialTimer = 0; //Reset special timer

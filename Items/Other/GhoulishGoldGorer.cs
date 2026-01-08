@@ -15,7 +15,7 @@ namespace MogMod.Items.Other
             Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.Yellow;
             // (platcoin, goldcoin, silvercoin, coppercoin)
-            Item.value = Item.buyPrice(0, 5, 96, 0);
+            Item.value = Item.buyPrice(0, 24, 0, 0);
         }
     }
 }

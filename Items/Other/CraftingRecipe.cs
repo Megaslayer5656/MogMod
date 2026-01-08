@@ -21,13 +21,13 @@ namespace MogMod.Items.Other
             Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.White;
         }
-        public override void AddRecipes()
-        {
-            CreateRecipe().
-                AddIngredient<IronBranch>(3).
-                AddIngredient(ItemID.GoldCoin, 5).
-                AddTile(TileID.WorkBenches).
-                Register();
-        }
+        //public override void AddRecipes()
+        //{
+        //    CreateRecipe().
+        //        AddIngredient<IronBranch>(3).
+        //        AddIngredient(ItemID.GoldCoin, 5).
+        //        AddTile(TileID.WorkBenches).
+        //        Register();
+        //}
     }
 }

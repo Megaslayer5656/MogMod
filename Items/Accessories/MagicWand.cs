@@ -28,7 +28,7 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Magic) += .05f;
+            player.GetDamage(DamageClass.Magic) += .03f;
             player.statManaMax2 += 30;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wandActive = true;

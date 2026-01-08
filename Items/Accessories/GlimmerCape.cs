@@ -38,8 +38,7 @@ namespace MogMod.Items.Accessories
             // Mod.Logger.Info("updated glimmer cape");
             // make a keybind to turn player invisible and grant movement speed for 1 minute with a 2 minute cooldown
             player.statManaMax2 += 50;
-            player.GetDamage(DamageClass.Magic) += .07f;
-            player.GetDamage(DamageClass.Summon) += .07f;
+            player.aggro -= 600;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.isWearingGlimmerCape = true;
             
@@ -49,15 +48,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.Robe, 1).
                 AddIngredient<ShadowAmulet>(1).
-                AddIngredient(ItemID.ShadowScale, 7 ).
-                AddIngredient(ItemID.FallenStar, 5).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient(ItemID.Robe, 1).
-                AddIngredient<ShadowAmulet>(1).
-                AddIngredient(ItemID.TissueSample, 7).
+                AddRecipeGroup("TissueSample", 7).
                 AddIngredient(ItemID.FallenStar, 5).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).

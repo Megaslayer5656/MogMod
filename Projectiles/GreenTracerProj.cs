@@ -13,8 +13,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles
 {
-    public class GreenTracerProj : ModProjectile
+    public class GreenTracerProj : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 5;

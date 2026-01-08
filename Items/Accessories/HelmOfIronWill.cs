@@ -26,38 +26,18 @@ namespace MogMod.Items.Accessories
             player.lifeRegen += 2;
             player.statDefense += 5;
             player.statLifeMax2 += 20;
+            player.manaRegen -= (int)Math.Round(player.manaRegen * .3f);
+            player.manaRegenDelay += 1f;
+            player.GetDamage(DamageClass.Magic) += -.10f;
+            player.GetDamage(DamageClass.Summon) += -.10f;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.GoldHelmet, 1).
-                AddIngredient(ItemID.GoldBar, 15).
-                AddIngredient(ItemID.SilverBar, 12).
-                AddIngredient(ItemID.Diamond, 1).
-                AddTile(TileID.Anvils).
-                Register();
-
-            CreateRecipe().
-                AddIngredient(ItemID.PlatinumHelmet, 1).
-                AddIngredient(ItemID.PlatinumBar, 15).
-                AddIngredient(ItemID.SilverBar, 12).
-                AddIngredient(ItemID.Diamond, 1).
-                AddTile(TileID.Anvils).
-                Register();
-
-            CreateRecipe().
-                AddIngredient(ItemID.GoldHelmet, 1).
-                AddIngredient(ItemID.GoldBar, 15).
-                AddIngredient(ItemID.TungstenBar, 12).
-                AddIngredient(ItemID.Diamond, 1).
-                AddTile(TileID.Anvils).
-               Register();
-
-            CreateRecipe().
-                AddIngredient(ItemID.PlatinumHelmet, 1).
-                AddIngredient(ItemID.PlatinumBar, 15).
-                AddIngredient(ItemID.TungstenBar, 12).
-                AddIngredient(ItemID.Diamond, 1).
+                AddRecipeGroup("IronBar", 20).
+                AddRecipeGroup("GoldBar", 15).
+                AddRecipeGroup("SilverBar", 12).
+                AddIngredient(ItemID.LargeDiamond, 1).
                 AddTile(TileID.Anvils).
                 Register();
         }

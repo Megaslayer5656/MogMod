@@ -24,24 +24,16 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Summon) += .05f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.diademMinion = true;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.GoldBar, 20).
+                AddRecipeGroup("GoldBar", 15).
                 AddIngredient(ItemID.ManaCrystal, 5).
                 AddIngredient(ItemID.Sapphire, 7).
-                AddIngredient(ItemID.CrimtaneBar, 3).
-                AddTile(TileID.Anvils).
-                Register();
-            CreateRecipe().
-                AddIngredient(ItemID.GoldBar, 20).
-                AddIngredient(ItemID.ManaCrystal, 5).
-                AddIngredient(ItemID.Sapphire, 7).
-                AddIngredient(ItemID.DemoniteBar, 3).
+                AddRecipeGroup("CrimtaneBar", 3).
                 AddTile(TileID.Anvils).
                 Register();
         }

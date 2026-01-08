@@ -24,13 +24,7 @@ namespace MogMod.Items.Other
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.CrimtaneBar, 5).
-                AddIngredient(ItemID.LifeCrystal, 3).
-                AddIngredient(ItemID.Diamond, 1).
-                AddTile(TileID.Anvils).
-                Register();
-            CreateRecipe().
-                AddIngredient(ItemID.DemoniteBar, 5).
+                AddRecipeGroup("CrimtaneBar", 5).
                 AddIngredient(ItemID.LifeCrystal, 3).
                 AddIngredient(ItemID.Diamond, 1).
                 AddTile(TileID.Anvils).

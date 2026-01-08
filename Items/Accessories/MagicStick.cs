@@ -35,7 +35,7 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Wood, 25).
+                AddRecipeGroup(RecipeGroupID.Wood, 25).
                 AddIngredient(ItemID.Emerald, 1).
                 AddIngredient(ItemID.FallenStar, 1).
                 AddTile(TileID.WorkBenches).

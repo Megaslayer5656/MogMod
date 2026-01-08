@@ -21,12 +21,12 @@ namespace MogMod.Items.Consumables
             Item.consumable = true;
             Item.rare = ItemRarityID.White;
             Item.value = 10000;
-            Item.buffType = ModContent.BuffType<Buffs.GlueBuff>();
+            Item.buffType = ModContent.BuffType<Buffs.PotionBuffs.GlueBuff>();
             Item.buffTime = 5 * 60;
         }
         public override void UseItemFrame(Player player)
         {
-            player.AddBuff(ModContent.BuffType<Buffs.GlueDebuff>(), 10000 * 60);
+            player.AddBuff(ModContent.BuffType<Buffs.Debuffs.GlueDebuff>(), 10000 * 60);
         }
     }
 }

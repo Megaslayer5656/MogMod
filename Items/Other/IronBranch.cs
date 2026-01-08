@@ -19,14 +19,8 @@ namespace MogMod.Items.Other
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Wood, 20).
-                AddIngredient(ItemID.IronBar, 5).
-                AddTile(TileID.WorkBenches).
-                Register();
-
-            CreateRecipe().
-                AddIngredient(ItemID.Wood, 20).
-                AddIngredient(ItemID.LeadBar, 5).
+                AddRecipeGroup(RecipeGroupID.Wood, 15).
+                AddRecipeGroup(RecipeGroupID.IronBar, 3).
                 AddTile(TileID.WorkBenches).
                 Register();
         }

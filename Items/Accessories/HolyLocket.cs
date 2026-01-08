@@ -28,8 +28,8 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Magic) += .10f;
-            player.GetDamage(DamageClass.Summon) += .10f;
+            player.GetDamage(DamageClass.Magic) += .07f;
+            player.GetDamage(DamageClass.Summon) += .07f;
             player.statManaMax2 += 70;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.locketActive = true;
@@ -40,16 +40,8 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<MagicWand>(1).
                 AddIngredient<Diadem>(1).
-                AddIngredient(ItemID.Glass, 20).
-                AddIngredient(ItemID.TitaniumBar, 15).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.TinkerersWorkbench).
-                Register();
-            CreateRecipe().
-                AddIngredient<MagicWand>(1).
-                AddIngredient<Diadem>(1).
-                AddIngredient(ItemID.Glass, 20).
-                AddIngredient(ItemID.AdamantiteBar, 15).
+                AddIngredient(ItemID.DiamondGemsparkBlock, 20).
+                AddRecipeGroup("AdamantiteBar", 15).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

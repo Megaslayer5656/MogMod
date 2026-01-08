@@ -19,6 +19,7 @@ namespace MogMod.Items.Other
             Item.height = 5;
             Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.Master;
+            Item.master = true;
             Item.value = 100000000;
         }
     }

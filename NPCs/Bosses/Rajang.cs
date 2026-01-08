@@ -27,11 +27,17 @@ namespace MogMod.NPCs.Bosses
         {
             NPC.width = 200;
             NPC.height = 100;
-            NPC.damage = 50;
-            NPC.defense = 20;
-            NPC.lifeMax = 40000;
+            NPC.damage = 82;
+            NPC.defense = 12;
+            if (Phase2)
+            {
+                NPC.damage = 102;
+                NPC.defense = 60;
+            }
+            NPC.lifeMax = 33500;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.value = Item.buyPrice(1, 60, 0, 0);
             NPC.knockBackResist = 0f;
             NPC.boss = true;
             NPC.lavaImmune = true;

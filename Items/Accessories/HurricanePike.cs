@@ -42,6 +42,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<DragonLance>(1).
                 AddIngredient<ForceStaff>(1).
+                AddIngredient(ItemID.AvengerEmblem, 1).
                 AddIngredient(ItemID.ShroomiteBar, 15).
                 AddIngredient(ItemID.SoulofMight, 7).
                 AddIngredient(ItemID.Silk, 3).
