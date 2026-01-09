@@ -2,15 +2,13 @@
 using MogMod.Utilities;
 using System;
 using Terraria;
-using Terraria.Graphics.Renderers;
-using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Utilities;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
-    public class DaedalusBoom : ModProjectile
+    public class DaedalusBoom : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
 
         public override void SetDefaults()
@@ -39,16 +37,17 @@ namespace MogMod.Projectiles.MeleeProjectiles
         {
             if (Projectile.ai[0] == 0)
             {
-                for (int i = 0; i < 75; i++)
+                int count = 4;
+                float thetaDelta = new Vector2(3, 3).RotatedByRandom(100).ToRotation();
+                float weaverMin = 0.5f;
+                float weaverDistanceMax = 10f;
+                float weaverDistanceInner = 0.3f;
+                for (float theta = 0f; theta < MathHelper.TwoPi; theta += 0.05f)
                 {
                     float colorRando = Main.rand.NextFloat(0, 1);
-                    float offsetAngle = MathHelper.TwoPi * i / 75f;
-                    // Parametric equations for an asteroid.
-                    float unitOffsetX = (float)Math.Pow(Math.Cos(offsetAngle), 3D);
-                    float unitOffsetY = (float)Math.Pow(Math.Sin(offsetAngle), 3D);
-
-                    Vector2 puffDustVelocity = new Vector2(unitOffsetX, unitOffsetY).RotatedByRandom(100) * 15;
-                    Dust charged = Dust.NewDustPerfect(Projectile.Center, 267, puffDustVelocity);
+                    Vector2 velocity = theta.ToRotationVector2() *
+                        (weaverMin + (float)(Math.Sin(thetaDelta + theta * count) + weaverMin - weaverDistanceInner) * weaverDistanceMax);
+                    Dust charged = Dust.NewDustPerfect(Projectile.Center, 267, velocity);
                     charged.scale = 1.5f;
                     charged.fadeIn = 0.5f;
                     charged.color = Color.Lerp(Color.PaleVioletRed, Color.MediumVioletRed, colorRando);
@@ -56,7 +55,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 }
             }
         }
-        
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.numHits > 0)

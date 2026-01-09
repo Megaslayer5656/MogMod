@@ -12,7 +12,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
-            Projectile.width = 32;
+            Projectile.width = 64;
             Projectile.height = 14;
             Projectile.friendly = true;
             Projectile.timeLeft = 200;
@@ -22,8 +22,7 @@ namespace MogMod.Projectiles.RangedProjectiles
 
         public override void AI()
         {
-            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
-            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             Projectile.ai[1] += 1f;
 
             if (Projectile.timeLeft < 180)

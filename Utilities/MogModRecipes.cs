@@ -1,7 +1,4 @@
-﻿using MogMod.Common;
-using MogMod.Items.Other;
-using MogMod.Items.Placeable;
-using MogMod.NPCs;
+﻿using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -87,16 +84,21 @@ namespace MogMod.Content
         public override void AddRecipes()
         {
             #region Vanilla Item Recipes
+            // In addition to these methods, there are also methods relating to shimmer decrafting. See ShimmerShowcase.cs for that.
+
+            // eskimo helmet
             Recipe hoodRecipe = Recipe.Create(ItemID.EskimoHood, 1);
             hoodRecipe.AddIngredient(ItemID.Silk, 10)
                 .AddIngredient(ItemID.FlinxFur, 3)
                 .AddTile(TileID.Loom)
                 .Register();
+            // skull vanity helmet
             Recipe skullRecipe = Recipe.Create(ItemID.Skull, 1);
             skullRecipe.AddIngredient(ItemID.Bone, 50)
                 .AddRecipeGroup("SilverBar", 8)
                 .AddTile(TileID.HeavyWorkBench)
                 .Register();
+            // golem power cell summon
             Recipe powerCellRecipe = Recipe.Create(ItemID.LihzahrdPowerCell, 3);
             powerCellRecipe.AddIngredient(ItemID.LunarTabletFragment, 4)
                 .AddIngredient(ItemID.Ectoplasm, 2)

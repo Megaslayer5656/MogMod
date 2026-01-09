@@ -1,11 +1,6 @@
 ﻿using MogMod.Items.Other;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Items.Weapons.Ranged;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
@@ -27,10 +22,10 @@ namespace MogMod.Items.Accessories
         {
             player.GetAttackSpeed(DamageClass.Melee) += .24f;
             player.statLifeMax2 += 50;
-            player.lifeRegen += 25;
+            player.lifeRegen += 6;
             player.GetDamage(DamageClass.Generic) += .16f;
             player.accRunSpeed += player.accRunSpeed * .24f;
-            player.lifeSteal += .25f;
+            player.lifeSteal *= 1.5f;
             player.buffImmune[BuffID.Poisoned] = true;
             player.buffImmune[BuffID.Slow] = true;
             player.buffImmune[BuffID.BrokenArmor] = true;

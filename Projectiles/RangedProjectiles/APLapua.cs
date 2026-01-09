@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
 
 namespace MogMod.Projectiles.RangedProjectiles

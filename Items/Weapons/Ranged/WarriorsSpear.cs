@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
@@ -70,9 +65,7 @@ namespace MogMod.Items.Weapons.Ranged
                 return true;
             }
         }
-
         public override bool AltFunctionUse(Player player) => true;
-
         public override void AddRecipes()
         {
             CreateRecipe().

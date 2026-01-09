@@ -1,10 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.RangedProjectiles

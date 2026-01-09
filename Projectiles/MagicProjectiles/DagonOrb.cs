@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Utilities;
-using MonoMod.Core.Utils;
 using System;
 using Terraria;
 using Terraria.Audio;

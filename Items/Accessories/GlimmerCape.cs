@@ -1,13 +1,8 @@
-﻿using log4net.Repository.Hierarchy;
-using MogMod.Common.Player;
+﻿using MogMod.Common.Player;
 using MogMod.Common.Systems;
 using MogMod.Items.Other;
 using MogMod.Utilities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

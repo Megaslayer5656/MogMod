@@ -1,12 +1,7 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Xna.Framework;
-using MogMod.Buffs;
-using MogMod.Common.Player;
-using MogMod.Items.Weapons.Magic;
+﻿using Microsoft.Xna.Framework;
 using MogMod.Utilities;
 using System;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 

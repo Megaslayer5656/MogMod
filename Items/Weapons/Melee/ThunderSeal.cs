@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
-using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Terraria.Audio;
 using MogMod.Utilities;
-using Mono.Cecil;
-using MogMod.Items.Other;
 using MogMod.Buffs.Debuffs;
 using MogMod.Projectiles.MeleeProjectiles;
 
@@ -25,6 +17,8 @@ namespace MogMod.Items.Weapons.Melee
             Volume = .67f,
             PitchVariance = .02f,
         };
+        
+        // lets you hold right click
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;

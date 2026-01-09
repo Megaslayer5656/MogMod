@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using MogMod.Items.Other;
-using Microsoft.Xna.Framework;
+﻿using MogMod.Items.Other;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using MogMod.Items.Weapons.Melee;

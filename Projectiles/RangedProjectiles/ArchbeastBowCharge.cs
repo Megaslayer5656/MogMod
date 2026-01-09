@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Items.Weapons.Ranged;
 using MogMod.Utilities;
-using SteelSeries.GameSense;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -38,8 +37,8 @@ namespace MogMod.Projectiles.RangedProjectiles
         private float angularSpread = MathHelper.ToRadians(10);
         public override void SetDefaults()
         {
-            Projectile.width = 30;
-            Projectile.height = 62;
+            Projectile.width = 48;
+            Projectile.height = 96;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
@@ -78,9 +77,6 @@ namespace MogMod.Projectiles.RangedProjectiles
                 {
                     ++CurrentChargingFrames;
 
-                    //if (CurrentChargingFrames - FramesToCharge / 2 <= 0.01)
-                    //    SoundEngine.PlaySound(SoundID.Item17); // for each charge
-
                     if (CurrentChargingFrames >= FramesToCharge && CurrentCharge < ArchbeastParagon.MaxCharge)
                     {
                         // Save the stats here for later
@@ -97,12 +93,14 @@ namespace MogMod.Projectiles.RangedProjectiles
 
                         if (CurrentCharge >= ArchbeastParagon.MaxCharge)
                         {
+                            Projectile.damage *= 2;
                             SoundEngine.PlaySound(strongCharge);
                             for (int i = 0; i < 75; i++)
                             {
                                 float colorRando = Main.rand.NextFloat(0, 1);
                                 float offsetAngle = MathHelper.TwoPi * i / 75f;
-                                // Parametric equations for an asteroid.
+
+                                // makes an asteroid shape (not the big evil rock from space)
                                 float unitOffsetX = (float)Math.Pow(Math.Cos(offsetAngle), 3D);
                                 float unitOffsetY = (float)Math.Pow(Math.Sin(offsetAngle), 3D);
 
@@ -117,6 +115,21 @@ namespace MogMod.Projectiles.RangedProjectiles
                         else
                         {
                             SoundEngine.PlaySound(weakCharge);
+                            for (int i = 0; i < 75; i++)
+                            {
+                                float colorRando = Main.rand.NextFloat(0, 1);
+                                float offsetAngle = MathHelper.TwoPi * i / 75f;
+                                // Parametric equations for an asteroid.
+                                float unitOffsetX = (float)Math.Pow(Math.Cos(offsetAngle), 3D);
+                                float unitOffsetY = (float)Math.Pow(Math.Sin(offsetAngle), 3D);
+
+                                Vector2 puffDustVelocity = new Vector2(unitOffsetX, unitOffsetY) * 2.5f;
+                                Dust charged = Dust.NewDustPerfect(tipPosition, 267, puffDustVelocity);
+                                charged.scale = 0.75f;
+                                charged.fadeIn = 0.5f;
+                                charged.color = Color.Lerp(Color.LightYellow, Color.LightGoldenrodYellow, colorRando);
+                                charged.noGravity = true;
+                            }
                         }
                     }
                 }
@@ -166,7 +179,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 return;
 
             Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(projectileRotation) * storedVelocity;
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, ModContent.ProjectileType<DragonPiercerArrow>(), Projectile.damage * 3, Projectile.knockBack * 2, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, ModContent.ProjectileType<DragonPiercerArrow>(), Projectile.damage, Projectile.knockBack * 2, Projectile.owner);
         }
 
         private void UpdateProjectileHeldVariables(Vector2 armPosition)
@@ -206,6 +219,48 @@ namespace MogMod.Projectiles.RangedProjectiles
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
             Owner.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
+        }
+
+        // cool arrow draw effect from calamity clockwerk chainmeal bow
+        public override bool PreDraw(ref Color lightColor)
+        {
+            float loops = CurrentCharge + 1;
+            if (CurrentCharge == ArchbeastParagon.MaxCharge)
+                loops = CurrentCharge;
+
+            for (int i = 0; i < loops; i++)
+            {
+                float BoltAngle;
+                float Shift = 0;
+
+                if (CurrentCharge == 0)
+                {
+                    BoltAngle = 0;
+                }
+                else if (CurrentCharge == ArchbeastParagon.MaxCharge)
+                {
+                    float increment = angularSpread * (CurrentCharge - 1) / 2;
+                    BoltAngle = MathHelper.Lerp(-increment, increment, i / (float)(CurrentCharge - 1));
+                }
+                else
+                {
+                    float increment = angularSpread * (CurrentCharge - 1 + MathHelper.Clamp((CurrentChargingFrames * 2 / FramesToCharge), 0f, 1f)) / 2;
+                    BoltAngle = MathHelper.Lerp(-increment, increment, i / (float)(MathHelper.Lerp(CurrentCharge - 1, CurrentCharge, MathHelper.Clamp((CurrentChargingFrames * 2 / FramesToCharge), 0f, 1f))));
+                }
+
+                if (i == CurrentCharge)
+                    Shift = 1 - (CurrentChargingFrames / FramesToCharge);
+
+                Color Transparency = Color.White * (1 - Shift);
+                var BoltTexture = ModContent.Request<Texture2D>("MogMod/Projectiles/RangedProjectiles/DragonPiercerArrow").Value;
+                Vector2 PointingTo = new Vector2((float)Math.Cos(Projectile.rotation + BoltAngle), (float)Math.Sin(Projectile.rotation + BoltAngle));
+                Vector2 ShiftDown = PointingTo.RotatedBy(-MathHelper.PiOver2);
+                float FlipFactor = Owner.direction < 0 ? MathHelper.Pi : 0f;
+                Vector2 drawPosition = Owner.Center + PointingTo.RotatedBy(FlipFactor) * (10f + (Shift * 40)) - ShiftDown.RotatedBy(FlipFactor) * (BoltTexture.Width / 2) - Main.screenPosition;
+
+                Main.EntitySpriteDraw(BoltTexture, drawPosition, null, Transparency, Projectile.rotation + (BoltAngle * 1f) + MathHelper.PiOver2 + FlipFactor, BoltTexture.Size(), 1f, 0, 0);
+            }
+            return true;
         }
         public override bool? CanDamage() => false;
     }

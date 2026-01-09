@@ -19,7 +19,7 @@ namespace MogMod.Items.Weapons.Magic
         {
             Item.width = 50;
             Item.height = 50;
-            Item.damage = 25;
+            Item.damage = 25; // pretty sure 25 makes it do the same damage as sky fracture, the weapon it upgrades from
             Item.DamageType = DamageClass.Magic;
             Item.mana = 15;
             Item.useTime = 3;

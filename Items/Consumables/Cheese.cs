@@ -8,7 +8,6 @@ namespace MogMod.Items.Consumables
 {
     public class Cheese : ModItem
     {
-
         public override void SetDefaults()
         {
             Item.width = 32;

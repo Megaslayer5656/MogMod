@@ -1,8 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MogMod.Items.Accessories;
+﻿using MogMod.Items.Accessories;
 using MogMod.Items.Other;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,11 +14,11 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 120;
             Item.height = 120;
-            Item.damage = 55;
+            Item.damage = 45;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = 13;
+            Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 13;
+            Item.useTime = 20;
             Item.useTurn = false;
             Item.knockBack = 7.5f;
             Item.UseSound = SoundID.Item1;

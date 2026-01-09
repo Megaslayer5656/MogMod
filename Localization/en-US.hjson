@@ -25,6 +25,7 @@ Mods: {
 			ToggleArmletOfMordiggian.DisplayName: Toggle Armlet Of Mordiggian
 			ActivateHelmOfTheDominator.DisplayName: Activate Helm Of The Dominator
 			ActivateRefresherOrb.DisplayName: Activate Refresher Orb
+			DragonInstall.DisplayName: Dragon Install
 		}
 
 		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage

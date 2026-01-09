@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
-using MogMod.Items.Consumables;
 using Terraria.Audio;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-using MogMod.Items.Other;
 
 namespace MogMod.Items.Weapons.Ranged
 {
@@ -74,17 +68,11 @@ namespace MogMod.Items.Weapons.Ranged
                 velocity = velocity.RotatedByRandom(MathHelper.ToRadians(20));
             }
         }
-
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-15f, -.5f);
         }
-
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
-
+        public override bool AltFunctionUse(Player player) => true;
         public override void AddRecipes()
         {
             CreateRecipe().

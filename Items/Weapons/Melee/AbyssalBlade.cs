@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
 using Terraria.Audio;
-using Microsoft.Xna.Framework;
 using MogMod.Utilities;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
@@ -35,9 +30,9 @@ namespace MogMod.Items.Weapons.Melee
             Item.useAnimation = Item.useTime = 22;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = false;
+            Item.autoReuse = true;
             Item.knockBack = 9f;
             Item.UseSound = SoundID.Item1;
-            Item.autoReuse = true;
             Item.rare = ItemRarityID.Cyan;
             Item.scale = 1.5f;
             Item.shootSpeed = 10f;
@@ -47,9 +42,14 @@ namespace MogMod.Items.Weapons.Melee
             var source = player.GetSource_OnHit(target);
             Item.damage = 68;
             Item.crit = 66;
-            int heal = (int)(player.lifeSteal * .12f);
+
+            int heal = 1;
+            heal *= Convert.ToInt32(player.lifeSteal * 0.08);
             player.statLife += heal;
             player.HealEffect(heal);
+            if (player.statLife > player.statLifeMax2)
+                player.statLife = player.statLifeMax2;
+
             randChance = random.Next(1, 4);
             if (skullBash)
             {

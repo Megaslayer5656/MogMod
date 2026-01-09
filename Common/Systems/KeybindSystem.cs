@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace MogMod.Common.Systems
 {
@@ -22,12 +17,13 @@ namespace MogMod.Common.Systems
         public static ModKeybind ForceStaffKeybind { get; private set; }
         public static ModKeybind BladeMailKeybind { get; private set; }
         public static ModKeybind ShivasKeybind {  get; private set; }
+        public static ModKeybind DragonInstallKeybind {  get; private set; }
         #endregion
-
         public override void Load()
         {
             // Registers a new keybind
             // We localize keybinds by adding a Mods.{ModName}.Keybind.{KeybindName} entry to our localization files. The actual text displayed to English users is in en-US.hjson
+
             #region Healing/Mana
             RefresherOrbKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateRefresherOrb", "V");
             ArcaneBootsKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateManaBoots", "C");
@@ -41,6 +37,7 @@ namespace MogMod.Common.Systems
             SatanicKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateSatanic", "X");
             ForceStaffKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateForceStaff", "F");
             HelmOfDominatorKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateHelmOfTheDominator", "G");
+            DragonInstallKeybind = KeybindLoader.RegisterKeybind(Mod, "DragonInstall", "F");
             #endregion
 
             #region Attack
@@ -66,6 +63,7 @@ namespace MogMod.Common.Systems
             ForceStaffKeybind = null;
             BladeMailKeybind = null;
             ShivasKeybind = null;
+            DragonInstallKeybind = null;
             #endregion
         }
     }

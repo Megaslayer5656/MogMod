@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria;
-using MogMod.Projectiles;
 using Terraria.ID;
 using MogMod.Items.Other;
+using System;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -34,9 +29,14 @@ namespace MogMod.Items.Weapons.Melee
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 66;
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            int heal = (int)(player.lifeSteal * .06f);
+            // for SOME REASON player has a default of 70 lifesteal
+            int heal = 1;
+            heal *= Convert.ToInt32(player.lifeSteal * 0.035);
             player.statLife += heal;
             player.HealEffect(heal);
+            // so we dont go over max life
+            if (player.statLife > player.statLifeMax2)
+                player.statLife = player.statLifeMax2;
         }
         public override void AddRecipes()
         {

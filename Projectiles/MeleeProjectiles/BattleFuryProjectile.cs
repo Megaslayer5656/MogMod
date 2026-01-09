@@ -9,10 +9,10 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
-    public class BattleFuryProjectile : ModProjectile
+    public class BattleFuryProjectile : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override string Texture => "MogMod/Items/Weapons/Melee/BattleFury";
-
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;

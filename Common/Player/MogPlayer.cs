@@ -7,21 +7,12 @@ using MogMod.Items.Accessories;
 using MogMod.Items.Consumables;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Items.Weapons.Ranged;
-using MogMod.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Terraria.UI;
 
 namespace MogMod.Common.Player
 {
@@ -86,6 +77,7 @@ namespace MogMod.Common.Player
         public static int fierySoulLevelMax = 30;
 
         public Vector2 mouseWorld;
+        public bool wearingFlameOfCorruption = false;
         public enum MewingType
         {
             mewingguide = 0
@@ -353,6 +345,7 @@ namespace MogMod.Common.Player
             int satanicBuff = ModContent.BuffType<Buffs.PotionBuffs.SatanicBuff>();
             int blademailBuff = ModContent.BuffType<Buffs.PotionBuffs.BladeMailBuff>();
 
+            // cooldowns
             int refresherCooldown = ModContent.BuffType<Buffs.Cooldowns.RefresherOrbDebuff>();
             int glimmerCooldown = ModContent.BuffType<Buffs.Cooldowns.GlimmerCapeDebuff>();
             int satanicCooldown = ModContent.BuffType<Buffs.Cooldowns.SatanicDebuff>();
@@ -368,6 +361,10 @@ namespace MogMod.Common.Player
             int wandHeal = ModContent.BuffType<WandBuff>();
             int stickHeal = ModContent.BuffType<MagicStickBuff>();
             int armletToggled = ModContent.BuffType<Buffs.PotionBuffs.ArmletOfMordiggianBuff>();
+
+            // dragon install
+            int dragonInstall = ModContent.BuffType<Buffs.PotionBuffs.DragonInstallBuff>();
+            int dragonInstallCooldown = ModContent.BuffType<Buffs.Cooldowns.DragonInstallCooldown>();
             #endregion
 
             #region Accessory Checks
@@ -384,6 +381,7 @@ namespace MogMod.Common.Player
                 Player.ClearBuff(forceStaffCooldown);
                 Player.ClearBuff(blademailCooldown);
                 Player.ClearBuff(ShivasCooldown);
+                //Don't add dragon install to this. It shouldn't be able to be refreshed by refresher as it is more of a different mechanic than a buff. Will if you see this stop playing Chen <-- Chen (pronounced "shen") has crazy micro and once i get good at him hes gonna be crazy. that one game was a loss no matter who i played. also it was mendez fault for picking IO
 
                 Player.AddBuff(refresherCooldown, 9000);
             }
@@ -406,7 +404,6 @@ namespace MogMod.Common.Player
             }
 
             // blademail
-
             if (KeybindSystem.BladeMailKeybind.JustPressed && wearingBladeMail && !Player.HasBuff(blademailCooldown))
             {
                 Player.AddBuff(blademailBuff, 600);
@@ -505,11 +502,11 @@ namespace MogMod.Common.Player
                             otherNPC.StrikeNPC(hitInfo); //Must use this instead of modifying the npc's life stat
                             NetMessage.SendStrikeNPC(otherNPC, hitInfo); //Vital for sending the hit to other clients (stops desync)
                             otherNPC.defense -= Convert.ToInt32(otherNPC.defense * .15); //Removes 15% of enemy's defense (rounded)
-                            //TODO: Put the stat decreases on a timer, slow enemies.
+                            //TODO: Put the stat decreases on a timer (Make them debuffs), slow enemies.
                         }
                     }
                     Player.AddBuff(ShivasCooldown, 3600);
-                    SoundEngine.PlaySound(ShivasActivateSound, Player.Center);
+                    SoundEngine.PlaySound(ShivasActivateSound, Player.Center); //TODO: Make this work in multiplayer
                 }
 
                 for (int i = 0; i < 80; i++)
@@ -531,8 +528,16 @@ namespace MogMod.Common.Player
                 }
             }
 
+            //Dragon Install
+            if (wearingFlameOfCorruption && KeybindSystem.DragonInstallKeybind.JustPressed && !Player.HasBuff(dragonInstallCooldown))
+            {
+                Player.AddBuff(dragonInstall, 6000); //These values are temporary
+                Player.AddBuff(dragonInstallCooldown, 12000);
+                //I still have to make the keybind (don't wanna on github web it sucks)
+            }
+            
             // armlet timer
-            if (KeybindSystem.ArmletKeybind.JustPressed && armletActive) //&& !Player.HasBuff(buff2))
+            if (KeybindSystem.ArmletKeybind.JustPressed && armletActive)
             {
                 if (armletTimer <= armletTimerMax)
                 {
@@ -580,7 +585,7 @@ namespace MogMod.Common.Player
             }
         }
 
-        // sniper scope effect
+        // sniper offlane scope effect
         public override void ModifyZoom(ref float zoom)
         {
             if (Player.HeldItem.Name == "AXMC")
@@ -604,6 +609,8 @@ namespace MogMod.Common.Player
                 ChargeBow();
             }
         }
+        
+        // stops player from moving while charging bow
         private void ChargeBow()
         {
             Player.controlUp = false;
@@ -616,9 +623,11 @@ namespace MogMod.Common.Player
             if (Player.velocity.Y > 15f)
                 Player.velocity.Y = 15f;
         }
+
         // resets stuff
         public override void ResetEffects()
         {
+            #region Reset Checks
             isWearingGlimmerCape = false;
             wearingManaBoots = false;
             wearingSatanic = false;
@@ -638,14 +647,17 @@ namespace MogMod.Common.Player
             wearingBladeMail = false;
             wearingShivasGuard = false;
             wearingEyeOfSkadi = false;
+            wearingFlameOfCorruption = false;
 
-                diademMinion = false;
+            diademMinion = false;
             dominatorMinion = false;
             overlordMinion = false;
 
             chargeShot = false;
             dpCharge = false;
+            #endregion
 
+            #region Force Staff
             if (Player.controlDown)
             {
                 forceDirection = DashDown;
@@ -666,6 +678,7 @@ namespace MogMod.Common.Player
             {
                 forceDirection = -1;
             }
+            #endregion
         }
         #endregion
     }

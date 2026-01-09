@@ -29,7 +29,7 @@ namespace MogMod.Items.Accessories
         {
             player.statLifeMax2 += 50;
             // makes vampire knives crazy
-            player.lifeSteal += 10;
+            player.lifeSteal *= 2f;
             player.GetDamage(DamageClass.Melee) += .15f;
             player.GetDamage(DamageClass.Generic) += .10f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();

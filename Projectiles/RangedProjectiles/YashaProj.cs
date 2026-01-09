@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Utilities;
-using MonoMod.Core.Utils;
-using System;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 

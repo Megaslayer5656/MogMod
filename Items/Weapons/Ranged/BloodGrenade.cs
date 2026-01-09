@@ -1,11 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Common.Classes;
-using MogMod.Projectiles.RangedProjectiles;
+﻿using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MogMod.Items.Weapons.Ranged
 {
@@ -46,13 +43,6 @@ namespace MogMod.Items.Weapons.Ranged
             player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " threw a blood grenade."), 5, -player.direction, false, false, -1, false, 0, 0, 0);
             return true;
         }
-
-        // calamity slop
-
-        //public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        //{
-        //    Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<BloodGrenadeProjectile>(), damage, knockback, player.whoAmI, 0f, 4f);
-        //}
 
         public override void AddRecipes()
         {

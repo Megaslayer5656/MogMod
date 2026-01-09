@@ -586,8 +586,8 @@ Items: {
 				Vastly Increases lifesteal of weapons that utilize it
 				Greatly Increased Life Regeneration
 				Greatly Increases Mana Regeneration
-				Increases Maximum Life by 50
-				Increases Maximum Mana by 50
+				Increases Maximum Life by 30
+				Increases Maximum Mana by 70
 				Grants immunity to most debuffs
 				'Two of three known items of unimaginable power that many 
 				believe were crafted at the same enchanter's forge.'
@@ -633,6 +633,11 @@ Items: {
 				Increased Mana Regeneration, and Increased lifesteal effectiveness
 				'An eerie mask that is haunted with the malice of a fallen vampire.'
 				'''
+		}
+
+		FlameOfCorruption: {
+			Tooltip: ""
+			DisplayName: Flame Of Corruption
 		}
 	}
 
@@ -787,6 +792,11 @@ Items: {
 				DisplayName: Thunder Seal
 				Tooltip: ""
 			}
+
+			OversizedAnchor: {
+				Tooltip: ""
+				DisplayName: Oversized Anchor
+			}
 		}
 
 		Ranged: {
@@ -896,7 +906,7 @@ Items: {
 				DisplayName: Blood Magic
 				Tooltip:
 					'''
-					Heals for 1.25% of max life on hit
+					Heals the player on hit
 					'Created by the famous sorcerer Vlad'
 					'''
 			}
@@ -1004,7 +1014,7 @@ Items: {
 				DisplayName: Orchid Malevolence
 				Tooltip:
 					'''
-					Launches an orb that fires a homing beam
+					Launches an orb that fires a homing lifestealing beam
 					'A garnet rod constructed from the essence of a fire demon.'
 					'''
 			}
@@ -1013,7 +1023,7 @@ Items: {
 				DisplayName: Bloodthorn
 				Tooltip:
 					'''
-					Launches 3 orbs that fire homing beams
+					Launches 3 orbs that fire homing lifestealing beams
 					'A reviled blade that bites deeper with 
 					each wriggle of its victim's final throes.'
 					'''
@@ -1058,7 +1068,7 @@ Items: {
 
 	GoldRajangPelt: {
 		DisplayName: Gold Rajang Pelt
-		Tooltip: Hard to obtain, but greatly Increases the effectiveness of equipment.
+		Tooltip: Hard to obtain, but greatly increases the effectiveness of equipment.
 	}
 
 	RajangApoplexy: {
@@ -1099,11 +1109,6 @@ Items: {
 			Greatly Increased Mana Regeneration
 			'With origins known only to a single wizard, fragments of this impossible crystal are nearly as coveted as the renowned scepter itself.'
 			'''
-	}
-
-	BloodInfusion: {
-		DisplayName: Blood Infusion
-		Tooltip: ""
 	}
 
 	BlockOfCheese: {
@@ -1377,7 +1382,7 @@ Buffs: {
 
 	EssenceShift: {
 		DisplayName: Essence Shift
-		Description: Attack speed and movement speed Increased
+		Description: Attack speed and movement speed increased
 	}
 
 	LagunaBladeCooldown: {
@@ -1387,7 +1392,7 @@ Buffs: {
 
 	FierySoulStack: {
 		DisplayName: Fiery Soul
-		Description: Magic attack speed and movement speed Increased, Mana cost decreased
+		Description: Magic attack speed and movement speed increased, Mana cost decreased
 	}
 
 	CheeseBuff: {
@@ -1438,6 +1443,16 @@ Buffs: {
 	DragonPiercerShot: {
 		DisplayName: Charging Shot
 		Description: You must focus!
+	}
+
+	DragonInstallBuff: {
+		Description: Mods.MogMod.Buffs.DragonInstallBuff.Description
+		DisplayName: Dragon Install Buff
+	}
+
+	DragonInstallCooldown: {
+		Description: Mods.MogMod.Buffs.DragonInstallCooldown.Description
+		DisplayName: Dragon Install Cooldown
 	}
 }
 
@@ -1490,15 +1505,19 @@ Projectiles: {
 		DragonPiercerArrow.DisplayName: Dragon Piercer Arrow
 	}
 
-	ThunderSealProj.DisplayName: Thunder Seal Proj
-	StunEdge.DisplayName: Stun Edge
-	SkullBashProjectile.DisplayName: Skull Bash Projectile
-	DaedalusSplitProj.DisplayName: Daedalus Split Proj
-	DaedalusProjectile.DisplayName: Daedalus Projectile
-	DaedalusProj.DisplayName: Daedalus Proj
-	DaedalusBoom.DisplayName: Daedalus Boom
-	ChaosBladeProj.DisplayName: Chaos Blade Proj
-	BattleFuryProjectile.DisplayName: Battle Fury Projectile
+	MeleeProjectiles: {
+		BattleFuryProjectile.DisplayName: Battle Fury Projectile
+		AnchorProj.DisplayName: Anchor Proj
+		ChaosBladeProj.DisplayName: Chaos Blade Proj
+		DaedalusBoom.DisplayName: Daedalus Boom
+		DaedalusProj.DisplayName: Daedalus Proj
+		DaedalusProjectile.DisplayName: Daedalus Projectile
+		DaedalusSplitProj.DisplayName: Daedalus Split Proj
+		SkullBashProjectile.DisplayName: Skull Bash Projectile
+		StunEdge.DisplayName: Stun Edge
+		ThunderSealProj.DisplayName: Thunder Seal Proj
+	}
+
 	VonNade.DisplayName: Von Nade
 	VonGreenTracerProj.DisplayName: Von Green Tracer Proj
 }

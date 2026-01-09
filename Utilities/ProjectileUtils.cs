@@ -2,13 +2,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Config;
-using MogMod.Utilities;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using tModPorter;
 
 namespace MogMod.Utilities
 {
@@ -19,7 +17,6 @@ namespace MogMod.Utilities
         {
             return projectile.ModProjectile as T;
         }
-
         public static bool AnyProjectiles(int projectileID)
         {
             // Efficiently loop through all projectiles, using a specially designed continue continue that attempts to minimize the amount of OR
@@ -90,6 +87,7 @@ namespace MogMod.Utilities
             // Find the closest target.
             float npcDistCompare = 25000f; // Initializing the value to a large number so the first entry is basically guaranteed to replace it.
             int index = -1;
+            // ignore red line under Main.ActiveNPCs
             foreach (NPC n in Main.ActiveNPCs)
             {
                 float extraDistance = (n.width / 2) + (n.height / 2);
@@ -141,6 +139,7 @@ namespace MogMod.Utilities
                 int[] targetArray = new int[maxTargets];
                 int targetArrayIndex = 0;
 
+                // once again ignore red line
                 foreach (NPC n in Main.ActiveNPCs)
                 {
                     if (n.CanBeChasedBy(projectile, false))

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
-using Terraria.Graphics.Renderers;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -63,13 +63,12 @@ namespace MogMod.Projectiles.Magic
         {
             Player player = Main.player[Projectile.owner];
 
-            int healAmount = (int)(player.statLifeMax2 * 0.005f);
-
-            player.statLife += healAmount;
+            int heal = 1;
+            heal *= Convert.ToInt32(player.lifeSteal * 0.01);
+            player.statLife += heal;
+            player.HealEffect(heal);
             if (player.statLife > player.statLifeMax2)
                 player.statLife = player.statLifeMax2;
-
-            player.HealEffect(healAmount);
         }
         public override void OnKill(int timeLeft)
         {

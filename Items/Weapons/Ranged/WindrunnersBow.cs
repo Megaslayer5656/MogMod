@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Projectiles.RangedProjectiles;
-using ReLogic.Content;
 using System;
 using Terraria;
 using Terraria.Audio;

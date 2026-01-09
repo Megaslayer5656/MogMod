@@ -1,5 +1,7 @@
-﻿using MogMod.Items.Weapons.Ranged;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MogMod.Items.Weapons.Ranged;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -12,113 +14,252 @@ namespace MogMod.Projectiles.RangedProjectiles
     {
         public new string LocalizationCategory => "Projectiles.RangedProjectiles";
         public override string Texture => "MogMod/Items/Weapons/Ranged/ArchbeastParagon";
-        public ref float HoldTimer => ref Projectile.ai[0];
-        public ref float ShootTimer => ref Projectile.ai[1];
-        public int ShootCount = 0;
-        public override void SetStaticDefaults()
+        public static readonly SoundStyle weakCharge = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/bowChargeWeak")
         {
-            ProjectileID.Sets.HeldProjDoesNotUsePlayerGfxOffY[Type] = true;
-        }
+            Volume = 1.1f,
+            PitchVariance = .2f,
+            MaxInstances = 5
+        };
+        public static readonly SoundStyle strongCharge = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/bowChargeStrong")
+        {
+            Volume = 1.1f,
+            PitchVariance = .2f,
+            MaxInstances = 2
+        };
+        private Player Owner => Main.player[Projectile.owner];
+        private ref float CurrentChargingFrames => ref Projectile.ai[0];
+        private ref float CurrentCharge => ref Projectile.ai[1];
+        private ref float FramesToCharge => ref Projectile.localAI[0];
 
+        private float storedVelocity = 1f;
+
+        private float angularSpread = MathHelper.ToRadians(10);
         public override void SetDefaults()
         {
-            Projectile.width = 22;
-            Projectile.height = 22;
+            Projectile.width = 48;
+            Projectile.height = 96;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            Projectile.hide = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.ignoreWater = true;
-
-            // Adjust the drawing to change how it appears when held
-            DrawOffsetX = -3;
-            DrawOriginOffsetY = -17;
         }
-        public override bool? CanDamage() => false;
 
         public override void AI()
         {
-            Player player = Main.player[Projectile.owner];
-            Vector2 playerCenter = player.RotatedRelativePoint(player.MountedCenter);
+            Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
+            Vector2 tipPosition = armPosition + Projectile.velocity * Projectile.width * 0.5f;
 
-            // HoldTimer counts how long the weapon has been used. It helps control how fast the weapon animates and shoots arrows.
-            float numb = 1f;
-            HoldTimer += numb;
-            int initialShootDelay = 195;
-
-            ShootTimer += 1f;
-            bool shouldShootArrow = false;
-            if (ShootTimer >= initialShootDelay)
+            // If the player releases left click, shoot out the arrows
+            if (Owner.CantUseHoldout())
             {
-                ShootTimer = 0f;
-                shouldShootArrow = true;
-            }
 
-            // Sound and dust are separate from the code shooting arrows because they need to run on other clients as well.
-            if (Projectile.soundDelay <= 0)
-            {
-                Projectile.soundDelay = initialShootDelay;
-                // Prevents a shoot sound from playing when the projectile initially spawns
-                if (HoldTimer != numb)
+                if (CurrentCharge <= 0f) //If theres no arrows to shoot
                 {
-                    SoundEngine.PlaySound(SoundID.Item5, player.position);
+                    Projectile.Kill();
+                    return;
                 }
+                // Fire the spread of arrows
+                else
+                    FireCharges(tipPosition);
             }
 
-            Vector2 dustSpawnLocation = Projectile.Center + new Vector2(15, 0).RotatedBy(Projectile.rotation - (Projectile.direction == 1 ? 0 : MathHelper.Pi)) - new Vector2(8, 8);
-            for (int i = 0; i < 2; i++)
+            else
             {
-                var dust = Dust.NewDustDirect(dustSpawnLocation, 16, 16, DustID.GoldFlame, Projectile.velocity.X / 2f, Projectile.velocity.Y / 2f, 100);
-                dust.velocity *= 0.66f;
-                dust.noGravity = true;
-                dust.scale = 0.6f;
-            }
-
-            if (shouldShootArrow && Main.myPlayer == Projectile.owner)
-            {
-                Item heldItem = player.HeldItem;
-                if (player.HasAmmo(heldItem) && !player.noItems && !player.CCed)
+                // Frame 1 effects: Initialize the shoot speed
+                if (FramesToCharge == 0f)
                 {
-                    float holdoutDistance = ArchbeastParagon.HoldoutDistance * Projectile.scale;
-                    Vector2 holdoutOffset = holdoutDistance * Vector2.Normalize(Main.MouseWorld - playerCenter);
-                    if (holdoutOffset.X != Projectile.velocity.X || holdoutOffset.Y != Projectile.velocity.Y)
+                    FramesToCharge = Owner.ActiveItem().useAnimation;
+                }
+
+                if (Owner.HasAmmo(Owner.ActiveItem()))
+                {
+                    ++CurrentChargingFrames;
+
+                    if (CurrentChargingFrames >= FramesToCharge && CurrentCharge < ArchbeastParagon.MaxCharge)
                     {
-                        Projectile.netUpdate = true;
-                    }
+                        // Save the stats here for later
+                        Item heldItem = Owner.ActiveItem();
+                        Owner.PickAmmo(heldItem, out _, out float shootSpeed, out int damage, out float knockback, out _);
+                        Projectile.damage = damage;
+                        Projectile.knockBack = knockback;
+                        storedVelocity = shootSpeed;
 
-                    // Set the projectile velocity, which is actually the holdout offset for held projectiles.
-                    Projectile.velocity = holdoutOffset;
+                        CurrentChargingFrames = 0f;
+                        ++CurrentCharge;
 
-                    int projectileCount = 1;
+                        FramesToCharge *= 0.950f;
 
-                    for (int j = 0; j < projectileCount; j++)
-                    {
-                        // Calculate a spawn location, taking into account the muzzle placement and a random variation
-                        var spawnLocation = playerCenter + holdoutOffset + Main.rand.NextVector2Circular(6, 6);
-                        bool ammoConsumed = player.PickAmmo(heldItem, out int projToShoot, out float speed, out int damage, out float knockBack, out int usedAmmoItemId);
-
-                        if (ammoConsumed)
+                        if (CurrentCharge >= ArchbeastParagon.MaxCharge)
                         {
-                            var source = player.GetSource_ItemUse_WithPotentialAmmo(heldItem, usedAmmoItemId);
-                            // change to custom inf pierce proj
-                            Projectile.NewProjectile(source, spawnLocation, Vector2.Normalize(Projectile.velocity) * (speed * 2), ModContent.ProjectileType<ArchbeastArrow>(), damage * 8, knockBack * 3, Projectile.owner);
+                            Projectile.damage *= 2;
+                            SoundEngine.PlaySound(strongCharge);
+                            for (int i = 0; i < 75; i++)
+                            {
+                                float colorRando = Main.rand.NextFloat(0, 1);
+                                float offsetAngle = MathHelper.TwoPi * i / 75f;
+
+                                // makes an asteroid shape (not the big evil rock from space)
+                                float unitOffsetX = (float)Math.Pow(Math.Cos(offsetAngle), 3D);
+                                float unitOffsetY = (float)Math.Pow(Math.Sin(offsetAngle), 3D);
+
+                                Vector2 puffDustVelocity = new Vector2(unitOffsetX, unitOffsetY) * 5f;
+                                Dust charged = Dust.NewDustPerfect(tipPosition, 267, puffDustVelocity);
+                                charged.scale = 1.5f;
+                                charged.fadeIn = 0.5f;
+                                charged.color = Color.Lerp(Color.PaleVioletRed, Color.MediumVioletRed, colorRando);
+                                charged.noGravity = true;
+                            }
+                        }
+                        else
+                        {
+                            SoundEngine.PlaySound(weakCharge);
+                            for (int i = 0; i < 75; i++)
+                            {
+                                float colorRando = Main.rand.NextFloat(0, 1);
+                                float offsetAngle = MathHelper.TwoPi * i / 75f;
+                                // Parametric equations for an asteroid.
+                                float unitOffsetX = (float)Math.Pow(Math.Cos(offsetAngle), 3D);
+                                float unitOffsetY = (float)Math.Pow(Math.Sin(offsetAngle), 3D);
+
+                                Vector2 puffDustVelocity = new Vector2(unitOffsetX, unitOffsetY) * 2.5f;
+                                Dust charged = Dust.NewDustPerfect(tipPosition, 267, puffDustVelocity);
+                                charged.scale = 0.75f;
+                                charged.fadeIn = 0.5f;
+                                charged.color = Color.Lerp(Color.LightYellow, Color.LightGoldenrodYellow, colorRando);
+                                charged.noGravity = true;
+                            }
                         }
                     }
-                    Projectile.Kill();
                 }
             }
 
-            Projectile.direction = Projectile.velocity.X < 0 ? -1 : 1;
-            Projectile.spriteDirection = Projectile.direction;
-            player.ChangeDir(Projectile.direction);
-            player.heldProj = Projectile.whoAmI;
-            player.SetDummyItemTime(2);
-            Projectile.Center = playerCenter;
-            float rotationOffset = Projectile.spriteDirection == -1 ? MathHelper.Pi : 0;
-            Projectile.rotation = Projectile.velocity.ToRotation() + rotationOffset;
-            player.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
-            Projectile.timeLeft = 2;
+            UpdateProjectileHeldVariables(armPosition);
+            ManipulatePlayerVariables();
         }
+
+        public void FireCharges(Vector2 tipPosition)
+        {
+            // ignore extra spread from additional charges past max
+            if (CurrentCharge == ArchbeastParagon.MaxCharge)
+            {
+                for (int i = 0; i < CurrentCharge; i++)
+                {
+                    //Version that doesnt inclue the chargingframes bit , since its fully charged
+                    float increment = angularSpread * (CurrentCharge - 1) / 2;
+                    float spreadForThisProjectile = MathHelper.Lerp(-increment, increment, i / (float)(CurrentCharge - 1));
+                    ShootProjectiles(tipPosition, spreadForThisProjectile);
+
+                }
+                SoundEngine.PlaySound(SoundID.Item38); // shotgun boom
+            }
+            else if (CurrentCharge != 0)
+            {
+                for (int i = 0; i < CurrentCharge + 1; i++)
+                {
+                    if (i == CurrentCharge) //We don't actually shoot the arrow that's currently loading
+                        continue;
+
+                    //Version that takes into account the progress of the arrow currently loading. It takes half the time it takes for the arrow to load for the range to adjust to its next position
+                    float increment = angularSpread * (CurrentCharge - 1 + MathHelper.Clamp((CurrentChargingFrames / FramesToCharge) * 2, 0f, 1f)) / 2;
+                    float spreadForThisProjectile = MathHelper.Lerp(-increment, increment, i / (float)(MathHelper.Lerp(CurrentCharge - 1, CurrentCharge, MathHelper.Clamp((CurrentChargingFrames * 2 / FramesToCharge), 0f, 1f))));
+                    ShootProjectiles(tipPosition, spreadForThisProjectile);
+                }
+                SoundEngine.PlaySound(SoundID.Item38); // shotgun boom
+            }
+
+            FramesToCharge = Owner.ActiveItem().useAnimation; //reset the reload time
+            CurrentCharge = 0; //Unload the bow
+        }
+
+        public void ShootProjectiles(Vector2 tipPosition, float projectileRotation)
+        {
+            if (Main.myPlayer != Projectile.owner)
+                return;
+
+            Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(projectileRotation) * storedVelocity;
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, ModContent.ProjectileType<DragonPiercerArrow>(), Projectile.damage, Projectile.knockBack * 2, Projectile.owner);
+        }
+
+        private void UpdateProjectileHeldVariables(Vector2 armPosition)
+        {
+            if (Main.myPlayer == Projectile.owner)
+            {
+                float interpolant = Utils.GetLerpValue(5f, 25f, Owner.Distance(Main.MouseWorld), true);
+                Vector2 oldVelocity = Projectile.velocity;
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Owner.SafeDirectionTo(Main.MouseWorld), interpolant);
+                if (Projectile.velocity != oldVelocity)
+                {
+                    Projectile.netSpam = 0;
+                    Projectile.netUpdate = true;
+                }
+            }
+
+            Projectile.position = armPosition - Projectile.Size * 0.5f + Projectile.velocity.SafeNormalize(Vector2.Zero) * 35f;
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            int oldDirection = Projectile.spriteDirection;
+            if (oldDirection == -1)
+                Projectile.rotation += MathHelper.Pi;
+
+            Projectile.direction = Projectile.spriteDirection = (Projectile.velocity.X > 0).ToDirectionInt();
+            // If the direction differs from what it originaly was, undo the previous 180 degree turn.
+            // If this is not done, the bow will have 1 frame of rotational "jitter" when the direction changes based on the
+            // original angle. This effect looks very strange in-game.
+            if (Projectile.spriteDirection != oldDirection)
+                Projectile.rotation -= MathHelper.Pi;
+
+            Projectile.timeLeft = 3;
+        }
+
+        private void ManipulatePlayerVariables()
+        {
+            Owner.ChangeDir(Projectile.direction);
+            Owner.heldProj = Projectile.whoAmI;
+            Owner.itemTime = 2;
+            Owner.itemAnimation = 2;
+            Owner.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            float loops = CurrentCharge + 1;
+            if (CurrentCharge == ArchbeastParagon.MaxCharge)
+                loops = CurrentCharge;
+
+            for (int i = 0; i < loops; i++)
+            {
+                float BoltAngle;
+                float Shift = 0;
+
+                if (CurrentCharge == 0)
+                {
+                    BoltAngle = 0;
+                }
+                else if (CurrentCharge == ArchbeastParagon.MaxCharge)
+                {
+                    float increment = angularSpread * (CurrentCharge - 1) / 2;
+                    BoltAngle = MathHelper.Lerp(-increment, increment, i / (float)(CurrentCharge - 1));
+                }
+                else
+                {
+                    float increment = angularSpread * (CurrentCharge - 1 + MathHelper.Clamp((CurrentChargingFrames * 2 / FramesToCharge), 0f, 1f)) / 2;
+                    BoltAngle = MathHelper.Lerp(-increment, increment, i / (float)(MathHelper.Lerp(CurrentCharge - 1, CurrentCharge, MathHelper.Clamp((CurrentChargingFrames * 2 / FramesToCharge), 0f, 1f))));
+                }
+
+                if (i == CurrentCharge)
+                    Shift = 1 - (CurrentChargingFrames / FramesToCharge);
+
+                Color Transparency = Color.White * (1 - Shift);
+                var BoltTexture = ModContent.Request<Texture2D>("MogMod/Projectiles/RangedProjectiles/DragonPiercerArrow").Value;
+                Vector2 PointingTo = new Vector2((float)Math.Cos(Projectile.rotation + BoltAngle), (float)Math.Sin(Projectile.rotation + BoltAngle));
+                Vector2 ShiftDown = PointingTo.RotatedBy(-MathHelper.PiOver2);
+                float FlipFactor = Owner.direction < 0 ? MathHelper.Pi : 0f;
+                Vector2 drawPosition = Owner.Center + PointingTo.RotatedBy(FlipFactor) * (30f + (Shift * 80)) - ShiftDown.RotatedBy(FlipFactor) * (BoltTexture.Width / 2) - Main.screenPosition;
+
+                Main.EntitySpriteDraw(BoltTexture, drawPosition, null, Transparency, Projectile.rotation + (BoltAngle * 2) + MathHelper.PiOver2 + FlipFactor, BoltTexture.Size(), 1f, 0, 0);
+            }
+            return true;
+        }
+        public override bool? CanDamage() => false;
     }
 }

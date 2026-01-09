@@ -24,9 +24,10 @@ namespace MogMod.Items.Consumables
             Item.buffType = ModContent.BuffType<Buffs.PotionBuffs.GlueBuff>();
             Item.buffTime = 5 * 60;
         }
-        public override void UseItemFrame(Player player)
+        public override bool? UseItem(Player player)
         {
             player.AddBuff(ModContent.BuffType<Buffs.Debuffs.GlueDebuff>(), 10000 * 60);
+            return true;
         }
     }
 }

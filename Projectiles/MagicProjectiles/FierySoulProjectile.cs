@@ -1,13 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Player;
-using MogMod.Items.Weapons.Magic;
-using MogMod.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -33,7 +26,8 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.penetrate = 1;
             Projectile.timeLeft = 420;
             Projectile.DamageType = DamageClass.Magic;
-            Projectile.localNPCHitCooldown = 20;
+            //Projectile.usesLocalNPCImmunity = true;
+            //Projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
