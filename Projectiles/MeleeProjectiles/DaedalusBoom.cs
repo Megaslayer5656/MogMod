@@ -2,14 +2,13 @@
 using MogMod.Utilities;
 using System;
 using Terraria;
-using Terraria.Graphics.Renderers;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
-    public class DaedalusBoom : ModProjectile
+    public class DaedalusBoom : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
 
         public override void SetDefaults()
@@ -38,24 +37,21 @@ namespace MogMod.Projectiles.MeleeProjectiles
         {
             if (Projectile.ai[0] == 0)
             {
-                int flowerPetalCount = 6;
+                int count = 4;
                 float thetaDelta = new Vector2(3, 3).RotatedByRandom(100).ToRotation();
-                float weaveDistanceMin = 0.5f;
-                float weaveDistanceOutwardMax = 10f;
-                float weaveDistanceInner = 0.5f;
+                float weaverMin = 0.5f;
+                float weaverDistanceMax = 10f;
+                float weaverDistanceInner = 0.3f;
                 for (float theta = 0f; theta < MathHelper.TwoPi; theta += 0.05f)
                 {
                     float colorRando = Main.rand.NextFloat(0, 1);
                     Vector2 velocity = theta.ToRotationVector2() *
-                        (weaveDistanceMin +
-                        // The 0.5 in here is to prevent the petal from looping back into itself. With a 0.5 addition, it is perfect, coming back to (0,0)
-                        // instead of weaving backwards.
-                        (float)(Math.Sin(thetaDelta + theta * flowerPetalCount) + 0.5f + weaveDistanceInner) *
-                        weaveDistanceOutwardMax);
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center, 267, velocity);
-                    dust.noGravity = true;
-                    dust.scale = 1.15f;
-                    dust.color = Color.Lerp(Color.DarkOrchid, Color.IndianRed, colorRando);
+                        (weaverMin + (float)(Math.Sin(thetaDelta + theta * count) + weaverMin - weaverDistanceInner) * weaverDistanceMax);
+                    Dust charged = Dust.NewDustPerfect(Projectile.Center, 267, velocity);
+                    charged.scale = 1.5f;
+                    charged.fadeIn = 0.5f;
+                    charged.color = Color.Lerp(Color.PaleVioletRed, Color.MediumVioletRed, colorRando);
+                    charged.noGravity = true;
                 }
             }
         }

@@ -2,13 +2,9 @@ using Microsoft.Xna.Framework;
 using MogMod.Items.Consumables;
 using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using System.Runtime.CompilerServices;
-using Terraria.Social.WeGame;
-using Mono.Cecil;
 namespace MogMod.Items.Weapons.Ranged
 {
     public class Switch : ModItem, ILocalizedModType

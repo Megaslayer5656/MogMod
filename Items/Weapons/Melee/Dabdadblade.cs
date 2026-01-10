@@ -25,20 +25,14 @@ namespace MogMod.Items.Weapons.Melee
 		}
 		public override void AddRecipes()
 		{
+			// ooo look at me im soooooo rare only i use Recipe recipe = CreateRecipe() oooo im soooooooo rare~~~
 			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Emerald, 15);
-			recipe.AddIngredient(ItemID.PalladiumBar, 15);
+			recipe.AddRecipeGroup("CobaltBar", 15);
 			recipe.AddIngredient(ItemID.CursedFlame, 20);
-			recipe.AddIngredient(ItemID.SoulofSight, 20);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.Register();
-			Recipe recipe2 = CreateRecipe();
-			recipe2.AddIngredient(ItemID.Emerald, 15);
-			recipe2.AddIngredient(ItemID.CobaltBar, 15);
-			recipe2.AddIngredient(ItemID.CursedFlame, 20);
             recipe.AddIngredient(ItemID.SoulofSight, 20);
-            recipe2.AddTile(TileID.MythrilAnvil);
-			recipe2.Register();
+            recipe.AddTile(TileID.MythrilAnvil);
+			recipe.Register();
 		}
     }
 }

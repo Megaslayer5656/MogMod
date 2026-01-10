@@ -14,6 +14,18 @@ Mods: {
 			ForceStaff.DisplayName: Force Staff
 			BladeMail.DisplayName: Blade Mail
 			"Shiva'sGuard.DisplayName": Shiva's Guard
+			ManaBoots.DisplayName: Mana Boots
+			ActivateManaBoots.DisplayName: Activate Mana Boots
+			ActivateMagicWand.DisplayName: Activate Magic Wand
+			ActivateMekansm.DisplayName: Activate Mekansm
+			ActivateForceStaff.DisplayName: Activate Force Staff
+			"ActivateShiva'sGuard.DisplayName": Activate Shiva's Guard
+			ActivateBladeMail.DisplayName: Activate Blade Mail
+			ActivateSatanic.DisplayName: Activate Satanic
+			ToggleArmletOfMordiggian.DisplayName: Toggle Armlet Of Mordiggian
+			ActivateHelmOfTheDominator.DisplayName: Activate Helm Of The Dominator
+			ActivateRefresherOrb.DisplayName: Activate Refresher Orb
+			DragonInstall.DisplayName: Dragon Install
 		}
 
 		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage

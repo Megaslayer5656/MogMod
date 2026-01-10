@@ -7,26 +7,18 @@ using MogMod.Items.Accessories;
 using MogMod.Items.Consumables;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Items.Weapons.Ranged;
-using MogMod.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Terraria.UI;
 
 namespace MogMod.Common.Player
 {
     public class MogPlayer : ModPlayer
     {
+        #region Setup
         public bool mewing = false;
         public float mewingguide = 0;
         // buffs for the accessories
@@ -77,17 +69,25 @@ namespace MogMod.Common.Player
         public const float ForceVelocity = 12f;
         public const float PikeVelocity = 25f;
 
+        // weapon buffs
         public int essenceShiftLevel = 0;
         public static int essenceShiftLevelMax = 60;
 
         public int fierySoulLevel = 0;
         public static int fierySoulLevelMax = 30;
 
+        public Vector2 mouseWorld;
+        public bool wearingFlameOfCorruption = false;
         public enum MewingType
         {
             mewingguide = 0
         }
         public MewingType mewingType = MewingType.mewingguide;
+
+        public bool chargeShot = false;
+        public bool dpCharge = false;
+
+        // sound effects
         public static readonly SoundStyle WandUse = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Magic_Stick")
         {
             Volume = .4f,
@@ -112,12 +112,18 @@ namespace MogMod.Common.Player
             PitchVariance = .2f,
             MaxInstances = 1,
         };
+        #endregion
+
+        #region In Game Checks
         public override void PostUpdateMiscEffects()
         {
             MiscEffects();
+            OtherBuffEffects();
         }
         public void MiscEffects()
         {
+            #region Summon Accessories
+            // checks if the player is wearing accessory, and if true, stops previous iterations of the accessory from benefitting the player
             if (overlordMinion)
             {
                 Player.maxMinions += 3;
@@ -138,7 +144,9 @@ namespace MogMod.Common.Player
                     }
                 }
             }
+            #endregion
 
+            #region Weapon Buffs
             // essence shift stacking buff
             if (Player.HasBuff<EssenceShift>() && (Player.HeldItem.Name == "Hydrakan Latch" || Player.HeldItem.Name == "Golden Hydrakan Latch"))
             {
@@ -171,6 +179,7 @@ namespace MogMod.Common.Player
             {
                 fierySoulLevel = 0;
             }
+            #endregion
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -180,12 +189,13 @@ namespace MogMod.Common.Player
                         if (wearingEyeOfSkadi)
                     {
                         target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 600);
-                        otherNPC.defense -= Convert.ToInt32(otherNPC.defense * 0.1);
                     }
                 }
         }
         public override void OnHitByNPC(NPC npc, Terraria.Player.HurtInfo hurtInfo)
         {
+            Player.ClearBuff(ModContent.BuffType<ClarityBuff>());
+            Player.ClearBuff(ModContent.BuffType<HealingSalveBuff>());
             if (Player.HasItemInAnyInventory(ModContent.ItemType<HolyLocket>()))
             {
                 locketCharges += 1;
@@ -220,6 +230,8 @@ namespace MogMod.Common.Player
         }
         public override void OnHitByProjectile(Projectile proj, Terraria.Player.HurtInfo hurtInfo)
         {
+            Player.ClearBuff(ModContent.BuffType<ClarityBuff>());
+            Player.ClearBuff(ModContent.BuffType<HealingSalveBuff>());
             if (Player.HasItemInAnyInventory(ModContent.ItemType<HolyLocket>()))
             {
                 locketCharges += 1;
@@ -324,26 +336,38 @@ namespace MogMod.Common.Player
             }
 
         }
+        
+        // the big one
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            int refresherCooldown = ModContent.BuffType<Buffs.Cooldowns.RefresherOrbDebuff>();
+            #region Mod Buff ID/s
             int glimmerBuff = ModContent.BuffType<Buffs.PotionBuffs.GlimmerCapeBuff>();
-            int glimmerCooldown = ModContent.BuffType<Buffs.Cooldowns.GlimmerCapeDebuff>();
             int satanicBuff = ModContent.BuffType<Buffs.PotionBuffs.SatanicBuff>();
+            int blademailBuff = ModContent.BuffType<Buffs.PotionBuffs.BladeMailBuff>();
+
+            // cooldowns
+            int refresherCooldown = ModContent.BuffType<Buffs.Cooldowns.RefresherOrbDebuff>();
+            int glimmerCooldown = ModContent.BuffType<Buffs.Cooldowns.GlimmerCapeDebuff>();
             int satanicCooldown = ModContent.BuffType<Buffs.Cooldowns.SatanicDebuff>();
             int manabootsCooldown = ModContent.BuffType<Buffs.Cooldowns.ArcaneBootsDebuff>();
             int guardianCooldown = ModContent.BuffType<Buffs.Cooldowns.GuardianGreavesDebuff>();
             int mekansmCooldown = ModContent.BuffType<Buffs.Cooldowns.MekansmDebuff>();
             int helmOfDominator = ModContent.BuffType<Buffs.Cooldowns.HelmOfDominatorDebuff>();
             int forceStaffCooldown = ModContent.BuffType<Buffs.Cooldowns.ForceStaffDebuff>();
-            int blademailBuff = ModContent.BuffType<Buffs.PotionBuffs.BladeMailBuff>();
             int blademailCooldown = ModContent.BuffType<Buffs.Cooldowns.BladeMailDebuff>();
             int ShivasCooldown = ModContent.BuffType<ShivasDebuff>();
+
             int locketHeal = ModContent.BuffType<HolyLocketBuff>();
             int wandHeal = ModContent.BuffType<WandBuff>();
             int stickHeal = ModContent.BuffType<MagicStickBuff>();
             int armletToggled = ModContent.BuffType<Buffs.PotionBuffs.ArmletOfMordiggianBuff>();
 
+            // dragon install
+            int dragonInstall = ModContent.BuffType<Buffs.PotionBuffs.DragonInstallBuff>();
+            int dragonInstallCooldown = ModContent.BuffType<Buffs.Cooldowns.DragonInstallCooldown>();
+            #endregion
+
+            #region Accessory Checks
             // refresher orb
             if (KeybindSystem.RefresherOrbKeybind.JustPressed && wearingRefresherOrb && !Player.HasBuff(refresherCooldown))
             {
@@ -351,6 +375,13 @@ namespace MogMod.Common.Player
                 Player.ClearBuff(glimmerCooldown);
                 Player.ClearBuff(satanicCooldown);
                 Player.ClearBuff(manabootsCooldown);
+                Player.ClearBuff(guardianCooldown);
+                Player.ClearBuff(mekansmCooldown);
+                Player.ClearBuff(helmOfDominator);
+                Player.ClearBuff(forceStaffCooldown);
+                Player.ClearBuff(blademailCooldown);
+                Player.ClearBuff(ShivasCooldown);
+                //Don't add dragon install to this. It shouldn't be able to be refreshed by refresher as it is more of a different mechanic than a buff. Will if you see this stop playing Chen <-- Chen (pronounced "shen") has crazy micro and once i get good at him hes gonna be crazy. that one game was a loss no matter who i played. also it was mendez fault for picking IO
 
                 Player.AddBuff(refresherCooldown, 9000);
             }
@@ -373,7 +404,6 @@ namespace MogMod.Common.Player
             }
 
             // blademail
-
             if (KeybindSystem.BladeMailKeybind.JustPressed && wearingBladeMail && !Player.HasBuff(blademailCooldown))
             {
                 Player.AddBuff(blademailBuff, 600);
@@ -392,8 +422,8 @@ namespace MogMod.Common.Player
             if (KeybindSystem.GuardianGreavesKeybind.JustPressed && wearingGigaManaBoots && !Player.HasBuff(guardianCooldown))
             {
                 // make it play a sound when activating
-                Player.statLife += 100;
-                Player.statMana += 300;
+                Player.statLife += 50;
+                Player.statMana += 250;
                 Player.AddBuff(guardianCooldown, 3600);
             }
 
@@ -401,7 +431,7 @@ namespace MogMod.Common.Player
             if (KeybindSystem.MekansmKeybind.JustPressed && wearingMekansm && !Player.HasBuff(mekansmCooldown))
             {
                 // make it play a sound when activating
-                Player.statLife += 50;
+                Player.statLife += 20;
                 Player.AddBuff(mekansmCooldown, 3600);
             }
 
@@ -472,11 +502,11 @@ namespace MogMod.Common.Player
                             otherNPC.StrikeNPC(hitInfo); //Must use this instead of modifying the npc's life stat
                             NetMessage.SendStrikeNPC(otherNPC, hitInfo); //Vital for sending the hit to other clients (stops desync)
                             otherNPC.defense -= Convert.ToInt32(otherNPC.defense * .15); //Removes 15% of enemy's defense (rounded)
-                            //TODO: Put the stat decreases on a timer, slow enemies.
+                            //TODO: Put the stat decreases on a timer (Make them debuffs), slow enemies.
                         }
                     }
                     Player.AddBuff(ShivasCooldown, 3600);
-                    SoundEngine.PlaySound(ShivasActivateSound, Player.Center);
+                    SoundEngine.PlaySound(ShivasActivateSound, Player.Center); //TODO: Make this work in multiplayer
                 }
 
                 for (int i = 0; i < 80; i++)
@@ -498,8 +528,16 @@ namespace MogMod.Common.Player
                 }
             }
 
+            //Dragon Install
+            if (wearingFlameOfCorruption && KeybindSystem.DragonInstallKeybind.JustPressed && !Player.HasBuff(dragonInstallCooldown))
+            {
+                Player.AddBuff(dragonInstall, 6000); //These values are temporary
+                Player.AddBuff(dragonInstallCooldown, 12000);
+                //I still have to make the keybind (don't wanna on github web it sucks)
+            }
+            
             // armlet timer
-            if (KeybindSystem.ArmletKeybind.JustPressed && armletActive) //&& !Player.HasBuff(buff2))
+            if (KeybindSystem.ArmletKeybind.JustPressed && armletActive)
             {
                 if (armletTimer <= armletTimerMax)
                 {
@@ -525,7 +563,10 @@ namespace MogMod.Common.Player
             {
                 armletTimer += 1;
             }
+            #endregion
         }
+
+        // armlet negative hp regen is here instead of in buff for an unknown reason
         public override void UpdateBadLifeRegen()
         {
             if (armletOn && Player.HasBuff<ArmletOfMordiggianBuff>())
@@ -534,6 +575,7 @@ namespace MogMod.Common.Player
             }
         }
 
+        // more regen taking place here
         public override void UpdateLifeRegen()
         {
            if (Player.HeldItem.Name == "Berserker's Spear")
@@ -543,6 +585,7 @@ namespace MogMod.Common.Player
             }
         }
 
+        // sniper offlane scope effect
         public override void ModifyZoom(ref float zoom)
         {
             if (Player.HeldItem.Name == "AXMC")
@@ -553,8 +596,38 @@ namespace MogMod.Common.Player
                 }
             }
         }
+
+        // buff effects
+        private void OtherBuffEffects()
+        {
+            if (chargeShot)
+            {
+                ChargeBow();
+            }
+            if (dpCharge)
+            {
+                ChargeBow();
+            }
+        }
+        
+        // stops player from moving while charging bow
+        private void ChargeBow()
+        {
+            Player.controlUp = false;
+            Player.controlDown = false;
+            Player.controlLeft = false;
+            Player.controlRight = false;
+            Player.controlJump = false;
+            Player.controlHook = false;
+            Player.controlMount = false;
+            if (Player.velocity.Y > 15f)
+                Player.velocity.Y = 15f;
+        }
+
+        // resets stuff
         public override void ResetEffects()
         {
+            #region Reset Checks
             isWearingGlimmerCape = false;
             wearingManaBoots = false;
             wearingSatanic = false;
@@ -574,12 +647,17 @@ namespace MogMod.Common.Player
             wearingBladeMail = false;
             wearingShivasGuard = false;
             wearingEyeOfSkadi = false;
+            wearingFlameOfCorruption = false;
 
-                diademMinion = false;
+            diademMinion = false;
             dominatorMinion = false;
             overlordMinion = false;
 
+            chargeShot = false;
+            dpCharge = false;
+            #endregion
 
+            #region Force Staff
             if (Player.controlDown)
             {
                 forceDirection = DashDown;
@@ -600,6 +678,8 @@ namespace MogMod.Common.Player
             {
                 forceDirection = -1;
             }
+            #endregion
         }
+        #endregion
     }
 }

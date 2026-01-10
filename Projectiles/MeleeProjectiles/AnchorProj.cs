@@ -1,18 +1,25 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Terraria.ModLoader;
 using Terraria;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
-    public class AnchorProj : ModProjectile
+    public class AnchorProj : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+        }
         public override void SetDefaults()
         {
             Projectile.width = 8;
@@ -65,7 +72,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
                     turnStrength
                 );
 
-                Projectile.rotation = Projectile.velocity.ToRotation();
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             }
             if (Main.rand.NextBool(15))
             {
@@ -91,6 +98,11 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.WaterCandle, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 100, default, 2f);
                 Main.dust[d].position = Projectile.Center;
             }
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
         }
     }
 }

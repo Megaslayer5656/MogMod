@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Accessories;
-using MogMod.Items.Other;
+﻿using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.ID;

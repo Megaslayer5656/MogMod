@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
-using MogMod.Items.Consumables;
 using Terraria.Audio;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-using MogMod.Items.Other;
 
 namespace MogMod.Items.Weapons.Ranged
 {
@@ -17,6 +11,10 @@ namespace MogMod.Items.Weapons.Ranged
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public bool rotated = false;
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+        }
         public override void SetDefaults()
         {
             Item.damage = 37;
@@ -34,7 +32,7 @@ namespace MogMod.Items.Weapons.Ranged
                 PitchVariance = .02f,
             };
             Item.value = Item.buyPrice(0, 32, 82, 5);
-            Item.rare = ItemRarityID.Orange;
+            Item.rare = ItemRarityID.Green;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 15f;
@@ -46,14 +44,11 @@ namespace MogMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                Item.useTime = 15;
-                Item.useAnimation = 15;
-                Item.autoReuse= true;
+                Item.useTime = Item.useAnimation = 12;
                 rotated = true;
             } else
             {
-                Item.useTime = 45;
-                Item.useAnimation = 45;
+                Item.useTime = Item.useAnimation = 45;
                 rotated = false;
             }
             return true;
@@ -73,17 +68,11 @@ namespace MogMod.Items.Weapons.Ranged
                 velocity = velocity.RotatedByRandom(MathHelper.ToRadians(20));
             }
         }
-
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-15f, -.5f);
         }
-
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
-
+        public override bool AltFunctionUse(Player player) => true;
         public override void AddRecipes()
         {
             CreateRecipe().

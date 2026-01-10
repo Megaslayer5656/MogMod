@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
-    public class DagonFourProj : ModProjectile
+    public class DagonFourProj : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         Random random = new Random();
         private bool initialized = false;

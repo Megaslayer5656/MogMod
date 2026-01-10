@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
@@ -16,12 +11,16 @@ namespace MogMod.Items.Weapons.Ranged
     public class WarriorsSpear : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+        }
         public override void SetDefaults()
         {
             Item.damage = 35;
             Item.DamageType = DamageClass.Ranged;
-            Item.width = 100;
-            Item.height = 19;
+            Item.width = 20;
+            Item.height = 4;
             Item.scale = .15f;
             Item.useTime = 60;
             Item.useAnimation = 60;
@@ -66,12 +65,7 @@ namespace MogMod.Items.Weapons.Ranged
                 return true;
             }
         }
-
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
-
+        public override bool AltFunctionUse(Player player) => true;
         public override void AddRecipes()
         {
             CreateRecipe().

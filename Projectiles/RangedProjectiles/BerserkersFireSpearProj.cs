@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
@@ -10,12 +6,13 @@ using Terraria.Audio;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
-    public class BerserkersFireSpearProj : ModProjectile
+    public class BerserkersFireSpearProj : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.RangedProjectiles";
         public override void SetDefaults()
         {
             Projectile.width = 25;
-            Projectile.height = 100;
+            Projectile.height = 20;
             Projectile.friendly = true;
             Projectile.ignoreWater = false;
             Projectile.tileCollide = true;

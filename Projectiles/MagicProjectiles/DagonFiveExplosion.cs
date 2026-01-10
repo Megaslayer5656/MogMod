@@ -1,8 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Xna.Framework;
-using MogMod.Buffs;
-using MogMod.Common.Player;
-using MogMod.Items.Weapons.Magic;
+﻿using Microsoft.Xna.Framework;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
@@ -10,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
-    public class DagonFiveExplosion : ModProjectile
+    public class DagonFiveExplosion : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
 
         private const float radius = 50f;

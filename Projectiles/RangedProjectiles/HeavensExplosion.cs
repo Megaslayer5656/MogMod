@@ -1,19 +1,15 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Xna.Framework;
-using MogMod.Buffs;
-using MogMod.Common.Player;
-using MogMod.Items.Weapons.Magic;
+﻿using Microsoft.Xna.Framework;
 using MogMod.Utilities;
 using System;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
-    public class HeavensExplosion : ModProjectile
+    public class HeavensExplosion : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.RangedProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
 
         private const float radius = 30f;

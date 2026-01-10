@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
 using Terraria;
-using Terraria.ID;
-using System.Net.Mail;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
     public class BloodMagicProjectile : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles";
+        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override void SetDefaults()
         {
             Projectile.width = 10;
@@ -34,13 +29,12 @@ namespace MogMod.Projectiles.MagicProjectiles
         {
             Player player = Main.player[Projectile.owner];
 
-            int healAmount = (int)(player.statLifeMax2 * 0.0125f);
-
-            player.statLife += healAmount;
+            int heal = 1;
+            heal *= Convert.ToInt32(player.lifeSteal * 0.045);
+            player.statLife += heal;
+            player.HealEffect(heal);
             if (player.statLife > player.statLifeMax2)
                 player.statLife = player.statLifeMax2;
-
-            player.HealEffect(healAmount);
         }
 
         public override void OnKill(int timeLeft)

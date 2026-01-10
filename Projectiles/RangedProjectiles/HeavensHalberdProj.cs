@@ -1,16 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
-    public class HeavensHalberdProj : ModProjectile
+    public class HeavensHalberdProj : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.RangedProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         public override void SetStaticDefaults()
         {

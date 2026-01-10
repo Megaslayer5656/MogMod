@@ -1,17 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Utilities;
-using Mono.Cecil;
-using SteelSeries.GameSense;
 using Terraria;
 using Terraria.Audio;
-using Terraria.Graphics.Renderers;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
-    public class DaedalusProjectile : ModProjectile
+    public class DaedalusProjectile : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         private static int NumAnimationFrames = 5;
         private static int AnimationFrameTime = 9;
         public int time = 0;

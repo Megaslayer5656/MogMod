@@ -1,17 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Utilities;
-using MonoMod.Core.Utils;
-using System;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
-    public class YashaProj : ModProjectile
+    public class YashaProj : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.RangedProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         private bool initialized = false;
         public override void SetStaticDefaults()

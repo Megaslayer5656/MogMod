@@ -4,11 +4,8 @@ using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
 using ReLogic.Content;
 using System;
-using System.IO;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent.Shaders;
-using Terraria.Graphics.Effects;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,7 +14,7 @@ namespace MogMod.Projectiles.MagicProjectiles
 {
     class KhandaBeam : BaseLaserbeamProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles";
+        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/MagicProjectiles/KhandaBeam";
 
         public static readonly Color[] Colors = new Color[]

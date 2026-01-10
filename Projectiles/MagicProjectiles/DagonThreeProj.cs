@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
-    public class DagonThreeProj : ModProjectile
+    public class DagonThreeProj : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
 
         public override void SetDefaults()

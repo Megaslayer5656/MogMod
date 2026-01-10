@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
 using MogMod.Projectiles.MagicProjectiles;
@@ -26,7 +21,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.noMelee = true;
             Item.knockBack = 5f;
             Item.value = Item.buyPrice(0, 7, 30, 50);
-            Item.rare = ItemRarityID.Red;
+            Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item9;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<BloodMagicProjectile>();

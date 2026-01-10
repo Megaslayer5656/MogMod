@@ -30,7 +30,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.useLimitPerAnimation = 30;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
-            Item.knockBack = 9f;
+            Item.knockBack = 7f;
             Item.value = Item.buyPrice(0, 7, 30, 50);
             Item.rare = ItemRarityID.Purple;
             Item.UseSound = SoundID.Item9;

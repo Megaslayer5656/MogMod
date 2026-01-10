@@ -1,19 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
     public sealed class BloodGrenadeProjectile : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles";
+        public new string LocalizationCategory => "Projectiles.RangedProjectiles";
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Blood Grenade"); // might not actually do anything
@@ -43,7 +37,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 }
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Projectile.owner == Main.myPlayer)
             {

@@ -23,6 +23,7 @@ namespace MogMod.Items.Consumables
             {
                 Volume = 1.1f,
                 PitchVariance = 0.2f,
+                MaxInstances = 3
             };
             Item.consumable = true;
             Item.potion = true;
@@ -30,7 +31,7 @@ namespace MogMod.Items.Consumables
             Item.healLife = 250;
             Item.rare = ItemRarityID.Master;
             Item.master = true;
-            Item.value = Item.buyPrice(0, 18, 40, 0);
+            Item.value = Item.buyPrice(0, 20, 0, 0);
             Item.buffType = ModContent.BuffType<Buffs.PotionBuffs.CheeseBuff>();
             Item.buffTime = 1800;
         }

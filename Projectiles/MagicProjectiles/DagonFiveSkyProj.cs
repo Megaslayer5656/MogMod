@@ -1,16 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Utilities;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
-    public class DagonFiveSkyProj : ModProjectile
+    public class DagonFiveSkyProj : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         private bool initialized = false;
         public override void SetStaticDefaults()

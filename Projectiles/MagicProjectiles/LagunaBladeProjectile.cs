@@ -8,8 +8,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace MogMod.Projectiles.MagicProjectiles
 {
-    public class LagunaBladeProjectile : ModProjectile
+    public class LagunaBladeProjectile : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public static readonly SoundStyle LagunaHit = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/LagunaHit")
         {
             Volume = .8f,

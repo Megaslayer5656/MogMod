@@ -1,9 +1,4 @@
-﻿using MogMod.Items.Other;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,8 +21,8 @@ namespace MogMod.Items.Accessories
             player.lifeRegen += 2;
             player.statDefense += 5;
             player.statLifeMax2 += 20;
-            player.manaRegen -= (int)Math.Round(player.manaRegen * .4f);
-            player.manaRegenDelay += 5f;
+            player.manaRegen -= (int)Math.Round(player.manaRegen * .3f);
+            player.manaRegenDelay += 1f;
             player.GetDamage(DamageClass.Magic) += -.10f;
             player.GetDamage(DamageClass.Summon) += -.10f;
         }

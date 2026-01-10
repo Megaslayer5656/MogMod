@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
-    public class DaedalusProj : ModProjectile
+    public class DaedalusProj : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         private static int NumAnimationFrames = 5;
         private static int AnimationFrameTime = 9;
         public int time = 0;

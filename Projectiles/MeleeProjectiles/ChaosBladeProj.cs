@@ -11,7 +11,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
 {
     public class ChaosBladeProj : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles";
+        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         public override void SetStaticDefaults()
         {

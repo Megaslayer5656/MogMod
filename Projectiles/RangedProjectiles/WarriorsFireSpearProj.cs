@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
 using Terraria.Audio;
@@ -12,7 +7,7 @@ namespace MogMod.Projectiles.RangedProjectiles
 {
     public class WarriorsFireSpearProj : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles";
+        public new string LocalizationCategory => "Projectiles.RangedProjectiles";
         public override void SetDefaults()
         {
             Projectile.width = 10;

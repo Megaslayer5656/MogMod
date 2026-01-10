@@ -1,15 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Other;
+﻿using MogMod.Items.Other;
 using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Utilities;
-using Mono.Cecil;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -25,10 +18,12 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 60;
             Item.height = 60;
-            Item.damage = 25;
+            Item.damage = 30; // true melee so it has to be good
             Item.DamageType = DamageClass.Melee;
-            Item.useTime = 16;
+            Item.useTime = 8;
             Item.useAnimation = 16;
+            Item.reuseDelay = 16;
+            Item.useLimitPerAnimation = 2;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = false;
             Item.knockBack = 4f;

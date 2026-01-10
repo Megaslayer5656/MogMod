@@ -1,13 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Player;
-using MogMod.Items.Weapons.Magic;
-using MogMod.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -15,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
-    public class FierySoulProjectile : ModProjectile
+    public class FierySoulProjectile : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
@@ -33,7 +27,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.timeLeft = 420;
             Projectile.DamageType = DamageClass.Magic;
             //Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 20;
+            //Projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()

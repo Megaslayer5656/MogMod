@@ -1,5 +1,4 @@
-﻿using MogMod.Common.Player;
-using Terraria;
+﻿using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,11 +12,12 @@ namespace MogMod.Items.Consumables
         public static readonly SoundStyle aghanimUse = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/AghanimShard")
         {
             Volume = 1.1f,
-            PitchVariance = .2f
+            PitchVariance = .2f,
+            MaxInstances = 3
         };
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
+            Item.ResearchUnlockCount = 30;
         }
         public override void SetDefaults()
         {
@@ -29,6 +29,7 @@ namespace MogMod.Items.Consumables
             Item.rare = ItemRarityID.Cyan;
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
+            Item.value = Item.buyPrice(0, 15, 0, 0);
             Item.buffType = ModContent.BuffType<Buffs.PotionBuffs.AghanimShardBuff>(); // Specify an existing buff to be applied when used.
             Item.buffTime = 36000; // The amount of time the buff declared in Item.buffType will last in ticks. 36000 / 60 is 600, so this buff will last 10 minutes.
         }
@@ -41,8 +42,8 @@ namespace MogMod.Items.Consumables
         public override void AddRecipes()
         {
             CreateRecipe(5).
-                AddIngredient(ItemID.CrystalShard, 4).
-                AddIngredient(ItemID.FallenStar, 3).
+                AddIngredient(ItemID.MagicPowerPotion, 1).
+                AddIngredient(ItemID.ManaRegenerationPotion, 1).
                 AddIngredient(ItemID.Ectoplasm, 2).
                 AddIngredient<UltimateOrb>(1).
                 AddTile(TileID.CrystalBall).

@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
-    public class DaedalusSplitProj : ModProjectile
+    public class DaedalusSplitProj : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override void SetDefaults()
         {
             Projectile.width = 8;

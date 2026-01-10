@@ -1,8 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MogMod.Items.Accessories;
+﻿using MogMod.Items.Accessories;
 using MogMod.Items.Other;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

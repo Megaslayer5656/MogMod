@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Utilities;
-using MonoMod.Core.Utils;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -9,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
-    public class DagonOrb : ModProjectile
+    public class DagonOrb : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         private bool initialized = false;
         public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;

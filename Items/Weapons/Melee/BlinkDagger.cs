@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
 using Terraria.Audio;
@@ -23,6 +18,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.useAnimation = 5;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 5;
+            Item.useTurn = false;
             Item.knockBack = 1f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;

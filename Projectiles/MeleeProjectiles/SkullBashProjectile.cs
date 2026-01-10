@@ -1,16 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Utilities;
-using System;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
-    public class SkullBashProjectile : ModProjectile
+    public class SkullBashProjectile : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         public override void SetStaticDefaults()
         {

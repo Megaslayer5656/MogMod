@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
 using Terraria.Audio;
-using Microsoft.Xna.Framework;
 using MogMod.Utilities;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
@@ -53,7 +48,8 @@ namespace MogMod.Items.Weapons.Melee
             {
                 SoundEngine.PlaySound(bashProc, player.Center);
                 target.AddBuff(BuffID.Dazed, 120);
-                MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<SkullBashProjectile>(), (Item.damage / 2), 0f, player.whoAmI, false, 0f);
+                bool randomBool = random.Next(2) == 0;
+                MogModUtils.ProjectileBarrage(source, target.Center, target.Center, randomBool, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<SkullBashProjectile>(), (Item.damage / 2), 0f, player.whoAmI, false, 0f);
                 skullBash = false;
             }
             if (randChance == 2)

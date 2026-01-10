@@ -1,12 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
-using MogMod.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -19,6 +14,7 @@ namespace MogMod.Items.Weapons.Melee
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
 
+        // these dont actually do anything
         Random random = new Random();
 
         public int attackDamage = 180;
@@ -69,20 +65,20 @@ namespace MogMod.Items.Weapons.Melee
             int centerDamage = (damage / 2);
             Projectile.NewProjectile(source, position, velocity, centerID, centerDamage, knockback, player.whoAmI, 0f, 0f);
 
-            //    // Side projectiles (these deal 75% damage)
-            //    int sideID = ModContent.ProjectileType<DaedalusProj>();
-            //    int sideDamage = ((int)(0.75f * centerDamage) / 2);
-            //    Vector2 originalVelocity = velocity;
-            //    velocity.Normalize();
-            //    velocity *= 22f;
-            //    Vector2 rrp = player.RotatedRelativePoint(player.MountedCenter, true);
-            //    Vector2 leftOffset = velocity.RotatedBy(MathHelper.PiOver4, default);
-            //    Vector2 rightOffset = velocity.RotatedBy(-MathHelper.PiOver4, default);
-            //    leftOffset -= 1.4f * velocity;
-            //    rightOffset -= 1.4f * velocity;
-            //    Projectile.NewProjectile(source, new Vector2(rrp.X + leftOffset.X, rrp.Y + leftOffset.Y), originalVelocity, sideID, sideDamage, knockback, player.whoAmI, 0f, 1f);
-            //    Projectile.NewProjectile(source, new Vector2(rrp.X + rightOffset.X, rrp.Y + rightOffset.Y), originalVelocity, sideID, sideDamage, knockback, player.whoAmI, 0f, 2f);
-            
+            // Side projectiles (these deal 75% damage)
+            int sideID = ModContent.ProjectileType<DaedalusProj>();
+            int sideDamage = ((int)(0.75f * centerDamage) / 2);
+            Vector2 originalVelocity = velocity;
+            velocity.Normalize();
+            velocity *= 22f;
+            Vector2 rrp = player.RotatedRelativePoint(player.MountedCenter, true);
+            Vector2 leftOffset = velocity.RotatedBy(MathHelper.PiOver4, default);
+            Vector2 rightOffset = velocity.RotatedBy(-MathHelper.PiOver4, default);
+            leftOffset -= 1.4f * velocity;
+            rightOffset -= 1.4f * velocity;
+            Projectile.NewProjectile(source, new Vector2(rrp.X + leftOffset.X, rrp.Y + leftOffset.Y), originalVelocity, sideID, sideDamage, knockback, player.whoAmI, 0f, 1f);
+            Projectile.NewProjectile(source, new Vector2(rrp.X + rightOffset.X, rrp.Y + rightOffset.Y), originalVelocity, sideID, sideDamage, knockback, player.whoAmI, 0f, 2f);
+
             hitsound = true;
             return false;
         }

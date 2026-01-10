@@ -2,18 +2,17 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Config;
-using MogMod.Utilities;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using tModPorter;
 
 namespace MogMod.Utilities
 {
     public static partial class MogModUtils
     {
+        #region Setup
         public static T ModProjectile<T>(this Projectile projectile) where T : ModProjectile
         {
             return projectile.ModProjectile as T;
@@ -32,7 +31,9 @@ namespace MogMod.Utilities
 
             return false;
         }
+        #endregion
 
+        #region Projectile Spawning
         // summons projectiles from the sky
         public static Projectile ProjectileRain(IEntitySource source, Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner)
         {
@@ -69,7 +70,7 @@ namespace MogMod.Utilities
             return Projectile.NewProjectileDirect(source, spawnPosition, velocity, projType, damage, knockback, owner);
         }
 
-        // homing code (doesnt work)
+        // homing code (DOES WORK ! ! !)
         public static void HomeInOnNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float inertia)
         {
             if (!projectile.friendly)
@@ -86,6 +87,7 @@ namespace MogMod.Utilities
             // Find the closest target.
             float npcDistCompare = 25000f; // Initializing the value to a large number so the first entry is basically guaranteed to replace it.
             int index = -1;
+            // ignore red line under Main.ActiveNPCs
             foreach (NPC n in Main.ActiveNPCs)
             {
                 float extraDistance = (n.width / 2) + (n.height / 2);
@@ -122,6 +124,81 @@ namespace MogMod.Utilities
             }
         }
 
+        // for magnet sphere like weapons
+        public static void MagnetSphereHitscan(Projectile projectile, float distanceRequired, float homingVelocity, float projectileTimer, int maxTargets, int spawnedProjectile, double damageMult = 1D, bool attackMultiple = false)
+        {
+            // Only shoot once every N frames.
+            projectile.localAI[1] += 1f;
+            if (projectile.localAI[1] > projectileTimer)
+            {
+                projectile.localAI[1] = 0f;
+
+                // Only search for targets if projectiles could be fired.
+                float maxDistance = distanceRequired;
+                bool homeIn = false;
+                int[] targetArray = new int[maxTargets];
+                int targetArrayIndex = 0;
+
+                // once again ignore red line
+                foreach (NPC n in Main.ActiveNPCs)
+                {
+                    if (n.CanBeChasedBy(projectile, false))
+                    {
+                        float extraDistance = (n.width / 2) + (n.height / 2);
+
+                        bool canHit = true;
+                        if (extraDistance < maxDistance)
+                            canHit = Collision.CanHit(projectile.Center, 1, 1, n.Center, 1, 1);
+
+                        if (projectile.WithinRange(n.Center, maxDistance + extraDistance) && canHit)
+                        {
+                            if (targetArrayIndex < maxTargets)
+                            {
+                                targetArray[targetArrayIndex] = n.whoAmI;
+                                targetArrayIndex++;
+                                homeIn = true;
+                            }
+                            else
+                                break;
+                        }
+                    }
+                }
+
+                // If there is anything to actually shoot at, pick targets at random and fire.
+                if (homeIn)
+                {
+                    int randomTarget = Main.rand.Next(targetArrayIndex);
+                    randomTarget = targetArray[randomTarget];
+
+                    projectile.localAI[1] = 0f;
+                    Vector2 spawnPos = projectile.Center + projectile.velocity * 4f;
+                    Vector2 velocity = Vector2.Normalize(Main.npc[randomTarget].Center - spawnPos) * homingVelocity;
+
+                    if (attackMultiple)
+                    {
+                        for (int i = 0; i < targetArrayIndex; i++)
+                        {
+                            velocity = Vector2.Normalize(Main.npc[targetArray[i]].Center - spawnPos) * homingVelocity;
+
+                            if (projectile.owner == Main.myPlayer)
+                            {
+                                int projectile2 = Projectile.NewProjectile(projectile.GetSource_FromThis(), spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
+                            }
+                        }
+
+                        return;
+                    }
+
+                    if (projectile.owner == Main.myPlayer)
+                    {
+                        int projectile2 = Projectile.NewProjectile(projectile.GetSource_FromThis(), spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region Hitboxes
         // expands hitbox
         public static void ExpandHitboxBy(this Projectile projectile, int width, int height)
         {
@@ -170,6 +247,8 @@ namespace MogMod.Utilities
 
             return distanceToClosestPoint <= radius;
         }
+#endregion
+
         #region Projectile Afterimages
         /// <summary>
         /// Draws a projectile as a series of afterimages. The first of these afterimages is centered on the center of the projectile's hitbox.<br />
@@ -263,6 +342,6 @@ namespace MogMod.Utilities
                 }
             }
         }
+        #endregion
     }
 }
-    #endregion

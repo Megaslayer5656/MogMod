@@ -1,31 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
-using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Terraria.Audio;
 using MogMod.Utilities;
-using Mono.Cecil;
-using MogMod.Items.Other;
-using MogMod.Utilities;
 using MogMod.Buffs.Debuffs;
 using MogMod.Projectiles.MeleeProjectiles;
-using MogMod.Projectiles.RangedProjectiles;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class ThunderSeal : ModItem
+    public class ThunderSeal : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         SoundStyle shockStateMeleeProc = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ShockStateMeleeProc")
         {
             Volume = .67f,
             PitchVariance = .02f,
         };
+        
+        // lets you hold right click
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+        }
         public override void SetDefaults()
         {
             Item.width = 99;

@@ -10,7 +10,7 @@ namespace MogMod.Projectiles.MagicProjectiles
 {
     public class AghanimProjectile : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles";
+        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/MagicProjectiles/KayaProjectile";
         public ref float DelayTimer => ref Projectile.ai[1];
         public static readonly Color[] Colors = new Color[]

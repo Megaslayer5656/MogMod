@@ -7,8 +7,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace MogMod.Projectiles.MagicProjectiles
 {
-    public class KayaProjectile : ModProjectile
+    public class KayaProjectile : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override void SetDefaults()
         {
             Projectile.width = 10;

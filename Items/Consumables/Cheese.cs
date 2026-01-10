@@ -8,7 +8,6 @@ namespace MogMod.Items.Consumables
 {
     public class Cheese : ModItem
     {
-
         public override void SetDefaults()
         {
             Item.width = 32;
@@ -22,6 +21,7 @@ namespace MogMod.Items.Consumables
             {
                 Volume = 1.1f,
                 PitchVariance = 0.2f,
+                MaxInstances = 0
             };
             Item.consumable = true;
             Item.potion = true;
@@ -29,6 +29,8 @@ namespace MogMod.Items.Consumables
             Item.healLife = 170;
             Item.rare = ItemRarityID.Quest;
             Item.value = Item.buyPrice(0, 10, 30, 0);
+            Item.buffType = BuffID.WellFed3;
+            Item.buffTime = 3600;
         }
         public override void AddRecipes()
         {

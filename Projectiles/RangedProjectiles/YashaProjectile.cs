@@ -1,7 +1,5 @@
-﻿using Microsoft.Build.Evaluation;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MogMod.Utilities;
-using MonoMod.Core.Utils;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -10,12 +8,13 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
-    public class YashaProjectile : ModProjectile
+    public class YashaProjectile : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.RangedProjectiles";
         private bool initialized = false;
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
@@ -70,7 +69,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                     if (Projectile.owner == Main.myPlayer && Projectile.numHits <= 2)
                     {
                         // proj barrage does (source, Vector2 originVec, Vector2 targetPos, T/F fromRight, xOffsetMin, xOffsetMax, yOffsetMin, yOffsetMax, projSpeed, projType, damage, knockback, owner, T/F clamped, innacuracy)
-                        MogModUtils.ProjectileBarrage(source, Projectile.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<YashaProj>(), Convert.ToInt32(Projectile.damage * .65), 0f, Projectile.owner, false, 0f);
+                        MogModUtils.ProjectileBarrage(source, Projectile.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<YashaProj>(), Convert.ToInt32(Projectile.damage * .8), 0f, Projectile.owner, false, 0f);
                     }
                 }
             }

@@ -12,9 +12,9 @@ namespace MogMod.Buffs.PotionBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             player.statManaMax2 += 100;
-            player.manaRegen += (int)Math.Round(player.manaRegen * .5f);
-            player.manaRegenDelay = .02f;
-            player.GetDamage(DamageClass.Magic) += .10f;
+            player.manaRegen += (int)Math.Round(player.manaRegen * .8f);
+            player.manaRegenDelay = 0f;
+            player.GetDamage(DamageClass.Magic) += .20f;
         }
     }
 }

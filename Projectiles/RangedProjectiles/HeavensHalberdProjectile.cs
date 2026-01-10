@@ -1,7 +1,6 @@
-﻿using Microsoft.Build.Evaluation;
-using Microsoft.Xna.Framework;
+
+﻿using Microsoft.Xna.Framework;
 using MogMod.Utilities;
-using MonoMod.Core.Utils;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -10,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
-    public class HeavensHalberdProjectile : ModProjectile
+    public class HeavensHalberdProjectile : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.RangedProjectiles";
         private bool initialized = false;
         public override void SetStaticDefaults()
         {

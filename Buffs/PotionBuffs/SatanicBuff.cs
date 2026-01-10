@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
 namespace MogMod.Buffs.PotionBuffs
 {
@@ -19,7 +13,7 @@ namespace MogMod.Buffs.PotionBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             // find a way to give life steal to everything using global.item
-            player.lifeSteal += 90;
+            player.lifeSteal *= 4;
         }
     }
 }

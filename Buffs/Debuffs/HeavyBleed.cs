@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria;
-using MogMod.NPCs.Global;
-using Microsoft.Xna.Framework;
 
 namespace MogMod.Buffs.Debuffs
 {
@@ -20,7 +13,7 @@ namespace MogMod.Buffs.Debuffs
             Main.buffNoTimeDisplay[Type] = true;
         }
 
-        public override void Update(NPC npc, ref int buffIndex) //TODO: Fix this it's very broken
+        public override void Update(NPC npc, ref int buffIndex) //TODO: Fix this it's very broken <-- try the slop they do on soma prime in calamity mod
         {
             //var hitInfoHBleed = new NPC.HitInfo //Hit info used in otherNPC.StrikeNPC(hitInfo)
             //{

@@ -4,12 +4,21 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+<<<<<<<< HEAD:Items/Weapons/Mage/MageShotgun.cs
 using Terraria.Social.WeGame;
+namespace MogMod.Items.Weapons.Mage
+========
+
 namespace MogMod.Items.Weapons.Magic
+>>>>>>>> e4ed66c01e9b6963a3de4abdf8f41f9c8ab41a35:Items/Weapons/Magic/MageShotgun.cs
 {
     public class MageShotgun : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+        }
         public override void SetDefaults()
         {
             Item.damage = 50;
