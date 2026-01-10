@@ -56,10 +56,11 @@ namespace MogMod.Items.Weapons.Melee
                 target.AddBuff(BuffID.Dazed, 360);
                 target.AddBuff(BuffID.Slow, 360);
                 target.AddBuff(BuffID.BrokenArmor, 360);
+                bool randomBool = random.Next(2) == 0;
                 for (int i = 0; i < 4; i++)
                 {
                     SoundEngine.PlaySound(bashProc, player.Center);
-                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<SkullBashProjectile>(), Convert.ToInt32(Item.damage / 3.2), 0f, player.whoAmI, false, 0f);
+                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, randomBool, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<SkullBashProjectile>(), Convert.ToInt32(Item.damage / 3.2), 0f, player.whoAmI, false, 0f);
                 }
                 skullBash = false;
             }

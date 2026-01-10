@@ -1,5 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
+using MogMod.Items.Consumables;
+using MogMod.Items.Other;
+using MogMod.Items.Weapons.Magic;
 using MogMod.Projectiles.RangedProjectiles;
 using System;
 using Terraria;
@@ -114,6 +117,17 @@ namespace MogMod.Items.Weapons.Ranged
                     }
             }
             return true;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.BeesKnees, 1).
+                AddIngredient(ItemID.MoltenFury, 1).
+                AddIngredient(ItemID.AnkletoftheWind, 1).
+                AddIngredient(ItemID.JungleSpores, 8).
+                AddIngredient<CraftingRecipe>(1).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

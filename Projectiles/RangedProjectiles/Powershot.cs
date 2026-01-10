@@ -25,7 +25,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.scale = 0.9f;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 200;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 20;
@@ -34,7 +34,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         {
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
-            if (Projectile.timeLeft < 200)
+            if (Projectile.timeLeft < 100)
             {
                 Projectile.tileCollide = true;
             }

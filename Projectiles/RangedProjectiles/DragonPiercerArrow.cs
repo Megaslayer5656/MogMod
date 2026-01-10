@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Utilities;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,26 +11,54 @@ namespace MogMod.Projectiles.RangedProjectiles
     {
         public new string LocalizationCategory => "Projectiles.RangedProjectiles";
         public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
+        NPC potentialTarget = null;
         public override void SetDefaults()
         {
             Projectile.width = 64;
             Projectile.height = 14;
             Projectile.friendly = true;
-            Projectile.timeLeft = 200;
+            Projectile.timeLeft = 119;
             Projectile.penetrate = 1;
+            Projectile.MaxUpdates = 2;
             Projectile.DamageType = DamageClass.Ranged;
+        }
+
+        private Vector2 Recalibrate()
+        {
+            float turnSpeedFactor = (float)Math.Pow(MathHelper.Clamp(Projectile.timeLeft - 40, 0f, 120f) / 120f, 4D);
+            float turnAngle = MathHelper.ToRadians(turnSpeedFactor * 75f);
+
+            Vector2 leftTurnVelocity = Projectile.velocity.RotatedBy(-turnAngle);
+            Vector2 righTurnVelocity = Projectile.velocity.RotatedBy(turnAngle);
+            float leftDirectionImprecision = leftTurnVelocity.AngleBetween(Projectile.SafeDirectionTo(potentialTarget.Center));
+            float rightDirectionImprecision = righTurnVelocity.AngleBetween(Projectile.SafeDirectionTo(potentialTarget.Center));
+            potentialTarget = Projectile.Center.ClosestNPCAt(512f, true);
+
+            if (leftDirectionImprecision < rightDirectionImprecision)
+                return leftTurnVelocity;
+            else
+                return righTurnVelocity;
         }
 
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            Projectile.ai[1] += 1f;
 
-            if (Projectile.timeLeft < 180)
-                Projectile.ai[0] = 1f;
+            if (potentialTarget == null)
+                potentialTarget = Projectile.Center.ClosestNPCAt(512f, true);
 
-            if (Projectile.ai[0] >= 1f)
-                MogModUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 250f, 15f, 20f);
+            if (potentialTarget != null)
+            {
+                float angularTurnSpeed = MathHelper.ToRadians(2.5f);
+                float idealDirection = Projectile.AngleTo(potentialTarget.Center);
+                float updatedDirection = Projectile.velocity.ToRotation().AngleTowards(idealDirection, angularTurnSpeed);
+                Projectile.velocity = updatedDirection.ToRotationVector2() * Projectile.velocity.Length();
+
+                if (Projectile.timeLeft % 6 == 0)
+                {
+                    Projectile.velocity = Recalibrate();
+                }
+            }
         }
         public override void OnKill(int timeLeft)
         {

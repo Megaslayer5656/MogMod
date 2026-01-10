@@ -105,6 +105,13 @@ namespace MogMod.Content
                 .AddIngredient<UltimateOrb>(1)
                 .AddTile(TileID.LihzahrdFurnace)
                 .Register();
+            // anchor weapon
+            Recipe anchorRecipe = Recipe.Create(ItemID.Anchor, 1);
+            anchorRecipe.AddIngredient(ItemID.Rope, 100)
+                .AddRecipeGroup("IronBar", 25)
+                .AddIngredient(ItemID.PirateMap, 1)
+                .AddTile(TileID.Anvils)
+                .Register();
             #endregion
         }
     }

@@ -9,16 +9,16 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
 {
-    public class ArchbeastParagon : ModItem, ILocalizedModType
+    public class DragonPiercer : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public const int HoldoutDistance = 20;
-        public const int MaxCharge = 5;
+        public const int MaxCharge = 3;
         public override void SetDefaults()
         {
             Item.width = 48;
             Item.height = 96;
-            Item.damage = 122;
+            Item.damage = 36;
             Item.knockBack = 3f;
             Item.shootSpeed = 15f;
             Item.useTime = Item.useAnimation = 30;
@@ -28,13 +28,13 @@ namespace MogMod.Items.Weapons.Ranged
             Item.channel = true;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
-            Item.rare = ItemRarityID.Yellow;
+            Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item20;
-            Item.shoot = ModContent.ProjectileType<ArchbeastBowCharge>();
+            Item.shoot = ModContent.ProjectileType<DragonPiercerHoldout>();
             Item.useAmmo = AmmoID.Arrow;
         }
         // TODO: give a right click
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 46;
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 26;
         public override bool AltFunctionUse(Player player) => true;
         public override bool CanUseItem(Player player)
         {
@@ -42,13 +42,13 @@ namespace MogMod.Items.Weapons.Ranged
             {
                 Item.autoReuse = false;
                 Item.channel = false;
-                Item.shoot = ModContent.ProjectileType<ArchbeastHoldout>();
+                Item.shoot = ModContent.ProjectileType<DragonPiercerChargeHold>();
             }
             else
             {
                 Item.autoReuse = true;
                 Item.channel = true;
-                Item.shoot = ModContent.ProjectileType<ArchbeastBowCharge>();
+                Item.shoot = ModContent.ProjectileType<DragonPiercerHoldout>();
             }
             return player.ownedProjectileCounts[Item.shoot] <= 0;
         }
@@ -74,9 +74,9 @@ namespace MogMod.Items.Weapons.Ranged
                 Vector2 shootVelocity = velocity;
                 Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
 
-                Projectile.NewProjectile(source, position, shootDirection, ModContent.ProjectileType<ArchbeastHoldout>(), damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position, shootDirection, ModContent.ProjectileType<DragonPiercerChargeHold>(), damage, knockback, player.whoAmI);
                 // stop player from moving while shooting
-                player.AddBuff(ModContent.BuffType<DragonPiercerShot>(), 200);
+                player.AddBuff(ModContent.BuffType<DragonPiercerShot>(), 120);
                 return false;
             }
             else
@@ -84,15 +84,18 @@ namespace MogMod.Items.Weapons.Ranged
                 Vector2 shootVelocity = velocity;
                 Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
                 // Charge-up. Done via a holdout projectile.
-                Projectile.NewProjectile(source, position, shootDirection, ModContent.ProjectileType<ArchbeastBowCharge>(), damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position, shootDirection, ModContent.ProjectileType<DragonPiercerHoldout>(), damage, knockback, player.whoAmI);
                 return false;
             }
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DragonPiercer>(1).
-                AddIngredient(ItemID.ElectrosphereLauncher, 1).
+                AddIngredient<WindrunnersBow>(1).
+                AddIngredient(ItemID.MagicQuiver, 1).
+                AddIngredient(ItemID.Cog, 48).
+                AddRecipeGroup("AdamantiteBar", 18).
+                AddIngredient(ItemID.WirePipe, 8).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();

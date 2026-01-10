@@ -55,29 +55,6 @@ namespace MogMod.Projectiles.RangedProjectiles
                 shouldShootArrow = true;
             }
 
-            // Sound and dust are separate from the code shooting arrows because they need to run on other clients as well.
-            if (Projectile.soundDelay <= 0)
-            {
-                Projectile.soundDelay = initialShootDelay;
-                // Prevents a shoot sound from playing when the projectile initially spawns
-                if (HoldTimer != numb)
-                {
-                    SoundEngine.PlaySound(SoundID.Item5, player.position);
-                }
-            }
-
-            if (ShootTimer == 1f && HoldTimer != numb)
-            {
-                Vector2 dustSpawnLocation = Projectile.Center + new Vector2(30, 0).RotatedBy(Projectile.rotation - (Projectile.direction == 1 ? 0 : MathHelper.Pi)) - new Vector2(8, 8);
-                for (int i = 0; i < 2; i++)
-                {
-                    var dust = Dust.NewDustDirect(dustSpawnLocation, 16, 16, DustID.IceTorch, Projectile.velocity.X / 2f, Projectile.velocity.Y / 2f, 100);
-                    dust.velocity *= 0.66f;
-                    dust.noGravity = true;
-                    dust.scale = 1.4f;
-                }
-            }
-
             if (shouldShootArrow && Main.myPlayer == Projectile.owner)
             {
                 Item heldItem = player.HeldItem;

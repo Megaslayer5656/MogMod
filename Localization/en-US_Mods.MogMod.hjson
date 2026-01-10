@@ -790,12 +790,23 @@ Items: {
 
 			ThunderSeal: {
 				DisplayName: Thunder Seal
-				Tooltip: ""
+				Tooltip:
+					'''
+					Right click to fire a stun edge
+					Enemies hit by stun edge gain shock state
+					Hitting an enemy afflicted with shock state deals extra damage
+					'A king's blade is not just for show.'
+					'''
 			}
 
 			OversizedAnchor: {
-				Tooltip: ""
 				DisplayName: Oversized Anchor
+				Tooltip:
+					'''
+					Fires a homing dolphin
+					Hitting enemies spawn more dolphins
+					'Totsugeki!'
+					'''
 			}
 		}
 
@@ -886,8 +897,20 @@ Items: {
 				DisplayName: Archbeast Paragon
 				Tooltip:
 					'''
-					Can be charged to increase power
-					Right click to fire a Dragon Piercer
+					Can be charged up to 5 times, doubling damage at max charge
+					Right click to slowly charge up a Dragon Piercer Bolt
+					You are unable to move while charging the Dragon Piercer Bolt
+					'Jumpin' Jaggis, a Rathian!'
+					'''
+			}
+
+			DragonPiercer: {
+				DisplayName: Dragon Piercer
+				Tooltip:
+					'''
+					Can be charged up to 3 times, doubling damage at max charge
+					Right click to charge up a Dragon Piercer Bolt
+					You are unable to move while charging the Dragon Piercer Bolt
 					'''
 			}
 		}
@@ -1503,6 +1526,8 @@ Projectiles: {
 		YashaProjectile.DisplayName: Yasha
 		ArchbeastBowCharge.DisplayName: Archbeast Bow Charge
 		DragonPiercerArrow.DisplayName: Dragon Piercer Arrow
+		DragonPiercerChargeHold.DisplayName: Dragon Piercer Charge Hold
+		DragonPiercerHoldout.DisplayName: Dragon Piercer Holdout
 	}
 
 	MeleeProjectiles: {

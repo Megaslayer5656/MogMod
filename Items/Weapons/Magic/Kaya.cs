@@ -19,16 +19,16 @@ namespace MogMod.Items.Weapons.Magic
         {
             Item.width = 50;
             Item.height = 50;
-            Item.damage = 25; // pretty sure 25 makes it do the same damage as sky fracture, the weapon it upgrades from
+            Item.damage = 30; // pretty sure 25 makes it do the same damage as sky fracture, the weapon it upgrades from
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 15;
+            Item.mana = 23;
             Item.useTime = 3;
             Item.useAnimation = 15;
             Item.reuseDelay = Item.useAnimation + 2;
             Item.useLimitPerAnimation = 5;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
-            Item.knockBack = 7f;
+            Item.knockBack = 5f;
             Item.value = Item.buyPrice(0, 58, 0, 0);
             Item.rare = ItemRarityID.Cyan;
             Item.UseSound = SoundID.Item9;
