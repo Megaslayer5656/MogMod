@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.PotionBuffs;
-using MogMod.Common.Player;
+using MogMod.Common.MogModPlayer;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;

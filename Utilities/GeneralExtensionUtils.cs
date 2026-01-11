@@ -1,4 +1,4 @@
-﻿using MogMod.Common.Player;
+﻿using MogMod.Common.MogModPlayer;
 using MogMod.Projectiles.BaseProjectiles;
 using Terraria;
 

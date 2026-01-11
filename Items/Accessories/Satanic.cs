@@ -1,4 +1,4 @@
-﻿using MogMod.Common.Player;
+﻿using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
 using MogMod.Utilities;
 using System;

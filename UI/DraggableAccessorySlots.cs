@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.UI;
 using MogMod.Common.Systems;
-using MogMod.Common.Player;
+using MogMod.Common.MogModPlayer;
 
 namespace MogMod.UI {
     [Autoload(false)]

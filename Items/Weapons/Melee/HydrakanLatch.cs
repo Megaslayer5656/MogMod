@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using MogMod.Common.Player;
+using MogMod.Common.MogModPlayer;
 using MogMod.Buffs.PotionBuffs;
 
 namespace MogMod.Items.Weapons.Melee

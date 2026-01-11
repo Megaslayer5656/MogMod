@@ -1,12 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Other;
+﻿using MogMod.Items.Other;
 using MogMod.Items.Placeable;
-using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Exceptions;
 namespace MogMod.Items.Accessories
 {
     public class DesperationCharm : ModItem, ILocalizedModType

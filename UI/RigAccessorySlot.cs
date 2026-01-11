@@ -9,7 +9,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria;
-using MogMod.Common.Player;
+using MogMod.Common.MogModPlayer;
 using MogMod.UI;
 using Terraria.UI;
 using MogMod.Items.Accessories;

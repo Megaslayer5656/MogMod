@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.GameContent.ItemDropRules;
-using Terraria.ID;
-using Terraria.Localization;
+﻿using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
-using Terraria.Utilities;
 
 namespace MogMod.Utilities
 {
@@ -33,24 +24,6 @@ namespace MogMod.Utilities
             loot.Add(rule);
             return rule;
         }
-        /// <summary>
-        /// Shorthand for shorthand: Registers an item to drop per-player on the specified condition.<br />
-        /// Intended for lore items, but can be used generally for instanced drops.
-        /// </summary>
-        /// <param name="loot">The ILoot interface for the loot table.</param>
-        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
-        /// <param name="itemID">The item ID to drop.</param>
-        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
-        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
-        /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
-        
-        //public static LeadingConditionRule AddConditionalPerPlayer(this ILoot loot, Func<bool> lambda, int itemID, bool ui = true, string desc = null)
-        //{
-        //    LeadingConditionRule lcr = new(If(lambda, ui, desc));
-        //    lcr.Add(PerPlayer(itemID));
-        //    loot.Add(lcr);
-        //    return lcr;
-        //}
         public static IItemDropRule AddNormalOnly(this ILoot loot, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1)
         {
             return loot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));

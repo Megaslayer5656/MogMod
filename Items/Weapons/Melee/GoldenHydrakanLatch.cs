@@ -1,6 +1,6 @@
 ﻿using Terraria.ModLoader;
 using Terraria;
-using MogMod.Common.Player;
+using MogMod.Common.MogModPlayer;
 using Terraria.ID;
 using MogMod.Buffs.PotionBuffs;
 
