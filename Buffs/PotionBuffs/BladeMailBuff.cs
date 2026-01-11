@@ -10,7 +10,6 @@ namespace MogMod.Buffs.PotionBuffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.thorns += 3f;
             player.thorns += 10f;
         }
     }

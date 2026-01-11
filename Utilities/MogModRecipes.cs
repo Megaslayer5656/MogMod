@@ -78,6 +78,9 @@ namespace MogMod.Content
 
             RecipeGroup DamageClassEmblemGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.WarriorEmblem)}", ItemID.WarriorEmblem, ItemID.RangerEmblem, ItemID.SorcererEmblem, ItemID.SummonerEmblem);
             RecipeGroup.RegisterGroup(nameof(ItemID.WarriorEmblem), DamageClassEmblemGroup);
+
+            RecipeGroup EvilMushroomRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.VileMushroom)}", ItemID.VileMushroom, ItemID.ViciousMushroom);
+            RecipeGroup.RegisterGroup(nameof(ItemID.VileMushroom), EvilMushroomRecipeGroup);
             #endregion
         }
 

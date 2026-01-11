@@ -3,7 +3,6 @@ using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
 using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Utilities;
-using Steamworks;
 using System;
 using System.Collections.Generic;
 using Terraria;

@@ -77,9 +77,7 @@ namespace MogMod.Common.Player
         public static int fierySoulLevelMax = 30;
 
         public Vector2 mouseWorld;
-
         public bool wearingFlameOfCorruption = false;
-        public bool dragonInstallActive;
         public enum MewingType
         {
             mewingguide = 0
@@ -182,14 +180,6 @@ namespace MogMod.Common.Player
                 fierySoulLevel = 0;
             }
             #endregion
-
-            if (Player.HasBuff<DragonInstallBuff>())
-            {
-                dragonInstallActive = true;
-            } else
-            {
-                dragonInstallActive = false;
-            }
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {

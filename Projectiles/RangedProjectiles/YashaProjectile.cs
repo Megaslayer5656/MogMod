@@ -29,6 +29,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             DrawOriginOffsetX = 0;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 40;
+            Projectile.ArmorPenetration = 20;
             Projectile.extraUpdates = 2;
             AIType = ProjectileID.JavelinFriendly;
             Projectile.DamageType = DamageClass.Ranged; 

@@ -11,8 +11,6 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using MogMod.Buffs;
 using System.Net.Http.Headers;
-using MogMod.Common.Player;
-using MogMod.Items.Weapons.Ranged;
 
 namespace MogMod.NPCs.Global
 {

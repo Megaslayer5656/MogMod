@@ -913,6 +913,26 @@ Items: {
 					You are unable to move while charging the Dragon Piercer Bolt
 					'''
 			}
+
+			WitchBlade: {
+				DisplayName: Witch Blade
+				Tooltip:
+					'''
+					Hitting an enemy causes the blade to home in on it
+					Enemies hit get afflicted with Venom
+					'A spiteful blade inadvertently possessed by the soul of its incautious creator.'
+					'''
+			}
+
+			Parasma: {
+				DisplayName: Parasma
+				Tooltip:
+					'''
+					Throw a halberd that explodes into 3 homing bolts on hit
+					Enemies hit get afflicted with Venom
+					'Devastating.'
+					'''
+			}
 		}
 
 		Magic: {
@@ -1162,18 +1182,6 @@ Items: {
 	HealingLotus: {
 		DisplayName: Healing Lotus
 		Tooltip: ""
-	}
-
-	ThunderSeal: {
-		DisplayName: Thunder Seal
-		Tooltip:
-			'''
-			Right click to shoot a projectile
-			The projectile inflicts shock state
-			While in shock state, enemies hit with
-			 the Thunder Seal get shocked
-			'A king's blade is not just for show'
-			'''
 	}
 
 	Clarity: {
@@ -1528,6 +1536,9 @@ Projectiles: {
 		DragonPiercerArrow.DisplayName: Dragon Piercer Arrow
 		DragonPiercerChargeHold.DisplayName: Dragon Piercer Charge Hold
 		DragonPiercerHoldout.DisplayName: Dragon Piercer Holdout
+		WitchBladeProj.DisplayName: Witch Blade Proj
+		ParasmaProj.DisplayName: Parasma Proj
+		ParasmaHomingProj.DisplayName: Parasma Homing Proj
 	}
 
 	MeleeProjectiles: {

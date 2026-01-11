@@ -33,7 +33,6 @@ namespace MogMod.Items.Weapons.Ranged
             Item.shoot = ModContent.ProjectileType<DragonPiercerHoldout>();
             Item.useAmmo = AmmoID.Arrow;
         }
-        // TODO: give a right click
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 26;
         public override bool AltFunctionUse(Player player) => true;
         public override bool CanUseItem(Player player)

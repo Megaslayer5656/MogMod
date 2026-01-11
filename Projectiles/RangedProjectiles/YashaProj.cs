@@ -27,6 +27,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.timeLeft = 600;
             Projectile.penetrate = -1;
             Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ArmorPenetration = 20;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
             Projectile.scale = 1f;
