@@ -8,11 +8,7 @@ namespace MogMod.Projectiles.RangedProjectiles
 {
     public class GreenTracerProj : ModProjectile, ILocalizedModType
     {
-<<<<<<<< HEAD:Projectiles/GreenTracerProj.cs
-        public new string LocalizationCategory => "Projectiles";
-========
         public new string LocalizationCategory => "Projectiles.RangedProjectiles";
->>>>>>>> e4ed66c01e9b6963a3de4abdf8f41f9c8ab41a35:Projectiles/RangedProjectiles/GreenTracerProj.cs
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 5;

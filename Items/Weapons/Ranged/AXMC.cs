@@ -45,13 +45,6 @@ namespace MogMod.Items.Weapons.Ranged
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             type = ModContent.ProjectileType<APLapua>();
-            Vector2 muzzleOffset = Vector2.Normalize(velocity) * 25f;
-            Vector2 leftOffset = new Vector2(67f, .5f); //That number isn't even a joke, it's somehow the offset that looks the best
-            position += leftOffset;
-            if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
-            {
-                position += muzzleOffset;
-            }
         }
 
         public override bool AltFunctionUse(Player player)

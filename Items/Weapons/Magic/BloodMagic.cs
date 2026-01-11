@@ -33,7 +33,7 @@ namespace MogMod.Items.Weapons.Magic
             CreateRecipe().
               AddIngredient(ItemID.Book, 1).
               AddRecipeGroup("CrimtaneBar", 15).
-              AddRecipeGroup("TissueSample", 10).
+              AddIngredient(ItemID.Deathweed, 5).
               AddTile(TileID.Bookcases).
               Register();
         }
