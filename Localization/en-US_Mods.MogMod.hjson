@@ -1232,6 +1232,11 @@ Items: {
 			'Said to be a tear from the lunar goddess Selemene.'
 			'''
 	}
+
+	ObserverWard: {
+		DisplayName: Observer Ward
+		Tooltip: ""
+	}
 }
 
 NPCs: {

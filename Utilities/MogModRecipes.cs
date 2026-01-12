@@ -82,6 +82,9 @@ namespace MogMod.Content
 
             RecipeGroup EvilMushroomRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.VileMushroom)}", ItemID.VileMushroom, ItemID.ViciousMushroom);
             RecipeGroup.RegisterGroup(nameof(ItemID.VileMushroom), EvilMushroomRecipeGroup);
+
+            RecipeGroup VertebraeRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.Vertebrae)}", ItemID.Vertebrae, ItemID.RottenChunk);
+            RecipeGroup.RegisterGroup(nameof(ItemID.Vertebrae), VertebraeRecipeGroup);
             #endregion
         }
 

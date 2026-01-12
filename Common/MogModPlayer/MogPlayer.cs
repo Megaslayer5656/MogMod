@@ -181,13 +181,18 @@ namespace MogMod.Common.MogModPlayer
                 fierySoulLevel = 0;
             }
 
-            if (Player.HasBuff<DragonInstallBuff>())
+            if (Player.HasBuff<DragonInstallBuff>() && wearingFlameOfCorruption)
             {
                 dragonInstallActive = true;
             }
             else
             {
                 dragonInstallActive = false;
+            }
+
+            if (!wearingFlameOfCorruption && Player.HasBuff<DragonInstallBuff>())
+            {
+                Player.ClearBuff(ModContent.BuffType<DragonInstallBuff>());
             }
             #endregion
         }
@@ -201,6 +206,11 @@ namespace MogMod.Common.MogModPlayer
                         target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 600);
                     }
                 }
+
+            if (Player.HasBuff<DragonInstallBuff>())
+            {
+                target.AddBuff(BuffID.Daybreak, 600);
+            }
         }
         public override void OnHitByNPC(NPC npc, Terraria.Player.HurtInfo hurtInfo)
         {
@@ -527,11 +537,11 @@ namespace MogMod.Common.MogModPlayer
 
                     int dustPos = 20;
 
-                    int shiva1 = Dust.NewDust(Entity.Center, dustPos, dustPos, DustID.SnowSpray, dustVelocity.X * 3, dustVelocity.Y * 3, 0, default, 3f);
+                    int shiva1 = Dust.NewDust(Player.Center, dustPos, dustPos, DustID.SnowSpray, dustVelocity.X * 3, dustVelocity.Y * 3, 0, default, 3f);
                     Main.dust[shiva1].noGravity = true;
                     Main.dust[shiva1].fadeIn = 5f;
                     Main.dust[shiva1].velocity *= 3f;
-                    int shiva2 = Dust.NewDust(Entity.Center, dustPos-5, dustPos-5, DustID.Snow, dustVelocity.X * 2, dustVelocity.Y * 2, 0, Color.White, 9f);
+                    int shiva2 = Dust.NewDust(Player.Center, dustPos-5, dustPos-5, DustID.Snow, dustVelocity.X * 2, dustVelocity.Y * 2, 0, Color.White, 9f);
                     Main.dust[shiva2].noGravity = true;
                     Main.dust[shiva2].fadeIn = 5f;
                     Main.dust[shiva2].velocity *= 3f;
@@ -543,7 +553,23 @@ namespace MogMod.Common.MogModPlayer
             {
                 Player.AddBuff(dragonInstall, 6000); //These values are temporary
                 Player.AddBuff(dragonInstallCooldown, 12000);
-                //I still have to make the keybind (don't wanna on github web it sucks)
+                for (int i = 0; i < 80; i++)
+                {
+                    Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                    dustVelocity.Normalize();
+                    dustVelocity *= 2;
+
+                    int dustPos = 20;
+
+                    int DI1 = Dust.NewDust(Player.Center, dustPos, dustPos, DustID.CrimsonTorch, dustVelocity.X * 3, dustVelocity.Y * 3, 0, default, 1f);
+                    Main.dust[DI1].noGravity = true;
+                    Main.dust[DI1].fadeIn = 2f;
+                    Main.dust[DI1].velocity *= 3f;
+                    int DI2 = Dust.NewDust(Player.Center, dustPos - 5, dustPos - 5, DustID.Blood, dustVelocity.X * 2, dustVelocity.Y * 2, 0, Color.Red, 2f);
+                    Main.dust[DI2].noGravity = true;
+                    Main.dust[DI2].fadeIn = 2f;
+                    Main.dust[DI2].velocity *= 3f;
+                }
             }
             
             // armlet timer
