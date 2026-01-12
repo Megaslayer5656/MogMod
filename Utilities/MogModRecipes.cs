@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Consumables;
+using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -113,6 +114,13 @@ namespace MogMod.Content
             anchorRecipe.AddIngredient(ItemID.Rope, 100)
                 .AddRecipeGroup("IronBar", 25)
                 .AddIngredient(ItemID.PirateMap, 1)
+                .AddTile(TileID.Anvils)
+                .Register();
+            // magic missle weapon
+            Recipe magicMissileRecipe = Recipe.Create(ItemID.MagicMissile, 1);
+            magicMissileRecipe.AddIngredient(ItemID.DiamondStaff, 1)
+                .AddIngredient(ItemID.Bone, 40)
+                .AddIngredient<HealingLotus>(3)
                 .AddTile(TileID.Anvils)
                 .Register();
             #endregion

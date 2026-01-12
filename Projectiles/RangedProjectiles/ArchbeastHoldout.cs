@@ -168,7 +168,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                         if (ammoConsumed)
                         {
                             var source = player.GetSource_ItemUse_WithPotentialAmmo(heldItem, usedAmmoItemId);
-                            Projectile.NewProjectile(source, spawnLocation, Vector2.Normalize(Projectile.velocity) * (speed * 2), ModContent.ProjectileType<ArchbeastArrow>(), damage * 8, knockBack * 5, Projectile.owner);
+                            Projectile.NewProjectile(source, spawnLocation, Vector2.Normalize(Projectile.velocity) * (speed * 2), ModContent.ProjectileType<ArchbeastArrow>(), damage * 15, knockBack * 5, Projectile.owner);
                         }
                     }
                     Projectile.Kill();

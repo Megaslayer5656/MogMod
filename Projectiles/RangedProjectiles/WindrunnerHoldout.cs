@@ -82,7 +82,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                         {
                             var source = player.GetSource_ItemUse_WithPotentialAmmo(heldItem, usedAmmoItemId);
                             // change to custom inf pierce proj
-                            Projectile.NewProjectile(source, spawnLocation, Vector2.Normalize(Projectile.velocity) * (speed * 2), ModContent.ProjectileType<Powershot>(), damage * 6, knockBack * 3, Projectile.owner);
+                            Projectile.NewProjectile(source, spawnLocation, Vector2.Normalize(Projectile.velocity) * (speed * 2), ModContent.ProjectileType<Powershot>(), damage * 10, knockBack * 3, Projectile.owner);
                         }
                     }
                     Projectile.Kill();

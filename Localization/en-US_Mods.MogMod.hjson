@@ -808,6 +808,17 @@ Items: {
 					'Totsugeki!'
 					'''
 			}
+
+			Desolator: {
+				DisplayName: Desolator
+				Tooltip:
+					'''
+					Shoots a deadly sickle that bursts into 4 smaller homing sickles
+					Deals more damage the lower life you have
+					Attacks lower defense and bleed out enemies
+					'A wicked weapon, used in torturing political criminals.'
+					'''
+			}
 		}
 
 		Ranged: {
@@ -1069,6 +1080,17 @@ Items: {
 					Launches 3 orbs that fire homing lifestealing beams
 					'A reviled blade that bites deeper with 
 					each wriggle of its victim's final throes.'
+					'''
+			}
+
+			AghanimBlessing: {
+				DisplayName: Aghanim's Blessing
+				Tooltip:
+					'''
+					Fires three randomized homing beams
+					On hit, beams either explode, summon additional beams from the sky, or split into homing bolts
+					Attacks also have a small chance to summon a portal, casting a slow laser at any nearby enemy
+					'The scepter of a wizard with god-like powers.'
 					'''
 			}
 		}
@@ -1512,6 +1534,12 @@ Projectiles: {
 		MeteorHammerProjectile.DisplayName: World-Ending Meteor
 		OrchidOrb.DisplayName: Orchid Malevolence
 		PhylacteryBeam.DisplayName: Phylactery
+		AghanimBlessingProj.DisplayName: Aghanim Blessing Proj
+		AghanimLaser.DisplayName: Aghanim Laser
+		AghanimPortal.DisplayName: Aghanim Portal
+		AghanimExplosion.DisplayName: Aghanim Explosion
+		AghanimSkyProj.DisplayName: Aghanim Sky Proj
+		AghanimHomingProj.DisplayName: Aghanim Homing Proj
 	}
 
 	RangedProjectiles: {
@@ -1552,6 +1580,8 @@ Projectiles: {
 		SkullBashProjectile.DisplayName: Skull Bash Projectile
 		StunEdge.DisplayName: Stun Edge
 		ThunderSealProj.DisplayName: Thunder Seal Proj
+		DesolatorHomingProj.DisplayName: Desolator Homing Proj
+		DesolatorProj.DisplayName: Desolator Proj
 	}
 
 	VonNade.DisplayName: Von Nade

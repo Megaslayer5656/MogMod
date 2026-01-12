@@ -44,9 +44,10 @@ namespace MogMod.Items.Consumables
         {
             CreateRecipe(3).
                 AddIngredient(ItemID.HealingPotion, 3).
+                AddIngredient(ItemID.RegenerationPotion, 1).
                 AddIngredient(ItemID.Moonglow, 2).
                 AddIngredient(ItemID.Daybloom, 1).
-                AddTile(TileID.Bottles).
+                AddTile(TileID.AlchemyTable).
                 Register();
         }
     }

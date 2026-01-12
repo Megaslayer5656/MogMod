@@ -1,14 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
-using System;
-using Terraria.DataStructures;
-using Terraria.Localization;
-using System.IO;
+﻿using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
+
 namespace MogMod.Items.Other
 {
     public class RajangHeart : ModItem

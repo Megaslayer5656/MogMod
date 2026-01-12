@@ -24,10 +24,6 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            // only applies effect when ABOVE base full health NOT max health with buffs
-            // >= is above base max health
-            // <= is when below base max health
-            // == is when AT base max health
             if (player.statLife >= (player.statLifeMax2 * 1))
             {
                 player.GetDamage(DamageClass.Generic) += 0.35f;

@@ -27,7 +27,7 @@ namespace MogMod.Items.Weapons.Melee
 
         public static readonly SoundStyle daedalusSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/DaedalusCrit") //Shot sound effect
         {
-            Volume = 1.4f,
+            Volume = 0.2f,
             PitchVariance = .2f
         };
         public override void SetDefaults()
@@ -141,7 +141,7 @@ namespace MogMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient<Crystalys>(1).
                 AddIngredient(ItemID.PiercingStarlight, 1).
-                AddIngredient(ItemID.FragmentSolar, 8).
+                AddIngredient(ItemID.LunarBar, 15).
                 AddIngredient<UltimateOrb>(3).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.LunarCraftingStation).

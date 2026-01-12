@@ -11,8 +11,6 @@ namespace MogMod.Items.Weapons.Magic
     public class AghanimScepter : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
-
-        // CHANGE SPRITE TO WAND
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true; //so it doesn't look weird af when holding it
@@ -25,9 +23,9 @@ namespace MogMod.Items.Weapons.Magic
             Item.DamageType = DamageClass.Magic;
             Item.mana = 40;
             Item.useTime = 2;
-            Item.useAnimation = 15;
+            Item.useAnimation = 20;
             Item.reuseDelay = Item.useAnimation + 2;
-            Item.useLimitPerAnimation = 30;
+            Item.useLimitPerAnimation = 10;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 7f;

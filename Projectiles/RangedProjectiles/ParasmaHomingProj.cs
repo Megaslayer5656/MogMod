@@ -16,17 +16,18 @@ namespace MogMod.Projectiles.RangedProjectiles
         {
             Projectile.width = 10;
             Projectile.height = 10;
-            //Projectile.extraUpdates = 70; makes it really fast, almost like a laser
+            //Projectile.extraUpdates = 70; //makes it really fast, almost like a laser
             Projectile.friendly = true;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 200;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
+            Projectile.ArmorPenetration = 20;
         }
         public override void AI()
         {
             Projectile.localAI[1] += 1f;
-            if (Projectile.timeLeft < 270)
+            if (Projectile.timeLeft < 170)
                 Projectile.ai[0] = 1f;
 
             if (Projectile.ai[0] >= 1f)
@@ -78,13 +79,13 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (Projectile.timeLeft >= 270)
+            if (Projectile.timeLeft >= 170)
             {
                 return false;
             }
             return null;
         }
 
-        public override bool CanHitPvp(Player target) => Projectile.timeLeft < 270;
+        public override bool CanHitPvp(Player target) => Projectile.timeLeft < 170;
     }
 }

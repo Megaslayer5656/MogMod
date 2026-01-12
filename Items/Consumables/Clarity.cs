@@ -41,9 +41,10 @@ namespace MogMod.Items.Consumables
         {
             CreateRecipe(3).
                 AddIngredient(ItemID.ManaPotion, 3).
+                AddIngredient(ItemID.ManaRegenerationPotion, 1).
                 AddIngredient(ItemID.Shiverthorn, 2).
                 AddIngredient(ItemID.Waterleaf, 1).
-                AddTile(TileID.Bottles).
+                AddTile(TileID.AlchemyTable).
                 Register();
         }
     }

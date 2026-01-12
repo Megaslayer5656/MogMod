@@ -15,7 +15,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         public ref float DelayTimer => ref Projectile.ai[1];
         public static readonly Color[] Colors = new Color[]
             {
-                new Color(110, 0, 255, 50), //Violet
+                new Color(0, 0, 255, 50), //Violet
             };
         public override void SetStaticDefaults()
         {
@@ -52,7 +52,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                     dustRotate += -Vector2.UnitY.RotatedBy((double)((float)dustIncr * (6.28318548f / dustLoopcheck)), default) * new Vector2(1f, 4f);
                     dustRotate = dustRotate.RotatedBy((double)Projectile.velocity.ToRotation(), default);
                     // Change Color.___ to change the spawning dust color
-                    int deepRed = Dust.NewDust(Projectile.Center, 0, 0, DustID.RainbowTorch, 0f, 0f, 0, Color.BlueViolet, 1f);
+                    int deepRed = Dust.NewDust(Projectile.Center, 0, 0, DustID.RainbowTorch, 0f, 0f, 0, Color.RoyalBlue, 1f);
                     Main.dust[deepRed].scale = 1.5f;
                     Main.dust[deepRed].noGravity = true;
                     Main.dust[deepRed].position = Projectile.Center + dustRotate;
@@ -67,7 +67,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 Projectile.ai[0] = 1f;
 
             if (Projectile.ai[0] >= 1f)
-                MogModUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 250f, 8f, 20f);
+                MogModUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 250f, 12f, 18f);
         }
 
         public override void OnKill(int timeLeft)
@@ -78,7 +78,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             for (int d = 0; d < dustAmt; d++)
             {
                 // Change Color.___ to change the on kill dust color
-                int fire = Dust.NewDust(Projectile.Center, 0, 0, DustID.RainbowTorch, 0f, 0f, 100, Color.BlueViolet, 1f);
+                int fire = Dust.NewDust(Projectile.Center, 0, 0, DustID.RainbowTorch, 0f, 0f, 100, Color.RoyalBlue, 1f);
                 Dust dust = Main.dust[fire];
                 dust.velocity *= 1.6f;
                 dust.velocity.Y -= 1f;
@@ -92,7 +92,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         //new Color(0, 255, 255, 50), //Cyan
         //new Color(0, 128, 255, 50), //Light Blue
         //new Color(0, 0, 255, 50), //Blue
-        public override Color? GetAlpha(Color lightColor) => new Color(110, 0, 255, 50);
+        public override Color? GetAlpha(Color lightColor) => new Color(0, 0, 255, 50);
 
         public override bool PreDraw(ref Color lightColor)
         {
