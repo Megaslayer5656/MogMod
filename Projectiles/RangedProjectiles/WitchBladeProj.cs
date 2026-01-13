@@ -27,8 +27,8 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 1;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.usesIDStaticNPCImmunity = false;
-            Projectile.idStaticNPCHitCooldown = 30;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 30;
         }
 
         public override void AI()

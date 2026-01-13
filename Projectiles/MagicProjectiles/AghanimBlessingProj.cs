@@ -13,6 +13,7 @@ namespace MogMod.Projectiles.MagicProjectiles
     {
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         Random random = new Random();
         private bool initialized = false;
         private bool orbSpawn = false;
@@ -24,6 +25,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
             Projectile.penetrate = 1;
             Projectile.extraUpdates = 70;
             Projectile.timeLeft = 200;
@@ -141,34 +143,19 @@ namespace MogMod.Projectiles.MagicProjectiles
                 }
             }
         }
-        // make it summon either giant homing orb or lots of bolts using switch and case slop
         private void SummonLasers()
         {
             var source = Projectile.GetSource_FromThis();
-            switch (Projectile.ai[1])
+            float spread = 30f * 0.01f * MathHelper.PiOver2;
+            float velocityNumb = 10f;
+            double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
+            double deltaAngle = spread / 8f;
+            double offsetAngle;
+            for (int i = 0; i < 2; i++)
             {
-                case 0f:
-                    Projectile.NewProjectile(source, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AghanimExplosion>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
-                    break;
-                case 1f:
-                    SoundEngine.PlaySound(SoundID.NPCDeath55, Projectile.Center);
-                    for (int n = 0; n < 3; n++)
-                    {
-                        MogModUtils.ProjectileRain(source, Projectile.Center, 100f, 50f, 1500f, 1500f, 10f, ModContent.ProjectileType<AghanimSkyProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    }
-                    break;
-                case 2f:
-                    float spread = 30f * 0.01f * MathHelper.PiOver2;
-                    double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
-                    double deltaAngle = spread / 8f;
-                    double offsetAngle;
-                    for (int i = 0; i < 2; i++)
-                    {
-                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 8f * i;
-                        Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AghanimHomingProj>(), Convert.ToInt32(Projectile.damage * .5), Projectile.knockBack, Projectile.owner);
-                        Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AghanimHomingProj>(), Convert.ToInt32(Projectile.damage * .5), Projectile.knockBack, Projectile.owner);
-                    }
-                    break;
+                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 8f * i;
+                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * velocityNumb), (float)(Math.Cos(offsetAngle) * velocityNumb), ModContent.ProjectileType<AghanimHomingProj>(), Convert.ToInt32(Projectile.damage * .5), Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * velocityNumb), (float)(-Math.Cos(offsetAngle) * velocityNumb), ModContent.ProjectileType<AghanimHomingProj>(), Convert.ToInt32(Projectile.damage * .5), Projectile.knockBack, Projectile.owner);
             }
         }
         private void SummonOrb()
@@ -178,10 +165,11 @@ namespace MogMod.Projectiles.MagicProjectiles
             double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
             double deltaAngle = spread / 8f;
             double offsetAngle;
+            float randNumb = random.Next(-15, 15);
             for (int i = 0; i < 1; i++)
             {
                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 8f * i;
-                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AghanimPortal>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * randNumb), (float)(Math.Cos(offsetAngle) * randNumb), ModContent.ProjectileType<AghanimPortal>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
     }

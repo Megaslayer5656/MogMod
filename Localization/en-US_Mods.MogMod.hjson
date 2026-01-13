@@ -1087,8 +1087,8 @@ Items: {
 				DisplayName: Aghanim's Blessing
 				Tooltip:
 					'''
-					Fires three randomized homing beams
-					On hit, beams either explode, summon additional beams from the sky, or split into homing bolts
+					Fires five homing beams
+					On hit beams split into homing bolts
 					Attacks also have a small chance to summon a portal, casting a slow laser at any nearby enemy
 					'The scepter of a wizard with god-like powers.'
 					'''
@@ -1235,7 +1235,28 @@ Items: {
 
 	ObserverWard: {
 		DisplayName: Observer Ward
+	EvilAPLapuaAmmo: {
+		DisplayName: Evil AP Lapua Ammo
+		Tooltip: Homes in on enemies after a short time
+	}
+
+	DesperateMusicBox: {
+		DisplayName: Desperate Music Box
 		Tooltip: ""
+	}
+
+	RideTheFireMusicBox: {
+		DisplayName: Ride The Fire Music Box
+		Tooltip: ""
+	}
+
+	ShrapnalBullet: {
+		DisplayName: Shrapnel Bullet
+		Tooltip:
+			'''
+			Rains down additional bullets from the sky
+			'Shrapnel!'
+			'''
 	}
 }
 
@@ -1572,6 +1593,9 @@ Projectiles: {
 		WitchBladeProj.DisplayName: Witch Blade Proj
 		ParasmaProj.DisplayName: Parasma Proj
 		ParasmaHomingProj.DisplayName: Parasma Homing Proj
+		EvilAPLapua.DisplayName: Evil A P Lapua
+		ShrapnalProj.DisplayName: Shrapnal Proj
+		ShrapnalSkyProj.DisplayName: Shrapnal Sky Proj
 	}
 
 	MeleeProjectiles: {

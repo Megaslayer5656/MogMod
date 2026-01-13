@@ -24,10 +24,10 @@ namespace MogMod.Items.Weapons.Magic
             Item.damage = 100;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 50;
-            Item.useTime = 5;
+            Item.useTime = 3;
             Item.useAnimation = 15;
             Item.reuseDelay = Item.useAnimation + 2;
-            Item.useLimitPerAnimation = 3;
+            Item.useLimitPerAnimation = 5;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 8f;

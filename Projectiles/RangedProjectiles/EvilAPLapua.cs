@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using MogMod.Utilities;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -6,15 +7,15 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
-    public class GreenTracerProj : ModProjectile, ILocalizedModType
+    public class EvilAPLapua : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.RangedProjectiles";
+        public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 5;
             ProjectileID.Sets.TrailingMode[Type] = 0;
         }
-
         public override void SetDefaults()
         {
             Projectile.width = 8;
@@ -24,10 +25,10 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.hostile = false;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 200;
             Projectile.light = .5f;
             Projectile.ignoreWater = true;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
             Projectile.extraUpdates = 1;
             Projectile.scale = .60f;
 
@@ -35,19 +36,38 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override void AI()
         {
-            for (int k = 0; k < 1; k++)
+            Projectile.localAI[1] += 1f;
+            if (Projectile.timeLeft < 170)
+                Projectile.velocity *= 0.932f;
+
+            if (Projectile.timeLeft < 140)
+                Projectile.ai[0] = 1f;
+
+            if (Projectile.ai[0] >= 1f)
             {
-                Dust dust = Dust.NewDustPerfect(Projectile.position, DustID.TerraBlade, Projectile.velocity, 100, default, 0.5f);
-                dust.noGravity = true;
-                dust.noLight = true;
+                MogModUtils.HomeInOnNPC(Projectile, true, 800f, 15f, 15f);
+                Projectile.extraUpdates = 70;
+            }
+
+            if (Projectile.localAI[1] > 4f)
+            {
+                for (int k = 0; k < 1; k++)
+                {
+                    Dust dust = Dust.NewDustPerfect(Projectile.position, DustID.RainbowMk2, Projectile.velocity, 100, Color.BlueViolet, 1f);
+                    dust.noGravity = true;
+                }
             }
         }
-        public override bool OnTileCollide(Vector2 oldVelocity)
+        public override bool? CanHitNPC(NPC target)
         {
-         Projectile.Kill();
-            return false;
+            if (Projectile.ai[0] < 1f)
+            {
+                return false;
+            }
+            return null;
         }
 
+        public override bool CanHitPvp(Player target) => Projectile.ai[0] < 1f;
         public override void OnKill(int timeLeft)
         {
             Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);

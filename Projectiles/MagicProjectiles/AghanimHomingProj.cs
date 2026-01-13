@@ -11,7 +11,6 @@ namespace MogMod.Projectiles.RangedProjectiles
     {
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
-
         public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
@@ -36,10 +35,21 @@ namespace MogMod.Projectiles.RangedProjectiles
             }
             if (Projectile.localAI[1] > 4f)
             {
-                for (int k = 0; k < 4; k++)
+                for (int k = 0; k < 1; k++)
                 {
                     Dust dust = Dust.NewDustPerfect(Projectile.position, DustID.RainbowMk2, Projectile.velocity, 100, Color.BlueViolet, 1f);
                     dust.noGravity = true;
+                }
+                Vector2 value7 = new Vector2(5f, 10f);
+                for (int dust = 0; dust < 1; dust++)
+                {
+                    Vector2 dustPosOffset = Vector2.UnitX * -12f;
+                    dustPosOffset = -Vector2.UnitY.RotatedBy((double)(Projectile.ai[1] * 0.1308997f + (float)dust * Math.PI), default) * value7 - Projectile.rotation.ToRotationVector2() * 10f;
+                    Dust outerDust = Dust.NewDustPerfect(Projectile.Center, DustID.RainbowTorch, Projectile.velocity, 160, Color.MediumPurple, 1f);
+                    outerDust.scale = 0.75f;
+                    outerDust.noGravity = true;
+                    outerDust.position = Projectile.Center + dustPosOffset;
+                    outerDust.velocity = Projectile.velocity;
                 }
             }
         }
@@ -59,7 +69,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.width = Projectile.height = 16;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            int dustAmt = 24;
+            int dustAmt = 12;
             for (int j = 0; j < dustAmt; j++)
             {
                 Vector2 dustRotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f; //0.75

@@ -13,9 +13,9 @@ namespace MogMod.Projectiles.MagicProjectiles
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/MagicProjectiles/KhandaBeam";
         public override float MaxScale => 1.8f;
-        public override float MaxLaserLength => 2500f;
-        public override float Lifetime => 560f;
-        public override Color LightCastColor => Color.White;
+        public override float MaxLaserLength => 1500f;
+        public override float Lifetime => 530f;
+        public override Color LightCastColor => Color.BlueViolet;
         public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryStart", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryMid", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryEnd", AssetRequestMode.ImmediateLoad).Value;
@@ -44,7 +44,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 for (int k = 0; k < totalBubbles; k++)
                 {
                     Dust nebulaBubble = Dust.NewDustPerfect(Projectile.Center, DustID.RainbowTorch, Projectile.velocity, 0, Color.DarkViolet);
-                    nebulaBubble.scale = Main.rand.NextFloat(.6f, .8f);
+                    nebulaBubble.scale = Main.rand.NextFloat(1.6f, 1.8f);
                     nebulaBubble.noGravity = true;
                 }
             }

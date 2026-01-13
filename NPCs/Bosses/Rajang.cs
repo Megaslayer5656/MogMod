@@ -37,7 +37,7 @@ namespace MogMod.NPCs.Bosses
             NPC.lifeMax = 33500;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            NPC.value = Item.buyPrice(1, 60, 0, 0);
+            NPC.value = Item.buyPrice(0, 60, 0, 0);
             NPC.knockBackResist = 0f;
             NPC.boss = true;
             NPC.lavaImmune = true;

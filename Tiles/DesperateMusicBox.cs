@@ -2,7 +2,7 @@
 
 namespace MogMod.Tiles
 {
-    public class BizarreMusicBox : MusicBoxTile
+    public class DesperateMusicBox : MusicBoxTile
     {
     }
 }

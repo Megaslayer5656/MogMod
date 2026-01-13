@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Utilities;
-using MonoMod.Core.Utils;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -42,7 +41,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 Projectile.velocity *= 0.882f;
 
             NPC target = Projectile.Center.ClosestNPCAt(800);
-            if ((Projectile.timeLeft == 570) && target != null)
+            if ((Projectile.timeLeft == 550) && target != null)
             {
                 MogModUtils.MagnetSphereHitscan(Projectile, Vector2.Distance(Projectile.Center, target.Center), 8f, 0, 3, ModContent.ProjectileType<AghanimLaser>(), 1D, true);
             }

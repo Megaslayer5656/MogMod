@@ -45,6 +45,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.noUseGraphic = true;
             Item.DamageType = DamageClass.Ranged;
             Item.channel = false;
+            Item.ArmorPenetration = 10;
         }
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 21;
         // so it doesnt look weird
