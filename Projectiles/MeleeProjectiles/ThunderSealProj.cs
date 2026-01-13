@@ -2,6 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
+using Terraria.Audio;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
@@ -9,6 +10,11 @@ namespace MogMod.Projectiles.MeleeProjectiles
     {
         public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
+        public static readonly SoundStyle shockStateMeleeProc = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ShockStateMeleeProc")
+        {
+            Volume = .67f,
+            PitchVariance = .02f,
+        };
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
@@ -46,5 +52,14 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Main.dust[Bolt].velocity *= 0.8f;
             Main.dust[Bolt].noLight = false;
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.DelBuff(target.FindBuffIndex(ModContent.BuffType<ShockState>())); //Does this fix the sync? Hopefully, I can't test rn
+        }
+
+         public override void OnSpawn(IEntitySource source)
+         {
+             SoundEngine.PlaySound(shockStateMeleeProc, Projectile.Center);
+         }
     }
 }
