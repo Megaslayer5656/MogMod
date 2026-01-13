@@ -14,6 +14,11 @@ namespace MogMod.Projectiles.MeleeProjectiles
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
+        public static readonly SoundStyle bashProc = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/SkullBash")
+        {
+            Volume = 1.3f,
+            PitchVariance = .2f
+        };
         public override void SetDefaults()
         {
             Projectile.width = 4;
@@ -42,6 +47,10 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Main.dust[suvass].alpha = 200;
             Main.dust[suvass].velocity *= 1.4f;
             Main.dust[suvass].scale += Main.rand.NextFloat();
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+        SoundEngine.PlaySound(bashProc, Projectile.Center);
         }
     }
 }
