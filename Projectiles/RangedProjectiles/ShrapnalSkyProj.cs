@@ -24,7 +24,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.tileCollide = false;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 200;
+            Projectile.timeLeft = 150;
             Projectile.light = 1f;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
@@ -58,7 +58,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 Main.dust[d].position = Projectile.Center;
                 Main.dust[d].noLight = true;
             }
-            if (Projectile.timeLeft < 150)
+            if (Projectile.timeLeft < 120)
             {
                 Projectile.tileCollide = true;
             }

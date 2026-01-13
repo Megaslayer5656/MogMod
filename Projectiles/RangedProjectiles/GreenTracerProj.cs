@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.Debuffs;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -41,6 +42,14 @@ namespace MogMod.Projectiles.RangedProjectiles
                 dust.noGravity = true;
                 dust.noLight = true;
             }
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<GreenTracerDebuff>(), 600);
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            target.AddBuff(ModContent.BuffType<GreenTracerDebuff>(), 600);
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

@@ -29,5 +29,420 @@ Mods: {
 		}
 
 		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage
+
+		Configs: {
+			RigSlotConfig: {
+				ShowCustomLocationPanel: {
+					Label: Show Custom Location Panel
+					Tooltip: ""
+				}
+
+				DisplayName: Rig Slot Config
+				Headers.SlotLocation: Slot Location Header
+
+				SlotLocation: {
+					Label: Slot Location
+					Tooltip: ""
+				}
+
+				ResetCustomSlotLocation: {
+					Label: Reset Custom Slot Location
+					Tooltip: ""
+				}
+			}
+
+			MogClientConfig: {
+				DisplayName: Mog Client Config
+				Headers.Graphics: Graphics Header
+
+				Afterimages: {
+					Label: Afterimages
+					Tooltip: ""
+				}
+			}
+
+			Location: {
+				Tooltip: ""
+
+				Default: {
+					Label: Default
+					Tooltip: ""
+				}
+
+				Custom: {
+					Label: Custom
+					Tooltip: ""
+				}
+			}
+		}
+
+		DamageClasses.BoulderClass.DisplayName: Boulder Class
+		Tiles.DabDadOre.MapEntry: Dab Dad Ore
+
+		WorldGen: {
+			DabDadOrePassMessage: Mods.MogMod.WorldGen.DabDadOrePassMessage
+			BlessedWithDabDadOreMessage: Mods.MogMod.WorldGen.BlessedWithDabDadOreMessage
+		}
+
+		Buffs: {
+			DrumOfEnduranceBuff: {
+				DisplayName: Drum Of Endurance Buff
+				Description: Mods.MogMod.Buffs.DrumOfEnduranceBuff.Description
+			}
+
+			GuardianGreavesAura: {
+				DisplayName: Guardian Greaves Aura
+				Description: Mods.MogMod.Buffs.GuardianGreavesAura.Description
+			}
+
+			HeaddressBuff: {
+				DisplayName: Headdress Buff
+				Description: Mods.MogMod.Buffs.HeaddressBuff.Description
+			}
+
+			ShivasGuardBuff: {
+				DisplayName: Shivas Guard Buff
+				Description: Mods.MogMod.Buffs.ShivasGuardBuff.Description
+			}
+
+			VladmirsBuff: {
+				DisplayName: Vladmirs Buff
+				Description: Mods.MogMod.Buffs.VladmirsBuff.Description
+			}
+
+			ArcaneBootsDebuff: {
+				DisplayName: Arcane Boots Debuff
+				Description: Mods.MogMod.Buffs.ArcaneBootsDebuff.Description
+			}
+
+			BladeMailDebuff: {
+				DisplayName: Blade Mail Debuff
+				Description: Mods.MogMod.Buffs.BladeMailDebuff.Description
+			}
+
+			BlinkDebuff: {
+				DisplayName: Blink Debuff
+				Description: Mods.MogMod.Buffs.BlinkDebuff.Description
+			}
+
+			DragonInstallCooldown: {
+				DisplayName: Dragon Install Cooldown
+				Description: Mods.MogMod.Buffs.DragonInstallCooldown.Description
+			}
+
+			ForceStaffDebuff: {
+				DisplayName: Force Staff Debuff
+				Description: Mods.MogMod.Buffs.ForceStaffDebuff.Description
+			}
+
+			GlimmerCapeDebuff: {
+				DisplayName: Glimmer Cape Debuff
+				Description: Mods.MogMod.Buffs.GlimmerCapeDebuff.Description
+			}
+
+			GuardianGreavesDebuff: {
+				DisplayName: Guardian Greaves Debuff
+				Description: Mods.MogMod.Buffs.GuardianGreavesDebuff.Description
+			}
+
+			HelmOfDominatorDebuff: {
+				DisplayName: Helm Of Dominator Debuff
+				Description: Mods.MogMod.Buffs.HelmOfDominatorDebuff.Description
+			}
+
+			LagunaBladeCooldown: {
+				DisplayName: Laguna Blade Cooldown
+				Description: Mods.MogMod.Buffs.LagunaBladeCooldown.Description
+			}
+
+			MekansmDebuff: {
+				DisplayName: Mekansm Debuff
+				Description: Mods.MogMod.Buffs.MekansmDebuff.Description
+			}
+
+			RefresherOrbDebuff: {
+				DisplayName: Refresher Orb Debuff
+				Description: Mods.MogMod.Buffs.RefresherOrbDebuff.Description
+			}
+
+			SatanicDebuff: {
+				DisplayName: Satanic Debuff
+				Description: Mods.MogMod.Buffs.SatanicDebuff.Description
+			}
+
+			ShivasDebuff: {
+				DisplayName: Shivas Debuff
+				Description: Mods.MogMod.Buffs.ShivasDebuff.Description
+			}
+
+			ChargingShot: {
+				DisplayName: Charging Shot
+				Description: Mods.MogMod.Buffs.ChargingShot.Description
+			}
+
+			DragonPiercerShot: {
+				DisplayName: Dragon Piercer Shot
+				Description: Mods.MogMod.Buffs.DragonPiercerShot.Description
+			}
+
+			EyeOfSkadiDebuff: {
+				DisplayName: Eye Of Skadi Debuff
+				Description: Mods.MogMod.Buffs.EyeOfSkadiDebuff.Description
+			}
+
+			GlueDebuff: {
+				DisplayName: Glue Debuff
+				Description: Mods.MogMod.Buffs.GlueDebuff.Description
+			}
+
+			GreenTracerDebuff: {
+				DisplayName: Green Tracer Debuff
+				Description: Mods.MogMod.Buffs.GreenTracerDebuff.Description
+			}
+
+			HeavyBleed: {
+				DisplayName: Heavy Bleed
+				Description: Mods.MogMod.Buffs.HeavyBleed.Description
+			}
+
+			ShockState: {
+				DisplayName: Shock State
+				Description: Mods.MogMod.Buffs.ShockState.Description
+			}
+
+			VonDebuff: {
+				DisplayName: Von Debuff
+				Description: Mods.MogMod.Buffs.VonDebuff.Description
+			}
+
+			AghanimShardBuff: {
+				DisplayName: Aghanim Shard Buff
+				Description: Mods.MogMod.Buffs.AghanimShardBuff.Description
+			}
+
+			ArmletOfMordiggianBuff: {
+				DisplayName: Armlet Of Mordiggian Buff
+				Description: Mods.MogMod.Buffs.ArmletOfMordiggianBuff.Description
+			}
+
+			BladeMailBuff: {
+				DisplayName: Blade Mail Buff
+				Description: Mods.MogMod.Buffs.BladeMailBuff.Description
+			}
+
+			CheeseBuff: {
+				DisplayName: Cheese Buff
+				Description: Mods.MogMod.Buffs.CheeseBuff.Description
+			}
+
+			ClarityBuff: {
+				DisplayName: Clarity Buff
+				Description: Mods.MogMod.Buffs.ClarityBuff.Description
+			}
+
+			DragonInstallBuff: {
+				DisplayName: Dragon Install Buff
+				Description: Mods.MogMod.Buffs.DragonInstallBuff.Description
+			}
+
+			EssenceShift: {
+				DisplayName: Essence Shift
+				Description: Mods.MogMod.Buffs.EssenceShift.Description
+			}
+
+			ETGCbuff: {
+				DisplayName: E T G Cbuff
+				Description: Mods.MogMod.Buffs.ETGCbuff.Description
+			}
+
+			FierySoulStack: {
+				DisplayName: Fiery Soul Stack
+				Description: Mods.MogMod.Buffs.FierySoulStack.Description
+			}
+
+			GlimmerCapeBuff: {
+				DisplayName: Glimmer Cape Buff
+				Description: Mods.MogMod.Buffs.GlimmerCapeBuff.Description
+			}
+
+			GlueBuff: {
+				DisplayName: Glue Buff
+				Description: Mods.MogMod.Buffs.GlueBuff.Description
+			}
+
+			GuardianGreavesBuff: {
+				DisplayName: Guardian Greaves Buff
+				Description: Mods.MogMod.Buffs.GuardianGreavesBuff.Description
+			}
+
+			HealingSalveBuff: {
+				DisplayName: Healing Salve Buff
+				Description: Mods.MogMod.Buffs.HealingSalveBuff.Description
+			}
+
+			HolyLocketBuff: {
+				DisplayName: Holy Locket Buff
+				Description: Mods.MogMod.Buffs.HolyLocketBuff.Description
+			}
+
+			MagicStickBuff: {
+				DisplayName: Magic Stick Buff
+				Description: Mods.MogMod.Buffs.MagicStickBuff.Description
+			}
+
+			MekansmBuff: {
+				DisplayName: Mekansm Buff
+				Description: Mods.MogMod.Buffs.MekansmBuff.Description
+			}
+
+			MoonShardBuff: {
+				DisplayName: Moon Shard Buff
+				Description: Mods.MogMod.Buffs.MoonShardBuff.Description
+			}
+
+			SatanicBuff: {
+				DisplayName: Satanic Buff
+				Description: Mods.MogMod.Buffs.SatanicBuff.Description
+			}
+
+			WandBuff: {
+				DisplayName: Wand Buff
+				Description: Mods.MogMod.Buffs.WandBuff.Description
+			}
+		}
+
+		NPCs: {
+			DabDad.DisplayName: Dab Dad
+			KingVon.DisplayName: King Von
+			Rajang.DisplayName: Rajang
+			RadiantCreep.DisplayName: Radiant Creep
+
+			Mendez: {
+				DisplayName: Mendez
+
+				TownNPCMood: {
+					Content: I am content.
+					NoHome: I hate not having a home.
+					FarFromHome: I am too far from home.
+					LoveSpace: I love having so much space.
+					DislikeCrowded: I dislike how crowded I am.
+					HateCrowded: I hate how crowded I am.
+					LikeNPC_Princess: I like {NPCName}.
+					Princess_LovesNPC: I like {NPCName}.
+				}
+			}
+
+			Prapor: {
+				DisplayName: Prapor
+
+				TownNPCMood: {
+					Content: I am content.
+					NoHome: I hate not having a home.
+					FarFromHome: I am too far from home.
+					LoveSpace: I love having so much space.
+					DislikeCrowded: I dislike how crowded I am.
+					HateCrowded: I hate how crowded I am.
+					LikeNPC_Princess: I like {NPCName}.
+					Princess_LovesNPC: I like {NPCName}.
+				}
+			}
+
+			SolBadguy: {
+				DisplayName: Sol Badguy
+
+				TownNPCMood: {
+					Content: I am content.
+					NoHome: I hate not having a home.
+					FarFromHome: I am too far from home.
+					LoveSpace: I love having so much space.
+					DislikeCrowded: I dislike how crowded I am.
+					HateCrowded: I hate how crowded I am.
+					LikeNPC_Princess: I like {NPCName}.
+					Princess_LovesNPC: I like {NPCName}.
+				}
+			}
+		}
+
+		Projectiles: {
+			VonGreenTracerProj.DisplayName: Von Green Tracer Proj
+			VonNade.DisplayName: Von Nade
+
+			MagicProjectiles: {
+				BloodthornBeam.DisplayName: Bloodthorn Beam
+				OrchidBeam.DisplayName: Orchid Beam
+				AghanimBlessingProj.DisplayName: Aghanim Blessing Proj
+				AghanimExplosion.DisplayName: Aghanim Explosion
+				AghanimLaser.DisplayName: Aghanim Laser
+				AghanimPortal.DisplayName: Aghanim Portal
+				AghanimProjectile.DisplayName: Aghanim Projectile
+				AghanimSkyProj.DisplayName: Aghanim Sky Proj
+				BloodMagicProjectile.DisplayName: Blood Magic Projectile
+				BloodthornOrb.DisplayName: Bloodthorn Orb
+				DagonExplosion.DisplayName: Dagon Explosion
+				DagonFiveExplosion.DisplayName: Dagon Five Explosion
+				DagonFiveOrb.DisplayName: Dagon Five Orb
+				DagonFiveProj.DisplayName: Dagon Five Proj
+				DagonFiveSkyProj.DisplayName: Dagon Five Sky Proj
+				DagonFourProj.DisplayName: Dagon Four Proj
+				DagonOneProj.DisplayName: Dagon One Proj
+				DagonOrb.DisplayName: Dagon Orb
+				DagonThreeProj.DisplayName: Dagon Three Proj
+				DagonTwoProj.DisplayName: Dagon Two Proj
+				FierySoulProjectile.DisplayName: Fiery Soul Projectile
+				KayaProjectile.DisplayName: Kaya Projectile
+				KhandaBeam.DisplayName: Khanda Beam
+				LagunaBladeBoom.DisplayName: Laguna Blade Boom
+				LagunaBladeProjectile.DisplayName: Laguna Blade Projectile
+				MeteorHammerProjectile.DisplayName: Meteor Hammer Projectile
+				OrchidOrb.DisplayName: Orchid Orb
+				PhylacteryBeam.DisplayName: Phylactery Beam
+				AghanimHomingProj.DisplayName: Aghanim Homing Proj
+			}
+
+			MeleeProjectiles: {
+				AnchorProj.DisplayName: Anchor Proj
+				BattleFuryProjectile.DisplayName: Battle Fury Projectile
+				ChaosBladeProj.DisplayName: Chaos Blade Proj
+				DaedalusBoom.DisplayName: Daedalus Boom
+				DaedalusProj.DisplayName: Daedalus Proj
+				DaedalusProjectile.DisplayName: Daedalus Projectile
+				DaedalusSplitProj.DisplayName: Daedalus Split Proj
+				DesolatorHomingProj.DisplayName: Desolator Homing Proj
+				DesolatorProj.DisplayName: Desolator Proj
+				SkullBashProjectile.DisplayName: Skull Bash Projectile
+				StunEdge.DisplayName: Stun Edge
+				ThunderSealProj.DisplayName: Thunder Seal Proj
+			}
+
+			RangedProjectiles: {
+				APLapua.DisplayName: A P Lapua
+				ArchbeastArrow.DisplayName: Archbeast Arrow
+				ArchbeastBowCharge.DisplayName: Archbeast Bow Charge
+				ArchbeastHoldout.DisplayName: Archbeast Holdout
+				BerserkersFireSpearProj.DisplayName: Berserkers Fire Spear Proj
+				BerserkersSpearProj.DisplayName: Berserkers Spear Proj
+				BloodGrenadeProjectile.DisplayName: Blood Grenade Projectile
+				DragonPiercerArrow.DisplayName: Dragon Piercer Arrow
+				DragonPiercerChargeHold.DisplayName: Dragon Piercer Charge Hold
+				DragonPiercerHoldout.DisplayName: Dragon Piercer Holdout
+				EvilAPLapua.DisplayName: Evil A P Lapua
+				GreenTracerProj.DisplayName: Green Tracer Proj
+				HeavensExplosion.DisplayName: Heavens Explosion
+				HeavensHalberdProj.DisplayName: Heavens Halberd Proj
+				HeavensHalberdProjectile.DisplayName: Heavens Halberd Projectile
+				MosinLPSProj.DisplayName: Mosin L P S Proj
+				ParasmaHomingProj.DisplayName: Parasma Homing Proj
+				ParasmaProj.DisplayName: Parasma Proj
+				Powershot.DisplayName: Powershot
+				ShrapnalProj.DisplayName: Shrapnal Proj
+				ShrapnalSkyProj.DisplayName: Shrapnal Sky Proj
+				WarriorsFireSpearProj.DisplayName: Warriors Fire Spear Proj
+				WarriorsSpearProj.DisplayName: Warriors Spear Proj
+				WindrunnerHoldout.DisplayName: Windrunner Holdout
+				WitchBladeProj.DisplayName: Witch Blade Proj
+				YashaProj.DisplayName: Yasha Proj
+				YashaProjectile.DisplayName: Yasha Projectile
+			}
+		}
 	}
 }

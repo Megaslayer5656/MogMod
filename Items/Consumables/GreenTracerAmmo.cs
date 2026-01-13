@@ -16,11 +16,11 @@ namespace MogMod.Items.Consumables
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
             Item.knockBack = 1f;
-            Item.value = Item.buyPrice(0, 0, 2, 0);
+            Item.value = Item.buyPrice(0, 0, 60, 0);
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<GreenTracerProj>();
             Item.shootSpeed = 4.5f;
-            Item.ammo = Item.type;
+            Item.ammo = AmmoID.Bullet;
         }
     }
 }

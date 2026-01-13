@@ -45,7 +45,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
             for (int n = 0; n < 8; n++)
             {
-                MogModUtils.ProjectileRain(source, Projectile.Center, 400f, 50f, 1500f, 1500f, 25, ModContent.ProjectileType<ShrapnalSkyProj>(), Convert.ToInt32(Projectile.damage * .25), Projectile.knockBack, Projectile.owner);
+                MogModUtils.ProjectileRain(source, Projectile.Center, 400f, 50f, 1500f, 1700f, 50, ModContent.ProjectileType<ShrapnalSkyProj>(), Convert.ToInt32(Projectile.damage * .25), Projectile.knockBack, Projectile.owner);
             }
         }
     }

@@ -11,7 +11,7 @@ namespace MogMod.Items.Weapons.Ranged
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults() {
-            Item.damage = 20;
+            Item.damage = 57;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 50;
             Item.height = 34;
@@ -29,7 +29,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 10f;
-            Item.useAmmo = ModContent.ItemType<GreenTracerAmmo>();
+            Item.useAmmo = AmmoID.Bullet;
             Item.noMelee = true;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
