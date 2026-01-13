@@ -17,14 +17,6 @@ namespace MogMod.Items.Weapons.Melee
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         Random random = new Random();
-
-        // list of random ocean animal sounds
-        private static readonly List<SoundStyle> randomSound = new List<SoundStyle>
-        {
-            SoundID.Seagull,
-            SoundID.Dolphin,
-            SoundID.Duck
-        };
         //TODO: Somehow make the offset look right for holding weapon <-- an issue with how the player holds melee weapons, calamity's "Earth" weapon has the same problem
         public override void SetDefaults()
         {
@@ -47,9 +39,6 @@ namespace MogMod.Items.Weapons.Melee
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            // play ocean animal sounds
-            int chosenSound = Main.rand.Next(randomSound.Count);
-            SoundEngine.PlaySound(randomSound[chosenSound]);
             Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<AnchorProj>(), damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
