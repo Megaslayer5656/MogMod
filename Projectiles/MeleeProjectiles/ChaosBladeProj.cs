@@ -14,6 +14,11 @@ namespace MogMod.Projectiles.MeleeProjectiles
         public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         public override void SetStaticDefaults()
+        public static readonly SoundStyle UltraCrit = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/UltraCrit") //UltraCrit SFX
+        {
+            Volume = 1.1f,
+            PitchVariance = .2f
+        };
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
@@ -49,6 +54,10 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Main.dust[chaosss].scale = Main.rand.Next(10, 30) * 0.014f;
             Main.dust[chaosss].velocity *= 0.2f;
             Main.dust[chaosss].noLight = false;
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+         SoundEngine.PlaySound(UltraCrit, Projectile.Center);
         }
     }
 }
