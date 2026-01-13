@@ -13,12 +13,12 @@ namespace MogMod.Projectiles.MeleeProjectiles
     {
         public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
-        public override void SetStaticDefaults()
         public static readonly SoundStyle UltraCrit = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/UltraCrit") //UltraCrit SFX
         {
             Volume = 1.1f,
             PitchVariance = .2f
         };
+        public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
