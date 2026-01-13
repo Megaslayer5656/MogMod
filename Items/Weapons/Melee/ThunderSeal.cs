@@ -12,11 +12,6 @@ namespace MogMod.Items.Weapons.Melee
     public class ThunderSeal : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        SoundStyle shockStateMeleeProc = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ShockStateMeleeProc")
-        {
-            Volume = .67f,
-            PitchVariance = .02f,
-        };
         
         // lets you hold right click
         public override void SetStaticDefaults()
@@ -84,7 +79,6 @@ namespace MogMod.Items.Weapons.Melee
                     MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ThunderSealProj>(), 75, 0f, player.whoAmI, false, 0f);
                 }
                 target.DelBuff(target.FindBuffIndex(ModContent.BuffType<ShockState>()));
-                SoundEngine.PlaySound(shockStateMeleeProc, target.Center);
             }
         }
 
