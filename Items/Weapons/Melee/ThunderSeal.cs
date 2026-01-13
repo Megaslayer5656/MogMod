@@ -59,11 +59,7 @@ namespace MogMod.Items.Weapons.Melee
                 Item.useAnimation = 60;
                 Item.useStyle = ItemUseStyleID.Swing;
                 Item.shoot = ModContent.ProjectileType<StunEdge>();
-                Item.UseSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/StunEdge")
-                {
-                    Volume = .67f,
-                    PitchVariance = .02f,
-                };
+                Item.UseSound = SoundID.Item1;
                 Item.noMelee = true;
             } else
             {
