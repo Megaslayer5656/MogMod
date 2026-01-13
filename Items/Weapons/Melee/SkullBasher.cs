@@ -16,11 +16,6 @@ namespace MogMod.Items.Weapons.Melee
         public int randChance;
         public int randNumProjectiles;
         public bool skullBash = false;
-        public static readonly SoundStyle bashProc = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/SkullBash")
-        {
-            Volume = 1.1f,
-            PitchVariance = .2f
-        };
         public override void SetDefaults()
         {
             Item.width = 120;
@@ -46,7 +41,6 @@ namespace MogMod.Items.Weapons.Melee
             randChance = random.Next(1, 4);
             if (skullBash)
             {
-                SoundEngine.PlaySound(bashProc, player.Center);
                 target.AddBuff(BuffID.Dazed, 120);
                 bool randomBool = random.Next(2) == 0;
                 MogModUtils.ProjectileBarrage(source, target.Center, target.Center, randomBool, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<SkullBashProjectile>(), (Item.damage / 2), 0f, player.whoAmI, false, 0f);
