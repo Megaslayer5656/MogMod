@@ -63,7 +63,8 @@ namespace MogMod.Projectiles.RangedProjectiles
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             for (i = 0; i < 4; i++)
             {
-                //TODO: add dust effect on projectile kill   
+                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Terra, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 100, default, .5f);
+                Main.dust[d].position = Projectile.Center;              
             }
         }
     }
