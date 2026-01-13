@@ -10,6 +10,11 @@ namespace MogMod.Projectiles.MeleeProjectiles
     public class StunEdge : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
+        public static readonly SoundStyle stunEdgeSFX = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/StunEdge")
+        {
+            Volume = .67f,
+            PitchVariance = .02f,
+        };
         public override void SetDefaults()
         {
             Projectile.width = 8;
@@ -58,6 +63,11 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 Main.dust[d].position = Projectile.Center;
                 Main.dust[d].noLight = true;
             }
+        }
+        
+        public override void OnSpawn(IEntitySource source)
+        {
+        SoundEngine.PlaySound(stunEdgeSFX, Projectile.Center);
         }
     }
 }
