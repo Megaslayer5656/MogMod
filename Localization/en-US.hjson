@@ -393,6 +393,8 @@ Mods: {
 				AghanimLaser.DisplayName: Aghanim's Laser
 				AghanimPortal.DisplayName: Aghanim's Portal
 				AghanimHomingProj.DisplayName: Aghanim's Blessing
+				AghanimSkyProj.DisplayName: Aghanim Sky Proj
+				AghanimExplosion.DisplayName: Aghanim Explosion
 			}
 
 			RangedProjectiles: {

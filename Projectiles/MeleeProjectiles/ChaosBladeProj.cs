@@ -19,6 +19,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Volume = 1.1f,
             PitchVariance = .2f
         };
+        private bool initialized = false;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
@@ -43,6 +44,11 @@ namespace MogMod.Projectiles.MeleeProjectiles
         }
         public override void AI()
         {
+            if (!initialized)
+            {
+                SoundEngine.PlaySound(UltraCrit, Projectile.Center);
+                initialized = true;
+            }
             //float velXMult = 0.85f;
             //Projectile.velocity.X *= velXMult;
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
@@ -55,10 +61,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Main.dust[chaosss].scale = Main.rand.Next(10, 30) * 0.014f;
             Main.dust[chaosss].velocity *= 0.2f;
             Main.dust[chaosss].noLight = false;
-        }
-        public override void OnSpawn(IEntitySource source)
-        {
-         SoundEngine.PlaySound(UltraCrit, Projectile.Center);
         }
     }
 }
