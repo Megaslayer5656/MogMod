@@ -9,12 +9,19 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
     public class AnchorProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
+        private static readonly List<SoundStyle> randomSound = new List<SoundStyle>
+        {
+            SoundID.Seagull,
+            SoundID.Dolphin,
+            SoundID.Duck
+        };
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
@@ -93,6 +100,8 @@ namespace MogMod.Projectiles.MeleeProjectiles
 
         public override void OnSpawn(IEntitySource source)
         {
+            int chosenSound = Main.rand.Next(randomSound.Count);
+            SoundEngine.PlaySound(randomSound[chosenSound], Projectile.Center);
             for (int i = 0; i < 4; i++)
             {
                 int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.WaterCandle, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 100, default, 2f);

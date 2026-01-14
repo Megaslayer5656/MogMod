@@ -16,11 +16,6 @@ namespace MogMod.Items.Weapons.Melee
         public int randUltraCrit;
         public int randNumProjectiles;
         public bool ultraCrit = false;
-        public static readonly SoundStyle UltraCrit = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/UltraCrit") //Shot sound effect
-        {
-            Volume = 1.1f,
-            PitchVariance = .2f
-        };
         public override void SetDefaults()
         {
             Item.width = 120;
@@ -52,7 +47,6 @@ namespace MogMod.Items.Weapons.Melee
                     // proj barrage does (source, Vector2 originVec, Vector2 targetPos, T/F fromRight, xOffsetMin, xOffsetMax, yOffsetMin, yOffsetMax, projSpeed, projType, damage, knockback, owner, T/F clamped, innacuracy)
                     MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ChaosBladeProj>(), random.Next(40, 65), 0f, player.whoAmI, false, 0f);
                 }
-                SoundEngine.PlaySound(UltraCrit, player.Center);
                 int heal = random.Next(1, 5);
                 // for SOME REASON player has a default of 70 lifesteal
                 heal *= Convert.ToInt32(player.lifeSteal * 0.08);

@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
 using Terraria;
 using Terraria.Audio;
@@ -61,6 +61,11 @@ namespace MogMod.Projectiles.RangedProjectiles
         {
             Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
+            for (int i = 0; i < 4; i++)
+            {
+                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Terra, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 100, default, .5f);
+                Main.dust[d].position = Projectile.Center;              
+            }
         }
     }
 }
