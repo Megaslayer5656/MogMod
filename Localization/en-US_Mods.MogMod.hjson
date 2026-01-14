@@ -944,6 +944,28 @@ Items: {
 					'Devastating.'
 					'''
 			}
+
+			Megaslark: {
+				DisplayName: Megaslark
+				Tooltip:
+					'''
+					Occasionally fire a homing water rocket, granting a stack of essence shift upon hitting an enemy
+					Essence shift increases your attack speed, movement speed, and armor penetration per stack
+					80% chance to save ammo
+					'If I'd known I'd end up here, I'd have stayed in Dark Reef Prison.'
+					'''
+			}
+
+			Minislark: {
+				DisplayName: Minislark
+				Tooltip:
+					'''
+					Occasionally fire a water bolt, granting a stack of essence shift upon hitting an enemy
+					Essence shift increases your attack speed, movement speed, and armor penetration per stack
+					35% chance to save ammo
+					'You think you caught me? Ha ha ha ha ha!'
+					'''
+			}
 		}
 
 		Magic: {
@@ -1233,370 +1255,6 @@ Items: {
 			'''
 	}
 
-	NPCs: {
-		DabDad.DisplayName: DabDad Minecraft
-
-		SolBadguy: {
-			DisplayName: Sol Badguy
-
-			TownNPCMood: {
-				Content: I have ample munting material here.
-				NoHome: Real sigmas don't need a home.
-				FarFromHome: I'm too far from my goon cavern.
-				LoveSpace: I love having so much space to edge.
-				DislikeCrowded: I dislike how crowded I am, as I cannot edge as efficiently.
-				HateCrowded: I hate how crowded I am, all these betas make me soft.
-				LikeNPC_Princess: I like {NPCName}.
-				Princess_LovesNPC: The aura radiating off of {NPCName} is sooo sweet to loot at.
-			}
-		}
-
-		KingVon.DisplayName: King Von
-		RadiantCreep.DisplayName: Radiant Creep
-		Rajang.DisplayName: Rajang
-
-		Mendez: {
-			DisplayName: Mendez
-
-			TownNPCMood: {
-				Content: o na.
-				NoHome: O NA VASS VASS VASS O NA.
-				FarFromHome: o na wheres my goon.
-				LoveSpace: o na no scavs.
-				DislikeCrowded: o na vass-tract camped by tigs o na.
-				HateCrowded: o na tis' be to the o vass.
-				LikeNPC_Princess: o na scavvy-o luve {NPCName}.
-				Princess_LovesNPC: I love {NPCName}'s way with words!
-			}
-		}
-
-		Prapor: {
-			DisplayName: Prapor
-
-			TownNPCMood: {
-				Content: I am content.
-				NoHome: I hate not having a home.
-				FarFromHome: I am too far from home.
-				LoveSpace: I love having so much space.
-				DislikeCrowded: I dislike how crowded I am.
-				HateCrowded: I hate how crowded I am.
-				LikeNPC_Princess: I like {NPCName}.
-				Princess_LovesNPC: I like {NPCName}.
-			}
-		}
-	}
-
-	Buffs: {
-		ETGCbuff: {
-			Description: Empowered by the ETG-C!
-			DisplayName: ETG-C Regen
-		}
-
-		GlueBuff: {
-			DisplayName: Glue Buff
-			Description: POTEMKIN BUSTER
-		}
-
-		GlueDebuff: {
-			DisplayName: Glue Debuff
-			Description: Potemkin Withdrawls
-		}
-
-		VonDebuff: {
-			Description: Cursed and Von'd
-			DisplayName: Von's Curse
-		}
-
-		GlimmerCapeBuff: {
-			DisplayName: Glimmer Cape
-			Description: Your invisible, regen mana much quicker and move faster!
-		}
-
-		GlimmerCapeDebuff: {
-			DisplayName: Glimmer Cape Cooldown
-			Description: Teamfight ult failed...
-		}
-
-		ArmletOfMordiggianBuff: {
-			DisplayName: Armlet Of Mordiggian
-			Description: You feel a searing, yet bolstering pain...
-		}
-
-		ArcaneBootsDebuff: {
-			DisplayName: Used Arcane Boots
-			Description: Out of Mana...
-		}
-
-		SatanicBuff: {
-			DisplayName: Satanic
-			Description: You thirst for their blood...
-		}
-
-		SatanicDebuff: {
-			DisplayName: Satanic Cooldown
-			Description: Satanic is out of power...
-		}
-
-		RefresherOrbDebuff: {
-			DisplayName: Refresher Orb Cooldown
-			Description: Refresher orb needs to recharge!
-		}
-
-		HelmOfDominatorDebuff: {
-			DisplayName: Helm Of The Dominator Cooldown
-			Description: The Helm is out of power...
-		}
-
-		GuardianGreavesAura: {
-			DisplayName: Guardian Greaves Aura
-			Description: +6 HP/s, +4 Defense, +20 Max HP, +50 Max Mana, +10% Damage
-		}
-
-		GuardianGreavesBuff: {
-			DisplayName: Guardian Greaves Heal
-			Description: +100 Life and +300 Mana!
-		}
-
-		GuardianGreavesDebuff: {
-			DisplayName: Guardian Greaves Cooldown
-			Description: Out of Mana...
-		}
-
-		HeaddressBuff: {
-			DisplayName: Headdress Aura
-			Description: Increased Life Regeneration
-		}
-
-		MekansmBuff: {
-			DisplayName: Mekansm Heal
-			Description: Healed by a team member!
-		}
-
-		MekansmDebuff: {
-			DisplayName: Mekansm Cooldown
-			Description: Mekansm needs to recharge!
-		}
-
-		ForceStaffDebuff: {
-			DisplayName: Force Staff Cooldown
-			Description: Force staff is out of power...
-		}
-
-		BladeMailBuff: {
-			DisplayName: Blade Mail
-			Description: Covered in spikes!
-		}
-
-		BladeMailDebuff: {
-			DisplayName: Blade Mail Cooldown
-			Description: Out of spikes...
-		}
-
-		DrumOfEnduranceBuff: {
-			DisplayName: Drum Of Endurance Aura
-			Description: +30% Movement Speed, +10% Attack Speed
-		}
-
-		EyeOfSkadiDebuff: {
-			DisplayName: Cold Attack
-			Description: Rapidly losing Life!
-		}
-
-		HolyLocketBuff: {
-			DisplayName: Holy Locket Heal
-			Description: You've been healed!
-		}
-
-		MagicStickBuff: {
-			DisplayName: Magic Stick Heal
-			Description: You've been healed!
-		}
-
-		WandBuff: {
-			DisplayName: Magic Wand Heal
-			Description: You've been healed!
-		}
-
-		ShivasGuardBuff: {
-			DisplayName: Shivas Guard Aura
-			Description: +10 Defense and +30% Ranged Damage
-		}
-
-		ShivasDebuff: {
-			DisplayName: Shiva's Guard Cooldown
-			Description: Recharging...
-		}
-
-		BlinkDebuff: {
-			DisplayName: Blink Cooldown
-			Description: Blink Dagger is on cooldown!
-		}
-
-		EssenceShift: {
-			DisplayName: Essence Shift
-			Description: Attack speed and movement speed increased
-		}
-
-		LagunaBladeCooldown: {
-			DisplayName: Laguna Blade Cooldown
-			Description: Recharging...
-		}
-
-		FierySoulStack: {
-			DisplayName: Fiery Soul
-			Description: Magic attack speed and movement speed increased, Mana cost decreased
-		}
-
-		CheeseBuff: {
-			DisplayName: Delicious Cheese
-			Description: Scrumptious!
-		}
-
-		HeavyBleed: {
-			DisplayName: Heavy Bleed
-			Description: Mods.MogMod.Buffs.HeavyBleed.Description
-		}
-
-		VladmirsBuff: {
-			DisplayName: Vladmir's Aura
-			Description: +3 Defense, +7% Attack Damage, Increased Mana Regeneration and Lifesteal Effectiveness
-		}
-
-		ShockState: {
-			DisplayName: Shock State
-			Description: Mods.MogMod.Buffs.ShockState.Description
-		}
-
-		AghanimShardBuff: {
-			DisplayName: Aghanim Shard
-			Description: +100 Maximum Mana, +20% Magic Attack Damage, Greatly Increased Mana Regeneration
-		}
-
-		ClarityBuff: {
-			DisplayName: Clarity
-			Description: Greatly Increased Mana Regeneration
-		}
-
-		HealingSalveBuff: {
-			DisplayName: Healing Salve
-			Description: Greatly Increased Life Regeneration
-		}
-
-		MoonShardBuff: {
-			DisplayName: Moon Shard
-			Description: +30% Attack Speed
-		}
-
-		ChargingShot: {
-			DisplayName: Charging Shot
-			Description: You must focus!
-		}
-
-		DragonPiercerShot: {
-			DisplayName: Charging Shot
-			Description: You must focus!
-		}
-
-		DragonInstallBuff: {
-			Description: Mods.MogMod.Buffs.DragonInstallBuff.Description
-			DisplayName: Dragon Install Buff
-		}
-
-		DragonInstallCooldown: {
-			Description: Mods.MogMod.Buffs.DragonInstallCooldown.Description
-			DisplayName: Dragon Install Cooldown
-		}
-	}
-
-	Projectiles: {
-		MagicProjectiles: {
-			BloodthornBeam.DisplayName: Bloodthorn
-			OrchidBeam.DisplayName: Orchid Malevolence
-			AghanimProjectile.DisplayName: Scepter
-			BloodMagicProjectile.DisplayName: Blood Magic
-			BloodthornOrb.DisplayName: Bloodthorn
-			DagonExplosion.DisplayName: Dagon Explosion
-			DagonFiveExplosion.DisplayName: Dagon Explosion
-			DagonFiveOrb.DisplayName: Dagon Orb
-			DagonFiveProj.DisplayName: Dagon Bolt
-			DagonFiveSkyProj.DisplayName: Dagon Beam
-			DagonFourProj.DisplayName: Dagon Beam
-			DagonOneProj.DisplayName: Dagon Bolt
-			DagonOrb.DisplayName: Dagon Orb
-			DagonThreeProj.DisplayName: Dagon Bolt
-			DagonTwoProj.DisplayName: Dagon Bolt
-			FierySoulProjectile.DisplayName: Fiery Soul
-			KayaProjectile.DisplayName: Kaya
-			KhandaBeam.DisplayName: Khanda
-			LagunaBladeBoom.DisplayName: Laguna Blade
-			LagunaBladeProjectile.DisplayName: Laguna Blade
-			MeteorHammerProjectile.DisplayName: World-Ending Meteor
-			OrchidOrb.DisplayName: Orchid Malevolence
-			PhylacteryBeam.DisplayName: Phylactery
-			AghanimBlessingProj.DisplayName: Aghanim Blessing Proj
-			AghanimLaser.DisplayName: Aghanim Laser
-			AghanimPortal.DisplayName: Aghanim Portal
-			AghanimExplosion.DisplayName: Aghanim Explosion
-			AghanimSkyProj.DisplayName: Aghanim Sky Proj
-			AghanimHomingProj.DisplayName: Aghanim Homing Proj
-		}
-
-		RangedProjectiles: {
-			APLapua.DisplayName: AP Lapua
-			ArchbeastArrow.DisplayName: Dragon Piercer
-			ArchbeastHoldout.DisplayName: Archbeast Holdout
-			BerserkersFireSpearProj.DisplayName: Blazing Spear
-			BerserkersSpearProj.DisplayName: Spear
-			BloodGrenadeProjectile.DisplayName: Blood Grenade
-			GreenTracerProj.DisplayName: Green Tracer
-			HeavensExplosion.DisplayName: Heaven's Halberd
-			HeavensHalberdProj.DisplayName: Heaven's Halberd
-			HeavensHalberdProjectile.DisplayName: Heaven's Halberd
-			MosinLPSProj.DisplayName: Mosin LPS
-			Powershot.DisplayName: Powershot
-			WarriorsFireSpearProj.DisplayName: Fire Spear
-			WarriorsSpearProj.DisplayName: Spear
-			WindrunnerHoldout.DisplayName: Windrunner Holdout
-			YashaProj.DisplayName: Yasha
-			YashaProjectile.DisplayName: Yasha
-			ArchbeastBowCharge.DisplayName: Archbeast Bow Charge
-			DragonPiercerArrow.DisplayName: Dragon Piercer Arrow
-			DragonPiercerChargeHold.DisplayName: Dragon Piercer Charge Hold
-			DragonPiercerHoldout.DisplayName: Dragon Piercer Holdout
-			WitchBladeProj.DisplayName: Witch Blade Proj
-			ParasmaProj.DisplayName: Parasma Proj
-			ParasmaHomingProj.DisplayName: Parasma Homing Proj
-			EvilAPLapua.DisplayName: Evil A P Lapua
-			ShrapnalProj.DisplayName: Shrapnal Proj
-			ShrapnalSkyProj.DisplayName: Shrapnal Sky Proj
-		}
-
-		MeleeProjectiles: {
-			BattleFuryProjectile.DisplayName: Battle Fury Projectile
-			AnchorProj.DisplayName: Anchor Proj
-			ChaosBladeProj.DisplayName: Chaos Blade Proj
-			DaedalusBoom.DisplayName: Daedalus Boom
-			DaedalusProj.DisplayName: Daedalus Proj
-			DaedalusProjectile.DisplayName: Daedalus Projectile
-			DaedalusSplitProj.DisplayName: Daedalus Split Proj
-			SkullBashProjectile.DisplayName: Skull Bash Projectile
-			StunEdge.DisplayName: Stun Edge
-			ThunderSealProj.DisplayName: Thunder Seal Proj
-			DesolatorHomingProj.DisplayName: Desolator Homing Proj
-			DesolatorProj.DisplayName: Desolator Proj
-		}
-
-		VonNade.DisplayName: Von Nade
-		VonGreenTracerProj.DisplayName: Von Green Tracer Proj
-	}
-
-	Tiles.DabDadOre.MapEntry: DabDad Ore
-
-	WorldGen: {
-		DabDadOrePassMessage: Your world has been blessed with the essence of Dabdad Minecraft!
-		BlessedWithDabDadOreMessage: Your world has been blessed with the essence of Dabdad Minecraft!
-	}
-
 	Configs: {
 		RigSlotConfig: {
 			AllowEquippingInOtherSlots: {
@@ -1678,6 +1336,15 @@ Items: {
 			'''
 			Rains down additional bullets from the sky
 			'Shrapnel!'
+			'''
+	}
+
+	BoulderBullet: {
+		DisplayName: Boulder Bullet
+		Tooltip:
+			'''
+			Extremely heavy
+			Can hurt the player
 			'''
 	}
 }

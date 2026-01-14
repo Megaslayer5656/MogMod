@@ -149,16 +149,42 @@ namespace MogMod.Common.MogModPlayer
 
             #region Weapon Buffs
             // essence shift stacking buff
-            if (Player.HasBuff<EssenceShift>() && (Player.HeldItem.Name == "Hydrakan Latch" || Player.HeldItem.Name == "Golden Hydrakan Latch"))
+            if (Player.HasBuff<EssenceShift>() && (Player.HeldItem.Name == "Hydrakan Latch" || Player.HeldItem.Name == "Golden Hydrakan Latch" || Player.HeldItem.Name == "Megaslark" || Player.HeldItem.Name == "Minislark"))
             {
-                if (essenceShiftLevel > essenceShiftLevelMax)
+                if (Player.HeldItem.Name == "Hydrakan Latch" || Player.HeldItem.Name == "Golden Hydrakan Latch")
                 {
-                    essenceShiftLevel = essenceShiftLevelMax;
+                    if (essenceShiftLevel > essenceShiftLevelMax)
+                    {
+                        essenceShiftLevel = essenceShiftLevelMax;
+                    }
+                    Player.GetAttackSpeed(DamageClass.Melee) += .1f * essenceShiftLevel;
+                    Player.moveSpeed += .025f * essenceShiftLevel;
+                    Player.accRunSpeed += Player.accRunSpeed * .025f * essenceShiftLevel;
                 }
-                Player.GetAttackSpeed(DamageClass.Melee) += .1f * essenceShiftLevel;
-                Player.moveSpeed += .025f * essenceShiftLevel;
-                Player.accRunSpeed += Player.accRunSpeed * .025f * essenceShiftLevel;
-            } else
+                if (Player.HeldItem.Name == "Megaslark")
+                {
+                    if (essenceShiftLevel > essenceShiftLevelMax)
+                    {
+                        essenceShiftLevel = essenceShiftLevelMax;
+                    }
+                    Player.GetAttackSpeed(DamageClass.Ranged) += .1f * essenceShiftLevel;
+                    Player.GetArmorPenetration(DamageClass.Ranged) += essenceShiftLevel;
+                    Player.moveSpeed += .025f * essenceShiftLevel;
+                    Player.accRunSpeed += Player.accRunSpeed * .025f * essenceShiftLevel;
+                }
+                if (Player.HeldItem.Name == "Minislark")
+                {
+                    if (essenceShiftLevel > essenceShiftLevelMax)
+                    {
+                        essenceShiftLevel = essenceShiftLevelMax;
+                    }
+                    Player.GetAttackSpeed(DamageClass.Ranged) += .05f * essenceShiftLevel;
+                    Player.GetArmorPenetration(DamageClass.Ranged) += (float)essenceShiftLevel / 3;
+                    Player.moveSpeed += .015f * essenceShiftLevel;
+                    Player.accRunSpeed += Player.accRunSpeed * .015f * essenceShiftLevel;
+                }
+            } 
+            else
             {
                 essenceShiftLevel = 0;
                 Player.ClearBuff(ModContent.BuffType<EssenceShift>());

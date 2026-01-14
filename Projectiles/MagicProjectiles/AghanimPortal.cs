@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Utilities;
+using Mono.Cecil;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -39,11 +41,20 @@ namespace MogMod.Projectiles.MagicProjectiles
             // drift to a stop after being launched
             if (Projectile.timeLeft < 580)
                 Projectile.velocity *= 0.882f;
-
-            NPC target = Projectile.Center.ClosestNPCAt(800);
-            if ((Projectile.timeLeft == 550) && target != null)
+            var source = Projectile.GetSource_FromThis();
+            if ((Projectile.timeLeft == 550))
             {
-                MogModUtils.MagnetSphereHitscan(Projectile, Vector2.Distance(Projectile.Center, target.Center), 8f, 0, 3, ModContent.ProjectileType<AghanimLaser>(), 1D, true);
+                Projectile.NewProjectile(source, Projectile.Center, Projectile.velocity, ModContent.ProjectileType<AghanimLaser>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(source, Projectile.Center.X * -1, Projectile.Center.Y * -1, Projectile.velocity.X * -1, Projectile.velocity.Y * -1, ModContent.ProjectileType<AghanimLaser>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            }
+            if (Main.rand.NextBool(3))
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    int purpleDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GemAmethyst);
+                    Main.dust[purpleDust].noGravity = true;
+                    Main.dust[purpleDust].scale = 1.75f;
+                }
             }
         }
 

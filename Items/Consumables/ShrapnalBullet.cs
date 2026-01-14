@@ -9,14 +9,14 @@ namespace MogMod.Items.Consumables
     {
         public override void SetDefaults()
         {
-            Item.damage = 10;
+            Item.damage = 9;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 8;
             Item.height = 8;
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
             Item.knockBack = 1f;
-            Item.value = Item.buyPrice(0, 0, 40, 0);
+            Item.value = Item.sellPrice(copper: 24);
             Item.rare = ItemRarityID.LightRed;
             Item.shoot = ModContent.ProjectileType<ShrapnalProj>();
             Item.shootSpeed = 5f;
