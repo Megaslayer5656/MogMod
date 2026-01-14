@@ -16,6 +16,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Volume = .67f,
             PitchVariance = .02f,
         };
+        private bool initialized = false;
         public override void SetDefaults()
         {
             Projectile.width = 8;
@@ -58,17 +59,17 @@ namespace MogMod.Projectiles.MeleeProjectiles
 
         public override void AI()
         {
+            if (!initialized)
+            {
+                SoundEngine.PlaySound(stunEdgeSFX, Projectile.Center);
+                initialized = true;
+            }
             if (Main.rand.NextBool(15))
             {
                 int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.IceTorch, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 150, default, 1.25f);
                 Main.dust[d].position = Projectile.Center;
                 Main.dust[d].noLight = true;
             }
-        }
-        
-        public override void OnSpawn(IEntitySource source)
-        {
-        SoundEngine.PlaySound(stunEdgeSFX, Projectile.Center);
         }
     }
 }

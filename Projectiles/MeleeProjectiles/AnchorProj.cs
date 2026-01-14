@@ -22,6 +22,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             SoundID.Dolphin,
             SoundID.Duck
         };
+        private bool initialized = false;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
@@ -48,6 +49,13 @@ namespace MogMod.Projectiles.MeleeProjectiles
 
         public override void AI()
         {
+            int chosenSound = Main.rand.Next(randomSound.Count);
+
+            if (!initialized)
+            {
+                SoundEngine.PlaySound(randomSound[chosenSound], Projectile.Center);
+                initialized = true;
+            }
             float maxDetectRadius = 500f;
             NPC closestNPC = null;
             float sqrMaxDetectRadius = maxDetectRadius * maxDetectRadius;
@@ -100,8 +108,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
 
         public override void OnSpawn(IEntitySource source)
         {
-            int chosenSound = Main.rand.Next(randomSound.Count);
-            SoundEngine.PlaySound(randomSound[chosenSound], Projectile.Center);
             for (int i = 0; i < 4; i++)
             {
                 int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.WaterCandle, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 100, default, 2f);
