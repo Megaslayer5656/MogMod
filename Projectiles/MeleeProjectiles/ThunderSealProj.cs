@@ -56,7 +56,10 @@ namespace MogMod.Projectiles.MeleeProjectiles
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.DelBuff(target.FindBuffIndex(ModContent.BuffType<ShockState>())); //Does this fix the sync? Hopefully, I can't test rn
+            if (target.HasBuff<ShockState>())
+            {
+                target.DelBuff(target.FindBuffIndex(ModContent.BuffType<ShockState>())); //Does this fix the sync? Hopefully, I can't test rn
+            }
         }
 
         public override void OnSpawn(IEntitySource source)

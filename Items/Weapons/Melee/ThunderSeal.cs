@@ -78,7 +78,6 @@ namespace MogMod.Items.Weapons.Melee
                 {
                     MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ThunderSealProj>(), 75, 0f, player.whoAmI, false, 0f);
                 }
-                target.DelBuff(target.FindBuffIndex(ModContent.BuffType<ShockState>()));
             }
         }
 
