@@ -4,6 +4,7 @@ using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria.Audio;
 using MogMod.Buffs.Debuffs;
+using Terraria.DataStructures;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {

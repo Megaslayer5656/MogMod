@@ -3,6 +3,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.Audio;
+using MogMod.Buffs.Debuffs;
+using Terraria.DataStructures;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
@@ -57,9 +59,9 @@ namespace MogMod.Projectiles.MeleeProjectiles
             target.DelBuff(target.FindBuffIndex(ModContent.BuffType<ShockState>())); //Does this fix the sync? Hopefully, I can't test rn
         }
 
-         public override void OnSpawn(IEntitySource source)
-         {
-             SoundEngine.PlaySound(shockStateMeleeProc, Projectile.Center);
-         }
+        public override void OnSpawn(IEntitySource source)
+        {
+            SoundEngine.PlaySound(shockStateMeleeProc, Projectile.Center);
+        }
     }
 }
