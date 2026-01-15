@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria;
-using MogMod.Common.Classes;
 using Terraria.ID;
+using MogMod.Common.Classes;
 
-namespace MogMod.Items.Consumables
+namespace MogMod.Items.Ammo
 {
-    public class BouncyBoulderAmmo : ModItem
+    public class BoulderAmmo : ModItem
     {
         public override void SetDefaults()
         {
@@ -23,7 +18,7 @@ namespace MogMod.Items.Consumables
             Item.knockBack = 1f;
             Item.value = 10;
             Item.rare = ItemRarityID.Green;
-            Item.shoot = ProjectileID.BouncyBoulder;
+            Item.shoot = ProjectileID.Boulder;
             Item.shootSpeed = 4.5f;
             Item.ammo = Item.type;
         }

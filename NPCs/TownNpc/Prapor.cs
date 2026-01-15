@@ -11,6 +11,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using MogMod.Items.Weapons.Ranged;
 using MogMod.Items.Consumables;
+using MogMod.Items.Ammo;
 
 namespace MogMod.NPCs.TownNpc
 {

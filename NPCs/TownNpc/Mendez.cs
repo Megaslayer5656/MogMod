@@ -1,6 +1,7 @@
 ﻿using MogMod.Items.Accessories;
 using MogMod.Items.Consumables;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,7 +80,13 @@ namespace MogMod.NPCs.TownNpc
         public override void AddShops()
         {
             NPCShop shop = new(Type);
-            shop.Add<LedX>()
+            shop.Add<BizarreMusicBox>()
+                .Add<DesperateMusicBox>()
+                .Add<RajangMusicBox>()
+                .Add<RideTheFireMusicBox>()
+                .Add<KingVonMusicBox>()
+                .Add<VonEvilIncarnateMusicBox>()
+                .Add<LedX>()
                 .Add((ItemID.ChlorophyteShotbow), Condition.DownedMechBossAny)
                 .Add<Phasma>()
                 .Add(ModContent.ItemType<EyeOfMendez>(), Condition.PlayerCarriesItem(ModContent.ItemType<RedX>()))

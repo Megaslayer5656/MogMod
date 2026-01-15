@@ -1,5 +1,4 @@
 ﻿using MogMod.Common.Classes;
-using MogMod.Items.Consumables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +10,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
+using MogMod.Items.Ammo;
 
 namespace MogMod.Items.Weapons.Boulder
 {

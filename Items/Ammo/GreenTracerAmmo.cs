@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using MogMod.Projectiles.RangedProjectiles;
 
-namespace MogMod.Items.Consumables
+namespace MogMod.Items.Ammo
 {
     public class GreenTracerAmmo : ModItem
     {

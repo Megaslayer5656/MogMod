@@ -1,10 +1,10 @@
 ﻿using System;
 using Terraria.ModLoader;
 using Terraria;
-using MogMod.Items.Consumables;
 using Terraria.Audio;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using MogMod.Items.Ammo;
 
 namespace MogMod.Items.Weapons.Ranged
 {

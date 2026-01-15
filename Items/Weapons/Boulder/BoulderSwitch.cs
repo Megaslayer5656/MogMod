@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
-using MogMod.Items.Consumables;
 using Terraria.Audio;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using MogMod.Common.Classes;
 using Terraria.DataStructures;
+using MogMod.Items.Ammo;
 
 namespace MogMod.Items.Weapons.Boulder
 {

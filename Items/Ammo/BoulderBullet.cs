@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using MogMod.Projectiles.RangedProjectiles;
 
-namespace MogMod.Items.Consumables
+namespace MogMod.Items.Ammo
 {
     public class BoulderBullet : ModItem
     {
@@ -26,7 +26,7 @@ namespace MogMod.Items.Consumables
         {
             CreateRecipe(100).
                 AddIngredient(ItemID.MusketBall, 100).
-                AddIngredient(ItemID.Boulder, 5).
+                AddIngredient(ItemID.Boulder, 1).
                 AddTile(TileID.Anvils).
                 Register();
         }

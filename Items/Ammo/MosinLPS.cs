@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 using Terraria;
 using MogMod.Projectiles.RangedProjectiles;
 
-namespace MogMod.Items.Consumables
+namespace MogMod.Items.Ammo
 {
     public class MosinLPS : ModItem
     {

@@ -33,8 +33,8 @@ namespace MogMod.Items.Weapons.Ranged
         public override Vector2? HoldoutOffset() => new Vector2(0, 0);
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float SpeedX = velocity.X + Main.rand.Next(-5, 6) * 0.05f;
-            float SpeedY = velocity.Y + Main.rand.Next(-5, 6) * 0.05f;
+            float SpeedX = velocity.X + Main.rand.Next(-10, 11) * 0.05f;
+            float SpeedY = velocity.Y + Main.rand.Next(-10, 11) * 0.05f;
             if (Main.rand.NextBool(7))
             {
                 Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<MinislarkProj>(), damage, knockback, player.whoAmI);
