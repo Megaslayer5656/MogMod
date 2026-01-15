@@ -92,7 +92,7 @@ Mods: {
 
 			GlueBuff: {
 				DisplayName: Glue Buff
-				Description: POTEMKIN BUSTER
+				Description: 'POTEMKIN BUSTER'
 			}
 
 			GlueDebuff: {
@@ -107,7 +107,7 @@ Mods: {
 
 			GlimmerCapeBuff: {
 				DisplayName: Glimmer Cape
-				Description: Your invisible, regen mana much quicker and move faster!
+				Description: You're invisible, regen mana much quicker and move faster!
 			}
 
 			GlimmerCapeDebuff: {
@@ -425,9 +425,9 @@ Mods: {
 				EvilAPLapua.DisplayName: Evil AP Lapua Bullet
 				ShrapnalProj.DisplayName: Shrapnal Bullet
 				ShrapnalSkyProj.DisplayName: Shrapnal Shot
-				MegaslarkProj.DisplayName: Megaslark Proj
-				MinislarkProj.DisplayName: Minislark Proj
-				BoulderBulletProj.DisplayName: Boulder Bullet Proj
+				MegaslarkProj.DisplayName: Megaslark
+				MinislarkProj.DisplayName: Minislark
+				BoulderBulletProj.DisplayName: Boulder Bullet
 			}
 
 			MeleeProjectiles: {
@@ -445,8 +445,8 @@ Mods: {
 				DesolatorProj.DisplayName: Desolator
 			}
 
-			VonNade.DisplayName: Von Nade
-			VonGreenTracerProj.DisplayName: Von Green Tracer Proj
+			VonNade.DisplayName: Von Grenade
+			VonGreenTracerProj.DisplayName: Von's Green Tracer
 		}
 	}
 }
