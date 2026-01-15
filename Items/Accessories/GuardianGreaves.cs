@@ -29,25 +29,22 @@ namespace MogMod.Items.Accessories
             // give mana boots an on button press affect that restores 200 mana and if possible does so to everyone
             player.moveSpeed += .25f;
             player.accRunSpeed = 8.5f;
-            player.statLifeMax2 += 20;
-            player.statManaMax2 += 100;
+            player.statManaMax2 += 50;
             player.tileSpeed += .40f;
-            player.lifeRegen += 6;
-            player.statDefense += 5;
             player.aggro -= 1000;
             player.manaRegen += (int)Math.Round(player.manaRegen * .5f);
             player.manaRegenDelay -= 5f;
             player.GetDamage(DamageClass.Melee) += -.30f;
-            player.GetDamage(DamageClass.Generic) += .10f;
             Player.tileRangeX = Player.tileRangeY += 3;
             // a check on whether the player is wearing boots
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingGigaManaBoots = true;
 
             //provides a buff to players on your team
-            if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
+            if (player.miscCounter % 10 == 0)
             {
                 int myPlayer = Main.myPlayer;
+                player.AddBuff(teamBuff, 20);
                 if (Main.player[myPlayer].team == player.team && player.team != 0)
                 {
                     float teamPlayerXDist = player.position.X - Main.player[myPlayer].position.X;

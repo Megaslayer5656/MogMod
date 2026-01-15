@@ -1341,10 +1341,6 @@ Items: {
 
 	BoulderBullet: {
 		DisplayName: Boulder Bullet
-		Tooltip:
-			'''
-			Extremely heavy
-			Can hurt the player
-			'''
+		Tooltip: Bullets are heavier and can roll on the ground
 	}
 }

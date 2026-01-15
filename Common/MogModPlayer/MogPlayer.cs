@@ -403,9 +403,14 @@ namespace MogMod.Common.MogModPlayer
             int blademailCooldown = ModContent.BuffType<Buffs.Cooldowns.BladeMailDebuff>();
             int ShivasCooldown = ModContent.BuffType<ShivasDebuff>();
 
+            // one time buffs (and armlet)
             int locketHeal = ModContent.BuffType<HolyLocketBuff>();
             int wandHeal = ModContent.BuffType<WandBuff>();
             int stickHeal = ModContent.BuffType<MagicStickBuff>();
+
+            int greavesHeal = ModContent.BuffType<GuardianGreavesBuff>();
+            int mekansmHeal = ModContent.BuffType<MekansmBuff>();
+
             int armletToggled = ModContent.BuffType<Buffs.PotionBuffs.ArmletOfMordiggianBuff>();
 
             // dragon install
@@ -459,6 +464,23 @@ namespace MogMod.Common.MogModPlayer
             // arcane boots
             if (KeybindSystem.ArcaneBootsKeybind.JustPressed && wearingManaBoots && !Player.HasBuff(manabootsCooldown))
             {
+                for (int i = 0; i < Main.maxPlayers; i++)
+                {
+                    Terraria.Player targetPlayer = Main.player[i];
+                    if (targetPlayer.active && targetPlayer.team == targetPlayer.team && targetPlayer.team != 0)
+                    {
+                        targetPlayer.AddBuff(greavesHeal, 600);
+                        //if (Main.netMode == NetmodeID.Server) // Check if the game is in multiplayer server mode
+                        //{
+                        //    NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, null, i, mekansmHeal, 600f, 0f, 0, 0, 0);
+                        //}
+                        for (int k = 0; k < 16; k++)
+                        {
+                            Dust dust2 = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.ManaRegeneration);
+                            dust2.scale = Main.rand.NextFloat(0.6f, 0.8f);
+                        }
+                    }
+                }
                 // make it play a sound when activating
                 Player.statMana += 200;
                 Player.AddBuff(manabootsCooldown, 1800);

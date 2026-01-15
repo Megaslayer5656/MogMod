@@ -14,7 +14,7 @@ namespace MogMod.Buffs.AccessoryAuras
         {
             player.statDefense += 3;
             player.GetDamage(DamageClass.Generic) += .07f;
-            player.lifeSteal += 35;
+            player.lifeSteal *= 1.2f;
             player.manaRegen += (int)Math.Round(player.manaRegen * .05f);
         }
     }

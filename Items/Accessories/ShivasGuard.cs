@@ -4,9 +4,6 @@ using MogMod.Items.Other;
 using MogMod.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,17 +28,17 @@ namespace MogMod.Items.Accessories
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingShivasGuard = true;
-            player.statDefense += 10;
-            player.GetDamage(DamageClass.Ranged) -= .30f;
+            player.GetDamage(DamageClass.Ranged) -= .60f;
             player.GetDamage(DamageClass.Magic) += .10f;
             player.GetDamage(DamageClass.Generic) += .10f;
             player.GetAttackSpeed(DamageClass.Generic) += .10f;
             player.lifeRegen += 4;
             player.statManaMax2 += 50;
             player.statLifeMax2 += 50;
-            if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
+            if (player.miscCounter % 10 == 0)
             {
                 int myPlayer = Main.myPlayer;
+                player.AddBuff(teamBuff, 20);
                 if (Main.player[myPlayer].team == player.team && player.team != 0)
                 {
                     float teamPlayerXDist = player.position.X - Main.player[myPlayer].position.X;

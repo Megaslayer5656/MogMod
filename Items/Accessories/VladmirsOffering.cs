@@ -1,10 +1,5 @@
-﻿using MogMod.Common.MogModPlayer;
-using MogMod.Items.Other;
+﻿using MogMod.Items.Other;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,14 +20,12 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statDefense += 3;
             player.maxTurrets += 2;
-            player.GetDamage(DamageClass.Generic) += .07f;
-            player.lifeSteal += 35;
-            player.manaRegen += (int)Math.Round(player.manaRegen * .05f);
-            if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
+            player.lifeSteal *= 1.2f;
+            if (player.miscCounter % 10 == 0)
             {
                 int myPlayer = Main.myPlayer;
+                player.AddBuff(teamBuff, 20);
                 if (Main.player[myPlayer].team == player.team && player.team != 0)
                 {
                     float teamPlayerXDist = player.position.X - Main.player[myPlayer].position.X;

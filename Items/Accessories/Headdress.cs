@@ -22,11 +22,11 @@ namespace MogMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.lifeRegen += 4;
             player.GetDamage(DamageClass.Melee) += -.30f;
-            if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
+            if (player.miscCounter % 10 == 0)
             {
                 int myPlayer = Main.myPlayer;
+                player.AddBuff(teamBuff, 20);
                 if (Main.player[myPlayer].team == player.team && player.team != 0)
                 {
                     float teamPlayerXDist = player.position.X - Main.player[myPlayer].position.X;

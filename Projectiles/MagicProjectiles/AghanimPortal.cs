@@ -45,7 +45,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             if ((Projectile.timeLeft == 550))
             {
                 Projectile.NewProjectile(source, Projectile.Center, Projectile.velocity, ModContent.ProjectileType<AghanimLaser>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                Projectile.NewProjectile(source, Projectile.Center.X * -1, Projectile.Center.Y * -1, Projectile.velocity.X * -1, Projectile.velocity.Y * -1, ModContent.ProjectileType<AghanimLaser>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(source, Projectile.Center.Y, Projectile.Center.X, Projectile.velocity.Y, Projectile.velocity.X, ModContent.ProjectileType<AghanimLaser>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             if (Main.rand.NextBool(3))
             {
