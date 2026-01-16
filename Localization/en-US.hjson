@@ -92,7 +92,7 @@ Mods: {
 
 			GlueBuff: {
 				DisplayName: Glue Buff
-				Description: 'POTEMKIN BUSTER'
+				Description: POTEMKIN BUSTER
 			}
 
 			GlueDebuff: {
