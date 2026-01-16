@@ -160,7 +160,6 @@ namespace MogMod.Common.MogModPlayer
                     Player.GetAttackSpeed(DamageClass.Melee) += .1f * essenceShiftLevel;
                     Player.moveSpeed += .025f * essenceShiftLevel;
                     Player.accRunSpeed += Player.accRunSpeed * .025f * essenceShiftLevel;
-                    SyncEssenceShift(-1, Player.whoAmI);
                 }
                 if (Player.HeldItem.Name == "Megaslark")
                 {
@@ -172,7 +171,6 @@ namespace MogMod.Common.MogModPlayer
                     Player.GetArmorPenetration(DamageClass.Ranged) += essenceShiftLevel;
                     Player.moveSpeed += .025f * essenceShiftLevel;
                     Player.accRunSpeed += Player.accRunSpeed * .025f * essenceShiftLevel;
-                    SyncEssenceShift(-1, Player.whoAmI);
                 }
                 if (Player.HeldItem.Name == "Minislark")
                 {
@@ -184,14 +182,13 @@ namespace MogMod.Common.MogModPlayer
                     Player.GetArmorPenetration(DamageClass.Ranged) += (float)essenceShiftLevel / 3;
                     Player.moveSpeed += .015f * essenceShiftLevel;
                     Player.accRunSpeed += Player.accRunSpeed * .015f * essenceShiftLevel;
-                    SyncEssenceShift(-1, Player.whoAmI);
                 }
             } 
             else
             {
                 essenceShiftLevel = 0;
                 Player.ClearBuff(ModContent.BuffType<EssenceShift>());
-                SyncEssenceShift(-1, Player.whoAmI);
+                SyncEssenceShift(false);
             }
 
             // fiery soul stacking buff

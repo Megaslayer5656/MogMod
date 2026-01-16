@@ -1,6 +1,8 @@
 using System.Drawing.Text;
+using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using Terraria.ModLoader;
+using MogMod.Common.Systems;
 
 namespace MogMod
 {
@@ -10,5 +12,7 @@ namespace MogMod
         {
             
         }
+
+        public override void HandlePacket(BinaryReader reader, int whoAmI) => MogModNetcode.HandlePacket(this, reader, whoAmI);
     }
 }

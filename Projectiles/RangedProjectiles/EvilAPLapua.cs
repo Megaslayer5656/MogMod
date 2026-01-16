@@ -28,7 +28,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.timeLeft = 200;
             Projectile.light = .5f;
             Projectile.ignoreWater = true;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
             Projectile.extraUpdates = 1;
             Projectile.scale = .60f;
 
@@ -45,8 +45,7 @@ namespace MogMod.Projectiles.RangedProjectiles
 
             if (Projectile.ai[0] >= 1f)
             {
-                Projectile.tileCollide = false;
-                MogModUtils.HomeInOnNPC(Projectile, true, 900f, 15f, 15f);
+                MogModUtils.HomeInOnNPC(Projectile, true, 800f, 15f, 15f);
                 Projectile.extraUpdates = 70;
             }
 

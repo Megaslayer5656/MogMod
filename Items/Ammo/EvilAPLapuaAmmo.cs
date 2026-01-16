@@ -9,7 +9,7 @@ namespace MogMod.Items.Ammo
     {
         public override void SetDefaults()
         {
-            Item.damage = 9;
+            Item.damage = 5;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 8;
             Item.height = 8;
@@ -19,7 +19,7 @@ namespace MogMod.Items.Ammo
             Item.value = Item.sellPrice(copper: 11);
             Item.rare = ItemRarityID.LightPurple;
             Item.shoot = ModContent.ProjectileType<EvilAPLapua>();
-            Item.shootSpeed = 3.5f;
+            Item.shootSpeed = 5f;
             Item.ammo = ItemID.MusketBall;
         }
         public override void AddRecipes()

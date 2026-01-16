@@ -43,7 +43,6 @@
     <None Remove="Items\Accessories\YashaAndKaya.png" />
     <None Remove="Items\BloodInfusion.png" />
     <None Remove="Items\Consumables\Glue.png" />
-    <None Remove="Items\Consumables\GreenTracerAmmo.png" />
     <None Remove="Items\Consumables\VonSpawner.png" />
     <None Remove="Items\Other\SoulOfDabdad.png" />
     <None Remove="Items\Placeable\DabdadOreP.png" />

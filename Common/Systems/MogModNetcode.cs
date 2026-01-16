@@ -4,6 +4,8 @@ using Terraria.ModLoader;
 using System.IO;
 using Terraria.ID;
 using MogMod.Utilities;
+using MogMod.Common.MogModPlayer;
+using System;
 
 namespace MogMod.Common.Systems
 {
@@ -11,13 +13,20 @@ namespace MogMod.Common.Systems
     {
         public static void HandlePacket(Mod mod, BinaryReader reader, int whoAmI)
         {
-            //TODO: Add try-catch for debugging
-            MogModMessageType msgType = (MogModMessageType)reader.ReadByte();
-            switch (msgType)
+            try
             {
-                case MogModMessageType.EssenceShiftStackSync:
-                    Main.player[reader.ReadInt32()].MogMod().HandleEssenceShiftStack(reader, whoAmI);
-                    break;
+                MogModMessageType msgType = (MogModMessageType)reader.ReadByte();
+
+                switch (msgType)
+                {
+                    case MogModMessageType.EssenceShiftStackSync:
+                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleEssenceShiftStack(reader);
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                mod.Logger.Error("MogMod packet error: " + e);
             }
         }
 

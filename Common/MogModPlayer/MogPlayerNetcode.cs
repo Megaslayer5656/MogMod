@@ -4,40 +4,31 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using MogMod.Common.Systems;
+using static MogMod.Common.Systems.MogModNetcode;
+using MogMod.Utilities;
+using Terraria.GameContent.UI;
 
 namespace MogMod.Common.MogModPlayer
 {
     public partial class MogPlayer : ModPlayer
     {
-        public void SyncEssenceShift(int toWho, int fromWho)
+        public void SyncEssenceShift(bool server)
         {
-            MogPlayer mogPlayer = Main.player[fromWho].GetModPlayer<MogPlayer>();
             ModPacket packet = Mod.GetPacket(256);
-            packet.Write((byte)MogModNetcode.MogModMessageType.EssenceShiftStackSync);
-            if (Main.netMode == NetmodeID.Server)
-            {
-                packet.Write(fromWho);
-            }
+            MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
+
+            packet.Write((byte)MogModMessageType.EssenceShiftStackSync);
+            packet.Write(Player.whoAmI);
             packet.Write(mogPlayer.essenceShiftLevel);
-            //Add stuff here about the player's stats changing due to essence shift (refer to intermediate netcode documentation on the tmodloader github repo wiki)
-            packet.Send(toWho, fromWho);
+            Player.SendPacket(packet, server);
         }
 
-        internal void HandleEssenceShiftStack(BinaryReader reader, int fromWho)
+        internal void HandleEssenceShiftStack(BinaryReader reader)
         {
-            if (Main.netMode == NetmodeID.MultiplayerClient)
-            {
-                fromWho = reader.ReadInt32();
-            }
-            int essenceShiftLevelNetcode = reader.ReadInt32();
-            //Add stuff here about the player's stats changing due to essence shift (refer to intermediate netcode documentation on the tmodloader github repo wiki)
+            essenceShiftLevel = reader.ReadInt32();
             if (Main.netMode == NetmodeID.Server)
             {
-                SyncEssenceShift(-1, fromWho);
-            } else
-            {
-                MogPlayer mogPlayer = Main.player[fromWho].GetModPlayer<MogPlayer>();
-                mogPlayer.essenceShiftLevel = essenceShiftLevelNetcode;
+                SyncEssenceShift(true);
             }
         }
     }
