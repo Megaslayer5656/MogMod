@@ -20,11 +20,11 @@ namespace MogMod.Items.Weapons.Magic
         {
             Item.width = 32;
             Item.height = 32;
-            Item.damage = 84;
+            Item.damage = 86;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 40;
-            Item.useTime = 10;
-            Item.useAnimation = 30;
+            Item.useTime = 15;
+            Item.useAnimation = 45;
             Item.reuseDelay = Item.useAnimation + 3;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
