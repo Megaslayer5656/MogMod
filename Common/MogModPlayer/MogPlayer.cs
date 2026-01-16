@@ -16,7 +16,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Common.MogModPlayer
 {
-    public class MogPlayer : ModPlayer
+    public partial class MogPlayer : ModPlayer
     {
         #region Setup
         public bool mewing = false;
