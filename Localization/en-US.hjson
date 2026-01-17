@@ -447,6 +447,7 @@ Mods: {
 
 			VonNade.DisplayName: Von Grenade
 			VonGreenTracerProj.DisplayName: Von's Green Tracer
+			SummonerProjectiles.ProximityMinesSummon.DisplayName: Proximity Mines Summon
 		}
 	}
 }

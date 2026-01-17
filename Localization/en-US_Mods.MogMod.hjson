@@ -1116,6 +1116,18 @@ Items: {
 					'''
 			}
 		}
+
+		Summoner: {
+			ProximityMines: {
+				DisplayName: Proximity Mines
+				Tooltip:
+					'''
+					Summons a sentry
+					Explodes when enemies come near
+					'Yes you're a good little mine. Yes you are.'
+					'''
+			}
+		}
 	}
 
 	RajangBossBag: {
