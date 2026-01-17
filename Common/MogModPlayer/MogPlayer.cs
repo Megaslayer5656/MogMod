@@ -188,7 +188,10 @@ namespace MogMod.Common.MogModPlayer
             {
                 essenceShiftLevel = 0;
                 Player.ClearBuff(ModContent.BuffType<EssenceShift>());
-                SyncEssenceShift(false);
+                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    SyncEssenceShift(false);
+                }
             }
 
             // fiery soul stacking buff
