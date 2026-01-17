@@ -60,6 +60,7 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingShivasGuard = false;
         public int shivasSlowTimer = 0;
         public int shivasSlowTimerMax = 36000;
+        public bool shivasAttack = false;
 
         public int forceDirection = -1;
         public const int DashDown = 0;
@@ -113,6 +114,38 @@ namespace MogMod.Common.MogModPlayer
             PitchVariance = .2f,
             MaxInstances = 1,
         };
+        #endregion
+
+        #region Mod Buff ID/s
+        int glimmerBuff = ModContent.BuffType<Buffs.PotionBuffs.GlimmerCapeBuff>();
+        int satanicBuff = ModContent.BuffType<Buffs.PotionBuffs.SatanicBuff>();
+        int blademailBuff = ModContent.BuffType<Buffs.PotionBuffs.BladeMailBuff>();
+
+        // cooldowns
+        int refresherCooldown = ModContent.BuffType<Buffs.Cooldowns.RefresherOrbDebuff>();
+        int glimmerCooldown = ModContent.BuffType<Buffs.Cooldowns.GlimmerCapeDebuff>();
+        int satanicCooldown = ModContent.BuffType<Buffs.Cooldowns.SatanicDebuff>();
+        int manabootsCooldown = ModContent.BuffType<Buffs.Cooldowns.ArcaneBootsDebuff>();
+        int guardianCooldown = ModContent.BuffType<Buffs.Cooldowns.GuardianGreavesDebuff>();
+        int mekansmCooldown = ModContent.BuffType<Buffs.Cooldowns.MekansmDebuff>();
+        int helmOfDominator = ModContent.BuffType<Buffs.Cooldowns.HelmOfDominatorDebuff>();
+        int forceStaffCooldown = ModContent.BuffType<Buffs.Cooldowns.ForceStaffDebuff>();
+        int blademailCooldown = ModContent.BuffType<Buffs.Cooldowns.BladeMailDebuff>();
+        int ShivasCooldown = ModContent.BuffType<ShivasDebuff>();
+
+        // one time buffs (and armlet)
+        int locketHeal = ModContent.BuffType<HolyLocketBuff>();
+        int wandHeal = ModContent.BuffType<WandBuff>();
+        int stickHeal = ModContent.BuffType<MagicStickBuff>();
+
+        int greavesHeal = ModContent.BuffType<GuardianGreavesBuff>();
+        int mekansmHeal = ModContent.BuffType<MekansmBuff>();
+
+        int armletToggled = ModContent.BuffType<Buffs.PotionBuffs.ArmletOfMordiggianBuff>();
+
+        // dragon install
+        int dragonInstall = ModContent.BuffType<Buffs.PotionBuffs.DragonInstallBuff>();
+        int dragonInstallCooldown = ModContent.BuffType<Buffs.Cooldowns.DragonInstallCooldown>();
         #endregion
 
         #region In Game Checks
@@ -390,38 +423,6 @@ namespace MogMod.Common.MogModPlayer
         // the big one
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            #region Mod Buff ID/s
-            int glimmerBuff = ModContent.BuffType<Buffs.PotionBuffs.GlimmerCapeBuff>();
-            int satanicBuff = ModContent.BuffType<Buffs.PotionBuffs.SatanicBuff>();
-            int blademailBuff = ModContent.BuffType<Buffs.PotionBuffs.BladeMailBuff>();
-
-            // cooldowns
-            int refresherCooldown = ModContent.BuffType<Buffs.Cooldowns.RefresherOrbDebuff>();
-            int glimmerCooldown = ModContent.BuffType<Buffs.Cooldowns.GlimmerCapeDebuff>();
-            int satanicCooldown = ModContent.BuffType<Buffs.Cooldowns.SatanicDebuff>();
-            int manabootsCooldown = ModContent.BuffType<Buffs.Cooldowns.ArcaneBootsDebuff>();
-            int guardianCooldown = ModContent.BuffType<Buffs.Cooldowns.GuardianGreavesDebuff>();
-            int mekansmCooldown = ModContent.BuffType<Buffs.Cooldowns.MekansmDebuff>();
-            int helmOfDominator = ModContent.BuffType<Buffs.Cooldowns.HelmOfDominatorDebuff>();
-            int forceStaffCooldown = ModContent.BuffType<Buffs.Cooldowns.ForceStaffDebuff>();
-            int blademailCooldown = ModContent.BuffType<Buffs.Cooldowns.BladeMailDebuff>();
-            int ShivasCooldown = ModContent.BuffType<ShivasDebuff>();
-
-            // one time buffs (and armlet)
-            int locketHeal = ModContent.BuffType<HolyLocketBuff>();
-            int wandHeal = ModContent.BuffType<WandBuff>();
-            int stickHeal = ModContent.BuffType<MagicStickBuff>();
-
-            int greavesHeal = ModContent.BuffType<GuardianGreavesBuff>();
-            int mekansmHeal = ModContent.BuffType<MekansmBuff>();
-
-            int armletToggled = ModContent.BuffType<Buffs.PotionBuffs.ArmletOfMordiggianBuff>();
-
-            // dragon install
-            int dragonInstall = ModContent.BuffType<Buffs.PotionBuffs.DragonInstallBuff>();
-            int dragonInstallCooldown = ModContent.BuffType<Buffs.Cooldowns.DragonInstallCooldown>();
-            #endregion
-
             #region Accessory Checks
             // refresher orb
             if (KeybindSystem.RefresherOrbKeybind.JustPressed && wearingRefresherOrb && !Player.HasBuff(refresherCooldown))
@@ -556,47 +557,10 @@ namespace MogMod.Common.MogModPlayer
             //Shiva's Guard
             if (KeybindSystem.ShivasKeybind.JustPressed && wearingShivasGuard && !Player.HasBuff(ShivasCooldown))
             {
-                for (int i = 0; i < Main.maxNPCs; i++) //Every npc is in an index, this goes through all of them
+                doShivas(Player, Player.Center);
+                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
                 {
-                    NPC otherNPC = Main.npc[i]; //This sets the var otherNPC to the current npc we are targeting in the index
-                    if (otherNPC.active && otherNPC.townNPC == false && otherNPC.whoAmI != otherNPC.whoAmI - 1) //Makes shivas not hit inactive npcs, townNpcs, and not cast on the same npc twice.
-                    {
-                        if (Microsoft.Xna.Framework.Vector2.Distance(Player.Center, otherNPC.Center) < 1200f)
-                        {
-                            var hitInfo = new NPC.HitInfo //Hit info used in otherNPC.StrikeNPC(hitInfo)
-                            {
-                                Damage = 200,
-                                Knockback = 0,
-                                HitDirection = Player.direction,
-                                Crit = false,
-                                DamageType = DamageClass.Generic
-                            };
-                            otherNPC.StrikeNPC(hitInfo); //Must use this instead of modifying the npc's life stat
-                            NetMessage.SendStrikeNPC(otherNPC, hitInfo); //Vital for sending the hit to other clients (stops desync)
-                            otherNPC.defense -= Convert.ToInt32(otherNPC.defense * .15); //Removes 15% of enemy's defense (rounded)
-                            //TODO: Put the stat decreases on a timer (Make them debuffs), slow enemies.
-                        }
-                    }
-                    Player.AddBuff(ShivasCooldown, 3600);
-                    SoundEngine.PlaySound(ShivasActivateSound, Player.Center); //TODO: Make this work in multiplayer
-                }
-
-                for (int i = 0; i < 80; i++)
-                {
-                    Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
-                    dustVelocity.Normalize();
-                    dustVelocity *= 6;
-
-                    int dustPos = 20;
-
-                    int shiva1 = Dust.NewDust(Player.Center, dustPos, dustPos, DustID.SnowSpray, dustVelocity.X * 3, dustVelocity.Y * 3, 0, default, 3f);
-                    Main.dust[shiva1].noGravity = true;
-                    Main.dust[shiva1].fadeIn = 5f;
-                    Main.dust[shiva1].velocity *= 3f;
-                    int shiva2 = Dust.NewDust(Player.Center, dustPos-5, dustPos-5, DustID.Snow, dustVelocity.X * 2, dustVelocity.Y * 2, 0, Color.White, 9f);
-                    Main.dust[shiva2].noGravity = true;
-                    Main.dust[shiva2].fadeIn = 5f;
-                    Main.dust[shiva2].velocity *= 3f;
+                    SyncShivas(false, Player.Center);
                 }
             }
 
@@ -652,6 +616,53 @@ namespace MogMod.Common.MogModPlayer
                 armletTimer += 1;
             }
             #endregion
+        }
+
+        public void doShivas(Terraria.Player player, Vector2 center)
+        {
+            for (int i = 0; i < Main.maxNPCs; i++) //Every npc is in an index, this goes through all of them
+            {
+                NPC otherNPC = Main.npc[i]; //This sets the var otherNPC to the current npc we are targeting in the index
+                if (otherNPC.active && otherNPC.townNPC == false && otherNPC.whoAmI != otherNPC.whoAmI - 1) //Makes shivas not hit inactive npcs, townNpcs, and not cast on the same npc twice.
+                {
+                    if (Microsoft.Xna.Framework.Vector2.Distance(center, otherNPC.Center) < 1200f)
+                    {
+                        var hitInfo = new NPC.HitInfo //Hit info used in otherNPC.StrikeNPC(hitInfo)
+                        {
+                            Damage = 200,
+                            Knockback = 0,
+                            HitDirection = Player.direction,
+                            Crit = false,
+                            DamageType = DamageClass.Generic
+                        };
+                        otherNPC.StrikeNPC(hitInfo); //Must use this instead of modifying the npc's life stat
+                        NetMessage.SendStrikeNPC(otherNPC, hitInfo); //Vital for sending the hit to other clients (stops desync)
+                        otherNPC.defense -= Convert.ToInt32(otherNPC.defense * .15); //Removes 15% of enemy's defense (rounded)
+                                                                                     //TODO: Put the stat decreases on a timer (Make them debuffs), slow enemies.
+                    }
+                }
+            }
+
+            Player.AddBuff(ModContent.BuffType<ShivasDebuff>(), 3600);
+            SoundEngine.PlaySound(ShivasActivateSound, center);//TODO: Make this work in multiplayer
+
+            for (int i = 0; i < 80; i++)
+            {
+                Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                dustVelocity.Normalize();
+                dustVelocity *= 6;
+
+                int dustPos = 20;
+
+                int shiva1 = Dust.NewDust(center, dustPos, dustPos, DustID.SnowSpray, dustVelocity.X * 3, dustVelocity.Y * 3, 0, default, 3f);
+                Main.dust[shiva1].noGravity = true;
+                Main.dust[shiva1].fadeIn = 5f;
+                Main.dust[shiva1].velocity *= 3f;
+                int shiva2 = Dust.NewDust(center, dustPos - 5, dustPos - 5, DustID.Snow, dustVelocity.X * 2, dustVelocity.Y * 2, 0, Color.White, 9f);
+                Main.dust[shiva2].noGravity = true;
+                Main.dust[shiva2].fadeIn = 5f;
+                Main.dust[shiva2].velocity *= 3f;
+            }
         }
 
         // armlet negative hp regen is here instead of in buff for an unknown reason

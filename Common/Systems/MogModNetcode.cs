@@ -22,6 +22,10 @@ namespace MogMod.Common.Systems
                     case MogModMessageType.EssenceShiftStackSync:
                         Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleEssenceShiftStack(reader);
                         break;
+
+                    case MogModMessageType.ShivasSync:
+                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleShivas(reader);
+                        break;
                 }
             }
             catch (Exception e)
@@ -33,7 +37,7 @@ namespace MogMod.Common.Systems
         public enum MogModMessageType : byte
         {
             EssenceShiftStackSync,
-            Test,
+            ShivasSync,
             Test2
         }
     }
