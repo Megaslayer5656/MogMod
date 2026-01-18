@@ -557,17 +557,17 @@ namespace MogMod.Common.MogModPlayer
             //Shiva's Guard
             if (KeybindSystem.ShivasKeybind.JustPressed && wearingShivasGuard && !Player.HasBuff(ShivasCooldown))
             {
-                doShivas(Player, Player.Center);
+                doShivas(Player, Player.Center); //Does the thing.
                 if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
                 {
-                    SyncShivas(false, Player.Center);
+                    SyncShivas(false, Player.Center); //Netcode stuff, go to MogPlayerNetcode.cs to see what this does.
                 }
             }
 
             //Dragon Install
             if (wearingFlameOfCorruption && KeybindSystem.DragonInstallKeybind.JustPressed && !Player.HasBuff(dragonInstallCooldown))
             {
-                Player.AddBuff(dragonInstall, 6000); //These values are temporary
+                Player.AddBuff(dragonInstall, 6000); //These values are temporary.
                 Player.AddBuff(dragonInstallCooldown, 12000);
                 for (int i = 0; i < 80; i++)
                 {
@@ -618,7 +618,7 @@ namespace MogMod.Common.MogModPlayer
             #endregion
         }
 
-        public void doShivas(Terraria.Player player, Vector2 center)
+        public void doShivas(Terraria.Player player, Vector2 center) //This needs to be its own method for netcode to work. See how I did it in MogModNetcode.cs and MogPlayerNetcode.cs
         {
             for (int i = 0; i < Main.maxNPCs; i++) //Every npc is in an index, this goes through all of them
             {
@@ -637,8 +637,7 @@ namespace MogMod.Common.MogModPlayer
                         };
                         otherNPC.StrikeNPC(hitInfo); //Must use this instead of modifying the npc's life stat
                         NetMessage.SendStrikeNPC(otherNPC, hitInfo); //Vital for sending the hit to other clients (stops desync)
-                        otherNPC.defense -= Convert.ToInt32(otherNPC.defense * .15); //Removes 15% of enemy's defense (rounded)
-                                                                                     //TODO: Put the stat decreases on a timer (Make them debuffs), slow enemies.
+                        otherNPC.AddBuff(ModContent.BuffType<ShivasEnemyDebuff>(), 1800); //Removes 15% of enemy's defense (rounded)
                     }
                 }
             }

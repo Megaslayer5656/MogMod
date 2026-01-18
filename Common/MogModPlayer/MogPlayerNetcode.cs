@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework;
 
 namespace MogMod.Common.MogModPlayer
 {
-    public partial class MogPlayer : ModPlayer
+    public partial class MogPlayer : ModPlayer //Hey Will, if you're looking at this file and are confused, go to the SyncShivas method and follow the path of comments I've set out for you to learn how this netcode stuff works.
     {
         public void SyncEssenceShift(bool server)
         {
@@ -22,19 +22,21 @@ namespace MogMod.Common.MogModPlayer
             packet.Write((byte)MogModMessageType.EssenceShiftStackSync);
             packet.Write(Player.whoAmI);
             packet.Write(mogPlayer.essenceShiftLevel);
+
             Player.SendPacket(packet, server);
         }
 
         public void SyncShivas(bool server, Vector2 position)
         {
-            ModPacket packet = Mod.GetPacket(256);
+            ModPacket packet = Mod.GetPacket(256); //Creates the packet. IMPORTANT: Info from packets needs to be read in the same order it is sent.
             MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
 
-            packet.Write((byte)MogModMessageType.ShivasSync);
-            packet.Write(Player.whoAmI);
-            packet.WriteVector2(position);
+            packet.Write((byte)MogModMessageType.ShivasSync); //Needed for MogModNetcode.cs, lets the packet handler know what handle method to use.
+            packet.Write(Player.whoAmI); //Also needed for MogModNetcode.cs, lets the packet handler know who sent the packet.
+            packet.WriteVector2(position); //This is read in the method HandleShivas(), used for the doShivas() method.
 
-            Player.SendPacket(packet, server);
+            Player.SendPacket(packet, server); //Sends the packet, the packet is initially handled in MogMogNetcode.cs, then sent back to one of the handling methods in this file.
+                                               //P.S. this method is a custom method in PlayerUtils.cs, see how it works there.
         }
 
         internal void HandleEssenceShiftStack(BinaryReader reader)
@@ -48,13 +50,12 @@ namespace MogMod.Common.MogModPlayer
 
         internal void HandleShivas(BinaryReader reader)
         {
-            Vector2 pos = reader.ReadVector2();
-            if (Main.netMode == NetmodeID.Server) 
+            Vector2 pos = reader.ReadVector2(); //Reads in the pos value
+            if (Main.netMode == NetmodeID.Server) //If the server recieves the file, sync shivas again but through the server so it sends to all clients.
             {
                 SyncShivas(true, pos);
             }
-            doShivas(Player, pos);
-
+            doShivas(Player, pos); //This is how it actually syncs, using the position read in above, it creates the shivas effect on that player.
         }
     }
 }

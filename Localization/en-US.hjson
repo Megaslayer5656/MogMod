@@ -309,6 +309,16 @@ Mods: {
 				DisplayName: Green Tracer Debuff
 				Description: Mods.MogMod.Buffs.GreenTracerDebuff.Description
 			}
+
+			ShivasEnemyDebuff: {
+				DisplayName: Shivas Enemy Debuff
+				Description: Mods.MogMod.Buffs.ShivasEnemyDebuff.Description
+			}
+
+			ButterflyCooldown: {
+				DisplayName: Butterfly Cooldown
+				Description: Mods.MogMod.Buffs.ButterflyCooldown.Description
+			}
 		}
 
 		NPCs: {
