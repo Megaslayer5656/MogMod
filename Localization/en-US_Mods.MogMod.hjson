@@ -939,7 +939,7 @@ Items: {
 				DisplayName: Parasma
 				Tooltip:
 					'''
-					Throw a halberd that explodes into 3 homing bolts on hit
+					Throw a halberd that explodes into 3 homing orbs on hit
 					Enemies hit get afflicted with Venom
 					'Devastating.'
 					'''
@@ -1110,7 +1110,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires five homing beams
-					On hit beams split into homing bolts
+					On hit beams split into homing orbs
 					Attacks also have a small chance to summon a portal, casting a slow laser at any nearby enemy
 					'The scepter of a wizard with god-like powers.'
 					'''
