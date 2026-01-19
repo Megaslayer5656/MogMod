@@ -1355,4 +1355,9 @@ Items: {
 		DisplayName: Boulder Bullet
 		Tooltip: Bullets are heavier and can roll on the ground
 	}
+
+	Butterfly: {
+		DisplayName: Butterfly
+		Tooltip: ""
+	}
 }

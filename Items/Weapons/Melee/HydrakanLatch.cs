@@ -33,7 +33,10 @@ namespace MogMod.Items.Weapons.Melee
                 player.AddBuff(ModContent.BuffType<EssenceShift>(), 600);
                 MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
                 mogPlayer.essenceShiftLevel += 1;
-                mogPlayer.SyncEssenceShift(false);
+                if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    mogPlayer.SyncEssenceShift(false);
+                }
             }
         }
     }

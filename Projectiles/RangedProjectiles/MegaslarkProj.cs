@@ -107,6 +107,10 @@ namespace MogMod.Projectiles.RangedProjectiles
                 player.AddBuff(ModContent.BuffType<EssenceShift>(), 600);
                 MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
                 mogPlayer.essenceShiftLevel += 1;
+                if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    mogPlayer.SyncEssenceShift(false);
+                }
             }
             target.AddBuff(BuffID.Wet, 600);
             target.AddBuff(169, 600);
@@ -119,6 +123,10 @@ namespace MogMod.Projectiles.RangedProjectiles
             mogPlayer.essenceShiftLevel += 1;
             target.AddBuff(BuffID.Wet, 600);
             target.AddBuff(169, 600);
+            if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                mogPlayer.SyncEssenceShift(false);
+            }
         }
         public override void OnKill(int timeLeft)
         {
