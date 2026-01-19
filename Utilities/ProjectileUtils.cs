@@ -70,7 +70,7 @@ namespace MogMod.Utilities
             return Projectile.NewProjectileDirect(source, spawnPosition, velocity, projType, damage, knockback, owner);
         }
 
-        // homing code (DOES WORK ! ! !)
+        // homing code (DOES WORK ! ! ! THANK YOU CALAMITY)
         public static void HomeInOnNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float inertia)
         {
             if (!projectile.friendly)

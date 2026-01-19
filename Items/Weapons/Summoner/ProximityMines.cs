@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Other;
+using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.SummonerProjectiles;
 using System;
 using Terraria;
@@ -19,65 +21,39 @@ namespace MogMod.Items.Weapons.Summoner
 
         public override void SetDefaults()
         {
-            Item.damage = 50;
+            Item.damage = 70;
             Item.DamageType = DamageClass.Summon;
             Item.sentry = true;
             Item.mana = 10;
             Item.width = Item.height = 50;
             Item.useTime = Item.useAnimation = 30;
-            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.knockBack = 3;
             Item.rare = ItemRarityID.Orange;
-            Item.UseSound = SoundID.Item83;
             Item.shoot = ModContent.ProjectileType<ProximityMinesSummon>();
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            bool canPlaceInAir = false;
-            // This is just to let modders experiment with a sentry that places anywhere and one that snaps to the ground.
-            if (player.direction == 1)
-            {
-                canPlaceInAir = true;
-            }
-
-            position = Main.MouseWorld;
-            player.LimitPointToPlayerReachableArea(ref position);
-            int halfProjectileHeight = (int)Math.Ceiling(ContentSamples.ProjectilesByType[type].height / 2f);
-
-            if (!canPlaceInAir)
-            {
-                player.FindSentryRestingSpot(type, out int worldX, out int worldY, out int pushYUp);
-                position = new Vector2(worldX, worldY - halfProjectileHeight);
-                // If, for some reason, you need custom placement logic (extra wide, hanging from the ceiling, etc), the following can be used as a guide for implementing that:
-                /*
-				// This loop travels down until it finds a solid tile to rest on.
-				(int i, int j) = position.ToTileCoordinates();
-				while (j < Main.maxTilesY - 10) {
-					// This code checks a 3 tile wide area, this will need to be adjusted if the sentry's with is larger than 48.
-					if (WorldGen.SolidTile2(i, j) || WorldGen.SolidTile2(i - 1, j) || WorldGen.SolidTile2(i + 1, j)) {
-						break;
-					}
-					j++;
-				}
-
-				position = new Vector2(i * 16 + 8, j * 16 - halfProjectileHeight);
-				// Also, replace "i * 16 + 8" with "position.X" if you don't want the sentry to "snap" to the center of tiles like the newer Tavernkeep sentries do.
-				*/
-            }
-            else
-            {
-                position.Y -= halfProjectileHeight; // Adjust in-air option to spawn with bottom at cursor.
-            }
-
-            // Spawn the sentry projectile at the calculated location.
-            Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, Main.myPlayer, ai2: canPlaceInAir ? 0 : 1);
-
-            // Kills older sentry projectiles according to player.maxTurrets
+            player.FindSentryRestingSpot(type, out int XPosition, out int YPosition, out int YOffset);
+            YOffset -= 6;
+            position = new Vector2((float)XPosition, (float)(YPosition - YOffset));
+            int p = Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI, 120f, 0f);
+            if (Main.projectile.IndexInRange(p))
+                Main.projectile[p].originalDamage = Item.damage;
             player.UpdateMaxTurrets();
-
             return false;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.SpikyBall, 100).
+                AddIngredient(ItemID.Dynamite, 15).
+                AddIngredient(ItemID.Hellstone, 10).
+                AddIngredient<CraftingRecipe>(1).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

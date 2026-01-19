@@ -8,7 +8,6 @@ namespace MogMod.Utilities
     public static partial class NPCUtils
     {
         #region Minion Homing
-        // gives the real modulo
         public static float Modulo(this float dividend, float divisor)
         {
             return dividend - (float)Math.Floor(dividend / divisor) * divisor;
@@ -17,13 +16,7 @@ namespace MogMod.Utilities
         public static float AngleBetween(this Vector2 v1, Vector2 v2) => (float)Math.Acos(Vector2.Dot(v1.SafeNormalize(Vector2.Zero), v2.SafeNormalize(Vector2.Zero)));
         public static float AngleBetween(this float angle, float otherAngle) => ((otherAngle - angle) + MathHelper.Pi).Modulo(MathHelper.TwoPi) - MathHelper.Pi;
 
-        /// <summary>
-        /// Detects nearby hostile NPCs from a given point
-        /// </summary>
-        /// <param name="origin">The position where we wish to check for nearby NPCs</param>
-        /// <param name="maxDistanceToCheck">Maximum amount of pixels to check around the origin</param>
-        /// <param name="ignoreTiles">Whether to ignore tiles when finding a target or not</param>
-        /// <param name="bossPriority">Whether bosses should be prioritized in targetting or not</param>
+        // calamity mod minion homing code
         public static NPC ClosestNPCAt(this Vector2 origin, float maxDistanceToCheck, bool ignoreTiles = true, bool bossPriority = false)
         {
             NPC closestTarget = null;

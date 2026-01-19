@@ -76,6 +76,5 @@ namespace MogMod.Projectiles.MagicProjectiles
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
-
     }
 }
