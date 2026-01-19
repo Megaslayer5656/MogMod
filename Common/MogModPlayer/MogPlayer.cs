@@ -244,6 +244,15 @@ namespace MogMod.Common.MogModPlayer
                 fierySoulLevel = 0;
             }
 
+            if (Player.HeldItem.Name == "Butterfly")
+            {
+                doButterfly(Player);
+                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    SyncButterfly(false);
+                }
+            }
+
             if (Player.HasBuff<DragonInstallBuff>() && wearingFlameOfCorruption)
             {
                 dragonInstallActive = true;
@@ -259,6 +268,16 @@ namespace MogMod.Common.MogModPlayer
             }
             #endregion
         }
+
+        public void doButterfly(Terraria.Player player)
+        {
+            player.moveSpeed *= 1.30f;
+            player.maxRunSpeed *= 1.30f;
+            player.accRunSpeed *= 1.30f;
+            player.wingAccRunSpeed *= 1.30f;
+            player.wingRunAccelerationMult *= 1.30f;
+        }
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (int i = 0; i < Main.maxNPCs; i++)
@@ -419,7 +438,6 @@ namespace MogMod.Common.MogModPlayer
             }
 
         }
-        
         // the big one
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
