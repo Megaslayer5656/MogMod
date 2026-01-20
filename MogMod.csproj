@@ -33,6 +33,7 @@
     <None Remove="Buffs\Debuffs\ShivasEnemyDebuff.png" />
     <None Remove="Buffs\GlueBuff.png" />
     <None Remove="Buffs\GlueDebuff.png" />
+    <None Remove="Buffs\PotionBuffs\ButterflyBuff.png" />
     <None Remove="Buffs\VonDebuff.png" />
     <None Remove="build.txt" />
     <None Remove="Common\Tiles\DabDadOre.png" />
@@ -61,6 +62,7 @@
     <None Remove="NPCs\TownNpc\SolBadguy_Head.png" />
     <None Remove="Projectiles\BaseProjectiles\BerserkersSpearProj.png" />
     <None Remove="Projectiles\BaseProjectiles\BloodMagicProjectile.png" />
+    <None Remove="Projectiles\MeleeProjectiles\ButterflyProjectile.png" />
     <None Remove="README.md" />
   </ItemGroup>
   <ItemGroup>

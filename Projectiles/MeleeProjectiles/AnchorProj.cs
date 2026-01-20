@@ -56,39 +56,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 SoundEngine.PlaySound(randomSound[chosenSound], Projectile.Center);
                 initialized = true;
             }
-            float maxDetectRadius = 500f;
-            NPC closestNPC = null;
-            float sqrMaxDetectRadius = maxDetectRadius * maxDetectRadius;
-            for (int i = 0; i < Main.npc.Length; i++)
-            {
-                NPC npc = Main.npc[i];
-                if (npc.CanBeChasedBy(this))
-                {
-                    float sqrDistanceToNPC = Vector2.DistanceSquared(npc.Center, Projectile.Center);
-                    if (sqrDistanceToNPC < sqrMaxDetectRadius)
-                    {
-                        sqrMaxDetectRadius = sqrDistanceToNPC;
-                        closestNPC = npc;
-                    }
-                }
-            }
-            // If we found a target, home towards it
-            if (closestNPC != null)
-            {
-                Vector2 direction = closestNPC.Center - Projectile.Center;
-                direction.Normalize();
 
-                float speed = 5f;
-                float turnStrength = 0.05f;
-
-                Projectile.velocity = Vector2.Lerp(
-                    Projectile.velocity,
-                    direction * speed,
-                    turnStrength
-                );
-
-                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            }
             if (Main.rand.NextBool(15))
             {
                 int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Water, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 150, default, 0.9f);

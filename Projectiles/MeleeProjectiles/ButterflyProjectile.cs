@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MeleeProjectiles
@@ -30,9 +31,10 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = 1;
+            Projectile.ArmorPenetration = 12;
         }
 
-        public override void AI() //TODO: Add vfx
+        public override void AI()
         {
             Projectile.ai[0] += 1f;
             if (++Projectile.frameCounter >= 5)
@@ -50,9 +52,14 @@ namespace MogMod.Projectiles.MeleeProjectiles
             {
                 Projectile.rotation += MathHelper.Pi;
             }
-            MogModUtils.HomeInOnNPC(Projectile, true, 500f, 10f, 2f);
+            MogModUtils.HomeInOnNPC(Projectile, true, 500f, 5f, 18f);
+
+            if (Main.rand.NextBool(25))
+            {
+                int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Terra, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 100, default, .5f);
+            }
         }
-        public override bool PreDraw(ref Color lightColor) //TODO: Add vfx
+        public override bool PreDraw(ref Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (Projectile.spriteDirection == 1)
@@ -77,12 +84,15 @@ namespace MogMod.Projectiles.MeleeProjectiles
         }
         public override void OnSpawn(IEntitySource source)
         {
-            //TODO: Add vfx
+            for (int i = 0; i <= 3; i++)
+            {
+                int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Terra, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 100, default, .5f);
+            }
         }
 
         public override void OnKill(int timeLeft)
         {
-            //TODO: Add vfx
+            int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Terra, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 100, default, .5f);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Consumables;
+﻿using Microsoft.Build.Framework;
+using MogMod.Items.Consumables;
 using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
@@ -86,6 +87,9 @@ namespace MogMod.Content
             RecipeGroup VertebraeRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.Vertebrae)}", ItemID.Vertebrae, ItemID.RottenChunk);
             RecipeGroup.RegisterGroup(nameof(ItemID.Vertebrae), VertebraeRecipeGroup);
             #endregion
+
+            RecipeGroup ButterflyRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Butterfly"}", ItemID.GoldButterfly, ItemID.HellButterfly, ItemID.JuliaButterfly, ItemID.MonarchButterfly, ItemID.PurpleEmperorButterfly, ItemID.RedAdmiralButterfly, ItemID.SulphurButterfly, ItemID.TreeNymphButterfly, ItemID.UlyssesButterfly, ItemID.ZebraSwallowtailButterfly);
+            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Butterfly"}", ButterflyRecipeGroup);
         }
 
         public override void AddRecipes()

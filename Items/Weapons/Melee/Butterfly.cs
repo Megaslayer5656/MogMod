@@ -12,6 +12,7 @@ using MogMod.Buffs.PotionBuffs;
 using Mono.CompilerServices.SymbolWriter;
 using MogMod.Projectiles.MeleeProjectiles;
 using MogMod.Utilities;
+using Terraria.Localization;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -53,7 +54,7 @@ namespace MogMod.Items.Weapons.Melee
             {
                 for (int i = 0; i <= 3; i++)
                 {
-                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, Main.rand.NextBool(2), 150f, 300f, -150f, 150f, 5.5f, ModContent.ProjectileType<ButterflyProjectile>(), 25, 0f, player.whoAmI, false, 0f);
+                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, Main.rand.NextBool(2), -400f, 400f, -300f, 300f, 5.75f, ModContent.ProjectileType<ButterflyProjectile>(), Convert.ToInt32(Item.damage / 5f), 0f, player.whoAmI, false, 0f);
                 }
             }
         }
@@ -62,7 +63,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             //TODO: Make it so this recipe can take any butterfly (recipe group)
             CreateRecipe().
-                //AddRecipeGroup("Butterfly", 1).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Butterfly"}", 1).
                 AddIngredient(ItemID.ChlorophyteBar, 15).
                 AddIngredient(ItemID.Ectoplasm, 5).
                 AddTile(TileID.MythrilAnvil).
