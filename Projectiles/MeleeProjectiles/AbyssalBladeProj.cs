@@ -1,13 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
-using Terraria.Audio;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
-    public class SkullBashProjectile : ModProjectile, ILocalizedModType
+    public class AbyssalBladeProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
@@ -36,8 +36,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Projectile.DamageType = DamageClass.Melee;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
-            Projectile.scale = 1f;
-            Projectile.alpha = 0;
             Projectile.ArmorPenetration = 10;
         }
         public override void AI()
@@ -56,6 +54,17 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Main.dust[suvass].alpha = 200;
             Main.dust[suvass].velocity *= 1.4f;
             Main.dust[suvass].scale += Main.rand.NextFloat();
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            Player player = Main.player[Projectile.owner];
+
+            int heal = 1;
+            heal *= Convert.ToInt32(player.lifeSteal * 0.03);
+            player.statLife += heal;
+            player.HealEffect(heal);
+            if (player.statLife > player.statLifeMax2)
+                player.statLife = player.statLifeMax2;
         }
     }
 }

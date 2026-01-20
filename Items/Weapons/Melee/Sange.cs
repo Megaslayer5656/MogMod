@@ -31,7 +31,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             // for SOME REASON player has a default of 70 lifesteal
             int heal = 1;
-            heal *= Convert.ToInt32(player.lifeSteal * 0.035);
+            heal *= Convert.ToInt32(player.lifeSteal * 0.015);
             player.statLife += heal;
             player.HealEffect(heal);
             // so we dont go over max life

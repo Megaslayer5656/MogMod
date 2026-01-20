@@ -38,13 +38,6 @@ namespace MogMod.Items.Weapons.Melee
             Item.damage = 68;
             Item.crit = 66;
 
-            int heal = 1;
-            heal *= Convert.ToInt32(player.lifeSteal * 0.08);
-            player.statLife += heal;
-            player.HealEffect(heal);
-            if (player.statLife > player.statLifeMax2)
-                player.statLife = player.statLifeMax2;
-
             randChance = random.Next(1, 4);
             if (skullBash)
             {
@@ -54,7 +47,7 @@ namespace MogMod.Items.Weapons.Melee
                 bool randomBool = random.Next(2) == 0;
                 for (int i = 0; i < 4; i++)
                 {
-                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, randomBool, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<SkullBashProjectile>(), Convert.ToInt32(Item.damage / 3.2), 0f, player.whoAmI, false, 0f);
+                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, randomBool, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<AbyssalBladeProj>(), Convert.ToInt32(Item.damage / 2), 0f, player.whoAmI, false, 0f);
                 }
                 skullBash = false;
             }

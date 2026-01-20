@@ -31,9 +31,10 @@ namespace MogMod.Items.Accessories
             player.tileSpeed += .30f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingMekansm = true;
-            if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
+            if (player.miscCounter % 10 == 0)
             {
                 int myPlayer = Main.myPlayer;
+                player.AddBuff(teamBuff, 20);
                 if (Main.player[myPlayer].team == player.team && player.team != 0)
                 {
                     float teamPlayerXDist = player.position.X - Main.player[myPlayer].position.X;

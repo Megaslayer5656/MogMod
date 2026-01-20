@@ -643,7 +643,7 @@ namespace MogMod.Common.MogModPlayer
             }
 
             Player.AddBuff(ModContent.BuffType<ShivasDebuff>(), 3600);
-            SoundEngine.PlaySound(ShivasActivateSound, center);//TODO: Make this work in multiplayer
+            SoundEngine.PlaySound(ShivasActivateSound, center);
 
             for (int i = 0; i < 80; i++)
             {
