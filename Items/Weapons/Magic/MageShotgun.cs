@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Magic
 {
-    public class MageShotgun : ModItem, ILocalizedModType
+    public class MageShotgun : ModItem, ILocalizedModType //This file contains all of Joe's contributions to MogMod. For this reason, we will not be changing this file in any meaningful way besides buffing the item to make it be on tier for progression
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetStaticDefaults()
@@ -16,12 +16,12 @@ namespace MogMod.Items.Weapons.Magic
         }
         public override void SetDefaults()
         {
-            Item.damage = 50;
+            Item.damage = 95;
             Item.DamageType = DamageClass.Magic;
             Item.width = 40;
             Item.height = 40;
-            Item.useTime = 30;
-            Item.useAnimation = 30;
+            Item.useTime = 60;
+            Item.useAnimation = 60;
             Item.useStyle = 5;
             Item.knockBack = 6.5f;
             Item.value = 10000;
@@ -29,8 +29,8 @@ namespace MogMod.Items.Weapons.Magic
             Item.UseSound = SoundID.Item88;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.LostSoulFriendly;
-            Item.shootSpeed = 20f;
-            Item.mana = 20;
+            Item.shootSpeed = 30f;
+            Item.mana = 30;
             Item.noMelee = true;
         }
         public override bool CanUseItem(Player player)
@@ -43,8 +43,8 @@ namespace MogMod.Items.Weapons.Magic
             }
             else
             {
-                Item.useTime = 30;
-                Item.useAnimation = 30;
+                Item.useTime = 60;
+                Item.useAnimation = 60;
                 Item.UseSound = SoundID.Item88;
             }
             return true;
@@ -64,12 +64,12 @@ namespace MogMod.Items.Weapons.Magic
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float numberProjectiles = 3 + Main.rand.Next(3); // 3, 4, or 5 shots
+            float numberProjectiles = 3 + Main.rand.Next(3);
             float rotation = MathHelper.ToRadians(15);
             if (player.altFunctionUse == 2)
             {
                 Vector2 cvelocity = Vector2.Normalize(velocity) * 5f;
-                int proj = Projectile.NewProjectile(source, position, cvelocity, ProjectileID.ChlorophyteOrb, 500, knockback, player.whoAmI);
+                int proj = Projectile.NewProjectile(source, position, cvelocity, ProjectileID.ChlorophyteOrb, Item.damage * 20, knockback, player.whoAmI);
                 Main.projectile[proj].friendly = true;
                 return false;
             }
@@ -78,10 +78,12 @@ namespace MogMod.Items.Weapons.Magic
             float PosY = player.position.Y;
             for (int i = 0; i < numberProjectiles; i++)
             {
-                Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))) * .2f; // Watch out for dividing by 0 if there is only 1 projectile.
-                Projectile.NewProjectile(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
+                Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))) * .2f;
+                int proj2 = Projectile.NewProjectile(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
+                Main.projectile[proj2].usesIDStaticNPCImmunity = true;
+                Main.projectile[proj2].idStaticNPCHitCooldown = 5;
             }
-                return false;
-            }
+        return false;
         }
     }
+}

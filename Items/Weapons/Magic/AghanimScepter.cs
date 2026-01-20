@@ -21,7 +21,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.height = 50;
             Item.damage = 45;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 40;
+            Item.mana = 30;
             Item.useTime = 2;
             Item.useAnimation = 20;
             Item.reuseDelay = Item.useAnimation + 2;
