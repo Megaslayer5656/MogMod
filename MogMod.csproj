@@ -29,8 +29,11 @@
   <ItemGroup>
     <None Remove=".gitignore" />
     <None Remove="app.config" />
+    <None Remove="Buffs\Cooldowns\ButterflyCooldown.png" />
+    <None Remove="Buffs\Debuffs\ShivasEnemyDebuff.png" />
     <None Remove="Buffs\GlueBuff.png" />
     <None Remove="Buffs\GlueDebuff.png" />
+    <None Remove="Buffs\PotionBuffs\ButterflyBuff.png" />
     <None Remove="Buffs\VonDebuff.png" />
     <None Remove="build.txt" />
     <None Remove="Common\Tiles\DabDadOre.png" />
@@ -47,17 +50,20 @@
     <None Remove="Items\Other\SoulOfDabdad.png" />
     <None Remove="Items\Placeable\DabdadOreP.png" />
     <None Remove="Items\Weapons\Magic\BloodMagic.png" />
+    <None Remove="Items\Weapons\Melee\Butterfly.png" />
     <None Remove="Items\Weapons\Melee\GoldenHydrakanLatch.png" />
     <None Remove="Items\Weapons\Melee\ThunderSeal.png" />
     <None Remove="Items\Weapons\Ranged\BerserkersSpear.png" />
     <None Remove="Items\Weapons\Ranged\R8Revolver.png" />
     <None Remove="Items\Weapons\Sange.png" />
+    <None Remove="NPCs\Bosses\DabDad.png" />
     <None Remove="NPCs\Bosses\KingVon_Head_Boss.png" />
     <None Remove="NPCs\Enemies\RadiantCreep.png" />
     <None Remove="NPCs\TownNpc\SolBadguy.png" />
     <None Remove="NPCs\TownNpc\SolBadguy_Head.png" />
     <None Remove="Projectiles\BaseProjectiles\BerserkersSpearProj.png" />
     <None Remove="Projectiles\BaseProjectiles\BloodMagicProjectile.png" />
+    <None Remove="Projectiles\MeleeProjectiles\ButterflyProjectile.png" />
     <None Remove="README.md" />
   </ItemGroup>
   <ItemGroup>

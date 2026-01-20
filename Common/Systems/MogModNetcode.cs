@@ -26,6 +26,10 @@ namespace MogMod.Common.Systems
                     case MogModMessageType.ShivasSync: //If the message type is ShivasSync:
                         Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleShivas(reader); //Sends the packet to the ShivasHandler in MogPlayerNetcode.cs
                         break;
+
+                    case MogModMessageType.ButterflySync:
+                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleButterfly(reader);
+                        break;
                 }
             }
             catch (Exception e)
@@ -38,7 +42,7 @@ namespace MogMod.Common.Systems
         {
             EssenceShiftStackSync,
             ShivasSync,
-            Test2
+            ButterflySync
         }
     }
 }

@@ -2,6 +2,7 @@
 using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,6 +30,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 30;
+            Projectile.timeLeft = 420;
         }
 
         public override void AI()
@@ -44,6 +46,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 gravspin = Projectile.velocity.Y * -0.03f;
             }
             Projectile.ai[0]++;
+            
 
             // slopes
             if (Projectile.ai[0] > 2f)
@@ -56,7 +59,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             {
                 Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
                 Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
-                
+
                 // rotating 45 degrees if shooting right
                 if (Projectile.spriteDirection == 1)
                 {
@@ -71,9 +74,9 @@ namespace MogMod.Projectiles.RangedProjectiles
             }
 
             // home after hitting an enemy
-            if (Projectile.penetrate == 1)
+            if (Projectile.penetrate == 1 && Projectile.ai[2] > 30f)
             {
-                MogModUtils.HomeInOnNPC(Projectile, true, 250f, 7f, 20f);
+                MogModUtils.HomeInOnNPC(Projectile, true, 600f, 7f, 20f);
             }
 
             // asuka r#
@@ -92,6 +95,25 @@ namespace MogMod.Projectiles.RangedProjectiles
                     }
                 }
             }
+
+            if (Projectile.ai[2] >= 1f)
+            {
+                Projectile.tileCollide = false;
+            }
+
+            if (Projectile.ai[2] >= 1f)
+            {
+                Projectile.ai[2]++;
+            }
+
+            if (Projectile.ai[2] <= 30f && Projectile.ai[2] >= 1f)
+            {
+                Projectile.friendly = false;
+            }
+            else
+            {
+                Projectile.friendly = true;
+            }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -108,8 +130,11 @@ namespace MogMod.Projectiles.RangedProjectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            Projectile.ai[2] = 1f;
             if (Projectile.ai[1] == 1f && Projectile.penetrate == 1)
-                Projectile.timeLeft = 180;
+            {
+                Projectile.timeLeft = 420;
+            }
             target.AddBuff(BuffID.Venom, 300);
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)

@@ -20,8 +20,8 @@ namespace MogMod.NPCs.Bosses
         
         public override void SetDefaults()
         {
-            NPC.width = 256;
-            NPC.height = 315;
+            NPC.width = 198;
+            NPC.height = 225;
             NPC.damage = 50;
             NPC.defense = 20;
             NPC.lifeMax = 100000;

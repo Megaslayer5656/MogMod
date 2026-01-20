@@ -319,6 +319,11 @@ Mods: {
 				DisplayName: Butterfly Cooldown
 				Description: Mods.MogMod.Buffs.ButterflyCooldown.Description
 			}
+
+			ButterflyBuff: {
+				DisplayName: Butterfly Buff
+				Description: Mods.MogMod.Buffs.ButterflyBuff.Description
+			}
 		}
 
 		NPCs: {
@@ -459,6 +464,7 @@ Mods: {
 			VonNade.DisplayName: Von Grenade
 			VonGreenTracerProj.DisplayName: Von's Green Tracer
 			SummonerProjectiles.ProximityMinesSummon.DisplayName: Proximity Mines Summon
+			ButterflyProjectile.DisplayName: Butterfly Projectile
 		}
 	}
 }

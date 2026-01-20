@@ -39,6 +39,17 @@ namespace MogMod.Common.MogModPlayer
                                                //P.S. this method is a custom method in PlayerUtils.cs, see how it works there.
         }
 
+        public void SyncButterfly(bool server)
+        {
+            ModPacket packet = Mod.GetPacket(256);
+            MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
+
+            packet.Write((byte)MogModMessageType.ButterflySync);
+            packet.Write(Player.whoAmI);
+
+            Player.SendPacket(packet, server);
+        }
+
         internal void HandleEssenceShiftStack(BinaryReader reader)
         {
             essenceShiftLevel = reader.ReadInt32();
@@ -56,6 +67,15 @@ namespace MogMod.Common.MogModPlayer
                 SyncShivas(true, pos);
             }
             doShivas(Player, pos); //This is how it actually syncs, using the position read in above, it creates the shivas effect on that player.
+        }
+
+        internal void HandleButterfly(BinaryReader reader)
+        {
+            if (Main.netMode == NetmodeID.Server)
+            {
+                SyncButterfly(true);
+            }
+            doButterfly(Player);
         }
     }
 }
