@@ -21,12 +21,12 @@ namespace MogMod.Items.Weapons.Summoner
 
         public override void SetDefaults()
         {
-            Item.damage = 70;
+            Item.damage = 150;
             Item.DamageType = DamageClass.Summon;
             Item.sentry = true;
             Item.mana = 10;
             Item.width = Item.height = 50;
-            Item.useTime = Item.useAnimation = 30;
+            Item.useTime = Item.useAnimation = 50;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.knockBack = 3;

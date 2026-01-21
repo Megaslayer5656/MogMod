@@ -1,6 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Projectiles.MeleeProjectiles;
-using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -15,11 +13,16 @@ namespace MogMod.Projectiles.SummonerProjectiles
     // The most critical fields necessary for a projectile to count as a sentry will be noted in this file and in ExampleSentryItem.cs. See also ExampleSentryShot.cs.
     public class ProximityMinesSummon : ModProjectile, ILocalizedModType
     {
-        // currently doeesnt explode when a goon is nearby, does it on spawn instead
         public new string LocalizationCategory => "Projectiles.SummonerProjectiles";
-        public const float MinExplodeDistance = 120f;
-        public const float ExplodeWaitTime = 45f;
-        public const float ExplosionAngleVariance = 0.8f;
+        public static readonly SoundStyle mineActivate = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ProximityMineActivate")
+        {
+            Volume = 1.3f,
+            PitchVariance = .2f,
+            MaxInstances = 0
+        };
+        public ref float ExplosionTimer => ref Projectile.ai[1];
+        private bool initialized = false;
+        private bool Exploding = false;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
@@ -43,27 +46,40 @@ namespace MogMod.Projectiles.SummonerProjectiles
         }
         public override void AI()
         {
-            Player player = Main.player[Projectile.owner];
-            bool canExplode = Projectile.Center.ClosestNPCAt(MinExplodeDistance) != null;
-            if (player.HasMinionAttackTargetNPC)
+            float detectionRadius = 100f;
+
+            // checks for enemies nearby
+            for (int i = 0; i < Main.maxNPCs; i++) //Every npc is in an index, this goes through all of them
             {
-                canExplode = Main.npc[player.MinionAttackTargetNPC].Distance(Projectile.Center) < MinExplodeDistance;
+                NPC otherNPC = Main.npc[i]; //This sets the var otherNPC to the current npc we are targeting in the index
+                if (otherNPC.active && !otherNPC.friendly && otherNPC.whoAmI != otherNPC.whoAmI - 1) //Makes shivas not hit inactive npcs, townNpcs, and not cast on the same npc twice.
+                {
+                    if (Vector2.Distance(Projectile.Center, Main.npc[i].Center) < detectionRadius)
+                    {
+                        // start exploding
+                        Exploding = true;
+                    }
+                }
             }
-            if (canExplode)
-                Projectile.ai[0]++;
-            if (Projectile.ai[0] >= ExplodeWaitTime)
+            if (Exploding)
             {
-                if (Main.myPlayer == Projectile.owner)
+                if (!initialized)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance), ModContent.ProjectileType<DaedalusBoom>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    SoundEngine.PlaySound(mineActivate, Projectile.Center);
+                    initialized = true;
                 }
-                for (int k = 0; k < 5; k++)
+                // counts down explosion timer
+                ExplosionTimer += 1f;
+                Dust.NewDust(Projectile.Center + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
+                // after a certain time explode
+                if (Main.myPlayer == Projectile.owner && ExplosionTimer >= 60)
                 {
-                    Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<ProximityMinesExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
+                    Projectile.Kill();
                 }
-                SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
-                Projectile.Kill();
             }
+            // gravity
             Projectile.velocity.Y += 0.5f;
             if (Projectile.velocity.Y > 10f)
             {
@@ -72,6 +88,16 @@ namespace MogMod.Projectiles.SummonerProjectiles
         }
         public override bool? CanDamage() => false;
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
+        public override void OnKill(int timeLeft)
+        {
+            int dustsplash = 0;
+            while (dustsplash < 4)
+            {
+                int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Smoke, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 100, default, 0.9f);
+                Main.dust[d].position = Projectile.Center;
+                dustsplash += 1;
+            }
+        }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             fallThrough = false;

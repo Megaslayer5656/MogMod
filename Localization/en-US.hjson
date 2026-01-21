@@ -463,7 +463,12 @@ Mods: {
 
 			VonNade.DisplayName: Von Grenade
 			VonGreenTracerProj.DisplayName: Von's Green Tracer
-			SummonerProjectiles.ProximityMinesSummon.DisplayName: Proximity Mines Summon
+
+			SummonerProjectiles: {
+				ProximityMinesSummon.DisplayName: Proximity Mines Summon
+				ProximityMinesExplosion.DisplayName: Proximity Mines Explosion
+			}
+
 			ButterflyProjectile.DisplayName: Butterfly Projectile
 		}
 	}
