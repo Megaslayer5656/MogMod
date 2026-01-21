@@ -30,10 +30,14 @@
     <None Remove=".gitignore" />
     <None Remove="app.config" />
     <None Remove="Buffs\Cooldowns\ButterflyCooldown.png" />
+    <None Remove="Buffs\Cooldowns\ParryCooldown.png" />
+    <None Remove="Buffs\Debuffs\ParrySlow.png" />
     <None Remove="Buffs\Debuffs\ShivasEnemyDebuff.png" />
     <None Remove="Buffs\GlueBuff.png" />
     <None Remove="Buffs\GlueDebuff.png" />
     <None Remove="Buffs\PotionBuffs\ButterflyBuff.png" />
+    <None Remove="Buffs\PotionBuffs\ParryBuff1.png" />
+    <None Remove="Buffs\PotionBuffs\Parrying.png" />
     <None Remove="Buffs\VonDebuff.png" />
     <None Remove="build.txt" />
     <None Remove="Common\Tiles\DabDadOre.png" />
@@ -52,6 +56,7 @@
     <None Remove="Items\Weapons\Magic\BloodMagic.png" />
     <None Remove="Items\Weapons\Melee\Butterfly.png" />
     <None Remove="Items\Weapons\Melee\GoldenHydrakanLatch.png" />
+    <None Remove="Items\Weapons\Melee\RedKatana.png" />
     <None Remove="Items\Weapons\Melee\ThunderSeal.png" />
     <None Remove="Items\Weapons\Ranged\BerserkersSpear.png" />
     <None Remove="Items\Weapons\Ranged\R8Revolver.png" />
