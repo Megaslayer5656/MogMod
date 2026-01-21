@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
@@ -348,12 +348,12 @@ namespace MogMod.Common.MogModPlayer
 
         public void doParry(Terraria.Player player, Vector2 pos)
         {
-            player.ClearBuff(ModContent.BuffType<Parrying>());
-            player.ClearBuff(ModContent.BuffType<ParrySlow>());
-            player.ClearBuff(ModContent.BuffType<ParryCooldown>());
-            player.AddBuff(ModContent.BuffType<ParryCooldown>(), 60);
-            player.AddBuff(ModContent.BuffType<ParryBuff1>(), 600);
-            SoundEngine.PlaySound(ParrySound, player.Center);
+            Player.ClearBuff(ModContent.BuffType<Parrying>());
+            Player.ClearBuff(ModContent.BuffType<ParrySlow>());
+            Player.ClearBuff(ModContent.BuffType<ParryCooldown>());
+            Player.AddBuff(ModContent.BuffType<ParryCooldown>(), 60);
+            Player.AddBuff(ModContent.BuffType<ParryBuff1>(), 600);
+            SoundEngine.PlaySound(ParrySound, Player.Center);
 
             Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
             dustVelocity.Normalize();
