@@ -30,6 +30,10 @@ namespace MogMod.Common.Systems
                     case MogModMessageType.ButterflySync:
                         Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleButterfly(reader);
                         break;
+
+                    case MogModMessageType.ParrySync:
+                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleParry(reader);
+                        break;
                 }
             }
             catch (Exception e)
@@ -42,7 +46,8 @@ namespace MogMod.Common.Systems
         {
             EssenceShiftStackSync,
             ShivasSync,
-            ButterflySync
+            ButterflySync,
+            ParrySync
         }
     }
 }

@@ -9,6 +9,7 @@ using MogMod.Utilities;
 using Terraria.GameContent.UI;
 using Terraria.Audio;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json.Bson;
 
 namespace MogMod.Common.MogModPlayer
 {
@@ -50,6 +51,17 @@ namespace MogMod.Common.MogModPlayer
             Player.SendPacket(packet, server);
         }
 
+        public void SyncParry(bool server, Vector2 pos)
+        {
+            ModPacket packet = Mod.GetPacket(256);
+            MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
+
+            packet.Write((byte)MogModMessageType.ParrySync);
+            packet.Write(Player.whoAmI);
+            packet.WriteVector2(pos);
+
+            Player.SendPacket(packet, server);
+        }
         internal void HandleEssenceShiftStack(BinaryReader reader)
         {
             essenceShiftLevel = reader.ReadInt32();
@@ -76,6 +88,16 @@ namespace MogMod.Common.MogModPlayer
                 SyncButterfly(true);
             }
             doButterfly(Player);
+        }
+
+        internal void HandleParry(BinaryReader reader)
+        {
+            Vector2 pos = reader.ReadVector2();
+            if (Main.netMode == NetmodeID.Server)
+            {
+                SyncParry(true, pos);
+            }
+            doParry(Player, pos);
         }
     }
 }

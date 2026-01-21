@@ -114,6 +114,12 @@ namespace MogMod.Common.MogModPlayer
             PitchVariance = .2f,
             MaxInstances = 1,
         };
+        public static readonly SoundStyle ParrySound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ParrySfx")
+        {
+            Volume = .25f,
+            PitchVariance = .2f,
+            MaxInstances = 1,
+        };
         #endregion
 
         #region Mod Buff ID/s
@@ -249,7 +255,7 @@ namespace MogMod.Common.MogModPlayer
                 doButterfly(Player);
                 if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
                 {
-                    SyncButterfly(false);
+                    SyncButterfly(false); //TODO: Add a timer so this doesn't sync every tick
                 }
             }
 
@@ -329,7 +335,40 @@ namespace MogMod.Common.MogModPlayer
             {
                 Player.AddBuff(ModContent.BuffType<BlinkDebuff>(), 600);
             }
+
+            if (Player.HasBuff(ModContent.BuffType<Parrying>()))
+            {
+                doParry(Player, Player.Center);
+                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    SyncParry(false, Player.Center);
+                }
+            }
         }
+
+        public void doParry(Terraria.Player player, Vector2 pos)
+        {
+            player.ClearBuff(ModContent.BuffType<Parrying>());
+            player.ClearBuff(ModContent.BuffType<ParrySlow>());
+            player.ClearBuff(ModContent.BuffType<ParryCooldown>());
+            player.AddBuff(ModContent.BuffType<ParryCooldown>(), 60);
+            player.AddBuff(ModContent.BuffType<ParryBuff1>(), 600);
+            SoundEngine.PlaySound(ParrySound, player.Center);
+
+            Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+            dustVelocity.Normalize();
+            dustVelocity *= 2;
+
+            int dustPos = 20;
+            for (int i = 0; i < 20; i++)
+            {
+                int P1 = Dust.NewDust(pos, dustPos - 5, dustPos - 5, DustID.YellowStarDust, dustVelocity.X * 2, dustVelocity.Y * 2, 0, default, 2f);
+                Main.dust[P1].noGravity = true;
+                Main.dust[P1].fadeIn = 2f;
+                Main.dust[P1].velocity *= 3f;
+            }
+        }
+
         public override void OnHitByProjectile(Projectile proj, Terraria.Player.HurtInfo hurtInfo)
         {
             Player.ClearBuff(ModContent.BuffType<ClarityBuff>());

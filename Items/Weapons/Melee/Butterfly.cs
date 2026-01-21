@@ -61,7 +61,6 @@ namespace MogMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            //TODO: Make it so this recipe can take any butterfly (recipe group)
             CreateRecipe().
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Butterfly"}", 1).
                 AddIngredient(ItemID.ChlorophyteBar, 15).

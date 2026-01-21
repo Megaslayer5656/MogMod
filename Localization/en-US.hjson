@@ -324,6 +324,26 @@ Mods: {
 				DisplayName: Butterfly Buff
 				Description: Mods.MogMod.Buffs.ButterflyBuff.Description
 			}
+
+			ParryCooldown: {
+				DisplayName: Parry Cooldown
+				Description: Mods.MogMod.Buffs.ParryCooldown.Description
+			}
+
+			ParrySlow: {
+				DisplayName: Parry Slow
+				Description: Mods.MogMod.Buffs.ParrySlow.Description
+			}
+
+			ParryBuff1: {
+				DisplayName: Parry Buff1
+				Description: Mods.MogMod.Buffs.ParryBuff1.Description
+			}
+
+			Parrying: {
+				DisplayName: Parrying
+				Description: Mods.MogMod.Buffs.Parrying.Description
+			}
 		}
 
 		NPCs: {
