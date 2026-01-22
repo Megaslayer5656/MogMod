@@ -80,6 +80,8 @@ namespace MogMod.Common.MogModPlayer
         public Vector2 mouseWorld;
         public bool wearingFlameOfCorruption = false;
         public bool dragonInstallActive;
+
+        public int cooldownReference;
         public enum MewingType
         {
             mewingguide = 0
@@ -353,6 +355,7 @@ namespace MogMod.Common.MogModPlayer
             Player.ClearBuff(ModContent.BuffType<ParryCooldown>());
             Player.AddBuff(ModContent.BuffType<ParryCooldown>(), 60);
             Player.AddBuff(ModContent.BuffType<ParryBuff1>(), 600);
+            Player.AddBuff(ModContent.BuffType<ParryDebuffRemover>(), 10);
             SoundEngine.PlaySound(ParrySound, Player.Center);
 
             Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
@@ -366,6 +369,14 @@ namespace MogMod.Common.MogModPlayer
                 Main.dust[P1].noGravity = true;
                 Main.dust[P1].fadeIn = 2f;
                 Main.dust[P1].velocity *= 3f;
+            }
+        }
+
+        public void removeBuff(Terraria.Player player, int buffID)
+        {
+            if (player.HasBuff(buffID)) 
+            {
+                player.ClearBuff(buffID);
             }
         }
 
@@ -404,7 +415,41 @@ namespace MogMod.Common.MogModPlayer
             {
                 Player.AddBuff(ModContent.BuffType<BlinkDebuff>(), 600);
             }
+
+            if (Player.HasBuff(ModContent.BuffType<Parrying>()))
+            {
+                hurtInfo = new Terraria.Player.HurtInfo
+                {
+                    Damage = 1,
+                    Knockback = 0,
+                    HitDirection = 0,
+                    Dodgeable = false,
+                    SoundDisabled = true
+                };
+
+                doParry(Player, Player.Center);
+                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    SyncParry(false, Player.Center);
+                }
+            }
         }
+
+        public override void OnHurt(Terraria.Player.HurtInfo info)
+        {
+            if (Player.HasBuff(ModContent.BuffType<Parrying>()))
+            {
+                info = new Terraria.Player.HurtInfo
+                {
+                    Damage = 1,
+                    Knockback = 0,
+                    HitDirection = 0,
+                    Dodgeable = false,
+                    SoundDisabled = true
+                };
+            }
+        }
+
         public override void PreUpdateMovement()
         {
             int forceStaffCooldown = ModContent.BuffType<Buffs.Cooldowns.ForceStaffDebuff>();

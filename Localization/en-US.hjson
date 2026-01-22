@@ -344,6 +344,11 @@ Mods: {
 				DisplayName: Parrying
 				Description: Mods.MogMod.Buffs.Parrying.Description
 			}
+
+			ParryDebuffRemover: {
+				DisplayName: Parry Debuff Remover
+				Description: Mods.MogMod.Buffs.ParryDebuffRemover.Description
+			}
 		}
 
 		NPCs: {

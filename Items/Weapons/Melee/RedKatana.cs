@@ -32,7 +32,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.useTime = 20;
             Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.knockBack = 7f;
+            Item.knockBack = 3.5f;
             Item.value = Item.buyPrice(0, 1, 50, 0);
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
@@ -57,7 +57,7 @@ namespace MogMod.Items.Weapons.Melee
             {
                 player.AddBuff(ModContent.BuffType<Parrying>(), 30); //Actually accurate to Sekiro parry timing
                 player.AddBuff(ModContent.BuffType<ParryCooldown>(), 600);
-                player.AddBuff(ModContent.BuffType<ParrySlow>(), 60);
+                player.AddBuff(ModContent.BuffType<ParrySlow>(), 90);
                 return true;
             }
             return false;

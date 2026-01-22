@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using MogMod.Buffs;
 using System.Net.Http.Headers;
+using MogMod.Buffs.PotionBuffs;
 
 namespace MogMod.NPCs.Global
 {
@@ -21,6 +22,32 @@ namespace MogMod.NPCs.Global
         {
             globalLoot.Add(new CommonDrop(ModContent.ItemType<LedX>(), 10000, 1, 1, 1));
             globalLoot.Add(new CommonDrop(ModContent.ItemType<RedX>(), 100000, 1, 1, 1));
+        }
+
+        public override void OnHitPlayer(NPC npc, Player target, Player.HurtInfo hurtInfo)
+        {
+            if (target.HasBuff(ModContent.BuffType<Parrying>()))
+            {
+                hurtInfo = new Player.HurtInfo
+                {
+                    Damage = 1,
+                    Knockback = 0,
+                    HitDirection = 0,
+                    Dodgeable = false,
+                    SoundDisabled = true
+                };
+
+                var hitInfo = new NPC.HitInfo
+                {
+                    Damage = 20,
+                    Knockback = 5,
+                    HitDirection = target.direction,
+                    Crit = false,
+                    DamageType = DamageClass.Generic
+                };
+                npc.StrikeNPC(hitInfo); //Must use this instead of modifying the npc's life stat
+                NetMessage.SendStrikeNPC(npc, hitInfo);
+            }
         }
     }
 }
