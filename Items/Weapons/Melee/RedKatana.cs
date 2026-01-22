@@ -57,7 +57,7 @@ namespace MogMod.Items.Weapons.Melee
             {
                 player.AddBuff(ModContent.BuffType<Parrying>(), 30); //Actually accurate to Sekiro parry timing
                 player.AddBuff(ModContent.BuffType<ParryCooldown>(), 600);
-                player.AddBuff(ModContent.BuffType<ParrySlow>(), 90);
+                player.AddBuff(ModContent.BuffType<ParrySlow>(), 60);
                 return true;
             }
             return false;
