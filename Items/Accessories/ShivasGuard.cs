@@ -1,4 +1,6 @@
-﻿using MogMod.Common.MogModPlayer;
+﻿using Microsoft.Build.Framework;
+using MogMod.Buffs.Cooldowns;
+using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
 using MogMod.Items.Other;
 using MogMod.Utilities;
@@ -12,6 +14,7 @@ namespace MogMod.Items.Accessories
 {
     public class ShivasGuard : ModItem, ILocalizedModType
     {
+        public int cooldownTimer = 0;
         public new string LocalizationCategory => "Items.Accessories";
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.ShivasKeybind);
         ModKeybind keybindActive = null;
