@@ -1,9 +1,10 @@
-﻿using System;
-using MogMod.Items.Weapons.Melee;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MogMod.Utilities;
+using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Achievements;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,6 +14,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
     {
         public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override string Texture => "MogMod/Items/Weapons/Melee/BattleFury";
+        public ref float CanBreakTrees => ref Projectile.ai[0];
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
@@ -27,8 +29,8 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Projectile.penetrate = 3;
             Projectile.timeLeft = 600;
             Projectile.DamageType = DamageClass.Melee;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 20;
         }
 
         public override void AI()
@@ -49,11 +51,22 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 Main.dust[d].position = Projectile.Center;
                 Main.dust[d].noLight = true;
             }
+            // Destroy trees within the range of the past 20 oldPos positions.
+            if (CanBreakTrees == 1)
+            {
+                for (int i = 0; i < 20; i++)
+                {
+                    Point pointToCheck = (Projectile.oldPos[i] + Projectile.Size * 0.5f).ToTileCoordinates();
+                    KillTrees(pointToCheck.X, pointToCheck.Y);
+                }
+            }
             return;
         }
+        
         // gives the projectile debuffs on hit
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.OnFire, 180);
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(BuffID.OnFire, 180);
+        
         // gives the projectile after images
         public override bool PreDraw(ref Color lightColor)
         {
@@ -61,6 +74,29 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
+        
+        // cut trees (taken from photon ripper calamity)
+        public void KillTrees(int x, int y)
+        {
+            Tile tileAtPosition = MiscUtils.TileRetrieval(x, y);
+
+            // Ignore tiles that are not active and are not breakable by axes.
+            if (!tileAtPosition.HasTile || !Main.tileAxe[tileAtPosition.TileType])
+                return;
+
+            // Don't attempt to mine the tile if for whatever reason it's not supposed to be broken.
+            if (!WorldGen.CanKillTile(x, y))
+                return;
+
+            AchievementsHelper.CurrentlyMining = true;
+
+            WorldGen.KillTile(x, y);
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, x, y);
+
+            AchievementsHelper.CurrentlyMining = false;
+        }
+
         // kills the projectile on tile collide
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

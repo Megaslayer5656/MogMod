@@ -247,7 +247,7 @@ namespace MogMod.Utilities
 
             return distanceToClosestPoint <= radius;
         }
-#endregion
+        #endregion
 
         #region Projectile Afterimages
         /// <summary>

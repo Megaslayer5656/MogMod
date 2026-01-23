@@ -479,6 +479,10 @@ Mods: {
 				DesolatorHomingProj.DisplayName: Desolator
 				DesolatorProj.DisplayName: Desolator
 				AbyssalBladeProj.DisplayName: Abyssal Blade Proj
+				MantaSummon.DisplayName: Manta Summon
+				ButterflyProjectile.DisplayName: Butterfly Projectile
+				MantaProj.DisplayName: Manta Proj
+				DivineRapierProj.DisplayName: Divine Rapier Proj
 			}
 
 			VonNade.DisplayName: Von Grenade
@@ -487,6 +491,7 @@ Mods: {
 			SummonerProjectiles: {
 				ProximityMinesSummon.DisplayName: Proximity Mines Summon
 				ProximityMinesExplosion.DisplayName: Proximity Mines Explosion
+				MantaSummon.DisplayName: Manta Summon
 			}
 
 			ButterflyProjectile.DisplayName: Butterfly Projectile

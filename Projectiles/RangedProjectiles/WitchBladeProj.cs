@@ -140,7 +140,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Projectile.ai[1] == 1f && Projectile.penetrate == 1)
-                Projectile.timeLeft = 180;
+                Projectile.timeLeft = 420;
             target.AddBuff(BuffID.Venom, 300);
         }
     }

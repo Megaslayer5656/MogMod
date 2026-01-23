@@ -819,6 +819,31 @@ Items: {
 					'A wicked weapon, used in torturing political criminals.'
 					'''
 			}
+
+			RedKatana: {
+				Tooltip: ""
+				DisplayName: Red Katana
+			}
+
+			Butterfly: {
+				Tooltip: ""
+				DisplayName: Butterfly
+			}
+
+			MantaStyle: {
+				DisplayName: Manta Style
+				Tooltip:
+					'''
+					Shoots a homing axe
+					Right click to summon 3 illusions that mirror your attacks
+					'An axe made of reflective materials that causes confusion amongst enemy ranks.'
+					'''
+			}
+
+			DivineRapierWeapon: {
+				DisplayName: Divine Rapier Weapon
+				Tooltip: ""
+			}
 		}
 
 		Ranged: {
@@ -1111,7 +1136,7 @@ Items: {
 					'''
 					Fires five homing beams
 					On hit beams split into homing orbs
-					Attacks also have a small chance to summon a portal, casting a slow laser at any nearby enemy
+					Attacks also have a small chance to summon a portal, casting a homing laser at a nearby enemy
 					'The scepter of a wizard with god-like powers.'
 					'''
 			}
@@ -1354,15 +1379,5 @@ Items: {
 	BoulderBullet: {
 		DisplayName: Boulder Bullet
 		Tooltip: Bullets are heavier and can roll on the ground
-	}
-
-	Butterfly: {
-		DisplayName: Butterfly
-		Tooltip: ""
-	}
-
-	RedKatana: {
-		DisplayName: Red Katana
-		Tooltip: ""
 	}
 }

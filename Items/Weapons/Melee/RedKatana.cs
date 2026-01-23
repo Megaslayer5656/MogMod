@@ -1,21 +1,16 @@
 ﻿using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class RedKatana : ModItem
+    public class RedKatana : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public static readonly SoundStyle ParryStart = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ParryStart")
         {
             Volume = .4f,
