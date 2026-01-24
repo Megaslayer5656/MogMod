@@ -1,6 +1,8 @@
-﻿using MogMod.Items.Other;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,12 +24,19 @@ namespace MogMod.Items.Weapons.Melee
             Item.shootSpeed = 12f;
             Item.UseSound = SoundID.Item1;
             Item.value = Item.buyPrice(0, 38, 0, 0);
+            Item.axe = 150 / 5;
             Item.rare = ItemRarityID.Orange;
             Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.shoot = ModContent.ProjectileType<BattleFuryProjectile>();
             Item.noMelee = true;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
+        }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            float breakBlocks = 1;
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0f, 0f, breakBlocks);
+            return false;
         }
         public override void AddRecipes()
         {

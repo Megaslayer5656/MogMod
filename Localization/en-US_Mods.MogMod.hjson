@@ -433,18 +433,6 @@ Items: {
 				'''
 		}
 
-		Butterfly: {
-			Tooltip:
-				'''
-				+55% Attack Speed 
-				+25% Attack Damage
-				'Only the mightiest and most experienced of 
-				warriors can wield the Butterfly, but it 
-				provides incredible dexterity in combat.' 
-				'''
-			DisplayName: Butterfly
-		}
-
 		BootsOfTravel: {
 			DisplayName: Boots Of Travel
 			Tooltip:
@@ -819,6 +807,42 @@ Items: {
 					'A wicked weapon, used in torturing political criminals.'
 					'''
 			}
+
+			RedKatana: {
+				DisplayName: Red Katana
+				Tooltip: Right click to parry an attack, cleansing debuffs and greatly reducing damage taken
+			}
+
+			Butterfly: {
+				DisplayName: Butterfly
+				Tooltip:
+					'''
+					On hit, chance to summon homing butterflies around the enemy
+					Right click to dodge an attack
+					'Only the mightiest and most experienced of warriors can wield the Butterfly,
+					but it provides incredible dexterity in combat.'
+					'''
+			}
+
+			MantaStyle: {
+				DisplayName: Manta Style
+				Tooltip:
+					'''
+					Shoots a homing axe
+					Right click to summon 3 illusions that mirror your attacks
+					'An axe made of reflective materials that causes confusion amongst enemy ranks.'
+					'''
+			}
+
+			DivineRapierWeapon: {
+				DisplayName: Divine Rapier
+				Tooltip:
+					'''
+					Fires a homing sword that summons multiple light rays
+					When at full life, fire a light beam that explodes into 8 smaller homing light rays
+					'So powerful, it cannot have a single owner.'
+					'''
+			}
 		}
 
 		Ranged: {
@@ -1111,7 +1135,7 @@ Items: {
 					'''
 					Fires five homing beams
 					On hit beams split into homing orbs
-					Attacks also have a small chance to summon a portal, casting a slow laser at any nearby enemy
+					Attacks also have a small chance to summon a portal, casting a homing laser at a nearby enemy
 					'The scepter of a wizard with god-like powers.'
 					'''
 			}
@@ -1354,15 +1378,5 @@ Items: {
 	BoulderBullet: {
 		DisplayName: Boulder Bullet
 		Tooltip: Bullets are heavier and can roll on the ground
-	}
-
-	Butterfly: {
-		DisplayName: Butterfly
-		Tooltip: ""
-	}
-
-	RedKatana: {
-		DisplayName: Red Katana
-		Tooltip: ""
 	}
 }

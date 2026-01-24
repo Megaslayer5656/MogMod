@@ -32,12 +32,13 @@ namespace MogMod.Projectiles.MagicProjectiles
         public override bool? CanDamage() => false;
         public override void AI()
         {
+            Projectile.rotation += 0.1f;
             if (!initialized)
             {
                 SoundEngine.PlaySound(SoundID.Item117, Projectile.Center);
                 initialized = true;
             }
-                Projectile.rotation += 0.1f;
+
             // drift to a stop after being launched
             if (Projectile.timeLeft < 580)
                 Projectile.velocity *= 0.882f;
@@ -45,7 +46,6 @@ namespace MogMod.Projectiles.MagicProjectiles
             if ((Projectile.timeLeft == 550))
             {
                 Projectile.NewProjectile(source, Projectile.Center, Projectile.velocity, ModContent.ProjectileType<AghanimLaser>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                Projectile.NewProjectile(source, Projectile.Center.Y, Projectile.Center.X, Projectile.velocity.Y, Projectile.velocity.X, ModContent.ProjectileType<AghanimLaser>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             if (Main.rand.NextBool(3))
             {

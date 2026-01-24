@@ -11,9 +11,6 @@ namespace MogMod.Items.Weapons.Melee
     public class EchoSabre : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        Random random = new Random();
-        public int randChance;
-        public bool echoSabre = false;
         public override void SetDefaults()
         {
             Item.width = 60;

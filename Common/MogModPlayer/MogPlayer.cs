@@ -91,6 +91,10 @@ namespace MogMod.Common.MogModPlayer
         public bool chargeShot = false;
         public bool dpCharge = false;
 
+        // debuffs
+        public bool divineDebuff = false;
+        public bool skadiDebuff = false;
+
         // sound effects
         public static readonly SoundStyle WandUse = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Magic_Stick")
         {
@@ -285,7 +289,13 @@ namespace MogMod.Common.MogModPlayer
             player.wingAccRunSpeed *= 1.30f;
             player.wingRunAccelerationMult *= 1.30f;
         }
-
+        public void NPCDebuffs(NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool whip, bool proj = false, bool noFlask = false)
+        {
+            if (wearingEyeOfSkadi)
+            {
+                target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 120);
+            }
+        }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (int i = 0; i < Main.maxNPCs; i++)
@@ -855,6 +865,9 @@ namespace MogMod.Common.MogModPlayer
 
             chargeShot = false;
             dpCharge = false;
+
+            divineDebuff = false;
+            skadiDebuff = false;
             #endregion
 
             #region Force Staff

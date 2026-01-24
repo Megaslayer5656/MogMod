@@ -349,6 +349,11 @@ Mods: {
 				DisplayName: Parry Debuff Remover
 				Description: Mods.MogMod.Buffs.ParryDebuffRemover.Description
 			}
+
+			DivineMightDebuff: {
+				DisplayName: Divine Might Debuff
+				Description: Mods.MogMod.Buffs.DivineMightDebuff.Description
+			}
 		}
 
 		NPCs: {
@@ -484,6 +489,15 @@ Mods: {
 				DesolatorHomingProj.DisplayName: Desolator
 				DesolatorProj.DisplayName: Desolator
 				AbyssalBladeProj.DisplayName: Abyssal Blade Proj
+				MantaSummon.DisplayName: Manta Summon
+				ButterflyProjectile.DisplayName: Butterfly Projectile
+				MantaProj.DisplayName: Manta Proj
+				DivineRapierProj.DisplayName: Divine Rapier Proj
+				DivineRapierBeam.DisplayName: Divine Rapier Beam
+				DivineRapierExplosion.DisplayName: Divine Rapier Explosion
+				DivineRapierSecProj.DisplayName: Divine Rapier Sec Proj
+				DivineRapierSecBeam.DisplayName: Divine Rapier Sec Beam
+				DivineRapierThirdBeam.DisplayName: Divine Rapier Third Beam
 			}
 
 			VonNade.DisplayName: Von Grenade
@@ -492,6 +506,7 @@ Mods: {
 			SummonerProjectiles: {
 				ProximityMinesSummon.DisplayName: Proximity Mines Summon
 				ProximityMinesExplosion.DisplayName: Proximity Mines Explosion
+				MantaSummon.DisplayName: Manta Summon
 			}
 
 			ButterflyProjectile.DisplayName: Butterfly Projectile

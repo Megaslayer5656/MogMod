@@ -21,5 +21,12 @@ namespace MogMod.Utilities
 
             return (destination - entity.Center).SafeNormalize(fallback.Value);
         }
+        public static Tile TileRetrieval(int x, int y)
+        {
+            if (!WorldGen.InWorld(x, y))
+                return new Tile();
+
+            return Main.tile[x, y];
+        }
     }
 }

@@ -1,23 +1,18 @@
 ﻿using MogMod.Buffs.Cooldowns;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using MogMod.Buffs.PotionBuffs;
-using Mono.CompilerServices.SymbolWriter;
 using MogMod.Projectiles.MeleeProjectiles;
 using MogMod.Utilities;
 using Terraria.Localization;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class Butterfly : ModItem
+    public class Butterfly : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         Random rand = new Random();
         public override void SetDefaults()
         {

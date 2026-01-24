@@ -1,10 +1,5 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Other;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,10 +27,11 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<UltimateOrb>(1).
+                AddIngredient(ItemID.EyeoftheGolem, 1).
+                AddIngredient(ItemID.ShroomiteBar, 7).
+                AddIngredient(ItemID.SpectreBar, 7).
+                AddIngredient<UltimateOrb>(2).
                 AddIngredient<PointBooster>(1).
-                AddIngredient(ItemID.Ectoplasm, 10).
-                AddRecipeGroup("AdamantiteBar", 5).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();

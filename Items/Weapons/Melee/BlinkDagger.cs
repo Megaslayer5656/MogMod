@@ -42,7 +42,7 @@ namespace MogMod.Items.Weapons.Melee
                 {
                     NetMessage.SendData(65, -1, -1, null, 0, player.whoAmI, Main.MouseWorld.X, Main.MouseWorld.Y, TeleportationStyleID.DebugTeleport); //Needed for multiplayer
                 }
-                player.AddBuff(ModContent.BuffType<BlinkDebuff>(), 600);
+                player.AddBuff(ModContent.BuffType<BlinkDebuff>(), 1800);
             }
             else
             {
