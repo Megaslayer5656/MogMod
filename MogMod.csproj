@@ -37,6 +37,7 @@
     <None Remove="Buffs\GlueDebuff.png" />
     <None Remove="Buffs\PotionBuffs\ButterflyBuff.png" />
     <None Remove="Buffs\PotionBuffs\ParryBuff1.png" />
+    <None Remove="Buffs\PotionBuffs\ParryDebuffRemover.png" />
     <None Remove="Buffs\PotionBuffs\Parrying.png" />
     <None Remove="Buffs\VonDebuff.png" />
     <None Remove="build.txt" />
