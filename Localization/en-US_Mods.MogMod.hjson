@@ -433,18 +433,6 @@ Items: {
 				'''
 		}
 
-		Butterfly: {
-			Tooltip:
-				'''
-				+55% Attack Speed 
-				+25% Attack Damage
-				'Only the mightiest and most experienced of 
-				warriors can wield the Butterfly, but it 
-				provides incredible dexterity in combat.' 
-				'''
-			DisplayName: Butterfly
-		}
-
 		BootsOfTravel: {
 			DisplayName: Boots Of Travel
 			Tooltip:
@@ -821,13 +809,19 @@ Items: {
 			}
 
 			RedKatana: {
-				Tooltip: ""
 				DisplayName: Red Katana
+				Tooltip: Right click to parry an attack, cleansing debuffs and greatly reducing damage taken
 			}
 
 			Butterfly: {
-				Tooltip: ""
 				DisplayName: Butterfly
+				Tooltip:
+					'''
+					On hit, chance to summon homing butterflies around the enemy
+					Right click to dodge an attack
+					'Only the mightiest and most experienced of warriors can wield the Butterfly,
+					but it provides incredible dexterity in combat.'
+					'''
 			}
 
 			MantaStyle: {
@@ -841,8 +835,13 @@ Items: {
 			}
 
 			DivineRapierWeapon: {
-				DisplayName: Divine Rapier Weapon
-				Tooltip: ""
+				DisplayName: Divine Rapier
+				Tooltip:
+					'''
+					Fires a homing sword that summons multiple light rays
+					When at full life, fire a light beam that explodes into 8 smaller homing light rays
+					'So powerful, it cannot have a single owner.'
+					'''
 			}
 		}
 

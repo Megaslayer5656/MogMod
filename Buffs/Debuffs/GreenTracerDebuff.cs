@@ -8,10 +8,10 @@ namespace MogMod.Buffs.Debuffs
     {
         public override void SetStaticDefaults()
         {
-            Main.buffNoSave[Type] = false;
             Main.debuff[Type] = true;
+            Main.pvpBuff[Type] = true;
+            Main.buffNoSave[Type] = false;
             Main.buffNoTimeDisplay[Type] = false;
-            BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
         }
 
         public override void Update(NPC npc, ref int buffIndex)

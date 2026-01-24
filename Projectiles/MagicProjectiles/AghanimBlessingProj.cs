@@ -88,15 +88,6 @@ namespace MogMod.Projectiles.MagicProjectiles
             }
             MogModUtils.HomeInOnNPC(Projectile, true, 800f, 20f, 15f);
         }
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (Projectile.owner == Main.myPlayer)
-            {
-                SummonLasers();
-            }
-            return true;
-        }
-
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.owner == Main.myPlayer)
@@ -146,10 +137,11 @@ namespace MogMod.Projectiles.MagicProjectiles
         private void SummonLasers()
         {
             var source = Projectile.GetSource_FromThis();
-            float spread = 30f * 0.01f * MathHelper.PiOver2;
-            float velocityNumb = 10f;
+            float rand = (float)random.Next(1,360);
+            float spread = rand * 0.01f * MathHelper.PiOver2;
             double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
             double deltaAngle = spread / 8f;
+            float velocityNumb = 10f;
             double offsetAngle;
             for (int i = 0; i < 2; i++)
             {
@@ -161,7 +153,8 @@ namespace MogMod.Projectiles.MagicProjectiles
         private void SummonOrb()
         {
             var source = Projectile.GetSource_FromThis();
-            float spread = 30f * 0.01f * MathHelper.PiOver2;
+            float rand = (float)random.Next(1,360);
+            float spread = rand * 0.01f * MathHelper.PiOver2;
             double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
             double deltaAngle = spread / 8f;
             double offsetAngle;

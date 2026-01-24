@@ -1,6 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.Debuffs;
 using MogMod.Projectiles.BaseProjectiles;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,9 +34,16 @@ namespace MogMod.Projectiles.MeleeProjectiles
         public override float ForwardSpeed => 0.7f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 16f, ModContent.ProjectileType<DaedalusProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 16f, ModContent.ProjectileType<DivineRapierSecProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
         };
-
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<DivineMightDebuff>(), 600);
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            target.AddBuff(ModContent.BuffType<DivineMightDebuff>(), 600);
+        }
         public override void ExtraBehavior()
         {
             if (Main.rand.NextBool(5))

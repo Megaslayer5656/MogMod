@@ -55,6 +55,7 @@ namespace MogMod.Items.Weapons.Melee
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 71;
 
         // Fires one large and two small projectiles which stay together in formation. USE FOR DAEDALUS CROSSBOW
+        // code taken from calamity ataraxia blade
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             // Play the Terra Blade sound upon firing
