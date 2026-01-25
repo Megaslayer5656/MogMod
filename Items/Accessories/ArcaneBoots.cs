@@ -27,8 +27,8 @@ namespace MogMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             // give mana boots an on button press affect that restores 200 mana and if possible does so to everyone
-            player.moveSpeed += .15f;
             player.accRunSpeed = 7f;
+            player.moveSpeed += .12f;
             player.statManaMax2 += 50;
             player.manaRegen += (int)Math.Round(player.manaRegen * .2f);
             // a check on whether the player is wearing boots

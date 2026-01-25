@@ -13,6 +13,7 @@ namespace MogMod.Items.Weapons.Melee
     public class DivineRapierWeapon : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
+        public static bool MaxLife = false;
         public override void SetStaticDefaults()
         {
             ItemID.Sets.Spears[Item.type] = true;
@@ -43,8 +44,13 @@ namespace MogMod.Items.Weapons.Melee
             // only fire beams at max health
             if (player.statLife >= (player.statLifeMax2 * 1f))
             {
+                MaxLife = true;
                 int rapierBeam = ModContent.ProjectileType<DivineRapierBeam>();
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, rapierBeam, damage, knockback, player.whoAmI, 0, 0);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, rapierBeam, damage * 2, knockback, player.whoAmI, 0, 0);
+            }
+            else
+            {
+                MaxLife = false;
             }
             return true;
         }

@@ -1,13 +1,4 @@
-﻿using MogMod.Common.MogModPlayer;
-using MogMod.Common.Systems;
-using MogMod.Items.Other;
-using MogMod.Utilities;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,8 +18,8 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.moveSpeed += .45f;
             player.accRunSpeed = 12f;
+            player.moveSpeed += .45f;
             player.rocketBoots = player.vanityRocketBoots = 3;
 
             // unique boot effects

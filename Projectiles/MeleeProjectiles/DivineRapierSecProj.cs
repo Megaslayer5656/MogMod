@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
+using MogMod.Items.Weapons.Melee;
 using MogMod.Utilities;
 using System;
 using Terraria;
@@ -16,7 +17,10 @@ namespace MogMod.Projectiles.MeleeProjectiles
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
-            ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
+            if (DivineRapierWeapon.MaxLife)
+                ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
+            else
+                ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = false;
         }
 
         public override void SetDefaults()
@@ -47,7 +51,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             if (Projectile.timeLeft < 245)
                 Projectile.ai[0] = 1f;
 
-            if (Projectile.ai[0] >= 1f)
+            if (Projectile.ai[0] >= 1f && DivineRapierWeapon.MaxLife)
                 MogModUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 500f, 10f, 25f);
         }
 
@@ -87,17 +91,20 @@ namespace MogMod.Projectiles.MeleeProjectiles
         }
         private void SummonLasers()
         {
-            var source = Projectile.GetSource_FromThis();
-            float rand = (float)random.Next(1,360);
-            float spread = rand * 0.01f * MathHelper.PiOver2;
-            double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
-            double deltaAngle = spread / 8f;
-            double offsetAngle;
-            for (int i = 0; i < 1; i++)
+            if (DivineRapierWeapon.MaxLife)
             {
-                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<DivineRapierThirdBeam>(), Convert.ToInt32(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner);
-                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<DivineRapierThirdBeam>(), Convert.ToInt32(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner);
+                var source = Projectile.GetSource_FromThis();
+                float rand = (float)random.Next(1, 360);
+                float spread = rand * 0.01f * MathHelper.PiOver2;
+                double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
+                double deltaAngle = spread / 8f;
+                double offsetAngle;
+                for (int i = 0; i < 1; i++)
+                {
+                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+                    Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<DivineRapierThirdBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<DivineRapierThirdBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                }
             }
         }
     }

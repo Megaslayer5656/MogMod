@@ -27,7 +27,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Projectile.penetrate = -1;
             Projectile.ownerHitCheck = true;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 3;
+            Projectile.localNPCHitCooldown = 6;
         }
         public override float InitialSpeed => 2f;
         public override float ReelbackSpeed => 1f;

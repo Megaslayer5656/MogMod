@@ -440,6 +440,9 @@ Mods: {
 				AghanimHomingProj.DisplayName: Aghanim's Blessing
 				AghanimSkyProj.DisplayName: Aghanim Sky Proj
 				AghanimExplosion.DisplayName: Aghanim Explosion
+				MichaelSwordHoldout.DisplayName: Michael Sword Holdout
+				MichaelSwordBeam.DisplayName: Michael Sword Beam
+				MichaelSwordExplosion.DisplayName: Michael Sword Explosion
 			}
 
 			RangedProjectiles: {

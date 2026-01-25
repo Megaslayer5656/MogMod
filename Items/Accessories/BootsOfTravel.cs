@@ -18,8 +18,8 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.moveSpeed += .35f;
             player.accRunSpeed = 10f;
+            player.moveSpeed += .35f;
             if (!hideVisual)
             {
                 player.CancelAllBootRunVisualEffects(); // This ensures that boot visual effects don't overlap if multiple are equipped

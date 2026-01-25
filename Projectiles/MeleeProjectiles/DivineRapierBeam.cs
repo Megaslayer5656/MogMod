@@ -119,8 +119,8 @@ namespace MogMod.Projectiles.MeleeProjectiles
             for (int i = 0; i < 4; i++)
             {
                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<DivineRapierSecBeam>(), Convert.ToInt32(Projectile.damage * 0.2), Projectile.knockBack, Projectile.owner);
-                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<DivineRapierSecBeam>(), Convert.ToInt32(Projectile.damage * 0.2), Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<DivineRapierSecBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<DivineRapierSecBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
     }
