@@ -95,6 +95,8 @@ namespace MogMod.Common.MogModPlayer
         // debuffs
         public bool divineDebuff = false;
         public bool skadiDebuff = false;
+        public bool freezingDebuff = false;
+        public bool aghHexDebuff = false;
 
         // sound effects
         public static readonly SoundStyle WandUse = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Magic_Stick")
@@ -880,6 +882,8 @@ namespace MogMod.Common.MogModPlayer
 
             divineDebuff = false;
             skadiDebuff = false;
+            freezingDebuff = false;
+            aghHexDebuff = false;
             #endregion
 
             #region Force Staff

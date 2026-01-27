@@ -12,6 +12,7 @@ namespace MogMod.Projectiles.MagicProjectiles
     public class MichaelSwordExplosion : ModProjectile, IAdditiveDrawer, ILocalizedModType
     {
         // code taken from terratomere calamity mod
+        // TODO: fix the sprite not loading
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override void SetDefaults()
         {
@@ -52,12 +53,14 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.scale *= MichaelSword.ExplosionExpandFactor;
             Projectile.Opacity = Utils.GetLerpValue(5f, 36f, Projectile.timeLeft, true);
         }
+
         public void AdditiveDraw(SpriteBatch spriteBatch)
         {
             Texture2D texture = Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value;
             Rectangle frame = texture.Frame(3, 6, Projectile.frame / 6, Projectile.frame % 6);
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Vector2 origin = frame.Size() * 0.5f;
+
             if (Projectile.timeLeft < 149)
                 Main.spriteBatch.Draw(texture, drawPosition, frame, Color.White, 0f, origin, 1.6f, SpriteEffects.None, 0);
         }

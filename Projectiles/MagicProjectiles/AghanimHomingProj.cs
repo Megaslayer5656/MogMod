@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.Debuffs;
 using MogMod.Utilities;
 using System;
 using Terraria;
@@ -55,13 +56,11 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.Daybreak, 600);
-            target.AddBuff(BuffID.StardustMinionBleed, 600);
+            target.AddBuff(ModContent.BuffType<AghanimHexDebuff>(), 600);
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            target.AddBuff(BuffID.Daybreak, 600);
-            target.AddBuff(BuffID.StardustMinionBleed, 600);
+            target.AddBuff(ModContent.BuffType<AghanimHexDebuff>(), 600);
         }
         public override void OnKill(int timeLeft)
         {

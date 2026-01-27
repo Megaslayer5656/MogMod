@@ -829,7 +829,7 @@ Items: {
 				Tooltip:
 					'''
 					Shoots a homing axe
-					Right click to summon 3 illusions that mirror your attacks
+					Right click to summon 2 illusions that mirror your attacks
 					'An axe made of reflective materials that causes confusion amongst enemy ranks.'
 					'''
 			}
@@ -838,7 +838,7 @@ Items: {
 				DisplayName: Divine Rapier
 				Tooltip:
 					'''
-					Fires a homing sword that summons multiple light rays
+					Fires a divine sword of light that gains additional properties at max life
 					When at full life, fire a light beam that explodes into 8 smaller homing light rays
 					'So powerful, it cannot have a single owner.'
 					'''
@@ -990,6 +990,24 @@ Items: {
 					'You think you caught me? Ha ha ha ha ha!'
 					'''
 			}
+
+			DrowRangersCrossbow: {
+				DisplayName: Drow Ranger's Crossbow
+				Tooltip:
+					'''
+					Fires a burst of 3 freezing arrows
+					'I walk alone, but the shadows are company enough.'
+					'''
+			}
+
+			DreadsRetribution: {
+				DisplayName: Dread's Retribution
+				Tooltip:
+					'''
+					Fires a barrage of freezing arrows;
+					'I don't care who you are, we are all guilty of something.'
+					'''
+			}
 		}
 
 		Magic: {
@@ -1136,13 +1154,18 @@ Items: {
 					Fires five homing beams
 					On hit beams split into homing orbs
 					Attacks also have a small chance to summon a portal, casting a homing laser at a nearby enemy
+					Inflicts Aghanim's Hex on hit
 					'The scepter of a wizard with god-like powers.'
 					'''
 			}
 
 			MichaelSword: {
 				DisplayName: Michael Sword
-				Tooltip: ""
+				Tooltip:
+					'''
+					Swing a magical sword that fires a beam that explodes on hit
+					'Bathed in Radiant Dawn'
+					'''
 			}
 		}
 
@@ -1152,7 +1175,7 @@ Items: {
 				Tooltip:
 					'''
 					Summons a sentry
-					Explodes when enemies come near
+					Explodes after a short delay when enemies come near
 					'Yes you're a good little mine. Yes you are.'
 					'''
 			}
@@ -1383,5 +1406,14 @@ Items: {
 	BoulderBullet: {
 		DisplayName: Boulder Bullet
 		Tooltip: Bullets are heavier and can roll on the ground
+	}
+
+	AghanimBulletAmmo: {
+		DisplayName: Aghanim's Bullet
+		Tooltip:
+			'''
+			Repeatedly homes in on enemies
+			Inflicts Aghanim's Hex on hit
+			'''
 	}
 }

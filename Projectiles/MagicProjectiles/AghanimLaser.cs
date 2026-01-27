@@ -1,11 +1,12 @@
-﻿using MogMod.Projectiles.BaseProjectiles;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MogMod.Buffs.Debuffs;
+using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Utilities;
 using ReLogic.Content;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using MogMod.Utilities;
+using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
@@ -61,13 +62,11 @@ namespace MogMod.Projectiles.MagicProjectiles
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.Daybreak, 600);
-            target.AddBuff(BuffID.StardustMinionBleed, 600);
+            target.AddBuff(ModContent.BuffType<AghanimHexDebuff>(), 600);
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            target.AddBuff(BuffID.Daybreak, 600);
-            target.AddBuff(BuffID.StardustMinionBleed, 600);
+            target.AddBuff(ModContent.BuffType<AghanimHexDebuff>(), 600);
         }
     }
 }

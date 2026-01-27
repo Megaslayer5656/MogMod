@@ -1,7 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.Debuffs;
 using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Utilities;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -95,8 +96,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 SummonLasers();
                 hitEnemy = true;
             }
-            target.AddBuff(BuffID.Daybreak, 600);
-            target.AddBuff(BuffID.StardustMinionBleed, 600);
+            target.AddBuff(ModContent.BuffType<AghanimHexDebuff>(), 600);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
@@ -106,8 +106,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 SummonLasers();
                 hitEnemy = true;
             }
-            target.AddBuff(BuffID.Daybreak, 600);
-            target.AddBuff(BuffID.StardustMinionBleed, 600);
+            target.AddBuff(ModContent.BuffType<AghanimHexDebuff>(), 600);
         }
 
         public override void OnKill(int timeLeft)
