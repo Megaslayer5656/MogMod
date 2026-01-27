@@ -354,6 +354,16 @@ Mods: {
 				DisplayName: Divine Might Debuff
 				Description: Mods.MogMod.Buffs.DivineMightDebuff.Description
 			}
+
+			FreezingDebuff: {
+				Description: Mods.MogMod.Buffs.FreezingDebuff.Description
+				DisplayName: Freezing Debuff
+			}
+
+			AghanimHexDebuff: {
+				DisplayName: Aghanim Hex Debuff
+				Description: Mods.MogMod.Buffs.AghanimHexDebuff.Description
+			}
 		}
 
 		NPCs: {
@@ -476,6 +486,9 @@ Mods: {
 				MegaslarkProj.DisplayName: Megaslark
 				MinislarkProj.DisplayName: Minislark
 				BoulderBulletProj.DisplayName: Boulder Bullet
+				DrowRangerArrow.DisplayName: Drow Ranger Arrow
+				AghanimBulletProj.DisplayName: Aghanim Bullet Proj
+				DreadsProj.DisplayName: Dreads Proj
 			}
 
 			MeleeProjectiles: {

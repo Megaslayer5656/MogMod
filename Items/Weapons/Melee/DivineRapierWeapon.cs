@@ -59,9 +59,9 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.NorthPole, 1).
-                AddIngredient<AghanimShard>(1).
                 AddIngredient<DivineRapier>(1).
                 AddIngredient(ItemID.LunarBar, 15). 
+                AddIngredient<AghanimShard>(1).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

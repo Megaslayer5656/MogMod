@@ -20,6 +20,8 @@ namespace MogMod.NPCs.Global
         // debuffs ID
         public int divineDebuff = 0;
         public int skadiDebuff = 0;
+        public int freezingDebuff = 0;
+        public int aghDebuff = 0;
 
         // apparently neccessary according to calamity
         public override bool InstancePerEntity => true;
@@ -28,6 +30,8 @@ namespace MogMod.NPCs.Global
             MogModGlobalNPC myClone = (MogModGlobalNPC)base.Clone(npc, npcClone);
             myClone.divineDebuff = divineDebuff;
             myClone.skadiDebuff = skadiDebuff;
+            myClone.freezingDebuff = freezingDebuff;
+            myClone.aghDebuff = aghDebuff;
             return myClone;
         }
 
@@ -36,13 +40,16 @@ namespace MogMod.NPCs.Global
         {
             if (divineDebuff > 0)
             {
-                ApplyDPSDebuff(400, 100, ref npc.lifeRegen, ref damage);
+                ApplyDPSDebuff(600, 100, ref npc.lifeRegen, ref damage);
             }
             if (skadiDebuff > 0)
             {
                 ApplyDPSDebuff(200, 40, ref npc.lifeRegen, ref damage);
             }
-
+            if (aghDebuff > 0)
+            {
+                ApplyDPSDebuff(480, 80, ref npc.lifeRegen, ref damage);
+            }
         }
 
         // not quite sure what this does, but its in calamity mod so it has to be important
@@ -54,6 +61,15 @@ namespace MogMod.NPCs.Global
             {
                 skadiDebuff--;
                 npc.velocity *= 0.988f;
+            }
+            if (freezingDebuff > 0)
+            {
+                freezingDebuff--;
+                npc.velocity *= 0.985f;
+            }
+            if (aghDebuff > 0)
+            {
+                aghDebuff--;
             }
         }
 
@@ -103,6 +119,16 @@ namespace MogMod.NPCs.Global
             {
                 EyeOfSkadiDebuff.DrawEffects(npc, ref drawColor);
                 drawColor = Color.DarkSlateBlue;
+            }
+            if (freezingDebuff > 0)
+            {
+                FreezingDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.LightBlue;
+            }
+            if (aghDebuff > 0)
+            {
+                AghanimHexDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.BlueViolet;
             }
         }
 
