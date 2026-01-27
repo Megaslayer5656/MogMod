@@ -10,6 +10,7 @@ using MogMod.Items.Weapons.Ranged;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -267,11 +268,11 @@ namespace MogMod.Common.MogModPlayer
 
             if (Player.HasBuff<DragonInstallBuff>() && wearingFlameOfCorruption)
             {
-                dragonInstallActive = true;
+                enterDragonInstall(Player);
             }
             else
             {
-                dragonInstallActive = false;
+                exitDragonInstall(Player);
             }
 
             if (!wearingFlameOfCorruption && Player.HasBuff<DragonInstallBuff>())
@@ -279,6 +280,17 @@ namespace MogMod.Common.MogModPlayer
                 Player.ClearBuff(ModContent.BuffType<DragonInstallBuff>());
             }
             #endregion
+        }
+        public void enterDragonInstall(Terraria.Player player)
+        {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.dragonInstallActive = true;
+        }
+
+        public void exitDragonInstall (Terraria.Player player)
+        {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.dragonInstallActive = false;
         }
 
         public void doButterfly(Terraria.Player player)
