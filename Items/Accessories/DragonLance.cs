@@ -1,11 +1,7 @@
 ﻿using MogMod.Items.Other;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -32,7 +28,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<BeltOfStrength>(1).
                 AddIngredient(ItemID.GreenPhaseblade, 1).
-                AddRecipeGroup("TissueSample", 7).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 7).
                 AddIngredient(ItemID.Ruby, 5).
                 AddIngredient(ItemID.AntlionMandible, 3).
                 AddIngredient<CraftingRecipe>(1).

@@ -14,11 +14,11 @@ namespace MogMod.Items.Weapons.Ranged
         {
             Item.width = 58;
             Item.height = 28;
-            Item.damage = 42;
+            Item.damage = 72;
             Item.DamageType = DamageClass.Ranged;
-            Item.useTime = 3;
-            Item.useAnimation = 9;
-            Item.reuseDelay = Item.useAnimation + 2;
+            Item.useTime = 7;
+            Item.useAnimation = 21;
+            Item.reuseDelay = Item.useAnimation - 4;
             Item.useLimitPerAnimation = 3;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;

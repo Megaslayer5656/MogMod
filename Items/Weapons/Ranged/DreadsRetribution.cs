@@ -14,12 +14,12 @@ namespace MogMod.Items.Weapons.Ranged
         {
             Item.width = 72;
             Item.height = 36;
-            Item.damage = 50;
+            Item.damage = 100;
             Item.DamageType = DamageClass.Ranged;
-            Item.useTime = 3;
-            Item.useAnimation = 15;
-            Item.useLimitPerAnimation = 5;
-            Item.reuseDelay = Item.useAnimation + 2;
+            Item.useTime = 7;
+            Item.useAnimation = 21;
+            Item.useLimitPerAnimation = 3;
+            Item.reuseDelay = Item.useAnimation - 6;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 2f;
@@ -40,7 +40,7 @@ namespace MogMod.Items.Weapons.Ranged
             bool arrowHitsTiles = Collision.CanHit(vector2, 0, 0, vector2 + arrowVel, 0, 0);
             for (int i = 0; i < 2; i++)
             {
-                float piOffsetValue = (float)i - 0.4f;
+                float piOffsetValue = (float)i - .4f;
                 Vector2 offsetSpawn = arrowVel.RotatedBy((double)(tenthPi * piOffsetValue), default);
                 if (!arrowHitsTiles)
                 {
@@ -55,9 +55,9 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<DrowRangersCrossbow>(1).
+                AddIngredient(ItemID.Tsunami, 1).
                 AddIngredient(4953, 1). // eventide from empress
-                AddIngredient(ItemID.Ectoplasm, 8).
-                AddIngredient(ItemID.MoonStone, 1).
+                AddIngredient(ItemID.BeetleHusk, 8).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
@@ -48,7 +49,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe(50).
                 AddIngredient(ItemID.Grenade, 50).
-                AddRecipeGroup("CrimtaneBar", 1).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 1).
                 AddTile(TileID.Anvils).
                 Register();
         }

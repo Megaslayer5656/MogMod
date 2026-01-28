@@ -1,8 +1,9 @@
-﻿using Terraria.ModLoader;
-using Terraria;
+﻿using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
+using Terraria;
 using Terraria.ID;
-using MogMod.Buffs.PotionBuffs;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -47,7 +48,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.GoldBar, 20).
-                AddRecipeGroup("Ichor", 20).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 20).
                 AddIngredient<HydrakanLatch>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();

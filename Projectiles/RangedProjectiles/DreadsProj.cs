@@ -14,7 +14,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         public override string Texture => "MogMod/Projectiles/RangedProjectiles/DrowRangerArrow";
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 12;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
@@ -42,12 +42,15 @@ namespace MogMod.Projectiles.RangedProjectiles
         {
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
 
-            Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(4) ? 224 : 252, new Vector2(Projectile.velocity.X * Main.rand.NextFloat(-0.1f, 0.1f), Projectile.velocity.Y * Main.rand.NextFloat(-0.1f, 0.1f)));
-            dust.noGravity = true;
-            if (dust.type == 223)
-                dust.scale = Main.rand.NextFloat(0.4f, 0.66f);
-            else
-                dust.scale = Main.rand.NextFloat(0.65f, 0.9f);
+            if (Main.rand.NextBool(3))
+            {
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(4) ? 224 : 252, new Vector2(Projectile.velocity.X * Main.rand.NextFloat(-0.1f, 0.1f), Projectile.velocity.Y * Main.rand.NextFloat(-0.1f, 0.1f)));
+                dust.noGravity = true;
+                if (dust.type == 223)
+                    dust.scale = Main.rand.NextFloat(0.4f, 0.66f);
+                else
+                    dust.scale = Main.rand.NextFloat(0.65f, 0.9f);
+            }
         }
         // This projectile is always fullbright.
         public override Color? GetAlpha(Color lightColor)

@@ -1,7 +1,8 @@
-﻿using Terraria.ModLoader;
+﻿using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.ID;
-using MogMod.Projectiles.MagicProjectiles;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Magic
 {
@@ -32,7 +33,7 @@ namespace MogMod.Items.Weapons.Magic
         {
             CreateRecipe().
               AddIngredient(ItemID.Book, 1).
-              AddRecipeGroup("CrimtaneBar", 15).
+              AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 15).
               AddIngredient(ItemID.Deathweed, 5).
               AddTile(TileID.Bookcases).
               Register();

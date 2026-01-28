@@ -5,6 +5,7 @@ using MogMod.Utilities;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -43,7 +44,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.Robe, 1).
                 AddIngredient<ShadowAmulet>(1).
-                AddRecipeGroup("TissueSample", 7).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 7).
                 AddIngredient(ItemID.FallenStar, 5).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).

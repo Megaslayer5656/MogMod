@@ -80,12 +80,12 @@ namespace MogMod.NPCs.TownNpc
         public override void AddShops()
         {
             NPCShop shop = new(Type);
-            shop.Add<BizarreMusicBox>()
-                .Add<DesperateMusicBox>()
-                .Add<RajangMusicBox>()
-                .Add<RideTheFireMusicBox>()
-                .Add<KingVonMusicBox>()
-                .Add<VonEvilIncarnateMusicBox>()
+            shop.Add<BizarreMusicBox>(Condition.Hardmode, Condition.InGraveyard)
+                .Add<DesperateMusicBox>(Condition.BloodMoonOrHardmode)
+                .Add<RajangMusicBox>(Condition.Hardmode, Condition.InJungle)
+                .Add<RideTheFireMusicBox>(Condition.Hardmode, Condition.InUnderworld)
+                .Add<KingVonMusicBox>(Condition.Hardmode)
+                .Add<VonEvilIncarnateMusicBox>(Condition.Hardmode, Condition.NightOrEclipse)
                 .Add<LedX>()
                 .Add((ItemID.ChlorophyteShotbow), Condition.DownedMechBossAny)
                 .Add<Phasma>()
@@ -95,22 +95,45 @@ namespace MogMod.NPCs.TownNpc
         public override string GetChat()
         {
             NPC.FindFirstNPC(ModContent.NPCType<Mendez>());
-            switch (Main.rand.Next(5))
+            if (!Main.dayTime)
             {
-                case 0:
-                    return "I found these in a chest.";
-                case 1:
-                    return "O na o na o na.";
-                case 2:
-                    return "tarkov.";
-                case 3:
-                    return "o na ragebait successful.";
-                case 4:
-                    return "liked by J* Mendih.";
-                case 5:
-                    return "su ban su ban suban o na";
-                default:
-                    return "ona.";
+                switch (Main.rand.Next(7))
+                {
+                    case 0:
+                        return "I.. found... these... in... a... chest~";
+                    case 1:
+                        return "O na-a-a~";
+                    case 2:
+                        return "tarkov.";
+                    case 3:
+                        return "o na sleepy rizzler time.";
+                    case 4:
+                        return "sleepy-o rizzler.";
+                    case 5:
+                        return "su ban su ban suban o na.";
+                    default:
+                        return "tis be' to the o na.";
+                }
+            }
+            else
+            {
+                switch (Main.rand.Next(7))
+                {
+                    case 0:
+                        return "I found these in a chest.";
+                    case 1:
+                        return "O na o na o na.";
+                    case 2:
+                        return "tarkov.";
+                    case 3:
+                        return "o na ragebait successful.";
+                    case 4:
+                        return "liked by J* Mendih.";
+                    case 5:
+                        return "su ban su ban suban o na.";
+                    default:
+                        return "ona.";
+                }
             }
         }
         public override bool CanGoToStatue(bool toKingStatue) => true;

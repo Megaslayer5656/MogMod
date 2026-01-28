@@ -2,6 +2,7 @@
 using MogMod.Projectiles.MeleeProjectiles;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
@@ -46,7 +47,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.DeathSickle, 1).
-                AddRecipeGroup("Ichor", 20).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 20).
                 AddIngredient(ItemID.FragmentSolar, 8).
                 AddIngredient<UltimateOrb>(3).
                 AddIngredient<CraftingRecipe>(1).

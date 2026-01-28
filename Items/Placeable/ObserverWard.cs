@@ -1,13 +1,7 @@
-﻿using Microsoft.Build.Construction;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace MogMod.Items.Placeable
 {
@@ -36,9 +30,9 @@ namespace MogMod.Items.Placeable
         public override void AddRecipes()
         {
             CreateRecipe().
-             AddIngredient(ItemID.Lens, 1).
-             AddRecipeGroup("Vertebrae", 2).
              AddIngredient(ItemID.Torch, 20).
+             AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Material"}", 2).
+             AddIngredient(ItemID.Lens, 1).
              AddTile(TileID.DemonAltar).
              Register();
         }

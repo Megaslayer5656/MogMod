@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
@@ -76,7 +77,7 @@ namespace MogMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient<WarriorsSpear>(1).
                 AddIngredient(ItemID.ShadowFlameKnife, 1).
-                AddRecipeGroup("Ichor", 15).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 15).
                 AddIngredient(ItemID.Ectoplasm, 10).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.MythrilAnvil).

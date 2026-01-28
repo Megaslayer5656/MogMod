@@ -1,10 +1,11 @@
-﻿using System;
-using Terraria.ModLoader;
-using Terraria;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
-using Terraria.DataStructures;
+﻿using Microsoft.Xna.Framework;
 using MogMod.Projectiles.RangedProjectiles;
+using System;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
 {
@@ -70,15 +71,15 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.Torch, 30).
-                AddIngredient(ItemID.Javelin, 15).
-                AddRecipeGroup("CrimtaneBar", 12).
+                AddIngredient(ItemID.Javelin, 15). // change to recipe group maybe??
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 12).
                 AddTile(TileID.Anvils).
                 Register();
 
             CreateRecipe().
                 AddIngredient(ItemID.Torch, 30).
                 AddIngredient(ItemID.BoneJavelin, 15).
-                AddRecipeGroup("CrimtaneBar", 12).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 12).
                 AddTile(TileID.Anvils).
                 Register();
         }

@@ -3,6 +3,7 @@ using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Magic
@@ -39,7 +40,7 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient<DagonOne>(1).
                 AddIngredient<Diadem>(1).
                 AddIngredient(ItemID.MeteoriteBar, 12).
-                AddRecipeGroup("TissueSample", 8).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 8).
                 AddIngredient(ItemID.Fireblossom, 5).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.Anvils).

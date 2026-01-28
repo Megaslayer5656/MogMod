@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -41,7 +42,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<HelmOfIronWill>(1).
                 AddIngredient<Diadem>(1).
-                AddRecipeGroup("WarriorEmblem", 1).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Emblem"}", 1).
                 AddRecipeGroup("CobaltBar", 8).
                 AddIngredient(ItemID.Topaz, 2).
                 AddIngredient<CraftingRecipe>(1).

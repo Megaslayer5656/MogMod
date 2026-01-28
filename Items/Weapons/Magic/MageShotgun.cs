@@ -52,9 +52,9 @@ namespace MogMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.SpectreBar, 15);
             recipe.AddIngredient(ItemID.SpectreStaff, 1);
             recipe.AddIngredient(ItemID.Xenopopper, 1);
+            recipe.AddIngredient(ItemID.SpectreBar, 15);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.Register();
         }

@@ -1,11 +1,12 @@
-﻿using System;
-using Terraria.ModLoader;
-using Terraria;
-using Terraria.ID;
-using Terraria.Audio;
-using MogMod.Utilities;
-using MogMod.Items.Other;
+﻿using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Utilities;
+using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -58,7 +59,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddRecipeGroup("IronBar", 20).
-                AddRecipeGroup("CrimtaneBar", 18).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 18).
                 AddIngredient(ItemID.Skull, 1).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.Anvils).

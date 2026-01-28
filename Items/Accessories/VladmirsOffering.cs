@@ -2,6 +2,7 @@
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -44,7 +45,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient<BladesOfAttack>(1).
                 AddRecipeGroup("IronBar", 18).
                 AddIngredient(ItemID.Silk, 12).
-                AddRecipeGroup("TissueSample", 7).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 7).
                 AddIngredient(ItemID.Skull, 1).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).

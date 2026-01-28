@@ -1,6 +1,7 @@
 ﻿using MogMod.Common.MogModPlayer;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -27,7 +28,7 @@ namespace MogMod.Items.Accessories
                 AddRecipeGroup("GoldBar", 15).
                 AddIngredient(ItemID.ManaCrystal, 5).
                 AddIngredient(ItemID.Sapphire, 7).
-                AddRecipeGroup("CrimtaneBar", 3).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 3).
                 AddTile(TileID.Anvils).
                 Register();
         }

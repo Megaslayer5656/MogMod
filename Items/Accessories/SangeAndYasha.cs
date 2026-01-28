@@ -44,8 +44,8 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<Sange>(1).
                 AddIngredient<Yasha>(1).
-                AddIngredient<CraftingRecipe>(1).
                 AddIngredient(ItemID.Ectoplasm, 5).
+                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

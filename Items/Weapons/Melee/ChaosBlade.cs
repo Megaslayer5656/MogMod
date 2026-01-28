@@ -1,11 +1,12 @@
-﻿using System;
-using Terraria.ModLoader;
-using Terraria;
-using Terraria.ID;
-using Terraria.Audio;
-using MogMod.Utilities;
+﻿using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
-using MogMod.Items.Other;
+using MogMod.Utilities;
+using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -69,8 +70,8 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.HellstoneBar, 20).
-                AddRecipeGroup("CrimtaneBar", 15).
-                AddRecipeGroup("TissueSample", 10).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 15).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 10).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.Anvils).
                 Register();

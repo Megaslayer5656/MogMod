@@ -2,6 +2,7 @@
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
@@ -33,7 +34,7 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient<WitchBlade>(1).
                 AddIngredient(ItemID.SpiderFang, 15).
                 AddIngredient(ItemID.ChlorophyteBar, 12).
-                AddRecipeGroup("VileMushroom", 7).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Mushroom"}", 7).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -40,7 +41,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.EmeraldStaff, 1).
                 AddIngredient(ItemID.PinkEskimoHood, 1).
                 AddIngredient(ItemID.RichMahogany, 12).
-                AddRecipeGroup("CrimtaneBar", 3).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 3).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
