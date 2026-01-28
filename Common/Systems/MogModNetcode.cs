@@ -34,6 +34,10 @@ namespace MogMod.Common.Systems
                     case MogModMessageType.ParrySync:
                         Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleParry(reader);
                         break;
+
+                    case MogModMessageType.DragonInstallSync:
+                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleDragonInstall(reader);
+                        break;
                 }
             }
             catch (Exception e)
@@ -47,7 +51,8 @@ namespace MogMod.Common.Systems
             EssenceShiftStackSync,
             ShivasSync,
             ButterflySync,
-            ParrySync
+            ParrySync,
+            DragonInstallSync
         }
     }
 }

@@ -10,6 +10,7 @@ using Terraria.GameContent.UI;
 using Terraria.Audio;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json.Bson;
+using System.ComponentModel;
 
 namespace MogMod.Common.MogModPlayer
 {
@@ -43,7 +44,6 @@ namespace MogMod.Common.MogModPlayer
         public void SyncButterfly(bool server)
         {
             ModPacket packet = Mod.GetPacket(256);
-            MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
 
             packet.Write((byte)MogModMessageType.ButterflySync);
             packet.Write(Player.whoAmI);
@@ -59,6 +59,18 @@ namespace MogMod.Common.MogModPlayer
             packet.Write((byte)MogModMessageType.ParrySync);
             packet.Write(Player.whoAmI);
             packet.WriteVector2(pos);
+
+            Player.SendPacket(packet, server);
+        }
+
+        public void SyncDragonInstall(bool server)
+        {
+            ModPacket packet = Mod.GetPacket(256);
+            MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
+
+            packet.Write((byte)MogModMessageType.DragonInstallSync);
+            packet.Write(Player.whoAmI);
+            packet.Write(mogPlayer.dragonInstallActive);
 
             Player.SendPacket(packet, server);
         }
@@ -98,6 +110,23 @@ namespace MogMod.Common.MogModPlayer
                 SyncParry(true, pos);
             }
             doParry(Player, pos);
+        }
+
+        internal void HandleDragonInstall(BinaryReader reader)
+        {
+            bool install = reader.ReadBoolean();
+            if (Main.netMode == NetmodeID.Server)
+            {
+                SyncDragonInstall(true);
+            }
+
+            if (install)
+            {
+                enterDragonInstall(Player);
+            } else
+            {
+                exitDragonInstall(Player);
+            }
         }
     }
 }
