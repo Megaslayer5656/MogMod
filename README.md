@@ -1,4 +1,4 @@
 # MogMod
 A joke mod we're making for Tmodloader
-Mainly for use with me and my friends, putting it here because why not
 THIS IS VERY SATIRE PLEASE DO NOT TAKE SERIOUS
+(The more we work on it the more serious it becomes this might not actually be a joke mod soon)
