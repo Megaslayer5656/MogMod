@@ -41,6 +41,18 @@ namespace MogMod.Common.MogModPlayer
                                                //P.S. this method is a custom method in PlayerUtils.cs, see how it works there.
         }
 
+        public void SyncWingsOfLight(bool server, Vector2 position)
+        {
+            ModPacket packet = Mod.GetPacket(256);
+            MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
+
+            packet.Write((byte)MogModMessageType.WingsOfLightSync);
+            packet.Write(Player.whoAmI);
+            packet.WriteVector2(position);
+
+            Player.SendPacket(packet, server);
+        }
+
         public void SyncButterfly(bool server)
         {
             ModPacket packet = Mod.GetPacket(256);
@@ -91,6 +103,16 @@ namespace MogMod.Common.MogModPlayer
                 SyncShivas(true, pos);
             }
             doShivas(Player, pos); //This is how it actually syncs, using the position read in above, it creates the shivas effect on that player.
+        }
+
+        internal void HandleWingsOfLight(BinaryReader reader)
+        {
+            Vector2 pos = reader.ReadVector2();
+            if (Main.netMode == NetmodeID.Server)
+            {
+                SyncWingsOfLight(true, pos);
+            }
+            doWingsOfLight(Player, pos);
         }
 
         internal void HandleButterfly(BinaryReader reader)

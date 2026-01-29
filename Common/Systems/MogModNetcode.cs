@@ -50,6 +50,7 @@ namespace MogMod.Common.Systems
         {
             EssenceShiftStackSync,
             ShivasSync,
+            WingsOfLightSync,
             ButterflySync,
             ParrySync,
             DragonInstallSync

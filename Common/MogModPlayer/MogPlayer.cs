@@ -7,6 +7,7 @@ using MogMod.Items.Accessories;
 using MogMod.Items.Consumables;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Items.Weapons.Ranged;
+using Newtonsoft.Json.Linq;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -31,6 +32,8 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingGigaManaBoots = false;
         public bool wearingMekansm = false;
         public bool wearingEyeOfSkadi = false;
+        public bool wearingWingsOfLight = false;
+        public bool wingsOfLightVisual = true;
 
         public int locketCharges = 0;
         public static int maxLocketCharges = 20;
@@ -63,6 +66,7 @@ namespace MogMod.Common.MogModPlayer
         public int shivasSlowTimerMax = 36000;
         public bool shivasAttack = false;
 
+        public int wingsOfLightDust = 0;
         public int forceDirection = -1;
         public const int DashDown = 0;
         public const int DashUp = 1;
@@ -288,13 +292,11 @@ namespace MogMod.Common.MogModPlayer
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.dragonInstallActive = true;
         }
-
         public void exitDragonInstall (Terraria.Player player)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.dragonInstallActive = false;
         }
-
         public void doButterfly(Terraria.Player player)
         {
             player.moveSpeed *= 1.30f;
@@ -371,7 +373,6 @@ namespace MogMod.Common.MogModPlayer
                 }
             }
         }
-
         public void doParry(Terraria.Player player, Vector2 pos)
         {
             Player.ClearBuff(ModContent.BuffType<Parrying>());
@@ -395,7 +396,6 @@ namespace MogMod.Common.MogModPlayer
                 Main.dust[P1].velocity *= 3f;
             }
         }
-
         public void removeBuff(Terraria.Player player, int buffID)
         {
             if (player.HasBuff(buffID)) 
@@ -403,7 +403,6 @@ namespace MogMod.Common.MogModPlayer
                 player.ClearBuff(buffID);
             }
         }
-
         public override void OnHitByProjectile(Projectile proj, Terraria.Player.HurtInfo hurtInfo)
         {
             Player.ClearBuff(ModContent.BuffType<ClarityBuff>());
@@ -473,7 +472,6 @@ namespace MogMod.Common.MogModPlayer
                 };
             }
         }
-
         public override void PreUpdateMovement()
         {
             int forceStaffCooldown = ModContent.BuffType<Buffs.Cooldowns.ForceStaffDebuff>();
@@ -690,6 +688,16 @@ namespace MogMod.Common.MogModPlayer
                 }
             }
 
+            // wings of light
+            if (wearingWingsOfLight)
+            {
+                doWingsOfLight(Player, Player.Center); //Does the thing.
+                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    SyncWingsOfLight(false, Player.Center); //Netcode stuff, go to MogPlayerNetcode.cs to see what this does.
+                }
+            }
+
             //Dragon Install
             if (wearingFlameOfCorruption && KeybindSystem.DragonInstallKeybind.JustPressed && !Player.HasBuff(dragonInstallCooldown))
             {
@@ -790,6 +798,50 @@ namespace MogMod.Common.MogModPlayer
             }
         }
 
+        public void doWingsOfLight(Terraria.Player player, Vector2 center) // refer to shivas for how this works
+        {
+            for (int n = 0; n < Main.maxNPCs; n++)
+            {
+                NPC otherNPC = Main.npc[n];
+                if (otherNPC.active && otherNPC.friendly == false && otherNPC.whoAmI != otherNPC.whoAmI - 1) // changed .townNPC to .friendly so it doesnt von out birds;
+                {
+                    if (Microsoft.Xna.Framework.Vector2.Distance(center, otherNPC.Center) < 180f)
+                    {
+                        otherNPC.AddBuff(ModContent.BuffType<DivineMightDebuff>(), 180);
+                    }
+                }
+            }
+            if (wingsOfLightVisual)
+            {
+                int wolSize = 64;
+                wingsOfLightDust += 1;
+
+                // TODO; make this a spiral effect and give a unique debuff;
+                Vector2 offset = Vector2.UnitX * 0f;
+                offset += -Vector2.UnitY.RotatedBy((double)((float)wingsOfLightDust * (MathHelper.TwoPi / wolSize)), default) * new Vector2(150f, 30f);
+                int dust2 = Dust.NewDust(player.Center, 0, 0, DustID.YellowStarDust, 0f, 0f, 0, default, 1f);
+                Main.dust[dust2].scale = 1.5f;
+                Main.dust[dust2].noGravity = true;
+                Main.dust[dust2].position = player.Center + offset;
+                Main.dust[dust2].velocity = player.velocity * 0f + offset.SafeNormalize(Vector2.UnitY) * 1f;
+
+                //Vector2 value7 = new Vector2(5f, 10f);
+                //Vector2 offset2 = Vector2.UnitX * -12f;
+                //offset2 = -Vector2.UnitY.RotatedBy((double)(wingsOfLightDust * 0.1308997f + (float)wingsOfLightDust * 3.14159274f), default) * value7 - Vector2.UnitY.RotatedBy((double)((float)wingsOfLightDust * (MathHelper.TwoPi / wolSize))) * 10f;
+                Vector2 offset2 = Vector2.UnitX * 0f;
+                offset2 += -Vector2.UnitY.RotatedBy((double)((float)wingsOfLightDust * (MathHelper.TwoPi / wolSize)), default) * new Vector2(-150f, 30f);
+                int dust3 = Dust.NewDust(player.Center, 0, 0, DustID.YellowStarDust, 0f, 0f, 0, default, 1f);
+                Main.dust[dust3].scale = 1.5f;
+                Main.dust[dust3].noGravity = true;
+                Main.dust[dust3].position = player.Center + offset2;
+                Main.dust[dust3].velocity = player.velocity * 0f + offset2.SafeNormalize(Vector2.UnitY) * 1f;
+                if (wingsOfLightDust >= wolSize)
+                {
+                    wingsOfLightDust = 0;
+                }
+            }
+        }
+
         // armlet negative hp regen is here instead of in buff for an unknown reason
         public override void UpdateBadLifeRegen()
         {
@@ -847,7 +899,9 @@ namespace MogMod.Common.MogModPlayer
             if (Player.velocity.Y > 15f)
                 Player.velocity.Y = 15f;
         }
+        #endregion
 
+        #region Reset Effects
         // resets stuff
         public override void ResetEffects()
         {
@@ -872,6 +926,8 @@ namespace MogMod.Common.MogModPlayer
             wearingShivasGuard = false;
             wearingEyeOfSkadi = false;
             wearingFlameOfCorruption = false;
+            wearingWingsOfLight = false;
+            wingsOfLightVisual = true;
 
             diademMinion = false;
             dominatorMinion = false;

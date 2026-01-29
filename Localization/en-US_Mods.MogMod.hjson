@@ -627,6 +627,11 @@ Items: {
 			Tooltip: ""
 			DisplayName: Flame Of Corruption
 		}
+
+		WingsOfLight: {
+			DisplayName: Wings Of Light
+			Tooltip: ""
+		}
 	}
 
 	IronBranch: {
