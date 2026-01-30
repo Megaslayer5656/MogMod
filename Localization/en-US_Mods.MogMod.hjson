@@ -624,13 +624,19 @@ Items: {
 		}
 
 		FlameOfCorruption: {
-			Tooltip: ""
 			DisplayName: Flame Of Corruption
+			Tooltip: READY OR NOT!!
 		}
 
 		WingsOfLight: {
 			DisplayName: Wings Of Light
-			Tooltip: ""
+			Tooltip:
+				'''
+				Allows flight and slow fall
+				Increased movement speed
+				Radiates a heavenly aura that damages nearby enemies over time
+				'In the sunset the sky, was ablaze with gold embers'
+				'''
 		}
 	}
 

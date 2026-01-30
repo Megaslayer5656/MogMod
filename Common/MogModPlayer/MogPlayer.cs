@@ -101,6 +101,7 @@ namespace MogMod.Common.MogModPlayer
         public bool skadiDebuff = false;
         public bool freezingDebuff = false;
         public bool aghHexDebuff = false;
+        public bool wingsOfLightDebuff = false;
 
         // sound effects
         public static readonly SoundStyle WandUse = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Magic_Stick")
@@ -168,150 +169,8 @@ namespace MogMod.Common.MogModPlayer
         #endregion
 
         #region In Game Checks
-        public override void PostUpdateMiscEffects()
-        {
-            MiscEffects();
-            OtherBuffEffects();
-        }
-        public void MiscEffects()
-        {
-            #region Summon Accessories
-            // checks if the player is wearing accessory, and if true, stops previous iterations of the accessory from benefitting the player
-            if (overlordMinion)
-            {
-                Player.maxMinions += 3;
-                Player.maxTurrets += 3;
-            }
-            else
-            {
-                if (dominatorMinion)
-                {
-                    Player.maxMinions += 2;
-                    Player.maxTurrets += 2;
-                }
-                else
-                {
-                    if (diademMinion)
-                    {
-                        Player.maxMinions++;
-                    }
-                }
-            }
-            #endregion
 
-            #region Weapon Buffs
-            // essence shift stacking buff
-            if (Player.HasBuff<EssenceShift>() && (Player.HeldItem.Name == "Hydrakan Latch" || Player.HeldItem.Name == "Golden Hydrakan Latch" || Player.HeldItem.Name == "Megaslark" || Player.HeldItem.Name == "Minislark"))
-            {
-                if (Player.HeldItem.Name == "Hydrakan Latch" || Player.HeldItem.Name == "Golden Hydrakan Latch")
-                {
-                    if (essenceShiftLevel > essenceShiftLevelMax)
-                    {
-                        essenceShiftLevel = essenceShiftLevelMax;
-                    }
-                    Player.GetAttackSpeed(DamageClass.Melee) += .1f * essenceShiftLevel;
-                    Player.moveSpeed += .025f * essenceShiftLevel;
-                    Player.accRunSpeed += Player.accRunSpeed * .025f * essenceShiftLevel;
-                }
-                if (Player.HeldItem.Name == "Megaslark")
-                {
-                    if (essenceShiftLevel > essenceShiftLevelMax)
-                    {
-                        essenceShiftLevel = essenceShiftLevelMax;
-                    }
-                    Player.GetAttackSpeed(DamageClass.Ranged) += .1f * essenceShiftLevel;
-                    Player.GetArmorPenetration(DamageClass.Ranged) += essenceShiftLevel;
-                    Player.moveSpeed += .025f * essenceShiftLevel;
-                    Player.accRunSpeed += Player.accRunSpeed * .025f * essenceShiftLevel;
-                }
-                if (Player.HeldItem.Name == "Minislark")
-                {
-                    if (essenceShiftLevel > essenceShiftLevelMax)
-                    {
-                        essenceShiftLevel = essenceShiftLevelMax;
-                    }
-                    Player.GetAttackSpeed(DamageClass.Ranged) += .05f * essenceShiftLevel;
-                    Player.GetArmorPenetration(DamageClass.Ranged) += (float)essenceShiftLevel / 3;
-                    Player.moveSpeed += .015f * essenceShiftLevel;
-                    Player.accRunSpeed += Player.accRunSpeed * .015f * essenceShiftLevel;
-                }
-            } 
-            else
-            {
-                essenceShiftLevel = 0;
-                Player.ClearBuff(ModContent.BuffType<EssenceShift>());
-                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
-                {
-                    SyncEssenceShift(false);
-                }
-            }
-
-            // fiery soul stacking buff
-            if (Player.HasBuff<FierySoulStack>())
-            {
-                if (fierySoulLevel > fierySoulLevelMax)
-                {
-                    fierySoulLevel = fierySoulLevelMax;
-                }
-                Player.GetAttackSpeed(DamageClass.Magic) += .015f * fierySoulLevel;
-                Player.manaCost -= .015f * fierySoulLevel;
-                Player.moveSpeed += .0225f * fierySoulLevel;
-                Player.accRunSpeed += Player.accRunSpeed * .0225f * fierySoulLevel;
-            }
-            else
-            {
-                fierySoulLevel = 0;
-            }
-
-            if (Player.HeldItem.Name == "Butterfly")
-            {
-                doButterfly(Player);
-                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
-                {
-                    SyncButterfly(false); //TODO: Add a timer so this doesn't sync every tick
-                }
-            }
-
-            if (Player.HasBuff<DragonInstallBuff>() && wearingFlameOfCorruption)
-            {
-                enterDragonInstall(Player);
-            }
-            else
-            {
-                exitDragonInstall(Player);
-            }
-
-            if (!wearingFlameOfCorruption && Player.HasBuff<DragonInstallBuff>())
-            {
-                Player.ClearBuff(ModContent.BuffType<DragonInstallBuff>());
-            }
-            #endregion
-        }
-        public void enterDragonInstall(Terraria.Player player)
-        {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            mogPlayer.dragonInstallActive = true;
-        }
-        public void exitDragonInstall (Terraria.Player player)
-        {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            mogPlayer.dragonInstallActive = false;
-        }
-        public void doButterfly(Terraria.Player player)
-        {
-            player.moveSpeed *= 1.30f;
-            player.maxRunSpeed *= 1.30f;
-            player.accRunSpeed *= 1.30f;
-            player.wingAccRunSpeed *= 1.30f;
-            player.wingRunAccelerationMult *= 1.30f;
-        }
-        public void NPCDebuffs(NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool whip, bool proj = false, bool noFlask = false)
-        {
-            if (wearingEyeOfSkadi)
-            {
-                target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 120);
-            }
-        }
+        #region On Hit Effects
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (int i = 0; i < Main.maxNPCs; i++)
@@ -373,36 +232,6 @@ namespace MogMod.Common.MogModPlayer
                 }
             }
         }
-        public void doParry(Terraria.Player player, Vector2 pos)
-        {
-            Player.ClearBuff(ModContent.BuffType<Parrying>());
-            Player.ClearBuff(ModContent.BuffType<ParrySlow>());
-            Player.ClearBuff(ModContent.BuffType<ParryCooldown>());
-            Player.AddBuff(ModContent.BuffType<ParryCooldown>(), 60);
-            Player.AddBuff(ModContent.BuffType<ParryBuff1>(), 600);
-            Player.AddBuff(ModContent.BuffType<ParryDebuffRemover>(), 10);
-            SoundEngine.PlaySound(ParrySound, Player.Center);
-
-            Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
-            dustVelocity.Normalize();
-            dustVelocity *= 2;
-
-            int dustPos = 20;
-            for (int i = 0; i < 20; i++)
-            {
-                int P1 = Dust.NewDust(pos, dustPos - 5, dustPos - 5, DustID.YellowStarDust, dustVelocity.X * 2, dustVelocity.Y * 2, 0, default, 2f);
-                Main.dust[P1].noGravity = true;
-                Main.dust[P1].fadeIn = 2f;
-                Main.dust[P1].velocity *= 3f;
-            }
-        }
-        public void removeBuff(Terraria.Player player, int buffID)
-        {
-            if (player.HasBuff(buffID)) 
-            {
-                player.ClearBuff(buffID);
-            }
-        }
         public override void OnHitByProjectile(Projectile proj, Terraria.Player.HurtInfo hurtInfo)
         {
             Player.ClearBuff(ModContent.BuffType<ClarityBuff>());
@@ -457,7 +286,13 @@ namespace MogMod.Common.MogModPlayer
                 }
             }
         }
-
+        public void NPCDebuffs(NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool whip, bool proj = false, bool noFlask = false)
+        {
+            if (wearingEyeOfSkadi)
+            {
+                target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 120);
+            }
+        }
         public override void OnHurt(Terraria.Player.HurtInfo info)
         {
             if (Player.HasBuff(ModContent.BuffType<Parrying>()))
@@ -472,6 +307,9 @@ namespace MogMod.Common.MogModPlayer
                 };
             }
         }
+        #endregion
+
+        // force staff movement
         public override void PreUpdateMovement()
         {
             int forceStaffCooldown = ModContent.BuffType<Buffs.Cooldowns.ForceStaffDebuff>();
@@ -544,6 +382,7 @@ namespace MogMod.Common.MogModPlayer
             }
 
         }
+
         // the big one
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
@@ -752,6 +591,128 @@ namespace MogMod.Common.MogModPlayer
             #endregion
         }
 
+        #region Miscelanious Effects (spelt right)
+        public void MiscEffects()
+        {
+            #region Summon Accessories
+            // checks if the player is wearing accessory, and if true, stops previous iterations of the accessory from benefitting the player
+            if (overlordMinion)
+            {
+                Player.maxMinions += 3;
+                Player.maxTurrets += 3;
+            }
+            else
+            {
+                if (dominatorMinion)
+                {
+                    Player.maxMinions += 2;
+                    Player.maxTurrets += 2;
+                }
+                else
+                {
+                    if (diademMinion)
+                    {
+                        Player.maxMinions++;
+                    }
+                }
+            }
+            #endregion
+
+            #region Weapon Buffs
+            // essence shift stacking buff
+            if (Player.HasBuff<EssenceShift>() && (Player.HeldItem.Name == "Hydrakan Latch" || Player.HeldItem.Name == "Golden Hydrakan Latch" || Player.HeldItem.Name == "Megaslark" || Player.HeldItem.Name == "Minislark"))
+            {
+                if (Player.HeldItem.Name == "Hydrakan Latch" || Player.HeldItem.Name == "Golden Hydrakan Latch")
+                {
+                    if (essenceShiftLevel > essenceShiftLevelMax)
+                    {
+                        essenceShiftLevel = essenceShiftLevelMax;
+                    }
+                    Player.GetAttackSpeed(DamageClass.Melee) += .1f * essenceShiftLevel;
+                    Player.moveSpeed += .025f * essenceShiftLevel;
+                    Player.accRunSpeed += Player.accRunSpeed * .025f * essenceShiftLevel;
+                }
+                if (Player.HeldItem.Name == "Megaslark")
+                {
+                    if (essenceShiftLevel > essenceShiftLevelMax)
+                    {
+                        essenceShiftLevel = essenceShiftLevelMax;
+                    }
+                    Player.GetAttackSpeed(DamageClass.Ranged) += .1f * essenceShiftLevel;
+                    Player.GetArmorPenetration(DamageClass.Ranged) += essenceShiftLevel;
+                    Player.moveSpeed += .025f * essenceShiftLevel;
+                    Player.accRunSpeed += Player.accRunSpeed * .025f * essenceShiftLevel;
+                }
+                if (Player.HeldItem.Name == "Minislark")
+                {
+                    if (essenceShiftLevel > essenceShiftLevelMax)
+                    {
+                        essenceShiftLevel = essenceShiftLevelMax;
+                    }
+                    Player.GetAttackSpeed(DamageClass.Ranged) += .05f * essenceShiftLevel;
+                    Player.GetArmorPenetration(DamageClass.Ranged) += (float)essenceShiftLevel / 3;
+                    Player.moveSpeed += .015f * essenceShiftLevel;
+                    Player.accRunSpeed += Player.accRunSpeed * .015f * essenceShiftLevel;
+                }
+            } 
+            else
+            {
+                essenceShiftLevel = 0;
+                Player.ClearBuff(ModContent.BuffType<EssenceShift>());
+                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    SyncEssenceShift(false);
+                }
+            }
+
+            // fiery soul stacking buff
+            if (Player.HasBuff<FierySoulStack>())
+            {
+                if (fierySoulLevel > fierySoulLevelMax)
+                {
+                    fierySoulLevel = fierySoulLevelMax;
+                }
+                Player.GetAttackSpeed(DamageClass.Magic) += .015f * fierySoulLevel;
+                Player.manaCost -= .015f * fierySoulLevel;
+                Player.moveSpeed += .0225f * fierySoulLevel;
+                Player.accRunSpeed += Player.accRunSpeed * .0225f * fierySoulLevel;
+            }
+            else
+            {
+                fierySoulLevel = 0;
+            }
+
+            if (Player.HeldItem.Name == "Butterfly")
+            {
+                doButterfly(Player);
+                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    SyncButterfly(false); //TODO: Add a timer so this doesn't sync every tick
+                }
+            }
+
+            if (Player.HasBuff<DragonInstallBuff>() && wearingFlameOfCorruption)
+            {
+                enterDragonInstall(Player);
+            }
+            else
+            {
+                exitDragonInstall(Player);
+            }
+
+            if (!wearingFlameOfCorruption && Player.HasBuff<DragonInstallBuff>())
+            {
+                Player.ClearBuff(ModContent.BuffType<DragonInstallBuff>());
+            }
+            #endregion
+        }
+        public override void PostUpdateMiscEffects()
+        {
+            MiscEffects();
+            OtherBuffEffects();
+        }
+
+        // shivas effect and dust;
         public void doShivas(Terraria.Player player, Vector2 center) //This needs to be its own method for netcode to work. See how I did it in MogModNetcode.cs and MogPlayerNetcode.cs
         {
             for (int i = 0; i < Main.maxNPCs; i++) //Every npc is in an index, this goes through all of them
@@ -798,6 +759,7 @@ namespace MogMod.Common.MogModPlayer
             }
         }
 
+        // wings of light effect and dust;
         public void doWingsOfLight(Terraria.Player player, Vector2 center) // refer to shivas for how this works
         {
             for (int n = 0; n < Main.maxNPCs; n++)
@@ -807,7 +769,7 @@ namespace MogMod.Common.MogModPlayer
                 {
                     if (Microsoft.Xna.Framework.Vector2.Distance(center, otherNPC.Center) < 180f)
                     {
-                        otherNPC.AddBuff(ModContent.BuffType<DivineMightDebuff>(), 180);
+                        otherNPC.AddBuff(ModContent.BuffType<WingsOfLightDebuff>(), 180);
                     }
                 }
             }
@@ -816,21 +778,29 @@ namespace MogMod.Common.MogModPlayer
                 int wolSize = 64;
                 wingsOfLightDust += 1;
 
+                // ambient dust effect;
+                if (Main.rand.NextBool())
+                {
+                    int dust = Dust.NewDust(player.position - new Vector2(2f), player.width + 4, player.height + 4, DustID.GoldCoin, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 0.5f;
+                }
+
                 // TODO; make this a spiral effect and give a unique debuff;
                 Vector2 offset = Vector2.UnitX * 0f;
-                offset += -Vector2.UnitY.RotatedBy((double)((float)wingsOfLightDust * (MathHelper.TwoPi / wolSize)), default) * new Vector2(150f, 30f);
-                int dust2 = Dust.NewDust(player.Center, 0, 0, DustID.YellowStarDust, 0f, 0f, 0, default, 1f);
+                offset += -Vector2.UnitY.RotatedBy((double)((float)wingsOfLightDust * (MathHelper.TwoPi / wolSize)), default) * new Vector2(158f, 30f);
+                int dust2 = Dust.NewDust(player.Center, 0, 0, DustID.GoldCritter_LessOutline, 0f, 0f, 0, default, 1f);
                 Main.dust[dust2].scale = 1.5f;
                 Main.dust[dust2].noGravity = true;
                 Main.dust[dust2].position = player.Center + offset;
                 Main.dust[dust2].velocity = player.velocity * 0f + offset.SafeNormalize(Vector2.UnitY) * 1f;
 
-                //Vector2 value7 = new Vector2(5f, 10f);
+                Vector2 value7 = new Vector2(5f, 10f);
                 //Vector2 offset2 = Vector2.UnitX * -12f;
                 //offset2 = -Vector2.UnitY.RotatedBy((double)(wingsOfLightDust * 0.1308997f + (float)wingsOfLightDust * 3.14159274f), default) * value7 - Vector2.UnitY.RotatedBy((double)((float)wingsOfLightDust * (MathHelper.TwoPi / wolSize))) * 10f;
                 Vector2 offset2 = Vector2.UnitX * 0f;
-                offset2 += -Vector2.UnitY.RotatedBy((double)((float)wingsOfLightDust * (MathHelper.TwoPi / wolSize)), default) * new Vector2(-150f, 30f);
-                int dust3 = Dust.NewDust(player.Center, 0, 0, DustID.YellowStarDust, 0f, 0f, 0, default, 1f);
+                offset2 += -Vector2.UnitY.RotatedBy((double)((float)wingsOfLightDust * (MathHelper.TwoPi / wolSize)), default) * value7 * new Vector2(-158f, 30f);
+                int dust3 = Dust.NewDust(player.Center, 0, 0, DustID.GoldCritter, 0f, 0f, 0, default, 1f);
                 Main.dust[dust3].scale = 1.5f;
                 Main.dust[dust3].noGravity = true;
                 Main.dust[dust3].position = player.Center + offset2;
@@ -839,6 +809,69 @@ namespace MogMod.Common.MogModPlayer
                 {
                     wingsOfLightDust = 0;
                 }
+            }
+        }
+
+        #endregion
+
+        #region Player Buffs/Debuffs
+        // sniper offlane scope effect
+        public override void ModifyZoom(ref float zoom)
+        {
+            if (Player.HeldItem.Name == "AXMC")
+            {
+                if (Main.mouseRight == true)
+                {
+                    zoom = Player.scope ? 0.8f : 0.6666667f;
+                }
+            }
+        }
+        public void enterDragonInstall(Terraria.Player player)
+        {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.dragonInstallActive = true;
+        }
+        public void exitDragonInstall (Terraria.Player player)
+        {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.dragonInstallActive = false;
+        }
+        public void doButterfly(Terraria.Player player)
+        {
+            player.moveSpeed *= 1.30f;
+            player.maxRunSpeed *= 1.30f;
+            player.accRunSpeed *= 1.30f;
+            player.wingAccRunSpeed *= 1.30f;
+            player.wingRunAccelerationMult *= 1.30f;
+        }
+        public void doParry(Terraria.Player player, Vector2 pos)
+        {
+            Player.ClearBuff(ModContent.BuffType<Parrying>());
+            Player.ClearBuff(ModContent.BuffType<ParrySlow>());
+            Player.ClearBuff(ModContent.BuffType<ParryCooldown>());
+            Player.AddBuff(ModContent.BuffType<ParryCooldown>(), 60);
+            Player.AddBuff(ModContent.BuffType<ParryBuff1>(), 600);
+            Player.AddBuff(ModContent.BuffType<ParryDebuffRemover>(), 10);
+            SoundEngine.PlaySound(ParrySound, Player.Center);
+
+            Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+            dustVelocity.Normalize();
+            dustVelocity *= 2;
+
+            int dustPos = 20;
+            for (int i = 0; i < 20; i++)
+            {
+                int P1 = Dust.NewDust(pos, dustPos - 5, dustPos - 5, DustID.YellowStarDust, dustVelocity.X * 2, dustVelocity.Y * 2, 0, default, 2f);
+                Main.dust[P1].noGravity = true;
+                Main.dust[P1].fadeIn = 2f;
+                Main.dust[P1].velocity *= 3f;
+            }
+        }
+        public void removeBuff(Terraria.Player player, int buffID)
+        {
+            if (player.HasBuff(buffID)) 
+            {
+                player.ClearBuff(buffID);
             }
         }
 
@@ -858,18 +891,6 @@ namespace MogMod.Common.MogModPlayer
             {
                 float percentLifeLeft = (float)Player.statLife / Player.statLifeMax2;
                 Player.lifeRegen += Convert.ToInt32((1 / (percentLifeLeft + .065)));
-            }
-        }
-
-        // sniper offlane scope effect
-        public override void ModifyZoom(ref float zoom)
-        {
-            if (Player.HeldItem.Name == "AXMC")
-            {
-                if (Main.mouseRight == true)
-                {
-                    zoom = Player.scope ? 0.8f : 0.6666667f;
-                }
             }
         }
 
@@ -940,6 +961,7 @@ namespace MogMod.Common.MogModPlayer
             skadiDebuff = false;
             freezingDebuff = false;
             aghHexDebuff = false;
+            wingsOfLightDebuff = false;
             #endregion
 
             #region Force Staff
@@ -965,6 +987,7 @@ namespace MogMod.Common.MogModPlayer
             }
             #endregion
         }
+        #endregion
         #endregion
     }
 }

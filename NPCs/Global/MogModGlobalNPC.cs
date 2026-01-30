@@ -15,13 +15,14 @@ namespace MogMod.NPCs.Global
 {
     public class MogModGlobalNPC : GlobalNPC
     {
-        // do something for eye of skadi
+        // make skadi, aghs and wings do more npc effects somehow;
 
         // debuffs ID
         public int divineDebuff = 0;
         public int skadiDebuff = 0;
         public int freezingDebuff = 0;
         public int aghDebuff = 0;
+        public int wingsOfLightDebuff = 0;
 
         // apparently neccessary according to calamity
         public override bool InstancePerEntity => true;
@@ -32,6 +33,7 @@ namespace MogMod.NPCs.Global
             myClone.skadiDebuff = skadiDebuff;
             myClone.freezingDebuff = freezingDebuff;
             myClone.aghDebuff = aghDebuff;
+            myClone.wingsOfLightDebuff = wingsOfLightDebuff;
             return myClone;
         }
 
@@ -49,6 +51,10 @@ namespace MogMod.NPCs.Global
             if (aghDebuff > 0)
             {
                 ApplyDPSDebuff(480, 80, ref npc.lifeRegen, ref damage);
+            }
+            if (wingsOfLightDebuff > 0)
+            {
+                ApplyDPSDebuff(60, 20, ref npc.lifeRegen, ref damage);
             }
         }
 
@@ -70,6 +76,10 @@ namespace MogMod.NPCs.Global
             if (aghDebuff > 0)
             {
                 aghDebuff--;
+            }
+            if (wingsOfLightDebuff > 0)
+            {
+                wingsOfLightDebuff--;
             }
         }
 
@@ -129,6 +139,11 @@ namespace MogMod.NPCs.Global
             {
                 AghanimHexDebuff.DrawEffects(npc, ref drawColor);
                 drawColor = Color.BlueViolet;
+            }
+            if (wingsOfLightDebuff > 0)
+            {
+                WingsOfLightDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.LightGoldenrodYellow;
             }
         }
 

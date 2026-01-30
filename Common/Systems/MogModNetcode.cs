@@ -45,7 +45,7 @@ namespace MogMod.Common.Systems
                 mod.Logger.Error("MogMod packet error: " + e);
             }
         }
-
+        // w speed
         public enum MogModMessageType : byte //This is where you create the message types
         {
             EssenceShiftStackSync,
