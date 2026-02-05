@@ -31,6 +31,7 @@
     <None Remove="app.config" />
     <None Remove="Buffs\Cooldowns\ButterflyCooldown.png" />
     <None Remove="Buffs\Cooldowns\ParryCooldown.png" />
+    <None Remove="Buffs\Debuffs\Bleed1.png" />
     <None Remove="Buffs\Debuffs\ParrySlow.png" />
     <None Remove="Buffs\Debuffs\ShivasEnemyDebuff.png" />
     <None Remove="Buffs\GlueBuff.png" />
@@ -58,6 +59,7 @@
     <None Remove="Items\Weapons\Melee\Butterfly.png" />
     <None Remove="Items\Weapons\Melee\GoldenHydrakanLatch.png" />
     <None Remove="Items\Weapons\Melee\RedKatana.png" />
+    <None Remove="Items\Weapons\Melee\Reduvia.png" />
     <None Remove="Items\Weapons\Melee\ThunderSeal.png" />
     <None Remove="Items\Weapons\Ranged\BerserkersSpear.png" />
     <None Remove="Items\Weapons\Ranged\R8Revolver.png" />

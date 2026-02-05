@@ -1178,6 +1178,11 @@ Items: {
 					'Bathed in Radiant Dawn'
 					'''
 			}
+
+			GlintstonePebble: {
+				DisplayName: Glintstone Pebble
+				Tooltip: ""
+			}
 		}
 
 		Summoner: {
@@ -1426,5 +1431,10 @@ Items: {
 			Repeatedly homes in on enemies
 			Inflicts Aghanim's Hex on hit
 			'''
+	}
+
+	Reduvia: {
+		DisplayName: Reduvia
+		Tooltip: ""
 	}
 }

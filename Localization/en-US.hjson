@@ -364,6 +364,16 @@ Mods: {
 				DisplayName: Aghanim Hex Debuff
 				Description: Mods.MogMod.Buffs.AghanimHexDebuff.Description
 			}
+
+			WingsOfLightDebuff: {
+				DisplayName: Wings Of Light Debuff
+				Description: Mods.MogMod.Buffs.WingsOfLightDebuff.Description
+			}
+
+			Bleed1: {
+				DisplayName: Bleed1
+				Description: Mods.MogMod.Buffs.Bleed1.Description
+			}
 		}
 
 		NPCs: {
