@@ -799,7 +799,7 @@ namespace MogMod.Common.MogModPlayer
                 //Vector2 offset2 = Vector2.UnitX * -12f;
                 //offset2 = -Vector2.UnitY.RotatedBy((double)(wingsOfLightDust * 0.1308997f + (float)wingsOfLightDust * 3.14159274f), default) * value7 - Vector2.UnitY.RotatedBy((double)((float)wingsOfLightDust * (MathHelper.TwoPi / wolSize))) * 10f;
                 Vector2 offset2 = Vector2.UnitX * 0f;
-                offset2 += -Vector2.UnitY.RotatedBy((double)((float)wingsOfLightDust * (MathHelper.TwoPi / wolSize)), default) * value7 * new Vector2(-158f, 30f);
+                offset2 += -Vector2.UnitY.RotatedBy((double)((float)wingsOfLightDust * (MathHelper.TwoPi / wolSize)), default) * new Vector2(-158f, 30f);
                 int dust3 = Dust.NewDust(player.Center, 0, 0, DustID.GoldCritter, 0f, 0f, 0, default, 1f);
                 Main.dust[dust3].scale = 1.5f;
                 Main.dust[dust3].noGravity = true;
@@ -814,7 +814,7 @@ namespace MogMod.Common.MogModPlayer
 
         #endregion
 
-        #region Player Buffs/Debuffs
+        #region Player Buffs / Debuffs
         // sniper offlane scope effect
         public override void ModifyZoom(ref float zoom)
         {

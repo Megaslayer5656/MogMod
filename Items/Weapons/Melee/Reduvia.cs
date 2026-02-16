@@ -1,17 +1,13 @@
 ﻿using MogMod.Buffs.Debuffs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class Reduvia : ModItem
+    public class Reduvia : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults() //TODO: Make this look better and add vfx
         {
             Item.width = 94;

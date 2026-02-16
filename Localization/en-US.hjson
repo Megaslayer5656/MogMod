@@ -463,6 +463,7 @@ Mods: {
 				MichaelSwordHoldout.DisplayName: Michael Sword Holdout
 				MichaelSwordBeam.DisplayName: Michael Sword Beam
 				MichaelSwordExplosion.DisplayName: Michael Sword Explosion
+				GlintstonePebbleProj.DisplayName: Glintstone Pebble Proj
 			}
 
 			RangedProjectiles: {

@@ -802,8 +802,8 @@ Items: {
 				DisplayName: Oversized Anchor
 				Tooltip:
 					'''
-					Fires a homing dolphin
-					Hitting enemies spawn more dolphins
+					Fires a dolphin
+					Hitting enemies spawn dolphins
 					'Totsugeki!'
 					'''
 			}
@@ -852,6 +852,15 @@ Items: {
 					Fires a divine sword of light that gains additional properties at max life
 					When at full life, fire a light beam that explodes into 8 smaller homing light rays
 					'So powerful, it cannot have a single owner.'
+					'''
+			}
+
+			Reduvia: {
+				DisplayName: Reduvia
+				Tooltip:
+					'''
+					Hitting enemies builds up bleed, dealing a percentage of the enemies max health as damage at max bleed
+					'Jagged dagger with a distinctive curled blade. Carried by the noble servants of the Lord of Blood.'
 					'''
 			}
 		}
@@ -1179,9 +1188,9 @@ Items: {
 					'''
 			}
 
-			GlintstonePebble: {
-				DisplayName: Glintstone Pebble
-				Tooltip: ""
+			GlintstoneStaff: {
+				DisplayName: Glintstone Staff
+				Tooltip: A catalyst used to cast sorceries
 			}
 		}
 
@@ -1433,8 +1442,12 @@ Items: {
 			'''
 	}
 
-	Reduvia: {
-		DisplayName: Reduvia
-		Tooltip: ""
+	GlintstonePebble: {
+		DisplayName: Glintstone Pebble
+		Tooltip:
+			'''
+			Fires a homing glintstone rock
+			'The most basic glintstone sorcery of the Academy of Raya Lucaria.'
+			'''
 	}
 }

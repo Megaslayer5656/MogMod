@@ -71,7 +71,7 @@ namespace MogMod.NPCs.Global
             //    npc.StrikeNPC(hitInfo);
             //    NetMessage.SendStrikeNPC(npc, hitInfo);
             //    currentBlood = 0;
-            }
+            //}
         }
 
         // actual debuff effect
@@ -91,7 +91,7 @@ namespace MogMod.NPCs.Global
             }
             if (wingsOfLightDebuff > 0)
             {
-                ApplyDPSDebuff(60, 20, ref npc.lifeRegen, ref damage);
+                ApplyDPSDebuff(400, 30, ref npc.lifeRegen, ref damage);
             }
         }
 
@@ -185,6 +185,13 @@ namespace MogMod.NPCs.Global
         }
 
         // QOL for making debuff damage easier
+        /// <summary>
+        /// Determines how much damage overtime the debuff will do.
+        /// </summary>
+        /// <param name="lifeRegenValue"></param>
+        /// <param name="damageValue"></param> 
+        /// <param name="lifeRegen"></param>
+        /// <param name="damage"></param>
         public void ApplyDPSDebuff(int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
         {
             if (lifeRegen > 0)
