@@ -1430,7 +1430,7 @@ Items: {
 
 	BoulderBullet: {
 		DisplayName: Boulder Bullet
-		Tooltip: Bullets are heavier and can roll on the ground
+		Tooltip: Heavier and rolls on the ground
 	}
 
 	AghanimBulletAmmo: {
@@ -1446,8 +1446,31 @@ Items: {
 		DisplayName: Glintstone Pebble
 		Tooltip:
 			'''
-			Fires a homing glintstone rock
+			Fires a glintstone rock
 			'The most basic glintstone sorcery of the Academy of Raya Lucaria.'
 			'''
+	}
+
+	RockSling: {
+		DisplayName: Rock Sling
+		Tooltip:
+			'''
+			Fires a small meteorite that accelerates after some time
+			'A gravitational technique studied by the young Radahn. His master was an Alabaster Lord with skin of stone.'
+			'''
+	}
+
+	GlintstoneStars: {
+		DisplayName: Glintstone Stars
+		Tooltip:
+			'''
+			Fires an orb that splits into 3 homing orbs
+			'A sorcery of the Olivinus Conspectus, which attracts sorcerers from Sellia, Town of Sorcery.'
+			'''
+	}
+
+	ShardSpiral: {
+		DisplayName: Shard Spiral
+		Tooltip: ""
 	}
 }

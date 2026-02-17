@@ -464,6 +464,9 @@ Mods: {
 				MichaelSwordBeam.DisplayName: Michael Sword Beam
 				MichaelSwordExplosion.DisplayName: Michael Sword Explosion
 				GlintstonePebbleProj.DisplayName: Glintstone Pebble Proj
+				RockSlingProj.DisplayName: Rock Sling Proj
+				GlintstoneStarsProj.DisplayName: Glintstone Stars Proj
+				GlintstoneStarsHomingProj.DisplayName: Glintstone Stars Homing Proj
 			}
 
 			RangedProjectiles: {

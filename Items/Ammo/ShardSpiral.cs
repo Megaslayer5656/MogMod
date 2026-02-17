@@ -1,27 +1,27 @@
 ﻿using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
 
 namespace MogMod.Items.Ammo
 {
-    public class GlintstonePebble : ModItem
+    public class ShardSpiral : ModItem
     {
         public override void SetDefaults()
         {
-            Item.damage = 22;
+            Item.damage = 28;
             Item.DamageType = DamageClass.Magic;
             Item.width = 50;
             Item.height = 52;
-            Item.knockBack = 2f;
-            Item.value = Item.buyPrice(0, 3, 0, 0);
-            Item.rare = ItemRarityID.Blue;
-            Item.shoot = ModContent.ProjectileType<GlintstonePebbleProj>();
-            Item.shootSpeed = 6f;
-            Item.ammo = ModContent.ItemType<GlintstonePebble>(); // use this for all sorceries so it can be used by staffs;
+            Item.knockBack = 3f;
+            Item.value = Item.buyPrice(0, 25, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<DagonOrb>();
+            Item.shootSpeed = 3f;
+            Item.ammo = ModContent.ItemType<GlintstonePebble>(); // so it can be used by the glintstone staff;
         }
 
         // replaces the "Ammo" description with "Sorcery" since i dont think you can do it in localization;
@@ -35,12 +35,12 @@ namespace MogMod.Items.Ammo
         }
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.StoneBlock, 40)
-                .AddIngredient(ItemID.LargeSapphire, 1)
-                .AddIngredient<CraftingRecipe>(1)
-                .AddTile(TileID.Bookcases)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.PixieDust, 25).
+                AddRecipeGroup("MythrilBar", 15).
+                AddIngredient<CraftingRecipe>(1).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }
