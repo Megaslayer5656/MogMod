@@ -1,5 +1,5 @@
 ﻿using MogMod.Items.Weapons.Melee;
-using Steamworks;
+using MogMod.Projectiles.MagicProjectiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,26 +8,21 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Global
+namespace MogMod.Projectiles.Global
 {
-    public class MogGlobalItem : GlobalItem
+    public class MogGlobalProjectile : GlobalProjectile
     {
         public int bloodDamage;
 
-        public override void SetDefaults(Item entity)
+        public override void SetDefaults(Projectile entity)
         {
-            if (entity.type == ModContent.ItemType<Reduvia>())
+            if (entity.type == ModContent.ProjectileType<BloodMagicProjectile>())
             {
-                bloodDamage = 33;
-
-            } else if (entity.type == ModContent.ItemType<Sange>())
-            {
-                bloodDamage = 110;
-
-            } else
+                bloodDamage = 15;
+            }
+            else
             {
                 bloodDamage = 0;
-
             }
         }
 

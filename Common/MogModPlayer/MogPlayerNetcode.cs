@@ -11,6 +11,7 @@ using Terraria.Audio;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json.Bson;
 using System.ComponentModel;
+using MogMod.NPCs.Global;
 
 namespace MogMod.Common.MogModPlayer
 {
@@ -86,6 +87,16 @@ namespace MogMod.Common.MogModPlayer
 
             Player.SendPacket(packet, server);
         }
+
+        public void SyncBleedProc(bool server, Vector2 position)
+        {
+            ModPacket packet = Mod.GetPacket(256);
+            MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
+
+            packet.Write((byte)MogModMessageType.BleedProcSync);
+            packet.Write(Player.whoAmI);
+            packet.WriteVector2(position);
+        }
         internal void HandleEssenceShiftStack(BinaryReader reader)
         {
             essenceShiftLevel = reader.ReadInt32();
@@ -148,6 +159,19 @@ namespace MogMod.Common.MogModPlayer
             } else
             {
                 exitDragonInstall(Player);
+            }
+        }
+
+        internal void HandleBleedProc(BinaryReader reader)
+        {
+            Vector2 pos = reader.ReadVector2();
+            if (Main.netMode == NetmodeID.Server)
+            {
+                SyncBleedProc(true, pos);
+            }
+            else
+            {
+                MogModGlobalNPC.doBloodFX(pos);
             }
         }
     }

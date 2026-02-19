@@ -1473,4 +1473,9 @@ Items: {
 		DisplayName: Shard Spiral
 		Tooltip: ""
 	}
+
+	Reduvia: {
+		DisplayName: Reduvia
+		Tooltip: ""
+	}
 }
