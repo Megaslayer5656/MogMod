@@ -802,8 +802,8 @@ Items: {
 				DisplayName: Oversized Anchor
 				Tooltip:
 					'''
-					Fires a homing dolphin
-					Hitting enemies spawn more dolphins
+					Fires a dolphin
+					Hitting enemies spawn dolphins
 					'Totsugeki!'
 					'''
 			}
@@ -852,6 +852,15 @@ Items: {
 					Fires a divine sword of light that gains additional properties at max life
 					When at full life, fire a light beam that explodes into 8 smaller homing light rays
 					'So powerful, it cannot have a single owner.'
+					'''
+			}
+
+			Reduvia: {
+				DisplayName: Reduvia
+				Tooltip:
+					'''
+					Hitting enemies builds up bleed, dealing a percentage of the enemies max health as damage at max bleed
+					'Jagged dagger with a distinctive curled blade. Carried by the noble servants of the Lord of Blood.'
 					'''
 			}
 		}
@@ -1179,9 +1188,9 @@ Items: {
 					'''
 			}
 
-			GlintstonePebble: {
-				DisplayName: Glintstone Pebble
-				Tooltip: ""
+			GlintstoneStaff: {
+				DisplayName: Glintstone Staff
+				Tooltip: A catalyst used to cast sorceries
 			}
 		}
 
@@ -1421,7 +1430,7 @@ Items: {
 
 	BoulderBullet: {
 		DisplayName: Boulder Bullet
-		Tooltip: Bullets are heavier and can roll on the ground
+		Tooltip: Heavier and rolls on the ground
 	}
 
 	AghanimBulletAmmo: {
@@ -1433,8 +1442,35 @@ Items: {
 			'''
 	}
 
-	Reduvia: {
-		DisplayName: Reduvia
+	GlintstonePebble: {
+		DisplayName: Glintstone Pebble
+		Tooltip:
+			'''
+			Fires a glintstone rock
+			'The most basic glintstone sorcery of the Academy of Raya Lucaria.'
+			'''
+	}
+
+	RockSling: {
+		DisplayName: Rock Sling
+		Tooltip:
+			'''
+			Fires a small meteorite that accelerates after some time
+			'A gravitational technique studied by the young Radahn. His master was an Alabaster Lord with skin of stone.'
+			'''
+	}
+
+	GlintstoneStars: {
+		DisplayName: Glintstone Stars
+		Tooltip:
+			'''
+			Fires an orb that splits into 3 homing orbs
+			'A sorcery of the Olivinus Conspectus, which attracts sorcerers from Sellia, Town of Sorcery.'
+			'''
+	}
+
+	ShardSpiral: {
+		DisplayName: Shard Spiral
 		Tooltip: ""
 	}
 }

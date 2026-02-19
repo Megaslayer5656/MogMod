@@ -2,7 +2,6 @@
 using MogMod.Utilities;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Buffs.Debuffs
@@ -18,13 +17,13 @@ namespace MogMod.Buffs.Debuffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.MogMod().freezingDebuff = true;
+            player.MogMod().wingsOfLightDebuff = true;
         }
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            if (npc.MogMod().freezingDebuff < npc.buffTime[buffIndex])
-                npc.MogMod().freezingDebuff = npc.buffTime[buffIndex];
+            if (npc.MogMod().wingsOfLightDebuff < npc.buffTime[buffIndex])
+                npc.MogMod().wingsOfLightDebuff = npc.buffTime[buffIndex];
             npc.DelBuff(buffIndex);
             buffIndex--;
         }
