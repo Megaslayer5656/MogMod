@@ -4,6 +4,7 @@ using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Config;
 using MogMod.Items.Other;
+using MogMod.Items.Weapons.Melee;
 using System;
 using Terraria;
 using Terraria.GameContent;
@@ -42,35 +43,35 @@ namespace MogMod.NPCs.Global
 
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
-            //if (Item == Reduvia){ //In school rn and don't remember the syntax and stuff, will make this work and be cool when I can test
-            //    maxBlood = npc.statLifeMax * .05 + npc.statDefense * .05; //(This scaling will definitely change as I test)
-            //    currentBlood += Reduvia.bloodStat;
-            //}
-            //if (currentBlood >= maxBlood){
-            //    if (npc.lifeMax <= 25000)
-            //    {
-            //        hitInfo = new NPC.HitInfo
-            //        {
-            //            Damage = Convert.ToInt32(npc.lifeMax * .05),
-            //            Knockback = 0,
-            //            HitDirection = 0,
-            //            Crit = false,
-            //           DamageType = DamageClass.Generic
-            //       };
-            //    } else
-            //    {
-            //        hitInfo = new NPC.HitInfo
-            //        {
-            //            Damage = 1250,
-            //            Knockback = 0,
-            //            HitDirection = 0,
-            //            Crit = false,
-            //            DamageType = DamageClass.Generic
-            //        };
-            //    }
-            //    npc.StrikeNPC(hitInfo);
-            //    NetMessage.SendStrikeNPC(npc, hitInfo);
-            //    currentBlood = 0;
+            if (item == ModContent.ItemType<Reduvia>()){ //In school rn and don't remember the syntax and stuff, will make this work and be cool when I can test
+                maxBlood = npc.statLifeMax * .05 + npc.statDefense * .05; //(This scaling will definitely change as I test)
+                currentBlood += ModContent.ItemType<Reduvia>.bloodDamage;
+            }
+            if (currentBlood >= maxBlood){
+                if (npc.lifeMax <= 25000)
+                {
+                    hitInfo = new NPC.HitInfo
+                    {
+                        Damage = Convert.ToInt32(npc.lifeMax * .05),
+                        Knockback = 0,
+                        HitDirection = 0,
+                        Crit = false,
+                       DamageType = DamageClass.Generic
+                   };
+                } else
+                {
+                    hitInfo = new NPC.HitInfo
+                    {
+                        Damage = 1250,
+                        Knockback = 0,
+                        HitDirection = 0,
+                        Crit = false,
+                        DamageType = DamageClass.Generic
+                    };
+                }
+                npc.StrikeNPC(hitInfo);
+                NetMessage.SendStrikeNPC(npc, hitInfo);
+                currentBlood = 0;
             }
         }
 

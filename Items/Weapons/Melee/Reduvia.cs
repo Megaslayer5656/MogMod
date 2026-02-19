@@ -1,4 +1,5 @@
 ﻿using MogMod.Buffs.Debuffs;
+using MogMod.NPCs.Global;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace MogMod.Items.Weapons.Melee
 {
     public class Reduvia : ModItem
     {
+        public int bloodDamage = 55;
         public override void SetDefaults() //TODO: Make this look better and add vfx
         {
             Item.width = 94;
@@ -32,6 +34,7 @@ namespace MogMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Bleed1>(), 6000000);
+            NPC modNPC = target.GetGlobalNPC<MogModGlobalNPC>();
         }
 
         //TODO: Add a recipe, and possibly a projectile
