@@ -1514,4 +1514,9 @@ Items: {
 			'When Lusat glimpsed into the primeval current, he beheld the final moments of a great star cluster, and upon seeing it, he too was broken. '
 			'''
 	}
+
+	Reduvia: {
+		DisplayName: Reduvia
+		Tooltip: ""
+	}
 }

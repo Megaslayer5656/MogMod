@@ -3,13 +3,20 @@ using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Config;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Items.Weapons.Melee;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using MogMod.Common.Systems;
+using MogMod.Projectiles.MagicProjectiles;
+using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Common.MogModPlayer;
 
 namespace MogMod.NPCs.Global
 {
@@ -29,6 +36,13 @@ namespace MogMod.NPCs.Global
 
         // apparently neccessary according to calamity
         public override bool InstancePerEntity => true;
+
+        public static readonly SoundStyle BloodCrit = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/BloodCrit")
+        {
+            Volume = .7f,
+            PitchVariance = .2f,
+        };
+
         public override GlobalNPC Clone(NPC npc, NPC npcClone)
         {
             MogModGlobalNPC myClone = (MogModGlobalNPC)base.Clone(npc, npcClone);
@@ -42,36 +56,59 @@ namespace MogMod.NPCs.Global
 
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
-            //if (Item == Reduvia){ //In school rn and don't remember the syntax and stuff, will make this work and be cool when I can test
-            //    maxBlood = npc.statLifeMax * .05 + npc.statDefense * .05; //(This scaling will definitely change as I test)
-            //    currentBlood += Reduvia.bloodStat;
-            //}
-            //if (currentBlood >= maxBlood){
-            //    if (npc.lifeMax <= 25000)
-            //    {
-            //        hitInfo = new NPC.HitInfo
-            //        {
-            //            Damage = Convert.ToInt32(npc.lifeMax * .05),
-            //            Knockback = 0,
-            //            HitDirection = 0,
-            //            Crit = false,
-            //           DamageType = DamageClass.Generic
-            //       };
-            //    } else
-            //    {
-            //        hitInfo = new NPC.HitInfo
-            //        {
-            //            Damage = 1250,
-            //            Knockback = 0,
-            //            HitDirection = 0,
-            //            Crit = false,
-            //            DamageType = DamageClass.Generic
-            //        };
-            //    }
-            //    npc.StrikeNPC(hitInfo);
-            //    NetMessage.SendStrikeNPC(npc, hitInfo);
-            //    currentBlood = 0;
-            //}
+            if (item.type == ModContent.ItemType<Reduvia>() || item.type == ModContent.ItemType<Sange>()) // || item.type == ModContent.ItemType<(Any other weapon we want to add bleed to)>())
+            {
+                maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense); //(This scaling will definitely change as I test)
+                if (maxBlood < 150) //Sets lower bound of possible max blood
+                {
+                    maxBlood = 150;
+                }
+                MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
+                currentBlood += globalItem.bloodDamage;
+                doBleedProc(npc);
+            }
+        }
+
+        public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
+        {
+            if (projectile.type == ModContent.ProjectileType<BloodMagicProjectile>()) 
+            {
+                maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense);
+                if (maxBlood < 150)
+                {
+                    maxBlood = 150;
+                }
+                MogModGlobalProjectileBleed globalProjectile = projectile.GetGlobalProjectile<MogModGlobalProjectileBleed>();
+                currentBlood += globalProjectile.bloodDamage;
+                doBleedProc(npc);
+            }
+        }
+        public void doBleedProc(NPC npc)
+        {
+            if (currentBlood >= maxBlood){
+                hitInfo = new NPC.HitInfo
+                {
+                    Damage = Convert.ToInt32(npc.lifeMax * .085) + 50,
+                    Knockback = 0,
+                    HitDirection = 0,
+                    Crit = false,
+                    DamageType = DamageClass.Generic
+                };
+                npc.StrikeNPC(hitInfo);
+                NetMessage.SendStrikeNPC(npc, hitInfo);
+                currentBlood = 0;
+                doBloodFX(npc.Center);
+            }
+        }
+
+        public static void doBloodFX(Vector2 position)
+        {
+            SoundEngine.PlaySound(BloodCrit, position);
+            for (int i = 0; i < 80; i++)
+            {
+                int blood = Dust.NewDust(position, 20, 20, DustID.Blood, 0, 0, 0, default, 2f);
+                Main.dust[blood].noGravity = false;
+            }
         }
 
         // actual debuff effect
@@ -91,7 +128,7 @@ namespace MogMod.NPCs.Global
             }
             if (wingsOfLightDebuff > 0)
             {
-                ApplyDPSDebuff(400, 30, ref npc.lifeRegen, ref damage);
+                ApplyDPSDebuff(60, 20, ref npc.lifeRegen, ref damage);
             }
         }
 
@@ -185,13 +222,6 @@ namespace MogMod.NPCs.Global
         }
 
         // QOL for making debuff damage easier
-        /// <summary>
-        /// Determines how much damage overtime the debuff will do.
-        /// </summary>
-        /// <param name="lifeRegenValue"></param>
-        /// <param name="damageValue"></param> 
-        /// <param name="lifeRegen"></param>
-        /// <param name="damage"></param>
         public void ApplyDPSDebuff(int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
         {
             if (lifeRegen > 0)
@@ -239,6 +269,27 @@ namespace MogMod.NPCs.Global
                                  spriteEffects,
                                  0f);
                 afterimageCounter++;
+            }
+        }
+
+        public override void ModifyHitPlayer(NPC npc, Player target, ref Player.HurtModifiers modifiers)
+        {
+            if (target.HasBuff(ModContent.BuffType<Parrying>()))
+            {
+                MogPlayer mogPlayer = target.GetModPlayer<MogPlayer>();
+                mogPlayer.doParry(target, target.Center);
+                modifiers.Cancel();
+
+                var hitInfo = new NPC.HitInfo
+                {
+                    Damage = 20,
+                    Knockback = 5,
+                    HitDirection = target.direction,
+                    Crit = false,
+                    DamageType = DamageClass.Generic
+                };
+                npc.StrikeNPC(hitInfo); //Must use this instead of modifying the npc's life stat
+                NetMessage.SendStrikeNPC(npc, hitInfo);
             }
         }
     }

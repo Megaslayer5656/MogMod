@@ -8,6 +8,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using MogMod.Common.MogModPlayer;
+using MogMod.Common.Systems;
+using MogMod.Common.MogModPlayer;
 
 namespace MogMod.Projectiles.BaseProjectiles
 {
@@ -24,18 +26,14 @@ namespace MogMod.Projectiles.BaseProjectiles
         // Amount of extra updates that are set in SetDefaults.
         public int defExtraUpdates = -1;
 
-        public override void OnHitPlayer(Projectile projectile, Player target, Player.HurtInfo info)
+        public override void ModifyHitPlayer(Projectile projectile, Player target, ref Player.HurtModifiers modifiers)
         {
             if (target.HasBuff(ModContent.BuffType<Parrying>()))
             {
-                info = new Player.HurtInfo
-                {
-                    Damage = 1,
-                    Knockback = 0,
-                    HitDirection = 0,
-                    Dodgeable = false,
-                    SoundDisabled = true
-                };
+                MogPlayer modPlayer = target.GetModPlayer<MogPlayer>();
+                modPlayer.doParry(target, target.Center);
+                modifiers.Cancel();
+
                 projectile.velocity.X = projectile.velocity.X * -1;
                 projectile.velocity.Y = projectile.velocity.Y * -1;
                 projectile.friendly = true;

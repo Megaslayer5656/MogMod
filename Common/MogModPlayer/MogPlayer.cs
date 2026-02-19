@@ -15,6 +15,8 @@ using Terraria.GameContent.Bestiary;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.WorldBuilding;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MogMod.Common.MogModPlayer
 {
@@ -187,6 +189,7 @@ namespace MogMod.Common.MogModPlayer
                 target.AddBuff(BuffID.Daybreak, 600);
             }
         }
+
         public override void OnHitByNPC(NPC npc, Terraria.Player.HurtInfo hurtInfo)
         {
             Player.ClearBuff(ModContent.BuffType<ClarityBuff>());
@@ -221,15 +224,6 @@ namespace MogMod.Common.MogModPlayer
             if (Player.HasItemInAnyInventory(ModContent.ItemType<BlinkDagger>()))
             {
                 Player.AddBuff(ModContent.BuffType<BlinkDebuff>(), 600);
-            }
-
-            if (Player.HasBuff(ModContent.BuffType<Parrying>()))
-            {
-                doParry(Player, Player.Center);
-                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
-                {
-                    SyncParry(false, Player.Center);
-                }
             }
         }
         public override void OnHitByProjectile(Projectile proj, Terraria.Player.HurtInfo hurtInfo)
@@ -267,44 +261,12 @@ namespace MogMod.Common.MogModPlayer
             {
                 Player.AddBuff(ModContent.BuffType<BlinkDebuff>(), 600);
             }
-
-            if (Player.HasBuff(ModContent.BuffType<Parrying>()))
-            {
-                hurtInfo = new Terraria.Player.HurtInfo
-                {
-                    Damage = 1,
-                    Knockback = 0,
-                    HitDirection = 0,
-                    Dodgeable = false,
-                    SoundDisabled = true
-                };
-
-                doParry(Player, Player.Center);
-                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
-                {
-                    SyncParry(false, Player.Center);
-                }
-            }
         }
         public void NPCDebuffs(NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool whip, bool proj = false, bool noFlask = false)
         {
             if (wearingEyeOfSkadi)
             {
                 target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 120);
-            }
-        }
-        public override void OnHurt(Terraria.Player.HurtInfo info)
-        {
-            if (Player.HasBuff(ModContent.BuffType<Parrying>()))
-            {
-                info = new Terraria.Player.HurtInfo
-                {
-                    Damage = 1,
-                    Knockback = 0,
-                    HitDirection = 0,
-                    Dodgeable = false,
-                    SoundDisabled = true
-                };
             }
         }
         #endregion
@@ -852,6 +814,14 @@ namespace MogMod.Common.MogModPlayer
             Player.AddBuff(ModContent.BuffType<ParryCooldown>(), 60);
             Player.AddBuff(ModContent.BuffType<ParryBuff1>(), 600);
             Player.AddBuff(ModContent.BuffType<ParryDebuffRemover>(), 10);
+            
+            Player.SetImmuneTimeForAllTypes(50);
+
+            for (int i = 0; i < Player.hurtCooldowns.Length; i++)
+            {
+                Player.hurtCooldowns[i] = 50;
+            }
+
             SoundEngine.PlaySound(ParrySound, Player.Center);
 
             Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
@@ -865,6 +835,11 @@ namespace MogMod.Common.MogModPlayer
                 Main.dust[P1].noGravity = true;
                 Main.dust[P1].fadeIn = 2f;
                 Main.dust[P1].velocity *= 3f;
+            }
+
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                SyncParry(false, Player.Center);
             }
         }
         public void removeBuff(Terraria.Player player, int buffID)

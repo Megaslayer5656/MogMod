@@ -15,7 +15,7 @@ namespace MogMod.Buffs.PotionBuffs
             Main.buffNoTimeDisplay[Type] = false;
         }
 
-        public override void Update(Player player, ref int buffIndex)
+        public override void Update(Player player, ref int buffIndex) //TODO: make this more efficient by going through the player's active buffs, and removing only debuffs
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.removeBuff(player, BuffID.OnFire);

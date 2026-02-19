@@ -53,7 +53,8 @@ namespace MogMod.Common.Systems
             WingsOfLightSync,
             ButterflySync,
             ParrySync,
-            DragonInstallSync
+            DragonInstallSync,
+            BleedProcSync
         }
     }
 }
