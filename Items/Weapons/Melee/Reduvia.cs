@@ -18,7 +18,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class Reduvia : ModItem //Very important note: All of the blood stuff is set up in MogGlobalItem.cs, ModGlobalProjectile.cs, and MogModGlobalNPC.cs.
+    public class Reduvia : ModItem //Very important note: All of the blood stuff is set up in MogGlobalItem.cs, MogModGlobalProjectileBleed.cs, and MogModGlobalNPC.cs.
     {
         int shotCounter = 0;
         public override void SetDefaults()

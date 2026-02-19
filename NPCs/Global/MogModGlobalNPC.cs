@@ -15,7 +15,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using MogMod.Common.Systems;
 using MogMod.Projectiles.MagicProjectiles;
-using MogMod.Projectiles.Global;
+using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Common.MogModPlayer;
 
 namespace MogMod.NPCs.Global
 {
@@ -77,7 +78,7 @@ namespace MogMod.NPCs.Global
                 {
                     maxBlood = 150;
                 }
-                MogGlobalProjectile globalProjectile = projectile.GetGlobalProjectile<MogGlobalProjectile>();
+                MogModGlobalProjectileBleed globalProjectile = projectile.GetGlobalProjectile<MogModGlobalProjectileBleed>();
                 currentBlood += globalProjectile.bloodDamage;
                 doBleedProc(npc);
             }
@@ -268,6 +269,27 @@ namespace MogMod.NPCs.Global
                                  spriteEffects,
                                  0f);
                 afterimageCounter++;
+            }
+        }
+
+        public override void ModifyHitPlayer(NPC npc, Player target, ref Player.HurtModifiers modifiers)
+        {
+            if (target.HasBuff(ModContent.BuffType<Parrying>()))
+            {
+                MogPlayer mogPlayer = target.GetModPlayer<MogPlayer>();
+                mogPlayer.doParry(target, target.Center);
+                modifiers.Cancel();
+
+                var hitInfo = new NPC.HitInfo
+                {
+                    Damage = 20,
+                    Knockback = 5,
+                    HitDirection = target.direction,
+                    Crit = false,
+                    DamageType = DamageClass.Generic
+                };
+                npc.StrikeNPC(hitInfo); //Must use this instead of modifying the npc's life stat
+                NetMessage.SendStrikeNPC(npc, hitInfo);
             }
         }
     }

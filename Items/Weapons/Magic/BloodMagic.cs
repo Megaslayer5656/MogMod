@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Weapons.Magic //Very important note: All of the blood stuff is set up in MogGlobalItem.cs, ModGlobalProjectile.cs, and MogModGlobalNPC.cs.
+namespace MogMod.Items.Weapons.Magic //Very important note: All of the blood stuff is set up in MogGlobalItem.cs, MogModGlobalProjectileBleed.cs, and MogModGlobalNPC.cs.
 {
     public class BloodMagic : ModItem, ILocalizedModType
     {

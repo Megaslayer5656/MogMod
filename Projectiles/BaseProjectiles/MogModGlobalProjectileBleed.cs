@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace MogMod.Projectiles.Global
+namespace MogMod.Projectiles.BaseProjectiles
 {
-    public class MogGlobalProjectile : GlobalProjectile
+    public partial class MogModGlobalProjectileBleed : GlobalProjectile
     {
         public int bloodDamage;
 
