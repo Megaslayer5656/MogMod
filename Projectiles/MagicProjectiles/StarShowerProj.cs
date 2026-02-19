@@ -6,14 +6,14 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
-    public class GlintstoneStarsProj : ModProjectile, ILocalizedModType
+    public class StarShowerProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 4;
-            Projectile.timeLeft = 40;
+            Projectile.timeLeft = 50;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
@@ -21,7 +21,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         }
         public override void AI()
         {
-            Projectile.velocity *= 0.93f;
+            Projectile.velocity *= 0.95f;
 
             Dust dust = Dust.NewDustPerfect(Projectile.position, DustID.AncientLight, Projectile.velocity, 100, Color.LightBlue, 1f);
             dust.noGravity = true;
@@ -53,10 +53,10 @@ namespace MogMod.Projectiles.MagicProjectiles
         private void SummonExtraProj()
         {
             float offset = Main.rand.NextFloat(MathHelper.TwoPi);
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 6; i++)
             {
-                Vector2 velocity = ((MathHelper.TwoPi * i / 3f) - offset).ToRotationVector2() * 1.5f;
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<GlintstoneStarsHomingProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Vector2 velocity = ((MathHelper.TwoPi * i / 6f) - offset).ToRotationVector2() * 3f;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<StarShowerHomingProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
     }

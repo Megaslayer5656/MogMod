@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -6,14 +7,16 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
-    public class GlintstoneStarsProj : ModProjectile, ILocalizedModType
+    public class StarsOfRuinProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
+        int numb = 0;
+        float offset = Main.rand.NextFloat(MathHelper.TwoPi);
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 4;
-            Projectile.timeLeft = 40;
+            Projectile.timeLeft = 80;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
@@ -21,16 +24,23 @@ namespace MogMod.Projectiles.MagicProjectiles
         }
         public override void AI()
         {
-            Projectile.velocity *= 0.93f;
+            Projectile.velocity *= 0.95f;
 
             Dust dust = Dust.NewDustPerfect(Projectile.position, DustID.AncientLight, Projectile.velocity, 100, Color.LightBlue, 1f);
             dust.noGravity = true;
             dust.scale = Main.rand.NextFloat(0.91f, 1.417f);
             dust.velocity *= 0.1f;
+
+            if (Projectile.timeLeft <= 60 && Projectile.timeLeft % 5 == 0)
+            {
+                numb++;
+                SoundEngine.PlaySound(SoundID.Item109, Projectile.Center);
+                Vector2 velocity = ((MathHelper.TwoPi * numb / 6f) - offset).ToRotationVector2() * 3f;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<StarsOfRuinHomingProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            }
         }
         public override void OnKill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item43, Projectile.Center);
             for (int i = 0; i < 7; i++)
             {
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.AncientLight, 0f, 0f, 100, Color.LightBlue, .8f);
@@ -38,26 +48,13 @@ namespace MogMod.Projectiles.MagicProjectiles
                 Main.dust[dust].velocity *= 1.2f;
                 Main.dust[dust].velocity -= Projectile.oldVelocity * 0.3f;
 
-                int dust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.ManaRegeneration, 0f, 0f, 100, default, .8f);
+                int dust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GemSapphire, 0f, 0f, 100, default, .8f);
                 Dust dust3 = Main.dust[dust2];
                 dust3.noGravity = true;
                 dust3.velocity *= 1.2f;
                 dust3.velocity -= Projectile.oldVelocity * 0.3f;
             }
-            if (Projectile.owner == Main.myPlayer)
-            {
-                SummonExtraProj();
-            }
         }
         public override bool? CanDamage() => false;
-        private void SummonExtraProj()
-        {
-            float offset = Main.rand.NextFloat(MathHelper.TwoPi);
-            for (int i = 0; i < 3; i++)
-            {
-                Vector2 velocity = ((MathHelper.TwoPi * i / 3f) - offset).ToRotationVector2() * 1.5f;
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<GlintstoneStarsHomingProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-            }
-        }
     }
 }

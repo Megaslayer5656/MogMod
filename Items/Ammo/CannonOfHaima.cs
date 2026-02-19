@@ -8,19 +8,19 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo
 {
-    public class ShardSpiral : ModItem
+    public class CannonOfHaima : ModItem
     {
         public override void SetDefaults()
         {
-            Item.damage = 22;
+            Item.damage = 105;
             Item.DamageType = DamageClass.Magic;
             Item.width = 50;
             Item.height = 52;
-            Item.knockBack = 3f;
-            Item.value = Item.buyPrice(0, 25, 0, 0);
-            Item.rare = ItemRarityID.LightRed;
-            Item.shoot = ModContent.ProjectileType<ShardSpiralProj>();
-            Item.shootSpeed = 3f;
+            Item.knockBack = 12f;
+            Item.value = Item.buyPrice(0, 65, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<CannonOfHaimaProj>();
+            Item.shootSpeed = 6f;
             Item.ammo = ModContent.ItemType<GlintstonePebble>(); // so it can be used by the glintstone staff;
         }
 
@@ -36,8 +36,8 @@ namespace MogMod.Items.Ammo
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.PixieDust, 25).
-                AddRecipeGroup("MythrilBar", 15).
+                AddIngredient(ItemID.SoulofSight, 7).
+                AddIngredient<UltimateOrb>(3).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.Bookcases).
                 Register();

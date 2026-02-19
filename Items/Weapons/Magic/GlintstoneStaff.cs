@@ -1,8 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Linq;
 using MogMod.Items.Ammo;
-using MogMod.Projectiles.MagicProjectiles;
+using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 

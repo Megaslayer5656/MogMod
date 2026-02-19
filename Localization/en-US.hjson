@@ -467,6 +467,14 @@ Mods: {
 				RockSlingProj.DisplayName: Rock Sling Proj
 				GlintstoneStarsProj.DisplayName: Glintstone Stars Proj
 				GlintstoneStarsHomingProj.DisplayName: Glintstone Stars Homing Proj
+				ShardSpiralProj.DisplayName: Shard Spiral Proj
+				StarShowerHomingProj.DisplayName: Star Shower Homing Proj
+				StarShowerProj.DisplayName: Star Shower Proj
+				StarsOfRuinProj.DisplayName: Stars Of Ruin Proj
+				StarsOfRuinHomingProj.DisplayName: Stars Of Ruin Homing Proj
+				CannonOfHaimaProj.DisplayName: Cannon Of Haima Proj
+				CannonOfHaimaBoom.DisplayName: Cannon Of Haima Boom
+				CarianSlicerProj.DisplayName: Carian Slicer Proj
 			}
 
 			RangedProjectiles: {

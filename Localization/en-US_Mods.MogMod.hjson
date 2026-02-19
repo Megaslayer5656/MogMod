@@ -605,7 +605,7 @@ Items: {
 				+24% Increased movement speed
 				+24% Attack speed
 				+16% Attack damage
-				+12%s Increased magic damage
+				+12% Increased magic damage
 				Greatly Increased Mana Regeneration
 				Increases Maximum Mana by 50
 				'Yasha and Kaya when paired together share a natural resonance.'
@@ -1446,6 +1446,7 @@ Items: {
 		DisplayName: Glintstone Pebble
 		Tooltip:
 			'''
+			Sorceries can only be cast from catalysts
 			Fires a glintstone rock
 			'The most basic glintstone sorcery of the Academy of Raya Lucaria.'
 			'''
@@ -1471,6 +1472,46 @@ Items: {
 
 	ShardSpiral: {
 		DisplayName: Shard Spiral
-		Tooltip: ""
+		Tooltip:
+			'''
+			Fires 2 orbiting glintstone shards that chase after enemies
+			'A sorcery of the Karolos Conspectus, the most venerable of the academy. This was the product of a failed attempt to create a new comet.'
+			'''
+	}
+
+	CannonOfHaima: {
+		DisplayName: Cannon Of Haima
+		Tooltip:
+			'''
+			Lobs an explosive glintstone rock in an arc
+			'Drawn from the conspectus of Haima, the adjudicator of the academy, this sorcery employs might as a means to quell conflict.'
+			'''
+	}
+
+	CarianSlicer: {
+		DisplayName: Carian Slicer
+		Tooltip:
+			'''
+			Swings a swift magic blade
+			'Even among the Carian sword sorceries, this is a notably effective technique.'
+			'''
+	}
+
+	StarShower: {
+		DisplayName: Star Shower
+		Tooltip:
+			'''
+			Fires an orb that splits into 6 homing orbs
+			'The most difficult to master of the Olivinus Conspectus sorceries.'
+			'''
+	}
+
+	StarsOfRuin: {
+		DisplayName: Stars Of Ruin
+		Tooltip:
+			'''
+			Fires an orb that spews out 12 homing stars
+			'When Lusat glimpsed into the primeval current, he beheld the final moments of a great star cluster, and upon seeing it, he too was broken. '
+			'''
 	}
 }

@@ -13,7 +13,7 @@ namespace MogMod.Items.Ammo
     {
         public override void SetDefaults()
         {
-            Item.damage = 24;
+            Item.damage = 16;
             Item.DamageType = DamageClass.Magic;
             Item.width = 50;
             Item.height = 52;

@@ -44,7 +44,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             if (Projectile.timeLeft == Lifetime)
                 Projectile.localAI[1] = Main.rand.NextFloat(0f, FramesPerBeam);
 
-            // rotates it I think
+            // rotates it
             if (Projectile.velocity.X > 0f)
             {
                 Projectile.rotation += (Math.Abs(Projectile.velocity.Y) + Math.Abs(Projectile.velocity.X)) * 0.001f;
