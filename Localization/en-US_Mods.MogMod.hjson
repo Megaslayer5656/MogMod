@@ -1028,6 +1028,16 @@ Items: {
 					'I don't care who you are, we are all guilty of something.'
 					'''
 			}
+
+			LAS13Trident: {
+				DisplayName: LAS-13 Trident
+				Tooltip:
+					'''
+					Uses gel for ammo
+					Fires a spread of 6 lasers
+					Ignores 15 points of enemy Defense
+					'''
+			}
 		}
 
 		Magic: {
@@ -1527,7 +1537,11 @@ Items: {
 
 	RiversOfBlood: {
 		DisplayName: Rivers Of Blood
-		Tooltip: ""
+		Tooltip:
+			'''
+			;
+			''
+			'''
 	}
 
 	LizhardBloodVial: {

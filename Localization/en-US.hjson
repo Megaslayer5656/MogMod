@@ -512,6 +512,7 @@ Mods: {
 				DrowRangerArrow.DisplayName: Drow Ranger Arrow
 				AghanimBulletProj.DisplayName: Aghanim Bullet Proj
 				DreadsProj.DisplayName: Dreads Proj
+				LAS13Proj.DisplayName: L A S13 Proj
 			}
 
 			MeleeProjectiles: {
