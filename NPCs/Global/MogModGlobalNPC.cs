@@ -60,8 +60,6 @@ namespace MogMod.NPCs.Global
 
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
-            if (item.type == ModContent.ItemType<Reduvia>() || item.type == ModContent.ItemType<Sange>() || item.type == ModContent.ItemType<RiversOfBlood>()) // || item.type == ModContent.ItemType<(Any other weapon we want to add bleed to)>())
-            {
                 maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense); //(This scaling will definitely change as I test)
                 if (maxBlood < 150) //Sets lower bound of possible max blood
                 {
@@ -70,13 +68,10 @@ namespace MogMod.NPCs.Global
                 MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
                 currentBlood += globalItem.bloodDamage;
                 doBleedProc(npc);
-            }
         }
 
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
-            if (projectile.type == ModContent.ProjectileType<BloodMagicProjectile>()) 
-            {
                 maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense);
                 if (maxBlood < 150)
                 {
@@ -85,7 +80,6 @@ namespace MogMod.NPCs.Global
                 MogModGlobalProjectileBleed globalProjectile = projectile.GetGlobalProjectile<MogModGlobalProjectileBleed>();
                 currentBlood += globalProjectile.bloodDamage;
                 doBleedProc(npc);
-            }
         }
         public void doBleedProc(NPC npc)
         {

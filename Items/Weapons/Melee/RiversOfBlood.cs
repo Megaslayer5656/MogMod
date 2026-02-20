@@ -42,7 +42,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;
-            Item.shootSpeed = 10f;
+            Item.shootSpeed = 4.5f;
         }
         public override bool CanUseItem(Player player)
         {
@@ -77,7 +77,7 @@ namespace MogMod.Items.Weapons.Melee
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             if (mogPlayer.riversOfBloodProj)
             {
-                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<AnchorProj>(), damage, knockback, player.whoAmI, 0f, 0f); //TODO: Different projectile
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<RiversOfBloodProj>(), Convert.ToInt32(Item.damage * 5f), knockback, player.whoAmI, 0f, 0f);
 
                 mogPlayer.riversOfBloodProj = false;
             }

@@ -30,7 +30,6 @@ namespace MogMod.Items.Global
             } else
             {
                 bloodDamage = 0;
-
             }
         }
         public override bool InstancePerEntity => true;
