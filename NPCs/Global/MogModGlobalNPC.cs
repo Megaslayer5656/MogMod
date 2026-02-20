@@ -18,7 +18,11 @@ using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Common.MogModPlayer;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 using MogMod.Items.Ammo;
+=======
+using static MogMod.Common.Systems.MogModNetcode;
+>>>>>>> Stashed changes
 =======
 using static MogMod.Common.Systems.MogModNetcode;
 >>>>>>> Stashed changes

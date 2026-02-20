@@ -1529,4 +1529,9 @@ Items: {
 		DisplayName: Rivers Of Blood
 		Tooltip: ""
 	}
+
+	RiversOfBlood: {
+		DisplayName: Rivers Of Blood
+		Tooltip: ""
+	}
 }
