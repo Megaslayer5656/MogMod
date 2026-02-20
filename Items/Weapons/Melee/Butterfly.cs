@@ -49,7 +49,7 @@ namespace MogMod.Items.Weapons.Melee
             {
                 for (int i = 0; i <= 3; i++)
                 {
-                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, Main.rand.NextBool(2), -400f, 400f, -300f, 300f, 5.75f, ModContent.ProjectileType<ButterflyProjectile>(), Convert.ToInt32(Item.damage / 5f), 0f, player.whoAmI, false, 0f);
+                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, Main.rand.NextBool(2), -400f, 400f, -300f, 300f, 5.75f, ModContent.ProjectileType<ButterflyProjectile>(), Convert.ToInt32(Item.damage / 4f), 0f, player.whoAmI, false, 0f);
                 }
             }
         }

@@ -19,6 +19,9 @@ using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Ammo;
 
+using static MogMod.Common.Systems.MogModNetcode;
+
+
 namespace MogMod.NPCs.Global
 {
     public class MogModGlobalNPC : GlobalNPC
@@ -57,8 +60,6 @@ namespace MogMod.NPCs.Global
 
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
-            if (item.type == ModContent.ItemType<Reduvia>() || item.type == ModContent.ItemType<Sange>()) // || item.type == ModContent.ItemType<(Any other weapon we want to add bleed to)>())
-            {
                 maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense); //(This scaling will definitely change as I test)
                 if (maxBlood < 150) //Sets lower bound of possible max blood
                 {
@@ -67,13 +68,10 @@ namespace MogMod.NPCs.Global
                 MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
                 currentBlood += globalItem.bloodDamage;
                 doBleedProc(npc);
-            }
         }
 
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
-            if (projectile.type == ModContent.ProjectileType<BloodMagicProjectile>()) 
-            {
                 maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense);
                 if (maxBlood < 150)
                 {
@@ -82,7 +80,6 @@ namespace MogMod.NPCs.Global
                 MogModGlobalProjectileBleed globalProjectile = projectile.GetGlobalProjectile<MogModGlobalProjectileBleed>();
                 currentBlood += globalProjectile.bloodDamage;
                 doBleedProc(npc);
-            }
         }
         public void doBleedProc(NPC npc)
         {
@@ -98,6 +95,17 @@ namespace MogMod.NPCs.Global
                 npc.StrikeNPC(hitInfo);
                 NetMessage.SendStrikeNPC(npc, hitInfo);
                 currentBlood = 0;
+                Rectangle r = new Rectangle((int)npc.position.X, (int)npc.position.Y - 50, npc.width, npc.height);
+                Color textColor = new Color(255, 0, 0);
+                CombatText.NewText(r, textColor, "Bleed!", true);
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    ModPacket packet = Mod.GetPacket();
+                    packet.Write((byte)MogModMessageType.BleedProcTextSync);
+                    packet.Write(npc.lastInteraction);
+                    packet.WriteVector2(r.Center.ToVector2());
+                    packet.Send();
+                }
                 doBloodFX(npc.Center);
             }
         }
@@ -169,6 +177,34 @@ namespace MogMod.NPCs.Global
             if (npc.type == NPCID.Tim)
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GlintstoneArc>(), 1, 1, 1));
+            }
+            if (npc.type == NPCID.Golem)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LizhardBloodVial>(), 1, 1, 2));
+            }
+            if (npc.type == NPCID.Shark)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
+            }
+            if (npc.type == NPCID.Squid)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
+            }
+            if (npc.type == NPCID.BlueJellyfish)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
+            }
+            if (npc.type == NPCID.GreenJellyfish)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
+            }
+            if (npc.type == NPCID.PinkJellyfish)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
+            }
+            if (npc.type == NPCID.Crab)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
             }
         }
         public override void OnHitPlayer(NPC npc, Player target, Player.HurtInfo hurtInfo)
