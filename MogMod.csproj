@@ -35,9 +35,9 @@
     <None Remove="Buffs\Debuffs\ShivasEnemyDebuff.png" />
     <None Remove="Buffs\GlueBuff.png" />
     <None Remove="Buffs\GlueDebuff.png" />
+    <None Remove="Buffs\PotionBuffs\.png" />
     <None Remove="Buffs\PotionBuffs\ButterflyBuff.png" />
     <None Remove="Buffs\PotionBuffs\ParryBuff1.png" />
-    <None Remove="Buffs\PotionBuffs\ParryDebuffRemover.png" />
     <None Remove="Buffs\PotionBuffs\Parrying.png" />
     <None Remove="Buffs\VonDebuff.png" />
     <None Remove="build.txt" />
@@ -73,6 +73,7 @@
     <None Remove="Projectiles\BaseProjectiles\BerserkersSpearProj.png" />
     <None Remove="Projectiles\BaseProjectiles\BloodMagicProjectile.png" />
     <None Remove="Projectiles\MeleeProjectiles\ButterflyProjectile.png" />
+    <None Remove="Projectiles\MeleeProjectiles\RiversOfBloodProj.png" />
     <None Remove="README.md" />
   </ItemGroup>
   <ItemGroup>
