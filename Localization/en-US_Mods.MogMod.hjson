@@ -1558,4 +1558,18 @@ Items: {
 		DisplayName: Splinter Launcher
 		Tooltip: ""
 	}
+
+	LordOfBloodsExultation: {
+		DisplayName: Lord Of Blood's Exultation
+		Tooltip:
+			'''
+			Boosts bleed buildup by 15%
+			   
+			'''
+	}
+
+	BlackBlade: {
+		DisplayName: Black Blade
+		Tooltip: ""
+	}
 }

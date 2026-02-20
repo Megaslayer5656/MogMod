@@ -374,6 +374,11 @@ Mods: {
 				DisplayName: Bleed1
 				Description: Mods.MogMod.Buffs.Bleed1.Description
 			}
+
+			BlackBladeDebuff: {
+				DisplayName: Black Blade Debuff
+				Description: Mods.MogMod.Buffs.BlackBladeDebuff.Description
+			}
 		}
 
 		NPCs: {

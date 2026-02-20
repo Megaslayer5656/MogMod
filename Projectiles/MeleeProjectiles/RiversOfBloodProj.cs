@@ -32,10 +32,10 @@ namespace MogMod.Projectiles.MeleeProjectiles
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.Center, 1f, 0f, 0f);
+            Lighting.AddLight(Projectile.position, 1f, 0f, 0f);
             if (Main.rand.NextBool(5))
             {
-                int blood = Dust.NewDust(Projectile.Center, 10, 60, DustID.Blood, 0f, 0f, 150, default, 3f);
+                int blood = Dust.NewDust(Projectile.position, 10, 60, DustID.Blood, 0f, 0f, 150, default, 3f);
             }
         }
 

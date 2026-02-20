@@ -45,7 +45,7 @@ namespace MogMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = target.GetSource_FromAI();
-            if (Main.rand.NextBool(5))
+            if (Main.rand.NextBool(4))
             {
                 for (int i = 0; i <= 3; i++)
                 {

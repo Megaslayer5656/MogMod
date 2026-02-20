@@ -49,6 +49,7 @@
     <None Remove="Items\Accessories\SangeAndYasha.png" />
     <None Remove="Items\Accessories\SigmaCharm.png" />
     <None Remove="Items\Accessories\YashaAndKaya.png" />
+    <None Remove="Items\Ammo\SplinterAmmo.png" />
     <None Remove="Items\BloodInfusion.png" />
     <None Remove="Items\Consumables\Glue.png" />
     <None Remove="Items\Consumables\VonSpawner.png" />
@@ -64,6 +65,7 @@
     <None Remove="Items\Weapons\Melee\ThunderSeal.png" />
     <None Remove="Items\Weapons\Ranged\BerserkersSpear.png" />
     <None Remove="Items\Weapons\Ranged\R8Revolver.png" />
+    <None Remove="Items\Weapons\Ranged\SplinterLauncher.png" />
     <None Remove="Items\Weapons\Sange.png" />
     <None Remove="NPCs\Bosses\DabDad.png" />
     <None Remove="NPCs\Bosses\KingVon_Head_Boss.png" />
@@ -74,6 +76,7 @@
     <None Remove="Projectiles\BaseProjectiles\BloodMagicProjectile.png" />
     <None Remove="Projectiles\MeleeProjectiles\ButterflyProjectile.png" />
     <None Remove="Projectiles\MeleeProjectiles\RiversOfBloodProj.png" />
+    <None Remove="Projectiles\RangedProjectiles\SplinterProjectile.png" />
     <None Remove="README.md" />
   </ItemGroup>
   <ItemGroup>
