@@ -17,15 +17,10 @@ using MogMod.Common.Systems;
 using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Common.MogModPlayer;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 using MogMod.Items.Ammo;
-=======
+
 using static MogMod.Common.Systems.MogModNetcode;
->>>>>>> Stashed changes
-=======
-using static MogMod.Common.Systems.MogModNetcode;
->>>>>>> Stashed changes
+
 
 namespace MogMod.NPCs.Global
 {
@@ -188,6 +183,34 @@ namespace MogMod.NPCs.Global
             if (npc.type == NPCID.Tim)
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GlintstoneArc>(), 1, 1, 1));
+            }
+            if (npc.type == NPCID.Golem)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LizhardBloodVial>(), 1, 1, 2));
+            }
+            if (npc.type == NPCID.Shark)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
+            }
+            if (npc.type == NPCID.Squid)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
+            }
+            if (npc.type == NPCID.BlueJellyfish)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
+            }
+            if (npc.type == NPCID.GreenJellyfish)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
+            }
+            if (npc.type == NPCID.PinkJellyfish)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
+            }
+            if (npc.type == NPCID.Crab)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
             }
         }
         public override void OnHitPlayer(NPC npc, Player target, Player.HurtInfo hurtInfo)
