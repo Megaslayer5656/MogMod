@@ -52,6 +52,7 @@
     <None Remove="Items\BloodInfusion.png" />
     <None Remove="Items\Consumables\Glue.png" />
     <None Remove="Items\Consumables\VonSpawner.png" />
+    <None Remove="Items\Other\LizhardBloodVial.png" />
     <None Remove="Items\Other\SoulOfDabdad.png" />
     <None Remove="Items\Placeable\DabdadOreP.png" />
     <None Remove="Items\Weapons\Magic\BloodMagic.png" />
@@ -59,6 +60,7 @@
     <None Remove="Items\Weapons\Melee\GoldenHydrakanLatch.png" />
     <None Remove="Items\Weapons\Melee\RedKatana.png" />
     <None Remove="Items\Weapons\Melee\Reduvia.png" />
+    <None Remove="Items\Weapons\Melee\RiversOfBlood.png" />
     <None Remove="Items\Weapons\Melee\ThunderSeal.png" />
     <None Remove="Items\Weapons\Ranged\BerserkersSpear.png" />
     <None Remove="Items\Weapons\Ranged\R8Revolver.png" />

@@ -23,6 +23,10 @@ namespace MogMod.Items.Global
             {
                 bloodDamage = 110;
 
+            } else if (entity.type == ModContent.ItemType<RiversOfBlood>())
+            {
+                bloodDamage = 135;
+
             } else
             {
                 bloodDamage = 0;

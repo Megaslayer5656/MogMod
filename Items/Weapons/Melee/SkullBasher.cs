@@ -4,9 +4,11 @@ using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -32,6 +34,12 @@ namespace MogMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.LightRed;
             Item.scale = 1f;
             Item.shootSpeed = 2f;
+            Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            return false;
         }
         //public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 26;
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)

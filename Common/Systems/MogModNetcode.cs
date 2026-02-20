@@ -38,6 +38,14 @@ namespace MogMod.Common.Systems
                     case MogModMessageType.DragonInstallSync:
                         Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleDragonInstall(reader);
                         break;
+
+                    case MogModMessageType.BleedProcTextSync:
+                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleBleedProcText(reader);
+                        break;
+
+                    case MogModMessageType.UltraCritTextSync:
+                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleUltraCritText(reader); //This packet is sent directly from the ChaosBlade file.
+                        break;
                 }
             }
             catch (Exception e)
@@ -54,7 +62,8 @@ namespace MogMod.Common.Systems
             ButterflySync,
             ParrySync,
             DragonInstallSync,
-            BleedProcSync
+            BleedProcTextSync,
+            UltraCritTextSync
         }
     }
 }

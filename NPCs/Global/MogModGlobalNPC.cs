@@ -17,7 +17,11 @@ using MogMod.Common.Systems;
 using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Common.MogModPlayer;
+<<<<<<< Updated upstream
 using MogMod.Items.Ammo;
+=======
+using static MogMod.Common.Systems.MogModNetcode;
+>>>>>>> Stashed changes
 
 namespace MogMod.NPCs.Global
 {
@@ -57,7 +61,7 @@ namespace MogMod.NPCs.Global
 
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
-            if (item.type == ModContent.ItemType<Reduvia>() || item.type == ModContent.ItemType<Sange>()) // || item.type == ModContent.ItemType<(Any other weapon we want to add bleed to)>())
+            if (item.type == ModContent.ItemType<Reduvia>() || item.type == ModContent.ItemType<Sange>() || item.type == ModContent.ItemType<RiversOfBlood>()) // || item.type == ModContent.ItemType<(Any other weapon we want to add bleed to)>())
             {
                 maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense); //(This scaling will definitely change as I test)
                 if (maxBlood < 150) //Sets lower bound of possible max blood
@@ -98,6 +102,17 @@ namespace MogMod.NPCs.Global
                 npc.StrikeNPC(hitInfo);
                 NetMessage.SendStrikeNPC(npc, hitInfo);
                 currentBlood = 0;
+                Rectangle r = new Rectangle((int)npc.position.X, (int)npc.position.Y - 50, npc.width, npc.height);
+                Color textColor = new Color(255, 0, 0);
+                CombatText.NewText(r, textColor, "Bleed!", true);
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    ModPacket packet = Mod.GetPacket();
+                    packet.Write((byte)MogModMessageType.BleedProcTextSync);
+                    packet.Write(npc.lastInteraction);
+                    packet.WriteVector2(r.Center.ToVector2());
+                    packet.Send();
+                }
                 doBloodFX(npc.Center);
             }
         }

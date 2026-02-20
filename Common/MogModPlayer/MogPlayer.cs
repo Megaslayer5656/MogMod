@@ -105,6 +105,8 @@ namespace MogMod.Common.MogModPlayer
         public bool aghHexDebuff = false;
         public bool wingsOfLightDebuff = false;
 
+        public bool riversOfBloodProj = false;
+
         // sound effects
         public static readonly SoundStyle WandUse = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Magic_Stick")
         {
@@ -835,6 +837,11 @@ namespace MogMod.Common.MogModPlayer
                 Main.dust[P1].noGravity = true;
                 Main.dust[P1].fadeIn = 2f;
                 Main.dust[P1].velocity *= 3f;
+            }
+
+            if (Player.HeldItem.Name == "Rivers Of Blood")
+            {
+                riversOfBloodProj = true;
             }
 
             if (Main.netMode == NetmodeID.MultiplayerClient)

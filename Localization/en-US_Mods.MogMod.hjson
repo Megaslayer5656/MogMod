@@ -1524,4 +1524,9 @@ Items: {
 			in order to fend off large groups of would-be adversaries. Fools often roam in packs.'
 			'''
 	}
+
+	RiversOfBlood: {
+		DisplayName: Rivers Of Blood
+		Tooltip: ""
+	}
 }

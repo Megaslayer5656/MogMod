@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Newtonsoft.Json.Bson;
 using System.ComponentModel;
 using MogMod.NPCs.Global;
+using Microsoft.Xna.Framework;
 
 namespace MogMod.Common.MogModPlayer
 {
@@ -88,15 +89,6 @@ namespace MogMod.Common.MogModPlayer
             Player.SendPacket(packet, server);
         }
 
-        public void SyncBleedProc(bool server, Vector2 position)
-        {
-            ModPacket packet = Mod.GetPacket(256);
-            MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
-
-            packet.Write((byte)MogModMessageType.BleedProcSync);
-            packet.Write(Player.whoAmI);
-            packet.WriteVector2(position);
-        }
         internal void HandleEssenceShiftStack(BinaryReader reader)
         {
             essenceShiftLevel = reader.ReadInt32();
@@ -156,22 +148,32 @@ namespace MogMod.Common.MogModPlayer
             if (install)
             {
                 enterDragonInstall(Player);
-            } else
+            }
+            else
             {
                 exitDragonInstall(Player);
             }
         }
 
-        internal void HandleBleedProc(BinaryReader reader)
+        internal void HandleBleedProcText(BinaryReader reader)
         {
-            Vector2 pos = reader.ReadVector2();
-            if (Main.netMode == NetmodeID.Server)
+            Vector2 r = reader.ReadVector2();
+            Color textColor = new Color(255, 0, 0);
+            Rectangle rect = new Rectangle((int)r.X, (int)r.Y, 1, 1);
+            if (Main.netMode != NetmodeID.Server)
             {
-                SyncBleedProc(true, pos);
+                CombatText.NewText(rect, textColor, "Bleed!", true);
             }
-            else
+        }
+
+        internal void HandleUltraCritText(BinaryReader reader)
+        {
+            Vector2 r = reader.ReadVector2();
+            Color textColor = new Color(255, 0, 0);
+            Rectangle rect = new Rectangle((int)r.X, (int)r.Y, 1, 1);
+            if (Main.netMode != NetmodeID.Server)
             {
-                MogModGlobalNPC.doBloodFX(pos);
+                CombatText.NewText(rect, textColor, "Ultra Crit!", true);
             }
         }
     }

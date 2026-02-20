@@ -7,6 +7,9 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using static MogMod.Common.Systems.MogModNetcode;
+using Terraria.DataStructures;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -33,7 +36,14 @@ namespace MogMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.LightRed;
             Item.scale = 1.5f;
             Item.shootSpeed = 10f;
+            Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing
         }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            return false;
+        }
+
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_OnHit(target);
@@ -42,6 +52,17 @@ namespace MogMod.Items.Weapons.Melee
             randUltraCrit = random.Next(1, 25);
             if (ultraCrit)
             {
+                Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
+                Color textColor = new Color(255, 0, 0);
+                CombatText.NewText(r, textColor, "Ultra Crit!", true);
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    ModPacket packet = Mod.GetPacket();
+                    packet.Write((byte)MogModMessageType.UltraCritTextSync);
+                    packet.Write(player.whoAmI);
+                    packet.WriteVector2(r.Center.ToVector2());
+                    packet.Send();
+                }
                 randNumProjectiles = random.Next(1, 4);
                 for (int i = 0; i < randNumProjectiles; i++)
                 {

@@ -1,18 +1,25 @@
 ﻿using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
-using Terraria;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
+using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Items.Other;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class RedKatana : ModItem, ILocalizedModType
+    public class RiversOfBlood : ModItem
     {
-        public new string LocalizationCategory => "Items.Weapons.Melee";
         public static readonly SoundStyle ParryStart = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ParryStart")
         {
             Volume = .4f,
@@ -21,25 +28,21 @@ namespace MogMod.Items.Weapons.Melee
         };
         public override void SetDefaults()
         {
-            Item.width = 9;
-            Item.height = 83;
-            Item.damage = 13;
-            Item.scale = .75f;
+            Item.width = 100;
+            Item.height = 101;
+            Item.damage = 130;
+            Item.scale = 1f;
             Item.DamageType = DamageClass.Melee;
-            Item.useTime = 20;
-            Item.useAnimation = 20;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.knockBack = 3.5f;
+            Item.knockBack = 5.5f;
             Item.value = Item.buyPrice(0, 1, 50, 0);
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing
-        }
-
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            return false;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 10f;
         }
         public override bool CanUseItem(Player player)
         {
@@ -47,9 +50,12 @@ namespace MogMod.Items.Weapons.Melee
             {
                 SoundEngine.PlaySound(ParryStart, player.Center);
                 return false;
-            } else if (player.HasBuff(ModContent.BuffType<ParrySlow>())){
+            }
+            else if (player.HasBuff(ModContent.BuffType<ParrySlow>()))
+            {
                 return false;
-            } else
+            }
+            else
             {
                 return true;
             }
@@ -65,13 +71,26 @@ namespace MogMod.Items.Weapons.Melee
             }
             return false;
         }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            if (mogPlayer.riversOfBloodProj)
+            {
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<AnchorProj>(), damage, knockback, player.whoAmI, 0f, 0f); //TODO: Different projectile
+
+                mogPlayer.riversOfBloodProj = false;
+            }
+            return false;
+        }
         public override void AddRecipes()
         {
             CreateRecipe().
-            AddRecipeGroup("Wood", 25).
-            AddRecipeGroup("IronBar", 15).
-            AddTile(TileID.WorkBenches).
-            Register(); //TODO: Add something else cool to this recipe (pre boss still)
+            AddIngredient(ModContent.ItemType<RedKatana>()).
+            AddIngredient(ModContent.ItemType<Reduvia>()).
+            AddIngredient(ModContent.ItemType<LizhardBloodVial>()).
+            AddTile(TileID.MythrilAnvil).
+            Register();
         }
     }
 }
