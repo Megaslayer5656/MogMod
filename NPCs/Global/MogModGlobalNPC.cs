@@ -129,7 +129,7 @@ namespace MogMod.NPCs.Global
             }
             if (wingsOfLightDebuff > 0)
             {
-                ApplyDPSDebuff(60, 20, ref npc.lifeRegen, ref damage);
+                ApplyDPSDebuff(200, 10, ref npc.lifeRegen, ref damage);
             }
         }
 

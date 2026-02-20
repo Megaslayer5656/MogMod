@@ -731,7 +731,7 @@ namespace MogMod.Common.MogModPlayer
                 {
                     if (Microsoft.Xna.Framework.Vector2.Distance(center, otherNPC.Center) < 180f)
                     {
-                        otherNPC.AddBuff(ModContent.BuffType<WingsOfLightDebuff>(), 180);
+                        otherNPC.AddBuff(ModContent.BuffType<WingsOfLightDebuff>(), 60);
                     }
                 }
             }
