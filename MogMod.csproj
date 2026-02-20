@@ -31,7 +31,6 @@
     <None Remove="app.config" />
     <None Remove="Buffs\Cooldowns\ButterflyCooldown.png" />
     <None Remove="Buffs\Cooldowns\ParryCooldown.png" />
-    <None Remove="Buffs\Debuffs\Bleed1.png" />
     <None Remove="Buffs\Debuffs\ParrySlow.png" />
     <None Remove="Buffs\Debuffs\ShivasEnemyDebuff.png" />
     <None Remove="Buffs\GlueBuff.png" />
@@ -80,5 +79,6 @@
   <ItemGroup>
     <Folder Include="Biomes\" />
     <Folder Include="NPCs\Gores\" />
+    <Folder Include="Projectiles\Global\" />
   </ItemGroup>
 </Project>
