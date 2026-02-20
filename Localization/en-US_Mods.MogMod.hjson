@@ -1530,8 +1530,8 @@ Items: {
 		Tooltip: ""
 	}
 
-	RiversOfBlood: {
-		DisplayName: Rivers Of Blood
+	LizhardBloodVial: {
+		DisplayName: Lizhard Blood Vial
 		Tooltip: ""
 	}
 }
