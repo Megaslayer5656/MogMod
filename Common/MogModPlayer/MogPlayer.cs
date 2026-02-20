@@ -815,7 +815,6 @@ namespace MogMod.Common.MogModPlayer
             Player.ClearBuff(ModContent.BuffType<ParryCooldown>());
             Player.AddBuff(ModContent.BuffType<ParryCooldown>(), 60);
             Player.AddBuff(ModContent.BuffType<ParryBuff1>(), 600);
-            Player.AddBuff(ModContent.BuffType<ParryDebuffRemover>(), 10);
             
             Player.SetImmuneTimeForAllTypes(50);
 
@@ -843,6 +842,24 @@ namespace MogMod.Common.MogModPlayer
             {
                 riversOfBloodProj = true;
             }
+
+            removeBuff(Player, BuffID.OnFire); //TODO: Eventually make this automatically remove debuffs (with some exceptions)
+            removeBuff(Player, BuffID.OnFire3);
+            removeBuff(Player, BuffID.Frostburn);
+            removeBuff(Player, BuffID.Frostburn2);
+            removeBuff(Player, BuffID.Ichor);
+            removeBuff(Player, BuffID.BrokenArmor);
+            removeBuff(Player, BuffID.Webbed);
+            removeBuff(Player, BuffID.Panic);
+            removeBuff(Player, BuffID.Poisoned);
+            removeBuff(Player, BuffID.CursedInferno);
+            removeBuff(Player, BuffID.Confused);
+            removeBuff(Player, BuffID.Bleeding);
+            removeBuff(Player, BuffID.Oiled);
+            removeBuff(Player, BuffID.ShadowFlame);
+            removeBuff(Player, BuffID.Venom);
+            removeBuff(Player, BuffID.Weak);
+            removeBuff(Player, ModContent.BuffType<VonDebuff>());
 
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
