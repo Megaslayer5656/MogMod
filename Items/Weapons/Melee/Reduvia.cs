@@ -1,25 +1,16 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Buffs.Debuffs;
-using MogMod.Items.Accessories;
-using MogMod.Items.Weapons.Magic;
-using MogMod.NPCs.Global;
+﻿using MogMod.Items.Weapons.Magic;
 using MogMod.Projectiles.MagicProjectiles;
-using Steamworks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class Reduvia : ModItem //Very important note: All of the blood stuff is set up in MogGlobalItem.cs, MogModGlobalProjectileBleed.cs, and MogModGlobalNPC.cs.
+    //Very important note: All of the blood stuff is set up in MogGlobalItem.cs, MogModGlobalProjectileBleed.cs, and MogModGlobalNPC.cs.
+    public class Reduvia : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         int shotCounter = 0;
         public override void SetDefaults()
         {
@@ -64,7 +55,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
               AddIngredient<BloodMagic>().
-              AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 15).
+              AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 15). // von squad;
               AddIngredient(ItemID.Bone, 10).
               AddTile(TileID.Anvils).
               Register();

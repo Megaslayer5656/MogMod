@@ -1,203 +1,129 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MogMod.Items.Ammo;
-using MogMod.Utilities;
 using System;
-using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static MogMod.Utilities.MogModUtils;
 using static MogMod.Utilities.MiscUtils;
+using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
     public class CarianSlicerProj : ModProjectile, ILocalizedModType
     {
-        // code taken from terratomere calamity mod
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Items/Weapons/Magic/MichaelSword";
 
+        private bool initialized = false;
+        Vector2 direction = Vector2.Zero;
+        public float SwingDirection => Projectile.ai[0] * Math.Sign(direction.X);
+        public ref float Charge => ref Projectile.ai[1];
+
+        const float MaxTime = 35;
+        private float SwingWidth = MathHelper.PiOver2 * 1.5f;
+        public Vector2 DistanceFromPlayer => direction * 30;
+        public float Timer => MaxTime - Projectile.timeLeft;
         public Player Owner => Main.player[Projectile.owner];
-
-        public int Direction => Projectile.velocity.X.DirectionalSign();
-
-        public float SwingCompletion => MathHelper.Clamp(Time / CarianSlicer.SwingTime, 0f, 1f);
-
-        public float SwingCompletionAtStartOfTrail
-        {
-            get
-            {
-                float swingCompletion = SwingCompletion - CarianSlicer.TrailOffsetCompletionRatio;
-
-                // Ensure that the trail does not attempt to "start" in the anticipation state, as the trail only exists after the charge begins.
-                return MathHelper.Clamp(swingCompletion, SwingCompletionRatio, 1f);
-            }
-        }
-
-        public float SwordRotation
-        {
-            get
-            {
-                float swordRotation = InitialRotation + GetSwingOffsetAngle(SwingCompletion) * Projectile.spriteDirection + MathHelper.PiOver4;
-                if (Projectile.spriteDirection == -1)
-                    swordRotation += MathHelper.PiOver2;
-                return swordRotation;
-            }
-        }
-
-        public Vector2 SwordDirection => SwordRotation.ToRotationVector2() * Direction;
-
-        public ref float Time => ref Projectile.ai[0];
-
-        public ref float InitialRotation => ref Projectile.ai[1];
-
-        // Easings for things such as rotation.
-        public static float SwingCompletionRatio => 0.27f;
-
-        public static float RecoveryCompletionRatio => 0.84f;
-
-        // Brief delay before the animations begin, with the blade simply being held upright for a time.
-        public static CurveSegment AnticipationWait => new(EasingType.PolyOut, 0f, -1.67f, 0f);
-
-        // Period of time where the blade reels back in anticipation of a swing.
-        public static CurveSegment Anticipation => new(EasingType.PolyOut, 0.14f, AnticipationWait.EndingHeight, -.05f, 1);
-
-        // A short, powerful swing that rapidly approaches it destination.
-        public static CurveSegment Swing => new(EasingType.PolyIn, SwingCompletionRatio, Anticipation.EndingHeight, 3f, 5);
-
-        // Period of time after the swing where the blade reels back further before it disappears.
-        public static CurveSegment Recovery => new(EasingType.PolyOut, RecoveryCompletionRatio, Swing.EndingHeight, 0.97f, 3);
-
-        public static float GetSwingOffsetAngle(float completion) => PiecewiseAnimation(completion, AnticipationWait, Anticipation, Swing, Recovery);
 
         public override void SetStaticDefaults()
         {
+            ProjectileID.Sets.TrailCacheLength[Type] = 10;
             ProjectileID.Sets.TrailingMode[Type] = 2;
-            ProjectileID.Sets.TrailCacheLength[Type] = 100;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 60;
-            Projectile.height = 66;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.width = Projectile.height = 60;
+            Projectile.width = Projectile.height = 60;
+            Projectile.tileCollide = false;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
-            Projectile.tileCollide = false;
-            Projectile.ignoreWater = true;
-            Projectile.DamageType = DamageClass.Magic;
-            Projectile.timeLeft = CarianSlicer.SwingTime;
+            Projectile.extraUpdates = 1;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -1;
-            Projectile.noEnchantmentVisuals = true;
+            Projectile.localNPCHitCooldown = (int)MaxTime;
         }
 
-        #region AI and Behaviors
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            //The hitbox is simplified into a line collision.
+            float collisionPoint = 0f;
+            float bladeLength = 78f * Projectile.scale;
+            Vector2 holdPoint = DistanceFromPlayer.Length() * Projectile.rotation.ToRotationVector2();
+
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + holdPoint, Owner.Center + holdPoint + Projectile.rotation.ToRotationVector2() * bladeLength, 24, ref collisionPoint);
+        }
+
+
+        //Swing animation keys
+        public CurveSegment anticipation = new CurveSegment(EasingType.ExpOut, 0f, 0f, 0.15f);
+        public CurveSegment thrust = new CurveSegment(EasingType.PolyInOut, 0.1f, 0.15f, 0.85f, 3);
+        public CurveSegment hold = new CurveSegment(EasingType.Linear, 0.5f, 1f, 0.2f);
+        public CurveSegment retract = new CurveSegment(EasingType.PolyInOut, 0.7f, 0.9f, -0.9f, 3);
+        internal float SwingRatio() => PiecewiseAnimation(Timer / MaxTime, new CurveSegment[] { anticipation, thrust, hold });
 
         public override void AI()
         {
-            // Initialize the initial rotation if necessary.
-            if (InitialRotation == 0f)
+            if (!initialized) //Initialization
             {
-                InitialRotation = Projectile.velocity.ToRotation();
-                Projectile.netUpdate = true;
+                Projectile.timeLeft = (int)MaxTime;
+                SoundEngine.PlaySound(SoundID.Item15, Projectile.Center);
+                direction = Projectile.velocity;
+                direction.Normalize();
+                Projectile.rotation = direction.ToRotation();
+
+                initialized = true;
+                Projectile.ForceNetUpdate();
             }
 
-            // Perform squish effects.
-            Projectile.scale = Utils.GetLerpValue(0f, 0.13f, SwingCompletion, true) * Utils.GetLerpValue(1f, 0.87f, SwingCompletion, true) * 0.7f + 0.3f;
+            //Manage position and rotation
+            Projectile.Center = Owner.Center + DistanceFromPlayer;
 
-            AdjustPlayerValues();
-            StickToOwner();
-            CreateProjectiles();
-            if (SwingCompletion > SwingCompletionRatio + 0.2f && SwingCompletion < RecoveryCompletionRatio)
-                CreateSlashSparkleDust();
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.Lerp(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, SwingRatio());
 
-            // Determine rotation.
-            Projectile.rotation = SwordRotation;
-            Time++;
-        }
+            Projectile.scale = 1.4f + ((float)Math.Sin(SwingRatio() * MathHelper.Pi) * 0.6f) + (Charge / 10f) * 0.6f;
 
-        public void AdjustPlayerValues()
-        {
-            Projectile.spriteDirection = Projectile.direction = Direction;
+            //Make the owner look like theyre holding the sword bla bla
             Owner.heldProj = Projectile.whoAmI;
-            Owner.itemTime = 2;
-            Owner.itemAnimation = 2;
-            Owner.itemRotation = (Projectile.direction * Projectile.velocity).ToRotation();
-
-            // Decide the arm rotation for the owner.
-            float armRotation = SwordRotation - Direction * 1.67f;
-            Owner.SetCompositeArmFront(Math.Abs(armRotation) > 0.01f, Player.CompositeArmStretchAmount.Full, armRotation);
+            Owner.ChangeDir(Math.Sign(Projectile.velocity.X));
+            Owner.itemRotation = Projectile.rotation;
+            if (Owner.direction != 1)
+            {
+                Owner.itemRotation -= MathHelper.Pi;
+            }
+            Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
         }
-
-        public void StickToOwner()
-        {
-            // Glue the sword to its owner. This applies a handful of offsets to make the blade look like it's roughly inside of the owner's hand.
-            Projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter, true) + SwordDirection * new Vector2(7f, 16f) * Projectile.scale;
-            Projectile.Center -= Projectile.velocity.SafeNormalize(Vector2.UnitY) * new Vector2(66f, 54f + Projectile.scale * 8f);
-
-            // Set the owner's held projectile to this and register a false item time calculation.
-            Owner.heldProj = Projectile.whoAmI;
-            Owner.SetDummyItemTime(2);
-
-            // Make the owner turn in the direction of the blade.
-            Owner.ChangeDir(Direction);
-        }
-        public void CreateProjectiles()
-        {
-            // Create the slash.
-            if (Time == (int)(CarianSlicer.SwingTime * (SwingCompletionRatio + 0.15f)))
-                SoundEngine.PlaySound(CarianSlicer.SwingSound, Projectile.Center);
-        }
-        public void CreateSlashSparkleDust()
-        {
-            Vector2 initialDirection = InitialRotation.ToRotationVector2();
-            Vector2 bladeEnd = Projectile.Center + (GetSwingOffsetAngle(SwingCompletion) * Direction + InitialRotation).ToRotationVector2() * Main.rand.NextFloat(8f, 66f) + initialDirection * 76f;
-
-            int dustID = Main.rand.NextBool() ? 267 : 264;
-            Dust magic = Dust.NewDustPerfect(bladeEnd, dustID, Vector2.Zero);
-            magic.color = Color.Lerp(CarianSlicer.SwordColor1, CarianSlicer.SwordColor2, Main.rand.NextFloat());
-            magic.color = Color.Lerp(magic.color, Color.LightBlue, (float)Math.Pow(Main.rand.NextFloat(), 1.63));
-            magic.fadeIn = Main.rand.NextFloat(1f, 2f);
-            magic.scale = 0.4f;
-            magic.velocity = initialDirection * Main.rand.NextFloat(0.5f, 15f);
-            magic.noLight = true;
-            magic.noGravity = true;
-        }
-        #endregion AI and Behaviors
-
-        #region Drawing
-
-        public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.Opacity;
 
         public override bool PreDraw(ref Color lightColor)
         {
-            // Draw the blade.
-            DrawBlade(lightColor);
+            Texture2D sword = Request<Texture2D>("MogMod/Items/Weapons/Magic/MichaelSword").Value;
+
+            SpriteEffects flip = Owner.direction < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            float extraAngle = Owner.direction < 0 ? MathHelper.PiOver2 : 0f;
+
+
+            float drawAngle = Projectile.rotation;
+            float drawRotation = Projectile.rotation + MathHelper.PiOver4 + extraAngle;
+            Vector2 drawOrigin = new Vector2(Owner.direction < 0 ? sword.Width : 0f, sword.Height);
+            Vector2 drawOffset = Owner.Center + drawAngle.ToRotationVector2() * 10f - Main.screenPosition;
+
+            Main.EntitySpriteDraw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, flip, 0);
 
             return false;
         }
-        public void DrawBlade(Color lightColor)
-        {
-            Texture2D texture = Terraria.GameContent.TextureAssets.Projectile[Type].Value;
-            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            Vector2 origin = texture.Size() * Vector2.UnitY;
-            if (Projectile.spriteDirection == -1)
-                origin.X += texture.Width;
 
-            SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            Main.spriteBatch.Draw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, direction, 0f);
-        }
-        #endregion Drawing
-
-        #region Hit Effects and Collision
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        public override void SendExtraAI(BinaryWriter writer)
         {
-            // TODO: fix collision not syncing with the blade;
-            float point = 0f;
-            Vector2 direction = (InitialRotation + GetSwingOffsetAngle(SwingCompletion)).ToRotationVector2() * new Vector2(Projectile.spriteDirection, 1f);
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + direction * Projectile.height * Projectile.scale, Projectile.width * 0.25f, ref point);
+            writer.Write(initialized);
+            writer.WriteVector2(direction);
         }
-        #endregion Hit Effects and Collision
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            initialized = reader.ReadBoolean();
+            direction = reader.ReadVector2();
+        }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Other;
-using MogMod.Projectiles.MagicProjectiles;
+﻿using MogMod.Projectiles.MagicProjectiles;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -9,19 +7,26 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo
 {
-    public class CarianSlicer : ModItem
+    public class GlintstoneArc : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.ShimmerTransformToItem[Type] = ItemID.WizardHat;
+        }
         public override void SetDefaults()
         {
-            Item.damage = 8;
+            // display purposes only;
+            Item.mana = 10;
+
+            Item.damage = 28;
             Item.DamageType = DamageClass.Magic;
             Item.width = 50;
             Item.height = 52;
             Item.knockBack = 3f;
-            Item.value = Item.buyPrice(0, 15, 0, 0);
-            Item.rare = ItemRarityID.Orange;
-            Item.shoot = ModContent.ProjectileType<CarianSlicerProj>();
-            Item.shootSpeed = 8f;
+            Item.value = Item.buyPrice(0, 8, 50, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.shoot = ModContent.ProjectileType<GlintstoneArcProj>();
+            Item.shootSpeed = 7f;
             Item.ammo = ModContent.ItemType<GlintstonePebble>(); // so it can be used by the glintstone staff;
         }
 
@@ -33,16 +38,6 @@ namespace MogMod.Items.Ammo
             {
                 changedLine.Text = "Sorcery";
             }
-        }
-        public override void AddRecipes()
-        {
-            CreateRecipe().
-                AddIngredient(ItemID.Katana, 1).
-                AddRecipeGroup("GoldBar", 18).
-                AddIngredient(ItemID.FallenStar, 7).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.Bookcases).
-                Register();
         }
     }
 }

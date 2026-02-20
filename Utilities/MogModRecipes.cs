@@ -128,6 +128,14 @@ namespace MogMod.Content
                 .AddIngredient<HealingLotus>(3)
                 .AddTile(TileID.Anvils)
                 .Register();
+            // wizard hat
+            Recipe wizardRecipe = Recipe.Create(ItemID.WizardHat, 1);
+            wizardRecipe.AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 12)
+                .AddIngredient(ItemID.Leather, 7)
+                .AddIngredient(ItemID.FallenStar, 5)
+                .AddTile(TileID.Loom)
+                .DisableDecraft()
+                .Register();
             #endregion
         }
     }

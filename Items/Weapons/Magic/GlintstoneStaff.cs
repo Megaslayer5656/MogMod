@@ -67,6 +67,30 @@ namespace MogMod.Items.Weapons.Magic //So yeah I'm gonna make a glintstone sorce
                 Item.useTime = Item.useAnimation = 40;
                 Item.UseSound = SoundID.Item8;
             }
+            else if (ammoItem.type == ModContent.ItemType<StarShower>())
+            {
+                Item.mana = 20;
+                Item.useTime = Item.useAnimation = 44;
+                Item.UseSound = SoundID.Item8;
+            }
+            else if (ammoItem.type == ModContent.ItemType<StarsOfRuin>())
+            {
+                Item.mana = 28;
+                Item.useTime = Item.useAnimation = 48;
+                Item.UseSound = SoundID.Item8;
+            }
+            else if (ammoItem.type == ModContent.ItemType<GlintstoneArc>())
+            {
+                Item.mana = 10;
+                Item.useTime = Item.useAnimation = 36;
+                Item.UseSound = SoundID.Item8;
+            }
+            else if (ammoItem.type == ModContent.ItemType<CannonOfHaima>())
+            {
+                Item.mana = 32;
+                Item.useTime = Item.useAnimation = 60;
+                Item.UseSound = SoundID.Item84;
+            }
             return true;
         }
         public override void AddRecipes()

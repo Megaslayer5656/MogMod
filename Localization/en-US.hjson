@@ -475,6 +475,7 @@ Mods: {
 				CannonOfHaimaProj.DisplayName: Cannon Of Haima Proj
 				CannonOfHaimaBoom.DisplayName: Cannon Of Haima Boom
 				CarianSlicerProj.DisplayName: Carian Slicer Proj
+				GlintstoneArcProj.DisplayName: Glintstone Arc Proj
 			}
 
 			RangedProjectiles: {

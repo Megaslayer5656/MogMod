@@ -1,11 +1,7 @@
-﻿using MogMod.Items.Weapons.Melee;
-using Steamworks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MogMod.Items.Ammo;
+using MogMod.Items.Weapons.Melee;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Global
@@ -13,7 +9,10 @@ namespace MogMod.Items.Global
     public class MogGlobalItem : GlobalItem
     {
         public int bloodDamage;
-
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.ShimmerTransformToItem[ItemID.WizardHat] = ModContent.ItemType<GlintstoneArc>();
+        }
         public override void SetDefaults(Item entity)
         {
             if (entity.type == ModContent.ItemType<Reduvia>())
@@ -30,7 +29,6 @@ namespace MogMod.Items.Global
 
             }
         }
-
         public override bool InstancePerEntity => true;
     }
 }

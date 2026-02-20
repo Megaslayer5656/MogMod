@@ -1515,8 +1515,13 @@ Items: {
 			'''
 	}
 
-	Reduvia: {
-		DisplayName: Reduvia
-		Tooltip: ""
+	GlintstoneArc: {
+		DisplayName: Glintstone Arc
+		Tooltip:
+			'''
+			Fires a widening magic arc
+			'Granted to sorcererers who depart from the academy to embark on journeys, 
+			in order to fend off large groups of would-be adversaries. Fools often roam in packs.'
+			'''
 	}
 }

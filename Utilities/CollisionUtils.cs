@@ -24,5 +24,12 @@ namespace MogMod.Utilities
             float _ = 0f;
             return Collision.CheckAABBvLineCollision(targetTopLeft, targetHitboxDimensions, start, end, entity.width * scale, ref _);
         }
+        /// <summary>
+        /// Shortcut used to make projectiles have rotating hitbox collision.
+        /// </summary>
+        /// <param name="projectile">The projectile.</param>
+        /// <param name="targetHitbox">The rectangle for the target hitbox.</param>
+        public static bool RotatingHitboxCollision(this Projectile proj, Rectangle targetHitbox) => RotatingHitboxCollision(proj, targetHitbox.TopLeft(), targetHitbox.Size(), (proj.rotation + MathHelper.PiOver2).ToRotationVector2(), proj.scale);
+
     }
 }

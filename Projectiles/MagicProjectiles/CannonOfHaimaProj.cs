@@ -48,7 +48,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             int explosionDamage = Projectile.damage;
             float explosionKB = 6f;
             SoundEngine.PlaySound(SoundID.Item94, Projectile.Center);
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CannonOfHaimaBoom>(), Convert.ToInt32(explosionDamage * .8), explosionKB, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CannonOfHaimaBoom>(), Convert.ToInt32(explosionDamage * .65), explosionKB, Projectile.owner);
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Electric, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);

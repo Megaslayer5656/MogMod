@@ -17,6 +17,7 @@ using MogMod.Common.Systems;
 using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Common.MogModPlayer;
+using MogMod.Items.Ammo;
 
 namespace MogMod.NPCs.Global
 {
@@ -163,7 +164,13 @@ namespace MogMod.NPCs.Global
             globalLoot.Add(new CommonDrop(ModContent.ItemType<LedX>(), 10000, 1, 1, 1));
             globalLoot.Add(new CommonDrop(ModContent.ItemType<RedX>(), 100000, 1, 1, 1));
         }
-
+        public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
+        {
+            if (npc.type == NPCID.Tim)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GlintstoneArc>(), 1, 1, 1));
+            }
+        }
         public override void OnHitPlayer(NPC npc, Player target, Player.HurtInfo hurtInfo)
         {
             if (target.HasBuff(ModContent.BuffType<Parrying>()))

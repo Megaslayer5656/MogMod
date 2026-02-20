@@ -249,7 +249,7 @@ namespace MogMod.Utilities
         }
         #endregion
 
-        #region Projectile Afterimages
+        #region Projectile Afterimages + Netcode
         /// <summary>
         /// Draws a projectile as a series of afterimages. The first of these afterimages is centered on the center of the projectile's hitbox.<br />
         /// This function is guaranteed to draw the projectile itself, even if it has no afterimages and/or the Afterimages config option is turned off.
@@ -341,6 +341,12 @@ namespace MogMod.Utilities
                         break;
                 }
             }
+        }
+        public static void ForceNetUpdate(this Projectile proj, bool ignoreCurrentNetSpam = true)
+        {
+            proj.netUpdate = true;
+            if (proj.netSpam >= 10 || ignoreCurrentNetSpam)
+                proj.netSpam = 0;
         }
         #endregion
     }
