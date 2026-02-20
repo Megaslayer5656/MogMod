@@ -550,6 +550,7 @@ Mods: {
 
 			ButterflyProjectile.DisplayName: Butterfly Projectile
 			RiversOfBloodProj.DisplayName: Rivers Of Blood Proj
+			SplinterProjectile.DisplayName: Splinter Projectile
 		}
 	}
 }

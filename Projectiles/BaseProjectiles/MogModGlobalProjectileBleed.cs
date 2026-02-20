@@ -1,6 +1,7 @@
 ﻿using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.RangedProjectiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +20,15 @@ namespace MogMod.Projectiles.BaseProjectiles
         {
             if (entity.type == ModContent.ProjectileType<BloodMagicProjectile>())
             {
-                bloodDamage = 15;
+                bloodDamage = 17;
             } 
             else if (entity.type == ModContent.ProjectileType<RiversOfBloodProj>())
             {
                 bloodDamage = 300;
+            }
+            else if (entity.type == ModContent.ProjectileType<SplinterProjectile>())
+            {
+                bloodDamage = 10;
             }
             else
             {

@@ -17,7 +17,7 @@ namespace MogMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            Item.damage = 37;
+            Item.damage = 30;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 100;
             Item.height = 19;
@@ -65,7 +65,7 @@ namespace MogMod.Items.Weapons.Ranged
 
             if (rotated)
             {
-                velocity = velocity.RotatedByRandom(MathHelper.ToRadians(20));
+                velocity = velocity.RotatedByRandom(MathHelper.ToRadians(35));
             }
         }
         public override Vector2? HoldoutOffset()

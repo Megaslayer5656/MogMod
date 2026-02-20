@@ -1534,4 +1534,14 @@ Items: {
 		DisplayName: Lizhard Blood Vial
 		Tooltip: ""
 	}
+
+	SplinterAmmo: {
+		DisplayName: Splinter Ammo
+		Tooltip: ""
+	}
+
+	SplinterLauncher: {
+		DisplayName: Splinter Launcher
+		Tooltip: ""
+	}
 }
