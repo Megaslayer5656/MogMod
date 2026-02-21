@@ -30,6 +30,10 @@ namespace MogMod.Projectiles.BaseProjectiles
             {
                 bloodDamage = 10;
             }
+            else if (entity.type == ModContent.ProjectileType<BloodGrenadeProjectile>())
+            {
+                bloodDamage = 14;
+            }
             else
             {
                 bloodDamage = 0;

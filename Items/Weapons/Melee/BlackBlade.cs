@@ -9,6 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
+using Terraria.Localization;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -25,7 +26,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.autoReuse = true;
             Item.knockBack = 13f;
             Item.UseSound = SoundID.Item1;
-            Item.rare = ItemRarityID.Cyan;
+            Item.rare = ItemRarityID.Red;
             Item.scale = 1.5f;
             Item.shootSpeed = 10f;
             Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing
@@ -39,6 +40,27 @@ namespace MogMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), 300);
+        }
+
+        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (target.life >= Convert.ToInt32(target.lifeMax * .9f))
+            {
+                modifiers.FinalDamage *= 1.5f;
+            }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.BreakerBlade, 1).
+                AddIngredient(ItemID.ShadowFlameKnife, 1).
+                AddIngredient(ItemID.HallowedBar, 15).
+                AddIngredient(ItemID.SoulofFright).
+                AddIngredient(ItemID.SoulofMight).
+                AddIngredient(ItemID.SoulofSight).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

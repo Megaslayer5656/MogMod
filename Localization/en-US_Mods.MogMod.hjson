@@ -1539,24 +1539,36 @@ Items: {
 		DisplayName: Rivers Of Blood
 		Tooltip:
 			'''
-			;
-			''
+			High bleed buildup
+			Right click to parry
+			After a successful parry, shoots a projectile
 			'''
 	}
 
 	LizhardBloodVial: {
 		DisplayName: Lizhard Blood Vial
-		Tooltip: ""
+		Tooltip:
+			'''
+			Appears to be fuel for the Golem.
+			'''
 	}
 
 	SplinterAmmo: {
 		DisplayName: Splinter Ammo
-		Tooltip: ""
+		Tooltip:
+			'''
+			Used by the Splinter Launcher
+			Low bleed buildup
+			'''
 	}
 
 	SplinterLauncher: {
 		DisplayName: Splinter Launcher
-		Tooltip: ""
+		Tooltip:
+			'''
+			Fires splinters
+			Low bleed buildup
+			'''
 	}
 
 	LordOfBloodsExultation: {
@@ -1570,6 +1582,27 @@ Items: {
 
 	BlackBlade: {
 		DisplayName: Black Blade
-		Tooltip: ""
+		Tooltip:
+			'''
+			Inflicts Destined Death on hit
+			Deals more damage to unhurt enemies
+			'''
+	}
+
+	FrozenSpear: {
+		DisplayName: Frozen Spear
+		Tooltip:
+			'''
+			Inflicts a freezing effect on hit
+			'''
+	}
+
+	Bloodletter: {
+		DisplayName: Bloodletter
+		Tooltip:
+			'''
+			Low bleed buildup
+			Right click to parry
+			'''
 	}
 }

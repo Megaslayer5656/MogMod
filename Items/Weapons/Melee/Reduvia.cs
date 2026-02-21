@@ -55,6 +55,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
               AddIngredient<BloodMagic>().
+              AddIngredient<Bloodletter>().
               AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 15). // von squad;
               AddIngredient(ItemID.Bone, 10).
               AddTile(TileID.Anvils).

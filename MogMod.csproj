@@ -31,6 +31,7 @@
     <None Remove="app.config" />
     <None Remove="Buffs\Cooldowns\ButterflyCooldown.png" />
     <None Remove="Buffs\Cooldowns\ParryCooldown.png" />
+    <None Remove="Buffs\Debuffs\BlackBladeDebuff.png" />
     <None Remove="Buffs\Debuffs\ParrySlow.png" />
     <None Remove="Buffs\Debuffs\ShivasEnemyDebuff.png" />
     <None Remove="Buffs\GlueBuff.png" />
@@ -45,6 +46,7 @@
     <None Remove="description.txt" />
     <None Remove="icon.png" />
     <None Remove="Items\Accessories\KayaAndSange.png" />
+    <None Remove="Items\Accessories\LordOfBloodsExultation.png" />
     <None Remove="Items\Accessories\MewingGuide.png" />
     <None Remove="Items\Accessories\SangeAndYasha.png" />
     <None Remove="Items\Accessories\SigmaCharm.png" />
@@ -57,6 +59,7 @@
     <None Remove="Items\Other\SoulOfDabdad.png" />
     <None Remove="Items\Placeable\DabdadOreP.png" />
     <None Remove="Items\Weapons\Magic\BloodMagic.png" />
+    <None Remove="Items\Weapons\Melee\BlackBlade.png" />
     <None Remove="Items\Weapons\Melee\Butterfly.png" />
     <None Remove="Items\Weapons\Melee\GoldenHydrakanLatch.png" />
     <None Remove="Items\Weapons\Melee\RedKatana.png" />

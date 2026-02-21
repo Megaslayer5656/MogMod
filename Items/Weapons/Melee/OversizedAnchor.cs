@@ -39,7 +39,7 @@ namespace MogMod.Items.Weapons.Melee
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<AnchorProj>(), damage, knockback, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<AnchorProj>(), Convert.ToInt32(Item.damage * .45), knockback, player.whoAmI, 0f, 0f);
             return false;
         }
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
@@ -50,7 +50,7 @@ namespace MogMod.Items.Weapons.Melee
             for (int i = 0; i < 3; i++)
             {
                 // proj barrage does (source, Vector2 originVec, Vector2 targetPos, T/F fromRight, xOffsetMin, xOffsetMax, yOffsetMin, yOffsetMax, projSpeed, projType, damage, knockback, owner, T/F clamped, innacuracy)
-                MogModUtils.ProjectileBarrage(source, target.Center, target.Center, randomBool, 200f, 200f, -200f, 200f, 6f, ModContent.ProjectileType<AnchorProj>(), Convert.ToInt32(Item.damage * .65), 3f, player.whoAmI, false, 0f);
+                MogModUtils.ProjectileBarrage(source, target.Center, target.Center, randomBool, 200f, 200f, -200f, 200f, 6f, ModContent.ProjectileType<AnchorProj>(), Convert.ToInt32(Item.damage * .45), 3f, player.whoAmI, false, 0f);
             }
         }
 
