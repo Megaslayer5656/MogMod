@@ -13,6 +13,7 @@ namespace MogMod.Items.Ammo
     {
         public override void SetDefaults()
         {
+            // AS OF NOW IT DOES NOTHING (interesting);
             Item.damage = 8;
             Item.DamageType = DamageClass.Magic;
             Item.width = 50;
@@ -25,7 +26,7 @@ namespace MogMod.Items.Ammo
             Item.ammo = ModContent.ItemType<GlintstonePebble>(); // so it can be used by the glintstone staff;
         }
 
-        // replaces the "Ammo" description with "Sorcery" since i dont think you can do it in localization;
+        // replaces the "Ammo" description with "Sorcery";
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             var changedLine = tooltips.FirstOrDefault(x => x.Name == "Ammo" && x.Mod == "Terraria");
@@ -36,13 +37,13 @@ namespace MogMod.Items.Ammo
         }
         public override void AddRecipes()
         {
-            CreateRecipe().
-                AddIngredient(ItemID.Katana, 1).
-                AddRecipeGroup("GoldBar", 18).
-                AddIngredient(ItemID.FallenStar, 7).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.Bookcases).
-                Register();
+            //CreateRecipe().
+            //    AddIngredient(ItemID.Katana, 1).
+            //    AddRecipeGroup("GoldBar", 18).
+            //    AddIngredient(ItemID.FallenStar, 7).
+            //    AddIngredient<CraftingRecipe>(1).
+            //    AddTile(TileID.Bookcases).
+            //    Register();
         }
     }
 }

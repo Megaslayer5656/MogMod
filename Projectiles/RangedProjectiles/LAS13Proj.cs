@@ -24,12 +24,12 @@ namespace MogMod.Projectiles.RangedProjectiles
         public override void AI()
         {
             Projectile.localAI[0] += 1f;
-            if (Projectile.localAI[0] > 7f)
+            if (Projectile.localAI[0] > 6f)
             {
                 for (int i = 0; i < 2; i++)
                 {
                     Vector2 dustSpawnPos = Projectile.position - Projectile.velocity * i / 2f;
-                    Dust lasDust = Dust.NewDustPerfect(dustSpawnPos, DustID.YellowStarDust);
+                    Dust lasDust = Dust.NewDustPerfect(dustSpawnPos, DustID.AncientLight);
                     lasDust.color = Color.Lerp(Color.Yellow, Color.Gold, Main.rand.NextFloat(0.6f));
                     lasDust.scale = Main.rand.NextFloat(0.96f, 1.04f);
                     lasDust.noGravity = true;

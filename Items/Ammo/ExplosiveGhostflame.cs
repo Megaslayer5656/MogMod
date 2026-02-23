@@ -7,25 +7,21 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo
 {
-    public class GlintstoneArc : ModItem
+    public class ExplosiveGhostflame : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            ItemID.Sets.ShimmerTransformToItem[Type] = ItemID.WizardHat;
-        }
         public override void SetDefaults()
         {
             // display purposes only;
-            Item.mana = 10;
+            Item.mana = 36;
 
-            Item.damage = 28;
+            Item.damage = 88;
             Item.DamageType = DamageClass.Magic;
             Item.width = 50;
             Item.height = 52;
-            Item.knockBack = 3f;
-            Item.value = Item.buyPrice(0, 8, 50, 0);
-            Item.rare = ItemRarityID.Green;
-            Item.shoot = ModContent.ProjectileType<GlintstoneArcProj>();
+            Item.knockBack = 7f;
+            Item.value = Item.buyPrice(0, 45, 0, 0);
+            Item.rare = ItemRarityID.LightPurple;
+            Item.shoot = ModContent.ProjectileType<CannonOfHaimaBoom>();
             Item.shootSpeed = 7f;
             Item.ammo = ModContent.ItemType<GlintstonePebble>(); // so it can be used by the glintstone staff;
         }

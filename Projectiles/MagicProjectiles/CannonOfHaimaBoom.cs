@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Utilities;
-using System.Globalization;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

@@ -176,7 +176,19 @@ namespace MogMod.NPCs.Global
         {
             if (npc.type == NPCID.Tim)
             {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GlintstoneArc>(), 3, 1, 1));
+            }
+            if (npc.type == NPCID.RuneWizard)
+            {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GlintstoneArc>(), 1, 1, 1));
+            }
+            if (npc.type == NPCID.CrimsonAxe)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ExplosiveGhostflame>(), 15, 1, 1));
+            }
+            if (npc.type == NPCID.CursedHammer)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ExplosiveGhostflame>(), 15, 1, 1));
             }
             if (npc.type == NPCID.Golem)
             {

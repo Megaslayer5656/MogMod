@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Projectiles.Magic
+namespace MogMod.Projectiles.MagicProjectiles
 {
     public class OrchidBeam : ModProjectile, ILocalizedModType
     {

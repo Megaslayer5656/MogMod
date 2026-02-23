@@ -28,7 +28,7 @@ namespace MogMod.Items.Ammo
             Item.ammo = ModContent.ItemType<GlintstonePebble>(); // so it can be used by the glintstone staff;
         }
 
-        // replaces the "Ammo" description with "Sorcery" since i dont think you can do it in localization;
+        // replaces the "Ammo" description with "Sorcery";
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             var changedLine = tooltips.FirstOrDefault(x => x.Name == "Ammo" && x.Mod == "Terraria");

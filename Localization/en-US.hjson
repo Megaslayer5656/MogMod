@@ -476,6 +476,8 @@ Mods: {
 				CannonOfHaimaBoom.DisplayName: Cannon Of Haima Boom
 				CarianSlicerProj.DisplayName: Carian Slicer Proj
 				GlintstoneArcProj.DisplayName: Glintstone Arc Proj
+				FoundingRainOfStarsProj.DisplayName: Founding Rain Of Stars Proj
+				FoundingRainOfStarsStarProj.DisplayName: Founding Rain Of Stars Star Proj
 			}
 
 			RangedProjectiles: {

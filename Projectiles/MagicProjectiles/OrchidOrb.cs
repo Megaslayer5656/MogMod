@@ -4,7 +4,6 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using MogMod.Utilities;
-using MogMod.Projectiles.Magic;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {

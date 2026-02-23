@@ -9,25 +9,26 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo
 {
-    public class StarsOfRuin : ModItem
+    public class FoundingRainOfStars : ModItem
     {
+        // could make similar to nimbus rod;
         public override void SetStaticDefaults()
         {
-            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<FoundingRainOfStars>();
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<StarsOfRuin>();
         }
         public override void SetDefaults()
         {
             // display purposes only;
-            Item.mana = 28;
+            Item.mana = 45;
 
-            Item.damage = 36;
+            Item.damage = 47;
             Item.DamageType = DamageClass.Magic;
             Item.width = 50;
             Item.height = 52;
-            Item.knockBack = 6f;
+            Item.knockBack = 5f;
             Item.value = Item.buyPrice(0, 95, 0, 0);
             Item.rare = ItemRarityID.Yellow;
-            Item.shoot = ModContent.ProjectileType<StarsOfRuinProj>();
+            Item.shoot = ModContent.ProjectileType<FoundingRainOfStarsProj>();
             Item.shootSpeed = 6f;
             Item.ammo = ModContent.ItemType<GlintstonePebble>(); // so it can be used by the glintstone staff;
         }
@@ -46,7 +47,7 @@ namespace MogMod.Items.Ammo
             CreateRecipe().
                 AddIngredient<StarShower>(1).
                 AddIngredient<UltimateOrb>(3).
-                AddIngredient<AghanimShard>(1).
+                AddIngredient<MoonShard>(1).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.Bookcases).
                 DisableDecraft().

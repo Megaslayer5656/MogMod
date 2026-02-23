@@ -1558,4 +1558,14 @@ Items: {
 		DisplayName: Splinter Launcher
 		Tooltip: ""
 	}
+
+	ExplosiveGhostflame: {
+		DisplayName: Explosive Ghostflame
+		Tooltip: ""
+	}
+
+	FoundingRainOfStars: {
+		DisplayName: Founding Rain Of Stars
+		Tooltip: ""
+	}
 }
