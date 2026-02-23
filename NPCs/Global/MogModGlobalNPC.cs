@@ -36,6 +36,7 @@ namespace MogMod.NPCs.Global
         public int wingsOfLightDebuff = 0;
         public int maxBlood = 1000;
         public int currentBlood = 0;
+        public int blackBladeDebuff = 0;
         public NPC.HitInfo hitInfo;
 
         // apparently neccessary according to calamity
@@ -66,20 +67,62 @@ namespace MogMod.NPCs.Global
                     maxBlood = 150;
                 }
                 MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
-                currentBlood += globalItem.bloodDamage;
+                MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+                
+                if (mogPlayer.exultationEquipped)
+                {
+                    currentBlood += globalItem.bloodDamage + Convert.ToInt32(globalItem.bloodDamage * .15f);
+                } else
+                {
+                    currentBlood += globalItem.bloodDamage;
+                }
+                
                 doBleedProc(npc);
         }
 
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
-                maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense);
-                if (maxBlood < 150)
+            maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense);
+            if (maxBlood < 150)
+            {
+                maxBlood = 150;
+            }
+
+            MogModGlobalProjectileBleed globalProjectile = projectile.GetGlobalProjectile<MogModGlobalProjectileBleed>();
+
+            if (Main.netMode == NetmodeID.MultiplayerClient) //All this stuff is so lord of blood's exultation works, and works in multiplayer
+            {
+                if (projectile.owner != 255)
                 {
-                    maxBlood = 150;
+                    var ply = projectile.owner;
+                    Player player = Main.player[ply];
+                    MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+
+                    if (mogPlayer.exultationEquipped)
+                    {
+                        currentBlood += globalProjectile.bloodDamage + Convert.ToInt32(globalProjectile.bloodDamage * .15f);
+                    }
+                    else
+                    {
+                        currentBlood += globalProjectile.bloodDamage;
+                    }
                 }
-                MogModGlobalProjectileBleed globalProjectile = projectile.GetGlobalProjectile<MogModGlobalProjectileBleed>();
-                currentBlood += globalProjectile.bloodDamage;
-                doBleedProc(npc);
+            } 
+            else
+            {
+                Player player = Main.LocalPlayer;
+                MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+
+                if (mogPlayer.exultationEquipped)
+                {
+                    currentBlood += globalProjectile.bloodDamage + Convert.ToInt32(globalProjectile.bloodDamage * .15f);
+                }
+                else
+                {
+                    currentBlood += globalProjectile.bloodDamage;
+                }
+        }
+            doBleedProc(npc);
         }
         public void doBleedProc(NPC npc)
         {
@@ -139,6 +182,10 @@ namespace MogMod.NPCs.Global
             {
                 ApplyDPSDebuff(200, 10, ref npc.lifeRegen, ref damage);
             }
+            if (blackBladeDebuff > 0)
+            {
+                ApplyDPSDebuff(200, 20, ref npc.lifeRegen, ref damage);
+            }
         }
 
         // not quite sure what this does, but its in calamity mod so it has to be important
@@ -163,6 +210,10 @@ namespace MogMod.NPCs.Global
             if (wingsOfLightDebuff > 0)
             {
                 wingsOfLightDebuff--;
+            }
+            if (blackBladeDebuff > 0) 
+            { 
+                blackBladeDebuff--;
             }
         }
 
@@ -273,6 +324,11 @@ namespace MogMod.NPCs.Global
             {
                 WingsOfLightDebuff.DrawEffects(npc, ref drawColor);
                 drawColor = Color.LightGoldenrodYellow;
+            }
+            if (blackBladeDebuff > 0)
+            {
+                BlackBladeDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.DarkRed;
             }
         }
 

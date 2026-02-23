@@ -7,6 +7,8 @@ using MogMod.Buffs.PotionBuffs;
 using MogMod.Projectiles.MeleeProjectiles;
 using MogMod.Utilities;
 using Terraria.Localization;
+using Terraria.DataStructures;
+using Microsoft.Xna.Framework;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -29,6 +31,12 @@ namespace MogMod.Items.Weapons.Melee
             Item.autoReuse = true;
             Item.rare = ItemRarityID.Cyan;
             Item.scale = 1f;
+            Item.shoot = ProjectileID.PurificationPowder; //This and the shoot method are to allow the weapon to swing in the direction of your cursor
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            return false;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -45,7 +53,7 @@ namespace MogMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = target.GetSource_FromAI();
-            if (Main.rand.NextBool(5))
+            if (Main.rand.NextBool(4))
             {
                 for (int i = 0; i <= 3; i++)
                 {

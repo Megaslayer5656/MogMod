@@ -106,6 +106,7 @@ namespace MogMod.Common.MogModPlayer
         public bool wingsOfLightDebuff = false;
 
         public bool riversOfBloodProj = false;
+        public bool exultationEquipped = false;
 
         // sound effects
         public static readonly SoundStyle WandUse = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Magic_Stick")
@@ -961,6 +962,8 @@ namespace MogMod.Common.MogModPlayer
             freezingDebuff = false;
             aghHexDebuff = false;
             wingsOfLightDebuff = false;
+
+            exultationEquipped = false;
             #endregion
 
             #region Force Staff

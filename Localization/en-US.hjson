@@ -374,6 +374,11 @@ Mods: {
 				DisplayName: Bleed1
 				Description: Mods.MogMod.Buffs.Bleed1.Description
 			}
+
+			BlackBladeDebuff: {
+				DisplayName: Black Blade Debuff
+				Description: Mods.MogMod.Buffs.BlackBladeDebuff.Description
+			}
 		}
 
 		NPCs: {
@@ -554,6 +559,7 @@ Mods: {
 			ButterflyProjectile.DisplayName: Butterfly Projectile
 			RiversOfBloodProj.DisplayName: Rivers Of Blood Proj
 			SplinterProjectile.DisplayName: Splinter Projectile
+			FrozenSpearProjectile.DisplayName: Frozen Spear Projectile
 		}
 	}
 }
