@@ -109,6 +109,8 @@ namespace MogMod.Common.MogModPlayer
         public bool riversOfBloodProj = false;
         public bool exultationEquipped = false;
 
+        public bool markerProjOut = false;
+
         // sound effects
         public static readonly SoundStyle WandUse = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Magic_Stick")
         {
