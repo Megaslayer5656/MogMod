@@ -900,6 +900,11 @@ Items: {
 				DisplayName: Rivers Of Blood
 				Tooltip: ""
 			}
+
+			TheMarker: {
+				DisplayName: The Marker
+				Tooltip: ""
+			}
 		}
 
 		Ranged: {

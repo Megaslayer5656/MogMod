@@ -47,10 +47,10 @@ namespace MogMod.Projectiles.MeleeProjectiles
 
         public override bool CanHitPlayer(Player target)
         {
-            if (target.type == Projectile.owner)
+            if (target.whoAmI == Projectile.owner || Projectile.owner == 255)
             {
                 return true;
-            } else 
+            } else
             {
                 return false;
             }

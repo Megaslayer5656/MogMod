@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Common.Classes;
+using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;

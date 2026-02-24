@@ -553,6 +553,7 @@ Mods: {
 				DivineRapierSecProj.DisplayName: Divine Rapier Sec Proj
 				DivineRapierSecBeam.DisplayName: Divine Rapier Sec Beam
 				DivineRapierThirdBeam.DisplayName: Divine Rapier Third Beam
+				MarkerTargetProj.DisplayName: Marker Target Proj
 			}
 
 			VonNade.DisplayName: Von Grenade

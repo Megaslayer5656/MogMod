@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using MogMod.Common.Classes;
 using Terraria.DataStructures;
 using MogMod.Items.Ammo;
+using MogMod.Projectiles.RangedProjectiles;
 
 namespace MogMod.Items.Weapons.Boulder
 {
