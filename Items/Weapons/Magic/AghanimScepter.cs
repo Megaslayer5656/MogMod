@@ -73,8 +73,7 @@ namespace MogMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient<Kaya>(1).
                 AddIngredient(4952, 1). // nightglow from empress
-                AddIngredient(ItemID.CrystalShard, 20).
-                AddIngredient(ItemID.UnicornHorn, 5).
+                AddIngredient(ItemID.CrystalShard, 15).
                 AddIngredient<PointBooster>(1).
                 AddIngredient<AghanimShard>(1).
                 AddIngredient<CraftingRecipe>(1).

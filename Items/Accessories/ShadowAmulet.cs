@@ -38,9 +38,8 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.Amethyst, 7).
-                AddIngredient(ItemID.ManaCrystal, 1).
-                AddIngredient(ItemID.InvisibilityPotion, 2).
                 AddIngredient(ItemID.Sapphire, 3).
+                AddIngredient(ItemID.InvisibilityPotion, 2).
                 AddTile(TileID.Anvils).
                 Register();
         }

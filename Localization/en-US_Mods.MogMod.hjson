@@ -823,7 +823,7 @@ Items: {
 					'''
 					Shoots a deadly sickle that bursts into 4 smaller homing sickles
 					Deals more damage the lower life you have
-					Attacks lower defense and bleed out enemies
+					Attacks lower defense and inflict Destined Death on enemies
 					'A wicked weapon, used in torturing political criminals.'
 					'''
 			}
@@ -1250,8 +1250,18 @@ Items: {
 			}
 
 			AstrologersStaff: {
-				DisplayName: Astrologers Staff
+				DisplayName: Astrologer's Staff
 				Tooltip: A catalyst used to cast sorceries
+			}
+
+			LusatsGlintstoneStaff: {
+				DisplayName: Lusat's Glintstone Staff
+				Tooltip:
+					'''
+					A catalyst used to cast sorceries
+					Consumes 50% more mana per cast
+					'Only those who have glimpsed what lies beyond the wisdom of stone may wield it.'
+					'''
 			}
 		}
 
@@ -1621,5 +1631,15 @@ Items: {
 			Fires an orb that ascends upwards, raining down stars shortly after
 			'The eldest primeval sorcery, said to have been discovered by an ancient astrologer.'
 			'''
+	}
+
+	ManaCore: {
+		DisplayName: Mana Core
+		Tooltip: ""
+	}
+
+	ManaEssence: {
+		DisplayName: Mana Essence
+		Tooltip: ""
 	}
 }

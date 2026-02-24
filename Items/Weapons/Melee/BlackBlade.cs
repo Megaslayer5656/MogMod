@@ -38,6 +38,10 @@ namespace MogMod.Items.Weapons.Melee
         {
             target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), 300);
         }
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
+        {
+            target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), 300);
+        }
 
         public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
         {

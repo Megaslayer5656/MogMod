@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Buffs.Debuffs;
+using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
 using Terraria;
 using Terraria.ID;
@@ -34,14 +35,14 @@ namespace MogMod.Items.Weapons.Melee
         }
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(169, 600);
             target.AddBuff(BuffID.BetsysCurse, 600);
+            target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), 300);
         }
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
-            target.AddBuff(169, 600);
             target.AddBuff(BuffID.BetsysCurse, 600);
             target.AddBuff(BuffID.WitheredArmor, 600);
+            target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), 300);
         }
         public override void AddRecipes()
         {

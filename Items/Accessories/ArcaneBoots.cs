@@ -88,20 +88,13 @@ namespace MogMod.Items.Accessories
                 //}
             }
         }
-
-        // this might do nothing idk
-        private float Distance(Microsoft.Xna.Framework.Vector2 center1, Microsoft.Xna.Framework.Vector2 center2)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void AddRecipes()
         {
             // gives the item a recipe
             CreateRecipe().
                 // add a vanilla item to the crafting recipe
                 AddIngredient(ItemID.SpectreBoots, 1).
-                AddIngredient(ItemID.ManaCrystal, 5).
+                AddIngredient<ManaEssence>(2).
                 // add a modded item to the crafting recipe
                 AddIngredient<CraftingRecipe>(1).
                 // add where the item can be crafted
