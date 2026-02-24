@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.Audio;
+﻿using Terraria.Audio;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
@@ -11,8 +6,9 @@ using Microsoft.Xna.Framework;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
-    public class SplinterProjectile : ModProjectile
+    public class SplinterProjectile : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.RangedProjectiles";
         public override void SetDefaults()
         {
             Projectile.width = 20;

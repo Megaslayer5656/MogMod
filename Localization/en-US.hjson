@@ -379,6 +379,11 @@ Mods: {
 				DisplayName: Black Blade Debuff
 				Description: Mods.MogMod.Buffs.BlackBladeDebuff.Description
 			}
+
+			GhostflameDebuff: {
+				DisplayName: Ghostflame Debuff
+				Description: Mods.MogMod.Buffs.GhostflameDebuff.Description
+			}
 		}
 
 		NPCs: {
@@ -483,6 +488,8 @@ Mods: {
 				GlintstoneArcProj.DisplayName: Glintstone Arc Proj
 				FoundingRainOfStarsProj.DisplayName: Founding Rain Of Stars Proj
 				FoundingRainOfStarsStarProj.DisplayName: Founding Rain Of Stars Star Proj
+				ExplosiveGhostflameProj.DisplayName: Explosive Ghostflame Proj
+				GhostflameHomingProj.DisplayName: Ghostflame Homing Proj
 			}
 
 			RangedProjectiles: {
@@ -520,6 +527,7 @@ Mods: {
 				AghanimBulletProj.DisplayName: Aghanim Bullet Proj
 				DreadsProj.DisplayName: Dreads Proj
 				LAS13Proj.DisplayName: L A S13 Proj
+				SplinterProjectile.DisplayName: Splinter Projectile
 			}
 
 			MeleeProjectiles: {

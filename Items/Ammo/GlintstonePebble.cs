@@ -10,10 +10,11 @@ namespace MogMod.Items.Ammo
 {
     public class GlintstonePebble : ModItem
     {
+        public const int manaCost = 5;
         public override void SetDefaults()
         {
             // display purposes only;
-            Item.mana = 5;
+            Item.mana = manaCost;
 
             Item.damage = 22;
             Item.DamageType = DamageClass.Magic;

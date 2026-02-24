@@ -1,11 +1,6 @@
 ﻿using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -16,8 +11,10 @@ using Terraria.Localization;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class Bloodletter : ModItem //This sprite is genuinely so awful that I'm gonna fix it tomorrow. This is my worst one yet somehow.
+    //This sprite is genuinely so awful that I'm gonna fix it tomorrow. This is my worst one yet somehow.
+    public class Bloodletter : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public static readonly SoundStyle ParryStart = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ParryStart")
         {
             Volume = .4f,

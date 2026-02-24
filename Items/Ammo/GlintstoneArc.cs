@@ -9,6 +9,7 @@ namespace MogMod.Items.Ammo
 {
     public class GlintstoneArc : ModItem
     {
+        public const int manaCost = 7;
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ShimmerTransformToItem[Type] = ItemID.WizardHat;
@@ -16,9 +17,9 @@ namespace MogMod.Items.Ammo
         public override void SetDefaults()
         {
             // display purposes only;
-            Item.mana = 10;
+            Item.mana = manaCost;
 
-            Item.damage = 28;
+            Item.damage = manaCost;
             Item.DamageType = DamageClass.Magic;
             Item.width = 50;
             Item.height = 52;

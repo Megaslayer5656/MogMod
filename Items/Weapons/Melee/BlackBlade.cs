@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.DataStructures;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
-using Terraria.Localization;
+using MogMod.Items.Other;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class BlackBlade : ModItem
+    public class BlackBlade : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
             Item.width = 97;
@@ -56,9 +53,7 @@ namespace MogMod.Items.Weapons.Melee
                 AddIngredient(ItemID.BreakerBlade, 1).
                 AddIngredient(ItemID.ShadowFlameKnife, 1).
                 AddIngredient(ItemID.HallowedBar, 15).
-                AddIngredient(ItemID.SoulofFright).
-                AddIngredient(ItemID.SoulofMight).
-                AddIngredient(ItemID.SoulofSight).
+                AddIngredient<UltimateOrb>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

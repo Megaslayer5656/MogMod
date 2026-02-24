@@ -1,13 +1,7 @@
 ﻿using MogMod.Projectiles.RangedProjectiles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
-using Terraria.Localization;
 
 namespace MogMod.Items.Ammo
 {
@@ -26,7 +20,7 @@ namespace MogMod.Items.Ammo
             Item.rare = ItemRarityID.White;
             Item.shoot = ModContent.ProjectileType<SplinterProjectile>();
             Item.shootSpeed = 1f;
-            Item.ammo = Item.type;
+            Item.ammo = ItemID.Nail;
         }
 
         public override void AddRecipes()

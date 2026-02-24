@@ -3,9 +3,13 @@ using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Config;
+using MogMod.Common.MogModPlayer;
+using MogMod.Items.Ammo;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Melee;
+using MogMod.Projectiles.BaseProjectiles;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -13,14 +17,7 @@ using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using MogMod.Common.Systems;
-using MogMod.Projectiles.MagicProjectiles;
-using MogMod.Projectiles.BaseProjectiles;
-using MogMod.Common.MogModPlayer;
-using MogMod.Items.Ammo;
-
 using static MogMod.Common.Systems.MogModNetcode;
-
 
 namespace MogMod.NPCs.Global
 {
@@ -34,6 +31,8 @@ namespace MogMod.NPCs.Global
         public int freezingDebuff = 0;
         public int aghDebuff = 0;
         public int wingsOfLightDebuff = 0;
+        public int ghostflameDebuff = 0;
+
         public int maxBlood = 1000;
         public int currentBlood = 0;
         public int blackBladeDebuff = 0;
@@ -56,6 +55,7 @@ namespace MogMod.NPCs.Global
             myClone.freezingDebuff = freezingDebuff;
             myClone.aghDebuff = aghDebuff;
             myClone.wingsOfLightDebuff = wingsOfLightDebuff;
+            myClone.ghostflameDebuff = ghostflameDebuff;
             return myClone;
         }
 
@@ -121,7 +121,7 @@ namespace MogMod.NPCs.Global
                 {
                     currentBlood += globalProjectile.bloodDamage;
                 }
-        }
+            }
             doBleedProc(npc);
         }
         public void doBleedProc(NPC npc)
@@ -186,6 +186,10 @@ namespace MogMod.NPCs.Global
             {
                 ApplyDPSDebuff(200, 20, ref npc.lifeRegen, ref damage);
             }
+            if (ghostflameDebuff > 0)
+            {
+                ApplyDPSDebuff(170, 7, ref npc.lifeRegen, ref damage);
+            }
         }
 
         // not quite sure what this does, but its in calamity mod so it has to be important
@@ -214,6 +218,10 @@ namespace MogMod.NPCs.Global
             if (blackBladeDebuff > 0) 
             { 
                 blackBladeDebuff--;
+            }
+            if (ghostflameDebuff > 0)
+            {
+                ghostflameDebuff--;
             }
         }
 
@@ -269,6 +277,13 @@ namespace MogMod.NPCs.Global
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
             }
+        }
+
+        // modifies vanilla npc shop
+        public override void ModifyShop(NPCShop shop)
+        {
+            if (shop.NpcType == NPCID.SkeletonMerchant)
+                shop.Add(new Item(ModContent.ItemType<AstrologersStaff>()));
         }
         public override void OnHitPlayer(NPC npc, Player target, Player.HurtInfo hurtInfo)
         {
@@ -329,6 +344,11 @@ namespace MogMod.NPCs.Global
             {
                 BlackBladeDebuff.DrawEffects(npc, ref drawColor);
                 drawColor = Color.DarkRed;
+            }
+            if (ghostflameDebuff > 0)
+            {
+                GhostflameDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.WhiteSmoke;
             }
         }
 

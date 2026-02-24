@@ -10,10 +10,11 @@ namespace MogMod.Items.Ammo
 {
     public class StarShower : ModItem
     {
+        public const int manaCost = 20;
         public override void SetDefaults()
         {
             // display purposes only;
-            Item.mana = 20;
+            Item.mana = manaCost;
 
             Item.damage = 24;
             Item.DamageType = DamageClass.Magic;

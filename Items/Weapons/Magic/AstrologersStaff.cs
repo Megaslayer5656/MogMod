@@ -5,11 +5,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Weapons.Magic //So yeah I'm gonna make a glintstone sorcery inspired magic weapon line, with shard spiral, glintstone stars, and star shower from elden ring. Will have cool vfx. Placeholder file for now until I get home and work on it.
-    // making glintstone pebble -> glintstone staff that fires ammo types and gonna make glintstone pebble a non-consumable ammo type that fires glintstone pebble proj;
-
+namespace MogMod.Items.Weapons.Magic
 {
-    public class GlintstoneStaff : ModItem, ILocalizedModType
+    public class AstrologersStaff : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetStaticDefaults()
@@ -22,13 +20,13 @@ namespace MogMod.Items.Weapons.Magic //So yeah I'm gonna make a glintstone sorce
             Item.useTime = Item.useAnimation = 30;
             Item.mana = 0;
 
-            Item.damage = 7;
-            Item.width = Item.height = 32;
+            Item.damage = 15;
+            Item.width = Item.height = 58;
             Item.DamageType = DamageClass.Magic;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 0f;
-            Item.value = Item.buyPrice(0, 4, 50, 0);
-            Item.rare = ItemRarityID.Blue;
+            Item.value = Item.buyPrice(0, 7, 0, 0);
+            Item.rare = ItemRarityID.Green;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;
             //Item.channel = true;
@@ -37,7 +35,7 @@ namespace MogMod.Items.Weapons.Magic //So yeah I'm gonna make a glintstone sorce
             Item.useAmmo = ModContent.ItemType<GlintstonePebble>(); // fires glintstone ammo types;
             Item.noMelee = true;
         }
-
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 2;
         // change stats depending on what spell was casted;
         // TODO: change stats automatically from the ammo so you can easily add any new sorceries without doing this slop
         public override bool CanUseItem(Player player)
@@ -112,14 +110,6 @@ namespace MogMod.Items.Weapons.Magic //So yeah I'm gonna make a glintstone sorce
             tooltips.RemoveAll(line =>
                 lLine.Any(word => line.Text.ToLower().Contains(word.ToLower()))
             );
-        }
-        public override void AddRecipes()
-        {
-            CreateRecipe()
-                .AddIngredient(ItemID.DiamondStaff, 1)
-                .AddIngredient(ItemID.ManaCrystal, 3)
-                .AddTile(TileID.Anvils)
-                .Register();
         }
     }
 }

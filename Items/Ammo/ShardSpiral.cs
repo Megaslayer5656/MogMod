@@ -10,10 +10,11 @@ namespace MogMod.Items.Ammo
 {
     public class ShardSpiral : ModItem
     {
+        public const int manaCost = 16;
         public override void SetDefaults()
         {
             // display purposes only;
-            Item.mana = 16;
+            Item.mana = manaCost;
 
             Item.damage = 17;
             Item.DamageType = DamageClass.Magic;

@@ -11,6 +11,7 @@ namespace MogMod.Items.Ammo
 {
     public class StarsOfRuin : ModItem
     {
+        public const int manaCost = 28;
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<FoundingRainOfStars>();
@@ -18,7 +19,7 @@ namespace MogMod.Items.Ammo
         public override void SetDefaults()
         {
             // display purposes only;
-            Item.mana = 28;
+            Item.mana = manaCost;
 
             Item.damage = 36;
             Item.DamageType = DamageClass.Magic;

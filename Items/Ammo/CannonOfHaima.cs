@@ -10,10 +10,11 @@ namespace MogMod.Items.Ammo
 {
     public class CannonOfHaima : ModItem
     {
+        public const int manaCost = 32;
         public override void SetDefaults()
         {
             // display purposes only;
-            Item.mana = 32;
+            Item.mana = manaCost;
 
             Item.damage = 145;
             Item.DamageType = DamageClass.Magic;

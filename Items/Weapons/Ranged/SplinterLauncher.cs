@@ -1,22 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Ammo;
-using MogMod.Items.Other;
-using MogMod.Items.Weapons.Melee;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
 {
-    public class SplinterLauncher : ModItem
+    public class SplinterLauncher : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.damage = 30;
@@ -34,7 +27,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 9f;
-            Item.useAmmo = ModContent.ItemType<SplinterAmmo>();
+            Item.useAmmo = AmmoID.NailFriendly;
             Item.noMelee = true;
         }
 

@@ -11,10 +11,11 @@ namespace MogMod.Items.Ammo
 {
     public class GlintstoneStars : ModItem
     {
+        public const int manaCost = 12;
         public override void SetDefaults()
         {
             // display purposes only;
-            Item.mana = 12;
+            Item.mana = manaCost;
 
             Item.damage = 16;
             Item.DamageType = DamageClass.Magic;

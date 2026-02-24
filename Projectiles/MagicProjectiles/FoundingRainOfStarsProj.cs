@@ -60,7 +60,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             }
 
             // speeds up y velocity when shot straight forward;
-            if (Projectile.velocity.Y <= 5 && Projectile.velocity.Y != 0)
+            if (Projectile.velocity.Y <= 5 && Projectile.timeLeft > 150)
             {
                 Projectile.velocity.Y -= .25f;
             }

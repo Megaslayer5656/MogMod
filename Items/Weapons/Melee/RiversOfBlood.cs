@@ -14,8 +14,9 @@ using MogMod.Items.Other;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class RiversOfBlood : ModItem
+    public class RiversOfBlood : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public static readonly SoundStyle ParryStart = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ParryStart")
         {
             Volume = .4f,

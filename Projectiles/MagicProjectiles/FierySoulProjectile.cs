@@ -26,8 +26,6 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.penetrate = 1;
             Projectile.timeLeft = 420;
             Projectile.DamageType = DamageClass.Magic;
-            //Projectile.usesLocalNPCImmunity = true;
-            //Projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()

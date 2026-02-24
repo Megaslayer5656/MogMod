@@ -51,11 +51,11 @@ namespace MogMod.Projectiles.MagicProjectiles
                 Projectile.tileCollide = false;
             }
 
-            int moreBlue = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.PurpleCrystalShard, 0f, 0f, 0, default, 1f);
-            Main.dust[moreBlue].velocity *= 0.5f;
-            Main.dust[moreBlue].scale *= 1.05f;
-            Main.dust[moreBlue].fadeIn = 0.7f;
-            Main.dust[moreBlue].noGravity = true;
+            int rockDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.PurpleCrystalShard, 0f, 0f, 0, default, 1f);
+            Main.dust[rockDust].velocity *= 0.5f;
+            Main.dust[rockDust].scale *= 1.05f;
+            Main.dust[rockDust].fadeIn = 0.7f;
+            Main.dust[rockDust].noGravity = true;
         }
         public override void OnKill(int timeLeft)
         {

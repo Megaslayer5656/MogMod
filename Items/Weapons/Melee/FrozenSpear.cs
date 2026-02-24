@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.Audio;
+﻿using Terraria.Audio;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using MogMod.Projectiles.MeleeProjectiles;
-using MogMod.Buffs.Debuffs;
-using MogMod.Items.Weapons.Ranged;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class FrozenSpear : ModItem
+    public class FrozenSpear : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetStaticDefaults()
         {
             ItemID.Sets.SkipsInitialUseSound[Type] = true;

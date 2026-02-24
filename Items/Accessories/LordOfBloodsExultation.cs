@@ -1,11 +1,4 @@
 ﻿using MogMod.Common.MogModPlayer;
-using MogMod.Items.Global;
-using Steamworks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -13,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    public class LordOfBloodsExultation : ModItem
+    public class LordOfBloodsExultation : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -32,9 +26,9 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-            AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 10).
-            AddRecipeGroup("IronBar", 5).
-            AddTile(TileID.WorkBenches).
+            AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 12).
+            AddIngredient(ItemID.BloodMoonStarter, 1).
+            AddTile(TileID.DemonAltar).
             Register();
         }
     }

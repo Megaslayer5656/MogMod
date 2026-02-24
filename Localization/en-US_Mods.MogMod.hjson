@@ -635,7 +635,16 @@ Items: {
 				Allows flight and slow fall
 				Increased movement speed
 				Radiates a heavenly aura that damages nearby enemies over time
-				'In the sunset the sky, was ablaze with gold embers'
+				'Was ablaze with gold embers'
+				'''
+		}
+
+		LordOfBloodsExultation: {
+			DisplayName: Lord Of Blood's Exultation
+			Tooltip:
+				'''
+				Boosts bleed buildup by 15%
+				'His awakening shall herald the dawn of our dynasty.'
 				'''
 		}
 	}
@@ -863,6 +872,34 @@ Items: {
 					'Jagged dagger with a distinctive curled blade. Carried by the noble servants of the Lord of Blood.'
 					'''
 			}
+
+			BlackBlade: {
+				DisplayName: Black Blade
+				Tooltip:
+					'''
+					Inflicts Destined Death on hit
+					Deals more damage to unhurt enemies
+					'''
+			}
+
+			FrozenSpear: {
+				DisplayName: Frozen Spear
+				Tooltip: Freezes enemies on hit
+			}
+
+			Bloodletter: {
+				DisplayName: Bloodletter
+				Tooltip:
+					'''
+					Low bleed buildup
+					Right click to parry
+					'''
+			}
+
+			RiversOfBlood: {
+				DisplayName: Rivers Of Blood
+				Tooltip: ""
+			}
 		}
 
 		Ranged: {
@@ -878,7 +915,11 @@ Items: {
 
 			BloodGrenade: {
 				DisplayName: Blood Grenade
-				Tooltip: Damages the player on use
+				Tooltip:
+					'''
+					Low bleed buildup
+					Damages the player on use
+					'''
 			}
 
 			HeavensHalberd: {
@@ -1024,7 +1065,7 @@ Items: {
 				DisplayName: Dread's Retribution
 				Tooltip:
 					'''
-					Fires a barrage of freezing arrows;
+					Fires a barrage of freezing arrows
 					'I don't care who you are, we are all guilty of something.'
 					'''
 			}
@@ -1037,6 +1078,11 @@ Items: {
 					Fires a spread of 6 lasers
 					Ignores 15 points of enemy Defense
 					'''
+			}
+
+			SplinterLauncher: {
+				DisplayName: Splinter Launcher
+				Tooltip: ""
 			}
 		}
 
@@ -1200,6 +1246,11 @@ Items: {
 
 			GlintstoneStaff: {
 				DisplayName: Glintstone Staff
+				Tooltip: A catalyst used to cast sorceries
+			}
+
+			AstrologersStaff: {
+				DisplayName: Astrologers Staff
 				Tooltip: A catalyst used to cast sorceries
 			}
 		}
@@ -1456,7 +1507,6 @@ Items: {
 		DisplayName: Glintstone Pebble
 		Tooltip:
 			'''
-			Sorceries can only be cast from catalysts
 			Fires a glintstone rock
 			'The most basic glintstone sorcery of the Academy of Raya Lucaria.'
 			'''
@@ -1547,72 +1597,29 @@ Items: {
 
 	LizhardBloodVial: {
 		DisplayName: Lizhard Blood Vial
-		Tooltip:
-			'''
-			Appears to be fuel for the Golem.
-			'''
+		Tooltip: Appears to be fuel for the Golem.
 	}
 
 	SplinterAmmo: {
 		DisplayName: Splinter Ammo
-		Tooltip:
-			'''
-			Used by the Splinter Launcher
-			Low bleed buildup
-			'''
-	}
-
-	SplinterLauncher: {
-		DisplayName: Splinter Launcher
-		Tooltip:
-			'''
-			Fires splinters
-			Low bleed buildup
-			'''
-	}
-
-	LordOfBloodsExultation: {
-		DisplayName: Lord Of Blood's Exultation
-		Tooltip:
-			'''
-			Boosts bleed buildup by 15%
-			   
-			'''
-	}
-
-	BlackBlade: {
-		DisplayName: Black Blade
-		Tooltip:
-			'''
-			Inflicts Destined Death on hit
-			Deals more damage to unhurt enemies
-			'''
-	}
-
-	FrozenSpear: {
-		DisplayName: Frozen Spear
-		Tooltip:
-			'''
-			Inflicts a freezing effect on hit
-			'''
-	}
-
-	Bloodletter: {
-		DisplayName: Bloodletter
-		Tooltip:
-			'''
-			Low bleed buildup
-			Right click to parry
-			'''
+		Tooltip: Low bleed buildup
 	}
 
 	ExplosiveGhostflame: {
 		DisplayName: Explosive Ghostflame
-		Tooltip: ""
+		Tooltip:
+			'''
+			Violently explodes upon casting, firing vengeful spirits around the player
+			'In the time when there was no Erdtree, death was burned in ghostflame.'
+			'''
 	}
 
 	FoundingRainOfStars: {
 		DisplayName: Founding Rain Of Stars
-		Tooltip: ""
+		Tooltip:
+			'''
+			Fires an orb that ascends upwards, raining down stars shortly after
+			'The eldest primeval sorcery, said to have been discovered by an ancient astrologer.'
+			'''
 	}
 }

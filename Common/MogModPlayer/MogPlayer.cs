@@ -4,18 +4,18 @@ using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
-using MogMod.Items.Consumables;
 using MogMod.Items.Weapons.Melee;
-using MogMod.Items.Weapons.Ranged;
-using Newtonsoft.Json.Linq;
 using System;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent.Bestiary;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
+using Terraria.GameContent.Bestiary;
+using MogMod.Items.Consumables;
+using MogMod.Items.Weapons.Ranged;
+using Newtonsoft.Json.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace MogMod.Common.MogModPlayer
@@ -104,6 +104,7 @@ namespace MogMod.Common.MogModPlayer
         public bool freezingDebuff = false;
         public bool aghHexDebuff = false;
         public bool wingsOfLightDebuff = false;
+        public bool ghostflameDebuff = false;
 
         public bool riversOfBloodProj = false;
         public bool exultationEquipped = false;
@@ -962,6 +963,7 @@ namespace MogMod.Common.MogModPlayer
             freezingDebuff = false;
             aghHexDebuff = false;
             wingsOfLightDebuff = false;
+            ghostflameDebuff = false;
 
             exultationEquipped = false;
             #endregion

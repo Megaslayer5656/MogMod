@@ -14,6 +14,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override void SetStaticDefaults()
         {
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
             ProjectileID.Sets.TrailCacheLength[Type] = 6;
             ProjectileID.Sets.TrailingMode[Type] = 0;
         }
@@ -29,7 +30,6 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.timeLeft = 180;
             Projectile.extraUpdates = 1;
         }
-
         public override void AI()
         {
             if (Projectile.timeLeft < 170)

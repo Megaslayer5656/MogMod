@@ -11,7 +11,7 @@ namespace MogMod.Items.Ammo
 {
     public class FoundingRainOfStars : ModItem
     {
-        // could make similar to nimbus rod;
+        public const int manaCost = 45;
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<StarsOfRuin>();
@@ -19,7 +19,7 @@ namespace MogMod.Items.Ammo
         public override void SetDefaults()
         {
             // display purposes only;
-            Item.mana = 45;
+            Item.mana = manaCost;
 
             Item.damage = 47;
             Item.DamageType = DamageClass.Magic;
