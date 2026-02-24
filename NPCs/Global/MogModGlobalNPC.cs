@@ -78,6 +78,12 @@ namespace MogMod.NPCs.Global
                 }
                 
                 doBleedProc(npc);
+
+
+                if (item.type == ModContent.ItemType<TheMarker>())
+                {
+                    //Spawn marker target projectile, make player the owner, set this npc as the target
+                }
         }
 
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
