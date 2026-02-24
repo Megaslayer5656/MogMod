@@ -49,7 +49,7 @@ namespace MogMod.Items.Weapons.Boulder
             {
                 position += muzzleOffset;
             }
-            type = ProjectileID.Boulder;
+            type = ModContent.ProjectileType<BoulderBulletProj>();
             Main.projectile[type].friendly = true;
             Main.projectile[type].DamageType = ModContent.GetInstance<BoulderClass>();
             Main.projectile[type].owner = player.whoAmI;
@@ -60,5 +60,7 @@ namespace MogMod.Items.Weapons.Boulder
         {
             return new Vector2(10f, 1.5f);
         }
+
+        //TODO: Give this a recipe. I forgot it's actually a real thing now.
     }
 }

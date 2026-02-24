@@ -25,11 +25,11 @@ namespace MogMod.Items.Weapons.Boulder
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 30f;
         }
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) //I prob have to rework all this stuff
         {
             float PosX = Main.MouseWorld.X;
             float PosY = player.position.Y - 600f; 
-            int proj = Projectile.NewProjectile(source, PosX, PosY, 0f, 1f, ProjectileID.Boulder, damage, knockback, player.whoAmI);
+            int proj = Projectile.NewProjectile(source, PosX, PosY, 0f, 1f, ModContent.ProjectileType<BoulderBulletProj>(), damage, knockback, player.whoAmI);
             Main.projectile[proj].friendly = true;
             Main.projectile[proj].DamageType = ModContent.GetInstance<BoulderClass>();
             Main.projectile[proj].netUpdate = true;
