@@ -10,6 +10,7 @@ using MogMod.Items.Other;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Projectiles.MeleeProjectiles;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -37,6 +38,8 @@ namespace MogMod.NPCs.Global
         public int currentBlood = 0;
         public int blackBladeDebuff = 0;
         public NPC.HitInfo hitInfo;
+
+        Random rand = new Random();
 
         // apparently neccessary according to calamity
         public override bool InstancePerEntity => true;
@@ -78,8 +81,28 @@ namespace MogMod.NPCs.Global
                 }
                 
                 doBleedProc(npc);
+
+
+                if (item.type == ModContent.ItemType<TheMarker>())
+                {
+                spawnMarkerProjectile(npc, player, item);
+                }
         }
 
+        public void spawnMarkerProjectile(NPC target, Player player, Item item)
+        {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            if (!mogPlayer.markerProjOut)
+            {
+                Vector2 velocity = new Vector2(20f, 20f);
+                Vector2 rotatedVelocity = velocity.RotateRandom(MathHelper.ToRadians(360));
+                rotatedVelocity.Normalize();
+                int proj = Projectile.NewProjectile(target.GetSource_FromAI(), target.Center, rotatedVelocity, ModContent.ProjectileType<MarkerTargetProj>(), 1, 0f, player.whoAmI);
+                Main.projectile[proj].velocity.X = 7.5f;
+                Main.projectile[proj].velocity.Y = 7.5f;
+                mogPlayer.markerProjOut = true;
+            }
+        }
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
             maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense);
