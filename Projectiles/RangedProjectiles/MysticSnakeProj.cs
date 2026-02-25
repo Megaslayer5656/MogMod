@@ -102,11 +102,18 @@ namespace MogMod.Projectiles.RangedProjectiles
                 inc = i;
             }
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.Venom, 300);
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            target.AddBuff(BuffID.Venom, 300);
+        }
         public override bool? CanHitNPC(NPC target)
         {
             return null;
         }
-
         public override bool CanHitPvp(Player target) => Projectile.ai[0] == 0f;
     }
 }

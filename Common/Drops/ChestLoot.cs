@@ -1,10 +1,5 @@
 ﻿using MogMod.Items.Accessories;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MogMod.Items.Weapons.Melee;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -37,13 +32,29 @@ namespace MogMod.Common.Drops
                     if (isBrownChest)
                     {
                         float rng = WorldGen.genRand.NextFloat();
-                        if (rng < 0.2f)
+                        if (rng < 0.2f) // 20% chance
                         {
                             for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
                             {
                                 if (chest.item[inventoryIndex].IsAir)
                                 {
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<BladesOfAttack>()); // adds item to chest loot pool
+                                    chest.item[inventoryIndex].stack = 1;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (isIceChest)
+                    {
+                        float rng = WorldGen.genRand.NextFloat();
+                        if (rng < 0.2f)
+                        {
+                            for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                            {
+                                if (chest.item[inventoryIndex].IsAir)
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<FrozenSpear>());
                                     chest.item[inventoryIndex].stack = 1;
                                     break;
                                 }

@@ -49,6 +49,7 @@ namespace MogMod.Items.Ammo
                 AddIngredient<StarShower>(1).
                 AddIngredient<ManaCore>(1).
                 AddIngredient<AghanimShard>(1).
+                AddIngredient(ItemID.LunarTabletFragment, 1).
                 AddIngredient<Scroll>(1).
                 AddTile(TileID.Bookcases).
                 DisableDecraft().

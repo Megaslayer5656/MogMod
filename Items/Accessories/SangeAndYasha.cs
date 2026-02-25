@@ -1,8 +1,9 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Other;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Items.Weapons.Ranged;
-using Terraria.ID;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -10,6 +11,7 @@ namespace MogMod.Items.Accessories
     public class SangeAndYasha : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const float sizeMult = 1.5f;
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -17,9 +19,12 @@ namespace MogMod.Items.Accessories
             Item.height = 42;
             Item.rare = ItemRarityID.Red;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            // increase size of melee weapons
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.wearingSange = true;
+
             player.GetAttackSpeed(DamageClass.Melee) += .24f;
             player.statLifeMax2 += 50;
             player.lifeRegen += 6;
@@ -42,7 +47,10 @@ namespace MogMod.Items.Accessories
             player.buffImmune[BuffID.WindPushed] = true;
             player.buffImmune[BuffID.Stoned] = true;
         }
-
+        public static float SangeWeaponSize(MogPlayer mogPlayer)
+        {
+            return sizeMult;
+        }
         public override void AddRecipes()
         {
             CreateRecipe().

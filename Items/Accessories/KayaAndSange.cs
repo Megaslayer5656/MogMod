@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Other;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Melee;
 using System;
@@ -21,6 +22,10 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            // increase size of melee weapons
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.wearingSange = true;
+
             player.statLifeMax2 += 30;
             player.lifeRegen += 4;
             player.GetDamage(DamageClass.Generic) += .16f;

@@ -481,6 +481,7 @@ Items: {
 			Tooltip:
 				'''
 				+10% Attack Damage
+				+10% Critical Strike Chance
 				+25 Armor Penetration
 				Attacks inflict the Cold Attack debuff
 				'Extremely rare artifact, guarded by the azure dragons.'
@@ -557,9 +558,10 @@ Items: {
 			DisplayName: Sange And Yasha
 			Tooltip:
 				'''
-				+24% Increased movement speed
-				+16% Attack damage
-				+24% Melee speed
+				+24% Movement Speed
+				+16% Attack Damage
+				+24% Melee Speed
+				+50% Melee Weapon Size
 				Vastly Increases lifesteal of weapons that utilize it
 				Greatly Increased Life Regeneration
 				Increased Maximum Life by 50
@@ -574,15 +576,14 @@ Items: {
 			DisplayName: Yasha And Kaya
 			Tooltip:
 				'''
-				+24% Increased movement speed
-				+24% Attack speed
-				+16% Attack damage
-				+12% Increased magic damage
+				+24% Movement Speed
+				+24% Attack Speed
+				+16% Attack Damage
+				+12% Magic Damage
 				Greatly Increased Mana Regeneration
 				Increases Maximum Mana by 50
 				Increases fishing power by 60
-				Fishing rods shoot 24 extra lures
-				Does not stack with downgrades
+				Fishing rods shoot 24 extra lures, Does not stack with downgrades
 				Permanent Sonar and Crate Buffs
 				Grants the effects of Lavaproof Tackle Bag
 				'Yasha and Kaya when paired together share a natural resonance.'
@@ -632,6 +633,17 @@ Items: {
 				Fishing rods shoot 9 extra lures
 				Grants the effects of Lavaproof Tackle Bag
 				'Glory to Fishrael'
+				'''
+		}
+
+		GiantsMaul: {
+			DisplayName: Giant's Maul
+			Tooltip:
+				'''
+				+30% Melee Weapon Size
+				+10% Melee Attack Damage
+				-20% Melee Attack Speed
+				'Crude but smashingly effective.'
 				'''
 		}
 	}
@@ -1049,7 +1061,7 @@ Items: {
 				DisplayName: Mystic Snake
 				Tooltip:
 					'''
-					Converts arrows to homing snakes
+					Converts arrows to homing venomous snakes
 					For each enemy nearby, fire up to 6 additional snakes
 					With Eye of Skadi equipped, always fire 6 additional snakes
 					'''
@@ -1684,8 +1696,8 @@ Items: {
 		}
 
 		VoniumEssence: {
-			DisplayName: Vonium Essence
-			Tooltip: A shard of a heavenly soul
+			DisplayName: Von's Essence
+			Tooltip: The shard of a heavenly soul
 		}
 
 		FrigidCrystal: {
@@ -1700,7 +1712,7 @@ Items: {
 
 		GriefBar: {
 			DisplayName: Grief Bar
-			Tooltip: Said to bring rougly 83% of the power of the chaos knight
+			Tooltip: Said to bring roughly 83% of the power of the chaos knight
 		}
 	}
 

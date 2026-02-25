@@ -41,6 +41,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         }
 
         // stolen STRAIGHT from fargos souls mod
+        // makes fishing rods spawn more bobbers when wearing certain accessories
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
             Player player = Main.player[projectile.owner];
@@ -57,6 +58,8 @@ namespace MogMod.Projectiles.BaseProjectiles
                     SplitProj(projectile, splitCount, MathHelper.Pi / 3, 1);
             }
         }
+
+        #region slop
         public static List<Projectile> SplitProj(Projectile projectile, int number, float maxSpread, float damageRatio, bool allowMoreSplit = false)
         {
             //if its odd, we just keep the original 
@@ -96,5 +99,6 @@ namespace MogMod.Projectiles.BaseProjectiles
             int p = Projectile.NewProjectile(spawnSource, pos, vel, type, damage, knockback, owner, ai0, ai1);
             return p < Main.maxProjectiles ? Main.projectile[p] : null;
         }
+        #endregion
     }
 }

@@ -41,7 +41,7 @@ namespace MogMod.Items.Ammo
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.SoulofSight, 7).
+                AddIngredient(ItemID.SoulofMight, 7).
                 AddIngredient<UltimateOrb>(3).
                 AddIngredient<Scroll>(1).
                 AddTile(TileID.Bookcases).

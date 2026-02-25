@@ -29,9 +29,9 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.ShinyStone, 1).
                 AddIngredient(ItemID.BrokenHeroSword, 1).
-                AddIngredient(ItemID.HallowedKey, 1).
                 AddIngredient(ItemID.HallowedBar, 10).
                 AddIngredient<GriefBar>(10).
+                AddIngredient(ItemID.HallowedKey, 1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

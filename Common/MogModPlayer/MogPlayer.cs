@@ -11,12 +11,6 @@ using Terraria.Audio;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.WorldBuilding;
-using Terraria.GameContent.Bestiary;
-using MogMod.Items.Consumables;
-using MogMod.Items.Weapons.Ranged;
-using Newtonsoft.Json.Linq;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MogMod.Common.MogModPlayer
 {
@@ -35,9 +29,11 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingMekansm = false;
         public bool wearingEyeOfSkadi = false;
         public bool wearingWingsOfLight = false;
-        public bool wingsOfLightVisual = true;
-        public bool wearingFishSlop1 = true;
-        public bool wearingFishSlop2 = true;
+        public bool wingsOfLightVisual = false;
+        public bool wearingFishSlop1 = false;
+        public bool wearingFishSlop2 = false;
+        public bool wearingSange = false;
+        public bool wearingGiantsMaul = false;
 
         public int locketCharges = 0;
         public static int maxLocketCharges = 20;
@@ -957,6 +953,8 @@ namespace MogMod.Common.MogModPlayer
             wingsOfLightVisual = false;
             wearingFishSlop1 = false;
             wearingFishSlop2 = false;
+            wearingSange = false;
+            wearingGiantsMaul = false;
 
             diademMinion = false;
             dominatorMinion = false;

@@ -1,5 +1,9 @@
-﻿using MogMod.Items.Ammo;
+﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Accessories;
+using MogMod.Items.Ammo;
 using MogMod.Items.Weapons.Melee;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -38,5 +42,34 @@ namespace MogMod.Items.Global
             }
         }
         public override bool InstancePerEntity => true;
+        // makes melee weapons size bigger when wearing certain accessories
+        public static List<int> MeleeSizeAlwaysAffects =
+        [
+            ItemID.TerraBlade,
+            ItemID.NightsEdge,
+            ItemID.TrueNightsEdge,
+            ItemID.Excalibur,
+            ItemID.TrueExcalibur,
+            ItemID.PiercingStarlight,
+            ItemID.TheHorsemansBlade,
+            ItemID.LucyTheAxe,
+            ItemID.TheAxe
+        ];
+        public override void ModifyItemScale(Item item, Player player, ref float scale)
+        {
+            MogPlayer modPlayer = player.MogMod();
+
+            if (!item.IsAir && !item.noMelee || MeleeSizeAlwaysAffects.Contains(item.type))
+            {
+                if (modPlayer.wearingSange)
+                {
+                    scale *= SangeAndYasha.SangeWeaponSize(modPlayer);
+                }
+                if (modPlayer.wearingGiantsMaul)
+                {
+                    scale *= GiantsMaul.GiantsMaulWeaponSize(modPlayer);
+                }
+            }
+        }
     }
 }

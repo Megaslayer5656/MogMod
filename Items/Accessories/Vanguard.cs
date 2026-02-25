@@ -35,7 +35,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.BandofRegeneration, 1).
                 AddIngredient(ItemID.HellstoneBar, 12).
                 AddIngredient(ItemID.Ruby, 2).
-                AddTile(TileID.Hellforge).
+                AddTile(TileID.Anvils).
                 Register();
         }
     }

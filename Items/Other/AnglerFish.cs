@@ -70,5 +70,15 @@ namespace MogMod.Items.Other
             itemLoot.Add(ItemDropRule.Common(ItemID.HerbBag, 15, otherMin, otherMax));
             itemLoot.Add(ItemDropRule.Common(ItemID.CanOfWorms, 15, otherMin, otherMax));
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.Tuna, 1).
+                AddIngredient(ItemID.Trout, 1).
+                AddIngredient(ItemID.Shrimp, 1).
+                AddIngredient(ItemID.RedSnapper, 1).
+                AddTile(TileID.WorkBenches).
+                Register();
+        }
     }
 }
