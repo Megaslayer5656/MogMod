@@ -68,13 +68,6 @@ namespace MogMod.Items.Accessories
                 player.coldDash = true;
             }
         }
-
-        // this might do nothing idk
-        private float Distance(Microsoft.Xna.Framework.Vector2 center1, Microsoft.Xna.Framework.Vector2 center2)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void AddRecipes()
         {
             CreateRecipe().

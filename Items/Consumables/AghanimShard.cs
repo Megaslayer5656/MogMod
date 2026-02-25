@@ -45,7 +45,7 @@ namespace MogMod.Items.Consumables
                 AddIngredient(ItemID.MagicPowerPotion, 1).
                 AddIngredient(ItemID.ManaRegenerationPotion, 1).
                 AddIngredient(ItemID.Ectoplasm, 2).
-                AddIngredient<UltimateOrb>(1).
+                AddIngredient<ManaEssence>(1).
                 AddTile(TileID.CrystalBall).
                 Register();
         }

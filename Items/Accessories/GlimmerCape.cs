@@ -45,7 +45,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.Robe, 1).
                 AddIngredient<ShadowAmulet>(1).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 7).
-                AddIngredient(ItemID.FallenStar, 5).
+                AddIngredient<ManaEssence>(1).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

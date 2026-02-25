@@ -26,8 +26,8 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddRecipeGroup("GoldBar", 15).
-                AddIngredient(ItemID.ManaCrystal, 5).
                 AddIngredient(ItemID.Sapphire, 7).
+                AddIngredient(ItemID.FallenStar, 5).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 3).
                 AddTile(TileID.Anvils).
                 Register();

@@ -82,7 +82,7 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient<DagonFive>(1).
                 AddIngredient(ItemID.LunarFlareBook, 1).
                 AddIngredient(ItemID.LunarBar, 20).
-                AddIngredient<UltimateOrb>(3).
+                AddIngredient<ManaCore>(3).
                 AddIngredient(ItemID.CelestialSigil, 1).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.LunarCraftingStation).

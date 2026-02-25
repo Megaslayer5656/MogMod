@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.Debuffs;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
@@ -41,12 +42,12 @@ namespace MogMod.Projectiles.MeleeProjectiles
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(169, 600);
+            target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), 300);
             target.AddBuff(BuffID.BetsysCurse, 600);
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            target.AddBuff(169, 600);
+            target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), 300);
             target.AddBuff(BuffID.BetsysCurse, 600);
             target.AddBuff(BuffID.WitheredArmor, 600);
         }
