@@ -15,7 +15,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 42;
             Item.height = 28;
-            Item.damage = 10;
+            Item.damage = 16;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 5;
             Item.useStyle = ItemUseStyleID.Swing;
@@ -48,7 +48,7 @@ namespace MogMod.Items.Weapons.Melee
                 {
                     NetMessage.SendData(65, -1, -1, null, 0, player.whoAmI, Main.MouseWorld.X, Main.MouseWorld.Y, TeleportationStyleID.DebugTeleport); //Needed for multiplayer
                 }
-                player.AddBuff(ModContent.BuffType<BlinkDebuff>(), 1800);
+                player.AddBuff(ModContent.BuffType<BlinkDebuff>(), 600);
             }
             else
             {
