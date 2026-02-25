@@ -39,6 +39,8 @@ namespace MogMod.NPCs.Global
         public int blackBladeDebuff = 0;
         public NPC.HitInfo hitInfo;
 
+        public bool markedByMarker;
+
         Random rand = new Random();
 
         // apparently neccessary according to calamity
@@ -97,10 +99,16 @@ namespace MogMod.NPCs.Global
                 Vector2 velocity = new Vector2(20f, 20f);
                 Vector2 rotatedVelocity = velocity.RotateRandom(MathHelper.ToRadians(360));
                 rotatedVelocity.Normalize();
-                int proj = Projectile.NewProjectile(target.GetSource_FromAI(), target.Center, rotatedVelocity, ModContent.ProjectileType<MarkerTargetProj>(), 1, 0f, player.whoAmI);
-                Main.projectile[proj].velocity.X = 7.5f;
-                Main.projectile[proj].velocity.Y = 7.5f;
+                rotatedVelocity *= 10f;
+                int proj = Projectile.NewProjectile(target.GetSource_FromAI(), target.Center, rotatedVelocity, ModContent.ProjectileType<MarkerTargetProj>(), Convert.ToInt32(item.damage * 1.75), 0f, player.whoAmI);
                 mogPlayer.markerProjOut = true;
+                foreach (NPC npc in Main.ActiveNPCs)
+                {
+                    if (npc.TryGetGlobalNPC<MogModGlobalNPC>(out var g))
+                        g.markedByMarker = false;
+                }
+
+                markedByMarker = true;
             }
         }
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
@@ -372,6 +380,11 @@ namespace MogMod.NPCs.Global
             {
                 GhostflameDebuff.DrawEffects(npc, ref drawColor);
                 drawColor = Color.WhiteSmoke;
+            }
+            if (markedByMarker) //TODO: Give this a custom effect
+            {
+                WingsOfLightDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.Gold;
             }
         }
 

@@ -569,6 +569,7 @@ Mods: {
 			RiversOfBloodProj.DisplayName: Rivers Of Blood Proj
 			SplinterProjectile.DisplayName: Splinter Projectile
 			FrozenSpearProjectile.DisplayName: Frozen Spear Projectile
+			MarkerProjProj.DisplayName: Marker Proj Proj
 		}
 	}
 }

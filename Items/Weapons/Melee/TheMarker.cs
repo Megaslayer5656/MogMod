@@ -14,17 +14,17 @@ namespace MogMod.Items.Weapons.Melee
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
-            Item.width = 97;
-            Item.height = 96;
-            Item.damage = 150;
+            Item.width = 68;
+            Item.height = 68;
+            Item.damage = 200;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = Item.useTime = 25;
+            Item.useAnimation = Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.autoReuse = true;
             Item.knockBack = 13f;
             Item.UseSound = SoundID.Item1;
             Item.rare = ItemRarityID.Red;
-            Item.scale = 1f;
+            Item.scale = 2f;
             Item.shootSpeed = 10f;
             Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing
         }
@@ -34,9 +34,13 @@ namespace MogMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
+        public override void AddRecipes() //I'll make this recipe cooler later when we have more on tier crafting recipes.
         {
-            //TODO: Add recipe
+            CreateRecipe().
+            AddIngredient(ItemID.HallowedBar, 15).
+            AddIngredient(ModContent.ItemType<LizhardBloodVial>()).
+            AddTile(TileID.MythrilAnvil).
+            Register();
         }
     }
 }

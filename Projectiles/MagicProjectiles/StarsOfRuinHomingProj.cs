@@ -33,7 +33,9 @@ namespace MogMod.Projectiles.MagicProjectiles
                 Projectile.velocity *= 2.2f;
             }
             if (Projectile.timeLeft < 590)
-                MogModUtils.HomeInOnNPC(Projectile, true, 850f, 13f, 10f);
+            
+
+            MogModUtils.HomeInOnNPC(Projectile, true, 850f, 13f, 10f);
 
             Dust dust2 = Dust.NewDustPerfect(Projectile.position, DustID.AncientLight, Projectile.velocity, 100, Color.DarkBlue, 1.87f);
             dust2.noGravity = true;

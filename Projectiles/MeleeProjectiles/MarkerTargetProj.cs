@@ -14,6 +14,7 @@ using MogMod.NPCs.Global;
 using Microsoft.CodeAnalysis;
 using MogMod.Common.MogModPlayer;
 using Microsoft.Build.Evaluation;
+using MogMod.Projectiles.MagicProjectiles;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
@@ -22,6 +23,8 @@ namespace MogMod.Projectiles.MeleeProjectiles
         public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         Random rand = new Random();
         public bool canHit = false;
+        public bool hasHit = false;
+        NPC marked;
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;
@@ -57,17 +60,31 @@ namespace MogMod.Projectiles.MeleeProjectiles
 
             Projectile.velocity *= 0.975f;
 
-            if (Projectile.velocity.Length() < 0.1f)
-            {
-                Projectile.velocity = Vector2.Zero;
-            }
-
             Projectile.frameCounter++;
             if (Projectile.frameCounter >= 12) // This will change the sprite every 8 frames (0.13 seconds). Feel free to experiment.
             {
                 Projectile.frame++;
                 Projectile.frame %= 4; // Will reset to the first frame if you've gone through them all.
                 Projectile.frameCounter = 0;
+            }
+
+            if (Projectile.timeLeft == 5)
+            {
+                foreach (NPC npc in Main.ActiveNPCs)
+                {
+                    if (!npc.active)
+                        continue;
+
+                    if (!npc.TryGetGlobalNPC<MogModGlobalNPC>(out var globalNPC))
+                        continue;
+
+                    if (globalNPC.markedByMarker)
+                    {
+                        globalNPC.markedByMarker = false;
+                    }
+                }
+
+                
             }
         }
 
@@ -100,7 +117,16 @@ namespace MogMod.Projectiles.MeleeProjectiles
         {
             modifiers.Cancel();
             Projectile.Kill();
-            //TODO: Spawn another projectile that homes on the target that was initially hit by the projectile
+            Vector2 velocity = new Vector2(1f, 1f);
+            if (!hasHit)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    Vector2 rotatedVelocity = velocity.RotatedByRandom(MathHelper.ToRadians(360));
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, rotatedVelocity, ModContent.ProjectileType<MarkerProjProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                }
+                hasHit = true;
+            }
         }
     }
 }
