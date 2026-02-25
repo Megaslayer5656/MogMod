@@ -46,8 +46,8 @@ namespace MogMod.Items.Accessories
                 AddRecipeGroup("IronBar", 18).
                 AddIngredient(ItemID.Silk, 12).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 7).
+                AddIngredient<ManaEssence>(3).
                 AddIngredient(ItemID.Skull, 1).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

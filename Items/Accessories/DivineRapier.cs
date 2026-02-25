@@ -31,7 +31,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.BrokenHeroSword, 1).
                 AddIngredient(ItemID.HallowedKey, 1).
                 AddIngredient(ItemID.HallowedBar, 10).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<GriefBar>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

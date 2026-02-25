@@ -28,17 +28,20 @@ namespace MogMod.Items.Accessories
             player.manaRegen += (int)Math.Round(player.manaRegen * .5f);
             player.statManaMax2 += 70;
             player.lifeSteal *= 1.25f;
-            player.buffImmune[BuffID.Poisoned] = true;
-            player.buffImmune[BuffID.Slow] = true;
-            player.buffImmune[BuffID.BrokenArmor] = true;
-            player.buffImmune[BuffID.CursedInferno] = true;
-            player.buffImmune[BuffID.Frostburn] = true;
+
+            // not in ankh shield
+            player.buffImmune[BuffID.Venom] = true;
+            player.buffImmune[BuffID.Webbed] = true;
+            player.buffImmune[BuffID.Blackout] = true;
             player.buffImmune[BuffID.OnFire] = true;
-            player.buffImmune[BuffID.Bleeding] = true;
-            player.buffImmune[BuffID.Weak] = true;
-            player.buffImmune[BuffID.Ichor] = true;
+            player.buffImmune[BuffID.OnFire3] = true;
             player.buffImmune[BuffID.Chilled] = true;
             player.buffImmune[BuffID.Frozen] = true;
+            player.buffImmune[BuffID.Frostburn] = true;
+            player.buffImmune[BuffID.Frostburn2] = true;
+            player.buffImmune[BuffID.CursedInferno] = true;
+            player.buffImmune[BuffID.ShadowFlame] = true;
+            player.buffImmune[BuffID.Daybreak] = true;
         }
 
         public override void AddRecipes()
@@ -46,9 +49,12 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<Kaya>(1).
                 AddIngredient<Sange>(1).
-                AddIngredient(ItemID.Ectoplasm, 5).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddIngredient<GriefBar>(7).
+                AddIngredient(ItemID.Ectoplasm, 3).
+                AddIngredient<PointBooster>(1).
+                AddIngredient<VitalityBooster>(1).
+                AddIngredient<ManaEssence>(1).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
     }

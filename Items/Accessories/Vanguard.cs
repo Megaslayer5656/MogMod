@@ -14,9 +14,8 @@ namespace MogMod.Items.Accessories
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.Yellow;
+            Item.rare = ItemRarityID.Orange;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.statLifeMax2 += 50;
@@ -34,6 +33,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient<VitalityBooster>(1).
                 AddIngredient(ItemID.CobaltShield, 1).
                 AddIngredient(ItemID.BandofRegeneration, 1).
+                AddIngredient(ItemID.HellstoneBar, 12).
                 AddIngredient(ItemID.Ruby, 2).
                 AddTile(TileID.Hellforge).
                 Register();

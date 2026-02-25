@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo
 {
-    public class ExplosiveGhostflame : ModItem
+    public class ExplosiveGhostflame : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
         public const int manaCost = 36;
         public override void SetDefaults()
         {

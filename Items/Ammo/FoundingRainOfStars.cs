@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo
 {
-    public class FoundingRainOfStars : ModItem
+    public class FoundingRainOfStars : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
         public const int manaCost = 45;
         public override void SetStaticDefaults()
         {
@@ -46,9 +47,9 @@ namespace MogMod.Items.Ammo
         {
             CreateRecipe().
                 AddIngredient<StarShower>(1).
-                AddIngredient<UltimateOrb>(3).
+                AddIngredient<ManaCore>(1).
                 AddIngredient<MoonShard>(1).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<Scroll>(1).
                 AddTile(TileID.Bookcases).
                 DisableDecraft().
                 Register();

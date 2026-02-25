@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Other
 {
-    public class ManaCore : ModItem
+    public class ManaCore : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()

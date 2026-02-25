@@ -1,20 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 using MogMod.NPCs.Global;
-using Microsoft.CodeAnalysis;
 using MogMod.Common.MogModPlayer;
-using Microsoft.Build.Evaluation;
-using MogMod.Projectiles.MagicProjectiles;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {

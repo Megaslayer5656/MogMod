@@ -94,9 +94,9 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 // add a vanilla item to the crafting recipe
                 AddIngredient(ItemID.SpectreBoots, 1).
-                AddIngredient<ManaEssence>(2).
+                AddIngredient(ItemID.BandofStarpower, 1).
                 // add a modded item to the crafting recipe
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<ManaEssence>(2).
                 // add where the item can be crafted
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

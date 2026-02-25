@@ -39,7 +39,7 @@ namespace MogMod.Items.Consumables
             itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<ETGC>(), 1, 1, 5));
             itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<GreenTracerAmmo>(), 1, 300, 900));
             // change to drop vons dread
-            itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<Satanic>()));
+            itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<VoniumEssence>(), 1, 5, 15));
         }
     }
 }

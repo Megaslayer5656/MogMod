@@ -35,7 +35,6 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.SpiderFang, 15).
                 AddIngredient(ItemID.ChlorophyteBar, 12).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Mushroom"}", 7).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

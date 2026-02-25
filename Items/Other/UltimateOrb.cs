@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 
 namespace MogMod.Items.Other
 {
-    public class UltimateOrb : ModItem
+    public class UltimateOrb : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 4));
@@ -31,9 +27,10 @@ namespace MogMod.Items.Other
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.SoulofFright, 5).
-                AddIngredient(ItemID.SoulofMight, 5).
-                AddIngredient(ItemID.SoulofSight, 5).
+                AddIngredient(ItemID.SoulofFright, 3).
+                AddIngredient(ItemID.SoulofMight, 3).
+                AddIngredient(ItemID.SoulofSight, 3).
+                AddIngredient<ManaEssence>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

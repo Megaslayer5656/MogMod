@@ -5,8 +5,9 @@ using MogMod.Projectiles.RangedProjectiles;
 
 namespace MogMod.Items.Ammo
 {
-    public class ShrapnalBullet : ModItem
+    public class ShrapnalBullet : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
         public override void SetDefaults()
         {
             Item.damage = 9;

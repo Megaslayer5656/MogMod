@@ -45,7 +45,6 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.RichMahogany, 15).
                 AddIngredient(ItemID.JungleSpores, 7).
                 AddIngredient(ItemID.SoulofLight, 5).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

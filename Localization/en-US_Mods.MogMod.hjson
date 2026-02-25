@@ -26,11 +26,6 @@ Items: {
 		DisplayName: ETG-C
 	}
 
-	LedX: {
-		DisplayName: LedX
-		Tooltip: I'm popping a leddy. -Mq
-	}
-
 	DabDadBossBag: {
 		DisplayName: DabDad Boss Bag
 		Tooltip: Right click to open
@@ -39,11 +34,6 @@ Items: {
 	DabDadSpawner: {
 		DisplayName: Minecraft Animation
 		Tooltip: Challenges the ultimate animator to a battle
-	}
-
-	RedX: {
-		DisplayName: RedX
-		Tooltip: What the muddy A-60
 	}
 
 	Glue: {
@@ -71,11 +61,6 @@ Items: {
 		Tooltip: ""
 	}
 
-	GreenTracerAmmo: {
-		Tooltip: The ammo of true tigla slimers.
-		DisplayName: Green Tracer
-	}
-
 	VonSpawner: {
 		DisplayName: Diss Track
 		Tooltip: A diss on the evil king himself...
@@ -86,24 +71,9 @@ Items: {
 		Tooltip: ""
 	}
 
-	BoulderAmmo: {
-		DisplayName: Boulder Ammo
-		Tooltip: ""
-	}
-
-	BouncyBoulderAmmo: {
-		DisplayName: Bouncy Boulder Ammo
-		Tooltip: ""
-	}
-
 	BouncerSwitch: {
 		DisplayName: Bouncer Switch
 		Tooltip: ""
-	}
-
-	CraftingRecipe: {
-		DisplayName: Crafting Recipe
-		Tooltip: Can combine regular items into more powerful variations!
 	}
 
 	Accessories: {
@@ -298,6 +268,7 @@ Items: {
 				Increased Maximum Life by 50
 				Increased Life Regeneration
 				Greatly Decreased Mana Regeneration
+				Grants immunity to knockback
 				'A powerful shield that defends its wielder 
 				from even the most vicious of attacks.'
 				'''
@@ -363,9 +334,8 @@ Items: {
 				-20% Summon Damage
 				Increases Maximum Life by 100
 				Decreases Maximum Mana by 100
-				Vastly Increased Life Regeneration
-				'Preserved heart of an extinct monster, 
-				it bolsters the bearer's fortitude.'
+				Vastly Increased Life Regeneration, increasing even more if standing still
+				'Preserved heart of an extinct monster, it bolsters the bearer's fortitude.'
 				'''
 		}
 
@@ -428,6 +398,7 @@ Items: {
 				Increased Maximum Life by 80
 				Greatly Increased Life Regeneration
 				Enemies are more likely to target you
+				Grants immunity to knockback
 				Absorbs 25% of damage done to players on your team when above 25% life
 				'A cuirass originally built to protect against the dreaded Year Beast.'
 				'''
@@ -576,7 +547,7 @@ Items: {
 				Greatly Increases Mana Regeneration
 				Increases Maximum Life by 30
 				Increases Maximum Mana by 70
-				Grants immunity to most debuffs
+				Grants immunity to some debuffs
 				'Two of three known items of unimaginable power that many 
 				believe were crafted at the same enchanter's forge.'
 				'''
@@ -592,6 +563,7 @@ Items: {
 				Vastly Increases lifesteal of weapons that utilize it
 				Greatly Increased Life Regeneration
 				Increased Maximum Life by 50
+				Grants immunity to knockback and fire blocks
 				Grants immunity to most debuffs
 				'Sange and Yasha, when attuned by the moonlight and 
 				used together, become a very powerful combination.'
@@ -608,6 +580,11 @@ Items: {
 				+12% Increased magic damage
 				Greatly Increased Mana Regeneration
 				Increases Maximum Mana by 50
+				Increases fishing power by 60
+				Fishing rods shoot 24 extra lures
+				Does not stack with downgrades
+				Permanent Sonar and Crate Buffs
+				Grants the effects of Lavaproof Tackle Bag
 				'Yasha and Kaya when paired together share a natural resonance.'
 				'''
 		}
@@ -647,48 +624,16 @@ Items: {
 				'His awakening shall herald the dawn of our dynasty.'
 				'''
 		}
-	}
 
-	IronBranch: {
-		DisplayName: Iron Branch
-		Tooltip: ""
-	}
-
-	UltimateOrb: {
-		DisplayName: Ultimate Orb
-		Tooltip: ""
-	}
-
-	PointBooster: {
-		DisplayName: Point Booster
-		Tooltip: ""
-	}
-
-	VitalityBooster: {
-		DisplayName: Vitality Booster
-		Tooltip: ""
-	}
-
-	MagicStick: {
-		DisplayName: Magic Stick
-		Tooltip: ""
-	}
-
-	MagicWand: {
-		DisplayName: Magic Wand
-		Tooltip: ""
-	}
-
-	Phasma: {
-		DisplayName: Phasma
-		Tooltip:
-			'''
-			67 Ranged Damage
-			41% Attack Speed
-			Very fast speed
-			Very weak knockback
-			67% chance to save ammo
-			'''
+		Fishrael: {
+			DisplayName: Fishrael
+			Tooltip:
+				'''
+				Fishing rods shoot 9 extra lures
+				Grants the effects of Lavaproof Tackle Bag
+				'Glory to Fishrael'
+				'''
+		}
 	}
 
 	Weapons: {
@@ -898,12 +843,22 @@ Items: {
 
 			RiversOfBlood: {
 				DisplayName: Rivers Of Blood
-				Tooltip: ""
+				Tooltip:
+					'''
+					High bleed buildup
+					Right click to parry
+					After a successful parry, shoots a projectile
+					'''
 			}
 
 			TheMarker: {
 				DisplayName: The Marker
-				Tooltip: ""
+				Tooltip:
+					'''
+					Hitting an enemy marks it and summons an orb
+					Touching the orb causes it to explode into homing bolts
+					If no enemy is marked, bolts home in on any nearby enemies
+					'''
 			}
 		}
 
@@ -1088,6 +1043,16 @@ Items: {
 			SplinterLauncher: {
 				DisplayName: Splinter Launcher
 				Tooltip: ""
+			}
+
+			MysticSnake: {
+				DisplayName: Mystic Snake
+				Tooltip:
+					'''
+					Converts arrows to homing snakes
+					For each enemy nearby, fire up to 6 additional snakes
+					With Eye of Skadi equipped, always fire 6 additional snakes
+					'''
 			}
 		}
 
@@ -1347,11 +1312,6 @@ Items: {
 			'''
 	}
 
-	MosinLPS: {
-		DisplayName: LPS Ammo
-		Tooltip: ""
-	}
-
 	AghanimShard: {
 		DisplayName: Aghanim's Shard
 		Tooltip:
@@ -1480,11 +1440,6 @@ Items: {
 		Tooltip: Greatly lights up an area
 	}
 
-	EvilAPLapuaAmmo: {
-		DisplayName: Evil AP Lapua Ammo
-		Tooltip: Homes in on enemies after a short time
-	}
-
 	DesperateMusicBox: {
 		DisplayName: Music Box (Desperate)
 		Tooltip: ""
@@ -1493,74 +1448,6 @@ Items: {
 	RideTheFireMusicBox: {
 		DisplayName: Music Box (Ride The Fire)
 		Tooltip: ""
-	}
-
-	ShrapnalBullet: {
-		DisplayName: Shrapnel Bullet
-		Tooltip:
-			'''
-			Rains down additional bullets from the sky
-			'Shrapnel!'
-			'''
-	}
-
-	BoulderBullet: {
-		DisplayName: Boulder Bullet
-		Tooltip: Heavier and rolls on the ground
-	}
-
-	AghanimBulletAmmo: {
-		DisplayName: Aghanim's Bullet
-		Tooltip:
-			'''
-			Repeatedly homes in on enemies
-			Inflicts Aghanim's Hex on hit
-			'''
-	}
-
-	GlintstonePebble: {
-		DisplayName: Glintstone Pebble
-		Tooltip:
-			'''
-			Fires a glintstone rock
-			'The most basic glintstone sorcery of the Academy of Raya Lucaria.'
-			'''
-	}
-
-	RockSling: {
-		DisplayName: Rock Sling
-		Tooltip:
-			'''
-			Fires a small meteorite that accelerates after some time
-			'A gravitational technique studied by the young Radahn. His master was an Alabaster Lord with skin of stone.'
-			'''
-	}
-
-	GlintstoneStars: {
-		DisplayName: Glintstone Stars
-		Tooltip:
-			'''
-			Fires an orb that splits into 3 homing orbs
-			'A sorcery of the Olivinus Conspectus, which attracts sorcerers from Sellia, Town of Sorcery.'
-			'''
-	}
-
-	ShardSpiral: {
-		DisplayName: Shard Spiral
-		Tooltip:
-			'''
-			Fires 2 orbiting glintstone shards that chase after enemies
-			'A sorcery of the Karolos Conspectus, the most venerable of the academy. This was the product of a failed attempt to create a new comet.'
-			'''
-	}
-
-	CannonOfHaima: {
-		DisplayName: Cannon Of Haima
-		Tooltip:
-			'''
-			Lobs an explosive glintstone rock in an arc
-			'Drawn from the conspectus of Haima, the adjudicator of the academy, this sorcery employs might as a means to quell conflict.'
-			'''
 	}
 
 	CarianSlicer: {
@@ -1572,79 +1459,260 @@ Items: {
 			'''
 	}
 
-	StarShower: {
-		DisplayName: Star Shower
-		Tooltip:
-			'''
-			Fires an orb that splits into 6 homing orbs
-			'The most difficult to master of the Olivinus Conspectus sorceries.'
-			'''
+	Ammo: {
+		AghanimBulletAmmo: {
+			DisplayName: Aghanim's Bullet
+			Tooltip:
+				'''
+				Repeatedly homes in on enemies
+				Inflicts Aghanim's Hex on hit
+				'''
+		}
+
+		BoulderAmmo: {
+			DisplayName: Boulder Ammo
+			Tooltip: ""
+		}
+
+		BouncyBoulderAmmo: {
+			DisplayName: Bouncy Boulder Ammo
+			Tooltip: ""
+		}
+
+		BoulderBullet: {
+			DisplayName: Boulder Bullet
+			Tooltip: Heavier and rolls on the ground
+		}
+
+		CannonOfHaima: {
+			DisplayName: Cannon Of Haima
+			Tooltip:
+				'''
+				Lobs an explosive glintstone rock in an arc
+				'Drawn from the conspectus of Haima, the adjudicator of the academy, this sorcery employs might as a means to quell conflict.'
+				'''
+		}
+
+		EvilAPLapuaAmmo: {
+			DisplayName: Evil AP Lapua Ammo
+			Tooltip: Homes in on enemies after a short time
+		}
+
+		ExplosiveGhostflame: {
+			DisplayName: Explosive Ghostflame
+			Tooltip:
+				'''
+				Violently explodes upon casting, firing vengeful spirits around the player
+				'In the time when there was no Erdtree, death was burned in ghostflame.'
+				'''
+		}
+
+		FoundingRainOfStars: {
+			DisplayName: Founding Rain Of Stars
+			Tooltip:
+				'''
+				Fires an orb that ascends upwards, raining down stars shortly after
+				'The eldest primeval sorcery, said to have been discovered by an ancient astrologer.'
+				'''
+		}
+
+		GlintstoneArc: {
+			DisplayName: Glintstone Arc
+			Tooltip:
+				'''
+				Fires a widening magic arc
+				'Granted to sorcererers who depart from the academy to embark on journeys, 
+				in order to fend off large groups of would-be adversaries. Fools often roam in packs.'
+				'''
+		}
+
+		GlintstonePebble: {
+			DisplayName: Glintstone Pebble
+			Tooltip:
+				'''
+				Fires a glintstone rock
+				'The most basic glintstone sorcery of the Academy of Raya Lucaria.'
+				'''
+		}
+
+		GlintstoneStars: {
+			DisplayName: Glintstone Stars
+			Tooltip:
+				'''
+				Fires an orb that splits into 3 homing orbs
+				'A sorcery of the Olivinus Conspectus, which attracts sorcerers from Sellia, Town of Sorcery.'
+				'''
+		}
+
+		GreenTracerAmmo: {
+			DisplayName: Green Tracer
+			Tooltip: The ammo of true tigla slimers
+		}
+
+		MosinLPS: {
+			DisplayName: LPS Ammo
+			Tooltip: ""
+		}
+
+		RockSling: {
+			DisplayName: Rock Sling
+			Tooltip:
+				'''
+				Fires a small meteorite that accelerates after some time
+				'A gravitational technique studied by the young Radahn. His master was an Alabaster Lord with skin of stone.'
+				'''
+		}
+
+		ShardSpiral: {
+			DisplayName: Shard Spiral
+			Tooltip:
+				'''
+				Fires 2 orbiting glintstone shards that chase after enemies
+				'A sorcery of the Karolos Conspectus, the most venerable of the academy. This was the product of a failed attempt to create a new comet.'
+				'''
+		}
+
+		ShrapnalBullet: {
+			DisplayName: Shrapnel Bullet
+			Tooltip:
+				'''
+				Rains down additional bullets from the sky
+				'Shrapnel!'
+				'''
+		}
+
+		SplinterAmmo: {
+			DisplayName: Splinter Ammo
+			Tooltip: Low bleed buildup
+		}
+
+		StarShower: {
+			DisplayName: Star Shower
+			Tooltip:
+				'''
+				Fires an orb that splits into 6 homing orbs
+				'The most difficult to master of the Olivinus Conspectus sorceries.'
+				'''
+		}
+
+		StarsOfRuin: {
+			DisplayName: Stars Of Ruin
+			Tooltip:
+				'''
+				Fires an orb that spews out 12 homing stars
+				'When Lusat glimpsed into the primeval current, he beheld the final moments of a great star cluster, and upon seeing it, he too was broken. '
+				'''
+		}
 	}
 
-	StarsOfRuin: {
-		DisplayName: Stars Of Ruin
-		Tooltip:
-			'''
-			Fires an orb that spews out 12 homing stars
-			'When Lusat glimpsed into the primeval current, he beheld the final moments of a great star cluster, and upon seeing it, he too was broken. '
-			'''
+	Materials: {
+		CraftingRecipe: {
+			DisplayName: Crafting Recipe
+			Tooltip: Can combine regular items into more powerful variations!
+		}
+
+		IronBranch: {
+			DisplayName: Iron Branch
+			Tooltip: ""
+		}
+
+		LedX: {
+			DisplayName: LedX
+			Tooltip: I'm popping a leddy. -Mq
+		}
+
+		LizhardBloodVial: {
+			DisplayName: Lizhard Blood Vial
+			Tooltip: Appears to be fuel for the Golem
+		}
+
+		ManaCore: {
+			DisplayName: Mana Core
+			Tooltip: Contains extreme magical power
+		}
+
+		ManaEssence: {
+			DisplayName: Mana Essence
+			Tooltip: A shard of pure mana
+		}
+
+		Phasma: {
+			DisplayName: Phasma
+			Tooltip:
+				'''
+				67 Ranged Damage
+				41% Attack Speed
+				Very fast speed
+				Very weak knockback
+				67% chance to save ammo
+				'''
+		}
+
+		PointBooster: {
+			DisplayName: Point Booster
+			Tooltip: ""
+		}
+
+		RedX: {
+			DisplayName: RedX
+			Tooltip: What the muddy A-60
+		}
+
+		Scroll: {
+			DisplayName: Scroll
+			Tooltip: Used to create sorceries
+		}
+
+		SoulOfDabdad: {
+			DisplayName: Soul Of Dabdad
+			Tooltip: ""
+		}
+
+		UltimateOrb: {
+			DisplayName: Ultimate Orb
+			Tooltip: Extreme power, concentrated into a single orb
+		}
+
+		VitalityBooster: {
+			DisplayName: Vitality Booster
+			Tooltip: Said to boost the lifeforce of whoever wielded it
+		}
+
+		VoniumBar: {
+			DisplayName: Vonium Bar
+			Tooltip: Contains the true power of King Von
+		}
+
+		VoniumEssence: {
+			DisplayName: Vonium Essence
+			Tooltip: A shard of a heavenly soul
+		}
+
+		FrigidCrystal: {
+			DisplayName: Frigid Crystal
+			Tooltip: Emits a freezing aura around it
+		}
+
+		FrigidShard: {
+			DisplayName: Frigid Shard
+			Tooltip: Chilling to the touch
+		}
+
+		GriefBar: {
+			DisplayName: Grief Bar
+			Tooltip: Said to bring rougly 83% of the power of the chaos knight
+		}
 	}
 
-	GlintstoneArc: {
-		DisplayName: Glintstone Arc
-		Tooltip:
-			'''
-			Fires a widening magic arc
-			'Granted to sorcererers who depart from the academy to embark on journeys, 
-			in order to fend off large groups of would-be adversaries. Fools often roam in packs.'
-			'''
-	}
-
-	RiversOfBlood: {
-		DisplayName: Rivers Of Blood
-		Tooltip:
-			'''
-			High bleed buildup
-			Right click to parry
-			After a successful parry, shoots a projectile
-			'''
-	}
-
-	LizhardBloodVial: {
-		DisplayName: Lizhard Blood Vial
-		Tooltip: Appears to be fuel for the Golem.
-	}
-
-	SplinterAmmo: {
-		DisplayName: Splinter Ammo
-		Tooltip: Low bleed buildup
-	}
-
-	ExplosiveGhostflame: {
-		DisplayName: Explosive Ghostflame
-		Tooltip:
-			'''
-			Violently explodes upon casting, firing vengeful spirits around the player
-			'In the time when there was no Erdtree, death was burned in ghostflame.'
-			'''
-	}
-
-	FoundingRainOfStars: {
-		DisplayName: Founding Rain Of Stars
-		Tooltip:
-			'''
-			Fires an orb that ascends upwards, raining down stars shortly after
-			'The eldest primeval sorcery, said to have been discovered by an ancient astrologer.'
-			'''
-	}
-
-	ManaCore: {
-		DisplayName: Mana Core
-		Tooltip: ""
-	}
-
-	ManaEssence: {
-		DisplayName: Mana Essence
-		Tooltip: ""
+	Fishing: {
+		AnglerFish: {
+			DisplayName: Angler Fish
+			Tooltip:
+				'''
+				Contains various fishing items
+				Right click to open
+				'You get what you get and you don't get upset!'
+				'''
+		}
 	}
 }

@@ -92,7 +92,7 @@ namespace MogMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient<DragonPiercer>(1).
                 AddIngredient(ItemID.ElectrosphereLauncher, 1).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<UltimateOrb>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

@@ -8,8 +8,9 @@ using System.Linq;
 
 namespace MogMod.Items.Ammo
 {
-    public class GlintstonePebble : ModItem
+    public class GlintstonePebble : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
         public const int manaCost = 5;
         public override void SetDefaults()
         {
@@ -42,7 +43,7 @@ namespace MogMod.Items.Ammo
             CreateRecipe()
                 .AddIngredient(ItemID.StoneBlock, 40)
                 .AddIngredient(ItemID.LargeSapphire, 1)
-                .AddIngredient<CraftingRecipe>(1)
+                .AddIngredient<Scroll>(1)
                 .AddTile(TileID.Bookcases)
                 .Register();
         }

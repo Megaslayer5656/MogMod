@@ -42,7 +42,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient<Diadem>(1).
                 AddIngredient(ItemID.DiamondGemsparkBlock, 20).
                 AddRecipeGroup("AdamantiteBar", 15).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<FrigidCrystal>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

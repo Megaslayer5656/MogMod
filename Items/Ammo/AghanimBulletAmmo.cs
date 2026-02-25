@@ -6,8 +6,9 @@ using MogMod.Items.Consumables;
 
 namespace MogMod.Items.Ammo
 {
-    public class AghanimBulletAmmo : ModItem
+    public class AghanimBulletAmmo : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
         public override void SetDefaults()
         {
             Item.damage = 18;

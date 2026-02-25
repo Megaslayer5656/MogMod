@@ -1,11 +1,8 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
+using MogMod.Items.Other;
 using MogMod.Utilities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,6 +29,16 @@ namespace MogMod.Items.Accessories
             player.GetDamage(DamageClass.Summon) += .10f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingRefresherOrb = true;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.JungleSpores, 8).
+                AddIngredient(ItemID.ChlorophyteBar, 5).
+                AddIngredient<FrigidCrystal>(3).
+                AddIngredient<ManaCore>(1).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
         }
     }
 }

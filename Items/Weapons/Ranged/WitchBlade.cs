@@ -33,7 +33,7 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.ThornChakram, 1).
                 AddIngredient(ItemID.Deathweed, 12).
                 AddIngredient(ItemID.BeeWax, 8).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<FrigidShard>(3).
                 AddTile(TileID.Anvils).
                 Register();
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Other;
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
 using Terraria.DataStructures;
@@ -42,6 +43,7 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient<WindrunnersBow>(1).
                 AddIngredient(ItemID.HallowedRepeater).
                 AddIngredient(ItemID.SoulofNight, 8).
+                AddIngredient<FrigidShard>(5).
                 AddIngredient(ItemID.FrostCore, 1).
                 AddTile(TileID.MythrilAnvil).
                 Register();

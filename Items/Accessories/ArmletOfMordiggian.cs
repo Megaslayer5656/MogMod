@@ -39,7 +39,6 @@ namespace MogMod.Items.Accessories
                 AddIngredient<BladesOfAttack>().
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Emblem"}", 1).
                 AddRecipeGroup("AdamantiteBar", 10).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

@@ -75,7 +75,7 @@ namespace MogMod.Items.Weapons.Melee
                 AddIngredient<Sange>(1).
                 AddIngredient(ItemID.VampireKnives, 1).
                 AddRecipeGroup("AdamantiteBar", 18).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<GriefBar>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

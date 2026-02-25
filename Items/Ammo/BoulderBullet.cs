@@ -5,8 +5,9 @@ using MogMod.Projectiles.RangedProjectiles;
 
 namespace MogMod.Items.Ammo
 {
-    public class BoulderBullet : ModItem
+    public class BoulderBullet : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
         public override void SetDefaults()
         {
             Item.damage = 17;

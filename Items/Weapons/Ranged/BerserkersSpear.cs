@@ -78,8 +78,8 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient<WarriorsSpear>(1).
                 AddIngredient(ItemID.ShadowFlameKnife, 1).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 15).
+                AddIngredient<GriefBar>(12).
                 AddIngredient(ItemID.Ectoplasm, 10).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

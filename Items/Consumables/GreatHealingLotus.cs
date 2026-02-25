@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using MogMod.Items.Other;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,7 +35,7 @@ namespace MogMod.Items.Consumables
             CreateRecipe(3).
                 AddIngredient<HealingLotus>(3).
                 AddIngredient(ItemID.Fireblossom, 2).
-                AddIngredient(ItemID.BottledHoney, 1).
+                AddIngredient<FrigidShard>(1).
                 AddTile(TileID.Bottles).
                 Register()
                 .DisableDecraft();

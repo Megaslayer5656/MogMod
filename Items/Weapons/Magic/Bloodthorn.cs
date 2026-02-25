@@ -51,8 +51,8 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient<OrchidMalevolence>(1).
                 AddIngredient(ItemID.MagnetSphere, 1).
                 AddIngredient(ItemID.Stinger, 15).
+                AddIngredient<GriefBar>(7).
                 AddIngredient(ItemID.DarkShard, 1).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

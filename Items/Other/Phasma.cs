@@ -1,13 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using Terraria;
-using Terraria.Audio;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace MogMod.Items.Other
 {
-    public class Phasma : ModItem
+    public class Phasma : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Materials";
         // make phasma play sound when used
         public override void SetDefaults()
         {

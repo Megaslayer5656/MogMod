@@ -1,19 +1,7 @@
-﻿using System;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ID;
-using Terraria.UI;
 using MogMod.UI;
-using Terraria.GameContent.UI.Elements;
-using System.Security.Cryptography.X509Certificates;
-using MogMod.Items.Other;
-using Terraria.GameContent.ItemDropRules;
-using MogMod.Common;
-using MogMod.Common.Systems;
 using MogMod.Common.Interfaces;
 
 namespace MogMod.Items.Accessories

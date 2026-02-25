@@ -126,7 +126,6 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.MoltenFury, 1).
                 AddIngredient(ItemID.AnkletoftheWind, 1).
                 AddIngredient(ItemID.JungleSpores, 8).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.Anvils).
                 Register();
         }

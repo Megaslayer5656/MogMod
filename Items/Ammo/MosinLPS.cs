@@ -5,8 +5,9 @@ using MogMod.Projectiles.RangedProjectiles;
 
 namespace MogMod.Items.Ammo
 {
-    public class MosinLPS : ModItem
+    public class MosinLPS : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
         public override void SetDefaults()
         {
             Item.damage = 31;

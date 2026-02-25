@@ -144,7 +144,6 @@ namespace MogMod.Items.Weapons.Melee
                 AddIngredient(ItemID.PiercingStarlight, 1).
                 AddIngredient(ItemID.LunarBar, 15).
                 AddIngredient<UltimateOrb>(3).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

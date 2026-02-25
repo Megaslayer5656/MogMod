@@ -31,7 +31,6 @@ namespace MogMod.Items.Accessories
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 7).
                 AddIngredient(ItemID.Ruby, 5).
                 AddIngredient(ItemID.AntlionMandible, 3).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

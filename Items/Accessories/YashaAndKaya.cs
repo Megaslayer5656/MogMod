@@ -1,11 +1,8 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Other;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Ranged;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,6 +22,8 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+
             player.GetAttackSpeed(DamageClass.Generic) += .24f;
             player.GetDamage(DamageClass.Generic) += .16f;
             player.GetDamage(DamageClass.Magic) += .12f;
@@ -32,6 +31,20 @@ namespace MogMod.Items.Accessories
             player.accRunSpeed += player.accRunSpeed * .24f;
             player.manaRegen += (int)Math.Round(player.manaRegen * .5f);
             player.statManaMax2 += 50;
+
+            // fish slop 1
+            mogPlayer.wearingFishSlop1 = true;
+            player.accFishingLine = true;
+            player.accTackleBox = true;
+            player.accFishFinder = true;
+            player.accLavaFishing = true;
+
+            // fish slop 2
+            mogPlayer.wearingFishSlop2 = true;
+            player.fishingSkill += 60;
+            player.sonarPotion = true;
+            player.cratePotion = true;
+
         }
 
         public override void AddRecipes()
@@ -39,9 +52,13 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<Kaya>(1).
                 AddIngredient<Yasha>(1).
-                AddIngredient(ItemID.Ectoplasm, 5).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddIngredient<Fishrael>(1).
+                AddIngredient(ItemID.FishingPotion, 15).
+                AddIngredient(ItemID.CratePotion, 15).
+                AddIngredient(ItemID.SonarPotion, 15).
+                AddIngredient(ItemID.Ectoplasm, 3).
+                AddIngredient<FrigidCrystal>(1).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
     }

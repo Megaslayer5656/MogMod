@@ -119,7 +119,6 @@ namespace MogMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient(ItemID.FragmentNebula, 8).
                 AddIngredient<ManaCore>(3).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

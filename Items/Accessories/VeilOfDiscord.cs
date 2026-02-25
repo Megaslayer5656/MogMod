@@ -37,8 +37,8 @@ namespace MogMod.Items.Accessories
                 AddIngredient<HelmOfIronWill>(1).
                 AddIngredient<Crown>(1).
                 AddIngredient(ItemID.Bone, 40).
+                AddIngredient<FrigidShard>(3).
                 AddIngredient(ItemID.LargeAmethyst, 1).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

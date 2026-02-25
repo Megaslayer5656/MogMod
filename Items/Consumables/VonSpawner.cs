@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
-using Terraria;
+﻿using MogMod.Items.Other;
 using MogMod.NPCs.Bosses;
-using Terraria.ID;
+using Terraria;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Consumables
 {
@@ -22,7 +18,7 @@ namespace MogMod.Items.Consumables
             Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.value = 0;
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Purple;
         }
         public override bool CanUseItem(Player player)
         {
@@ -44,6 +40,15 @@ namespace MogMod.Items.Consumables
                 }
             }
             return true;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.MusicBox, 1).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient<UltimateOrb>(3).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

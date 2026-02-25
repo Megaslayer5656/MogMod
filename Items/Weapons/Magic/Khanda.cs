@@ -41,7 +41,7 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient<Phylactery>(1).
                 AddRecipeGroup("CobaltBar", 12).
                 AddIngredient(ItemID.LightShard, 1).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<PointBooster>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

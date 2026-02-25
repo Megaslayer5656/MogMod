@@ -43,7 +43,6 @@ namespace MogMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient(ItemID.MoltenHamaxe, 1).
                 AddRecipeGroup("IronBar", 24).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.Anvils).
                 Register();
         }

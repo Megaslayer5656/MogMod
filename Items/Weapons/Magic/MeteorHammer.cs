@@ -100,7 +100,7 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient(ItemID.StaffofEarth, 1).
                 AddIngredient(ItemID.LunarBar, 15).
                 AddIngredient(ItemID.FragmentNebula, 8).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<ManaCore>(1).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

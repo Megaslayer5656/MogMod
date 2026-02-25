@@ -49,9 +49,9 @@ namespace MogMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient(ItemID.DeathSickle, 1).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 20).
+                AddIngredient<GriefBar>(12).
                 AddIngredient(ItemID.FragmentSolar, 8).
                 AddIngredient<UltimateOrb>(3).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

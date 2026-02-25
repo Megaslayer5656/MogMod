@@ -65,18 +65,16 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.SDMG, 1).
                 AddIngredient(ItemID.VortexBeater, 1).
                 AddIngredient(ItemID.Megashark, 1).
-                AddIngredient(ItemID.LunarBar, 20).
+                AddIngredient<VoniumBar>(5).
                 AddIngredient<UltimateOrb>(3).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
             CreateRecipe().
                 AddIngredient(ItemID.SDMG, 1).
                 AddIngredient(ItemID.VortexBeater, 1).
                 AddIngredient<Minislark>(1).
-                AddIngredient(ItemID.LunarBar, 20).
+                AddIngredient<VoniumBar>(5).
                 AddIngredient<UltimateOrb>(3).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

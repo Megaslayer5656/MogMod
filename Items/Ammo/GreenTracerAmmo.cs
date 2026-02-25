@@ -5,8 +5,9 @@ using MogMod.Projectiles.RangedProjectiles;
 
 namespace MogMod.Items.Ammo
 {
-    public class GreenTracerAmmo : ModItem
+    public class GreenTracerAmmo : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
         public override void SetDefaults()
         {
             Item.damage = 12;

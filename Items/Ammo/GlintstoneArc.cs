@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo
 {
-    public class GlintstoneArc : ModItem
+    public class GlintstoneArc : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
         public const int manaCost = 7;
         public override void SetStaticDefaults()
         {

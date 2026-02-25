@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo
 {
-    public class CannonOfHaima : ModItem
+    public class CannonOfHaima : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
         public const int manaCost = 32;
         public override void SetDefaults()
         {
@@ -42,7 +43,7 @@ namespace MogMod.Items.Ammo
             CreateRecipe().
                 AddIngredient(ItemID.SoulofSight, 7).
                 AddIngredient<UltimateOrb>(3).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<Scroll>(1).
                 AddTile(TileID.Bookcases).
                 Register();
         }

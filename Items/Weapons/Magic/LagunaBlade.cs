@@ -77,7 +77,6 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient<FierySoul>(1).
                 AddIngredient(ItemID.ThunderStaff, 1).
                 AddIngredient(ItemID.LivingFireBlock, 20).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

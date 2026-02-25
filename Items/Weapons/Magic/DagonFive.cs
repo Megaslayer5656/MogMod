@@ -67,7 +67,6 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient<DagonFour>(1).
                 AddIngredient(ItemID.NebulaArcanum, 1).
                 AddIngredient(ItemID.FragmentSolar, 12).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

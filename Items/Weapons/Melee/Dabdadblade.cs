@@ -27,10 +27,10 @@ namespace MogMod.Items.Weapons.Melee
 		{
 			// ooo look at me im soooooo rare only i use Recipe recipe = CreateRecipe() oooo im soooooooo rare~~~
 			Recipe recipe = CreateRecipe();
-			recipe.AddIngredient(ItemID.Emerald, 15);
-			recipe.AddRecipeGroup("CobaltBar", 15);
 			recipe.AddIngredient(ItemID.CursedFlame, 20);
             recipe.AddIngredient(ItemID.SoulofSight, 20);
+			recipe.AddRecipeGroup("CobaltBar", 15);
+			recipe.AddIngredient(ItemID.Emerald, 15);
             recipe.AddTile(TileID.MythrilAnvil);
 			recipe.Register();
 		}

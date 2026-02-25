@@ -5,8 +5,9 @@ using MogMod.Common.Classes;
 
 namespace MogMod.Items.Ammo
 {
-    public class BoulderAmmo : ModItem
+    public class BoulderAmmo : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
         public override void SetDefaults()
         {
             Item.damage = 80;

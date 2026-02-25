@@ -116,11 +116,12 @@ namespace MogMod.Items.Weapons.Magic //So yeah I'm gonna make a glintstone sorce
         }
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.DiamondStaff, 1)
-                .AddIngredient<ManaEssence>(1)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.DiamondStaff, 1).
+                AddIngredient<ManaEssence>(1).
+                AddIngredient<FrigidShard>(1).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

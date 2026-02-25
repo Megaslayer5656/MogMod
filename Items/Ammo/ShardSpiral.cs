@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo
 {
-    public class ShardSpiral : ModItem
+    public class ShardSpiral : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
         public const int manaCost = 16;
         public override void SetDefaults()
         {
@@ -42,7 +43,7 @@ namespace MogMod.Items.Ammo
             CreateRecipe().
                 AddIngredient(ItemID.PixieDust, 25).
                 AddRecipeGroup("MythrilBar", 15).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<Scroll>(1).
                 AddTile(TileID.Bookcases).
                 Register();
         }

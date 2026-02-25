@@ -1,12 +1,13 @@
-﻿using MogMod.Buffs.Cooldowns;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
+using MogMod.Items.Other;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -23,11 +24,10 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 9;
             Item.height = 83;
-            Item.damage = 13;
+            Item.damage = 18;
             Item.scale = .75f;
             Item.DamageType = DamageClass.Melee;
-            Item.useTime = 20;
-            Item.useAnimation = 20;
+            Item.useTime = Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 3.5f;
             Item.value = Item.buyPrice(0, 1, 50, 0);
@@ -36,7 +36,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing
         }
-
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 16;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             return false;
@@ -68,9 +68,9 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-            AddRecipeGroup("Wood", 25).
-            AddRecipeGroup("IronBar", 15).
-            AddTile(TileID.WorkBenches).
+            AddIngredient(ItemID.Katana, 1).
+            AddIngredient<VitalityBooster>(1).
+            AddTile(TileID.Anvils).
             Register(); //TODO: Add something else cool to this recipe (pre boss still)
         }
     }

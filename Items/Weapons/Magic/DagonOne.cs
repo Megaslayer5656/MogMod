@@ -1,4 +1,5 @@
-﻿using MogMod.Projectiles.MagicProjectiles;
+﻿using MogMod.Items.Other;
+using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -37,6 +38,7 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient(ItemID.FlareGun, 1).
                 AddIngredient(ItemID.WandofSparking, 1).
                 AddIngredient(ItemID.Torch, 20).
+                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.Anvils).
                 Register();
         }

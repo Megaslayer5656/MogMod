@@ -20,7 +20,7 @@ namespace MogMod.Items.Accessories
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.Blue;
+            Item.rare = ItemRarityID.Green;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -51,10 +51,9 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<Headdress>(1).
                 AddRecipeGroup(RecipeGroupID.IronBar, 25).
+                AddIngredient<FrigidShard>(5).
                 AddRecipeGroup("GoldBar", 3).
                 AddIngredient(ItemID.Book, 3).
-                AddIngredient(ItemID.Diamond, 1).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

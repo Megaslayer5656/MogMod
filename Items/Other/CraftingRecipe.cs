@@ -4,29 +4,29 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Other
 {
-    public class CraftingRecipe : ModItem
+    public class CraftingRecipe : ModItem, ILocalizedModType
     {
         // does something for journey mode i think
         public new string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 3;
+            Item.ResearchUnlockCount = 25;
         }
 
         public override void SetDefaults()
         {
             Item.width = 32;
-            Item.height = 32;
+            Item.height = 26;
             Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.White;
         }
-        //public override void AddRecipes()
-        //{
-        //    CreateRecipe().
-        //        AddIngredient<IronBranch>(3).
-        //        AddIngredient(ItemID.GoldCoin, 5).
-        //        AddTile(TileID.WorkBenches).
-        //        Register();
-        //}
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<IronBranch>(1).
+                AddIngredient(ItemID.CopperCoin, 5).
+                AddTile(TileID.WorkBenches).
+                Register();
+        }
     }
 }

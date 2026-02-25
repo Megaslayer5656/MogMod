@@ -46,7 +46,6 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.ShroomiteBar, 15).
                 AddIngredient(ItemID.SoulofMight, 7).
                 AddIngredient(ItemID.Silk, 3).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

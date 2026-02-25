@@ -59,8 +59,9 @@ namespace MogMod.Items.Accessories
                 AddIngredient<VeilOfDiscord>(1).
                 AddRecipeGroup("AdamantiteBar", 25).
                 AddIngredient(ItemID.SoulofMight, 15).
+                AddIngredient<FrigidCrystal>(3).
+                AddIngredient<ManaCore>(1).
                 AddIngredient(ItemID.FrostCore, 1).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo
 {
-    public class StarsOfRuin : ModItem
+    public class StarsOfRuin : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
         public const int manaCost = 28;
         public override void SetStaticDefaults()
         {
@@ -46,9 +47,9 @@ namespace MogMod.Items.Ammo
         {
             CreateRecipe().
                 AddIngredient<StarShower>(1).
-                AddIngredient<UltimateOrb>(3).
+                AddIngredient<ManaCore>(1).
                 AddIngredient<AghanimShard>(1).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<Scroll>(1).
                 AddTile(TileID.Bookcases).
                 DisableDecraft().
                 Register();

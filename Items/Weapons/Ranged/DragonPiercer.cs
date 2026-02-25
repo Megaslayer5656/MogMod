@@ -95,7 +95,6 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.Cog, 48).
                 AddRecipeGroup("AdamantiteBar", 18).
                 AddIngredient(ItemID.WirePipe, 8).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

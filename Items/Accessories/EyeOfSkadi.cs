@@ -21,6 +21,7 @@ namespace MogMod.Items.Accessories
         {
             player.GetArmorPenetration(DamageClass.Generic) += 25;
             player.GetDamage(DamageClass.Generic) += .10f;
+            player.GetCritChance(DamageClass.Generic) += 10f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingEyeOfSkadi = true;
         }
@@ -28,11 +29,10 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.EyeoftheGolem, 1).
+                AddIngredient<GriefBar>(7).
                 AddIngredient(ItemID.ShroomiteBar, 7).
-                AddIngredient(ItemID.SpectreBar, 7).
-                AddIngredient<UltimateOrb>(2).
+                AddIngredient<ManaCore>(1).
                 AddIngredient<PointBooster>(1).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

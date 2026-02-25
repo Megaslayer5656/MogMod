@@ -55,7 +55,6 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient<HydrakanLatch>(1).
                 AddIngredient(ItemID.SharkToothNecklace, 1).
                 AddIngredient(ItemID.Bone, 30). // we need a boss same tier as skeletron (slardar maybe??)
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.Anvils).
                 Register();
         }

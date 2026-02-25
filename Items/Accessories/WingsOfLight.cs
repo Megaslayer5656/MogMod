@@ -1,7 +1,9 @@
 ﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Other;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -37,6 +39,17 @@ namespace MogMod.Items.Accessories
             maxCanAscendMultiplier = 1f;
             maxAscentMultiplier = 3f;
             constantAscend = 0.135f;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.GarlandHat, 1).
+                AddIngredient(ItemID.SoulofFlight, 20).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 9).
+                AddIngredient<FrigidCrystal>(3).
+                AddIngredient<ManaCore>(1).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
         }
     }
 }

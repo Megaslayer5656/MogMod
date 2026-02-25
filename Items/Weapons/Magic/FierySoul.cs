@@ -32,7 +32,6 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient(ItemID.Book, 1).
                 AddIngredient(ItemID.FlowerofFire, 1).
                 AddIngredient(ItemID.Fireblossom, 3).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.Bookcases).
                 Register();
         }

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria;
 using MogMod.Common.Classes;
 using Terraria.ID;
 
 namespace MogMod.Items.Ammo
 {
-    public class BouncyBoulderAmmo : ModItem
+    public class BouncyBoulderAmmo : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
         public override void SetDefaults()
         {
             Item.damage = 80;

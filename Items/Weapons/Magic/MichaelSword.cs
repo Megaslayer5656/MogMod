@@ -45,7 +45,7 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient(ItemID.FireFeather, 1).
                 AddIngredient(ItemID.IceFeather, 1).
                 AddIngredient(ItemID.BrokenHeroSword, 1).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<ManaCore>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

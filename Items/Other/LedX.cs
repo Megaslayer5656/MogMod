@@ -1,13 +1,11 @@
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace MogMod.Items.Other
 {
-    public class LedX : ModItem
+    public class LedX : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Materials";
         public override void SetDefaults()
         {
             Item.width = 5;

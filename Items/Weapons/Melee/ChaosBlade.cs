@@ -93,7 +93,6 @@ namespace MogMod.Items.Weapons.Melee
                 AddIngredient(ItemID.HellstoneBar, 20).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 15).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 10).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.Anvils).
                 Register();
         }

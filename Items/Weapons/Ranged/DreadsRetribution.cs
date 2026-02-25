@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Other;
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
 using Terraria.DataStructures;
@@ -57,7 +58,9 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient<DrowRangersCrossbow>(1).
                 AddIngredient(ItemID.Tsunami, 1).
                 AddIngredient(4953, 1). // eventide from empress
+                AddIngredient<GriefBar>(10).
                 AddIngredient(ItemID.BeetleHusk, 8).
+                AddIngredient<FrigidCrystal>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

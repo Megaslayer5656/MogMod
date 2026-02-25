@@ -528,6 +528,7 @@ Mods: {
 				DreadsProj.DisplayName: Dreads Proj
 				LAS13Proj.DisplayName: L A S13 Proj
 				SplinterProjectile.DisplayName: Splinter Projectile
+				MysticSnakeProj.DisplayName: Mystic Snake Proj
 			}
 
 			MeleeProjectiles: {

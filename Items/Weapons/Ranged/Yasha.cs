@@ -45,7 +45,7 @@ namespace MogMod.Items.Weapons.Ranged
                 AddRecipeGroup("CobaltBar", 16).
                 AddIngredient(ItemID.SoulofSight, 7).
                 AddIngredient(ItemID.SoulofFlight, 7).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<FrigidShard>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

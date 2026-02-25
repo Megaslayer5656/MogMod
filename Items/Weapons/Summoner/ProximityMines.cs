@@ -49,7 +49,6 @@ namespace MogMod.Items.Weapons.Summoner
                 AddIngredient(ItemID.SpikyBall, 100).
                 AddIngredient(ItemID.Dynamite, 15).
                 AddIngredient(ItemID.Hellstone, 10).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.Anvils).
                 Register();
         }

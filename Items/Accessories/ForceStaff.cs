@@ -42,7 +42,6 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.PinkEskimoHood, 1).
                 AddIngredient(ItemID.RichMahogany, 12).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 3).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

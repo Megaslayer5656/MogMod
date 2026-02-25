@@ -125,7 +125,6 @@ namespace MogMod.Utilities
                 projectile.extraUpdates = projectile.MogMod().defExtraUpdates;
             }
         }
-
         public static void HomeInOnMarkedNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float inertia)
         {
             if (!projectile.friendly)

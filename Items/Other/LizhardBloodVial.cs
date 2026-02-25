@@ -4,8 +4,9 @@ using Terraria;
 
 namespace MogMod.Items.Other
 {
-    public class LizhardBloodVial : ModItem
+    public class LizhardBloodVial : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Materials";
         public override void SetDefaults()
         {
             Item.width = 48;

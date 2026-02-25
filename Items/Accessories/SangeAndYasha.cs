@@ -26,17 +26,21 @@ namespace MogMod.Items.Accessories
             player.GetDamage(DamageClass.Generic) += .16f;
             player.accRunSpeed += player.accRunSpeed * .24f;
             player.lifeSteal *= 1.5f;
+
+            // ankh shield immunity
+            player.noKnockback = true;
+            player.fireWalk = true;
+            player.buffImmune[BuffID.Weak] = true;
+            player.buffImmune[BuffID.BrokenArmor] = true;
+            player.buffImmune[BuffID.Bleeding] = true;
             player.buffImmune[BuffID.Poisoned] = true;
             player.buffImmune[BuffID.Slow] = true;
-            player.buffImmune[BuffID.BrokenArmor] = true;
-            player.buffImmune[BuffID.CursedInferno] = true;
-            player.buffImmune[BuffID.Frostburn] = true;
-            player.buffImmune[BuffID.OnFire] = true;
-            player.buffImmune[BuffID.Bleeding] = true;
-            player.buffImmune[BuffID.Weak] = true;
-            player.buffImmune[BuffID.Ichor] = true;
-            player.buffImmune[BuffID.Chilled] = true;
-            player.buffImmune[BuffID.Frozen] = true;
+            player.buffImmune[BuffID.Confused] = true;
+            player.buffImmune[BuffID.Silenced] = true;
+            player.buffImmune[BuffID.Cursed] = true;
+            player.buffImmune[BuffID.Darkness] = true;
+            player.buffImmune[BuffID.WindPushed] = true;
+            player.buffImmune[BuffID.Stoned] = true;
         }
 
         public override void AddRecipes()
@@ -44,9 +48,10 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<Sange>(1).
                 AddIngredient<Yasha>(1).
-                AddIngredient(ItemID.Ectoplasm, 5).
-                AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddIngredient(ItemID.AnkhShield, 1).
+                AddIngredient<GriefBar>(7).
+                AddIngredient(ItemID.Ectoplasm, 3).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
     }

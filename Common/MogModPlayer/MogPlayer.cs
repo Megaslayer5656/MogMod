@@ -36,6 +36,8 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingEyeOfSkadi = false;
         public bool wearingWingsOfLight = false;
         public bool wingsOfLightVisual = true;
+        public bool wearingFishSlop1 = true;
+        public bool wearingFishSlop2 = true;
 
         public int locketCharges = 0;
         public static int maxLocketCharges = 20;
@@ -277,79 +279,6 @@ namespace MogMod.Common.MogModPlayer
         }
         #endregion
 
-        // force staff movement
-        public override void PreUpdateMovement()
-        {
-            int forceStaffCooldown = ModContent.BuffType<Buffs.Cooldowns.ForceStaffDebuff>();
-            // if force staff isn't on cooldown and was equipped and player just pressed keybind
-            if (wearingForceStaff && !Player.mount.Active &&  KeybindSystem.ForceStaffKeybind.JustPressed && !Player.HasBuff(forceStaffCooldown))
-            {
-                // change to force staff sound
-                SoundEngine.PlaySound(WandUse, Player.Center);
-                Vector2 newVelocity = Player.velocity;
-
-                switch (forceDirection)
-                {
-                    // Only apply the dash velocity if our current speed in the wanted direction is less than DashVelocity
-                    case DashUp when Player.velocity.Y > -ForceVelocity:
-                    case DashDown when Player.velocity.Y < ForceVelocity:
-                            {
-                            // Y-velocity is set here
-                            // If the direction requested was DashUp, then we adjust the velocity to make the dash appear "faster" due to gravity being immediately in effect
-                            // This adjustment is roughly 1.3x the intended dash velocity
-                            float dashDirection = forceDirection == DashDown ? 1 : -1.3f;
-                            newVelocity.Y = dashDirection * ForceVelocity;
-                            break;
-                        }
-                    case DashLeft when Player.velocity.X > -ForceVelocity:
-                    case DashRight when Player.velocity.X < ForceVelocity:
-                        {
-                            // X-velocity is set here
-                            float dashDirection = forceDirection == DashRight ? 1 : -1;
-                            newVelocity.X = dashDirection * ForceVelocity;
-                            break;
-                        }
-                    default:
-                        return; // not moving fast enough, so don't start our dash
-                }
-
-                // start our dash
-                //DashDelay = DashCooldown;
-                //DashTimer = DashDuration;
-                Player.velocity = newVelocity;
-                Player.AddBuff(forceStaffCooldown, 600);
-            }
-
-            if (wearingPike && !Player.mount.Active && KeybindSystem.ForceStaffKeybind.JustPressed && !Player.HasBuff(forceStaffCooldown))
-            {
-                // change to force staff sound
-                SoundEngine.PlaySound(ArmletOnSound, Player.Center);
-                Vector2 newVelocity = Player.velocity;
-
-                switch (forceDirection)
-                {
-                    case DashUp when Player.velocity.Y > -PikeVelocity:
-                    case DashDown when Player.velocity.Y < PikeVelocity:
-                        {
-                            float dashDirection = forceDirection == DashDown ? 1 : -1.3f;
-                            newVelocity.Y = dashDirection * PikeVelocity;
-                            break;
-                        }
-                    case DashLeft when Player.velocity.X > -PikeVelocity:
-                    case DashRight when Player.velocity.X < PikeVelocity:
-                        {
-                            float dashDirection = forceDirection == DashRight ? 1 : -1;
-                            newVelocity.X = dashDirection * PikeVelocity;
-                            break;
-                        }
-                    default:
-                        return;
-                }
-                Player.velocity = newVelocity;
-                Player.AddBuff(forceStaffCooldown, 300);
-            }
-
-        }
 
         // the big one
         public override void ProcessTriggers(TriggersSet triggersSet)
@@ -560,6 +489,80 @@ namespace MogMod.Common.MogModPlayer
         }
 
         #region Miscelanious Effects (spelt right)
+
+        // force staff movement
+        public override void PreUpdateMovement()
+        {
+            int forceStaffCooldown = ModContent.BuffType<Buffs.Cooldowns.ForceStaffDebuff>();
+            // if force staff isn't on cooldown and was equipped and player just pressed keybind
+            if (wearingForceStaff && !Player.mount.Active &&  KeybindSystem.ForceStaffKeybind.JustPressed && !Player.HasBuff(forceStaffCooldown))
+            {
+                // change to force staff sound
+                SoundEngine.PlaySound(WandUse, Player.Center);
+                Vector2 newVelocity = Player.velocity;
+
+                switch (forceDirection)
+                {
+                    // Only apply the dash velocity if our current speed in the wanted direction is less than DashVelocity
+                    case DashUp when Player.velocity.Y > -ForceVelocity:
+                    case DashDown when Player.velocity.Y < ForceVelocity:
+                            {
+                            // Y-velocity is set here
+                            // If the direction requested was DashUp, then we adjust the velocity to make the dash appear "faster" due to gravity being immediately in effect
+                            // This adjustment is roughly 1.3x the intended dash velocity
+                            float dashDirection = forceDirection == DashDown ? 1 : -1.3f;
+                            newVelocity.Y = dashDirection * ForceVelocity;
+                            break;
+                        }
+                    case DashLeft when Player.velocity.X > -ForceVelocity:
+                    case DashRight when Player.velocity.X < ForceVelocity:
+                        {
+                            // X-velocity is set here
+                            float dashDirection = forceDirection == DashRight ? 1 : -1;
+                            newVelocity.X = dashDirection * ForceVelocity;
+                            break;
+                        }
+                    default:
+                        return; // not moving fast enough, so don't start our dash
+                }
+
+                // start our dash
+                //DashDelay = DashCooldown;
+                //DashTimer = DashDuration;
+                Player.velocity = newVelocity;
+                Player.AddBuff(forceStaffCooldown, 600);
+            }
+
+            if (wearingPike && !Player.mount.Active && KeybindSystem.ForceStaffKeybind.JustPressed && !Player.HasBuff(forceStaffCooldown))
+            {
+                // change to force staff sound
+                SoundEngine.PlaySound(ArmletOnSound, Player.Center);
+                Vector2 newVelocity = Player.velocity;
+
+                switch (forceDirection)
+                {
+                    case DashUp when Player.velocity.Y > -PikeVelocity:
+                    case DashDown when Player.velocity.Y < PikeVelocity:
+                        {
+                            float dashDirection = forceDirection == DashDown ? 1 : -1.3f;
+                            newVelocity.Y = dashDirection * PikeVelocity;
+                            break;
+                        }
+                    case DashLeft when Player.velocity.X > -PikeVelocity:
+                    case DashRight when Player.velocity.X < PikeVelocity:
+                        {
+                            float dashDirection = forceDirection == DashRight ? 1 : -1;
+                            newVelocity.X = dashDirection * PikeVelocity;
+                            break;
+                        }
+                    default:
+                        return;
+                }
+                Player.velocity = newVelocity;
+                Player.AddBuff(forceStaffCooldown, 300);
+            }
+
+        }
         public void MiscEffects()
         {
             #region Summon Accessories
@@ -951,7 +954,9 @@ namespace MogMod.Common.MogModPlayer
             wearingEyeOfSkadi = false;
             wearingFlameOfCorruption = false;
             wearingWingsOfLight = false;
-            wingsOfLightVisual = true;
+            wingsOfLightVisual = false;
+            wearingFishSlop1 = false;
+            wearingFishSlop2 = false;
 
             diademMinion = false;
             dominatorMinion = false;

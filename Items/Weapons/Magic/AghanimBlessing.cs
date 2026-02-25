@@ -81,10 +81,9 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient<AghanimScepter>(1).
                 AddIngredient<DagonFive>(1).
                 AddIngredient(ItemID.LunarFlareBook, 1).
-                AddIngredient(ItemID.LunarBar, 20).
+                AddIngredient<VoniumBar>(5).
                 AddIngredient<ManaCore>(3).
                 AddIngredient(ItemID.CelestialSigil, 1).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

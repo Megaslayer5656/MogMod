@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using MogMod.Buffs.Debuffs;
 using MogMod.Items.Other;
 
 namespace MogMod.Items.Weapons.Melee

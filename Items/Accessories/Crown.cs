@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using MogMod.Items.Other;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -25,7 +26,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.GoldBar, 15).
                 AddIngredient(ItemID.PlatinumBar, 10).
-                AddIngredient(ItemID.Diamond, 7).
+                AddIngredient<FrigidShard>(7).
                 AddIngredient(ItemID.LargeRuby, 1).
                 AddTile(TileID.Anvils).
                 Register();

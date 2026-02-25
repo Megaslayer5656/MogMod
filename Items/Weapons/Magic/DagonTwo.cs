@@ -42,7 +42,6 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient(ItemID.MeteoriteBar, 12).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 8).
                 AddIngredient(ItemID.Fireblossom, 5).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.Anvils).
                 Register();
         }

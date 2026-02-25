@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo
 {
-    public class GlintstoneStars : ModItem
+    public class GlintstoneStars : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
         public const int manaCost = 12;
         public override void SetDefaults()
         {
@@ -43,7 +44,7 @@ namespace MogMod.Items.Ammo
             CreateRecipe().
                 AddIngredient(ItemID.MeteoriteBar, 16).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 9).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<Scroll>(1).
                 AddTile(TileID.Bookcases).
                 Register();
         }

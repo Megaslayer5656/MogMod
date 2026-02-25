@@ -48,7 +48,7 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient<BloodMagic>(1).
                 AddIngredient(ItemID.HellstoneBar, 8).
                 AddIngredient(ItemID.Deathweed, 5).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<FrigidShard>(3).
                 AddTile(TileID.Anvils).
                 Register();
         }

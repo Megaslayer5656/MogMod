@@ -27,7 +27,7 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            //TODO: Make it turn you invis after 5 seconds of standing still
+            //TODO: Make it turn you invis after 5 seconds of standing still - you could probably do this in mogplayer with some freaky .isWearingShadowAmulet
             player.invis = true;
             // remove these if done so
             player.GetDamage(DamageClass.Generic) += -.20f;

@@ -1,8 +1,9 @@
-﻿using Terraria.Audio;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
+﻿using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -54,6 +55,7 @@ namespace MogMod.Items.Weapons.Melee
                 AddIngredient(ItemID.TheRottedFork).
                 AddIngredient(ItemID.SnowBlock, 20).
                 AddIngredient(ItemID.IceBlock, 15).
+                AddIngredient<FrigidShard>(7).
                 AddTile(TileID.Anvils).
                 Register();
         }

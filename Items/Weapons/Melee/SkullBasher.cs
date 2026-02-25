@@ -69,7 +69,7 @@ namespace MogMod.Items.Weapons.Melee
                 AddRecipeGroup("IronBar", 20).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 18).
                 AddIngredient(ItemID.Skull, 1).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<VitalityBooster>(1).
                 AddTile(TileID.Anvils).
                 Register();
         }

@@ -31,7 +31,6 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.HermesBoots, 1).
                 AddIngredient(ItemID.Aglet, 1).
                 AddIngredient(ItemID.Bone, 30).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

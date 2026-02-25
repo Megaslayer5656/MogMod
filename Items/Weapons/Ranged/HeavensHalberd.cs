@@ -46,7 +46,6 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.SpectreBar, 10).
                 AddIngredient(ItemID.SoulofFlight, 7).
                 AddIngredient(ItemID.GiantHarpyFeather, 1).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

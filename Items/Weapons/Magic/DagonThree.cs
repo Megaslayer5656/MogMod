@@ -40,7 +40,6 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient(ItemID.MagmaStone, 1).
                 AddIngredient(ItemID.LivingFireBlock, 15).
                 AddRecipeGroup("MythrilBar", 12).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

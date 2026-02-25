@@ -1,12 +1,14 @@
 ﻿using MogMod.Projectiles.RangedProjectiles;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo
 {
-    public class SplinterAmmo : ModItem
+    public class SplinterAmmo : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
         public override void SetDefaults()
         {
             Item.damage = 10;
@@ -25,8 +27,9 @@ namespace MogMod.Items.Ammo
 
         public override void AddRecipes()
         {
-            CreateRecipe().
-            AddIngredient(ItemID.Wood, 2).
+            CreateRecipe(100).
+            AddIngredient(ItemID.Wood, 100).
+            AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Mushroom"}", 1).
             AddTile(TileID.WorkBenches).
             Register();
         }

@@ -1,5 +1,8 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
+using MogMod.Items.Other;
+using MogMod.Items.Weapons.Melee;
+using MogMod.Items.Weapons.Ranged;
 using MogMod.Utilities;
 using System;
 using System.Collections.Generic;
@@ -34,6 +37,17 @@ namespace MogMod.Items.Accessories
             player.GetDamage(DamageClass.Generic) += .10f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingSatanic = true;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<Sange>(1).
+                AddIngredient(ItemID.MoonStone, 1).
+                AddIngredient<GriefBar>(10).
+                AddIngredient(ItemID.BeetleHusk, 7).
+                AddIngredient<VitalityBooster>(1).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }
