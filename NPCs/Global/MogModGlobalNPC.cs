@@ -94,21 +94,24 @@ namespace MogMod.NPCs.Global
         public void spawnMarkerProjectile(NPC target, Player player, Item item)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            if (!mogPlayer.markerProjOut)
+            if (target.type != NPCID.TargetDummy)
             {
-                Vector2 velocity = new Vector2(20f, 20f);
-                Vector2 rotatedVelocity = velocity.RotateRandom(MathHelper.ToRadians(360));
-                rotatedVelocity.Normalize();
-                rotatedVelocity *= 10f;
-                int proj = Projectile.NewProjectile(target.GetSource_FromAI(), target.Center, rotatedVelocity, ModContent.ProjectileType<MarkerTargetProj>(), Convert.ToInt32(item.damage * 1.75), 0f, player.whoAmI);
-                mogPlayer.markerProjOut = true;
-                foreach (NPC npc in Main.ActiveNPCs)
+                if (!mogPlayer.markerProjOut)
                 {
-                    if (npc.TryGetGlobalNPC<MogModGlobalNPC>(out var g))
-                        g.markedByMarker = false;
-                }
+                    Vector2 velocity = new Vector2(20f, 20f);
+                    Vector2 rotatedVelocity = velocity.RotateRandom(MathHelper.ToRadians(360));
+                    rotatedVelocity.Normalize();
+                    rotatedVelocity *= 10f;
+                    int proj = Projectile.NewProjectile(target.GetSource_FromAI(), target.Center, rotatedVelocity, ModContent.ProjectileType<MarkerTargetProj>(), Convert.ToInt32(item.damage * 1.75), 0f, player.whoAmI);
+                    mogPlayer.markerProjOut = true;
+                    foreach (NPC npc in Main.ActiveNPCs)
+                    {
+                        if (npc.TryGetGlobalNPC<MogModGlobalNPC>(out var g))
+                            g.markedByMarker = false;
+                    }
 
-                markedByMarker = true;
+                    markedByMarker = true;
+                }
             }
         }
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
@@ -307,6 +310,10 @@ namespace MogMod.NPCs.Global
             if (npc.type == NPCID.Crab)
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
+            }
+            if (npc.type == NPCID.DarkCaster)
+            {
+                npcLoot.Add(npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BlinkDagger>(), 10, 1, 1)));
             }
         }
 
