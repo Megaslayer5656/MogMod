@@ -1727,4 +1727,19 @@ Items: {
 				'''
 		}
 	}
+
+	SolRing: {
+		DisplayName: Sol Ring
+		Tooltip:
+			'''
+			Increases max mana by 40
+			'Lost to time is the artificer's art of trapping light 
+			 from a distant star in a ring of purest gold.'
+			'''
+	}
+
+	BladeOfSelves: {
+		DisplayName: Blade Of Selves
+		Tooltip: ""
+	}
 }
