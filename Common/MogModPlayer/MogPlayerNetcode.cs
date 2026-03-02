@@ -1,18 +1,10 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using MogMod.Common.Systems;
-using static MogMod.Common.Systems.MogModNetcode;
 using MogMod.Utilities;
-using Terraria.GameContent.UI;
-using Terraria.Audio;
 using Microsoft.Xna.Framework;
-using Newtonsoft.Json.Bson;
-using System.ComponentModel;
-using MogMod.NPCs.Global;
-using Microsoft.Xna.Framework;
+using static MogMod.Common.Systems.MogModNetcode;
 
 namespace MogMod.Common.MogModPlayer
 {
@@ -55,6 +47,18 @@ namespace MogMod.Common.MogModPlayer
             Player.SendPacket(packet, server);
         }
 
+        public void SyncDuelistGloves(bool server, Vector2 position)
+        {
+            ModPacket packet = Mod.GetPacket(256);
+            MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
+
+            packet.Write((byte)MogModMessageType.DuelistSync);
+            packet.Write(Player.whoAmI);
+            packet.WriteVector2(position);
+
+            Player.SendPacket(packet, server);
+        }
+
         public void SyncButterfly(bool server)
         {
             ModPacket packet = Mod.GetPacket(256);
@@ -89,6 +93,8 @@ namespace MogMod.Common.MogModPlayer
             Player.SendPacket(packet, server);
         }
 
+        
+
         internal void HandleEssenceShiftStack(BinaryReader reader)
         {
             essenceShiftLevel = reader.ReadInt32();
@@ -116,6 +122,16 @@ namespace MogMod.Common.MogModPlayer
                 SyncWingsOfLight(true, pos);
             }
             doWingsOfLight(Player, pos);
+        }
+
+        internal void HandleDuelistGloves(BinaryReader reader)
+        {
+            Vector2 pos = reader.ReadVector2();
+            if (Main.netMode == NetmodeID.Server)
+            {
+                SyncDuelistGloves(true, pos);
+            }
+            doDuelistGloves(Player, pos);
         }
 
         internal void HandleButterfly(BinaryReader reader)

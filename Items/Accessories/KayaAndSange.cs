@@ -33,20 +33,6 @@ namespace MogMod.Items.Accessories
             player.manaRegen += (int)Math.Round(player.manaRegen * .5f);
             player.statManaMax2 += 70;
             player.lifeSteal *= 1.25f;
-
-            // not in ankh shield
-            player.buffImmune[BuffID.Venom] = true;
-            player.buffImmune[BuffID.Webbed] = true;
-            player.buffImmune[BuffID.Blackout] = true;
-            player.buffImmune[BuffID.OnFire] = true;
-            player.buffImmune[BuffID.OnFire3] = true;
-            player.buffImmune[BuffID.Chilled] = true;
-            player.buffImmune[BuffID.Frozen] = true;
-            player.buffImmune[BuffID.Frostburn] = true;
-            player.buffImmune[BuffID.Frostburn2] = true;
-            player.buffImmune[BuffID.CursedInferno] = true;
-            player.buffImmune[BuffID.ShadowFlame] = true;
-            player.buffImmune[BuffID.Daybreak] = true;
         }
 
         public override void AddRecipes()

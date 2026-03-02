@@ -6,14 +6,20 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using System;
+using static Terraria.ModLoader.ModContent;
+using MogMod.Projectiles.MagicProjectiles;
+using MogMod.Projectiles.RangedProjectiles;
 
 namespace MogMod.Projectiles.BaseProjectiles
 {
     public partial class MogModGlobalProjectile : GlobalProjectile
     {
         // exists for projectile utils hopefully
-
+        private Random random = new Random();
         public bool CanSplit = true;
+        public bool radiantProc = false;
+        public bool gunpowderProc = false;
         public override bool InstancePerEntity
         {
             get
@@ -37,6 +43,42 @@ namespace MogMod.Projectiles.BaseProjectiles
                 projectile.friendly = true;
                 projectile.hostile = false;
                 projectile.damage *= 5;
+            }
+        }
+        public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            Player player = Main.player[projectile.owner];
+            MogPlayer modPlayer = player.MogMod();
+            var source = player.GetSource_OnHit(target);
+            int itemDamage = player.HeldItem.damage;
+            int cap1 = 30;
+            int cap2 = 50;
+            if (itemDamage <= 30)
+                cap1 = itemDamage;
+            else
+                cap1 = 30;
+            if (itemDamage <= 120)
+                cap2 = itemDamage;
+            else
+                cap2 = 120;
+
+            radiantProc = random.Next(3) == 0;
+            gunpowderProc = random.Next(5) == 0;
+
+            if (radiantProc)
+            {
+                if (modPlayer.wearingRadiantArmor && projectile.type != ProjectileType<HeavensHalberdProj>() && projectile.DamageType == DamageClass.Magic)
+                {
+                    int radProc = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ProjectileType<HeavensHalberdProj>(), itemDamage, 0f, projectile.owner);
+                }
+            }
+
+            if (gunpowderProc)
+            {
+                if (modPlayer.wearingGunpowderGauntlet && projectile.type != ProjectileType<GunpowderProj>() && projectile.DamageType == DamageClass.Magic)
+                {
+                    int gunpowderProc = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ProjectileType<GunpowderProj>(), cap1, 0f, projectile.owner);
+                }
             }
         }
 

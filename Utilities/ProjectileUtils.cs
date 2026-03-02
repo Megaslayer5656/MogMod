@@ -33,6 +33,18 @@ namespace MogMod.Utilities
 
             return false;
         }
+        public static Vector2 RandomVelocity(float directionMult, float speedLowerLimit, float speedCap, float speedMult = 0.1f)
+        {
+            Vector2 velocity = new Vector2(Main.rand.NextFloat(-directionMult, directionMult), Main.rand.NextFloat(-directionMult, directionMult));
+            //Rerolling to avoid dividing by zero
+            while (velocity.X == 0f && velocity.Y == 0f)
+            {
+                velocity = new Vector2(Main.rand.NextFloat(-directionMult, directionMult), Main.rand.NextFloat(-directionMult, directionMult));
+            }
+            velocity.Normalize();
+            velocity *= Main.rand.NextFloat(speedLowerLimit, speedCap) * speedMult;
+            return velocity;
+        }
         #endregion
 
         #region Projectile Spawning

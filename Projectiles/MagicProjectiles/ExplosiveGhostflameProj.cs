@@ -14,12 +14,6 @@ namespace MogMod.Projectiles.MagicProjectiles
     {
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
-        public override void SetStaticDefaults()
-        {
-            ProjectileID.Sets.TrailCacheLength[Type] = 10;
-            ProjectileID.Sets.TrailingMode[Type] = 0;
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 400;
@@ -32,9 +26,6 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.DamageType = DamageClass.Magic;
             Projectile.extraUpdates = 1;
         }
-
-        //.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
-
         public override void OnKill(int timeLeft)
         {
             Projectile.position = Projectile.Center;

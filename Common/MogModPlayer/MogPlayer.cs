@@ -5,9 +5,11 @@ using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
 using MogMod.Items.Weapons.Melee;
+using MogMod.Projectiles.ClasslessProjectiles;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,6 +21,8 @@ namespace MogMod.Common.MogModPlayer
         #region Setup
         public bool mewing = false;
         public float mewingguide = 0;
+
+        public bool died = false;
         // buffs for the accessories
         public bool isWearingGlimmerCape = false;
         public bool armletActive = false;
@@ -34,6 +38,11 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingFishSlop2 = false;
         public bool wearingSange = false;
         public bool wearingGiantsMaul = false;
+        public bool wearingGunpowderGauntlet = false;
+        public bool wearingDuelistGloves = false;
+        public bool wearingWhisperDread = false;
+        public bool wearingSerratedShiv = false;
+        public bool wearingUndyingHelm = false;
 
         public int locketCharges = 0;
         public static int maxLocketCharges = 20;
@@ -95,6 +104,9 @@ namespace MogMod.Common.MogModPlayer
 
         public bool chargeShot = false;
         public bool dpCharge = false;
+
+        // armor effects
+        public bool wearingRadiantArmor = false;
 
         // debuffs
         public bool divineDebuff = false;
@@ -275,7 +287,6 @@ namespace MogMod.Common.MogModPlayer
         }
         #endregion
 
-
         // the big one
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
@@ -427,6 +438,16 @@ namespace MogMod.Common.MogModPlayer
                 if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
                 {
                     SyncWingsOfLight(false, Player.Center); //Netcode stuff, go to MogPlayerNetcode.cs to see what this does.
+                }
+            }
+
+            // duelist gloves
+            if (wearingDuelistGloves)
+            {
+                doDuelistGloves(Player, Player.Center); //Does the thing.
+                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    SyncDuelistGloves(false, Player.Center); //Netcode stuff, go to MogPlayerNetcode.cs to see what this does.
                 }
             }
 
@@ -779,10 +800,45 @@ namespace MogMod.Common.MogModPlayer
             }
         }
 
+        public void doDuelistGloves(Terraria.Player player, Vector2 center)
+        {
+            for (int n = 0; n < Main.maxNPCs; n++)
+            {
+                NPC otherNPC = Main.npc[n];
+                if (otherNPC.active && otherNPC.friendly == false && otherNPC.whoAmI != otherNPC.whoAmI - 1)
+                {
+                    if (Microsoft.Xna.Framework.Vector2.Distance(center, otherNPC.Center) < 300f) // 20 = 1 block (i think)
+                    {
+                        // TODO: make this actually work (applies the effect for 1 frame every frame which works for buffs and dust effects but not stat buffs)
+                        // maybe make it give a stacking buff for each enemy nearby
+                        player.GetAttackSpeed(DamageClass.Melee) += .10f;
+                    }
+                }
+            }
+        }
+
+        // helm of undying
+        public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
+        {
+            if (wearingUndyingHelm)
+            {
+                Player.respawnTimer = Convert.ToInt32(Player.respawnTimer * .5f);
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<UndyingPortalProj>(), 500, 1, Player.whoAmI);
+            }
+        }
         #endregion
 
         #region Player Buffs / Debuffs
-        // sniper offlane scope effect
+        public override void ModifyHurt(ref Terraria.Player.HurtModifiers modifiers)
+        {
+            double damageMult = 1D;
+            if (wearingWhisperDread) // increases damage taken
+                damageMult += 0.15;
+
+            modifiers.SourceDamage *= (float)damageMult;
+        }
+
+            // sniper offlane scope effect
         public override void ModifyZoom(ref float zoom)
         {
             if (Player.HeldItem.Name == "AXMC")
@@ -955,6 +1011,14 @@ namespace MogMod.Common.MogModPlayer
             wearingFishSlop2 = false;
             wearingSange = false;
             wearingGiantsMaul = false;
+            wearingGunpowderGauntlet = false;
+            wearingDuelistGloves = false;
+            wearingWhisperDread = false;
+            wearingSerratedShiv = false;
+            wearingUndyingHelm = false;
+            exultationEquipped = false;
+
+            wearingRadiantArmor = false;
 
             diademMinion = false;
             dominatorMinion = false;
@@ -970,7 +1034,7 @@ namespace MogMod.Common.MogModPlayer
             wingsOfLightDebuff = false;
             ghostflameDebuff = false;
 
-            exultationEquipped = false;
+            died = false;
             #endregion
 
             #region Force Staff

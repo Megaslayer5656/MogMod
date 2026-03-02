@@ -25,7 +25,6 @@ namespace MogMod.Items.Accessories
             mogPlayer.wearingGiantsMaul = true;
 
             player.GetAttackSpeed(DamageClass.Melee) -= .20f;
-            player.GetDamage(DamageClass.Melee) += .10f;
         }
         public static float GiantsMaulWeaponSize(MogPlayer mogPlayer)
         {
@@ -37,7 +36,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient<SkullBasher>(1).
                 AddIngredient(ItemID.HellstoneBar, 12).
                 AddIngredient<CraftingRecipe>(1).
-                AddTile(TileID.Anvils).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
     }

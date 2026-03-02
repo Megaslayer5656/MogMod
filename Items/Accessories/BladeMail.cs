@@ -1,12 +1,7 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
-using MogMod.Items.Other;
 using MogMod.Utilities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,6 +10,7 @@ namespace MogMod.Items.Accessories
 {
     public class BladeMail : ModItem, ILocalizedModType
     {
+        // TODO: turn this into an armor set
         public new string LocalizationCategory => "Items.Accessories";
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.BladeMailKeybind);
         ModKeybind keybindActive = null;

@@ -22,6 +22,21 @@ namespace MogMod.Items.Accessories
             player.GetArmorPenetration(DamageClass.Generic) += 25;
             player.GetDamage(DamageClass.Generic) += .10f;
             player.GetCritChance(DamageClass.Generic) += 10f;
+
+            // not in ankh shield
+            player.buffImmune[BuffID.Venom] = true;
+            player.buffImmune[BuffID.Webbed] = true;
+            player.buffImmune[BuffID.Blackout] = true;
+            player.buffImmune[BuffID.OnFire] = true;
+            player.buffImmune[BuffID.OnFire3] = true;
+            player.buffImmune[BuffID.Chilled] = true;
+            player.buffImmune[BuffID.Frozen] = true;
+            player.buffImmune[BuffID.Frostburn] = true;
+            player.buffImmune[BuffID.Frostburn2] = true;
+            player.buffImmune[BuffID.CursedInferno] = true;
+            player.buffImmune[BuffID.ShadowFlame] = true;
+            player.buffImmune[BuffID.Daybreak] = true;
+
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingEyeOfSkadi = true;
         }
@@ -29,8 +44,9 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.EyeoftheGolem, 1).
-                AddIngredient<GriefBar>(7).
-                AddIngredient(ItemID.ShroomiteBar, 7).
+                AddIngredient<GriefBar>(12).
+                AddIngredient(ItemID.ShroomiteBar, 12).
+                AddIngredient(ItemID.BlackLens, 1).
                 AddIngredient<ManaCore>(1).
                 AddIngredient<PointBooster>(1).
                 AddTile(TileID.MythrilAnvil).

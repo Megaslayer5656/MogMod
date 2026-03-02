@@ -29,13 +29,30 @@ namespace MogMod.Items.Accessories
             player.lifeRegen += 8;
             player.statDefense += 20;
             player.shinyStone = true;
+            player.PotionDelayModifier *= 0.35f;
             player.GetDamage(DamageClass.Melee) += .10f;
             player.GetDamage(DamageClass.Magic) -= .20f;
             player.GetDamage(DamageClass.Summon) -= .20f;
+
+            // ankh shield immunity
+            player.noKnockback = true;
+            player.fireWalk = true;
+            player.buffImmune[BuffID.Weak] = true;
+            player.buffImmune[BuffID.BrokenArmor] = true;
+            player.buffImmune[BuffID.Bleeding] = true;
+            player.buffImmune[BuffID.Poisoned] = true;
+            player.buffImmune[BuffID.Slow] = true;
+            player.buffImmune[BuffID.Confused] = true;
+            player.buffImmune[BuffID.Silenced] = true;
+            player.buffImmune[BuffID.Cursed] = true;
+            player.buffImmune[BuffID.Darkness] = true;
+            player.buffImmune[BuffID.WindPushed] = true;
+            player.buffImmune[BuffID.Stoned] = true;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.AnkhShield, 1).
                 AddIngredient(ItemID.ShinyStone, 1).
                 AddIngredient(ItemID.CharmofMyths, 1).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 17).

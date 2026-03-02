@@ -1,8 +1,10 @@
-﻿using MogMod.Common.MogModPlayer;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories;
 using MogMod.Items.Ammo;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Utilities;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -34,7 +36,6 @@ namespace MogMod.Items.Global
             } else if (entity.type == ModContent.ItemType<Bloodletter>())
             {
                 bloodDamage = 15;
-
             }
             else
             {

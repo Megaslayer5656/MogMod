@@ -27,6 +27,14 @@ namespace MogMod.Common.Systems
                         Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleShivas(reader); //Sends the packet to the ShivasHandler in MogPlayerNetcode.cs
                         break;
 
+                    case MogModMessageType.WingsOfLightSync:
+                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleWingsOfLight(reader);
+                        break;
+
+                    case MogModMessageType.DuelistSync:
+                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleDuelistGloves(reader);
+                        break;
+
                     case MogModMessageType.ButterflySync:
                         Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleButterfly(reader);
                         break;
@@ -59,10 +67,13 @@ namespace MogMod.Common.Systems
             EssenceShiftStackSync,
             ShivasSync,
             WingsOfLightSync,
+            DuelistSync,
             ButterflySync,
             ParrySync,
             DragonInstallSync,
             BleedProcTextSync,
+            TrueStrikeProcTextSync,
+            BashProcTextSync,
             UltraCritTextSync
         }
     }

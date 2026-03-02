@@ -11,6 +11,7 @@ using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
+using Mono.Cecil;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -34,12 +35,18 @@ namespace MogMod.NPCs.Global
         public int wingsOfLightDebuff = 0;
         public int ghostflameDebuff = 0;
 
+        public NPC.HitInfo hitInfo;
         public int maxBlood = 1000;
         public int currentBlood = 0;
         public int blackBladeDebuff = 0;
-        public NPC.HitInfo hitInfo;
+
+        public int bashCap = 30;
+        public int shivCap = 400;
 
         public bool markedByMarker;
+
+        public bool bashProc = false;
+        public bool shivProc = false;
 
         Random rand = new Random();
 
@@ -66,29 +73,89 @@ namespace MogMod.NPCs.Global
 
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
-                maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense); //(This scaling will definitely change as I test)
-                if (maxBlood < 150) //Sets lower bound of possible max blood
-                {
-                    maxBlood = 150;
-                }
-                MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
-                MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense); //(This scaling will definitely change as I test)
+            if (maxBlood < 150) //Sets lower bound of possible max blood
+            {
+                maxBlood = 150;
+            }
+            MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
                 
-                if (mogPlayer.exultationEquipped)
-                {
-                    currentBlood += globalItem.bloodDamage + Convert.ToInt32(globalItem.bloodDamage * .15f);
-                } else
-                {
-                    currentBlood += globalItem.bloodDamage;
-                }
+            if (mogPlayer.exultationEquipped)
+            {
+                currentBlood += globalItem.bloodDamage + Convert.ToInt32(globalItem.bloodDamage * .15f);
+            } else
+            {
+                currentBlood += globalItem.bloodDamage;
+            }
                 
-                doBleedProc(npc);
+            doBleedProc(npc);
 
+            if (item.type == ModContent.ItemType<TheMarker>())
+            {
+            spawnMarkerProjectile(npc, player, item);
+            }
 
-                if (item.type == ModContent.ItemType<TheMarker>())
+            int itemDamage = player.HeldItem.damage;
+            int enemyMaxHP = npc.lifeMax;
+            if (itemDamage <= 30)
+                bashCap = itemDamage;
+            else
+                bashCap = 50;
+            if (Convert.ToInt32(enemyMaxHP * 0.01) <= 400)
+                shivCap = Convert.ToInt32(enemyMaxHP * 0.01) + 20;
+            else
+                shivCap = 400;
+
+            // skull basher
+            var source = player.GetSource_OnHit(npc);
+            bashProc = rand.Next(7) == 0;
+            if (bashProc && mogPlayer.wearingGiantsMaul)
+            {
+                int bash = Projectile.NewProjectile(source, npc.Center, new Vector2(10f, 10f), ModContent.ProjectileType<SkullBashProjectile>(), bashCap, 0f, player.whoAmI);
+                Rectangle r = new Rectangle((int)npc.position.X, (int)npc.position.Y - 50, npc.width, npc.height);
+                Color textColor = new Color(255, 0, 100);
+                CombatText.NewText(r, textColor, "Bash!", true);
+                if (Main.netMode == NetmodeID.Server)
                 {
-                spawnMarkerProjectile(npc, player, item);
+                    ModPacket packet = Mod.GetPacket();
+                    packet.Write((byte)MogModMessageType.BashProcTextSync);
+                    packet.Write(npc.lastInteraction);
+                    packet.WriteVector2(r.Center.ToVector2());
+                    packet.Send();
                 }
+            }
+
+            // serrated shiv
+            shivProc = rand.Next(5) == 0;
+            if (shivProc && mogPlayer.wearingSerratedShiv)
+            {
+                hitInfo = new NPC.HitInfo
+                {
+                    Damage = shivCap,
+                    Knockback = 0,
+                    HitDirection = 0,
+                    Crit = false,
+                    DamageType = DamageClass.Default
+                };
+                npc.StrikeNPC(hitInfo);
+                NetMessage.SendStrikeNPC(npc, hitInfo);
+                Rectangle r = new Rectangle((int)npc.position.X, (int)npc.position.Y - 50, npc.width, npc.height);
+                Color textColor = new Color(210, 180, 140);
+                CombatText.NewText(r, textColor, "True Strike!", true);
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    ModPacket packet = Mod.GetPacket();
+                    packet.Write((byte)MogModMessageType.TrueStrikeProcTextSync);
+                    packet.Write(npc.lastInteraction);
+                    packet.WriteVector2(r.Center.ToVector2());
+                    packet.Send();
+                }
+                doTrueStrikeFX(npc.Center);
+            }
+
+            // powder that decreases enemy armor from summoner attacks
+
         }
 
         public void spawnMarkerProjectile(NPC target, Player player, Item item)
@@ -186,7 +253,6 @@ namespace MogMod.NPCs.Global
                 doBloodFX(npc.Center);
             }
         }
-
         public static void doBloodFX(Vector2 position)
         {
             SoundEngine.PlaySound(BloodCrit, position);
@@ -194,6 +260,16 @@ namespace MogMod.NPCs.Global
             {
                 int blood = Dust.NewDust(position, 20, 20, DustID.Blood, 0, 0, 0, default, 2f);
                 Main.dust[blood].noGravity = false;
+            }
+        }
+        public static void doTrueStrikeFX(Vector2 position)
+        {
+            SoundEngine.PlaySound(SoundID.NPCDeath56, position);
+            for (int i = 0; i < 40; i++)
+            {
+                int strike = Dust.NewDust(position, 20, 20, DustID.CopperCoin, 0, 0, 100, default, 2f);
+                Main.dust[strike].velocity.Y *= 1.05f;
+                Main.dust[strike].noGravity = true;
             }
         }
 

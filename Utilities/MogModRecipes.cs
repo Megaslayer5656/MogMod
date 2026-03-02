@@ -98,6 +98,10 @@ namespace MogMod.Content
             RecipeGroup ButterflyRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Butterfly"}", ItemID.MonarchButterfly, ItemID.HellButterfly, ItemID.JuliaButterfly, ItemID.GoldButterfly, ItemID.PurpleEmperorButterfly, ItemID.RedAdmiralButterfly, ItemID.SulphurButterfly, ItemID.TreeNymphButterfly, ItemID.UlyssesButterfly, ItemID.ZebraSwallowtailButterfly);
             RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Butterfly"}", ButterflyRecipeGroup);
             // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Butterfly"}", 1)
+
+            RecipeGroup TombstoneRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Grave"}", ItemID.Tombstone, ItemID.Gravestone, ItemID.GraveMarker, ItemID.CrossGraveMarker, ItemID.Headstone, ItemID.Obelisk, ItemID.RichGravestone1, ItemID.RichGravestone2, ItemID.RichGravestone3, ItemID.RichGravestone4, ItemID.RichGravestone5);
+            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Grave"}", TombstoneRecipeGroup);
+            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Grave"}", 1)
             #endregion
         }
 

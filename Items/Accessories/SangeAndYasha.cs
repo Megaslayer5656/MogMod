@@ -31,21 +31,6 @@ namespace MogMod.Items.Accessories
             player.GetDamage(DamageClass.Generic) += .16f;
             player.accRunSpeed += player.accRunSpeed * .24f;
             player.lifeSteal *= 1.5f;
-
-            // ankh shield immunity
-            player.noKnockback = true;
-            player.fireWalk = true;
-            player.buffImmune[BuffID.Weak] = true;
-            player.buffImmune[BuffID.BrokenArmor] = true;
-            player.buffImmune[BuffID.Bleeding] = true;
-            player.buffImmune[BuffID.Poisoned] = true;
-            player.buffImmune[BuffID.Slow] = true;
-            player.buffImmune[BuffID.Confused] = true;
-            player.buffImmune[BuffID.Silenced] = true;
-            player.buffImmune[BuffID.Cursed] = true;
-            player.buffImmune[BuffID.Darkness] = true;
-            player.buffImmune[BuffID.WindPushed] = true;
-            player.buffImmune[BuffID.Stoned] = true;
         }
         public static float SangeWeaponSize(MogPlayer mogPlayer)
         {

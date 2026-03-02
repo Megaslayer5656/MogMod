@@ -334,6 +334,9 @@ Items: {
 				-20% Summon Damage
 				Increases Maximum Life by 100
 				Decreases Maximum Mana by 100
+				Reduces the cooldown of healing potions by 35%
+				Grants immunity to knockback and fire blocks
+				Grants immunity to most debuffs
 				Vastly Increased Life Regeneration, increasing even more if standing still
 				'Preserved heart of an extinct monster, it bolsters the bearer's fortitude.'
 				'''
@@ -483,6 +486,7 @@ Items: {
 				+10% Attack Damage
 				+10% Critical Strike Chance
 				+25 Armor Penetration
+				Grants immunity to some debuffs
 				Attacks inflict the Cold Attack debuff
 				'Extremely rare artifact, guarded by the azure dragons.'
 				'''
@@ -520,11 +524,11 @@ Items: {
 		}
 
 		DivineRapier: {
-			DisplayName: Divine Rapier
+			DisplayName: Divine Regalia
 			Tooltip:
 				'''
 				+35% Attack Damage when at full life
-				'So powerful, it cannot have a single owner.'
+				'So magnificent, it cannot abide failure.'
 				'''
 		}
 
@@ -548,7 +552,6 @@ Items: {
 				Greatly Increases Mana Regeneration
 				Increases Maximum Life by 30
 				Increases Maximum Mana by 70
-				Grants immunity to some debuffs
 				'Two of three known items of unimaginable power that many 
 				believe were crafted at the same enchanter's forge.'
 				'''
@@ -565,8 +568,6 @@ Items: {
 				Vastly Increases lifesteal of weapons that utilize it
 				Greatly Increased Life Regeneration
 				Increased Maximum Life by 50
-				Grants immunity to knockback and fire blocks
-				Grants immunity to most debuffs
 				'Sange and Yasha, when attuned by the moonlight and 
 				used together, become a very powerful combination.'
 				'''
@@ -641,9 +642,68 @@ Items: {
 			Tooltip:
 				'''
 				+30% Melee Weapon Size
-				+10% Melee Attack Damage
 				-20% Melee Attack Speed
+				Melee attacks have a small chance to bash enemies
 				'Crude but smashingly effective.'
+				'''
+		}
+
+		DuelistGloves: {
+			DisplayName: Duelist Gloves
+			Tooltip:
+				'''
+				Increases Melee Attack Speed by 10% for each enemy around you, up to a max of 50% attack speed
+				Enables auto swing for melee weapons
+				'''
+		}
+
+		GunpowderGauntlet: {
+			DisplayName: Gunpowder Gauntlet
+			Tooltip:
+				'''
+				+5% Magic Attack Speed
+				Magic attacks have a small chance to explode, lighting nearby enemies on fire
+				'A 'harmless' prank that went entirely too far.'
+				'''
+		}
+
+		ChippedVest: {
+			DisplayName: Chipped Vest
+			Tooltip:
+				'''
+				Enemies take damage when they hit you
+				'It doesn't look like much, but it's oddly comfy.'
+				'''
+		}
+
+		WhisperOfTheDread: {
+			DisplayName: Whisper Of The Dread
+			Tooltip:
+				'''
+				+15% Magic Damage
+				+15% Summon Damage
+				+15% Damage Taken
+				'The air that passes through this amulet makes a dreadful sound.'
+				'''
+		}
+
+		SerratedShiv: {
+			DisplayName: Serrated Shiv
+			Tooltip:
+				'''
+				+10% Attack Damage
+				Attacks have a chance to true strike enemies, dealing 1% of their max hp as damage
+				'Too dangerous for taskwork, this blade's only purpose is vile murder.'
+				'''
+		}
+
+		HelmOfTheUndying: {
+			DisplayName: Helm Of The Undying
+			Tooltip:
+				'''
+				Reduces the respawn timer by 50%
+				Dying summons vengeful ghosts to chase after your enemy
+				'The price for wearing it is paid in the afterlife.'
 				'''
 		}
 	}
@@ -1092,8 +1152,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires a weak bolt
-					'A lesser wand that brings magic
-					to the fingertips of the user.'
+					'A lesser wand that brings magic to the fingertips of the user.'
 					'''
 			}
 
@@ -1152,8 +1211,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires a flaming bolt
-					'A wand that brings magic
-					to the fingertips of the user.'
+					'A wand that brings magic to the fingertips of the user.'
 					'''
 			}
 
@@ -1162,8 +1220,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires a blazing volatile bolt
-					'A staff that brings volatile magic
-					to the fingertips of the user.'
+					'A staff that brings volatile magic to the fingertips of the user.'
 					'''
 			}
 
@@ -1697,7 +1754,7 @@ Items: {
 
 		VoniumEssence: {
 			DisplayName: Von's Essence
-			Tooltip: The shard of a heavenly soul
+			Tooltip: The shard of a heavenly saint
 		}
 
 		FrigidCrystal: {
@@ -1725,6 +1782,52 @@ Items: {
 				Right click to open
 				'You get what you get and you don't get upset!'
 				'''
+		}
+	}
+
+	Armor: {
+		RadiantTop: {
+			DisplayName: Radiant Shirt
+			Tooltip: +9% Magic Damage and Critical Strike Chance
+		}
+
+		RadiantFlower: {
+			DisplayName: Radiant Flower
+			Tooltip:
+				'''
+				Increases maximum mana by 100 and 17% reduced mana cost
+				+13% Magic Damage and Critical Strike Chance
+				'A bolt of lightning shows me where to fly'
+				'''
+			SetBonus:
+				'''
+				Hitting an enemy with a magic weapon summons beams from the sky
+				Increased Mana Regeneration by 8
+				'''
+		}
+
+		RadiantBottom: {
+			DisplayName: Radiant Skirt
+			Tooltip:
+				'''
+				+13% Magic Damage and Critical Strike Chance
+				+10% Jump Speed and Movement Speed
+				'''
+		}
+
+		TankyRizzlerChestplate: {
+			DisplayName: Tanky Rizzler Chestplate
+			Tooltip: ""
+		}
+
+		TankyRizzlerHelmet: {
+			DisplayName: Tanky Rizzler Helmet
+			Tooltip: ""
+		}
+
+		TankyRizzlerLeggings: {
+			DisplayName: Tanky Rizzler Leggings
+			Tooltip: ""
 		}
 	}
 }

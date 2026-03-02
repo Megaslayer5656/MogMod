@@ -1,9 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
-using Terraria.Audio;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
@@ -13,49 +11,51 @@ namespace MogMod.Projectiles.MeleeProjectiles
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
 
         private bool initialized = false;
-        public override void SetStaticDefaults()
-        {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
-        }
         public static readonly SoundStyle bashProc = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/SkullBash")
         {
             Volume = 1.3f,
-            PitchVariance = .2f
+            PitchVariance = .2f,
+            MaxInstances = 3
         };
         public override void SetDefaults()
         {
-            Projectile.width = 4;
-            Projectile.height = 4;
-            Projectile.extraUpdates = 100;
+            Projectile.width = 20;
+            Projectile.height = 20;
             Projectile.friendly = true;
-            Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
-            Projectile.timeLeft = 600;
             Projectile.penetrate = -1;
+            Projectile.timeLeft = 1;
+            Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Melee;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -1;
-            Projectile.scale = 1f;
-            Projectile.alpha = 0;
+            Projectile.extraUpdates = 1;
             Projectile.ArmorPenetration = 10;
         }
-        public override void AI()
+        public override void OnKill(int timeLeft)
         {
-            if (!initialized)
+            Projectile.width -= 2;
+            Projectile.height -= 2;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.Damage();
+            SoundEngine.PlaySound(bashProc, Projectile.Center);
+            for (int n = 0; n < 40; n++)
             {
-                SoundEngine.PlaySound(bashProc, Projectile.Center);
-                initialized = true;
+                int bash = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Blood, 0f, 0f, 100, default, 1f);
+                Main.dust[bash].fadeIn += 1.2f;
+                Main.dust[bash].velocity.Y *= 1.02f;
             }
-            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
-            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
-
-            Vector2 projPos = Projectile.position;
-            projPos -= Projectile.velocity;
-            int suvass = Dust.NewDust(projPos, 1, 1, DustID.Blood, 0f, 0f, 0, Color.Red, 1f);
-            Main.dust[suvass].alpha = 200;
-            Main.dust[suvass].velocity *= 1.4f;
-            Main.dust[suvass].scale += Main.rand.NextFloat();
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.Dazed, 420);
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            target.AddBuff(BuffID.Dazed, 420);
         }
     }
 }

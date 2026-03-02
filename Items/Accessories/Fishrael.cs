@@ -38,7 +38,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.LavaproofTackleBag, 1).
                 AddIngredient<CraftingRecipe>(3).
                 AddIngredient(ItemID.PlatinumCoin, 1).
-                AddTile(TileID.Anvils).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
     }
