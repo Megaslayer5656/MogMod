@@ -706,6 +706,16 @@ Items: {
 				'The price for wearing it is paid in the afterlife.'
 				'''
 		}
+
+		SolRing: {
+			DisplayName: Sol Ring
+			Tooltip:
+				'''
+				Increases max mana by 40
+				'Lost to time is the artificer's art of trapping light 
+				 from a distant star in a ring of purest gold.'
+				'''
+		}
 	}
 
 	Weapons: {
@@ -931,6 +941,11 @@ Items: {
 					Touching the orb causes it to explode into homing bolts
 					If no enemy is marked, bolts home in on any nearby enemies
 					'''
+			}
+
+			BladeOfSelves: {
+				DisplayName: Blade Of Selves
+				Tooltip: sel aviv gassy
 			}
 		}
 

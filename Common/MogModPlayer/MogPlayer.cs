@@ -822,7 +822,7 @@ namespace MogMod.Common.MogModPlayer
         {
             if (wearingUndyingHelm)
             {
-                Player.respawnTimer = Convert.ToInt32(Player.respawnTimer * .5f);
+                Player.respawnTimer = Convert.ToInt32(Player.respawnTimer * .6f);
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<UndyingPortalProj>(), 500, 1, Player.whoAmI);
             }
         }

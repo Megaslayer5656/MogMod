@@ -40,6 +40,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<MagicWand>(1).
                 AddIngredient<Diadem>(1).
+                AddIngredient<SolRing>(1).
                 AddIngredient(ItemID.DiamondGemsparkBlock, 20).
                 AddRecipeGroup("AdamantiteBar", 15).
                 AddIngredient<FrigidCrystal>(1).
