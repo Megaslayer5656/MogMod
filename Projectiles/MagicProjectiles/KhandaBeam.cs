@@ -67,8 +67,8 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.timeLeft = 2700;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 5;
+            Projectile.ArmorPenetration = 10;
         }
-
         public override void DetermineScale()
         {
             Projectile.scale = Time < ChargeupTime ? 0f : Utils.GetLerpValue(0f, 40f, Projectile.timeLeft, true) * MaxScale;

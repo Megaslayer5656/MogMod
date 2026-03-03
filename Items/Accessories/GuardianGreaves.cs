@@ -21,7 +21,7 @@ namespace MogMod.Items.Accessories
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.Cyan;
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -57,6 +57,7 @@ namespace MogMod.Items.Accessories
             }
             player.rocketBoots = player.vanityRocketBoots = 3;
             player.waterWalk2 = true; // Allows walking on all liquids without falling into it
+            player.waterWalk = true;
             player.iceSkate = true; // Grant the player improved speed on ice and not breaking thin ice when falling onto it
             player.fireWalk = true; // Grants the player immunity from Meteorite and Hellstone tile damage
             player.lavaRose = true; // Grants the Lava Rose effect

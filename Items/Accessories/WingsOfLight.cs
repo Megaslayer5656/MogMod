@@ -43,8 +43,8 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.GhostWings, 1).
                 AddIngredient(ItemID.GarlandHat, 1).
-                AddIngredient(ItemID.SoulofFlight, 20).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 9).
                 AddIngredient<FrigidCrystal>(3).
                 AddIngredient<ManaCore>(1).

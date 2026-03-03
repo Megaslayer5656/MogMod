@@ -4,6 +4,7 @@ using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Config;
 using MogMod.Common.MogModPlayer;
+using MogMod.Items.Accessories;
 using MogMod.Items.Ammo;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
@@ -103,7 +104,7 @@ namespace MogMod.NPCs.Global
             else
                 bashCap = 50;
             if (Convert.ToInt32(enemyMaxHP * 0.01) <= 400)
-                shivCap = Convert.ToInt32(enemyMaxHP * 0.01) + 20;
+                shivCap = Convert.ToInt32(enemyMaxHP * 0.01) + 50;
             else
                 shivCap = 400;
 
@@ -142,7 +143,7 @@ namespace MogMod.NPCs.Global
                 NetMessage.SendStrikeNPC(npc, hitInfo);
                 Rectangle r = new Rectangle((int)npc.position.X, (int)npc.position.Y - 50, npc.width, npc.height);
                 Color textColor = new Color(210, 180, 140);
-                CombatText.NewText(r, textColor, "True Strike!", true);
+                CombatText.NewText(r, textColor, "Strike!", true);
                 if (Main.netMode == NetmodeID.Server)
                 {
                     ModPacket packet = Mod.GetPacket();
@@ -303,6 +304,7 @@ namespace MogMod.NPCs.Global
         }
 
         // not quite sure what this does, but its in calamity mod so it has to be important
+        // defense and damage reductions are permanent unfortunetely
         public override void PostAI(NPC npc)
         {
             if (divineDebuff > 0)
@@ -311,6 +313,7 @@ namespace MogMod.NPCs.Global
             {
                 skadiDebuff--;
                 npc.velocity *= 0.988f;
+                npc.defense = Convert.ToInt32(npc.defDefense * .85f); // 15% defense reduction
             }
             if (freezingDebuff > 0)
             {
@@ -320,6 +323,7 @@ namespace MogMod.NPCs.Global
             if (aghDebuff > 0)
             {
                 aghDebuff--;
+                npc.damage = Convert.ToInt32(npc.defDamage * .8f); // 20% damage reduction
             }
             if (wingsOfLightDebuff > 0)
             {
@@ -351,11 +355,7 @@ namespace MogMod.NPCs.Global
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GlintstoneArc>(), 1, 1, 1));
             }
-            if (npc.type == NPCID.CrimsonAxe)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ExplosiveGhostflame>(), 15, 1, 1));
-            }
-            if (npc.type == NPCID.CursedHammer)
+            if (npc.type == NPCID.CrimsonAxe || npc.type == NPCID.CursedHammer)
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ExplosiveGhostflame>(), 15, 1, 1));
             }
@@ -363,33 +363,22 @@ namespace MogMod.NPCs.Global
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LizhardBloodVial>(), 1, 1, 2));
             }
-            if (npc.type == NPCID.Shark)
+            if (npc.type == NPCID.Shark || npc.type == NPCID.Squid || npc.type == NPCID.BlueJellyfish || npc.type == NPCID.GreenJellyfish || npc.type == NPCID.PinkJellyfish || npc.type == NPCID.Crab)
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
-            }
-            if (npc.type == NPCID.Squid)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
-            }
-            if (npc.type == NPCID.BlueJellyfish)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
-            }
-            if (npc.type == NPCID.GreenJellyfish)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
-            }
-            if (npc.type == NPCID.PinkJellyfish)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
-            }
-            if (npc.type == NPCID.Crab)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<OceanHeart>(), 500, 1, 1));
             }
             if (npc.type == NPCID.DarkCaster)
             {
-                npcLoot.Add(npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BlinkDagger>(), 10, 1, 1)));
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BlinkDagger>(), 10, 1, 1));
+            }
+            if (npc.type == NPCID.GoblinSorcerer)
+            {
+                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 20, 1, 1));
+            }
+            if (npc.type == NPCID.GoblinSummoner)
+            {
+                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 5, 1, 1));
             }
         }
 

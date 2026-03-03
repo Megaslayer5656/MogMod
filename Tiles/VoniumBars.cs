@@ -6,14 +6,14 @@ using Terraria.Localization;
 
 namespace MogMod.Tiles
 {
-        public class DabDadBars : ModTile
+    public class VoniumBars : ModTile
     {
         public override void SetStaticDefaults()
         {
-            Main.tileSolid[Type]= true;
-            Main.tileSolidTop[Type]= true;
-            Main.tileShine[Type]= 1100;
-            Main.tileFrameImportant[Type]= true;
+            Main.tileSolid[Type] = true;
+            Main.tileSolidTop[Type] = true;
+            Main.tileShine[Type] = 1100;
+            Main.tileFrameImportant[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = true;

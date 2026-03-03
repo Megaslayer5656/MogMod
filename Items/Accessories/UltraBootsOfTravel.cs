@@ -13,7 +13,7 @@ namespace MogMod.Items.Accessories
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.Red;
+            Item.rare = ItemRarityID.LightRed;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -24,12 +24,13 @@ namespace MogMod.Items.Accessories
 
             // unique boot effects
             player.waterWalk2 = true; // Allows walking on all liquids without falling into it
+            player.waterWalk = true;
             player.iceSkate = true; // Grant the player improved speed on ice and not breaking thin ice when falling onto it
             player.desertBoots = true; // Grants the player increased movement speed while running on sand
             player.fireWalk = true; // Grants the player immunity from Meteorite and Hellstone tile damage
             player.noFallDmg = true; // Grants the player the Lucky Horseshoe effect of nullifying fall damage
             player.lavaRose = true; // Grants the Lava Rose effect
-            player.lavaMax += 240; // Grants the player 2 additional seconds of lava immunity
+            player.lavaMax += 240; // Grants the player 4 additional seconds of lava immunity
 
 
             if (!hideVisual)

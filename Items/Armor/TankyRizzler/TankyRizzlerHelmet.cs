@@ -37,7 +37,7 @@ namespace MogMod.Items.Armor.TankyRizzler
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage<MeleeDamageClass>() += 0.8f;
+            player.GetDamage<MeleeDamageClass>() += 0.08f;
             player.statLifeMax2 += 80;
             player.lifeRegen += 10;
             player.aggro += 700;

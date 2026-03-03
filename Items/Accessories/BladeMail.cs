@@ -34,7 +34,7 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.FalconBlade, 1).
-                AddRecipeGroup(RecipeGroupID.IronBar, 25).
+                AddIngredient<ChippedVest>(1).
                 AddIngredient(ItemID.Spike, 15).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

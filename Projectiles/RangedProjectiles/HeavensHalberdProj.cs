@@ -22,7 +22,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.width = 4;
             Projectile.height = 4;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.DamageType = DamageClass.Ranged;
             Projectile.tileCollide = false;
             Projectile.penetrate = 1;
             Projectile.alpha = 255;

@@ -20,6 +20,7 @@ namespace MogMod.Items.Accessories
             Item.width = 50;
             Item.height = 42;
             Item.rare = ItemRarityID.Red;
+            Item.defense = 20;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -27,10 +28,8 @@ namespace MogMod.Items.Accessories
             player.statLifeMax2 += 100;
             player.statManaMax2 -= 100;
             player.lifeRegen += 8;
-            player.statDefense += 20;
             player.shinyStone = true;
             player.PotionDelayModifier *= 0.35f;
-            player.GetDamage(DamageClass.Melee) += .10f;
             player.GetDamage(DamageClass.Magic) -= .20f;
             player.GetDamage(DamageClass.Summon) -= .20f;
 

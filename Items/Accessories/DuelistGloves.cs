@@ -15,7 +15,7 @@ namespace MogMod.Items.Accessories
             Item.height = 36;
             Item.rare = ItemRarityID.Green;
         }
-        // doesnt work as of now
+        // DOES WORK !! ! ! !
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();

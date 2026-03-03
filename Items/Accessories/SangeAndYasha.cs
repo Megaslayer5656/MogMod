@@ -10,6 +10,7 @@ namespace MogMod.Items.Accessories
 {
     public class SangeAndYasha : ModItem, ILocalizedModType
     {
+        // delete this item
         public new string LocalizationCategory => "Items.Accessories";
         public const float sizeMult = 1.5f;
         public override void SetDefaults()

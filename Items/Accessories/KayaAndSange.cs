@@ -11,6 +11,7 @@ namespace MogMod.Items.Accessories
 {
     public class KayaAndSange : ModItem, ILocalizedModType
     {
+        // delete this item
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {

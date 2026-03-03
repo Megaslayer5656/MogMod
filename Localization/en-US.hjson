@@ -491,6 +491,7 @@ Mods: {
 				ExplosiveGhostflameProj.DisplayName: Explosive Ghostflame Proj
 				GhostflameHomingProj.DisplayName: Ghostflame Homing Proj
 				GunpowderProj.DisplayName: Gunpowder Proj
+				RadiantBeamProj.DisplayName: Radiant Beam Proj
 			}
 
 			RangedProjectiles: {
@@ -572,7 +573,11 @@ Mods: {
 			SplinterProjectile.DisplayName: Splinter Projectile
 			FrozenSpearProjectile.DisplayName: Frozen Spear Projectile
 			MarkerProjProj.DisplayName: Marker Proj Proj
-			ClasslessProjectiles.UndyingPortalProj.DisplayName: Undying Portal Proj
+
+			ClasslessProjectiles: {
+				UndyingPortalProj.DisplayName: Undying Portal Proj
+				UndyingHomingProj.DisplayName: Undying Homing Proj
+			}
 		}
 	}
 }

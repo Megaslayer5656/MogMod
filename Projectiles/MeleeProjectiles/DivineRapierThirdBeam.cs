@@ -1,4 +1,4 @@
-﻿using Humanizer;
+﻿using Humanizer; // <- ??? what is humanizer?
 using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
 using MogMod.Utilities;

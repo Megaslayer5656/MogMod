@@ -16,13 +16,13 @@ using Terraria.ModLoader;
 
 namespace MogMod.Common.MogModPlayer
 {
+    // this files a mess to look at
     public partial class MogPlayer : ModPlayer
     {
         #region Setup
         public bool mewing = false;
         public float mewingguide = 0;
 
-        public bool died = false;
         // buffs for the accessories
         public bool isWearingGlimmerCape = false;
         public bool armletActive = false;
@@ -43,6 +43,7 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingWhisperDread = false;
         public bool wearingSerratedShiv = false;
         public bool wearingUndyingHelm = false;
+        public bool wearingSearingSignet = false;
 
         public int locketCharges = 0;
         public static int maxLocketCharges = 20;
@@ -83,6 +84,9 @@ namespace MogMod.Common.MogModPlayer
         public const int DashLeft = 3;
         public const float ForceVelocity = 12f;
         public const float PikeVelocity = 25f;
+
+        public static int duelistStacks = 0;
+        public static int maxDuelistStacks = 3;
 
         // weapon buffs
         public int essenceShiftLevel = 0;
@@ -192,13 +196,17 @@ namespace MogMod.Common.MogModPlayer
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                NPC otherNPC = Main.npc[i];
+                if (wearingEyeOfSkadi)
                 {
-                    NPC otherNPC = Main.npc[i];
-                        if (wearingEyeOfSkadi)
-                    {
-                        target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 600);
-                    }
+                    target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 360);
                 }
+                if (wearingSearingSignet)
+                {
+                    target.AddBuff(BuffID.ShadowFlame, 300);
+                }
+            }
 
             if (Player.HasBuff<DragonInstallBuff>())
             {
@@ -276,13 +284,6 @@ namespace MogMod.Common.MogModPlayer
             if (Player.HasItemInAnyInventory(ModContent.ItemType<BlinkDagger>()))
             {
                 Player.AddBuff(ModContent.BuffType<BlinkDebuff>(), 600);
-            }
-        }
-        public void NPCDebuffs(NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool whip, bool proj = false, bool noFlask = false)
-        {
-            if (wearingEyeOfSkadi)
-            {
-                target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 120);
             }
         }
         #endregion
@@ -438,16 +439,6 @@ namespace MogMod.Common.MogModPlayer
                 if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
                 {
                     SyncWingsOfLight(false, Player.Center); //Netcode stuff, go to MogPlayerNetcode.cs to see what this does.
-                }
-            }
-
-            // duelist gloves
-            if (wearingDuelistGloves)
-            {
-                doDuelistGloves(Player, Player.Center); //Does the thing.
-                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
-                {
-                    SyncDuelistGloves(false, Player.Center); //Netcode stuff, go to MogPlayerNetcode.cs to see what this does.
                 }
             }
 
@@ -679,6 +670,16 @@ namespace MogMod.Common.MogModPlayer
                 }
             }
 
+            // duelist gloves
+            if (wearingDuelistGloves)
+            {
+                doDuelistGloves(Player, Player.Center); //Does the thing.
+                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    SyncDuelistGloves(false, Player.Center); //Netcode stuff, go to MogPlayerNetcode.cs to see what this does.
+                }
+            }
+
             if (Player.HasBuff<DragonInstallBuff>() && wearingFlameOfCorruption)
             {
                 enterDragonInstall(Player);
@@ -800,23 +801,6 @@ namespace MogMod.Common.MogModPlayer
             }
         }
 
-        public void doDuelistGloves(Terraria.Player player, Vector2 center)
-        {
-            for (int n = 0; n < Main.maxNPCs; n++)
-            {
-                NPC otherNPC = Main.npc[n];
-                if (otherNPC.active && otherNPC.friendly == false && otherNPC.whoAmI != otherNPC.whoAmI - 1)
-                {
-                    if (Microsoft.Xna.Framework.Vector2.Distance(center, otherNPC.Center) < 300f) // 20 = 1 block (i think)
-                    {
-                        // TODO: make this actually work (applies the effect for 1 frame every frame which works for buffs and dust effects but not stat buffs)
-                        // maybe make it give a stacking buff for each enemy nearby
-                        player.GetAttackSpeed(DamageClass.Melee) += .10f;
-                    }
-                }
-            }
-        }
-
         // helm of undying
         public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
         {
@@ -866,6 +850,26 @@ namespace MogMod.Common.MogModPlayer
             player.accRunSpeed *= 1.30f;
             player.wingAccRunSpeed *= 1.30f;
             player.wingRunAccelerationMult *= 1.30f;
+        }
+        public void doDuelistGloves(Terraria.Player player, Vector2 center)
+        {
+            for (int n = 0; n < Main.maxNPCs; n++)
+            {
+                NPC otherNPC = Main.npc[n];
+                if (otherNPC.active && otherNPC.friendly == false && otherNPC.whoAmI != otherNPC.whoAmI - 1 && otherNPC.type != NPCID.TargetDummy)
+                {
+                    if (Microsoft.Xna.Framework.Vector2.Distance(center, otherNPC.Center) < 300f) // 20 = 1 block (i think)
+                    {
+                        if (duelistStacks <= maxDuelistStacks)
+                            duelistStacks++;
+                        else
+                            duelistStacks = maxDuelistStacks;
+                    }
+                }
+            }
+
+            for (int i = 0; i < duelistStacks; i++)
+                player.GetAttackSpeed(DamageClass.Melee) += .07f;
         }
         public void doParry(Terraria.Player player, Vector2 pos)
         {
@@ -984,7 +988,6 @@ namespace MogMod.Common.MogModPlayer
         // resets stuff
         public override void ResetEffects()
         {
-            #region Reset Checks
             isWearingGlimmerCape = false;
             wearingManaBoots = false;
             wearingSatanic = false;
@@ -1016,6 +1019,7 @@ namespace MogMod.Common.MogModPlayer
             wearingWhisperDread = false;
             wearingSerratedShiv = false;
             wearingUndyingHelm = false;
+            wearingSearingSignet = false;
             exultationEquipped = false;
 
             wearingRadiantArmor = false;
@@ -1034,10 +1038,8 @@ namespace MogMod.Common.MogModPlayer
             wingsOfLightDebuff = false;
             ghostflameDebuff = false;
 
-            died = false;
-            #endregion
+            duelistStacks = 0;
 
-            #region Force Staff
             if (Player.controlDown)
             {
                 forceDirection = DashDown;
@@ -1058,7 +1060,6 @@ namespace MogMod.Common.MogModPlayer
             {
                 forceDirection = -1;
             }
-            #endregion
         }
         #endregion
         #endregion

@@ -57,7 +57,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             }
         }
 
-        // makes it summon an additional projectile
+        // makes it summon an additional projectile <- lie
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);

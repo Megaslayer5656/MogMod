@@ -13,8 +13,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
         public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
 
         // spear code taken from calamity mod
-
-        // TODO: give cool full hp effects and fix offset
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 42;

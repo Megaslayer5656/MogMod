@@ -18,6 +18,13 @@ namespace MogMod.Items.Other
             Item.height = 24;
             Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.Pink;
+            Item.consumable = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.createTile = ModContent.TileType<Tiles.GriefBars>();
+            Item.placeStyle = 0;
         }
         public override void AddRecipes()
         {
@@ -25,7 +32,7 @@ namespace MogMod.Items.Other
                 AddIngredient(ItemID.HellstoneBar, 1).
                 AddIngredient(ItemID.SoulofFright, 1).
                 AddIngredient(ItemID.SoulofNight, 1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.AdamantiteForge).
                 Register();
         }
     }

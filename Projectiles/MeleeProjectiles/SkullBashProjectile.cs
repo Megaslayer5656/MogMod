@@ -7,6 +7,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
 {
     public class SkullBashProjectile : ModProjectile, ILocalizedModType
     {
+        // GIVE BASH A WAY TO BLEED MEGA
         public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
 

@@ -15,12 +15,12 @@ namespace MogMod.Items.Accessories
             Item.width = 50;
             Item.height = 42;
             Item.rare = ItemRarityID.Orange;
+            Item.defense = 8;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.statLifeMax2 += 50;
             player.lifeRegen += 4;
-            player.statDefense += 8;
             player.noKnockback = true;
             player.manaRegen -= (int)Math.Round(player.manaRegen * .4f);
             player.manaRegenDelay += 1.5f;

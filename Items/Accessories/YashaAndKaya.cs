@@ -11,6 +11,7 @@ namespace MogMod.Items.Accessories
 {
     public class YashaAndKaya : ModItem, ILocalizedModType
     {
+        // delete this item
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
@@ -38,15 +39,7 @@ namespace MogMod.Items.Accessories
             player.accTackleBox = true;
             player.accFishFinder = true;
             player.accLavaFishing = true;
-
-            // fish slop 2
-            mogPlayer.wearingFishSlop2 = true;
-            player.fishingSkill += 60;
-            player.sonarPotion = true;
-            player.cratePotion = true;
-
         }
-
         public override void AddRecipes()
         {
             CreateRecipe().

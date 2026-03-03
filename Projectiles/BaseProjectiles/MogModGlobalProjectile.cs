@@ -1,15 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
-using MogMod.Utilities;
-using System.Collections.Generic;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ModLoader;
-using System;
-using static Terraria.ModLoader.ModContent;
 using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Projectiles.RangedProjectiles;
+using MogMod.Utilities;
+using System;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using static MogMod.Common.Systems.MogModNetcode;
+using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Projectiles.BaseProjectiles
 {
@@ -17,9 +20,14 @@ namespace MogMod.Projectiles.BaseProjectiles
     {
         // exists for projectile utils hopefully
         private Random random = new Random();
+        public NPC.HitInfo hitInfo;
         public bool CanSplit = true;
         public bool radiantProc = false;
         public bool gunpowderProc = false;
+        public bool shivProc = false;
+
+        public int gunpowderCap = 30;
+        public int shivCap = 500;
         public override bool InstancePerEntity
         {
             get
@@ -51,25 +59,25 @@ namespace MogMod.Projectiles.BaseProjectiles
             MogPlayer modPlayer = player.MogMod();
             var source = player.GetSource_OnHit(target);
             int itemDamage = player.HeldItem.damage;
-            int cap1 = 30;
-            int cap2 = 50;
-            if (itemDamage <= 30)
-                cap1 = itemDamage;
-            else
-                cap1 = 30;
-            if (itemDamage <= 120)
-                cap2 = itemDamage;
-            else
-                cap2 = 120;
+            int enemyMaxHP = target.lifeMax;
 
-            radiantProc = random.Next(3) == 0;
+            if (itemDamage <= 40)
+                gunpowderCap = itemDamage;
+            else
+                gunpowderCap = 40;
+            if (Convert.ToInt32(enemyMaxHP * 0.01) <= 500)
+                shivCap = Convert.ToInt32(enemyMaxHP * 0.01) + 50;
+            else
+                shivCap = 500;
+
+            radiantProc = random.Next(2) == 0;
             gunpowderProc = random.Next(5) == 0;
 
             if (radiantProc)
             {
-                if (modPlayer.wearingRadiantArmor && projectile.type != ProjectileType<HeavensHalberdProj>() && projectile.DamageType == DamageClass.Magic)
+                if (modPlayer.wearingRadiantArmor && projectile.type != ProjectileType<RadiantBeamProj>() && projectile.DamageType == DamageClass.Magic)
                 {
-                    int radProc = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ProjectileType<HeavensHalberdProj>(), itemDamage, 0f, projectile.owner);
+                    MogModUtils.ProjectileRain(source, target.Center, 100f, 50f, 1500f, 1500f, 10f, ModContent.ProjectileType<RadiantBeamProj>(), Convert.ToInt32(projectile.damage / .75f), projectile.knockBack, projectile.owner);
                 }
             }
 
@@ -77,8 +85,35 @@ namespace MogMod.Projectiles.BaseProjectiles
             {
                 if (modPlayer.wearingGunpowderGauntlet && projectile.type != ProjectileType<GunpowderProj>() && projectile.DamageType == DamageClass.Magic)
                 {
-                    int gunpowderProc = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ProjectileType<GunpowderProj>(), cap1, 0f, projectile.owner);
+                    int gunpowderProc = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ProjectileType<GunpowderProj>(), gunpowderCap, 0f, projectile.owner);
                 }
+            }
+
+            shivProc = random.Next(5) == 0;
+            if (shivProc && modPlayer.wearingSerratedShiv)
+            {
+                hitInfo = new NPC.HitInfo
+                {
+                    Damage = shivCap,
+                    Knockback = 0,
+                    HitDirection = 0,
+                    Crit = false,
+                    DamageType = DamageClass.Default
+                };
+                target.StrikeNPC(hitInfo);
+                NetMessage.SendStrikeNPC(target, hitInfo);
+                Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
+                Color textColor = new Color(210, 180, 140);
+                CombatText.NewText(r, textColor, "Strike!", true);
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    ModPacket packet = Mod.GetPacket();
+                    packet.Write((byte)MogModMessageType.TrueStrikeProcTextSync);
+                    packet.Write(target.lastInteraction);
+                    packet.WriteVector2(r.Center.ToVector2());
+                    packet.Send();
+                }
+                doTrueStrikeFX(target.Center);
             }
         }
 
@@ -140,6 +175,16 @@ namespace MogMod.Projectiles.BaseProjectiles
         {
             int p = Projectile.NewProjectile(spawnSource, pos, vel, type, damage, knockback, owner, ai0, ai1);
             return p < Main.maxProjectiles ? Main.projectile[p] : null;
+        }
+        public static void doTrueStrikeFX(Vector2 position)
+        {
+            SoundEngine.PlaySound(SoundID.NPCDeath56, position);
+            for (int i = 0; i < 40; i++)
+            {
+                int strike = Dust.NewDust(position, 20, 20, DustID.CopperCoin, 0, 0, 100, default, 2f);
+                Main.dust[strike].velocity.Y *= 1.05f;
+                Main.dust[strike].noGravity = true;
+            }
         }
         #endregion
     }

@@ -1,5 +1,4 @@
-﻿using MogMod.Items.Other;
-using System;
+﻿using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,12 +14,12 @@ namespace MogMod.Items.Accessories
             Item.width = 50;
             Item.height = 42;
             Item.rare = ItemRarityID.Blue;
+            Item.defense = 5;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.lifeRegen += 2;
-            player.statDefense += 5;
             player.statLifeMax2 += 20;
             player.manaRegen -= (int)Math.Round(player.manaRegen * .3f);
             player.manaRegenDelay += 1f;

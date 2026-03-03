@@ -1,6 +1,4 @@
-﻿using Microsoft.Build.Framework;
-using MogMod.Buffs.Cooldowns;
-using MogMod.Common.MogModPlayer;
+﻿using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
 using MogMod.Items.Other;
 using MogMod.Utilities;

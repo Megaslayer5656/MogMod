@@ -19,6 +19,13 @@ namespace MogMod.Items.Other
             Item.height = 24;
             Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.Purple;
+            Item.consumable = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.createTile = ModContent.TileType<Tiles.VoniumBars>();
+            Item.placeStyle = 0;
         }
         public override void AddRecipes()
         {
