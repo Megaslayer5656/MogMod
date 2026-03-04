@@ -51,7 +51,7 @@ namespace MogMod.Items.Weapons.Melee
             }
         }
 
-        public override void AddRecipes()
+        public override void AddRecipes() //TODO: Make this use grief bar and maybe nerf it a little bit for that
         {
             CreateRecipe().
                 AddIngredient(ItemID.BreakerBlade, 1).
