@@ -252,7 +252,7 @@ Mods: {
 
 			HeavyBleed: {
 				DisplayName: Heavy Bleed
-				Description: Mods.MogMod.Buffs.HeavyBleed.Description
+				Description: Salewa!
 			}
 
 			VladmirsBuff: {
@@ -262,7 +262,7 @@ Mods: {
 
 			ShockState: {
 				DisplayName: Shock State
-				Description: Mods.MogMod.Buffs.ShockState.Description
+				Description: Bzzzrrrttt!
 			}
 
 			AghanimShardBuff: {
@@ -306,8 +306,8 @@ Mods: {
 			}
 
 			GreenTracerDebuff: {
-				DisplayName: Green Tracer Debuff
-				Description: Mods.MogMod.Buffs.GreenTracerDebuff.Description
+				DisplayName: Green Tracer Light
+				Description: Glowing like a beacon
 			}
 
 			ShivasEnemyDebuff: {
@@ -317,72 +317,82 @@ Mods: {
 
 			ButterflyCooldown: {
 				DisplayName: Butterfly Cooldown
-				Description: Mods.MogMod.Buffs.ButterflyCooldown.Description
+				Description: Recharging...
 			}
 
 			ButterflyBuff: {
 				DisplayName: Butterfly Buff
-				Description: Mods.MogMod.Buffs.ButterflyBuff.Description
+				Description: You will dodge the next attack
 			}
 
 			ParryCooldown: {
 				DisplayName: Parry Cooldown
-				Description: Mods.MogMod.Buffs.ParryCooldown.Description
+				Description: end
 			}
 
 			ParrySlow: {
 				DisplayName: Parry Slow
-				Description: Mods.MogMod.Buffs.ParrySlow.Description
+				Description: Focus
 			}
 
 			ParryBuff1: {
-				DisplayName: Parry Buff1
-				Description: Mods.MogMod.Buffs.ParryBuff1.Description
+				DisplayName: Successful Parry
+				Description: +25% Melee Speed, +15% Melee Damage
 			}
 
 			Parrying: {
 				DisplayName: Parrying
-				Description: Mods.MogMod.Buffs.Parrying.Description
+				Description: Impossible timing
 			}
 
 			ParryDebuffRemover: {
-				DisplayName: Parry Debuff Remover
-				Description: Mods.MogMod.Buffs.ParryDebuffRemover.Description
+				DisplayName: No-Mo Parry
+				Description: vass??
 			}
 
 			DivineMightDebuff: {
-				DisplayName: Divine Might Debuff
-				Description: Mods.MogMod.Buffs.DivineMightDebuff.Description
+				DisplayName: Divine Might
+				Description: God's wrath is upon you
 			}
 
 			FreezingDebuff: {
-				Description: Mods.MogMod.Buffs.FreezingDebuff.Description
-				DisplayName: Freezing Debuff
+				DisplayName: Freezing
+				Description: Is it chilly in here?
 			}
 
 			AghanimHexDebuff: {
 				DisplayName: Aghanim Hex Debuff
-				Description: Mods.MogMod.Buffs.AghanimHexDebuff.Description
+				Description: Aghanim himself spites your very soul
 			}
 
 			WingsOfLightDebuff: {
-				DisplayName: Wings Of Light Debuff
-				Description: Mods.MogMod.Buffs.WingsOfLightDebuff.Description
+				DisplayName: Wings Of Light
+				Description: Incinerated by a heavenly aura
 			}
 
 			Bleed1: {
 				DisplayName: Bleed1
-				Description: Mods.MogMod.Buffs.Bleed1.Description
+				Description: You might want to see a doctor...
 			}
 
 			BlackBladeDebuff: {
 				DisplayName: Black Blade Debuff
-				Description: Mods.MogMod.Buffs.BlackBladeDebuff.Description
+				Description: You can feel yourself disintegrate...
 			}
 
 			GhostflameDebuff: {
 				DisplayName: Ghostflame Debuff
-				Description: Mods.MogMod.Buffs.GhostflameDebuff.Description
+				Description: Your very soul is burning!
+			}
+
+			WraithPactAura: {
+				DisplayName: Wraith Pact Aura
+				Description: +7 Defense, +13% Attack Damage, Increased Mana Regeneration and Lifesteal Effectiveness
+			}
+
+			JidiPollenBagDebuff: {
+				DisplayName: Jidi Pollen Bag
+				Description: Your defense is being torn apart!
 			}
 		}
 
@@ -468,30 +478,28 @@ Mods: {
 				AghanimLaser.DisplayName: Aghanim's Laser
 				AghanimPortal.DisplayName: Aghanim's Portal
 				AghanimHomingProj.DisplayName: Aghanim's Blessing
-				AghanimSkyProj.DisplayName: Aghanim Sky Proj
-				AghanimExplosion.DisplayName: Aghanim Explosion
-				MichaelSwordHoldout.DisplayName: Michael Sword Holdout
-				MichaelSwordBeam.DisplayName: Michael Sword Beam
-				MichaelSwordExplosion.DisplayName: Michael Sword Explosion
-				GlintstonePebbleProj.DisplayName: Glintstone Pebble Proj
-				RockSlingProj.DisplayName: Rock Sling Proj
-				GlintstoneStarsProj.DisplayName: Glintstone Stars Proj
-				GlintstoneStarsHomingProj.DisplayName: Glintstone Stars Homing Proj
-				ShardSpiralProj.DisplayName: Shard Spiral Proj
-				StarShowerHomingProj.DisplayName: Star Shower Homing Proj
-				StarShowerProj.DisplayName: Star Shower Proj
-				StarsOfRuinProj.DisplayName: Stars Of Ruin Proj
-				StarsOfRuinHomingProj.DisplayName: Stars Of Ruin Homing Proj
-				CannonOfHaimaProj.DisplayName: Cannon Of Haima Proj
-				CannonOfHaimaBoom.DisplayName: Cannon Of Haima Boom
-				CarianSlicerProj.DisplayName: Carian Slicer Proj
-				GlintstoneArcProj.DisplayName: Glintstone Arc Proj
-				FoundingRainOfStarsProj.DisplayName: Founding Rain Of Stars Proj
-				FoundingRainOfStarsStarProj.DisplayName: Founding Rain Of Stars Star Proj
-				ExplosiveGhostflameProj.DisplayName: Explosive Ghostflame Proj
-				GhostflameHomingProj.DisplayName: Ghostflame Homing Proj
-				GunpowderProj.DisplayName: Gunpowder Proj
-				RadiantBeamProj.DisplayName: Radiant Beam Proj
+				MichaelSwordHoldout.DisplayName: Michael Sword
+				MichaelSwordBeam.DisplayName: Michael Sword
+				MichaelSwordExplosion.DisplayName: Michael Sword
+				GlintstonePebbleProj.DisplayName: Glintstone Pebble
+				RockSlingProj.DisplayName: Meteorite
+				GlintstoneStarsProj.DisplayName: Glintstone Stars
+				GlintstoneStarsHomingProj.DisplayName: Glintstone Orb
+				ShardSpiralProj.DisplayName: Shard Spiral
+				StarShowerHomingProj.DisplayName: Glintstone Orb
+				StarShowerProj.DisplayName: Star Shower
+				StarsOfRuinProj.DisplayName: Stars Of Ruin
+				StarsOfRuinHomingProj.DisplayName: Ruinous Star
+				CannonOfHaimaProj.DisplayName: Cannon Of Haima
+				CannonOfHaimaBoom.DisplayName: Glintstone Explosion
+				CarianSlicerProj.DisplayName: Carian Slicer
+				GlintstoneArcProj.DisplayName: Glintstone Arc
+				FoundingRainOfStarsProj.DisplayName: Founding Rain Of Stars
+				FoundingRainOfStarsStarProj.DisplayName: Falling Star
+				ExplosiveGhostflameProj.DisplayName: Ghostflame Explosion
+				GhostflameHomingProj.DisplayName: Vengeful Spirit
+				GunpowderProj.DisplayName: Gunpowder Explosion
+				RadiantBeamProj.DisplayName: Radiant Beam
 			}
 
 			RangedProjectiles: {
@@ -507,30 +515,30 @@ Mods: {
 				HeavensHalberdProjectile.DisplayName: Heaven's Halberd
 				MosinLPSProj.DisplayName: Mosin LPS
 				Powershot.DisplayName: Powershot
-				WarriorsFireSpearProj.DisplayName: Fire Spear
+				WarriorsFireSpearProj.DisplayName: Flaming Spear
 				WarriorsSpearProj.DisplayName: Spear
 				WindrunnerHoldout.DisplayName: Windrunner Holdout
 				YashaProj.DisplayName: Yasha
 				YashaProjectile.DisplayName: Yasha
 				ArchbeastBowCharge.DisplayName: Archbeast Bow Charge
-				DragonPiercerArrow.DisplayName: Dragon Piercer Arrow
+				DragonPiercerArrow.DisplayName: Dragon Piercer
 				DragonPiercerChargeHold.DisplayName: Dragon Piercer Charge Hold
 				DragonPiercerHoldout.DisplayName: Dragon Piercer Holdout
 				WitchBladeProj.DisplayName: Witch Blade
 				ParasmaProj.DisplayName: Parasma
-				ParasmaHomingProj.DisplayName: Parasma
-				EvilAPLapua.DisplayName: Evil AP Lapua Bullet
-				ShrapnalProj.DisplayName: Shrapnal Bullet
-				ShrapnalSkyProj.DisplayName: Shrapnal Shot
-				MegaslarkProj.DisplayName: Megaslark
-				MinislarkProj.DisplayName: Minislark
-				BoulderBulletProj.DisplayName: Boulder Bullet
-				DrowRangerArrow.DisplayName: Drow Ranger Arrow
-				AghanimBulletProj.DisplayName: Aghanim Bullet Proj
-				DreadsProj.DisplayName: Dreads Proj
-				LAS13Proj.DisplayName: L A S13 Proj
-				SplinterProjectile.DisplayName: Splinter Projectile
-				MysticSnakeProj.DisplayName: Mystic Snake Proj
+				ParasmaHomingProj.DisplayName: Bolt
+				EvilAPLapua.DisplayName: Evil AP Lapua Round
+				ShrapnalProj.DisplayName: Bullet
+				ShrapnalSkyProj.DisplayName: Shrapnal
+				MegaslarkProj.DisplayName: Water Rocket
+				MinislarkProj.DisplayName: Water Rocket
+				BoulderBulletProj.DisplayName: Boulder
+				DrowRangerArrow.DisplayName: Freezing Arrow
+				AghanimBulletProj.DisplayName: Aghanim Infused Bullet
+				DreadsProj.DisplayName: Freezing Arrow
+				LAS13Proj.DisplayName: Laserbeam
+				SplinterProjectile.DisplayName: Splinter
+				MysticSnakeProj.DisplayName: Mystic Snake
 			}
 
 			MeleeProjectiles: {
@@ -546,37 +554,35 @@ Mods: {
 				ThunderSealProj.DisplayName: Stun Edge
 				DesolatorHomingProj.DisplayName: Desolator
 				DesolatorProj.DisplayName: Desolator
-				AbyssalBladeProj.DisplayName: Abyssal Blade Proj
-				MantaSummon.DisplayName: Manta Summon
-				ButterflyProjectile.DisplayName: Butterfly Projectile
-				MantaProj.DisplayName: Manta Proj
-				DivineRapierProj.DisplayName: Divine Rapier Proj
-				DivineRapierBeam.DisplayName: Divine Rapier Beam
-				DivineRapierExplosion.DisplayName: Divine Rapier Explosion
-				DivineRapierSecProj.DisplayName: Divine Rapier Sec Proj
-				DivineRapierSecBeam.DisplayName: Divine Rapier Sec Beam
-				DivineRapierThirdBeam.DisplayName: Divine Rapier Third Beam
-				MarkerTargetProj.DisplayName: Marker Target Proj
+				AbyssalBladeProj.DisplayName: Abyssal Blade
+				ButterflyProjectile.DisplayName: Butterfly
+				MantaSummon.DisplayName: Manta Style
+				MantaProj.DisplayName: Manta Style
+				DivineRapierProj.DisplayName: Divine Rapier
+				DivineRapierBeam.DisplayName: Divine Rapier
+				DivineRapierExplosion.DisplayName: Divine Rapier
+				DivineRapierSecProj.DisplayName: Divine Rapier
+				DivineRapierSecBeam.DisplayName: Divine Rapier
+				DivineRapierThirdBeam.DisplayName: Divine Rapier
+				MarkerTargetProj.DisplayName: Marker
+				RiversOfBloodProj.DisplayName: Rivers Of Blood
+				MarkerProjProj.DisplayName: Marker
+				FrozenSpearProjectile.DisplayName: Frozen Spear
 			}
-
-			VonNade.DisplayName: Von Grenade
-			VonGreenTracerProj.DisplayName: Von's Green Tracer
 
 			SummonerProjectiles: {
-				ProximityMinesSummon.DisplayName: Proximity Mines Summon
-				ProximityMinesExplosion.DisplayName: Proximity Mines Explosion
-				MantaSummon.DisplayName: Manta Summon
+				ProximityMinesSummon.DisplayName: Proximity Mines
+				ProximityMinesExplosion.DisplayName: Proximity Mines
 			}
 
-			ButterflyProjectile.DisplayName: Butterfly Projectile
-			RiversOfBloodProj.DisplayName: Rivers Of Blood Proj
-			SplinterProjectile.DisplayName: Splinter Projectile
-			FrozenSpearProjectile.DisplayName: Frozen Spear Projectile
-			MarkerProjProj.DisplayName: Marker Proj Proj
-
 			ClasslessProjectiles: {
-				UndyingPortalProj.DisplayName: Undying Portal Proj
-				UndyingHomingProj.DisplayName: Undying Homing Proj
+				UndyingPortalProj.DisplayName: Undying Portal
+				UndyingHomingProj.DisplayName: Undying Spirit
+			}
+
+			BossProjectiles: {
+				VonNade.DisplayName: Von's Grenade
+				VonGreenTracerProj.DisplayName: Von's Green Tracer
 			}
 		}
 	}

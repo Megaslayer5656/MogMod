@@ -14,7 +14,7 @@ namespace MogMod.Items.Accessories
             Item.accessory = true;
             Item.width = 50;
             Item.height = 36;
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Pink;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -28,7 +28,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<BladesOfAttack>(1).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Emblem"}", 1).
-                AddRecipeGroup("AdamantiteBar", 12).
+                AddIngredient(ItemID.HallowedBar, 18).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

@@ -7,8 +7,10 @@ using MogMod.Buffs.Debuffs;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
-    public class FrozenSpearProjectile : ModProjectile //This whole file is straight from examplemod. Thank you examplemod.
+    //This whole file is straight from examplemod. Thank you examplemod.
+    public class FrozenSpearProjectile : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         // Define the range of the Spear Projectile. These are overridable properties, in case you'll want to make a class inheriting from this one.
         protected virtual float HoldoutRangeMin => 24f;
         protected virtual float HoldoutRangeMax => 132f;

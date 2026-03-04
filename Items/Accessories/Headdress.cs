@@ -45,7 +45,6 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.Feather, 5).
                 AddIngredient(ItemID.Lens, 2).
                 AddIngredient(ItemID.Emerald, 3).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

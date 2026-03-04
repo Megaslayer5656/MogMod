@@ -1,22 +1,14 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.Audio;
-using Terraria.GameContent;
+﻿using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using MogMod.Buffs.Debuffs;
 
-namespace MogMod.Projectiles.EnemyProjectiles
+namespace MogMod.Projectiles.EnemyProjectiles.KingVon
 {
     public class VonGreenTracerProj : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles";
+        public new string LocalizationCategory => "Projectiles.BossProjectiles";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 5;

@@ -1,12 +1,7 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
-using MogMod.Items.Other;
 using MogMod.Utilities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,11 +34,11 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<MagicWand>(1).
+                AddIngredient(ItemID.PygmyNecklace, 1).
                 AddIngredient<Diadem>(1).
                 AddIngredient<SolRing>(1).
                 AddIngredient(ItemID.DiamondGemsparkBlock, 20).
                 AddRecipeGroup("AdamantiteBar", 15).
-                AddIngredient<FrigidCrystal>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

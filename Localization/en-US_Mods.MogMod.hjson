@@ -96,10 +96,8 @@ Items: {
 				7 Defense
 				+10% Attack Damage
 				+10% Attack Speed
-				Pressing [KEY] will increase attack damage 
-				and speed by 20% when activated
-				'Weapon of choice among brutes, the bearer sacrifices 
-				their life energy to gain immense strength and power.'
+				Pressing [KEY] will increase attack damage and speed by 20% when activated
+				'Weapon of choice among brutes, the bearer sacrifices their life energy to gain immense strength and power.'
 				'''
 		}
 
@@ -171,7 +169,7 @@ Items: {
 			DisplayName: Magic Wand
 			Tooltip:
 				'''
-				+3% Magic Damage
+				+3 Flat Magic Damage
 				Increased Maximum Mana by 30
 				Taking damage adds a charge to the wand
 				Pressing [KEY] expends all charges and heals 7 Life and Mana for each charge
@@ -491,6 +489,8 @@ Items: {
 			DisplayName: Holy Locket
 			Tooltip:
 				'''
+				Increases your max number of minions by 2
+				Does not stack with downgrades
 				+7% Magic Damage
 				+7% Summon Damage
 				Increased Maximum Mana by 70
@@ -635,7 +635,7 @@ Items: {
 			Tooltip:
 				'''
 				+30% Melee Weapon Size
-				-20% Melee Attack Speed
+				-20% Melee Speed
 				Melee attacks have a small chance to bash enemies, dealing up to 50 melee damage
 				'Crude but smashingly effective.'
 				'''
@@ -645,7 +645,7 @@ Items: {
 			DisplayName: Duelist Gloves
 			Tooltip:
 				'''
-				Increases Melee Attack Speed by 7% for each enemy around you, up to a max of 21% attack speed
+				Increases Melee Speed by 7% for each enemy around you, up to a max of 21% attack speed
 				Enables auto swing for melee weapons
 				'''
 		}
@@ -728,6 +728,17 @@ Items: {
 				Fishing rods shoot 9 extra lures
 				Grants the effects of Lavaproof Tackle Bag
 				'A charm blessed by the Council of the Brine.'
+				'''
+		}
+
+		WraithPact: {
+			DisplayName: Wraith Pact
+			Tooltip:
+				'''
+				Increases your max number of sentries by 5
+				Provides you and nearby team members 10 defense, +20% Attack damage,
+				Greatly Increased Mana Regeneration, and Greatly Increased lifesteal effectiveness
+				'A sentient amulet whose animus shakes the courage of even the strongest foes.'
 				'''
 		}
 	}
@@ -1232,7 +1243,7 @@ Items: {
 
 			Phylactery: {
 				DisplayName: Phylactery
-				Tooltip: Fires a magical beam
+				Tooltip: Fires a short magical beam
 			}
 
 			DagonTwo: {
@@ -1857,6 +1868,40 @@ Items: {
 		TankyRizzlerLeggings: {
 			DisplayName: Tanky Rizzler Leggings
 			Tooltip: ""
+		}
+
+		TiglaHelmet: {
+			DisplayName: Tigla Helmet
+			Tooltip:
+				'''
+				+20% Ranged Damage
+				+8% Ranged Critical Strike Chance
+				'zombie tigla is on labs now'
+				'''
+			SetBonus:
+				'''
+				Grants the effects of Hunter and Ammo Reservation potions
+				Grants immunity to knockback
+				Right click to zoom out
+				'''
+		}
+
+		TiglaPants: {
+			DisplayName: Tigla Pants
+			Tooltip:
+				'''
+				+9% Ranged Critical Strike Chance
+				+15% Jump Speed and Movement Speed
+				'''
+		}
+
+		TiglaVest: {
+			DisplayName: Tigla Vest
+			Tooltip:
+				'''
+				+16% Ranged Damage and Critical Strike Chance
+				20% Chance to not consume ammo
+				'''
 		}
 	}
 }

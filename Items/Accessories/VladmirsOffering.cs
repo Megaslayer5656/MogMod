@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Other;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -16,12 +17,13 @@ namespace MogMod.Items.Accessories
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.LightRed;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.maxTurrets += 2;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.wearingVladimirs = true;
             player.lifeSteal *= 1.2f;
             if (player.miscCounter % 10 == 0)
             {

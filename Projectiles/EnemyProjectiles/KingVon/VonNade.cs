@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
 
-namespace MogMod.Projectiles.EnemyProjectiles
+namespace MogMod.Projectiles.EnemyProjectiles.KingVon
 {
     public class VonNade : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles";
+        public new string LocalizationCategory => "Projectiles.BossProjectiles";
         public override void SetDefaults()
         {
             Projectile.CloneDefaults(ProjectileID.Grenade);

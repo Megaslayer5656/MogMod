@@ -27,7 +27,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         public bool shivProc = false;
 
         public int gunpowderCap = 30;
-        public int shivCap = 500;
+        public int shivCap = 350;
         public override bool InstancePerEntity
         {
             get
@@ -60,15 +60,16 @@ namespace MogMod.Projectiles.BaseProjectiles
             var source = player.GetSource_OnHit(target);
             int itemDamage = player.HeldItem.damage;
             int enemyMaxHP = target.lifeMax;
+            int shivDamage = 0;
 
             if (itemDamage <= 40)
                 gunpowderCap = itemDamage;
             else
                 gunpowderCap = 40;
-            if (Convert.ToInt32(enemyMaxHP * 0.01) <= 500)
-                shivCap = Convert.ToInt32(enemyMaxHP * 0.01) + 50;
+            if (Convert.ToInt32(enemyMaxHP * 0.01) <= shivCap)
+                shivDamage = Convert.ToInt32(enemyMaxHP * 0.01) + 50;
             else
-                shivCap = 500;
+                shivDamage = shivCap;
 
             radiantProc = random.Next(2) == 0;
             gunpowderProc = random.Next(5) == 0;
@@ -94,7 +95,7 @@ namespace MogMod.Projectiles.BaseProjectiles
             {
                 hitInfo = new NPC.HitInfo
                 {
-                    Damage = shivCap,
+                    Damage = shivDamage,
                     Knockback = 0,
                     HitDirection = 0,
                     Crit = false,

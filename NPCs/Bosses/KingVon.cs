@@ -2,7 +2,7 @@
 using Microsoft.Xna;
 using Microsoft.Xna.Framework;
 using MogMod.Items.Consumables;
-using MogMod.Projectiles.EnemyProjectiles;
+using MogMod.Projectiles.EnemyProjectiles.KingVon;
 using System;
 using System.Collections.Generic;
 using System.Linq;

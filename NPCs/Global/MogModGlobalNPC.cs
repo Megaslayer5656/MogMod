@@ -42,7 +42,7 @@ namespace MogMod.NPCs.Global
         public int blackBladeDebuff = 0;
 
         public int bashCap = 30;
-        public int shivCap = 400;
+        public int shivCap = 350;
 
         public bool markedByMarker;
 
@@ -99,14 +99,15 @@ namespace MogMod.NPCs.Global
 
             int itemDamage = player.HeldItem.damage;
             int enemyMaxHP = npc.lifeMax;
+            int shivDamage = 0;
             if (itemDamage <= 30)
                 bashCap = itemDamage;
             else
                 bashCap = 50;
-            if (Convert.ToInt32(enemyMaxHP * 0.01) <= 400)
-                shivCap = Convert.ToInt32(enemyMaxHP * 0.01) + 50;
+            if (Convert.ToInt32(enemyMaxHP * 0.01) <= shivCap)
+                shivDamage = Convert.ToInt32(enemyMaxHP * 0.01) + 50;
             else
-                shivCap = 400;
+                shivDamage = shivCap;
 
             // skull basher
             var source = player.GetSource_OnHit(npc);
@@ -133,7 +134,7 @@ namespace MogMod.NPCs.Global
             {
                 hitInfo = new NPC.HitInfo
                 {
-                    Damage = shivCap,
+                    Damage = shivDamage,
                     Knockback = 0,
                     HitDirection = 0,
                     Crit = false,

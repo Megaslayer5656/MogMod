@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Buffs.Debuffs
 {
-    public class EyeOfSkadiDebuff : ModBuff
+    public class JidiPollenBagDebuff : ModBuff
     {
         public override void SetStaticDefaults()
         {

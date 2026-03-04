@@ -53,7 +53,6 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient(ItemID.LargeAmethyst, 1).
                 AddIngredient(ItemID.ShimmerBlock, 20).
                 AddIngredient(ItemID.PinkGel, 18).
-                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.Anvils).
                 Register();
         }

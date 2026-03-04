@@ -44,6 +44,8 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingSerratedShiv = false;
         public bool wearingUndyingHelm = false;
         public bool wearingSearingSignet = false;
+        public bool wearingVladimirs = false;
+        public bool wearingWraithPact = false;
 
         public int locketCharges = 0;
         public static int maxLocketCharges = 20;
@@ -595,6 +597,19 @@ namespace MogMod.Common.MogModPlayer
                     }
                 }
             }
+            if (locketActive)
+            {
+                Player.maxMinions += 2;
+            }
+            if (wearingWraithPact)
+            {
+                Player.maxTurrets += 5;
+            }
+            else
+                if (wearingVladimirs)
+                {
+                    Player.maxTurrets += 2;
+                }
             #endregion
 
             #region Weapon Buffs
@@ -1020,6 +1035,8 @@ namespace MogMod.Common.MogModPlayer
             wearingSerratedShiv = false;
             wearingUndyingHelm = false;
             wearingSearingSignet = false;
+            wearingVladimirs = false;
+            wearingWraithPact = false;
             exultationEquipped = false;
 
             wearingRadiantArmor = false;

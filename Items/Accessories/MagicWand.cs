@@ -2,11 +2,7 @@
 using MogMod.Common.Systems;
 using MogMod.Items.Other;
 using MogMod.Utilities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,7 +24,7 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Magic) += .03f;
+            player.GetDamage(DamageClass.Magic).Flat += 3f;
             player.statManaMax2 += 30;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wandActive = true;

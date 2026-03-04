@@ -1,17 +1,12 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
-    public class RiversOfBloodProj : ModProjectile
+    public class RiversOfBloodProj : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override void SetDefaults() //TODO: Fix this projectile's janky hitbox
         {
             Projectile.width = 76;

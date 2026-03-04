@@ -48,7 +48,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         public override Color LightCastColor => LaserOverlayColor; // applies it
         public override float Lifetime => 2700f;
         public override float MaxScale => 2.1f;
-        public override float MaxLaserLength => 2200f;
+        public override float MaxLaserLength => 1000f;
         public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryStart", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryMid", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryEnd", AssetRequestMode.ImmediateLoad).Value;

@@ -1,20 +1,15 @@
 ﻿using MogMod.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using MogMod.NPCs.Global;
-using Microsoft.Xna.Framework;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
-    public class MarkerProjProj : ModProjectile , ILocalizedModType
+    public class MarkerProjProj : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         public override void SetDefaults()
         {
