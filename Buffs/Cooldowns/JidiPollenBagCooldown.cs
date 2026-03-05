@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Buffs.Cooldowns
 {
-    public class ButterflyCooldown : ModBuff
+    public class JidiPollenBagCooldown : ModBuff
     {
         public override void SetStaticDefaults()
         {

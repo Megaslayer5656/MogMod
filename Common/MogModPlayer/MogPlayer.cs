@@ -46,6 +46,12 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingSearingSignet = false;
         public bool wearingVladimirs = false;
         public bool wearingWraithPact = false;
+        public bool wearingJidiPollenBag = false;
+        public bool wearingShadowAmulet = false;
+        public bool shadowAmuletVisual = false;
+
+        public int shadowTimer = 0;
+        public const int shadowTimerMax = 240;
 
         public int locketCharges = 0;
         public static int maxLocketCharges = 20;
@@ -121,6 +127,7 @@ namespace MogMod.Common.MogModPlayer
         public bool aghHexDebuff = false;
         public bool wingsOfLightDebuff = false;
         public bool ghostflameDebuff = false;
+        public bool jidiDebuff = false;
 
         public bool riversOfBloodProj = false;
         public bool exultationEquipped = false;
@@ -215,7 +222,6 @@ namespace MogMod.Common.MogModPlayer
                 target.AddBuff(BuffID.Daybreak, 600);
             }
         }
-
         public override void OnHitByNPC(NPC npc, Terraria.Player.HurtInfo hurtInfo)
         {
             Player.ClearBuff(ModContent.BuffType<ClarityBuff>());
@@ -715,6 +721,70 @@ namespace MogMod.Common.MogModPlayer
             MiscEffects();
             OtherBuffEffects();
         }
+        public override void PostUpdate()
+        {
+            // if the player is wearing shadow amulet turn them invis after a set amount of time
+            if (wearingShadowAmulet)
+            {
+                if (Player.velocity.X == 0f && Player.velocity.Y == 0f)
+                {
+                    // count down timer
+                    shadowTimer++;
+                    // give the player a buff when the timer is at max
+                    if (shadowTimer >= shadowTimerMax)
+                        Player.AddBuff(ModContent.BuffType<ShadowAmuletBuff>(), 2);
+                    // dust effect
+                    if (shadowAmuletVisual && shadowTimer < (shadowTimerMax / 2))
+                    {
+                        if (Main.rand.NextBool(2))
+                        {
+                            int dust = Dust.NewDust(Player.position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(3) ? 164 : 177, Player.velocity.X * 0.04f, Player.velocity.Y * 0.04f, 100, default, 1f);
+                            Main.dust[dust].noGravity = true;
+                            Main.dust[dust].velocity *= 0.65f;
+                            Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.03f;
+                            if (Main.rand.NextBool(4))
+                            {
+                                Main.dust[dust].noGravity = false;
+                                Main.dust[dust].scale *= 0.3f;
+                            }
+                        }
+                    }
+                    // stronger dust effect when halfway done
+                    else if (shadowAmuletVisual && shadowTimer > (shadowTimerMax / 2) && shadowTimer < shadowTimerMax)
+                    {
+                        for (int n = 0; n < 2; n++)
+                        {
+                            int dust = Dust.NewDust(Player.position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(3) ? 164 : 177, Player.velocity.X * 0.04f, Player.velocity.Y * 0.04f, 100, default, 1.3f);
+                            Main.dust[dust].noGravity = true;
+                            Main.dust[dust].velocity *= 0.65f;
+                            Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.03f;
+                            if (Main.rand.NextBool(4))
+                            {
+                                Main.dust[dust].noGravity = false;
+                                Main.dust[dust].scale *= 0.3f;
+                            }
+                        }
+                    }
+                    // final BOOM
+                    else if (shadowAmuletVisual && shadowTimer == shadowTimerMax)
+                    {
+                        SoundEngine.PlaySound(SoundID.Item68, Player.Center);
+                        for (int i = 0; i < 40; i++)
+                        {
+                            int strike = Dust.NewDust(Player.position - new Vector2(2f), Player.width * 2, Player.height * 2, Main.rand.NextBool(3) ? 164 : 177, 0, 0, 100, default, 2f);
+                            Main.dust[strike].velocity.Y *= 1.05f;
+                            Main.dust[strike].noGravity = true;
+                        }
+                    }
+                }
+                else if (Player.velocity.X != 0f || Player.velocity.Y != 0f)
+                    shadowTimer = 0;
+            }
+            else
+            {
+                shadowTimer = 0;
+            }
+        }
 
         // shivas effect and dust;
         public void doShivas(Terraria.Player player, Vector2 center) //This needs to be its own method for netcode to work. See how I did it in MogModNetcode.cs and MogPlayerNetcode.cs
@@ -837,7 +907,7 @@ namespace MogMod.Common.MogModPlayer
             modifiers.SourceDamage *= (float)damageMult;
         }
 
-            // sniper offlane scope effect
+        // sniper offlane scope effect
         public override void ModifyZoom(ref float zoom)
         {
             if (Player.HeldItem.Name == "AXMC")
@@ -982,6 +1052,27 @@ namespace MogMod.Common.MogModPlayer
             {
                 ChargeBow();
             }
+            if (skadiDebuff)
+            {
+                Player.velocity *= 0.988f;
+                Player.statDefense -= 25; // -25 flat defense
+            }
+            if (freezingDebuff)
+            {
+                Player.velocity *= 0.985f;
+            }
+            if (aghHexDebuff)
+            {
+                Convert.ToInt32(Player.GetDamage(DamageClass.Generic) * .8f); // 20% damage reduction
+            }
+            if (wingsOfLightDebuff)
+            {
+                Convert.ToInt32(Player.GetDamage(DamageClass.Generic) * .9f); // 10% damage reduction
+            }
+            if (jidiDebuff)
+            {
+                Player.statDefense -= 10; // -10 flat defense
+            }
         }
         
         // stops player from moving while charging bow
@@ -1037,6 +1128,9 @@ namespace MogMod.Common.MogModPlayer
             wearingSearingSignet = false;
             wearingVladimirs = false;
             wearingWraithPact = false;
+            wearingJidiPollenBag = false;
+            wearingShadowAmulet = false;
+            shadowAmuletVisual = false;
             exultationEquipped = false;
 
             wearingRadiantArmor = false;
@@ -1054,6 +1148,7 @@ namespace MogMod.Common.MogModPlayer
             aghHexDebuff = false;
             wingsOfLightDebuff = false;
             ghostflameDebuff = false;
+            jidiDebuff = false;
 
             duelistStacks = 0;
 

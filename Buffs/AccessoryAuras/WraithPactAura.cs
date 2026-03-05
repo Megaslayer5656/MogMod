@@ -13,8 +13,9 @@ namespace MogMod.Buffs.AccessoryAuras
         }
         public override void Update(Player player, ref int buffIndex)
         {
+            // TODO: make these changes and the ones in vlads and headdress in mogplayer for easier buff stacking
             player.statDefense += 7;
-            player.GetDamage(DamageClass.Generic) += .13f;
+            player.GetDamage(DamageClass.Generic) += .10f;
             player.lifeSteal *= 1.8f;
             player.manaRegen += (int)Math.Round(player.manaRegen * .1f);
         }

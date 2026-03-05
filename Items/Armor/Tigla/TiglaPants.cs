@@ -19,7 +19,7 @@ namespace MogMod.Items.Armor.Tigla
 
         public override void UpdateEquip(Player player)
         {
-            player.GetCritChance(DamageClass.Ranged) += .09f;
+            player.GetCritChance(DamageClass.Ranged) += 9;
             player.jumpSpeedBoost += 0.15f;
             player.moveSpeed += 0.15f;
         }

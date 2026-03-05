@@ -54,7 +54,7 @@ namespace MogMod.Items.Armor.Tigla
         public override void UpdateEquip(Player player)
         {
             player.GetDamage<RangedDamageClass>() += 0.2f;
-            player.GetCritChance<RangedDamageClass>() += 0.08f;
+            player.GetCritChance<RangedDamageClass>() += 8;
         }
         public override void AddRecipes()
         {

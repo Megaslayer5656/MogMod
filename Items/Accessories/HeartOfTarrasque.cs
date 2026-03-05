@@ -29,7 +29,8 @@ namespace MogMod.Items.Accessories
             player.statManaMax2 -= 100;
             player.lifeRegen += 8;
             player.shinyStone = true;
-            player.PotionDelayModifier *= 0.35f;
+            player.PotionDelayModifier *= 0.9f;
+            player.pStone = true;
             player.GetDamage(DamageClass.Magic) -= .20f;
             player.GetDamage(DamageClass.Summon) -= .20f;
 

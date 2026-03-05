@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Config;
@@ -35,21 +36,36 @@ namespace MogMod.NPCs.Global
         public int aghDebuff = 0;
         public int wingsOfLightDebuff = 0;
         public int ghostflameDebuff = 0;
+        public int jidiDebuff = 0;
 
         public NPC.HitInfo hitInfo;
         public int maxBlood = 1000;
         public int currentBlood = 0;
         public int blackBladeDebuff = 0;
 
-        public int bashCap = 30;
-        public int shivCap = 350;
+        // debuff effects
+        public const int skadiNumb = 25;
+        public static float skadiMult = 1 - skadiNumb / 100f;
+        public const int jidiNumb = 10;
+        public static float jidiMult = 1 - jidiNumb / 100f;
+
+        // damage caps
+        public const int bashCap = 50;
+        public const int shivCap = 400;
 
         public bool markedByMarker;
 
+        // procs
         public bool bashProc = false;
         public bool shivProc = false;
 
         Random rand = new Random();
+
+        // cooldowns
+        public int shivCooldown = ModContent.BuffType<SerratedShivCooldown>();
+        public int bashCooldown = ModContent.BuffType<GiantsMaulCooldown>();
+
+        public int cooldownTimer = 5;
 
         // apparently neccessary according to calamity
         public override bool InstancePerEntity => true;
@@ -69,6 +85,7 @@ namespace MogMod.NPCs.Global
             myClone.aghDebuff = aghDebuff;
             myClone.wingsOfLightDebuff = wingsOfLightDebuff;
             myClone.ghostflameDebuff = ghostflameDebuff;
+            myClone.jidiDebuff = jidiDebuff;
             return myClone;
         }
 
@@ -99,11 +116,12 @@ namespace MogMod.NPCs.Global
 
             int itemDamage = player.HeldItem.damage;
             int enemyMaxHP = npc.lifeMax;
+            int bashDamage = 0;
             int shivDamage = 0;
-            if (itemDamage <= 30)
-                bashCap = itemDamage;
+            if (itemDamage <= bashCap)
+                bashDamage = itemDamage;
             else
-                bashCap = 50;
+                bashDamage = bashCap;
             if (Convert.ToInt32(enemyMaxHP * 0.01) <= shivCap)
                 shivDamage = Convert.ToInt32(enemyMaxHP * 0.01) + 50;
             else
@@ -112,9 +130,10 @@ namespace MogMod.NPCs.Global
             // skull basher
             var source = player.GetSource_OnHit(npc);
             bashProc = rand.Next(7) == 0;
-            if (bashProc && mogPlayer.wearingGiantsMaul)
+            if (bashProc && mogPlayer.wearingGiantsMaul && !player.HasBuff(bashCooldown))
             {
-                int bash = Projectile.NewProjectile(source, npc.Center, new Vector2(10f, 10f), ModContent.ProjectileType<SkullBashProjectile>(), bashCap, 0f, player.whoAmI);
+                player.AddBuff(bashCooldown, cooldownTimer);
+                int bash = Projectile.NewProjectile(source, npc.Center, new Vector2(10f, 10f), ModContent.ProjectileType<SkullBashProjectile>(), bashDamage, 0f, player.whoAmI);
                 Rectangle r = new Rectangle((int)npc.position.X, (int)npc.position.Y - 50, npc.width, npc.height);
                 Color textColor = new Color(255, 0, 100);
                 CombatText.NewText(r, textColor, "Bash!", true);
@@ -130,8 +149,9 @@ namespace MogMod.NPCs.Global
 
             // serrated shiv
             shivProc = rand.Next(5) == 0;
-            if (shivProc && mogPlayer.wearingSerratedShiv)
+            if (shivProc && mogPlayer.wearingSerratedShiv && !player.HasBuff(shivCooldown))
             {
+                player.AddBuff(shivCooldown, cooldownTimer);
                 hitInfo = new NPC.HitInfo
                 {
                     Damage = shivDamage,
@@ -155,9 +175,6 @@ namespace MogMod.NPCs.Global
                 }
                 doTrueStrikeFX(npc.Center);
             }
-
-            // powder that decreases enemy armor from summoner attacks
-
         }
 
         public void spawnMarkerProjectile(NPC target, Player player, Item item)
@@ -302,10 +319,15 @@ namespace MogMod.NPCs.Global
             {
                 ApplyDPSDebuff(170, 7, ref npc.lifeRegen, ref damage);
             }
+            if (jidiDebuff > 0)
+            {
+                ApplyDPSDebuff(180, 8, ref npc.lifeRegen, ref damage);
+            }
         }
 
         // not quite sure what this does, but its in calamity mod so it has to be important
-        // defense and damage reductions are permanent unfortunetely
+
+        // TODO: fix defense and damage reductions so they are temporary
         public override void PostAI(NPC npc)
         {
             if (divineDebuff > 0)
@@ -314,7 +336,6 @@ namespace MogMod.NPCs.Global
             {
                 skadiDebuff--;
                 npc.velocity *= 0.988f;
-                npc.defense = Convert.ToInt32(npc.defDefense * .85f); // 15% defense reduction
             }
             if (freezingDebuff > 0)
             {
@@ -324,7 +345,6 @@ namespace MogMod.NPCs.Global
             if (aghDebuff > 0)
             {
                 aghDebuff--;
-                npc.damage = Convert.ToInt32(npc.defDamage * .8f); // 20% damage reduction
             }
             if (wingsOfLightDebuff > 0)
             {
@@ -337,6 +357,31 @@ namespace MogMod.NPCs.Global
             if (ghostflameDebuff > 0)
             {
                 ghostflameDebuff--;
+            }
+            if (jidiDebuff > 0)
+            {
+                jidiDebuff--;
+            }
+        }
+
+        // lower defense from buffs (taken from example mod)
+        public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers)
+        {
+            if (skadiDebuff > 0)
+            {
+                modifiers.Defense *= skadiMult;
+            }
+            if (jidiDebuff > 0)
+            {
+                modifiers.Defense *= jidiMult;
+            }
+            if (wingsOfLightDebuff > 0)
+            {
+                modifiers.CritDamage *= 1.1f;
+            }
+            if (aghDebuff > 0)
+            {
+                modifiers.CritDamage *= 1.2f;
             }
         }
 
@@ -453,6 +498,11 @@ namespace MogMod.NPCs.Global
             {
                 GhostflameDebuff.DrawEffects(npc, ref drawColor);
                 drawColor = Color.WhiteSmoke;
+            }
+            if (jidiDebuff > 0)
+            {
+                JidiPollenBagDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.LimeGreen;
             }
             if (markedByMarker) //TODO: Give this a custom effect
             {

@@ -288,11 +288,8 @@ Items: {
 			DisplayName: Shadow Amulet
 			Tooltip:
 				'''
-				-20% Attack Damage
-				Decreases Maximum Mana by 100
-				Turns you completely invisible!
-				'A small talisman that clouds the senses of 
-				one's enemies when held perfectly still.'
+				After not moving for 5 seconds, turn completely invisible!
+				'A small talisman that clouds the senses of one's enemies when held perfectly still.'
 				'''
 		}
 
@@ -328,6 +325,7 @@ Items: {
 				Increases Maximum Life by 100
 				Decreases Maximum Mana by 100
 				Reduces the cooldown of healing potions by 35%
+				Does not stack with downgrades
 				Grants immunity to knockback and fire blocks
 				Grants immunity to most debuffs
 				Vastly Increased Life Regeneration, increasing even more if standing still
@@ -636,7 +634,7 @@ Items: {
 				'''
 				+30% Melee Weapon Size
 				-20% Melee Speed
-				Melee attacks have a small chance to bash enemies, dealing up to 50 melee damage
+				True melee attacks have a small chance to bash enemies, dealing up to 50 melee damage
 				'Crude but smashingly effective.'
 				'''
 		}
@@ -684,7 +682,6 @@ Items: {
 			DisplayName: Serrated Shiv
 			Tooltip:
 				'''
-				+10% Attack Damage
 				Attacks have a chance to true strike enemies, dealing 1% of their maximum life as damage
 				'Too dangerous for taskwork, this blade's only purpose is vile murder.'
 				'''
@@ -739,6 +736,16 @@ Items: {
 				Provides you and nearby team members 10 defense, +20% Attack damage,
 				Greatly Increased Mana Regeneration, and Greatly Increased lifesteal effectiveness
 				'A sentient amulet whose animus shakes the courage of even the strongest foes.'
+				'''
+		}
+
+		JidiPollenBag: {
+			DisplayName: Jidi Pollen Bag
+			Tooltip:
+				'''
+				+8% Summon Damage
+				Summon attacks have a chance to explode into pollen, reducing enemy armor by 10
+				'Very dangerous. Very difficult to obtain more.'
 				'''
 		}
 	}

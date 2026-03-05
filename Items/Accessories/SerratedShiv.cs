@@ -20,15 +20,13 @@ namespace MogMod.Items.Accessories
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingSerratedShiv = true;
-
-            player.GetDamage(DamageClass.Generic) += .10f;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient<BladesOfAttack>(1).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Emblem"}", 1).
-                AddIngredient(ItemID.HallowedBar, 18).
+                AddRecipeGroup("AdamantiteBar", 18).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

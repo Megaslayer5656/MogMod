@@ -257,7 +257,7 @@ Mods: {
 
 			VladmirsBuff: {
 				DisplayName: Vladmir's Aura
-				Description: +3 Defense, +7% Attack Damage, Increased Mana Regeneration and Lifesteal Effectiveness
+				Description: +3 Defense, +5% Attack Damage, Increased Mana Regeneration and Lifesteal Effectiveness
 			}
 
 			ShockState: {
@@ -387,12 +387,42 @@ Mods: {
 
 			WraithPactAura: {
 				DisplayName: Wraith Pact Aura
-				Description: +7 Defense, +13% Attack Damage, Increased Mana Regeneration and Lifesteal Effectiveness
+				Description: +7 Defense, +10% Attack Damage, Increased Mana Regeneration and Lifesteal Effectiveness
 			}
 
 			JidiPollenBagDebuff: {
 				DisplayName: Jidi Pollen Bag
 				Description: Your defense is being torn apart!
+			}
+
+			SerratedShivCooldown: {
+				DisplayName: Serrated Shiv Cooldown
+				Description: Recharging...
+			}
+
+			GiantsMaulCooldown: {
+				DisplayName: Giants Maul Cooldown
+				Description: Recharging...
+			}
+
+			GunpowderGauntletCooldown: {
+				DisplayName: Gunpowder Gauntlet Cooldown
+				Description: Recharging...
+			}
+
+			JidiPollenBagCooldown: {
+				DisplayName: Jidi Pollen Bag Cooldown
+				Description: Recharging...
+			}
+
+			RadiantCooldown: {
+				DisplayName: Radiant Beam Cooldown
+				Description: Recharging...
+			}
+
+			ShadowAmuletBuff: {
+				DisplayName: Shadow Amulet
+				Description: Don't move...
 			}
 		}
 
@@ -498,7 +528,7 @@ Mods: {
 				FoundingRainOfStarsStarProj.DisplayName: Falling Star
 				ExplosiveGhostflameProj.DisplayName: Ghostflame Explosion
 				GhostflameHomingProj.DisplayName: Vengeful Spirit
-				GunpowderProj.DisplayName: Gunpowder Explosion
+				GunpowderProj.DisplayName: Gunpowder Gauntlet
 				RadiantBeamProj.DisplayName: Radiant Beam
 			}
 
@@ -573,6 +603,7 @@ Mods: {
 			SummonerProjectiles: {
 				ProximityMinesSummon.DisplayName: Proximity Mines
 				ProximityMinesExplosion.DisplayName: Proximity Mines
+				JidiPollenExplosion.DisplayName: Jidi Pollen Bag
 			}
 
 			ClasslessProjectiles: {

@@ -1,15 +1,7 @@
 ﻿using MogMod.Common.MogModPlayer;
-using MogMod.Items.Other;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System.Transactions;
 
 namespace MogMod.Items.Accessories
 {
@@ -27,12 +19,9 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            //TODO: Make it turn you invis after 5 seconds of standing still - you could probably do this in mogplayer with some freaky .isWearingShadowAmulet
-            player.invis = true;
-            // remove these if done so
-            player.GetDamage(DamageClass.Generic) += -.20f;
-            player.statManaMax2 += -100;
-            player.statManaMax2 += 30;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.wearingShadowAmulet = true;
+            mogPlayer.shadowAmuletVisual = !hideVisual;
         }
         public override void AddRecipes()
         {
