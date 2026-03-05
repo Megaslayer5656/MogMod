@@ -23,6 +23,8 @@ namespace MogMod.Common.MogModPlayer
         public bool mewing = false;
         public float mewingguide = 0;
 
+        Random rand = new Random();
+
         // buffs for the accessories
         public bool isWearingGlimmerCape = false;
         public bool armletActive = false;
@@ -134,6 +136,8 @@ namespace MogMod.Common.MogModPlayer
 
         public bool markerProjOut = false;
 
+        public bool atgActive = false;
+
         // sound effects
         public static readonly SoundStyle WandUse = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Magic_Stick")
         {
@@ -220,6 +224,20 @@ namespace MogMod.Common.MogModPlayer
             if (Player.HasBuff<DragonInstallBuff>())
             {
                 target.AddBuff(BuffID.Daybreak, 600);
+            }
+
+            if (atgActive) 
+            {
+                int procChance = rand.Next(1, 11);
+
+                if (procChance == 1)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<ATGProjectile>(), Convert.ToInt32(damageDone * 2), 1, Player.whoAmI); //Gotta make the initial velocity not zero, will test what looks good when I'm home
+                    }
+                    //TODO: make a packet send thing if it's needed
+                }
             }
         }
         public override void OnHitByNPC(NPC npc, Terraria.Player.HurtInfo hurtInfo)
@@ -1149,6 +1167,8 @@ namespace MogMod.Common.MogModPlayer
             wingsOfLightDebuff = false;
             ghostflameDebuff = false;
             jidiDebuff = false;
+
+            atgActive = false;
 
             duelistStacks = 0;
 
