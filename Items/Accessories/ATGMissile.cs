@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    public class ATGMissile : ModItem
+    public class ATGMissile : ModItem //TODO: Make this shimmerable into plasma shrimp
     {
         public override void SetDefaults()
         {
