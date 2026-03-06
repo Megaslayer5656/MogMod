@@ -131,6 +131,13 @@ namespace MogMod.Common.MogModPlayer
         public bool ghostflameDebuff = false;
         public bool jidiDebuff = false;
 
+        // auras
+        public bool greavesAura = false;
+        public bool wraithAura = false;
+        public bool vladsAura = false;
+        public bool headdressAura = false;
+        public bool drumsAura = false;
+
         public bool riversOfBloodProj = false;
         public bool exultationEquipped = false;
 
@@ -784,14 +791,17 @@ namespace MogMod.Common.MogModPlayer
                         }
                     }
                     // final BOOM
-                    else if (shadowAmuletVisual && shadowTimer == shadowTimerMax)
+                    else if (shadowTimer == shadowTimerMax)
                     {
                         SoundEngine.PlaySound(SoundID.Item68, Player.Center);
-                        for (int i = 0; i < 40; i++)
+                        if (shadowAmuletVisual)
                         {
-                            int strike = Dust.NewDust(Player.position - new Vector2(2f), Player.width * 2, Player.height * 2, Main.rand.NextBool(3) ? 164 : 177, 0, 0, 100, default, 2f);
-                            Main.dust[strike].velocity.Y *= 1.05f;
-                            Main.dust[strike].noGravity = true;
+                            for (int i = 0; i < 40; i++)
+                            {
+                                int strike = Dust.NewDust(Player.position - new Vector2(2f), Player.width * 2, Player.height * 2, Main.rand.NextBool(3) ? 164 : 177, 0, 0, 100, default, 2f);
+                                Main.dust[strike].velocity.Y *= 1.05f;
+                                Main.dust[strike].noGravity = true;
+                            }
                         }
                     }
                 }
@@ -1062,6 +1072,7 @@ namespace MogMod.Common.MogModPlayer
         // buff effects
         private void OtherBuffEffects()
         {
+            // debuffs
             if (chargeShot)
             {
                 ChargeBow();
@@ -1090,6 +1101,39 @@ namespace MogMod.Common.MogModPlayer
             if (jidiDebuff)
             {
                 Player.statDefense -= 10; // -10 flat defense
+            }
+
+            // buffs
+            if (headdressAura)
+            {
+                Player.lifeRegen += 4;
+            }
+            if (greavesAura)
+            {
+                Player.lifeRegen += 2;
+                Player.statDefense += 4;
+                Player.statLifeMax2 += 20;
+                Player.statManaMax2 += 50;
+                Player.GetDamage(DamageClass.Generic) += .10f;
+            }
+            if (vladsAura)
+            {
+                Player.statDefense += 3;
+                Player.GetDamage(DamageClass.Generic) += .05f;
+                Player.lifeSteal *= 1.2f;
+                Player.manaRegenBonus += 4;
+            }
+            if (wraithAura)
+            {
+                Player.statDefense += 7;
+                Player.GetDamage(DamageClass.Generic) += .10f;
+                Player.lifeSteal *= 1.8f;
+                Player.manaRegenBonus += 6;
+            }
+            if (drumsAura)
+            {
+                Player.GetAttackSpeed(DamageClass.Generic) += .10f;
+                Player.moveSpeed += 0.30f;
             }
         }
         
@@ -1167,6 +1211,12 @@ namespace MogMod.Common.MogModPlayer
             wingsOfLightDebuff = false;
             ghostflameDebuff = false;
             jidiDebuff = false;
+
+            greavesAura = false;
+            wraithAura = false;
+            vladsAura = false;
+            headdressAura = false;
+            drumsAura = false;
 
             atgActive = false;
 

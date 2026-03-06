@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using MogMod.Common.MogModPlayer;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace MogMod.Buffs.AccessoryAuras
@@ -12,7 +13,8 @@ namespace MogMod.Buffs.AccessoryAuras
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.lifeRegen += 4;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.headdressAura = true;
         }
     }
 }

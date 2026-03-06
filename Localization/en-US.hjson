@@ -609,6 +609,7 @@ Mods: {
 			ClasslessProjectiles: {
 				UndyingPortalProj.DisplayName: Undying Portal
 				UndyingHomingProj.DisplayName: Undying Spirit
+				ATGProjectile.DisplayName: A T G Projectile
 			}
 
 			BossProjectiles: {

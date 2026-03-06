@@ -111,7 +111,7 @@ Items: {
 				Enemies are less likely to target you
 				Greatly Increased Mana regeneration
 				Provides you and nearby team members +20 Maximum Life, +50 Maximum Mana, 
-				+6 HP/s Life regen, +5 Defense and +10% Increased damage
+				+6 HP/s Life regen, +4 Defense and +10% Increased damage
 				Pressing [KEY] will restore 100 Life and 300 Mana to you and nearby team members
 				'One of many holy instruments constructed to honor the Omniscience.'
 				'''
@@ -428,19 +428,6 @@ Items: {
 				'''
 		}
 
-		BladeMail: {
-			DisplayName: Blade Mail
-			Tooltip:
-				'''
-				7 Defense
-				+5% Attack Damage
-				Enemies take damage when they hit you
-				Pressing [KEY] will 10x thorns damage
-				'A razor-sharp coat of mail, it is the 
-				choice of selfless martyrs in combat.'
-				'''
-		}
-
 		DrumOfEndurance: {
 			DisplayName: Drum Of Endurance
 			Tooltip:
@@ -586,7 +573,7 @@ Items: {
 				'''
 				Increases your max number of sentries by 2
 				Provides you and nearby team members 3 defense, +7% Attack damage,
-				Increased Mana Regeneration, and Increased lifesteal effectiveness
+				Increased Mana Regeneration by 4, and Increased lifesteal effectiveness
 				'An eerie mask that is haunted with the malice of a fallen vampire.'
 				'''
 		}
@@ -662,7 +649,7 @@ Items: {
 			DisplayName: Chipped Vest
 			Tooltip:
 				'''
-				Enemies take damage when they hit you
+				Enemies take a small amount of damage when they hit you
 				'It doesn't look like much, but it's oddly comfy.'
 				'''
 		}
@@ -733,8 +720,8 @@ Items: {
 			Tooltip:
 				'''
 				Increases your max number of sentries by 5
-				Provides you and nearby team members 10 defense, +20% Attack damage,
-				Greatly Increased Mana Regeneration, and Greatly Increased lifesteal effectiveness
+				Provides you and nearby team members 10 defense, +15% Attack damage,
+				Increased Mana Regeneration by 10, and Greatly Increased lifesteal effectiveness
 				'A sentient amulet whose animus shakes the courage of even the strongest foes.'
 				'''
 		}
@@ -1910,5 +1897,43 @@ Items: {
 				20% Chance to not consume ammo
 				'''
 		}
+
+		BlademailBreastplate: {
+			DisplayName: Blademail Breastplate
+			Tooltip:
+				'''
+				+8% Melee Damage and Critical Strike Chance
+				Enemies take damage when they hit you
+				'A razor-sharp coat of mail, it is the choice of selfless martyrs in combat.'
+				'''
+		}
+
+		BlademailMask: {
+			DisplayName: Blademail Mask
+			Tooltip:
+				'''
+				+7% Melee Damage and Critical Strike Chance
+				Enemies take damage when they hit you
+				'''
+			SetBonus:
+				'''
+				Increases amount of thorns damage
+				Pressing [KEY] will 7x thorns damage
+				'''
+		}
+
+		BlademailLeggings: {
+			DisplayName: Blademail Leggings
+			Tooltip:
+				'''
+				+9% Melee Attack Speed
+				+10% Movement Speed
+				'''
+		}
+	}
+
+	ATGMissile: {
+		DisplayName: A T G Missile
+		Tooltip: ""
 	}
 }

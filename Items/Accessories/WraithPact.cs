@@ -12,7 +12,6 @@ namespace MogMod.Items.Accessories
     public class WraithPact : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        int vladsBuff = ModContent.BuffType<Buffs.AccessoryAuras.VladmirsBuff>();
         int wraithBuff = ModContent.BuffType<Buffs.AccessoryAuras.WraithPactAura>();
         public override void SetDefaults()
         {
@@ -29,7 +28,6 @@ namespace MogMod.Items.Accessories
             if (player.miscCounter % 10 == 0)
             {
                 int myPlayer = Main.myPlayer;
-                player.AddBuff(vladsBuff, 20);
                 player.AddBuff(wraithBuff, 20);
                 if (Main.player[myPlayer].team == player.team && player.team != 0)
                 {
@@ -37,7 +35,6 @@ namespace MogMod.Items.Accessories
                     float teamPlayerYDist = player.position.Y - Main.player[myPlayer].position.Y;
                     if ((float)Math.Sqrt(teamPlayerXDist * teamPlayerXDist + teamPlayerYDist * teamPlayerYDist) < 800f)
                     {
-                        Main.player[myPlayer].AddBuff(vladsBuff, 20);
                         Main.player[myPlayer].AddBuff(wraithBuff, 20);
                     }
                 }

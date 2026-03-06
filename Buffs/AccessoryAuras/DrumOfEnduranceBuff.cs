@@ -1,5 +1,7 @@
-﻿using Terraria;
+﻿using MogMod.Common.MogModPlayer;
+using Terraria;
 using Terraria.ModLoader;
+
 namespace MogMod.Buffs.AccessoryAuras
 {
     public class DrumOfEnduranceBuff : ModBuff
@@ -11,8 +13,8 @@ namespace MogMod.Buffs.AccessoryAuras
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetAttackSpeed(DamageClass.Generic) += .10f;
-            player.moveSpeed += 0.30f;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.drumsAura = true;
         }
     }
 }

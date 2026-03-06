@@ -1,5 +1,7 @@
-﻿using Terraria;
+﻿using MogMod.Common.MogModPlayer;
+using Terraria;
 using Terraria.ModLoader;
+
 namespace MogMod.Buffs.AccessoryAuras
 {
     public class GuardianGreavesAura : ModBuff
@@ -11,11 +13,9 @@ namespace MogMod.Buffs.AccessoryAuras
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.lifeRegen += 6;
-            player.statDefense += 4;
-            player.statLifeMax2 += 20;
-            player.statManaMax2 += 50;
-            player.GetDamage(DamageClass.Generic) += .10f;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.greavesAura = true;
+            mogPlayer.headdressAura = true;
         }
     }
 }

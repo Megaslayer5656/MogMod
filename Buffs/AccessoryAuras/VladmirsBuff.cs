@@ -1,6 +1,7 @@
-﻿using System;
+﻿using MogMod.Common.MogModPlayer;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace MogMod.Buffs.AccessoryAuras
 {
     public class VladmirsBuff : ModBuff
@@ -12,10 +13,8 @@ namespace MogMod.Buffs.AccessoryAuras
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.statDefense += 3;
-            player.GetDamage(DamageClass.Generic) += .05f;
-            player.lifeSteal *= 1.2f;
-            player.manaRegen += (int)Math.Round(player.manaRegen * .05f);
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.vladsAura = true;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
+
 namespace MogMod.Buffs.PotionBuffs
 {
     public class BladeMailBuff : ModBuff
@@ -12,7 +12,7 @@ namespace MogMod.Buffs.PotionBuffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.thorns += 10f;
+            player.thorns += 7f;
 
             // TODO: make a projectile that sticks out of the playerr and spawn dusts around that projectile
             if (Main.rand.NextBool(5))

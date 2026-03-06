@@ -1,4 +1,4 @@
-﻿using System;
+﻿using MogMod.Common.MogModPlayer;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -13,11 +13,9 @@ namespace MogMod.Buffs.AccessoryAuras
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            // TODO: make these changes and the ones in vlads and headdress in mogplayer for easier buff stacking
-            player.statDefense += 7;
-            player.GetDamage(DamageClass.Generic) += .10f;
-            player.lifeSteal *= 1.8f;
-            player.manaRegen += (int)Math.Round(player.manaRegen * .1f);
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.wraithAura = true;
+            mogPlayer.vladsAura = true;
         }
     }
 }
