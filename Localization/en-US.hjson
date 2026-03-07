@@ -477,6 +477,8 @@ Mods: {
 					Princess_LovesNPC: I like {NPCName}.
 				}
 			}
+
+			FreakyTien.DisplayName: Freaky Tien
 		}
 
 		Projectiles: {

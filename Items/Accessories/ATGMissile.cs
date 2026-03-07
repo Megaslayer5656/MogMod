@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using MogMod.Items.Other;
 
 namespace MogMod.Items.Accessories
 {
@@ -22,14 +23,19 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetAttackSpeed(DamageClass.Generic) += .1f;
+            player.GetAttackSpeed(DamageClass.Generic) += .05f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.atgActive = true;
         }
 
         public override void AddRecipes()
         {
-            //TODO: Add recipe and decide place in progression, then balance accordingly
+            CreateRecipe().
+            AddIngredient(ItemID.ChlorophyteBar, 15).
+            AddIngredient<GriefBar>(10).
+            AddIngredient(ItemID.HighVelocityBullet, 100).
+            AddTile(TileID.MythrilAnvil).
+            Register();
         }
     }
 }

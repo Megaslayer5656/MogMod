@@ -233,19 +233,21 @@ namespace MogMod.Common.MogModPlayer
                 target.AddBuff(BuffID.Daybreak, 600);
             }
 
-            if (atgActive) 
+            if (atgActive)
             {
                 int procChance = rand.Next(1, 11);
 
-                if (procChance == 1)
+                if (procChance == 5)
                 {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<ATGProjectile>(), Convert.ToInt32(damageDone * 2), 1, Player.whoAmI); //Gotta make the initial velocity not zero, will test what looks good when I'm home
-                    }
-                    //TODO: make a packet send thing if it's needed
+                    doATG(damageDone);
                 }
             }
+        }
+
+        public void doATG(int damageDone)
+        {
+            Vector2 kirk = new Vector2(0, -5).RotatedByRandom(MathHelper.ToRadians(15));
+            Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk, ModContent.ProjectileType<ATGProjectile>(), damageDone, 1, Player.whoAmI);
         }
         public override void OnHitByNPC(NPC npc, Terraria.Player.HurtInfo hurtInfo)
         {
