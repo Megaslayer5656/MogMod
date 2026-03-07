@@ -11,8 +11,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
+using Terraria.ModLoader.Utilities;
 
-namespace MogMod.NPCs.TownNpc
+namespace MogMod.NPCs.Enemies
 {
     public class FreakyTien : ModNPC
     {
@@ -39,6 +42,7 @@ namespace MogMod.NPCs.TownNpc
             NPCID.Sets.AttackType[NPC.type] = 1;
             AIType = NPCID.GoblinScout;
             //AnimationType = 48;
+            NPC.scale = .05f;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

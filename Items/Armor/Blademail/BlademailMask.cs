@@ -44,14 +44,14 @@ namespace MogMod.Items.Armor.Blademail
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingBladeMail = true;
             player.setBonus = SetBonusText.Value;
-            player.thorns += 1f;
+            player.thorns += .5f;
             player.aggro += 550;
         }
         public override void UpdateEquip(Player player)
         {
             player.GetDamage<MeleeDamageClass>() += 0.07f;
             player.GetCritChance<MeleeDamageClass>() += 7;
-            player.thorns += .4f;
+            player.thorns += .2f;
         }
         public override void AddRecipes()
         {

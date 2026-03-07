@@ -1933,7 +1933,11 @@ Items: {
 	}
 
 	ATGMissile: {
-		DisplayName: A T G Missile
-		Tooltip: ""
+		DisplayName: ATG Missile
+		Tooltip:
+			'''
+			5% increased attack speed
+			Chance to shoot homing missile on hit
+			'''
 	}
 }

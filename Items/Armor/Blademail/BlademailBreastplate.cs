@@ -31,7 +31,7 @@ namespace MogMod.Items.Armor.Blademail
         {
             player.GetDamage<MeleeDamageClass>() += 0.08f;
             player.GetCritChance<MeleeDamageClass>() += 8;
-            player.thorns += .6f;
+            player.thorns += .3f;
         }
         public override void AddRecipes()
         {

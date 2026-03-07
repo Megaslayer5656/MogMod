@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using MogMod.NPCs.Global;
 using MogMod.Common.MogModPlayer;
+using Terraria.Audio;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
@@ -15,6 +16,13 @@ namespace MogMod.Projectiles.MeleeProjectiles
         public bool canHit = false;
         public bool hasHit = false;
         NPC marked;
+
+        public static readonly SoundStyle kirk = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Magic_Stick") //TODO: make a different sfx
+        {
+            Volume = .4f,
+            PitchVariance = .2f,
+            MaxInstances = 1,
+        };
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;
@@ -90,6 +98,8 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.IchorTorch, randSpeed, randSpeed, 0, default, 1f);
                 Main.dust[d].noGravity = true;
             }
+
+            SoundEngine.PlaySound(kirk);
         }
 
         public override bool CanHitPlayer(Player target)
