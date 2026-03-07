@@ -29,6 +29,7 @@ namespace MogMod.Items.Armor.TankyRizzler
         {
             return body.type == ModContent.ItemType<TankyRizzlerChestplate>() && legs.type == ModContent.ItemType<TankyRizzlerLeggings>();
         }
+        // make the set bonus similar to counter helix from axe dota2
         public override void UpdateArmorSet(Player player)
         {
             player.statLifeMax2 += 70;
