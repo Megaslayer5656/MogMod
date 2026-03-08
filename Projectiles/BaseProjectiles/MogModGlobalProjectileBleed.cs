@@ -2,11 +2,6 @@
 using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
 using MogMod.Projectiles.RangedProjectiles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -33,6 +28,10 @@ namespace MogMod.Projectiles.BaseProjectiles
             else if (entity.type == ModContent.ProjectileType<BloodGrenadeProjectile>())
             {
                 bloodDamage = 14;
+            }
+            else if (entity.type == ModContent.ProjectileType<APLapua>())
+            {
+                bloodDamage = 200;
             }
             else
             {

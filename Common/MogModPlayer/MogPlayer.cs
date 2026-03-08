@@ -144,6 +144,7 @@ namespace MogMod.Common.MogModPlayer
         public bool markerProjOut = false;
 
         public bool atgActive = false;
+        public bool icbmActive = false;
 
         // sound effects
         public static readonly SoundStyle WandUse = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Magic_Stick")
@@ -248,6 +249,14 @@ namespace MogMod.Common.MogModPlayer
         {
             Vector2 kirk = new Vector2(0, -5).RotatedByRandom(MathHelper.ToRadians(15));
             Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk, ModContent.ProjectileType<ATGProjectile>(), damageDone, 1, Player.whoAmI);
+            if (icbmActive)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    kirk = new Vector2(0, -5).RotatedByRandom(MathHelper.ToRadians(15));
+                    Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk, ModContent.ProjectileType<ATGProjectile>(), Convert.ToInt32(damageDone * .4f), 1, Player.whoAmI);
+                }
+            }
         }
         public override void OnHitByNPC(NPC npc, Terraria.Player.HurtInfo hurtInfo)
         {
@@ -1221,6 +1230,7 @@ namespace MogMod.Common.MogModPlayer
             drumsAura = false;
 
             atgActive = false;
+            icbmActive = false;
 
             duelistStacks = 0;
 

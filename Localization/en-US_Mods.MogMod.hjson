@@ -1940,4 +1940,14 @@ Items: {
 			Chance to shoot homing missile on hit
 			'''
 	}
+
+	ICBM: {
+		DisplayName: ICBM
+		Tooltip:
+			'''
+			7.5% increased attack speed
+			Chance to shoot 3 homing missiles on hit
+			'What's better than one missile...? MORE missiles.'
+			'''
+	}
 }

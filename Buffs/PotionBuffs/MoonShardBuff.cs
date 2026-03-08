@@ -10,7 +10,7 @@ namespace MogMod.Buffs.PotionBuffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetAttackSpeed(DamageClass.Generic) += .30f;
+            player.GetAttackSpeed(DamageClass.Generic) += .10f;
         }
     }
 }
