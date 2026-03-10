@@ -33,14 +33,5 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 int blood = Dust.NewDust(Projectile.position, 10, 60, DustID.Blood, 0f, 0f, 150, default, 3f);
             }
         }
-
-
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                int blood = Dust.NewDust(target.Center, 8, 8, DustID.Blood, 0, 0, 0, default, 2f);
-            }
-        }
     }
 }

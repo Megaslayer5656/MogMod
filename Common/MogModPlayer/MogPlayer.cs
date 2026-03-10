@@ -1003,11 +1003,11 @@ namespace MogMod.Common.MogModPlayer
             Player.AddBuff(ModContent.BuffType<ParryCooldown>(), 60);
             Player.AddBuff(ModContent.BuffType<ParryBuff1>(), 600);
             
-            Player.SetImmuneTimeForAllTypes(50);
+            Player.SetImmuneTimeForAllTypes(35);
 
             for (int i = 0; i < Player.hurtCooldowns.Length; i++)
             {
-                Player.hurtCooldowns[i] = 50;
+                Player.hurtCooldowns[i] = 35;
             }
 
             SoundEngine.PlaySound(ParrySound, Player.Center);

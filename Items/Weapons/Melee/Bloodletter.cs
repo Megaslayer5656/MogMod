@@ -25,11 +25,11 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 74;
             Item.height = 78;
-            Item.damage = 21;
-            Item.scale = .85f;
+            Item.damage = 19;
+            Item.scale = 1.25f;
             Item.DamageType = DamageClass.Melee;
-            Item.useTime = 20;
-            Item.useAnimation = 20;
+            Item.useTime = 23;
+            Item.useAnimation = 23;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 3.5f;
             Item.value = Item.buyPrice(0, 1, 50, 0);
@@ -74,8 +74,8 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<RedKatana>().
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 12).
+                AddRecipeGroup(RecipeGroupID.IronBar, 12).
                 AddTile(TileID.Anvils).
                 Register();
         }

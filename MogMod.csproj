@@ -45,6 +45,7 @@
     <None Remove="Common\Tiles\DabDadOre.png" />
     <None Remove="description.txt" />
     <None Remove="icon.png" />
+    <None Remove="Items\Accessories\ICBM.png" />
     <None Remove="Items\Accessories\KayaAndSange.png" />
     <None Remove="Items\Accessories\LordOfBloodsExultation.png" />
     <None Remove="Items\Accessories\MewingGuide.png" />

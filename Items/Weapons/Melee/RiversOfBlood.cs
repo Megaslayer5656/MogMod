@@ -25,10 +25,10 @@ namespace MogMod.Items.Weapons.Melee
         };
         public override void SetDefaults()
         {
-            Item.width = 100;
-            Item.height = 101;
-            Item.damage = 130;
-            Item.scale = 1f;
+            Item.width = 50;
+            Item.height = 64;
+            Item.damage = 140;
+            Item.scale = 2.25f;
             Item.DamageType = DamageClass.Melee;
             Item.useTime = 15;
             Item.useAnimation = 15;
