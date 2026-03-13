@@ -15,13 +15,16 @@ using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
 using Mono.Cecil;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using MogMod.Utilities;
 using static MogMod.Common.Systems.MogModNetcode;
+using MogMod.Common.Systems;
 
 namespace MogMod.NPCs.Global
 {
@@ -98,16 +101,22 @@ namespace MogMod.NPCs.Global
             }
             MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-                
-            if (mogPlayer.exultationEquipped)
+
+            if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                currentBlood += globalItem.bloodDamage + Convert.ToInt32(globalItem.bloodDamage * .15f);
-            } else
-            {
-                currentBlood += globalItem.bloodDamage;
+                // Tell server that this NPC was hit with this item
+                ModPacket packet = Mod.GetPacket();
+                packet.Write((byte)MogModMessageType.AddBloodFromItem);
+                packet.Write(npc.whoAmI);
+                packet.Write(player.whoAmI);
+                packet.Write(item.type);
+                packet.Send();
             }
-                
-            doBleedProc(npc);
+            else
+            {
+                // Server or singleplayer
+                AddItemBlood(npc, player, item);
+            }
 
             if (item.type == ModContent.ItemType<TheMarker>())
             {
@@ -199,6 +208,37 @@ namespace MogMod.NPCs.Global
                     markedByMarker = true;
                 }
             }
+
+            //if (Main.netMode != NetmodeID.SinglePlayer)
+            //{
+            //    ModPacket packet = Mod.GetPacket();
+            //    packet.Write((byte)MogModMessageType.BleedProcTextSync);
+            //    packet.Write(player.whoAmI);
+            //    packet.Write(target.whoAmI);
+            //    packet.Send(-1, -1);
+            //}
+        }
+
+        public void AddItemBlood(NPC npc, Player player, Item item)
+        {
+            MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+
+            maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense);
+
+            if (maxBlood < 150)
+                maxBlood = 150;
+
+            int bloodToAdd;
+
+            if (mogPlayer.exultationEquipped)
+                bloodToAdd = globalItem.bloodDamage + (int)(globalItem.bloodDamage * 0.15f);
+            else
+                bloodToAdd = globalItem.bloodDamage;
+
+            currentBlood += bloodToAdd;
+
+            doBleedProc(npc);
         }
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
@@ -208,79 +248,92 @@ namespace MogMod.NPCs.Global
                 maxBlood = 150;
             }
 
-            MogModGlobalProjectileBleed globalProjectile = projectile.GetGlobalProjectile<MogModGlobalProjectileBleed>();
-
-            if (Main.netMode == NetmodeID.MultiplayerClient) //All this stuff is so lord of blood's exultation works, and works in multiplayer
-            {
-                if (projectile.owner != 255)
+                if (Main.netMode == NetmodeID.MultiplayerClient && Main.netMode != NetmodeID.Server)
                 {
-                    var ply = projectile.owner;
-                    Player player = Main.player[ply];
-                    MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-
-                    if (mogPlayer.exultationEquipped)
-                    {
-                        currentBlood += globalProjectile.bloodDamage + Convert.ToInt32(globalProjectile.bloodDamage * .15f);
-                    }
-                    else
-                    {
-                        currentBlood += globalProjectile.bloodDamage;
-                    }
-                }
-            } 
-            else
-            {
-                Player player = Main.LocalPlayer;
-                MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-
-                if (mogPlayer.exultationEquipped)
-                {
-                    currentBlood += globalProjectile.bloodDamage + Convert.ToInt32(globalProjectile.bloodDamage * .15f);
+                    ModPacket packet = Mod.GetPacket();
+                    packet.Write((byte)MogModMessageType.AddBloodFromProjectile);
+                    packet.Write(npc.whoAmI);
+                    packet.Write(projectile.identity);
+                    packet.Send();
                 }
                 else
                 {
-                    currentBlood += globalProjectile.bloodDamage;
+                    AddProjectileBlood(npc, projectile);
                 }
+        }
+        public void AddProjectileBlood(NPC npc, Projectile projectile)
+        {
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                return;
             }
+            
+            int bloodToAdd = (int)projectile.localAI[0];
+            
+            currentBlood += bloodToAdd;
+
             doBleedProc(npc);
         }
         public void doBleedProc(NPC npc)
         {
-            if (currentBlood >= maxBlood){
-                hitInfo = new NPC.HitInfo
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                if (currentBlood >= maxBlood)
                 {
-                    Damage = Convert.ToInt32(npc.lifeMax * .085) + 50,
-                    Knockback = 0,
-                    HitDirection = 0,
-                    Crit = false,
-                    DamageType = DamageClass.Generic
-                };
-                npc.StrikeNPC(hitInfo);
-                NetMessage.SendStrikeNPC(npc, hitInfo);
-                currentBlood = 0;
-                Rectangle r = new Rectangle((int)npc.position.X, (int)npc.position.Y - 50, npc.width, npc.height);
-                Color textColor = new Color(255, 0, 0);
-                CombatText.NewText(r, textColor, "Bleed!", true);
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    ModPacket packet = Mod.GetPacket();
-                    packet.Write((byte)MogModMessageType.BleedProcTextSync);
-                    packet.Write(npc.lastInteraction);
-                    packet.WriteVector2(r.Center.ToVector2());
-                    packet.Send();
+                    ApplyBleedProc(npc);
                 }
-                doBloodFX(npc.Center);
             }
+        }
+
+        public void ApplyBleedProc(NPC npc)
+        {
+            NPC.HitInfo hitInfo = new NPC.HitInfo
+            {
+                Damage = Convert.ToInt32(npc.lifeMax * 0.085f) + 50,
+                Knockback = 0,
+                HitDirection = 0,
+                Crit = false,
+                DamageType = DamageClass.Generic
+            };
+
+            npc.StrikeNPC(hitInfo);
+            NetMessage.SendStrikeNPC(npc, hitInfo);
+
+            if (Main.netMode != NetmodeID.SinglePlayer)
+            {
+                ModPacket packet = Mod.GetPacket();
+                packet.Write((byte)MogModMessageType.BleedProcTextSync);
+                packet.WriteVector2(npc.Center);
+                packet.Send(-1);
+            }
+            
+            doBloodFX(npc.Center);
+            
+            currentBlood = 0;
         }
         public static void doBloodFX(Vector2 position)
         {
+            Rectangle r = new Rectangle((int)position.X - 10, (int)position.Y - 50, 20, 20);
+            CombatText.NewText(r, Color.Red, "Bleed!", true);
+
             SoundEngine.PlaySound(BloodCrit, position);
+
             for (int i = 0; i < 80; i++)
             {
-                int blood = Dust.NewDust(position, 20, 20, DustID.Blood, 0, 0, 0, default, 2f);
-                Main.dust[blood].noGravity = false;
+                int dust = Dust.NewDust(position, 20, 20, DustID.Blood, 0f, 0f, 0, default, 2f);
+                Main.dust[dust].noGravity = false;
             }
         }
+        public static void HandleBleedProcText(BinaryReader reader)
+        {
+            Vector2 position = reader.ReadVector2();
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                doBloodFX(position);
+            }
+        }
+
         public static void doTrueStrikeFX(Vector2 position)
         {
             SoundEngine.PlaySound(SoundID.NPCDeath56, position);

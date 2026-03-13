@@ -21,6 +21,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 1;
             Projectile.scale = 2f;
+            Projectile.netUpdate = true;
 
             AIType = ProjectileID.Bullet;
         }
@@ -32,6 +33,8 @@ namespace MogMod.Projectiles.MeleeProjectiles
             {
                 int blood = Dust.NewDust(Projectile.position, 10, 60, DustID.Blood, 0f, 0f, 150, default, 3f);
             }
+
+            Projectile.netUpdate = true;
         }
     }
 }

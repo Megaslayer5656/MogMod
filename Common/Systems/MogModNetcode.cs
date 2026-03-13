@@ -6,6 +6,8 @@ using Terraria.ID;
 using MogMod.Utilities;
 using MogMod.Common.MogModPlayer;
 using System;
+using MogMod.NPCs.Global;
+using Microsoft.Xna.Framework;
 
 namespace MogMod.Common.Systems
 {
@@ -48,12 +50,52 @@ namespace MogMod.Common.Systems
                         break;
 
                     case MogModMessageType.BleedProcTextSync:
-                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleBleedProcText(reader);
-                        break;
+                        {
+                           
+           
+                            
+                                Vector2 pos = reader.ReadVector2();
+                                MogModGlobalNPC.doBloodFX(pos);
+                            
+                            break;
+                        }
 
                     case MogModMessageType.UltraCritTextSync:
                         Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleUltraCritText(reader); //This packet is sent directly from the ChaosBlade file.
                         break;
+
+                    case MogModMessageType.AddBloodFromItem:
+                        {
+                            int npcID = reader.ReadInt32();
+                            int playerID = reader.ReadInt32();
+                            int itemType = reader.ReadInt32();
+
+                            NPC npc = Main.npc[npcID];
+                            Terraria.Player player = Main.player[playerID];
+                            Item item = player.HeldItem;
+
+                            if (npc.TryGetGlobalNPC<MogModGlobalNPC>(out var g))
+                            {
+                                g.AddItemBlood(npc, player, item);
+                            }
+
+                            break;
+                        }
+
+                    case MogModMessageType.AddBloodFromProjectile:
+                        {
+                            int npcID = reader.ReadInt32();
+                            int projID = reader.ReadInt32();
+
+                            NPC npc = Main.npc[npcID];
+
+                            Projectile projectile = Main.projectile[projID];
+
+                            MogModGlobalNPC globalNPC = npc.GetGlobalNPC<MogModGlobalNPC>();
+                            globalNPC.AddProjectileBlood(npc, projectile);
+
+                            break;
+                        }
                 }
             }
             catch (Exception e)
@@ -74,7 +116,10 @@ namespace MogMod.Common.Systems
             BleedProcTextSync,
             TrueStrikeProcTextSync,
             BashProcTextSync,
-            UltraCritTextSync
+            UltraCritTextSync,
+            AddBloodSync,
+            AddBloodFromItem,
+            AddBloodFromProjectile
         }
     }
 }

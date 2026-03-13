@@ -46,5 +46,10 @@ namespace MogMod.Projectiles.RangedProjectiles
                 int blood = Dust.NewDust(Projectile.position, 8, 8, DustID.Blood, 0, 0, 0, default, 1f);
             }
         }
+
+        public override void AI()
+        {
+            Projectile.netUpdate = true;
+        }
     }
 }

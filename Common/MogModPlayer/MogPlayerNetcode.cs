@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using MogMod.Utilities;
 using Microsoft.Xna.Framework;
 using static MogMod.Common.Systems.MogModNetcode;
+using MogMod.NPCs.Global;
 
 namespace MogMod.Common.MogModPlayer
 {
@@ -92,7 +93,6 @@ namespace MogMod.Common.MogModPlayer
 
             Player.SendPacket(packet, server);
         }
-
         
 
         internal void HandleEssenceShiftStack(BinaryReader reader)
@@ -150,7 +150,7 @@ namespace MogMod.Common.MogModPlayer
             {
                 SyncParry(true, pos);
             }
-            doParry(Player, pos);
+            doParryFX(pos);
         }
 
         internal void HandleDragonInstall(BinaryReader reader)
@@ -168,17 +168,6 @@ namespace MogMod.Common.MogModPlayer
             else
             {
                 exitDragonInstall(Player);
-            }
-        }
-
-        internal void HandleBleedProcText(BinaryReader reader)
-        {
-            Vector2 r = reader.ReadVector2();
-            Color textColor = new Color(255, 0, 0);
-            Rectangle rect = new Rectangle((int)r.X, (int)r.Y, 1, 1);
-            if (Main.netMode != NetmodeID.Server)
-            {
-                CombatText.NewText(rect, textColor, "Bleed!", true);
             }
         }
 

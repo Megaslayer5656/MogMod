@@ -13,6 +13,9 @@ namespace MogMod
             
         }
 
-        public override void HandlePacket(BinaryReader reader, int whoAmI) => MogModNetcode.HandlePacket(this, reader, whoAmI);
+        public override void HandlePacket(BinaryReader reader, int whoAmI)
+        {
+            MogModNetcode.HandlePacket(this, reader, whoAmI);
+        }
     }
 }

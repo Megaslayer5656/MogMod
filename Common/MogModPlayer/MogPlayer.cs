@@ -1010,21 +1010,6 @@ namespace MogMod.Common.MogModPlayer
                 Player.hurtCooldowns[i] = 35;
             }
 
-            SoundEngine.PlaySound(ParrySound, Player.Center);
-
-            Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
-            dustVelocity.Normalize();
-            dustVelocity *= 2;
-
-            int dustPos = 20;
-            for (int i = 0; i < 20; i++)
-            {
-                int P1 = Dust.NewDust(pos, dustPos - 5, dustPos - 5, DustID.YellowStarDust, dustVelocity.X * 2, dustVelocity.Y * 2, 0, default, 2f);
-                Main.dust[P1].noGravity = true;
-                Main.dust[P1].fadeIn = 2f;
-                Main.dust[P1].velocity *= 3f;
-            }
-
             if (Player.HeldItem.Name == "Rivers Of Blood")
             {
                 riversOfBloodProj = true;
@@ -1048,9 +1033,29 @@ namespace MogMod.Common.MogModPlayer
             removeBuff(Player, BuffID.Weak);
             removeBuff(Player, ModContent.BuffType<VonDebuff>());
 
-            if (Main.netMode == NetmodeID.MultiplayerClient)
+            doParryFX(pos);
+            if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer)
             {
-                SyncParry(false, Player.Center);
+                SyncParry(false, pos);
+            }
+
+        }
+
+        public void doParryFX(Vector2 pos)
+        {
+            SoundEngine.PlaySound(ParrySound, pos);
+
+            Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+            dustVelocity.Normalize();
+            dustVelocity *= 2;
+
+            int dustPos = 20;
+            for (int i = 0; i < 20; i++)
+            {
+                int P1 = Dust.NewDust(pos, dustPos - 5, dustPos - 5, DustID.YellowStarDust, dustVelocity.X * 2, dustVelocity.Y * 2, 0, default, 2f);
+                Main.dust[P1].noGravity = true;
+                Main.dust[P1].fadeIn = 2f;
+                Main.dust[P1].velocity *= 3f;
             }
         }
         public void removeBuff(Terraria.Player player, int buffID)
