@@ -42,7 +42,7 @@ namespace MogMod.NPCs.Global
         public int jidiDebuff = 0;
 
         public NPC.HitInfo hitInfo;
-        public int maxBlood = 1000;
+        public int maxBlood = 0;
         public int currentBlood = 0;
         public int blackBladeDebuff = 0;
 
@@ -94,10 +94,13 @@ namespace MogMod.NPCs.Global
 
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
-            maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense); //(This scaling will definitely change as I test)
-            if (maxBlood < 150) //Sets lower bound of possible max blood
+            if (maxBlood == 0)
             {
-                maxBlood = 150;
+                maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense); //(This scaling will definitely change as I test)
+                if (maxBlood < 150) //Sets lower bound of possible max blood
+                {
+                    maxBlood = 150;
+                }
             }
             MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
@@ -244,50 +247,53 @@ namespace MogMod.NPCs.Global
 
             currentBlood += bloodToAdd;
 
-            doBleedProc(npc);
+            if (currentBlood >= maxBlood)
+            {
+                ApplyBleedProc(npc);
+            }
         }
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
-            maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense);
-            if (maxBlood < 150)
+
+            if (maxBlood == 0)
             {
-                maxBlood = 150;
+                maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense);
+                if (maxBlood < 150)
+                {
+                    maxBlood = 150;
+                }
             }
 
-                if (Main.netMode == NetmodeID.MultiplayerClient && Main.netMode != NetmodeID.Server)
-                {
-                    ModPacket packet = Mod.GetPacket();
-                    packet.Write((byte)MogModMessageType.AddBloodFromProjectile);
-                    packet.Write(npc.whoAmI);
-                    packet.Write(projectile.identity);
-                    packet.Send();
-                }
-                else
-                {
-                    AddProjectileBlood(npc, projectile);
-                }
-        }
-        public void AddProjectileBlood(NPC npc, Projectile projectile)
-        {
+            int bloodToAdd = projectile.GetGlobalProjectile<MogModGlobalProjectileBleed>().bloodDamage;
+
+            MogPlayer mogPlayer = Main.player[projectile.owner].GetModPlayer<MogPlayer>();
+            if (mogPlayer.exultationEquipped)
+            {
+                bloodToAdd = (int)(bloodToAdd * 1.15f);
+            }
+
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
+                ModPacket packet = Mod.GetPacket();
+                packet.Write((byte)MogModMessageType.AddBloodFromProjectile);
+                packet.Write(npc.whoAmI);
+                packet.Write(bloodToAdd);
+                packet.Send();
                 return;
             }
+                AddProjectileBlood(npc, bloodToAdd);
             
-            int bloodToAdd = (int)projectile.localAI[0];
-            
+        }
+        public void AddProjectileBlood(NPC npc, int bloodToAdd)
+        {
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return;
+
             currentBlood += bloodToAdd;
 
-            doBleedProc(npc);
-        }
-        public void doBleedProc(NPC npc)
-        {
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+            if (currentBlood >= maxBlood)
             {
-                if (currentBlood >= maxBlood)
-                {
-                    ApplyBleedProc(npc);
-                }
+                ApplyBleedProc(npc);
             }
         }
 

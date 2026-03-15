@@ -85,14 +85,15 @@ namespace MogMod.Common.Systems
                     case MogModMessageType.AddBloodFromProjectile:
                         {
                             int npcID = reader.ReadInt32();
-                            int projID = reader.ReadInt32();
+                            int bloodToAdd = reader.ReadInt32();
 
                             NPC npc = Main.npc[npcID];
 
-                            Projectile projectile = Main.projectile[projID];
-
                             MogModGlobalNPC globalNPC = npc.GetGlobalNPC<MogModGlobalNPC>();
-                            globalNPC.AddProjectileBlood(npc, projectile);
+                            if (Main.netMode == NetmodeID.Server)
+                            {
+                                globalNPC.AddProjectileBlood(npc, bloodToAdd);
+                            }
 
                             break;
                         }
