@@ -64,13 +64,20 @@ namespace MogMod.Projectiles.BaseProjectiles
                 modPlayer.doParry(target, target.Center);
                 modifiers.Cancel();
 
-                projectile.velocity.X = projectile.velocity.X * -1;
-                projectile.velocity.Y = projectile.velocity.Y * -1;
-                projectile.friendly = true;
-                projectile.hostile = false;
-                projectile.damage *= 5;
+                ParryProjectile(projectile, target.whoAmI);
             }
         }
+
+        public void ParryProjectile(Projectile projectile, int newOwner)
+        {
+            projectile.velocity *= -1f;
+            projectile.friendly = true;
+            projectile.hostile = false;
+            projectile.damage *= 5;
+            projectile.owner = newOwner;
+            projectile.netUpdate = true; // sync to all clients
+        }
+
         public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[projectile.owner];

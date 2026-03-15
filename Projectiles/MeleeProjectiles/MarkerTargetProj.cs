@@ -30,7 +30,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
         public override void SetDefaults()
         {
             Projectile.width = 30;
-            Projectile.height = 37;
+            Projectile.height = 30;
             Projectile.aiStyle = ProjAIStyleID.Arrow; //Gonna have to change this later
             Projectile.friendly = false;
             Projectile.hostile = true;
@@ -42,6 +42,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 1;
             Projectile.scale = 2f;
+            Projectile.netImportant = true;
 
             AIType = ProjectileID.Bullet; //Gonna have to change this too
         }
@@ -51,7 +52,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
 
             Projectile.ai[1]++;
 
-            if (Projectile.ai[1] > 30)
+            if (Projectile.ai[1] > 60)
             {
                 canHit = true;
             }
@@ -91,6 +92,10 @@ namespace MogMod.Projectiles.MeleeProjectiles
             int player = Projectile.owner;
             MogPlayer mogPlayer = Main.player[player].GetModPlayer<MogPlayer>();
             mogPlayer.markerProjOut = false;
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                mogPlayer.SyncMarkerProjOut(false, Main.player[player]);
+            }
 
             for (int i = 0; i < 20; i++)
             {

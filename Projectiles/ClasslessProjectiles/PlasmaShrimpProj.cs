@@ -59,7 +59,7 @@ namespace MogMod.Projectiles.ClasslessProjectiles
 
         public override void OnSpawn(IEntitySource source)
         {
-            SoundEngine.PlaySound(SoundID.NPCDeath36, Projectile.Center);
+            SoundEngine.PlaySound(SoundID.NPCDeath39, Projectile.Center);
         }
     }
 }

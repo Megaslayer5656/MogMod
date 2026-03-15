@@ -21,9 +21,8 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.light = .5f;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.extraUpdates = 1;
             Projectile.scale = .9f;
-            Projectile.extraUpdates = 5;
+            Projectile.extraUpdates = 5; //Might have to change this as it effects bullet speed and I don't remember how and I don't wanna test it rn
 
             AIType = ProjectileID.Bullet;
         }

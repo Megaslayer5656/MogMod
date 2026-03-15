@@ -93,6 +93,28 @@ namespace MogMod.Common.MogModPlayer
 
             Player.SendPacket(packet, server);
         }
+
+        public void SyncMarkerProj(bool server, NPC npc, Terraria.Player player, Item item, Vector2 velocity, float rotation)
+        {
+            ModPacket packet = Mod.GetPacket();
+            packet.Write((byte)MogModMessageType.MarkerProjSync);
+            packet.Write(Player.whoAmI);
+            packet.Write(npc.whoAmI);
+            packet.Write(player.whoAmI);
+            packet.Write(item.type);
+            packet.WriteVector2(velocity);
+            packet.Write(rotation);
+            packet.Send();
+        }
+
+        public void SyncMarkerProjOut(bool server, Terraria.Player player)
+        {
+            ModPacket packet = Mod.GetPacket();
+            packet.Write((byte)MogModMessageType.MarkerProjSync);
+            packet.Write(Player.whoAmI);
+            packet.Write(player.whoAmI);
+            packet.Send();
+        }
         
 
         internal void HandleEssenceShiftStack(BinaryReader reader)
@@ -179,6 +201,42 @@ namespace MogMod.Common.MogModPlayer
             if (Main.netMode != NetmodeID.Server)
             {
                 CombatText.NewText(rect, textColor, "Ultra Crit!", true);
+            }
+        }
+
+        internal void HandleMarkerProj(BinaryReader reader)
+        {
+            int npcID = reader.ReadInt32();
+            int playerID = reader.ReadInt32();
+            int itemType = reader.ReadInt32();
+            Vector2 velocity = reader.ReadVector2();
+            float rotation = reader.ReadSingle();
+
+            NPC npc = Main.npc[npcID];
+            Terraria.Player player = Main.player[playerID];
+            Item item = new Item();
+            item.SetDefaults(itemType);
+
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                MogModGlobalNPC.SpawnMarkerProjectile(npc, player, item, velocity, rotation);
+            } 
+            else if (Main.netMode == NetmodeID.Server)
+            {
+                SyncMarkerProj(true, npc, player, item, velocity, rotation);
+            }
+        }
+
+        internal void HandleMarkerProjOut(BinaryReader reader)
+        {
+            int playerID = reader.ReadInt32();
+
+            Terraria.Player player = Main.player[playerID];
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.markerProjOut = false;
+            if (Main.netMode == NetmodeID.Server)
+            {
+                SyncMarkerProjOut(true, player);
             }
         }
     }

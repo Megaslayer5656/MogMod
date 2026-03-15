@@ -953,7 +953,7 @@ Items: {
 			}
 
 			Reduvia: {
-				DisplayName: Reduvia
+				DisplayName: Bloody Sickle
 				Tooltip:
 					'''
 					Hitting enemies builds up bleed, dealing a percentage of the enemies max health as damage at max bleed

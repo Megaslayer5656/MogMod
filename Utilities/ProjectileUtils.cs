@@ -475,5 +475,18 @@ namespace MogMod.Utilities
                 proj.netSpam = 0;
         }
         #endregion
+
+        public static Projectile FindProjectileByIdentity(int identity, int owner)
+        {
+            for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+                Projectile proj = Main.projectile[i];
+                if (proj.active && proj.identity == identity && proj.owner == owner)
+                {
+                    return proj;
+                }
+            }
+            return null;
+        }
     }
 }
