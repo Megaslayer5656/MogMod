@@ -7,7 +7,6 @@ using MogMod.Items.Accessories;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.ClasslessProjectiles;
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -122,6 +121,7 @@ namespace MogMod.Common.MogModPlayer
 
         // armor effects
         public bool wearingRadiantArmor = false;
+        public bool wearingUndyingArmor = false;
 
         // debuffs
         public bool divineDebuff = false;
@@ -147,6 +147,7 @@ namespace MogMod.Common.MogModPlayer
         public bool atgActive = false;
         public bool plasmaActive = false;
         public bool icbmActive = false;
+        public bool polyluteActive = false;
 
         // sound effects
         public static readonly SoundStyle WandUse = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Magic_Stick")
@@ -218,19 +219,14 @@ namespace MogMod.Common.MogModPlayer
         #region On Hit Effects
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            for (int i = 0; i < Main.maxNPCs; i++)
+            if (wearingEyeOfSkadi)
             {
-                NPC otherNPC = Main.npc[i];
-                if (wearingEyeOfSkadi)
-                {
-                    target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 360);
-                }
-                if (wearingSearingSignet)
-                {
-                    target.AddBuff(BuffID.ShadowFlame, 300);
-                }
+                target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 360);
             }
-
+            if (wearingSearingSignet)
+            {
+                target.AddBuff(BuffID.ShadowFlame, 300);
+            }
             if (Player.HasBuff<DragonInstallBuff>())
             {
                 target.AddBuff(BuffID.Daybreak, 600);
@@ -1215,6 +1211,7 @@ namespace MogMod.Common.MogModPlayer
             exultationEquipped = false;
 
             wearingRadiantArmor = false;
+            wearingUndyingArmor = false;
 
             diademMinion = false;
             dominatorMinion = false;
@@ -1240,6 +1237,7 @@ namespace MogMod.Common.MogModPlayer
             atgActive = false;
             plasmaActive = false;
             icbmActive = false;
+            polyluteActive = false;
 
             duelistStacks = 0;
 

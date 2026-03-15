@@ -48,6 +48,11 @@ namespace MogMod.Projectiles.BaseProjectiles
                 return true;
             }
         }
+        private static readonly List<int> voidItems =
+        [
+            ModContent.ProjectileType<PolyluteProj>(),
+            ModContent.ProjectileType<PlasmaShrimpProj>()
+        ];
         // Amount of extra updates that are set in SetDefaults.
         public int defExtraUpdates = -1;
 
@@ -145,9 +150,18 @@ namespace MogMod.Projectiles.BaseProjectiles
             }
 
             // atg and plasma shrimp
-            if ((modPlayer.atgActive || modPlayer.plasmaActive) && projectile.type != ModContent.ProjectileType<PlasmaShrimpProj>())
+            if ((modPlayer.atgActive || modPlayer.plasmaActive) && !voidItems.Contains(projectile.type))
             {
                 modPlayer.doATG(damageDone);
+            }
+
+            if (modPlayer.polyluteActive && !voidItems.Contains(projectile.type))
+            {
+                Vector2 kirk = new Vector2(10, 10).RotatedByRandom(MathHelper.ToRadians(360));
+                int procChance = random.Next(1, 6);
+
+                if (procChance == 5)
+                    Projectile.NewProjectile(source, target.Center, kirk, ModContent.ProjectileType<PolyluteProj>(), Convert.ToInt32(damageDone * .3f) + 1, 3, player.whoAmI);
             }
         }
 

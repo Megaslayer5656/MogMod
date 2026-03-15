@@ -763,6 +763,16 @@ Items: {
 				'What's better than one missile...? MORE missiles.'
 				'''
 		}
+
+		Polylute: {
+			DisplayName: Polylute
+			Tooltip:
+				'''
+				+7% Critical Strike Chance
+				Attacks have a chance to summon homing orb on enemy
+				'polylute plasma shrimp'
+				'''
+		}
 	}
 
 	Weapons: {
@@ -778,7 +788,11 @@ Items: {
 
 			BlinkDagger: {
 				DisplayName: Blink Dagger
-				Tooltip: Right click to teleport to your cursor
+				Tooltip: 
+					'''
+					Right click to teleport to your cursor
+					'Refresher Blink'
+					'''
 			}
 
 			ChaosBlade: {

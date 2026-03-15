@@ -18,6 +18,7 @@ namespace MogMod.Items.Global
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ShimmerTransformToItem[ItemID.WizardHat] = ModContent.ItemType<GlintstoneArc>();
+            ItemID.Sets.ShimmerTransformToItem[ItemID.SparkleGuitar] = ModContent.ItemType<Polylute>();
         }
         public override void SetDefaults(Item entity)
         {

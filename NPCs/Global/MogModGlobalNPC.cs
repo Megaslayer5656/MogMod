@@ -5,6 +5,7 @@ using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Config;
 using MogMod.Common.MogModPlayer;
+using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
 using MogMod.Items.Ammo;
 using MogMod.Items.Global;
@@ -12,7 +13,9 @@ using MogMod.Items.Other;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Utilities;
 using Mono.Cecil;
 using System;
 using System.IO;
@@ -22,9 +25,7 @@ using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using MogMod.Utilities;
 using static MogMod.Common.Systems.MogModNetcode;
-using MogMod.Common.Systems;
 
 namespace MogMod.NPCs.Global
 {
@@ -192,6 +193,15 @@ namespace MogMod.NPCs.Global
             if (mogPlayer.atgActive || mogPlayer.plasmaActive)
             {
                 mogPlayer.doATG(damageDone);
+            }
+
+            if (mogPlayer.polyluteActive)
+            {
+                Vector2 kirk = new Vector2(-10, 10).RotatedByRandom(MathHelper.ToRadians(360));
+                int procChance = rand.Next(1, 6);
+
+                if (procChance == 5)
+                    Projectile.NewProjectile(source, npc.Center, kirk, ModContent.ProjectileType<PolyluteProj>(), Convert.ToInt32(damageDone * .3f) + 1, 3, player.whoAmI);
             }
         }
 
