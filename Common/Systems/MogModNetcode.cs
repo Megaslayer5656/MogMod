@@ -51,12 +51,8 @@ namespace MogMod.Common.Systems
 
                     case MogModMessageType.BleedProcTextSync:
                         {
-                           
-           
-                            
-                                Vector2 pos = reader.ReadVector2();
-                                MogModGlobalNPC.doBloodFX(pos);
-                            
+                            Vector2 pos = reader.ReadVector2();
+                            MogModGlobalNPC.doBloodFX(pos);
                             break;
                         }
 

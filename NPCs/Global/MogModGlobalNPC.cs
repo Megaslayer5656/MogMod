@@ -42,7 +42,7 @@ namespace MogMod.NPCs.Global
         public int jidiDebuff = 0;
 
         public NPC.HitInfo hitInfo;
-        public int maxBlood = 0;
+        public int maxBlood = 150;
         public int currentBlood = 0;
         public int blackBladeDebuff = 0;
 
@@ -92,17 +92,17 @@ namespace MogMod.NPCs.Global
             return myClone;
         }
 
+        public override void AI(NPC npc)
+        {
+            maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense); //(This scaling will definitely change as I test)
+            if (maxBlood < 150) //Sets lower bound of possible max blood
+            {
+                maxBlood = 150;
+            }
+        }
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
-            if (maxBlood == 0)
-            {
-                maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense); //(This scaling will definitely change as I test)
-                if (maxBlood < 150) //Sets lower bound of possible max blood
-                {
-                    maxBlood = 150;
-                }
-            }
-            MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
+                MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
 
             if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -254,15 +254,6 @@ namespace MogMod.NPCs.Global
         }
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
-
-            if (maxBlood == 0)
-            {
-                maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense);
-                if (maxBlood < 150)
-                {
-                    maxBlood = 150;
-                }
-            }
 
             int bloodToAdd = projectile.GetGlobalProjectile<MogModGlobalProjectileBleed>().bloodDamage;
 

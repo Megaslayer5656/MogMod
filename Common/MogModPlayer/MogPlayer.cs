@@ -179,14 +179,6 @@ namespace MogMod.Common.MogModPlayer
             PitchVariance = .2f,
             MaxInstances = 1,
         };
-        private static readonly List<int> kirkstein =
-        [
-            1,
-            2,
-            3,
-            4,
-            5
-        ];
         #endregion
 
         #region Mod Buff ID/s
@@ -266,7 +258,7 @@ namespace MogMod.Common.MogModPlayer
                     }
                 }
             }
-            if (plasmaActive && kirkstein.Contains(procChance))
+            if (plasmaActive)
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, epstein, ModContent.ProjectileType<PlasmaShrimpProj>(), Convert.ToInt32(damageDone * .1f) + 1, 1, Player.whoAmI);
         }
         public override void OnHitByNPC(NPC npc, Terraria.Player.HurtInfo hurtInfo)

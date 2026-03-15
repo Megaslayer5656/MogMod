@@ -50,11 +50,6 @@ namespace MogMod.Projectiles.BaseProjectiles
         }
         // Amount of extra updates that are set in SetDefaults.
         public int defExtraUpdates = -1;
-        private static readonly List<int> missle =
-        [
-            ModContent.ProjectileType<ATGProjectile>(),
-            ModContent.ProjectileType<PlasmaShrimpProj>()
-        ];
 
         public override void ModifyHitPlayer(Projectile projectile, Player target, ref Player.HurtModifiers modifiers)
         {
@@ -150,7 +145,7 @@ namespace MogMod.Projectiles.BaseProjectiles
             }
 
             // atg and plasma shrimp
-            if ((modPlayer.atgActive || modPlayer.plasmaActive) && !missle.Contains(projectile.type))
+            if ((modPlayer.atgActive || modPlayer.plasmaActive) && projectile.type != ModContent.ProjectileType<PlasmaShrimpProj>())
             {
                 modPlayer.doATG(damageDone);
             }
