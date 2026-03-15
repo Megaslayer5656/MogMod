@@ -7,6 +7,7 @@ using MogMod.Items.Accessories;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.ClasslessProjectiles;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -144,6 +145,7 @@ namespace MogMod.Common.MogModPlayer
         public bool markerProjOut = false;
 
         public bool atgActive = false;
+        public bool plasmaActive = false;
         public bool icbmActive = false;
 
         // sound effects
@@ -177,6 +179,14 @@ namespace MogMod.Common.MogModPlayer
             PitchVariance = .2f,
             MaxInstances = 1,
         };
+        private static readonly List<int> kirkstein =
+        [
+            1,
+            2,
+            3,
+            4,
+            5
+        ];
         #endregion
 
         #region Mod Buff ID/s
@@ -233,30 +243,31 @@ namespace MogMod.Common.MogModPlayer
             {
                 target.AddBuff(BuffID.Daybreak, 600);
             }
-
-            if (atgActive)
-            {
-                int procChance = rand.Next(1, 11);
-
-                if (procChance == 5)
-                {
-                    doATG(damageDone);
-                }
-            }
         }
 
         public void doATG(int damageDone)
         {
             Vector2 kirk = new Vector2(0, -5).RotatedByRandom(MathHelper.ToRadians(15));
-            Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk, ModContent.ProjectileType<ATGProjectile>(), damageDone, 1, Player.whoAmI);
-            if (icbmActive)
+            Vector2 einstein = Main.MouseWorld - Player.Center;
+            einstein.Normalize();
+
+            Vector2 epstein = einstein * 15;
+
+            int procChance = rand.Next(1, 11);
+            if (atgActive && procChance == 5)
             {
-                for (int i = 0; i < 2; i++)
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk, ModContent.ProjectileType<ATGProjectile>(), damageDone + 1, 3, Player.whoAmI);
+                if (icbmActive)
                 {
-                    kirk = new Vector2(0, -5).RotatedByRandom(MathHelper.ToRadians(15));
-                    Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk, ModContent.ProjectileType<ATGProjectile>(), Convert.ToInt32(damageDone * .4f), 1, Player.whoAmI);
+                    for (int i = 0; i < 2; i++)
+                    {
+                        kirk = new Vector2(0, -5).RotatedByRandom(MathHelper.ToRadians(15));
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk, ModContent.ProjectileType<ATGProjectile>(), Convert.ToInt32(damageDone * .4f) + 1, 3, Player.whoAmI);
+                    }
                 }
             }
+            if (plasmaActive && kirkstein.Contains(procChance))
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, epstein, ModContent.ProjectileType<PlasmaShrimpProj>(), Convert.ToInt32(damageDone * .1f) + 1, 1, Player.whoAmI);
         }
         public override void OnHitByNPC(NPC npc, Terraria.Player.HurtInfo hurtInfo)
         {
@@ -1235,6 +1246,7 @@ namespace MogMod.Common.MogModPlayer
             drumsAura = false;
 
             atgActive = false;
+            plasmaActive = false;
             icbmActive = false;
 
             duelistStacks = 0;

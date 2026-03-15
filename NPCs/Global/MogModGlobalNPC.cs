@@ -184,6 +184,12 @@ namespace MogMod.NPCs.Global
                 }
                 doTrueStrikeFX(npc.Center);
             }
+
+            // atg and plasma shrimp
+            if (mogPlayer.atgActive || mogPlayer.plasmaActive)
+            {
+                mogPlayer.doATG(damageDone);
+            }
         }
 
         public void spawnMarkerProjectile(NPC target, Player player, Item item)
@@ -379,8 +385,6 @@ namespace MogMod.NPCs.Global
         }
 
         // not quite sure what this does, but its in calamity mod so it has to be important
-
-        // TODO: fix defense and damage reductions so they are temporary
         public override void PostAI(NPC npc)
         {
             if (divineDebuff > 0)

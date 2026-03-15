@@ -735,6 +735,34 @@ Items: {
 				'Very dangerous. Very difficult to obtain more.'
 				'''
 		}
+
+		ATGMissile: {
+			DisplayName: ATG Missile
+			Tooltip:
+				'''
+				+5% Attack Speed
+				Attacks have a small chance to shoot a homing missile on hit
+				'''
+		}
+
+		PlasmaShrimp: {
+			DisplayName: Plasma Shrimp
+			Tooltip:
+				'''
+				+5% Critical Strike Chance
+				Attacks have a chance to shoot a homing plasma orb on hit
+				'''
+		}
+
+		ICBM: {
+			DisplayName: ICBM
+			Tooltip:
+				'''
+				+7.5% Attack Speed
+				Attacks have a small chance to shoot 3 homing missiles on hit
+				'What's better than one missile...? MORE missiles.'
+				'''
+		}
 	}
 
 	Weapons: {
@@ -1930,24 +1958,5 @@ Items: {
 				+10% Movement Speed
 				'''
 		}
-	}
-
-	ATGMissile: {
-		DisplayName: ATG Missile
-		Tooltip:
-			'''
-			5% increased attack speed
-			Chance to shoot homing missile on hit
-			'''
-	}
-
-	ICBM: {
-		DisplayName: ICBM
-		Tooltip:
-			'''
-			7.5% increased attack speed
-			Chance to shoot 3 homing missiles on hit
-			'What's better than one missile...? MORE missiles.'
-			'''
 	}
 }

@@ -1,12 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿﻿using MogMod.Common.MogModPlayer;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    internal class PlasmaShrimp
+    public class PlasmaShrimp : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Accessories";
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<ATGMissile>();
+        }
+        public override void SetDefaults()
+        {
+            Item.accessory = true;
+            Item.width = 50;
+            Item.height = 67;
+            Item.rare = ItemRarityID.LightPurple;
+        }
+
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            player.GetCritChance(DamageClass.Generic) += 5f;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.plasmaActive = true;
+        }
     }
 }

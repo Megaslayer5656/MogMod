@@ -613,6 +613,7 @@ Mods: {
 				UndyingHomingProj.DisplayName: Undying Spirit
 				ATGProjectile.DisplayName: A T G Projectile
 				PolyluteProj.DisplayName: Polylute Proj
+				PlasmaShrimpProj.DisplayName: Plasma Shrimp Proj
 			}
 
 			BossProjectiles: {

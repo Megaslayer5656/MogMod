@@ -1,18 +1,13 @@
 ﻿using MogMod.Common.MogModPlayer;
-using MogMod.Items.Other;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 
 namespace MogMod.Items.Accessories
 {
-    public class ICBM : ModItem
+    public class ICBM : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -32,8 +27,8 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-            AddIngredient(ItemID.LunarBar, 15).
             AddIngredient<ATGMissile>(1).
+            AddIngredient(ItemID.LunarBar, 15).
             AddIngredient(ItemID.RocketIII, 10).
             AddTile(TileID.MythrilAnvil).
             Register();

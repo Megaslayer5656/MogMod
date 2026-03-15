@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,7 +6,6 @@ namespace MogMod.Items.Accessories
 {
     public class BeltOfStrength : ModItem, ILocalizedModType
     {
-        // MAKE OBTAINABLE FROM FISHING
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {

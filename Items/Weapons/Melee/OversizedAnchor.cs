@@ -1,12 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
-using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Utilities;
 using System;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,7 +14,7 @@ namespace MogMod.Items.Weapons.Melee
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         Random random = new Random();
-        //TODO: Somehow make the offset look right for holding weapon <-- an issue with how the player holds melee weapons, calamity's "Earth" weapon has the same problem
+        //TODO: Somehow make the offset look right for holding weapon <-- an issue with how the player holds melee weapons, calamity's "Earth" weapon has- HAD the same problem, the freaks changed it to something crazy
         public override void SetDefaults()
         {
             Item.width = 50;

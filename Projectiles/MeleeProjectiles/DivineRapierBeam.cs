@@ -100,15 +100,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
             }
             target.AddBuff(ModContent.BuffType<DivineMightDebuff>(), 600);
         }
-
-        public override void OnKill(int timeLeft)
-        {
-            Projectile.position = Projectile.Center;
-            Projectile.width = Projectile.height = 200;
-            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
-            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            Projectile.Damage();
-        }
         private void SummonLasers()
         {
             var source = Projectile.GetSource_FromThis();

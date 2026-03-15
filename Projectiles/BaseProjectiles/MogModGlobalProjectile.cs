@@ -2,6 +2,7 @@
 using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
+using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Projectiles.SummonerProjectiles;
@@ -49,6 +50,11 @@ namespace MogMod.Projectiles.BaseProjectiles
         }
         // Amount of extra updates that are set in SetDefaults.
         public int defExtraUpdates = -1;
+        private static readonly List<int> missle =
+        [
+            ModContent.ProjectileType<ATGProjectile>(),
+            ModContent.ProjectileType<PlasmaShrimpProj>()
+        ];
 
         public override void ModifyHitPlayer(Projectile projectile, Player target, ref Player.HurtModifiers modifiers)
         {
@@ -142,6 +148,12 @@ namespace MogMod.Projectiles.BaseProjectiles
                 }
                 doTrueStrikeFX(target.Center);
             }
+
+            // atg and plasma shrimp
+            if ((modPlayer.atgActive || modPlayer.plasmaActive) && !missle.Contains(projectile.type))
+            {
+                modPlayer.doATG(damageDone);
+            }
         }
 
         // stolen STRAIGHT from fargos souls mod
@@ -150,6 +162,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         {
             Player player = Main.player[projectile.owner];
             MogPlayer modPlayer = player.MogMod();
+
 
             if (projectile.bobber && CanSplit && source is EntitySource_ItemUse)
             {
@@ -161,6 +174,17 @@ namespace MogMod.Projectiles.BaseProjectiles
                 if (player.whoAmI == Main.myPlayer && splitCount > 0)
                     SplitProj(projectile, splitCount, MathHelper.Pi / 3, 1);
             }
+
+            ////spawn extra projectiles
+            //if (projectile.type != ProjectileID.LastPrismLaser && CanSplit && source is EntitySource_ItemUse)
+            //{
+            //    int splitCount = 0;
+            //    if (modPlayer.wearingWraithPact)
+            //        splitCount += 3;
+            //    // spawn projectiles in an arc
+            //    if (player.whoAmI == Main.myPlayer && splitCount > 0)
+            //        SplitProj(projectile, splitCount, MathHelper.Pi / 3, 1);
+            //}
         }
 
         #region slop
