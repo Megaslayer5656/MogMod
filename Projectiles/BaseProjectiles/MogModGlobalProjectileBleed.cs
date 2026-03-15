@@ -4,9 +4,11 @@ using MogMod.NPCs.Global;
 using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
 using MogMod.Projectiles.RangedProjectiles;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace MogMod.Projectiles.BaseProjectiles
 {
@@ -44,19 +46,26 @@ namespace MogMod.Projectiles.BaseProjectiles
 
         public override void AI(Projectile projectile)
         {
-
-            int player = projectile.owner;
-
-            MogPlayer mogPlayer = Main.player[player].GetModPlayer<MogPlayer>();
-            projectile.localAI[0] = bloodDamage * (mogPlayer.exultationEquipped ? 1.15f : 1f);
-            
-
             if (bloodDamage > 1)
             {
                 projectile.netUpdate = true; //May have to remove if causes lag
                 projectile.extraUpdates = 1;
             }
         }
+
+        public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
+        {
+            if (bloodDamage > 0)
+            {
+                binaryWriter.Write(bloodDamage);
+            }
+        }
+
+        public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
+        {
+            bloodDamage = binaryReader.ReadInt32();
+        }
+
 
         public override bool InstancePerEntity => true;
     }

@@ -36,8 +36,15 @@ namespace MogMod.Items.Global
             } else if (entity.type == ModContent.ItemType<Bloodletter>())
             {
                 bloodDamage = 15;
-            }
-            else
+
+            } else if (entity.type == ItemID.PsychoKnife)
+            {
+               bloodDamage = 95;
+
+            } else if (entity.type == ItemID.BloodButcherer)
+            {
+                bloodDamage = 16;
+            } else
             {
                 bloodDamage = 0;
             }
