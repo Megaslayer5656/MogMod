@@ -12,7 +12,7 @@ namespace MogMod.Buffs.AccessoryAuras
         public override void Update(Player player, ref int buffIndex)
         {
             player.statDefense += 10;
-            player.GetDamage(DamageClass.Ranged) += .20f;
+            player.GetDamage(DamageClass.Ranged) += .10f;
         }
     }
 }

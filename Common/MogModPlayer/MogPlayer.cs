@@ -1129,25 +1129,26 @@ namespace MogMod.Common.MogModPlayer
                 Player.statDefense += 4;
                 Player.statLifeMax2 += 20;
                 Player.statManaMax2 += 50;
-                Player.GetDamage(DamageClass.Generic) += .10f;
+                Player.GetDamage(DamageClass.Magic) += .075f;
             }
             if (vladsAura)
             {
                 Player.statDefense += 3;
-                Player.GetDamage(DamageClass.Generic) += .05f;
+                Player.GetDamage(DamageClass.Generic).Flat += 5f;
                 Player.lifeSteal *= 1.2f;
                 Player.manaRegenBonus += 4;
             }
             if (wraithAura)
             {
                 Player.statDefense += 7;
-                Player.GetDamage(DamageClass.Generic) += .10f;
+                Player.GetDamage(DamageClass.Generic) += .1f;
                 Player.lifeSteal *= 1.8f;
                 Player.manaRegenBonus += 6;
             }
             if (drumsAura)
             {
-                Player.GetAttackSpeed(DamageClass.Generic) += .10f;
+                Player.GetAttackSpeed(DamageClass.Melee) += .1f;
+                Player.GetAttackSpeed(DamageClass.SummonMeleeSpeed) += .1f;
                 Player.moveSpeed += 0.30f;
             }
         }

@@ -918,7 +918,7 @@ Items: {
 
 			RedKatana: {
 				DisplayName: Red Katana
-				Tooltip: Right click to parry an attack, cleansing debuffs and greatly reducing damage taken
+				Tooltip: Right click to parry
 			}
 
 			Butterfly: {
@@ -956,8 +956,7 @@ Items: {
 				DisplayName: Bloody Sickle
 				Tooltip:
 					'''
-					Hitting enemies builds up bleed, dealing a percentage of the enemies max health as damage at max bleed
-					'Jagged dagger with a distinctive curled blade. Carried by the noble servants of the Lord of Blood.'
+					Medium Bleed Buildup
 					'''
 			}
 
@@ -972,7 +971,7 @@ Items: {
 
 			FrozenSpear: {
 				DisplayName: Frozen Spear
-				Tooltip: Freezes enemies on hit
+				Tooltip: Freezes enemies on hit (what does he even do)
 			}
 
 			Bloodletter: {
@@ -1006,7 +1005,10 @@ Items: {
 
 			BladeOfSelves: {
 				DisplayName: Blade Of Selves
-				Tooltip: sel aviv gassy
+				Tooltip:
+					'''
+					Something abt gooning idk
+					'''
 			}
 		}
 
@@ -1218,6 +1220,7 @@ Items: {
 				DisplayName: Blood Magic
 				Tooltip:
 					'''
+					Low bleed buildup
 					Heals the player on hit
 					'Created by the famous sorcerer Vlad'
 					'''

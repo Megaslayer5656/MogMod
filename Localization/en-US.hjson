@@ -147,7 +147,7 @@ Mods: {
 
 			GuardianGreavesAura: {
 				DisplayName: Guardian Greaves Aura
-				Description: +6 HP/s, +4 Defense, +20 Max HP, +50 Max Mana, +10% Damage
+				Description: +2 HP/s, +4 Defense, +20 Max HP, +50 Max Mana, +7.5% Magic damage
 			}
 
 			GuardianGreavesBuff: {
@@ -192,7 +192,7 @@ Mods: {
 
 			DrumOfEnduranceBuff: {
 				DisplayName: Drum Of Endurance Aura
-				Description: +30% Movement Speed, +10% Attack Speed
+				Description: +30% Movement Speed, +10% Melee & Summoner Attack Speed
 			}
 
 			EyeOfSkadiDebuff: {
@@ -217,7 +217,7 @@ Mods: {
 
 			ShivasGuardBuff: {
 				DisplayName: Shivas Guard Aura
-				Description: +10 Defense and +30% Ranged Damage
+				Description: +10 Defense and +10% Ranged Damage
 			}
 
 			ShivasDebuff: {
@@ -257,7 +257,7 @@ Mods: {
 
 			VladmirsBuff: {
 				DisplayName: Vladmir's Aura
-				Description: +3 Defense, +5% Attack Damage, Increased Mana Regeneration and Lifesteal Effectiveness
+				Description: +3 Defense, +5 Attack Damage, Increased Mana Regeneration and Lifesteal Effectiveness
 			}
 
 			ShockState: {
