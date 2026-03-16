@@ -13,10 +13,10 @@ namespace MogMod.Items.Weapons.Melee
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
-            Item.width = 50;
-            Item.height = 59;
+            Item.width = 40;
+            Item.height = 48;
             Item.damage = 58;
-            Item.scale = 1.5f;
+            Item.scale = 2f;
             Item.DamageType = DamageClass.Melee;
             Item.useTime = 16;
             Item.useAnimation = 16;

@@ -216,7 +216,16 @@ namespace MogMod.NPCs.Global
                     Vector2 rotatedVelocity = velocity.RotateRandom(MathHelper.ToRadians(360));
                     rotatedVelocity.Normalize();
                     rotatedVelocity *= 10f;
-                    int proj = Projectile.NewProjectile(target.GetSource_FromAI(), target.Center, rotatedVelocity, ModContent.ProjectileType<MarkerTargetProj>(), Convert.ToInt32(item.damage * 1.45f), 0f, player.whoAmI);
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        int proj = Projectile.NewProjectile(target.GetSource_FromAI(), target.Center, rotatedVelocity, ModContent.ProjectileType<MarkerTargetProj>(), Convert.ToInt32(item.damage * 1.45f), 0f, player.whoAmI);
+                        Main.projectile[proj].netUpdate = true;
+                    } else
+                    {
+                        int proj = Projectile.NewProjectile(target.GetSource_FromAI(), target.Center, rotatedVelocity, ModContent.ProjectileType<MarkerTargetProj>(), Convert.ToInt32(item.damage * 1.45f), 0f, player.whoAmI);
+                        Main.projectile[proj].netUpdate = true;
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj);
+                    }
                     mogPlayer.markerProjOut = true;
                     foreach (NPC npc in Main.ActiveNPCs)
                     {
