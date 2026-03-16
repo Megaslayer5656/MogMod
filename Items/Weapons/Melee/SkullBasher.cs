@@ -45,7 +45,7 @@ namespace MogMod.Items.Weapons.Melee
             if (bashProc)
             {
                 int bash = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ModContent.ProjectileType<SkullBashProjectile>(), Item.damage * 5, 0f, player.whoAmI);
-                Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
+                Rectangle r = new Rectangle((int)target.position.X - 10, (int)target.position.Y - 50, target.width, target.height);
                 Color textColor = new Color(255, 0, 75);
                 CombatText.NewText(r, textColor, "Bash!", true);
                 if (Main.netMode == NetmodeID.Server)

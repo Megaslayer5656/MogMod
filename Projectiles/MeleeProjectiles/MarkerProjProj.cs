@@ -21,6 +21,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Projectile.DamageType = DamageClass.Melee;
             Projectile.damage = 50;
             Projectile.tileCollide = false;
+            Projectile.netImportant = true;
         }
 
         public override void AI()

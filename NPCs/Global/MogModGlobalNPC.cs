@@ -124,7 +124,19 @@ namespace MogMod.NPCs.Global
 
             if (item.type == ModContent.ItemType<TheMarker>())
             {
-            spawnMarkerProjectile(npc, player, item);
+                Vector2 velocity = new Vector2(20f, 20f).RotatedByRandom(MathHelper.ToRadians(360));
+                velocity.Normalize();
+                velocity *= 10f;
+                float rotation = velocity.ToRotation();
+
+                // Spawn locally immediately
+                SpawnMarkerProjectile(npc, player, item, velocity, rotation);
+
+                // Send packet to server for syncing
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    mogPlayer.SyncMarkerProj(false, npc, player, item, velocity, rotation);
+                }
             }
 
             int itemDamage = player.HeldItem.damage;
@@ -205,46 +217,33 @@ namespace MogMod.NPCs.Global
             }
         }
 
-        public void spawnMarkerProjectile(NPC target, Player player, Item item)
+        public static void SpawnMarkerProjectile(NPC target, Player player, Item item, Vector2 velocity, float rotation)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            if (target.type != NPCID.TargetDummy)
-            {
-                if (!mogPlayer.markerProjOut)
-                {
-                    Vector2 velocity = new Vector2(20f, 20f);
-                    Vector2 rotatedVelocity = velocity.RotateRandom(MathHelper.ToRadians(360));
-                    rotatedVelocity.Normalize();
-                    rotatedVelocity *= 10f;
-                    if (Main.netMode != NetmodeID.Server)
-                    {
-                        int proj = Projectile.NewProjectile(target.GetSource_FromAI(), target.Center, rotatedVelocity, ModContent.ProjectileType<MarkerTargetProj>(), Convert.ToInt32(item.damage * 1.45f), 0f, player.whoAmI);
-                        Main.projectile[proj].netUpdate = true;
-                    } else
-                    {
-                        int proj = Projectile.NewProjectile(target.GetSource_FromAI(), target.Center, rotatedVelocity, ModContent.ProjectileType<MarkerTargetProj>(), Convert.ToInt32(item.damage * 1.45f), 0f, player.whoAmI);
-                        Main.projectile[proj].netUpdate = true;
-                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj);
-                    }
-                    mogPlayer.markerProjOut = true;
-                    foreach (NPC npc in Main.ActiveNPCs)
-                    {
-                        if (npc.TryGetGlobalNPC<MogModGlobalNPC>(out var g))
-                            g.markedByMarker = false;
-                    }
+            if (target.type == NPCID.TargetDummy) return;
+            if (mogPlayer.markerProjOut) return;
 
-                    markedByMarker = true;
+            int proj = Projectile.NewProjectile(player.GetSource_ItemUse(item), target.Center, velocity, ModContent.ProjectileType<MarkerTargetProj>(), (int)(item.damage * 1.45f), 0f, player.whoAmI, rotation); //Might have to change the source if problems arise
+
+            if (proj >= 0)
+            {
+                Main.projectile[proj].netUpdate = true;
+            }
+
+            mogPlayer.markerProjOut = true;
+
+            foreach (NPC other in Main.npc)
+            {
+                if (other.active && other.TryGetGlobalNPC<MogModGlobalNPC>(out var g))
+                {
+                    if (g.markedByMarker && other != target)
+                    {
+                        g.markedByMarker = false;
+                    }
                 }
             }
 
-            //if (Main.netMode != NetmodeID.SinglePlayer)
-            //{
-            //    ModPacket packet = Mod.GetPacket();
-            //    packet.Write((byte)MogModMessageType.BleedProcTextSync);
-            //    packet.Write(player.whoAmI);
-            //    packet.Write(target.whoAmI);
-            //    packet.Send(-1, -1);
-            //}
+            target.GetGlobalNPC<MogModGlobalNPC>().markedByMarker = true;
         }
 
         public void AddItemBlood(NPC npc, Player player, Item item)

@@ -14,10 +14,10 @@ namespace MogMod.Items.Weapons.Melee
         int shotCounter = 0;
         public override void SetDefaults()
         {
-            Item.width = 94;
-            Item.height = 97;
+            Item.width = 52;
+            Item.height = 44;
             Item.damage = 35;
-            Item.scale = .75f;
+            Item.scale = 1.5f;
             Item.DamageType = DamageClass.Melee;
             Item.useTime = 20;
             Item.useAnimation = 20;
@@ -25,7 +25,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.knockBack = 3.5f;
             Item.value = Item.buyPrice(0, 1, 50, 0);
             Item.rare = ItemRarityID.LightRed;
-            Item.UseSound = SoundID.Item1;
+            Item.UseSound = SoundID.Item71;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<BloodMagicProjectile>();
             Item.shootSpeed = 10f;
@@ -55,7 +55,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
               AddIngredient<BloodMagic>().
-              AddIngredient<Bloodletter>().
+              AddIngredient(ItemID.Sickle).
               AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 15). // von squad;
               AddIngredient(ItemID.Bone, 10).
               AddTile(TileID.Anvils).

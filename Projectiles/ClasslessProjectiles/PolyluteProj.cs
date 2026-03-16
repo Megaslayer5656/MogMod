@@ -2,6 +2,7 @@
 using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -47,11 +48,14 @@ namespace MogMod.Projectiles.ClasslessProjectiles
         {
             //TODO: give dust effect
             Projectile.ai[2] = 1f;
-            SoundEngine.PlaySound(SoundID.NPCHit36, Projectile.Center);
         }
         public override void OnKill(int timeLeft)
         {
             //TODO: give dust effect
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+            SoundEngine.PlaySound(SoundID.NPCHit36, Projectile.Center);
         }
     }
 }

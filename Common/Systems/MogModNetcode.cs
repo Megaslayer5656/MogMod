@@ -8,6 +8,8 @@ using MogMod.Common.MogModPlayer;
 using System;
 using MogMod.NPCs.Global;
 using Microsoft.Xna.Framework;
+using MogMod.Items.Weapons.Melee;
+using Terraria.ModLoader.IO;
 
 namespace MogMod.Common.Systems
 {
@@ -121,6 +123,18 @@ namespace MogMod.Common.Systems
                             
                             break;
                         }
+
+                    case MogModMessageType.MarkerProjSync:
+                        {
+                            Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleMarkerProj(reader);
+                            break;
+                        }
+
+                    case MogModMessageType.MarkerProjOutSync:
+                        {
+                            Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleMarkerProjOut(reader);
+                            break;
+                        }
                 }
             }
             catch (Exception e)
@@ -145,7 +159,9 @@ namespace MogMod.Common.Systems
             AddBloodSync,
             AddBloodFromItem,
             AddBloodFromProjectile,
-            ProjParrySync
+            ProjParrySync,
+            MarkerProjSync,
+            MarkerProjOutSync
         }
     }
 }
