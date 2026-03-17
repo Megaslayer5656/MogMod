@@ -954,10 +954,7 @@ Items: {
 
 			Reduvia: {
 				DisplayName: Bloody Sickle
-				Tooltip:
-					'''
-					Medium Bleed Buildup
-					'''
+				Tooltip: Medium Bleed Buildup
 			}
 
 			BlackBlade: {
@@ -1005,10 +1002,7 @@ Items: {
 
 			BladeOfSelves: {
 				DisplayName: Blade Of Selves
-				Tooltip:
-					'''
-					Something abt gooning idk
-					'''
+				Tooltip: Something abt gooning idk
 			}
 		}
 

@@ -121,7 +121,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             modifiers.Cancel();
-            Projectile.Kill();
             Vector2 velocity = new Vector2(1f, 1f);
             if (!hasHit)
             {
@@ -132,6 +131,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 }
                 hasHit = true;
             }
+            Projectile.Kill();
         }
     }
 }

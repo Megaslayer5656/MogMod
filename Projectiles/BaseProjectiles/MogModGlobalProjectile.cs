@@ -60,15 +60,20 @@ namespace MogMod.Projectiles.BaseProjectiles
         {
             if (target.HasBuff(ModContent.BuffType<Parrying>()))
             {
-                MogPlayer modPlayer = target.GetModPlayer<MogPlayer>();
-                modPlayer.doParry(target, target.Center);
+                MogPlayer mogPlayer = target.GetModPlayer<MogPlayer>();
+                mogPlayer.doParry(target, target.Center);
                 modifiers.Cancel();
 
                 ParryProjectile(projectile, target.whoAmI);
+
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    mogPlayer.SyncProjParry(false, projectile.owner, target, projectile);
+                }
             }
         }
 
-        public void ParryProjectile(Projectile projectile, int newOwner)
+        public static void ParryProjectile(Projectile projectile, int newOwner)
         {
             projectile.velocity *= -1f;
             projectile.friendly = true;

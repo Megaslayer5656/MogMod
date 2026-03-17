@@ -620,6 +620,10 @@ Mods: {
 				VonNade.DisplayName: Von's Grenade
 				VonGreenTracerProj.DisplayName: Von's Green Tracer
 			}
+
+			SelvesProj1.DisplayName: Selves Proj1
+			SelvesProj2.DisplayName: Selves Proj2
+			SelvesProj3.DisplayName: Selves Proj3
 		}
 	}
 }

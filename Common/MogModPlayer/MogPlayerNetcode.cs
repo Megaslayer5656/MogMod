@@ -6,6 +6,7 @@ using MogMod.Utilities;
 using Microsoft.Xna.Framework;
 using static MogMod.Common.Systems.MogModNetcode;
 using MogMod.NPCs.Global;
+using MogMod.Projectiles.BaseProjectiles;
 
 namespace MogMod.Common.MogModPlayer
 {
@@ -113,6 +114,17 @@ namespace MogMod.Common.MogModPlayer
             packet.Write((byte)MogModMessageType.MarkerProjSync);
             packet.Write(Player.whoAmI);
             packet.Write(player.whoAmI);
+            packet.Send();
+        }
+
+        public void SyncProjParry(bool server, int ownerID, Terraria.Player target, Projectile projectile)
+        {
+            ModPacket packet = Mod.GetPacket();
+            packet.Write((byte)MogModMessageType.ProjParrySync);
+            packet.Write(Player.whoAmI);
+            packet.Write(ownerID);
+            packet.Write(projectile.identity);
+            packet.Write(target.whoAmI);
             packet.Send();
         }
         
@@ -237,6 +249,28 @@ namespace MogMod.Common.MogModPlayer
             if (Main.netMode == NetmodeID.Server)
             {
                 SyncMarkerProjOut(true, player);
+            }
+        }
+
+        internal void HandleProjParry(BinaryReader reader)
+        {
+            int ownerID = reader.ReadInt32();
+            int projID = reader.ReadInt32();
+            int targetID = reader.ReadInt32();
+
+            Projectile projectile = MogModUtils.FindProjectileByIdentity(projID, Main.player[ownerID].whoAmI);
+
+            MogModGlobalProjectile.ParryProjectile(projectile, targetID);
+
+            MogPlayer mogPlayer = Main.player[targetID].GetModPlayer<MogPlayer>();
+
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                mogPlayer.doParryFX(Main.player[targetID].Center);
+            } 
+            else if (Main.netMode == NetmodeID.Server)
+            {
+                SyncProjParry(true, ownerID, Main.player[targetID], projectile);
             }
         }
     }
