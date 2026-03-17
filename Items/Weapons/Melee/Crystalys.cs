@@ -5,6 +5,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.GameContent.UI.Elements;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -34,6 +35,11 @@ namespace MogMod.Items.Weapons.Melee
             return false;
         }
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 26;
+
+        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.CritDamage *= 1.6f;
+        }
         public override void AddRecipes()
         {
             CreateRecipe().

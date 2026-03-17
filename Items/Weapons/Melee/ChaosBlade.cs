@@ -48,7 +48,7 @@ namespace MogMod.Items.Weapons.Melee
             var source = player.GetSource_OnHit(target);
             Item.crit = random.Next(1, 40);
             Item.damage = random.Next(15, 45);
-            randUltraCrit = random.Next(1, 18); // 1 in 17 chance
+            randUltraCrit = random.Next(1, 17); // 1 in 16 chance
             if (ultraCrit)
             {
                 Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
