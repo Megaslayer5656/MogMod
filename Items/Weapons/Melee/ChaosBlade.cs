@@ -28,7 +28,6 @@ namespace MogMod.Items.Weapons.Melee
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 25;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTurn = false;
             Item.knockBack = 7.5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
@@ -47,8 +46,8 @@ namespace MogMod.Items.Weapons.Melee
         {
             var source = player.GetSource_OnHit(target);
             Item.crit = random.Next(1, 40);
-            Item.damage = random.Next(15, 45);
-            randUltraCrit = random.Next(1, 17); // 1 in 16 chance
+            Item.damage = random.Next(15, 38); //This is hard to balance, more testing required
+            randUltraCrit = random.Next(1, 17); //1 in 16 chance
             if (ultraCrit)
             {
                 Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
