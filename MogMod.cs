@@ -3,6 +3,8 @@ using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using Terraria.ModLoader;
 using MogMod.Common.Systems;
+using MogMod.Items.Weapons.Melee;
+using Terraria.ID;
 
 namespace MogMod
 {
@@ -16,6 +18,11 @@ namespace MogMod
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
             MogModNetcode.HandlePacket(this, reader, whoAmI);
+        }
+
+        public override void PostSetupContent() //For some reason this has to be here to make shimmer work for this item specifically.
+        {
+            ItemID.Sets.ShimmerTransformToItem[ModContent.ItemType<Flamebrand>()] = ItemID.Frostbrand;
         }
     }
 }

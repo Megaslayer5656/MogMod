@@ -33,17 +33,10 @@ namespace MogMod.Items.Weapons.Melee
             Item.knockBack = 4.5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            //Item.value = 
+            Item.value = Item.buyPrice(gold: 10);
             Item.rare = ItemRarityID.LightRed;
             Item.shoot = ProjectileID.BallofFire;
             Item.shootSpeed = 12f;
-        }
-
-        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
-        {
-            Main.projectile[type].friendly = true;
-            Main.projectile[type].hostile = false;
-            Main.projectile[type].owner = player.whoAmI;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

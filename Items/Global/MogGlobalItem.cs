@@ -7,6 +7,7 @@ using MogMod.Utilities;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -20,6 +21,9 @@ namespace MogMod.Items.Global
             ItemID.Sets.ShimmerTransformToItem[ItemID.WizardHat] = ModContent.ItemType<GlintstoneArc>();
             ItemID.Sets.ShimmerTransformToItem[ItemID.SparkleGuitar] = ModContent.ItemType<Polylute>();
             ItemID.Sets.ShimmerTransformToItem[ItemID.Frostbrand] = ModContent.ItemType<Flamebrand>();
+            ItemID.Sets.ShimmerTransformToItem[ModContent.ItemType<Flamebrand>()] = ItemID.Frostbrand; //So this one doesn't typically work because it can only be obtained by shimmering a frostbrand, and items can only be shimmered once ever according to terraria, so you can't shimmer this into a frostbrand unless you cheat it in and then shimmer it, but I'm leaving this in bc it's funny.
+            ItemID.Sets.ShimmerTransformToItem[ModContent.ItemType<ATGMissile>()] = ModContent.ItemType<PlasmaShrimp>();
+            ItemID.Sets.ShimmerTransformToItem[ModContent.ItemType<PlasmaShrimp>()] = ModContent.ItemType<ATGMissile>();
         }
         public override void SetDefaults(Item entity)
         {
