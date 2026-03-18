@@ -38,18 +38,6 @@ namespace MogMod.NPCs.Global
         public bool jidiDebuff;
         public bool blackBladeDebuff;
 
-        private List<bool> debuffs =
-        [
-            divineDebuff,
-            skadiDebuff,
-            freezingDebuff,
-            aghDebuff,
-            wingsOfLightDebuff,
-            ghostflameDebuff,
-            jidiDebuff,
-            blackBladeDebuff
-        ];
-
         public NPC.HitInfo hitInfo;
         public int maxBlood = 150;
         public int currentBlood = 0;
@@ -488,11 +476,12 @@ namespace MogMod.NPCs.Global
                 npc.StrikeNPC(hitInfo); //Must use this instead of modifying the npc's life stat
                 NetMessage.SendStrikeNPC(npc, hitInfo);
             }
+
             if (wingsOfLightDebuff)
             {
-                npc.damage = (int)(npc.defDamage * .5f);
+                npc.damage = (int)(npc.defDamage * .9f);
             }
-            else if ()
+            else
                 npc.damage = npc.defDamage;
         }
         public override void ModifyHitPlayer(NPC npc, Player target, ref Player.HurtModifiers modifiers)
@@ -598,7 +587,6 @@ namespace MogMod.NPCs.Global
             if (damage < damageValue)
                 damage = damageValue;
         }
-
         public override void ResetEffects(NPC npc)
         {
             divineDebuff = false;
