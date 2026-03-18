@@ -23,10 +23,7 @@ namespace MogMod.Buffs.Debuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            if (npc.MogMod().divineDebuff < npc.buffTime[buffIndex])
-                npc.MogMod().divineDebuff = npc.buffTime[buffIndex];
-            npc.DelBuff(buffIndex);
-            buffIndex--;
+            npc.MogMod().divineDebuff = true;
         }
         internal static void DrawEffects(PlayerDrawSet drawInfo)
         {

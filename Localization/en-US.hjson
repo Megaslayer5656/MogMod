@@ -192,7 +192,7 @@ Mods: {
 
 			DrumOfEnduranceBuff: {
 				DisplayName: Drum Of Endurance Aura
-				Description: +30% Movement Speed, +10% Melee & Summoner Attack Speed
+				Description: +30% Movement Speed and +10% Melee and Summon Attack Speed
 			}
 
 			EyeOfSkadiDebuff: {
@@ -257,7 +257,7 @@ Mods: {
 
 			VladmirsBuff: {
 				DisplayName: Vladmir's Aura
-				Description: +3 Defense, +5 Attack Damage, Increased Mana Regeneration and Lifesteal Effectiveness
+				Description: +3 Defense, +5 Flat Attack Damage, Increased Mana Regeneration by 4 and Increased Lifesteal Effectiveness
 			}
 
 			ShockState: {
@@ -387,7 +387,7 @@ Mods: {
 
 			WraithPactAura: {
 				DisplayName: Wraith Pact Aura
-				Description: +7 Defense, +10% Attack Damage, Increased Mana Regeneration and Lifesteal Effectiveness
+				Description: +10 Defense, +5 Flat Attack Damage, +10% Attack Damage, Increased Mana Regeneration by 10 and Increased Lifesteal Effectiveness
 			}
 
 			JidiPollenBagDebuff: {
@@ -423,6 +423,11 @@ Mods: {
 			ShadowAmuletBuff: {
 				DisplayName: Shadow Amulet
 				Description: Don't move...
+			}
+
+			WraithBuff: {
+				DisplayName: Wraith Form
+				Description: You've turned into a wraith!
 			}
 		}
 
@@ -614,6 +619,7 @@ Mods: {
 				ATGProjectile.DisplayName: A T G Projectile
 				PolyluteProj.DisplayName: Polylute Proj
 				PlasmaShrimpProj.DisplayName: Plasma Shrimp Proj
+				PlayerUndyingPortalProj.DisplayName: Player Undying Portal Proj
 			}
 
 			BossProjectiles: {

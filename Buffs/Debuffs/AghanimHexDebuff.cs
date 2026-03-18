@@ -2,7 +2,6 @@
 using MogMod.Utilities;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Buffs.Debuffs
@@ -23,11 +22,9 @@ namespace MogMod.Buffs.Debuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            if (npc.MogMod().aghDebuff < npc.buffTime[buffIndex])
-                npc.MogMod().aghDebuff = npc.buffTime[buffIndex];
-            npc.DelBuff(buffIndex);
-            buffIndex--;
+            npc.MogMod().aghDebuff = true;
         }
+        // this should be called in global player (its not)
         internal static void DrawEffects(PlayerDrawSet drawInfo)
         {
             Player player = drawInfo.drawPlayer;
@@ -42,6 +39,7 @@ namespace MogMod.Buffs.Debuffs
                 Main.dust[dust].scale *= 0.2f;
             }
         }
+        // this is called in global npc
         internal static void DrawEffects(NPC npc, ref Color drawColor)
         {
             int dust = Dust.NewDust(npc.position - new Vector2(2f), npc.width + 4, npc.height + 4, Main.rand.NextBool(3) ? 173 : 295, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.4f);

@@ -12,6 +12,12 @@ namespace MogMod.Projectiles.ClasslessProjectiles
     {
         public new string LocalizationCategory => "Projectiles.ClasslessProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
+        public static readonly SoundStyle polylute = new SoundStyle("Terraria/Sounds/Item_105")
+        {
+            Volume = 1f,
+            PitchVariance = 0.2f,
+            MaxInstances = -1
+        };
         private float wSpeed = 0f;
         public override void SetDefaults()
         {
@@ -29,9 +35,9 @@ namespace MogMod.Projectiles.ClasslessProjectiles
 
         public override void AI()
         {
-            Projectile.ai[2]++;
+            Projectile.ai[0]++;
 
-            Dust dust = Dust.NewDustPerfect(Projectile.position, DustID.AncientLight, Projectile.velocity, 100, Color.DeepPink, 1.5f);
+            Dust dust = Dust.NewDustPerfect(Projectile.position, DustID.ShimmerSpark, Projectile.velocity, 100, Color.Pink, 1.5f);
             dust.noGravity = true;
             dust.scale = Main.rand.NextFloat(1.1f, 1.617f);
             dust.velocity *= 0.1f;
@@ -39,23 +45,47 @@ namespace MogMod.Projectiles.ClasslessProjectiles
             if (wSpeed == 0f)
                 wSpeed = Projectile.velocity.Length();
 
-            if (Projectile.ai[2] >= 10)
+            if (Projectile.ai[0] >= 10)
             {
                 MogModUtils.HomeInOnNPC(Projectile, true, 200f, wSpeed, 1f);
             }
         }
+        public override bool? CanHitNPC(NPC target)
+        {
+            if (Projectile.ai[0] >= 10)
+                return true;
+            else
+                return false;
+        }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            //TODO: give dust effect
-            Projectile.ai[2] = 1f;
-        }
-        public override void OnKill(int timeLeft)
-        {
-            //TODO: give dust effect
-        }
-        public override void OnSpawn(IEntitySource source)
-        {
-            SoundEngine.PlaySound(SoundID.NPCHit36, Projectile.Center);
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = 12;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+            int dustAmt = 24;
+            for (int j = 0; j < dustAmt; j++)
+            {
+                Vector2 dustRotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                dustRotate = dustRotate.RotatedBy((double)((float)(j - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default) + Projectile.Center;
+                Vector2 dustDirection = dustRotate - Projectile.Center;
+                int killDust = Dust.NewDust(dustRotate + dustDirection, 0, 0, DustID.ShimmerSpark, dustDirection.X, dustDirection.Y, 100, Color.LightPink, 1.5f);
+                Main.dust[killDust].noGravity = true;
+                Main.dust[killDust].noLight = true;
+                Main.dust[killDust].velocity = dustDirection;
+            }
+            for (int j = 0; j < dustAmt; j++)
+            {
+                Vector2 dustRotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.5f;
+                dustRotate = dustRotate.RotatedBy((double)((float)(j - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default) + Projectile.Center;
+                Vector2 dustDirection = dustRotate - Projectile.Center;
+                int killDust = Dust.NewDust(dustRotate + dustDirection, 0, 0, DustID.ShimmerSpark, dustDirection.X, dustDirection.Y, 100, Color.Magenta, 1f);
+                Main.dust[killDust].noGravity = true;
+                Main.dust[killDust].noLight = true;
+                Main.dust[killDust].velocity = dustDirection;
+            }
+            Projectile.ai[0] = 1f;
+            SoundEngine.PlaySound(polylute, Projectile.Center);
         }
     }
 }

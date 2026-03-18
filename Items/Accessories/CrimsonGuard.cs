@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Other;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -19,6 +20,7 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             player.statLifeMax2 += 80;
             player.lifeRegen += 6;
             player.statDefense += 20;
@@ -34,7 +36,7 @@ namespace MogMod.Items.Accessories
                     {
                         float teamPlayerXDist = player.position.X - Main.player[myPlayer].position.X;
                         float teamPlayerYDist = player.position.Y - Main.player[myPlayer].position.Y;
-                        if ((float)Math.Sqrt(teamPlayerXDist * teamPlayerXDist + teamPlayerYDist * teamPlayerYDist) < 800f)
+                        if ((float)Math.Sqrt(teamPlayerXDist * teamPlayerXDist + teamPlayerYDist * teamPlayerYDist) < mogPlayer.auraRange)
                             Main.player[myPlayer].AddBuff(BuffID.PaladinsShield, 20);
                     }
                 }

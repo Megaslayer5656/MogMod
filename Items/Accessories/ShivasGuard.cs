@@ -29,7 +29,7 @@ namespace MogMod.Items.Accessories
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingShivasGuard = true;
-            player.GetDamage(DamageClass.Ranged) -= .60f;
+            player.GetDamage(DamageClass.Ranged) -= .40f;
             player.GetDamage(DamageClass.Magic) += .10f;
             player.GetDamage(DamageClass.Generic) += .10f;
             player.GetAttackSpeed(DamageClass.Generic) += .10f;
@@ -44,7 +44,7 @@ namespace MogMod.Items.Accessories
                 {
                     float teamPlayerXDist = player.position.X - Main.player[myPlayer].position.X;
                     float teamPlayerYDist = player.position.Y - Main.player[myPlayer].position.Y;
-                    if ((float)Math.Sqrt(teamPlayerXDist * teamPlayerXDist + teamPlayerYDist * teamPlayerYDist) < 800f)
+                    if ((float)Math.Sqrt(teamPlayerXDist * teamPlayerXDist + teamPlayerYDist * teamPlayerYDist) < mogPlayer.auraRange)
                     {
                         Main.player[myPlayer].AddBuff(teamBuff, 20);
                     }

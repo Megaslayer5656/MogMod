@@ -22,10 +22,7 @@ namespace MogMod.Buffs.Debuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            if (npc.MogMod().freezingDebuff < npc.buffTime[buffIndex])
-                npc.MogMod().freezingDebuff = npc.buffTime[buffIndex];
-            npc.DelBuff(buffIndex);
-            buffIndex--;
+            npc.MogMod().freezingDebuff = true;
         }
         internal static void DrawEffects(PlayerDrawSet drawInfo)
         {

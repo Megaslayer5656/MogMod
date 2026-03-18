@@ -1,11 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
-using MogMod.Common.Config;
 using MogMod.Common.MogModPlayer;
-using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
 using MogMod.Items.Ammo;
 using MogMod.Items.Global;
@@ -15,13 +12,12 @@ using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
-using MogMod.Utilities;
 using Mono.Cecil;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,23 +27,34 @@ namespace MogMod.NPCs.Global
 {
     public class MogModGlobalNPC : GlobalNPC
     {
-        // make skadi, aghs and wings do more npc effects somehow;
-
+        #region ID/s
         // debuffs ID
-        public int divineDebuff = 0;
-        public int skadiDebuff = 0;
-        public int freezingDebuff = 0;
-        public int aghDebuff = 0;
-        public int wingsOfLightDebuff = 0;
-        public int ghostflameDebuff = 0;
-        public int jidiDebuff = 0;
+        public bool divineDebuff;
+        public bool skadiDebuff;
+        public bool freezingDebuff;
+        public bool aghDebuff;
+        public bool wingsOfLightDebuff;
+        public bool ghostflameDebuff;
+        public bool jidiDebuff;
+        public bool blackBladeDebuff;
+
+        private List<bool> debuffs =
+        [
+            divineDebuff,
+            skadiDebuff,
+            freezingDebuff,
+            aghDebuff,
+            wingsOfLightDebuff,
+            ghostflameDebuff,
+            jidiDebuff,
+            blackBladeDebuff
+        ];
 
         public NPC.HitInfo hitInfo;
         public int maxBlood = 150;
         public int currentBlood = 0;
-        public int blackBladeDebuff = 0;
 
-        // debuff effects
+        // debuff stat changes
         public const int skadiNumb = 25;
         public static float skadiMult = 1 - skadiNumb / 100f;
         public const int jidiNumb = 10;
@@ -70,8 +77,6 @@ namespace MogMod.NPCs.Global
         public int bashCooldown = ModContent.BuffType<GiantsMaulCooldown>();
 
         public int cooldownTimer = 5;
-
-        // apparently neccessary according to calamity
         public override bool InstancePerEntity => true;
 
         public static readonly SoundStyle BloodCrit = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/BloodCrit")
@@ -79,31 +84,10 @@ namespace MogMod.NPCs.Global
             Volume = .7f,
             PitchVariance = .2f,
         };
-
-        public override GlobalNPC Clone(NPC npc, NPC npcClone)
-        {
-            MogModGlobalNPC myClone = (MogModGlobalNPC)base.Clone(npc, npcClone);
-            myClone.divineDebuff = divineDebuff;
-            myClone.skadiDebuff = skadiDebuff;
-            myClone.freezingDebuff = freezingDebuff;
-            myClone.aghDebuff = aghDebuff;
-            myClone.wingsOfLightDebuff = wingsOfLightDebuff;
-            myClone.ghostflameDebuff = ghostflameDebuff;
-            myClone.jidiDebuff = jidiDebuff;
-            return myClone;
-        }
-
-        public override void AI(NPC npc)
-        {
-            maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense); //(This scaling will definitely change as I test)
-            if (maxBlood < 150) //Sets lower bound of possible max blood
-            {
-                maxBlood = 150;
-            }
-        }
+        #endregion
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
-                MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
+            MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
 
             if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -216,7 +200,6 @@ namespace MogMod.NPCs.Global
                     Projectile.NewProjectile(source, npc.Center, kirk, ModContent.ProjectileType<PolyluteProj>(), Convert.ToInt32(damageDone * .3f) + 1, 3, player.whoAmI);
             }
         }
-
         public static void SpawnMarkerProjectile(NPC target, Player player, Item item, Vector2 velocity, float rotation)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
@@ -245,7 +228,78 @@ namespace MogMod.NPCs.Global
 
             target.GetGlobalNPC<MogModGlobalNPC>().markedByMarker = true;
         }
+        public static void doTrueStrikeFX(Vector2 position)
+        {
+            SoundEngine.PlaySound(SoundID.NPCDeath56, position);
+            for (int i = 0; i < 40; i++)
+            {
+                int strike = Dust.NewDust(position, 20, 20, DustID.CopperCoin, 0, 0, 100, default, 2f);
+                Main.dust[strike].velocity.Y *= 1.05f;
+                Main.dust[strike].noGravity = true;
+            }
+        }
 
+        // modifies vanilla npc shop
+        public override void ModifyShop(NPCShop shop)
+        {
+            if (shop.NpcType == NPCID.SkeletonMerchant)
+                shop.Add(new Item(ModContent.ItemType<AstrologersStaff>()));
+        }
+
+        #region NPC Drops
+        // LEDX and REDX chance to drop
+        public override void ModifyGlobalLoot(GlobalLoot globalLoot)
+        {
+            globalLoot.Add(new CommonDrop(ModContent.ItemType<LedX>(), 10000, 1, 1, 1));
+            globalLoot.Add(new CommonDrop(ModContent.ItemType<RedX>(), 100000, 1, 1, 1));
+        }
+        public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
+        {
+            if (npc.type == NPCID.Tim)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GlintstoneArc>(), 3, 1, 1));
+            }
+            if (npc.type == NPCID.RuneWizard)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GlintstoneArc>(), 1, 1, 1));
+            }
+            if (npc.type == NPCID.CrimsonAxe || npc.type == NPCID.CursedHammer)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ExplosiveGhostflame>(), 15, 1, 1));
+            }
+            if (npc.type == NPCID.Golem)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LizhardBloodVial>(), 1, 1, 2));
+            }
+            if (npc.type == NPCID.Shark || npc.type == NPCID.Squid || npc.type == NPCID.BlueJellyfish || npc.type == NPCID.GreenJellyfish || npc.type == NPCID.PinkJellyfish || npc.type == NPCID.Crab)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<OceanHeart>(), 500, 1, 1));
+            }
+            if (npc.type == NPCID.DarkCaster)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BlinkDagger>(), 10, 1, 1));
+            }
+            if (npc.type == NPCID.GoblinSorcerer)
+            {
+                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 20, 1, 1));
+            }
+            if (npc.type == NPCID.GoblinSummoner)
+            {
+                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 5, 1, 1));
+            }
+        }
+        #endregion
+
+        #region Blood Effects
+        public override void AI(NPC npc)
+        {
+            maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense); //(This scaling will definitely change as I test)
+            if (maxBlood < 150) //Sets lower bound of possible max blood
+            {
+                maxBlood = 150;
+            }
+        }
         public void AddItemBlood(NPC npc, Player player, Item item)
         {
             MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
@@ -272,14 +326,19 @@ namespace MogMod.NPCs.Global
         }
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
-
             int bloodToAdd = projectile.GetGlobalProjectile<MogModGlobalProjectileBleed>().bloodDamage;
-
+            
             MogPlayer mogPlayer = Main.player[projectile.owner].GetModPlayer<MogPlayer>();
+
+            // add another blood accessory
             if (mogPlayer.exultationEquipped)
             {
                 bloodToAdd = (int)(bloodToAdd * 1.15f);
             }
+            //if (mogPlayer.exultationEquipped)
+            //{
+            //    bloodToAdd = (int)(bloodToAdd * 1.5f);
+            //}
 
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
@@ -305,7 +364,6 @@ namespace MogMod.NPCs.Global
                 ApplyBleedProc(npc);
             }
         }
-
         public void ApplyBleedProc(NPC npc)
         {
             NPC.HitInfo hitInfo = new NPC.HitInfo
@@ -354,158 +412,58 @@ namespace MogMod.NPCs.Global
                 doBloodFX(position);
             }
         }
+        #endregion
 
-        public static void doTrueStrikeFX(Vector2 position)
-        {
-            SoundEngine.PlaySound(SoundID.NPCDeath56, position);
-            for (int i = 0; i < 40; i++)
-            {
-                int strike = Dust.NewDust(position, 20, 20, DustID.CopperCoin, 0, 0, 100, default, 2f);
-                Main.dust[strike].velocity.Y *= 1.05f;
-                Main.dust[strike].noGravity = true;
-            }
-        }
+        #region Debuffs
 
         // actual debuff effect
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
-            if (divineDebuff > 0)
+            if (divineDebuff)
             {
                 ApplyDPSDebuff(600, 100, ref npc.lifeRegen, ref damage);
             }
-            if (skadiDebuff > 0)
+            if (skadiDebuff)
             {
                 ApplyDPSDebuff(200, 40, ref npc.lifeRegen, ref damage);
             }
-            if (aghDebuff > 0)
+            if (aghDebuff)
             {
                 ApplyDPSDebuff(480, 80, ref npc.lifeRegen, ref damage);
             }
-            if (wingsOfLightDebuff > 0)
+            if (wingsOfLightDebuff)
             {
                 ApplyDPSDebuff(200, 10, ref npc.lifeRegen, ref damage);
             }
-            if (blackBladeDebuff > 0)
+            if (blackBladeDebuff)
             {
                 ApplyDPSDebuff(200, 20, ref npc.lifeRegen, ref damage);
             }
-            if (ghostflameDebuff > 0)
+            if (ghostflameDebuff)
             {
                 ApplyDPSDebuff(170, 7, ref npc.lifeRegen, ref damage);
             }
-            if (jidiDebuff > 0)
+            if (jidiDebuff)
             {
                 ApplyDPSDebuff(180, 8, ref npc.lifeRegen, ref damage);
             }
         }
 
-        // not quite sure what this does, but its in calamity mod so it has to be important
+        // movement changes
         public override void PostAI(NPC npc)
         {
-            if (divineDebuff > 0)
-                divineDebuff--;
-            if (skadiDebuff > 0)
+            if (skadiDebuff)
             {
-                skadiDebuff--;
-                npc.velocity *= 0.988f;
+                npc.velocity.X *= 0.98f;
+                npc.velocity.Y *= 0.98f;
             }
-            if (freezingDebuff > 0)
+            if (freezingDebuff)
             {
-                freezingDebuff--;
-                npc.velocity *= 0.985f;
-            }
-            if (aghDebuff > 0)
-            {
-                aghDebuff--;
-            }
-            if (wingsOfLightDebuff > 0)
-            {
-                wingsOfLightDebuff--;
-            }
-            if (blackBladeDebuff > 0) 
-            { 
-                blackBladeDebuff--;
-            }
-            if (ghostflameDebuff > 0)
-            {
-                ghostflameDebuff--;
-            }
-            if (jidiDebuff > 0)
-            {
-                jidiDebuff--;
+                npc.velocity.X *= 0.97f;
+                npc.velocity.Y *= 0.97f;
             }
         }
 
-        // lower defense from buffs (taken from example mod)
-        public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers)
-        {
-            if (skadiDebuff > 0)
-            {
-                modifiers.Defense *= skadiMult;
-            }
-            if (jidiDebuff > 0)
-            {
-                modifiers.Defense *= jidiMult;
-            }
-            if (wingsOfLightDebuff > 0)
-            {
-                modifiers.CritDamage *= 1.1f;
-            }
-            if (aghDebuff > 0)
-            {
-                modifiers.CritDamage *= 1.2f;
-            }
-        }
-
-        // LEDX and REDX chance to drop
-        public override void ModifyGlobalLoot(GlobalLoot globalLoot)
-        {
-            globalLoot.Add(new CommonDrop(ModContent.ItemType<LedX>(), 10000, 1, 1, 1));
-            globalLoot.Add(new CommonDrop(ModContent.ItemType<RedX>(), 100000, 1, 1, 1));
-        }
-        public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
-        {
-            if (npc.type == NPCID.Tim)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GlintstoneArc>(), 3, 1, 1));
-            }
-            if (npc.type == NPCID.RuneWizard)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GlintstoneArc>(), 1, 1, 1));
-            }
-            if (npc.type == NPCID.CrimsonAxe || npc.type == NPCID.CursedHammer)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ExplosiveGhostflame>(), 15, 1, 1));
-            }
-            if (npc.type == NPCID.Golem)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LizhardBloodVial>(), 1, 1, 2));
-            }
-            if (npc.type == NPCID.Shark || npc.type == NPCID.Squid || npc.type == NPCID.BlueJellyfish || npc.type == NPCID.GreenJellyfish || npc.type == NPCID.PinkJellyfish || npc.type == NPCID.Crab)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<OceanHeart>(), 500, 1, 1));
-            }
-            if (npc.type == NPCID.DarkCaster)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BlinkDagger>(), 10, 1, 1));
-            }
-            if (npc.type == NPCID.GoblinSorcerer)
-            {
-                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 20, 1, 1));
-            }
-            if (npc.type == NPCID.GoblinSummoner)
-            {
-                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 5, 1, 1));
-            }
-        }
-
-        // modifies vanilla npc shop
-        public override void ModifyShop(NPCShop shop)
-        {
-            if (shop.NpcType == NPCID.SkeletonMerchant)
-                shop.Add(new Item(ModContent.ItemType<AstrologersStaff>()));
-        }
         public override void OnHitPlayer(NPC npc, Player target, Player.HurtInfo hurtInfo)
         {
             if (target.HasBuff(ModContent.BuffType<Parrying>()))
@@ -530,110 +488,13 @@ namespace MogMod.NPCs.Global
                 npc.StrikeNPC(hitInfo); //Must use this instead of modifying the npc's life stat
                 NetMessage.SendStrikeNPC(npc, hitInfo);
             }
+            if (wingsOfLightDebuff)
+            {
+                npc.damage = (int)(npc.defDamage * .5f);
+            }
+            else if ()
+                npc.damage = npc.defDamage;
         }
-
-        // debuff visual effects
-        public override void DrawEffects(NPC npc, ref Color drawColor)
-        {
-            drawColor = npc.GetNPCColorTintedByBuffs(drawColor);
-            if (divineDebuff > 0)
-            {
-                DivineMightDebuff.DrawEffects(npc, ref drawColor);
-                drawColor = Color.NavajoWhite;
-            }
-            if (skadiDebuff > 0)
-            {
-                EyeOfSkadiDebuff.DrawEffects(npc, ref drawColor);
-                drawColor = Color.DarkSlateBlue;
-            }
-            if (freezingDebuff > 0)
-            {
-                FreezingDebuff.DrawEffects(npc, ref drawColor);
-                drawColor = Color.LightBlue;
-            }
-            if (aghDebuff > 0)
-            {
-                AghanimHexDebuff.DrawEffects(npc, ref drawColor);
-                drawColor = Color.BlueViolet;
-            }
-            if (wingsOfLightDebuff > 0)
-            {
-                WingsOfLightDebuff.DrawEffects(npc, ref drawColor);
-                drawColor = Color.LightGoldenrodYellow;
-            }
-            if (blackBladeDebuff > 0)
-            {
-                BlackBladeDebuff.DrawEffects(npc, ref drawColor);
-                drawColor = Color.DarkRed;
-            }
-            if (ghostflameDebuff > 0)
-            {
-                GhostflameDebuff.DrawEffects(npc, ref drawColor);
-                drawColor = Color.WhiteSmoke;
-            }
-            if (jidiDebuff > 0)
-            {
-                JidiPollenBagDebuff.DrawEffects(npc, ref drawColor);
-                drawColor = Color.LimeGreen;
-            }
-            if (markedByMarker) //TODO: Give this a custom effect
-            {
-                WingsOfLightDebuff.DrawEffects(npc, ref drawColor);
-                drawColor = Color.Gold;
-            }
-        }
-
-        // QOL for making debuff damage easier
-        public void ApplyDPSDebuff(int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
-        {
-            if (lifeRegen > 0)
-                lifeRegen = 0;
-
-            lifeRegen -= lifeRegenValue;
-
-            if (damage < damageValue)
-                damage = damageValue;
-        }
-        public static void DrawAfterimage(NPC npc, SpriteBatch spriteBatch, Color startingColor, Color endingColor, Texture2D texture = null, Func<NPC, int, float> rotationCalculation = null, bool directioning = false, bool invertedDirection = false)
-        {
-            if (NPCID.Sets.TrailingMode[npc.type] != 1)
-                return;
-
-            SpriteEffects spriteEffects = SpriteEffects.None;
-
-            if (npc.spriteDirection == -1 && directioning)
-                spriteEffects = SpriteEffects.FlipHorizontally;
-
-            if (invertedDirection)
-                spriteEffects ^= SpriteEffects.FlipHorizontally; // Same as x XOR 1, or x XOR TRUE, which inverts the bit. In this case, this reverses the horizontal flip
-
-            // Set the rotation calculation to a predefined value. The null default is solely so that
-            if (rotationCalculation is null)
-                rotationCalculation = (nPC, afterimageIndex) => nPC.rotation;
-
-            endingColor.A = 0;
-
-            Color drawColor = npc.GetAlpha(startingColor);
-            Texture2D npcTexture = texture ?? TextureAssets.Npc[npc.type].Value;
-            Vector2 screenOffset = npc.IsABestiaryIconDummy ? Vector2.Zero : Main.screenPosition;
-            int afterimageCounter = 1;
-            while (afterimageCounter < NPCID.Sets.TrailCacheLength[npc.type] && MogClientConfig.Instance.Afterimages)
-            {
-                Color colorToDraw = Color.Lerp(drawColor, endingColor, afterimageCounter / (float)NPCID.Sets.TrailCacheLength[npc.type]);
-                colorToDraw *= afterimageCounter / (float)NPCID.Sets.TrailCacheLength[npc.type];
-                spriteBatch.Draw(npcTexture,
-                                 npc.oldPos[afterimageCounter] + npc.Size / 2f - screenOffset + Vector2.UnitY * npc.gfxOffY,
-                                 npc.frame,
-                                 colorToDraw,
-                                 rotationCalculation.Invoke(npc, afterimageCounter),
-                                 npc.frame.Size() * 0.5f,
-                                 npc.scale,
-                                 spriteEffects,
-                                 0f);
-                afterimageCounter++;
-            }
-        }
-
         public override void ModifyHitPlayer(NPC npc, Player target, ref Player.HurtModifiers modifiers)
         {
             if (target.HasBuff(ModContent.BuffType<Parrying>()))
@@ -654,5 +515,101 @@ namespace MogMod.NPCs.Global
                 NetMessage.SendStrikeNPC(npc, hitInfo);
             }
         }
+
+        // lower defense from buffs (taken from example mod)
+        public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers)
+        {
+            if (skadiDebuff)
+            {
+                modifiers.Defense *= skadiMult;
+            }
+            if (jidiDebuff)
+            {
+                modifiers.Defense *= jidiMult;
+            }
+            if (wingsOfLightDebuff)
+            {
+                modifiers.CritDamage *= 1.1f;
+            }
+            if (aghDebuff)
+            {
+                modifiers.CritDamage *= 1.2f;
+            }
+        }
+
+        // debuff visual effects
+        public override void DrawEffects(NPC npc, ref Color drawColor)
+        {
+            if (divineDebuff)
+            {
+                DivineMightDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.NavajoWhite;
+            }
+            if (skadiDebuff)
+            {
+                EyeOfSkadiDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.DarkSlateBlue;
+            }
+            if (freezingDebuff)
+            {
+                FreezingDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.LightBlue;
+            }
+            if (aghDebuff)
+            {
+                AghanimHexDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.BlueViolet;
+            }
+            if (wingsOfLightDebuff)
+            {
+                WingsOfLightDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.LightGoldenrodYellow;
+            }
+            if (blackBladeDebuff)
+            {
+                BlackBladeDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.DarkRed;
+            }
+            if (ghostflameDebuff)
+            {
+                GhostflameDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.WhiteSmoke;
+            }
+            if (jidiDebuff)
+            {
+                JidiPollenBagDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.LimeGreen;
+            }
+            if (markedByMarker) //TODO: Give this a custom effect
+            {
+                WingsOfLightDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.Gold;
+            }
+        }
+
+        // debuff damage (how often it applies damage and how much damage is dealt)
+        public void ApplyDPSDebuff(int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
+        {
+            if (lifeRegen > 0)
+                lifeRegen = 0;
+
+            lifeRegen -= lifeRegenValue;
+
+            if (damage < damageValue)
+                damage = damageValue;
+        }
+
+        public override void ResetEffects(NPC npc)
+        {
+            divineDebuff = false;
+            skadiDebuff = false;
+            freezingDebuff = false;
+            aghDebuff = false;
+            wingsOfLightDebuff = false;
+            ghostflameDebuff = false;
+            jidiDebuff = false;
+            blackBladeDebuff = false;
+        }
+        #endregion
     }
 }

@@ -23,10 +23,7 @@ namespace MogMod.Buffs.Debuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            if (npc.MogMod().ghostflameDebuff < npc.buffTime[buffIndex])
-                npc.MogMod().ghostflameDebuff = npc.buffTime[buffIndex];
-            npc.DelBuff(buffIndex);
-            buffIndex--;
+            npc.MogMod().ghostflameDebuff = true;
         }
         internal static void DrawEffects(PlayerDrawSet drawInfo)
         {

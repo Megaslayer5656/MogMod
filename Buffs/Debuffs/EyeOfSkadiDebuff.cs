@@ -22,10 +22,7 @@ namespace MogMod.Buffs.Debuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            if (npc.MogMod().skadiDebuff < npc.buffTime[buffIndex])
-                npc.MogMod().skadiDebuff = npc.buffTime[buffIndex];
-            npc.DelBuff(buffIndex);
-            buffIndex--;
+            npc.MogMod().skadiDebuff = true;
         }
         internal static void DrawEffects(PlayerDrawSet drawInfo)
         {

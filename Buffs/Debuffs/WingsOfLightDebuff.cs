@@ -22,10 +22,7 @@ namespace MogMod.Buffs.Debuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            if (npc.MogMod().wingsOfLightDebuff < npc.buffTime[buffIndex])
-                npc.MogMod().wingsOfLightDebuff = npc.buffTime[buffIndex];
-            npc.DelBuff(buffIndex);
-            buffIndex--;
+            npc.MogMod().wingsOfLightDebuff = true;
         }
         internal static void DrawEffects(PlayerDrawSet drawInfo)
         {

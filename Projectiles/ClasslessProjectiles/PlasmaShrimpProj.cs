@@ -24,20 +24,17 @@ namespace MogMod.Projectiles.ClasslessProjectiles
 
         public override void AI()
         {
-            if (Projectile.timeLeft < 590)
-                MogModUtils.HomeInOnNPC(Projectile, true, 1500f, 10f, 25f);
-
             Projectile.rotation += 0.3f * (float)Projectile.direction;
 
             // dust id's 71 - 73 are nebula slop
             if (Main.rand.NextBool(5))
             {
-                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 71, 0, 0, 0, default, .75f);
+                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 71, 0, 0, 100, default, .75f);
             }
 
             if (Main.rand.NextBool(4))
             {
-                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 72, 0, 0, 0, default, .75f);
+                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 72, 0, 0, 100, default, .75f);
             }
         }
         public override void OnKill(int timeLeft)
@@ -45,21 +42,12 @@ namespace MogMod.Projectiles.ClasslessProjectiles
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             for (int i = 0; i < 20; i++)
             {
-                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 73);
+                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 73, 0, 0, 100, default, 1f);
             }
         }
-
-        public override bool? CanHitNPC(NPC target)
-        {
-            if (Projectile.timeLeft < 590)
-                return true;
-            else
-                return false;
-        }
-
         public override void OnSpawn(IEntitySource source)
         {
-            SoundEngine.PlaySound(SoundID.NPCDeath39, Projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item72, Projectile.Center);
         }
     }
 }

@@ -52,6 +52,8 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingShadowAmulet = false;
         public bool shadowAmuletVisual = false;
 
+        public bool wraithActive = false;
+
         public int shadowTimer = 0;
         public const int shadowTimerMax = 240;
 
@@ -95,7 +97,7 @@ namespace MogMod.Common.MogModPlayer
         public const float ForceVelocity = 12f;
         public const float PikeVelocity = 25f;
 
-        public static int duelistStacks = 0;
+        public int duelistStacks = 0;
         public static int maxDuelistStacks = 3;
 
         // weapon buffs
@@ -138,6 +140,9 @@ namespace MogMod.Common.MogModPlayer
         public bool vladsAura = false;
         public bool headdressAura = false;
         public bool drumsAura = false;
+        public bool shivasAura = false;
+
+        public float auraRange = 5000f;
 
         public bool riversOfBloodProj = false;
         public bool exultationEquipped = false;
@@ -239,7 +244,7 @@ namespace MogMod.Common.MogModPlayer
             Vector2 einstein = Main.MouseWorld - Player.Center;
             einstein.Normalize();
 
-            Vector2 epstein = einstein * 15;
+            Vector2 epstein = einstein * 20;
 
             int procChance = rand.Next(1, 11);
             if (atgActive && procChance == 5)
@@ -929,9 +934,28 @@ namespace MogMod.Common.MogModPlayer
         {
             if (wearingUndyingHelm)
             {
-                Player.respawnTimer = Convert.ToInt32(Player.respawnTimer * .6f);
-                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<UndyingPortalProj>(), 500, 1, Player.whoAmI);
+                doUndying();
             }
+        }
+        public void doUndying()
+        {
+            Player.respawnTimer = Convert.ToInt32(Player.respawnTimer * .6f);
+            Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<UndyingPortalProj>(), 500, 1, Player.whoAmI);
+        }
+        // both undying portals damage prob have to be nerfed
+        public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        {
+            if (wearingUndyingArmor && !Player.HasBuff(ModContent.BuffType<WraithBuff>()))
+            {
+                SoundEngine.PlaySound(SoundID.NPCDeath52, Player.Center);
+                Player.AddBuff(ModContent.BuffType<WraithBuff>(), 300);
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<PlayerUndyingPortalProj>(), 500, 1, Player.whoAmI);
+            }
+            if (Player.HasBuff(ModContent.BuffType<WraithBuff>()))
+            {
+                return false;
+            }
+            return true;
         }
         #endregion
 
@@ -1039,7 +1063,6 @@ namespace MogMod.Common.MogModPlayer
             }
 
         }
-
         public void doParryFX(Vector2 pos)
         {
             SoundEngine.PlaySound(ParrySound, pos);
@@ -1070,17 +1093,25 @@ namespace MogMod.Common.MogModPlayer
         {
             if (armletOn && Player.HasBuff<ArmletOfMordiggianBuff>())
             {
-                Player.lifeRegen += -30;
+                DamageOverTime(30);
             }
         }
 
         // more regen taking place here
         public override void UpdateLifeRegen()
         {
-           if (Player.HeldItem.Name == "Berserker's Spear")
+            if (Player.HeldItem.Name == "Berserker's Spear")
             {
                 float percentLifeLeft = (float)Player.statLife / Player.statLifeMax2;
                 Player.lifeRegen += Convert.ToInt32((1 / (percentLifeLeft + .065)));
+            }
+            if (headdressAura)
+            {
+                Player.lifeRegen += 4;
+            }
+            if (greavesAura)
+            {
+                Player.lifeRegen += 8;
             }
         }
 
@@ -1119,13 +1150,8 @@ namespace MogMod.Common.MogModPlayer
             }
 
             // buffs
-            if (headdressAura)
-            {
-                Player.lifeRegen += 4;
-            }
             if (greavesAura)
             {
-                Player.lifeRegen += 2;
                 Player.statDefense += 4;
                 Player.statLifeMax2 += 20;
                 Player.statManaMax2 += 50;
@@ -1151,6 +1177,17 @@ namespace MogMod.Common.MogModPlayer
                 Player.GetAttackSpeed(DamageClass.SummonMeleeSpeed) += .1f;
                 Player.moveSpeed += 0.30f;
             }
+            if (shivasAura)
+            {
+                Player.statDefense += 10;
+                Player.GetDamage(DamageClass.Ranged) += .10f;
+            }
+
+            if (wraithActive)
+            {
+                Player.aggro += 1000;
+                Player.lifeSteal *= 0f;
+            }
         }
         
         // stops player from moving while charging bow
@@ -1165,6 +1202,17 @@ namespace MogMod.Common.MogModPlayer
             Player.controlMount = false;
             if (Player.velocity.Y > 15f)
                 Player.velocity.Y = 15f;
+        }
+        public void DamageOverTime(int debuffDamage)
+        {
+            // These lines zero out any positive lifeRegen. This is expected for all bad life regeneration effects
+            if (Player.lifeRegen > 0)
+                Player.lifeRegen = 0;
+            // Player.lifeRegenTime used to increase the speed at which the player reaches its maximum natural life regeneration
+            // So we set it to 0, and while this debuff is active, it never reaches it
+            Player.lifeRegenTime = 0;
+            // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second
+            Player.lifeRegen -= debuffDamage;
         }
         #endregion
 
@@ -1211,6 +1259,8 @@ namespace MogMod.Common.MogModPlayer
             shadowAmuletVisual = false;
             exultationEquipped = false;
 
+            wraithActive = false;
+
             wearingRadiantArmor = false;
             wearingUndyingArmor = false;
 
@@ -1234,6 +1284,7 @@ namespace MogMod.Common.MogModPlayer
             vladsAura = false;
             headdressAura = false;
             drumsAura = false;
+            shivasAura = false;
 
             atgActive = false;
             plasmaActive = false;

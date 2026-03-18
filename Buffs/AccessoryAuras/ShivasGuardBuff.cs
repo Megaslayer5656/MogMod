@@ -1,5 +1,7 @@
-﻿using Terraria;
+﻿using MogMod.Common.MogModPlayer;
+using Terraria;
 using Terraria.ModLoader;
+
 namespace MogMod.Buffs.AccessoryAuras
 {
     public class ShivasGuardBuff : ModBuff
@@ -11,8 +13,8 @@ namespace MogMod.Buffs.AccessoryAuras
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.statDefense += 10;
-            player.GetDamage(DamageClass.Ranged) += .10f;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.shivasAura = true;
         }
     }
 }

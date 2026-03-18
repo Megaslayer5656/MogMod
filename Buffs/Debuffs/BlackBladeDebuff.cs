@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using MogMod.Utilities;
@@ -23,10 +18,7 @@ namespace MogMod.Buffs.Debuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            if (npc.MogMod().blackBladeDebuff < npc.buffTime[buffIndex])
-                npc.MogMod().blackBladeDebuff = npc.buffTime[buffIndex];
-            npc.DelBuff(buffIndex);
-            buffIndex--;
+            npc.MogMod().blackBladeDebuff = true;
         }
 
         internal static void DrawEffects(NPC npc, ref Color drawColor)

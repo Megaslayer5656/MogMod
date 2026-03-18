@@ -11,6 +11,7 @@ namespace MogMod.Buffs.Debuffs
 {
     public class ShivasEnemyDebuff : ModBuff
     {
+        // TODO: move some of this to global npc
         public override void SetStaticDefaults()
         {
             Main.buffNoSave[Type] = false;
