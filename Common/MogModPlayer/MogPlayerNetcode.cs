@@ -258,19 +258,18 @@ namespace MogMod.Common.MogModPlayer
             int projID = reader.ReadInt32();
             int targetID = reader.ReadInt32();
 
-            Projectile projectile = MogModUtils.FindProjectileByIdentity(projID, Main.player[ownerID].whoAmI);
-
-            MogModGlobalProjectile.ParryProjectile(projectile, targetID);
+            Projectile projectile = MogModUtils.FindProjectileByIdentity(projID, ownerID);
 
             MogPlayer mogPlayer = Main.player[targetID].GetModPlayer<MogPlayer>();
 
-            if (Main.netMode == NetmodeID.MultiplayerClient)
-            {
-                mogPlayer.doParryFX(Main.player[targetID].Center);
-            } 
-            else if (Main.netMode == NetmodeID.Server)
+            if (Main.netMode == NetmodeID.Server)
             {
                 SyncProjParry(true, ownerID, Main.player[targetID], projectile);
+            }
+            else if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                mogPlayer.doParryFX(Main.player[targetID].Center);
+                MogModGlobalProjectile.ParryProjectile(projectile, targetID);
             }
         }
     }

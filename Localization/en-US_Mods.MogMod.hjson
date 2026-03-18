@@ -1001,12 +1001,23 @@ Items: {
 
 			BladeOfSelves: {
 				DisplayName: Blade Of Selves
-				Tooltip: Something abt gooning idk
+				Tooltip: Summons spectral clones of itself on hit
 			}
 
 			Flamebrand: {
 				DisplayName: Flamebrand
 				Tooltip: Shoots a fireball
+			}
+
+			Moonveil: {
+				DisplayName: Moonveil
+				Tooltip:
+					'''
+					Right click to parry
+					After a successful parry, shoots a projectile
+					'Katana forged of glintstone,
+					 masterpiece of a Sellian swordsmith.'
+					'''
 			}
 		}
 

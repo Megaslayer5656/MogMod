@@ -64,12 +64,14 @@ namespace MogMod.Projectiles.BaseProjectiles
                 mogPlayer.doParry(target, target.Center);
                 modifiers.Cancel();
 
-                ParryProjectile(projectile, target.whoAmI);
+                int originalOwner = projectile.owner;
 
                 if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
-                    mogPlayer.SyncProjParry(false, projectile.owner, target, projectile);
+                    mogPlayer.SyncProjParry(false, originalOwner, target, projectile);
                 }
+
+                ParryProjectile(projectile, target.whoAmI);
             }
         }
 
@@ -80,7 +82,8 @@ namespace MogMod.Projectiles.BaseProjectiles
             projectile.hostile = false;
             projectile.damage *= 5;
             projectile.owner = newOwner;
-            projectile.netUpdate = true; // sync to all clients
+            projectile.netUpdate = true;
+            projectile.netUpdate2 = true;
         }
 
         public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)

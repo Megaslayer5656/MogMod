@@ -1,20 +1,24 @@
 ﻿using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
-using System;
-using Terraria.Audio;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
 using MogMod.Common.MogModPlayer;
-using MogMod.Projectiles.MeleeProjectiles;
 using MogMod.Items.Other;
+using MogMod.Projectiles.MeleeProjectiles;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria;
+using Microsoft.Xna.Framework;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class RiversOfBlood : ModItem, ILocalizedModType
+    public class Moonveil : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public static readonly SoundStyle ParryStart = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ParryStart")
@@ -27,13 +31,13 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 50;
             Item.height = 64;
-            Item.damage = 140;
-            Item.scale = 2.25f;
+            Item.damage = 74;
+            Item.scale = 1.5f;
             Item.DamageType = DamageClass.Melee;
-            Item.useTime = 15;
-            Item.useAnimation = 15;
+            Item.useTime = 16;
+            Item.useAnimation = 16;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.knockBack = 5.5f;
+            Item.knockBack = 4.5f;
             Item.value = Item.buyPrice(0, 1, 50, 0);
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
@@ -72,21 +76,22 @@ namespace MogMod.Items.Weapons.Melee
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            if (mogPlayer.riversOfBloodProj)
+            if (mogPlayer.moonveilProj)
             {
-                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<RiversOfBloodProj>(), Convert.ToInt32(Item.damage * 5f), knockback, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<MoonveilProj>(), Convert.ToInt32(Item.damage * 2f), knockback, player.whoAmI, 0f, 0f);
 
-                mogPlayer.riversOfBloodProj = false;
+                mogPlayer.moonveilProj = false;
             }
             return false;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-            AddIngredient(ModContent.ItemType<Moonveil>()).
-            AddIngredient(ModContent.ItemType<Reduvia>()).
-            AddIngredient(ModContent.ItemType<LizhardBloodVial>()).
-            AddTile(TileID.MythrilAnvil).
+            AddRecipeGroup("CobaltBar", 12).
+            AddIngredient(ItemID.SoulofNight, 7).
+            AddIngredient(ItemID.SoulofLight, 7).
+            AddIngredient(ItemID.SoulofSight, 7).
+            AddTile(TileID.Anvils).
             Register();
         }
     }

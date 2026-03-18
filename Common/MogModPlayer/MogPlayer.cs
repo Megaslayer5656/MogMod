@@ -154,6 +154,8 @@ namespace MogMod.Common.MogModPlayer
         public bool icbmActive = false;
         public bool polyluteActive = false;
 
+        public bool moonveilProj = false;
+
         // sound effects
         public static readonly SoundStyle WandUse = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Magic_Stick")
         {
@@ -247,7 +249,7 @@ namespace MogMod.Common.MogModPlayer
             Vector2 epstein = einstein * 20;
 
             int procChance = rand.Next(1, 11);
-            if (atgActive && procChance == 5)
+            if (atgActive && procChance == 5 && !plasmaActive)
             {
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk, ModContent.ProjectileType<ATGProjectile>(), damageDone + 1, 3, Player.whoAmI);
                 if (icbmActive)
@@ -259,7 +261,7 @@ namespace MogMod.Common.MogModPlayer
                     }
                 }
             }
-            if (plasmaActive)
+            if (plasmaActive && !atgActive)
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, epstein, ModContent.ProjectileType<PlasmaShrimpProj>(), Convert.ToInt32(damageDone * .1f) + 1, 1, Player.whoAmI);
         }
         public override void OnHitByNPC(NPC npc, Terraria.Player.HurtInfo hurtInfo)
@@ -940,7 +942,7 @@ namespace MogMod.Common.MogModPlayer
         public void doUndying()
         {
             Player.respawnTimer = Convert.ToInt32(Player.respawnTimer * .6f);
-            Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<UndyingPortalProj>(), 500, 1, Player.whoAmI);
+            Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<UndyingPortalProj>(), 100, 1, Player.whoAmI); //Might need to rebalance this damage
         }
         // both undying portals damage prob have to be nerfed
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
@@ -949,7 +951,7 @@ namespace MogMod.Common.MogModPlayer
             {
                 SoundEngine.PlaySound(SoundID.NPCDeath52, Player.Center);
                 Player.AddBuff(ModContent.BuffType<WraithBuff>(), 300);
-                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<PlayerUndyingPortalProj>(), 500, 1, Player.whoAmI);
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<PlayerUndyingPortalProj>(), 100, 1, Player.whoAmI); //Might need to rebalance this damage
             }
             if (Player.HasBuff(ModContent.BuffType<WraithBuff>()))
             {
@@ -1036,6 +1038,11 @@ namespace MogMod.Common.MogModPlayer
             if (Player.HeldItem.Name == "Rivers Of Blood")
             {
                 riversOfBloodProj = true;
+            }
+
+            if (Player.HeldItem.Name == "Moonveil")
+            {
+                moonveilProj = true;
             }
 
             removeBuff(Player, BuffID.OnFire); //TODO: Eventually make this automatically remove debuffs (with some exceptions)
