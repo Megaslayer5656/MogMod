@@ -1995,4 +1995,9 @@ Items: {
 			SetBonus: we'll find out in a second
 		}
 	}
+
+	FireworkCrossbow: {
+		DisplayName: Firework Crossbow
+		Tooltip: ""
+	}
 }

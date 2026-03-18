@@ -24,9 +24,9 @@ namespace MogMod.Items.Other
             Item.value = 8732;
         }
 
-        public override void AddRecipes()
+        public override void AddRecipes() //Might need to change the amount it makes
         {
-            CreateRecipe().
+            CreateRecipe(3).
                 AddIngredient(ItemID.SoulofFright, 3).
                 AddIngredient(ItemID.SoulofMight, 3).
                 AddIngredient(ItemID.SoulofSight, 3).
