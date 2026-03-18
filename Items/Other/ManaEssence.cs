@@ -21,7 +21,7 @@ namespace MogMod.Items.Other
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).
+            CreateRecipe(3).
                 AddIngredient(ItemID.Sapphire, 5).
                 AddIngredient(ItemID.ManaCrystal, 3).
                 AddTile(TileID.Anvils).

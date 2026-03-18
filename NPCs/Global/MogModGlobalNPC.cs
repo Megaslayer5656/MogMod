@@ -206,7 +206,7 @@ namespace MogMod.NPCs.Global
             if (target.type == NPCID.TargetDummy) return;
             if (mogPlayer.markerProjOut) return;
 
-            int proj = Projectile.NewProjectile(player.GetSource_ItemUse(item), target.Center, velocity, ModContent.ProjectileType<MarkerTargetProj>(), (int)(item.damage * 1.45f), 0f, player.whoAmI, rotation); //Might have to change the source if problems arise
+            int proj = Projectile.NewProjectile(target.GetSource_FromAI(), target.Center, velocity, ModContent.ProjectileType<MarkerTargetProj>(), (int)(item.damage * 1.45f), 0f, player.whoAmI, rotation); //Might have to change the source if problems arise
 
             if (proj >= 0)
             {

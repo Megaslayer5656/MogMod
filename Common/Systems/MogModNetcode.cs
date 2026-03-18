@@ -96,34 +96,6 @@ namespace MogMod.Common.Systems
                             break;
                         }
 
-                    case MogModMessageType.ProjParrySync:
-                        {
-                            int ownerID = reader.ReadInt32();
-                            int projID = reader.ReadInt32();
-                            int targetID = reader.ReadInt32();
-
-                            Projectile projectile = MogModUtils.FindProjectileByIdentity(projID, Main.player[ownerID].whoAmI);
-
-                            if (projectile != null)
-                            {
-                                projectile.velocity.X = projectile.velocity.X * -1;
-                                projectile.velocity.Y = projectile.velocity.Y * -1;
-                                projectile.friendly = true;
-                                projectile.hostile = false;
-                                projectile.damage *= 5;
-                            }
-
-                            MogPlayer mogPlayer = Main.player[targetID].GetModPlayer<MogPlayer>();
-
-                            if (Main.netMode == NetmodeID.MultiplayerClient)
-                            {
-                                mogPlayer.doParryFX(Main.player[targetID].Center);
-                            }
-
-                            
-                            break;
-                        }
-
                     case MogModMessageType.MarkerProjSync:
                         {
                             Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleMarkerProj(reader);
@@ -133,6 +105,12 @@ namespace MogMod.Common.Systems
                     case MogModMessageType.MarkerProjOutSync:
                         {
                             Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleMarkerProjOut(reader);
+                            break;
+                        }
+
+                    case MogModMessageType.ProjParrySync:
+                        {
+                            Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleProjParry(reader);
                             break;
                         }
                 }

@@ -780,6 +780,7 @@ Items: {
 				DisplayName: Crystalys
 				Tooltip:
 					'''
+					Crits with this weapon deal extra damage
 					'A blade forged from rare crystals, 
 					it seeks weak points in enemy armor.'
 					'''
@@ -1001,6 +1002,11 @@ Items: {
 			BladeOfSelves: {
 				DisplayName: Blade Of Selves
 				Tooltip: Something abt gooning idk
+			}
+
+			Flamebrand: {
+				DisplayName: Flamebrand
+				Tooltip: Shoots a fireball
 			}
 		}
 
