@@ -576,6 +576,7 @@ Mods: {
 				LAS13Proj.DisplayName: Laserbeam
 				SplinterProjectile.DisplayName: Splinter
 				MysticSnakeProj.DisplayName: Mystic Snake
+				EnergyBulletProj.DisplayName: Energy Bullet Proj
 			}
 
 			MeleeProjectiles: {
