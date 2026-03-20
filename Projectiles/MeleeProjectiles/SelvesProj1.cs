@@ -43,18 +43,20 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Projectile.netUpdate = true;
             Projectile.rotation += MathHelper.ToRadians(-45f);
             Projectile.alpha = 100;
+            Projectile.ai[2] = 0;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            Projectile.timeLeft = 30;
-            MogModUtils.ProjectileBarrage(Projectile.GetSource_FromThis(), target.Center, target.Center, Main.rand.NextBool(), 150f, 150f, -150f, 150f, 7f, ModContent.ProjectileType<SelvesProj2>(), Convert.ToInt32(Projectile.damage * 0.95), 0f, Projectile.owner, false, 0f);
+            Projectile.timeLeft = 20;
+            MogModUtils.ProjectileBarrage(Projectile.GetSource_FromThis(), target.Center, target.Center, Main.rand.NextBool(), 150f, 150f, -150f, 150f, 10f, ModContent.ProjectileType<SelvesProj2>(), Convert.ToInt32(Projectile.damage * 0.95), 0f, Projectile.owner, false, 0f);
             canHit = false;
         }
 
         public override bool? CanHitNPC(NPC target)
         {
-            return canHit;
+            if (canHit) return true;
+            else return false;
         }
 
         public override void OnSpawn(IEntitySource source)

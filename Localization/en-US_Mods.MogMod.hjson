@@ -996,7 +996,7 @@ Items: {
 
 			BladeOfSelves: {
 				DisplayName: Blade Of Selves
-				Tooltip: Summons spectral clones of itself on hit
+				Tooltip: Summons spectral clones of itself every 2nd hit
 			}
 
 			Flamebrand: {
@@ -1217,6 +1217,11 @@ Items: {
 					For each enemy nearby, fire up to 6 additional snakes
 					With Eye of Skadi equipped, always fire 6 additional snakes
 					'''
+			}
+
+			Equalizer: {
+				DisplayName: Equalizer
+				Tooltip: ""
 			}
 		}
 
@@ -1765,6 +1770,11 @@ Items: {
 				'When Lusat glimpsed into the primeval current, he beheld the final moments of a great star cluster, and upon seeing it, he too was broken. '
 				'''
 		}
+
+		EnergyBullet: {
+			DisplayName: Energy Bullet
+			Tooltip: ""
+		}
 	}
 
 	Materials: {
@@ -1999,5 +2009,10 @@ Items: {
 				'''
 			SetBonus: we'll find out in a second
 		}
+	}
+
+	FireworkCrossbow: {
+		DisplayName: Firework Crossbow
+		Tooltip: ""
 	}
 }

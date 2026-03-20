@@ -66,11 +66,13 @@
     <None Remove="Items\Weapons\Melee\Butterfly.png" />
     <None Remove="Items\Weapons\Melee\Flamebrand.png" />
     <None Remove="Items\Weapons\Melee\GoldenHydrakanLatch.png" />
+    <None Remove="Items\Weapons\Melee\Moonveil.png" />
     <None Remove="Items\Weapons\Melee\RedKatana.png" />
     <None Remove="Items\Weapons\Melee\Reduvia.png" />
     <None Remove="Items\Weapons\Melee\RiversOfBlood.png" />
     <None Remove="Items\Weapons\Melee\ThunderSeal.png" />
     <None Remove="Items\Weapons\Ranged\BerserkersSpear.png" />
+    <None Remove="Items\Weapons\Ranged\FireworkCrossbow.png" />
     <None Remove="Items\Weapons\Ranged\R8Revolver.png" />
     <None Remove="Items\Weapons\Ranged\SplinterLauncher.png" />
     <None Remove="Items\Weapons\Sange.png" />
@@ -82,10 +84,12 @@
     <None Remove="Projectiles\BaseProjectiles\BerserkersSpearProj.png" />
     <None Remove="Projectiles\BaseProjectiles\BloodMagicProjectile.png" />
     <None Remove="Projectiles\MeleeProjectiles\ButterflyProjectile.png" />
+    <None Remove="Projectiles\MeleeProjectiles\MoonveilProj.png" />
     <None Remove="Projectiles\MeleeProjectiles\RiversOfBloodProj.png" />
     <None Remove="Projectiles\MeleeProjectiles\SelvesProj1.png" />
     <None Remove="Projectiles\MeleeProjectiles\SelvesProj2.png" />
     <None Remove="Projectiles\MeleeProjectiles\SelvesProj3.png" />
+    <None Remove="Projectiles\RangedProjectiles\FireworkCrossbowProj.png" />
     <None Remove="Projectiles\RangedProjectiles\SplinterProjectile.png" />
     <None Remove="README.md" />
   </ItemGroup>

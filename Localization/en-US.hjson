@@ -576,6 +576,7 @@ Mods: {
 				LAS13Proj.DisplayName: Laserbeam
 				SplinterProjectile.DisplayName: Splinter
 				MysticSnakeProj.DisplayName: Mystic Snake
+				EnergyBulletProj.DisplayName: Energy Bullet Proj
 			}
 
 			MeleeProjectiles: {
@@ -633,6 +634,7 @@ Mods: {
 			SelvesProj2.DisplayName: Selves Proj2
 			SelvesProj3.DisplayName: Selves Proj3
 			MoonveilProj.DisplayName: Moonveil Proj
+			FireworkCrossbowProj.DisplayName: Firework Crossbow Proj
 		}
 
 		UI.ExampleResource: Mods.MogMod.UI.ExampleResource
