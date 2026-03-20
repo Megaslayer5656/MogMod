@@ -4,16 +4,20 @@ using MogMod.DataStructures;
 using MogMod.Items.Weapons.Magic;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID; 
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
-    public class MichaelSwordExplosion : ModProjectile, IAdditiveDrawer, ILocalizedModType
+    public class MichaelSwordExplosion : ModProjectile, ILocalizedModType
     {
-        // code taken from terratomere calamity mod
-        // TODO: fix the sprite not loading
+        // code taken from calamity mod terratomere and example mod advanced animated projectile
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Projectile.type] = 16; // i might be retarded
+        }
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 520;
@@ -26,8 +30,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.MaxUpdates = 3;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 5;
-            Projectile.scale = 0.2f;
-            Projectile.hide = true;
+            Projectile.scale = .6f;
         }
 
         public override void AI()
@@ -54,15 +57,37 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.Opacity = Utils.GetLerpValue(5f, 36f, Projectile.timeLeft, true);
         }
 
-        public void AdditiveDraw(SpriteBatch spriteBatch)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value;
-            Rectangle frame = texture.Frame(3, 6, Projectile.frame / 6, Projectile.frame % 6);
-            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            Vector2 origin = frame.Size() * 0.5f;
+            // SpriteEffects helps to flip texture horizontally and vertically
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (Projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-            if (Projectile.timeLeft < 149)
-                Main.spriteBatch.Draw(texture, drawPosition, frame, Color.White, 0f, origin, 1.6f, SpriteEffects.None, 0);
+            // Getting texture of projectile
+            Texture2D texture = TextureAssets.Projectile[Type].Value;
+
+            // Calculating frameHeight and current Y pos dependence of frame
+            // If texture without animation frameHeight is always texture.Height and startY is always 0
+            int frameHeight = texture.Height / Main.projFrames[Type];
+            int startY = frameHeight * Projectile.frame;
+
+            // Get this frame on texture
+            Rectangle sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
+
+            // Alternatively, you can skip defining frameHeight and startY and use this:
+            // Rectangle sourceRectangle = texture.Frame(1, Main.projFrames[Type], frameY: Projectile.frame);
+
+            Vector2 origin = sourceRectangle.Size() / 2f;
+
+            // Applying lighting and draw current frame
+            Color drawColor = Projectile.GetAlpha(lightColor);
+            Main.EntitySpriteDraw(texture,
+                Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY),
+                sourceRectangle, drawColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+
+            // It's important to return false, otherwise we also draw the original texture.
+            return false;
         }
     }
 }

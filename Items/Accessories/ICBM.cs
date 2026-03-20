@@ -15,7 +15,6 @@ namespace MogMod.Items.Accessories
             Item.height = 42;
             Item.rare = ItemRarityID.Expert;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetAttackSpeed(DamageClass.Generic) += .075f;
@@ -23,7 +22,14 @@ namespace MogMod.Items.Accessories
             mogPlayer.atgActive = true;
             mogPlayer.icbmActive = true;
         }
-
+        public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
+        {
+            if (equippedItem.type == ModContent.ItemType<PlasmaShrimp>() || equippedItem.type == ModContent.ItemType<ATGMissile>())
+            {
+                return false;
+            }
+            return true;
+        }
         public override void AddRecipes()
         {
             CreateRecipe().

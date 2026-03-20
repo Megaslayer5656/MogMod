@@ -605,6 +605,8 @@ Mods: {
 				RiversOfBloodProj.DisplayName: Rivers Of Blood
 				MarkerProjProj.DisplayName: Marker
 				FrozenSpearProjectile.DisplayName: Frozen Spear
+				GunlanceHoldout.DisplayName: Gunlance Holdout
+				GunlanceSpear.DisplayName: Gunlance Spear
 			}
 
 			SummonerProjectiles: {
@@ -632,5 +634,7 @@ Mods: {
 			SelvesProj3.DisplayName: Selves Proj3
 			MoonveilProj.DisplayName: Moonveil Proj
 		}
+
+		UI.ExampleResource: Mods.MogMod.UI.ExampleResource
 	}
 }

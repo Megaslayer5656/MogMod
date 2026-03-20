@@ -14,7 +14,6 @@ using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
 using Mono.Cecil;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.Audio;

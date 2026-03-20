@@ -16,11 +16,6 @@ Items: {
 		Tooltip: ""
 	}
 
-	GunLance: {
-		DisplayName: Gun Lance
-		Tooltip: Time to hunt some monsters.
-	}
-
 	ETGC: {
 		Tooltip: ""
 		DisplayName: ETG-C
@@ -1017,6 +1012,16 @@ Items: {
 					After a successful parry, shoots a projectile
 					'Katana forged of glintstone,
 					 masterpiece of a Sellian swordsmith.'
+					'''
+			}
+
+			Gunlance: {
+				DisplayName: Gunlance
+				Tooltip:
+					'''
+					Attack to perform a 3-swing combo that ends with a poke
+					Right click to load up to 3 shells
+					Loaded attacks explode on swing
 					'''
 			}
 		}

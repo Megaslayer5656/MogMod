@@ -19,7 +19,15 @@ namespace MogMod.Items.Accessories
             Item.height = 67;
             Item.rare = ItemRarityID.LightPurple;
         }
-
+        // cant be equipped with atg or icbm
+        public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
+        {
+            if (equippedItem.type == ModContent.ItemType<ATGMissile>() || equippedItem.type == ModContent.ItemType<ICBM>())
+            {
+                return false;
+            }
+            return true;
+        }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetCritChance(DamageClass.Generic) += 5f;

@@ -20,6 +20,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryMid", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryEnd", AssetRequestMode.ImmediateLoad).Value;
         public int TargetIndex = -1;
+        public bool initialized = false;
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 14;
@@ -50,10 +51,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 dustIncr++;
             }
         }
-
         public override void DetermineScale() => Projectile.scale = Projectile.timeLeft / Lifetime * MaxScale;
-
-
         public override bool PreDraw(ref Color lightColor)
         {
             DrawBeamWithColor(Color.Lerp(Color.Blue, Color.Transparent, 0.25f), Projectile.scale);
@@ -63,8 +61,12 @@ namespace MogMod.Projectiles.MagicProjectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            TargetIndex = target.whoAmI;
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<MichaelSwordExplosion>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner);
+            if (!initialized)
+            {
+                initialized = true;
+                TargetIndex = target.whoAmI;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<MichaelSwordExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            }
         }
     }
 }

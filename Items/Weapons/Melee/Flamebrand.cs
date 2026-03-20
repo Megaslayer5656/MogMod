@@ -1,11 +1,4 @@
-﻿using MogMod.Items.Accessories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.DataStructures;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 using Microsoft.Xna.Framework;
@@ -23,8 +16,8 @@ namespace MogMod.Items.Weapons.Melee
 
         public override void SetDefaults() 
         {
-            Item.width = 120;
-            Item.height = 120;
+            Item.width = 52;
+            Item.height = 58;
             Item.damage = 60;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 23;

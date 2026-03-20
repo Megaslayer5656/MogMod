@@ -51,6 +51,7 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingJidiPollenBag = false;
         public bool wearingShadowAmulet = false;
         public bool shadowAmuletVisual = false;
+        public bool wearingMendez;
 
         public bool wraithActive = false;
 
@@ -249,7 +250,7 @@ namespace MogMod.Common.MogModPlayer
             Vector2 epstein = einstein * 20;
 
             int procChance = rand.Next(1, 11);
-            if (atgActive && procChance == 5 && !plasmaActive)
+            if (atgActive && procChance == 5)
             {
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk, ModContent.ProjectileType<ATGProjectile>(), damageDone + 1, 3, Player.whoAmI);
                 if (icbmActive)
@@ -257,11 +258,11 @@ namespace MogMod.Common.MogModPlayer
                     for (int i = 0; i < 2; i++)
                     {
                         kirk = new Vector2(0, -5).RotatedByRandom(MathHelper.ToRadians(15));
-                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk, ModContent.ProjectileType<ATGProjectile>(), Convert.ToInt32(damageDone * .4f) + 1, 3, Player.whoAmI);
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk, ModContent.ProjectileType<ATGProjectile>(), Convert.ToInt32(damageDone * .5f) + 1, 3, Player.whoAmI);
                     }
                 }
             }
-            if (plasmaActive && !atgActive)
+            if (plasmaActive)
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, epstein, ModContent.ProjectileType<PlasmaShrimpProj>(), Convert.ToInt32(damageDone * .1f) + 1, 1, Player.whoAmI);
         }
         public override void OnHitByNPC(NPC npc, Terraria.Player.HurtInfo hurtInfo)
@@ -1265,6 +1266,8 @@ namespace MogMod.Common.MogModPlayer
             wearingShadowAmulet = false;
             shadowAmuletVisual = false;
             exultationEquipped = false;
+
+            wearingMendez = false;
 
             wraithActive = false;
 

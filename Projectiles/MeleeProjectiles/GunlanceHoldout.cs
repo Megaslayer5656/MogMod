@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MogMod.Items.Weapons.Magic;
-using MogMod.Utilities;
+using MogMod.Common.MogModPlayer;
+using MogMod.Items.Weapons.Melee;
 using System;
 using System.IO;
 using Terraria;
@@ -11,34 +11,37 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Projectiles.MagicProjectiles
+namespace MogMod.Projectiles.MeleeProjectiles
 {
-    public class MichaelSwordHoldout : ModProjectile, ILocalizedModType
+    // what the FUCK am i doing
+    public class GunlanceHoldout : ModProjectile, ILocalizedModType
     {
         // taken from example mod custom swing sword
-        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
-        public override string Texture => "MogMod/Items/Weapons/Magic/MichaelSword";
+        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
+        public override string Texture => "MogMod/Items/Weapons/Melee/Gunlance";
 
         // We define some constants that determine the swing range of the sword
         // Not that we use multipliers here since that simplifies the amount of tweaks for these interactions
         // You could change the values or even replace them entirely, but they are tweaked with looks in mind
         private const float swingRange = 1.67f * (float)Math.PI; // The angle a swing attack covers (300 deg)
         private const float firstHalfSwing = .45f; // How much of the swing happens before it reaches the target angle (in relation to swingRange)
-        private const float holdBack = 0.15f; // How far back the player's hand goes when winding their attack (in relation to swingRange)
-        private const float disappear = 0.2f; // When should the sword start disappearing
+        private const float windUp = 0.15f; // How far back the player's hand goes when winding their attack (in relation to swingRange)
+        private const float unwind = 0.2f; // When should the sword start disappearing
 
         // We define timing functions for each stage, taking into account melee attack speed
         // Note that you can change this to suit the need of your projectile
-        private float prepTime => 18f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
-        private float execTime => 16f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
-        private float hideTime => 12f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
+        private float prepTime => 20f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
+        private float execTime => 24f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
+        private float hideTime => 16f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
         private Player Owner => Main.player[Projectile.owner];
 
         private enum AttackType // Which attack is being performed
         {
             // Swings are normal sword swings that can be slightly aimed
             // Swings goes through the full cycle of animations
-            Swing,
+            SwingUp,
+            Slam,
+            SwingPoke,
         }
         private enum AttackStage // What stage of the attack is being executed, see functions found in AI for description
         {
@@ -75,11 +78,10 @@ namespace MogMod.Projectiles.MagicProjectiles
             ProjectileID.Sets.HeldProjDoesNotUsePlayerGfxOffY[Type] = true;
             ProjectileID.Sets.AllowsContactDamageFromJellyfish[Type] = true;
         }
-
         public override void SetDefaults()
         {
-            Projectile.width = 86;
-            Projectile.height = 92;
+            Projectile.width = 94;
+            Projectile.height = 90;
             Projectile.friendly = true;
             Projectile.timeLeft = 10000;
             Projectile.penetrate = -1;
@@ -88,9 +90,8 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.usesLocalNPCImmunity = true; // Uses local immunity frames
             Projectile.localNPCHitCooldown = -1; // We set this to -1 to make sure the projectile doesn't hit twice
             Projectile.ownerHitCheck = true; // Make sure the owner of the projectile has line of sight to the target (aka can't hit things through tile).
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.DamageType = DamageClass.Melee;
         }
-
         public override void OnSpawn(IEntitySource source)
         {
             Projectile.spriteDirection = Main.MouseWorld.X > Owner.MountedCenter.X ? 1 : -1;
@@ -112,18 +113,15 @@ namespace MogMod.Projectiles.MagicProjectiles
 
             InitialAngle = targetAngle - firstHalfSwing * swingRange * Projectile.spriteDirection; // Otherwise, we calculate the angle
         }
-
         public override void SendExtraAI(BinaryWriter writer)
         {
             // Projectile.spriteDirection for this projectile is derived from the mouse position of the owner in OnSpawn, as such it needs to be synced. spriteDirection is not one of the fields automatically synced over the network. All Projectile.ai slots are used already, so we will sync it manually.
             writer.Write((sbyte)Projectile.spriteDirection);
         }
-
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             Projectile.spriteDirection = reader.ReadSByte();
         }
-
         public override void AI()
         {
             // Extend use animation until projectile is killed
@@ -202,7 +200,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             Utils.PlotTileLine(start, end, 15 * Projectile.scale, DelegateMethods.CutTiles);
         }
 
-        // We make it so that the projectile can only do damage in its release and disappear phases
+        // We make it so that the projectile can only do damage in its release and unwind phases
         public override bool? CanDamage()
         {
             if (CurrentStage == AttackStage.Prepare)
@@ -213,6 +211,11 @@ namespace MogMod.Projectiles.MagicProjectiles
         {
             // Make knockback go away from player
             modifiers.HitDirectionOverride = target.position.X > Owner.MountedCenter.X ? 1 : -1;
+            if (CurrentAttack == AttackType.Slam)
+            {
+                modifiers.Knockback += 1;
+                modifiers.SourceDamage *= 2;
+            }
         }
 
         // Function to easily set projectile and arm position
@@ -241,53 +244,108 @@ namespace MogMod.Projectiles.MagicProjectiles
         // Function facilitating the taking out of the sword
         private void PrepareStrike()
         {
-            //Progress = holdBack * swingRange * (1f - Timer / prepTime); // Calculates rotation from initial angle
-            //Size = MathHelper.SmoothStep(0, 1, Timer / prepTime); // Make sword slowly increase in size as we prepare to strike until it reaches max
-
-            float t = Timer / prepTime;
-            float easing = (float)Math.Sin(t * MathHelper.PiOver2);
-            Progress = holdBack * swingRange * (1f - easing);
-            Size = easing;
-
-            if (Timer >= prepTime)
+            // first upwards swing effect
+            if (CurrentAttack == AttackType.SwingUp)
             {
-                // Play sword sound here since playing it on spawn is too early
-                SoundEngine.PlaySound(MichaelSword.SwingSound); 
-                // Spawn a projectile
-                Vector2 bigSlashVelocity = Projectile.SafeDirectionTo(Main.MouseWorld) * Owner.ActiveItem().shootSpeed * 60f;
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - bigSlashVelocity * 0.4f, bigSlashVelocity, ModContent.ProjectileType<MichaelSwordBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                CurrentStage = AttackStage.Execute; // If attack is over prep time, we go to next stage
+                Progress = (windUp / 2) * (swingRange / 2) * (1f - Timer / prepTime); // Calculates rotation from initial angle
+                Size = MathHelper.SmoothStep(0, 1, Timer / prepTime); // Make sword slowly increase in size as we prepare to strike until it reaches max
+
+                if (Timer >= prepTime)
+                {
+                    // Play sword sound here since playing it on spawn is too early
+                    SoundEngine.PlaySound(Gunlance.SwingSound2, Projectile.Center);
+                    //// Spawn a projectile
+                    //Vector2 bigSlashVelocity = Projectile.SafeDirectionTo(Main.MouseWorld) * Owner.ActiveItem().shootSpeed * 60f;
+                    //Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - bigSlashVelocity * 0.4f, bigSlashVelocity, ModContent.ProjectileType<MichaelSwordBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    CurrentStage = AttackStage.Execute; // If attack is over prep time, we go to next stage
+                }
+            }
+            // first slam effect
+            else if (CurrentAttack == AttackType.Slam)
+            {
+                Progress = windUp * swingRange * (1f - Timer / prepTime); // Calculates rotation from initial angle
+                Size = MathHelper.SmoothStep(0, 1, Timer / prepTime); // Make sword slowly increase in size as we prepare to strike until it reaches max
+
+                if (Timer >= prepTime)
+                {
+                    // Play sword sound here since playing it on spawn is too early
+                    SoundEngine.PlaySound(Gunlance.SwingSound, Projectile.Center);
+                    //// Spawn a projectile
+                    //Vector2 bigSlashVelocity = Projectile.SafeDirectionTo(Main.MouseWorld) * Owner.ActiveItem().shootSpeed * 60f;
+                    //Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - bigSlashVelocity * 0.4f, bigSlashVelocity, ModContent.ProjectileType<MichaelSwordBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    CurrentStage = AttackStage.Execute; // If attack is over prep time, we go to next stage
+                }
             }
         }
 
         // Function facilitating the first half of the swing
         private void ExecuteStrike()
         {
-            //Progress = MathHelper.SmoothStep(0, swingRange, (1f - disappear) * Timer / execTime);
-
-            float t = Timer / execTime;
-            float easing = (float)Math.Sin(t * MathHelper.PiOver2);
-            Progress = MathHelper.Lerp(0, swingRange, easing);
-
-            if (Timer >= execTime)
+            var mogPlayerUI = Main.LocalPlayer.GetModPlayer<MogPlayerUI>();
+            if (CurrentAttack == AttackType.SwingUp)
             {
-                CurrentStage = AttackStage.Unwind;
+                Progress = MathHelper.SmoothStep(0, -swingRange, (1f - unwind) * Timer / execTime);
+
+                // blast em after some time if you loaded the gun
+                if (Timer >= execTime / 1.5f)
+                {
+                    if (mogPlayerUI.gunlanceCurrent > 0 && Gunlance.Blast == true)
+                    {
+                        Gunlance.Blast = false;
+                        mogPlayerUI.gunlanceCurrent--;
+                        // Soundid.Item62
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 16f, ModContent.ProjectileType<DaedalusBoom>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    }
+                }
+                if (Timer >= execTime)
+                {
+                    CurrentStage = AttackStage.Unwind;
+                }
+            }
+            else if (CurrentAttack == AttackType.Slam)
+            {
+                float t = Timer / execTime;
+                float easing = (float)Math.Sin(t * MathHelper.PiOver2);
+                Progress = MathHelper.Lerp(0, swingRange, easing);
+
+                // blast em if you loaded the gun
+                if (mogPlayerUI.gunlanceCurrent > 0 && Gunlance.Blast == true)
+                {
+                    Gunlance.Blast = false;
+                    mogPlayerUI.gunlanceCurrent--;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 16f, ModContent.ProjectileType<DaedalusBoom>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                }
+                if (Timer >= execTime)
+                {
+                    CurrentStage = AttackStage.Unwind;
+                }
             }
         }
 
-        // Function facilitating the latter half of the swing where the sword disappears
+        // Function facilitating the latter half of the swing where the sword unwinds
         private void UnwindStrike()
         {
-            //Progress = MathHelper.SmoothStep(0, swingRange, (1f - disappear) + disappear * Timer / hideTime);
-            //Size = 1f - MathHelper.SmoothStep(0, 1, Timer / hideTime); // Make sword slowly decrease in size as we end the swing to make a smooth hiding animation
-
-            float t = Timer / hideTime;
-            float easing = (float)Math.Sin(t * MathHelper.PiOver2);
-            Size = 1f - easing;
-
-            if (Timer >= hideTime)
+            if (CurrentAttack == AttackType.SwingUp)
             {
-                Projectile.Kill();
+                Progress = MathHelper.SmoothStep(-swingRange, 0, (1f - unwind) * Timer / execTime);
+                Size = 1f - MathHelper.SmoothStep(0, 1, Timer / hideTime); // Make sword slowly decrease in size as we end the swing to make a smooth hiding animation
+
+                if (Timer >= hideTime)
+                {
+                    Gunlance.Blast = true;
+                    Projectile.Kill();
+                }
+            }
+            else if (CurrentAttack == AttackType.Slam)
+            {
+                float t = Timer / hideTime;
+                float easing = (float)Math.Sin(t * MathHelper.PiOver2);
+                Size = 1f - easing;
+                if (Timer >= hideTime)
+                {
+                    Gunlance.Blast = true;
+                    Projectile.Kill();
+                }
             }
         }
     }
