@@ -13,6 +13,7 @@ namespace MogMod.Projectiles.SummonerProjectiles
     // The most critical fields necessary for a projectile to count as a sentry will be noted in this file and in ExampleSentryItem.cs. See also ExampleSentryShot.cs.
     public class ProximityMinesSummon : ModProjectile, ILocalizedModType
     {
+        // TODO: make deal double damage when planted for 10 seconds
         public new string LocalizationCategory => "Projectiles.SummonerProjectiles";
         public static readonly SoundStyle mineActivate = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ProximityMineActivate")
         {

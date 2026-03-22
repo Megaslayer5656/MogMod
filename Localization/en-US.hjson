@@ -53,10 +53,29 @@ Mods: {
 
 			MogClientConfig: {
 				DisplayName: Mog Client Config
-				Headers.Graphics: Graphics Header
+
+				Headers: {
+					Graphics: Graphics Header
+					UI: UI Header
+				}
 
 				Afterimages: {
 					Label: Afterimages
+					Tooltip: ""
+				}
+
+				GunlanceAmmo: {
+					Label: Gunlance Ammo
+					Tooltip: ""
+				}
+
+				GunlanceAmmoPosX: {
+					Label: Gunlance Ammo Pos X
+					Tooltip: ""
+				}
+
+				GunlanceAmmoPosY: {
+					Label: Gunlance Ammo Pos Y
 					Tooltip: ""
 				}
 			}
@@ -608,6 +627,8 @@ Mods: {
 				FrozenSpearProjectile.DisplayName: Frozen Spear
 				GunlanceHoldout.DisplayName: Gunlance Holdout
 				GunlanceSpear.DisplayName: Gunlance Spear
+				GunlanceBoom.DisplayName: Gunlance Boom
+				GunlanceReload.DisplayName: Gunlance Reload
 			}
 
 			SummonerProjectiles: {

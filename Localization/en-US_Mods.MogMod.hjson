@@ -1020,7 +1020,7 @@ Items: {
 				Tooltip:
 					'''
 					Attack to perform a 3-swing combo that ends with a poke
-					Right click to load up to 3 shells
+					Right click to load up to 3 shells, using rockets as ammo
 					Loaded attacks explode on swing
 					'''
 			}
@@ -1221,6 +1221,11 @@ Items: {
 
 			Equalizer: {
 				DisplayName: Equalizer
+				Tooltip: ""
+			}
+
+			FireworkCrossbow: {
+				DisplayName: Firework Crossbow
 				Tooltip: ""
 			}
 		}

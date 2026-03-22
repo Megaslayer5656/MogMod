@@ -1,21 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Other;
 using MogMod.Projectiles.RangedProjectiles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
 {
-    public class FireworkCrossbow : ModItem
+    public class FireworkCrossbow : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -30,7 +25,6 @@ namespace MogMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Purple;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Ranged;
-            Item.channel = false;
             Item.ArmorPenetration = 10;
             Item.UseSound = SoundID.Item5;
             Item.autoReuse = true;

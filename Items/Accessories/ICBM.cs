@@ -1,7 +1,8 @@
 ﻿using MogMod.Common.MogModPlayer;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
@@ -35,7 +36,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
             AddIngredient<ATGMissile>(1).
             AddIngredient(ItemID.LunarBar, 15).
-            AddIngredient(ItemID.RocketIII, 10).
+            AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Rocket"}", 50).
             AddTile(TileID.MythrilAnvil).
             Register();
         }

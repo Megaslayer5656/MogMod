@@ -214,7 +214,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             if (CurrentAttack == AttackType.Slam)
             {
                 modifiers.Knockback += 1;
-                modifiers.SourceDamage *= 2;
+                modifiers.SourceDamage *= 1.5f;
             }
         }
 
@@ -247,16 +247,13 @@ namespace MogMod.Projectiles.MeleeProjectiles
             // first upwards swing effect
             if (CurrentAttack == AttackType.SwingUp)
             {
-                Progress = (windUp / 2) * (swingRange / 2) * (1f - Timer / prepTime); // Calculates rotation from initial angle
-                Size = MathHelper.SmoothStep(0, 1, Timer / prepTime); // Make sword slowly increase in size as we prepare to strike until it reaches max
+                Progress = (windUp / 2) * (swingRange / 2) * (1f - Timer / (prepTime / 1.4f)); // Calculates rotation from initial angle
+                Size = MathHelper.SmoothStep(0, 1, Timer / (prepTime / 1.4f)); // Make sword slowly increase in size as we prepare to strike until it reaches max
 
-                if (Timer >= prepTime)
+                if (Timer >= (prepTime / 1.4f))
                 {
                     // Play sword sound here since playing it on spawn is too early
                     SoundEngine.PlaySound(Gunlance.SwingSound2, Projectile.Center);
-                    //// Spawn a projectile
-                    //Vector2 bigSlashVelocity = Projectile.SafeDirectionTo(Main.MouseWorld) * Owner.ActiveItem().shootSpeed * 60f;
-                    //Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - bigSlashVelocity * 0.4f, bigSlashVelocity, ModContent.ProjectileType<MichaelSwordBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     CurrentStage = AttackStage.Execute; // If attack is over prep time, we go to next stage
                 }
             }
@@ -270,9 +267,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 {
                     // Play sword sound here since playing it on spawn is too early
                     SoundEngine.PlaySound(Gunlance.SwingSound, Projectile.Center);
-                    //// Spawn a projectile
-                    //Vector2 bigSlashVelocity = Projectile.SafeDirectionTo(Main.MouseWorld) * Owner.ActiveItem().shootSpeed * 60f;
-                    //Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - bigSlashVelocity * 0.4f, bigSlashVelocity, ModContent.ProjectileType<MichaelSwordBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     CurrentStage = AttackStage.Execute; // If attack is over prep time, we go to next stage
                 }
             }
@@ -284,20 +278,19 @@ namespace MogMod.Projectiles.MeleeProjectiles
             var mogPlayerUI = Main.LocalPlayer.GetModPlayer<MogPlayerUI>();
             if (CurrentAttack == AttackType.SwingUp)
             {
-                Progress = MathHelper.SmoothStep(0, -swingRange, (1f - unwind) * Timer / execTime);
+                Progress = MathHelper.SmoothStep(0, -swingRange, (1f - unwind) * Timer / (execTime / 1.4f));
 
                 // blast em after some time if you loaded the gun
-                if (Timer >= execTime / 1.5f)
+                if (Timer >= (execTime / 1.4f) / 1.5f)
                 {
                     if (mogPlayerUI.gunlanceCurrent > 0 && Gunlance.Blast == true)
                     {
                         Gunlance.Blast = false;
                         mogPlayerUI.gunlanceCurrent--;
-                        // Soundid.Item62
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 16f, ModContent.ProjectileType<DaedalusBoom>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 32f, Gunlance.Bang, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                 }
-                if (Timer >= execTime)
+                if (Timer >= (execTime / 1.4f))
                 {
                     CurrentStage = AttackStage.Unwind;
                 }
@@ -313,7 +306,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 {
                     Gunlance.Blast = false;
                     mogPlayerUI.gunlanceCurrent--;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 16f, ModContent.ProjectileType<DaedalusBoom>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 32f, Gunlance.Bang, (int)(Projectile.damage * 1.5f), Projectile.knockBack * 1.5f, Projectile.owner);
                 }
                 if (Timer >= execTime)
                 {
@@ -327,10 +320,10 @@ namespace MogMod.Projectiles.MeleeProjectiles
         {
             if (CurrentAttack == AttackType.SwingUp)
             {
-                Progress = MathHelper.SmoothStep(-swingRange, 0, (1f - unwind) * Timer / execTime);
-                Size = 1f - MathHelper.SmoothStep(0, 1, Timer / hideTime); // Make sword slowly decrease in size as we end the swing to make a smooth hiding animation
+                Progress = MathHelper.SmoothStep(-swingRange, 0, (1f - unwind) * Timer / (execTime / 1.4f));
+                Size = 1f - MathHelper.SmoothStep(0, 1, Timer / (hideTime / 1.4f)); // Make sword slowly decrease in size as we end the swing to make a smooth hiding animation
 
-                if (Timer >= hideTime)
+                if (Timer >= (hideTime / 1.4f))
                 {
                     Gunlance.Blast = true;
                     Projectile.Kill();

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using System.ComponentModel;
 using Terraria.ModLoader.Config;
 
 namespace MogMod.Common.Config
@@ -14,12 +7,32 @@ namespace MogMod.Common.Config
     {
         public static MogClientConfig Instance;
         public override ConfigScope Mode => ConfigScope.ClientSide;
-        #region Graphics Changes
+        #region Graphics
         [Header("Graphics")]
 
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         public bool Afterimages { get; set; }
+
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        public bool GunlanceAmmo { get; set; }
+        #endregion
+
+        #region UI
+        [Header("UI")]
+
+        [BackgroundColor(192, 54, 64, 192)]
+        [SliderColor(224, 165, 56, 128)]
+        [Range(0f, 1000f)]
+        [DefaultValue(UI.GunlanceUI.GunlanceAmmo.GunlanceAmmoPosX)]
+        public float GunlanceAmmoPosX { get; set; }
+
+        [BackgroundColor(192, 54, 64, 192)]
+        [SliderColor(224, 165, 56, 128)]
+        [Range(-100f, 500f)]
+        [DefaultValue(UI.GunlanceUI.GunlanceAmmo.GunlanceAmmoPosY)]
+        public float GunlanceAmmoPosY { get; set; }
         #endregion
     }
 }

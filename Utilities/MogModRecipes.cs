@@ -102,6 +102,10 @@ namespace MogMod.Utilities
             RecipeGroup TombstoneRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Grave"}", ItemID.Tombstone, ItemID.Gravestone, ItemID.GraveMarker, ItemID.CrossGraveMarker, ItemID.Headstone, ItemID.Obelisk, ItemID.RichGravestone1, ItemID.RichGravestone2, ItemID.RichGravestone3, ItemID.RichGravestone4, ItemID.RichGravestone5);
             RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Grave"}", TombstoneRecipeGroup);
             // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Grave"}", 1)
+
+            RecipeGroup RocketRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Rocket"}", ItemID.RocketI, ItemID.RocketII, ItemID.RocketIII, ItemID.RocketIV, ItemID.ClusterRocketI, ItemID.ClusterRocketII, ItemID.DryRocket, ItemID.HoneyRocket, ItemID.LavaRocket, ItemID.WetRocket, ItemID.MiniNukeI, ItemID.MiniNukeII);
+            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Rocket"}", RocketRecipeGroup);
+            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Rocket"}", 1)
             #endregion
         }
 

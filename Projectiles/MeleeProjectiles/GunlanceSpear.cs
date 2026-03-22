@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
+    // did the spear attack type here instead of gunlanceholdout since it was way easier to make a custom spear than do some freaky swing slop
     public class GunlanceSpear : BaseSpearProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
@@ -29,7 +30,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Projectile.penetrate = -1;
             Projectile.ownerHitCheck = true;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = -1;
         }
         public override float InitialSpeed => 2f;
         public override float ReelbackSpeed => 1f;
@@ -41,20 +42,18 @@ namespace MogMod.Projectiles.MeleeProjectiles
             if (mogPlayerUI.gunlanceCurrent > 0 && Gunlance.Blast == true)
             {
                 mogPlayerUI.gunlanceCurrent--;
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 16f, ModContent.ProjectileType<DaedalusBoom>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+
+                // offsets the projectile so it shoots a little behind the tip instead of at the tip
+                float offsetNumb = 60f;
+                Vector2 direction = Vector2.Normalize(Projectile.velocity);
+                Vector2 offset = Projectile.Center - (direction * offsetNumb);
+
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), offset, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 24f, Gunlance.Bang, Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         };
         public override void OnSpawn(IEntitySource source)
         {
-            SoundEngine.PlaySound(Gunlance.SwingSound2, Projectile.Center);
-        }
-        public override void ExtraBehavior()
-        {
-            if (Main.rand.NextBool(5))
-            {
-                int idx = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare, Projectile.direction * 2, 0f, 150, default, 1f);
-                Main.dust[idx].noGravity = true;
-            }
+            SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing, Projectile.Center);
         }
     }
 }

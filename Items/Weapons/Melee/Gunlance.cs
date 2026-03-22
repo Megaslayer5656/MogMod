@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
@@ -18,6 +19,7 @@ namespace MogMod.Items.Weapons.Melee
         public static bool Blast = false;
         public static readonly SoundStyle SwingSound = SoundID.DD2_PhantomPhoenixShot;
         public static readonly SoundStyle SwingSound2 = SoundID.DD2_SkyDragonsFurySwing;
+        public static readonly int Bang = ModContent.ProjectileType<GunlanceBoom>();
         public override void SetDefaults()
         {
             Item.width = 94;
@@ -34,14 +36,37 @@ namespace MogMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<GunlanceHoldout>();
             Item.shootSpeed = 1f;
-            //Item.useAmmo = AmmoID.Rocket;
+            Item.useAmmo = AmmoID.Rocket;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            var mogPlayerUI = player.GetModPlayer<MogPlayerUI>();
+            if (player.altFunctionUse == 2)
+            {
+                int reload = ModContent.ProjectileType<GunlanceReload>();
+                Projectile.NewProjectile(source, position, velocity, reload, damage, knockback, Main.myPlayer, attackType);
+                if (mogPlayerUI.gunlanceCurrent < mogPlayerUI.exampleResourceMax && player.HasItem(source.AmmoItemIdUsed))
+                {
+                    if (player.CountItem(source.AmmoItemIdUsed) >= (mogPlayerUI.exampleResourceMax - mogPlayerUI.gunlanceCurrent))
+                    {
+                        for (int n = mogPlayerUI.gunlanceCurrent; n < mogPlayerUI.exampleResourceMax; n++)
+                        {
+                            player.ConsumeItem(source.AmmoItemIdUsed);
+                            mogPlayerUI.gunlanceCurrent++;
+                        }
+                        Blast = true;
+                    }
+                }
+                attackType = 1;
+                comboExpireTimer = 0;
+                return false;
+            }
             if (attackType <= 1)
             {
+                // do this so different rockets don't mess with the projectile spawned
+                int gunlance = ModContent.ProjectileType<GunlanceHoldout>();
                 // Using the shoot function, we override the swing projectile to set ai[0] (which attack it is)
-                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, Main.myPlayer, attackType);
+                Projectile.NewProjectile(source, position, velocity, gunlance, damage, knockback, Main.myPlayer, attackType);
                 attackType = (attackType + 1) % 3; // Increment attackType to make sure next swing is different
                 comboExpireTimer = 0; // Every time the weapon is used, we reset this so the combo does not expire
                 return false; // return false to prevent original projectile from being shot
@@ -50,34 +75,12 @@ namespace MogMod.Items.Weapons.Melee
             {
                 attackType = (attackType + 1) % 3; // Increment attackType to make sure next swing is different
                 comboExpireTimer = 0; // Every time the weapon is used, we reset this so the combo does not expire
-                int rapierBeam = ModContent.ProjectileType<GunlanceSpear>();
-                Projectile.NewProjectile(source, position, velocity * 6f, rapierBeam, damage, knockback, player.whoAmI, 0, 0);
+                // custom spear projectile since its easier
+                int spear = ModContent.ProjectileType<GunlanceSpear>();
+                Projectile.NewProjectile(source, position, velocity * 6f, spear, (int)(damage * 1.5f), knockback, player.whoAmI, 0, 0);
                 return false;
             }
         }
-        // load gunshells
-        public override bool CanUseItem(Player player)
-        {
-            var mogPlayerUI = player.GetModPlayer<MogPlayerUI>();
-            if (player.altFunctionUse == 2 && mogPlayerUI.gunlanceCurrent < mogPlayerUI.exampleResourceMax)
-            {
-                SoundEngine.PlaySound(SoundID.Item23);
-                mogPlayerUI.gunlanceCurrent = mogPlayerUI.exampleResourceMax;
-                Blast = true;
-                // TODO: make this consume 3 ammo on right click only
-                return false;
-            }
-            else
-                return true;
-        }
-        //public override bool CanConsumeAmmo(Item ammo, Player player)
-        //{
-        //    if (player.altFunctionUse == 2)
-        //        return true;
-        //    else
-        //        return false;
-        //}
-        public override bool AltFunctionUse(Player player) => true;
         public override void UpdateInventory(Player player)
         {
             if (comboExpireTimer++ >= 120) // after 120 ticks (== 2 seconds) in inventory, reset the attack pattern
@@ -85,15 +88,17 @@ namespace MogMod.Items.Weapons.Melee
                 attackType = 0;
             }
         }
+        public override bool CanConsumeAmmo(Item ammo, Player player) => false;
+        public override bool AltFunctionUse(Player player) => true;
         public override bool MeleePrefix() => true;
+
+        // no idea when this can be obtained
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.ChargedBlasterCannon, 1).
-                AddIngredient(ItemID.FireFeather, 1).
-                AddIngredient(ItemID.IceFeather, 1).
-                AddIngredient(ItemID.BrokenHeroSword, 1).
-                AddIngredient<ManaCore>(1).
+                AddIngredient(ItemID.ExplosivePowder, 150).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Rocket"}", 80).
+                AddIngredient<GriefBar>(14).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }
