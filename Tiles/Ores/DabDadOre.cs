@@ -9,7 +9,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
-namespace MogMod.Tiles
+namespace MogMod.Tiles.Ores
 {
     public class DabDadOre : ModTile
     {

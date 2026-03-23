@@ -1,12 +1,9 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using MogMod.Utilities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -43,6 +40,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient<HelmOfTheDominator>(1).
                 AddIngredient(ItemID.ChlorophyteBar, 7).
                 AddIngredient<GriefBar>(7).
+                AddIngredient<FaeBar>(7).
                 AddIngredient<ManaCore>(1).
                 AddIngredient<FrigidCrystal>(1).
                 AddTile(TileID.TinkerersWorkbench).

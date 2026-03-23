@@ -1,6 +1,5 @@
-﻿using MogModMusic.Tiles;
-
-namespace MogMod.Tiles
+﻿
+namespace MogMod.Tiles.MusicBox
 {
     public class RideTheFireMusicBox : MusicBoxTile
     {

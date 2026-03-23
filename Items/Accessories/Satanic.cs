@@ -1,14 +1,10 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using MogMod.Items.Weapons.Melee;
-using MogMod.Items.Weapons.Ranged;
 using MogMod.Utilities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

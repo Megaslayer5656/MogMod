@@ -4,9 +4,9 @@ using Terraria.ObjectData;
 using Microsoft.Xna.Framework;
 using Terraria.Localization;
 
-namespace MogMod.Tiles
+namespace MogMod.Tiles.Bars
 {
-    public class GriefBars : ModTile
+    public class VoniumBars : ModTile
     {
         public override void SetStaticDefaults()
         {
@@ -16,9 +16,9 @@ namespace MogMod.Tiles
             Main.tileFrameImportant[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newTile.LavaDeath = true;
+            TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(34, 101, 33), Language.GetText("MapObject.MetalBar"));
+            AddMapEntry(new Color(30, 10, 30), Language.GetText("MapObject.MetalBar"));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -69,14 +70,14 @@ namespace MogMod.Items.Armor.Radiant
             CreateRecipe().
                 AddIngredient(ItemID.SpectreHood, 1).
                 AddIngredient(ItemID.ObsidianRose, 1).
-                AddIngredient<FrigidCrystal>(4).
+                AddIngredient<FaeBar>(9).
                 AddIngredient<ManaCore>(2).
                 AddTile(TileID.MythrilAnvil).
                 Register();
             CreateRecipe().
                 AddIngredient(ItemID.SpectreMask, 1).
                 AddIngredient(ItemID.ObsidianRose, 1).
-                AddIngredient<FrigidCrystal>(4).
+                AddIngredient<FaeBar>(9).
                 AddIngredient<ManaCore>(2).
                 AddTile(TileID.MythrilAnvil).
                 Register();

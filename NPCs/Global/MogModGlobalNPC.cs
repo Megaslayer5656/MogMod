@@ -3,6 +3,7 @@ using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
+using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
 using MogMod.Items.Ammo;
 using MogMod.Items.Global;
@@ -12,6 +13,7 @@ using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Tiles.Ores;
 using Mono.Cecil;
 using System;
 using System.IO;
@@ -19,6 +21,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using static MogMod.Common.Systems.MogModNetcode;
 
@@ -72,6 +75,11 @@ namespace MogMod.NPCs.Global
             PitchVariance = .2f,
         };
         #endregion
+        public static LocalizedText FaeOreText { get; private set; }
+        public override void SetStaticDefaults()
+        {
+            FaeOreText = Mod.GetLocalization($"WorldGen.{nameof(FaeOreText)}");
+        }
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
             MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
@@ -244,11 +252,13 @@ namespace MogMod.NPCs.Global
         {
             if (npc.type == NPCID.Tim)
             {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GlintstoneArc>(), 3, 1, 1));
+                npcLoot.RemoveWhere(rule => true, false);
+                ItemDropRule.OneFromOptions(1, ItemID.WizardHat, ModContent.ItemType<GlintstoneArc>());
             }
             if (npc.type == NPCID.RuneWizard)
             {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GlintstoneArc>(), 1, 1, 1));
+                npcLoot.RemoveWhere(rule => true, false);
+                ItemDropRule.OneFromOptions(1, ItemID.WizardHat, ModContent.ItemType<GlintstoneArc>());
             }
             if (npc.type == NPCID.CrimsonAxe || npc.type == NPCID.CursedHammer)
             {
@@ -274,6 +284,25 @@ namespace MogMod.NPCs.Global
             if (npc.type == NPCID.GoblinSummoner)
             {
                 npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 5, 1, 1));
+            }
+            if (npc.type == NPCID.DukeFishron)
+            {
+                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<BrinyRind>(), 1, 7, 14));
+            }
+        }
+
+        public override void OnKill(NPC npc)
+        {
+            if (npc.type == NPCID.HallowBoss)
+            {
+                if (!NPC.downedEmpressOfLight)
+                {
+                    FaeOreText = Mod.GetLocalization($"WorldGen.{nameof(FaeOreText)}");
+                    WorldGeneration.SpawnOre(ModContent.TileType<FaeOreT>(), 16E-05, 0.35f, .8f, 7, 12, TileID.Pearlstone, TileID.HallowedIce, TileID.HallowSandstone, TileID.HallowHardenedSand);
+
+                    WorldGeneration.BroadcastLocalizedText(FaeOreText.Value, Color.HotPink);
+                    SyncWorld();
+                }
             }
         }
         #endregion

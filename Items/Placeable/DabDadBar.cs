@@ -4,11 +4,13 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Placeable
 {
-    public class DabDadBar : ModItem
+    public class DabDadBar : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
-            ItemID.Sets.SortingPriorityMaterials[Type] = 59;
+            Item.ResearchUnlockCount = 25;
+            ItemID.Sets.SortingPriorityMaterials[Type] = 90; // Chlorophyte Ore
         }
         public override void SetDefaults()
         {
@@ -22,7 +24,7 @@ namespace MogMod.Items.Placeable
             Item.useAnimation = 10;
             Item.useTime = 10;
             Item.autoReuse = true;
-            Item.createTile = ModContent.TileType<Tiles.DabDadBars>();
+            Item.createTile = ModContent.TileType<Tiles.Bars.DabDadBars>();
             Item.placeStyle = 0;
         }
         public override void AddRecipes()

@@ -2,12 +2,14 @@
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories;
 using MogMod.Items.Ammo;
+using MogMod.Items.Other;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Utilities;
 using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -53,6 +55,14 @@ namespace MogMod.Items.Global
             } else
             {
                 bloodDamage = 0;
+            }
+        }
+        public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
+        {
+            // Check if the opened bag is the Eye of Cthulhu Treasure Bag
+            if (item.type == ItemID.FishronBossBag)
+            {
+                itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<BrinyRind>(), 1, 9, 16));
             }
         }
         public override bool InstancePerEntity => true;

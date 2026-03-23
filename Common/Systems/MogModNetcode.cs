@@ -121,6 +121,11 @@ namespace MogMod.Common.Systems
             }
         }
         // w speed
+        public static void SyncWorld()
+        {
+            if (Main.dedServ)
+                NetMessage.SendData(MessageID.WorldData);
+        }
         public enum MogModMessageType : byte //This is where you create the message types
         {
             EssenceShiftStackSync,

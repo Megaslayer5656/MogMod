@@ -1,5 +1,5 @@
 ﻿using MogMod.Common.MogModPlayer;
-using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Items.Weapons.Ranged;
 using Terraria;

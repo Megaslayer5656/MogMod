@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Melee;
 using System;

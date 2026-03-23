@@ -1,9 +1,9 @@
-﻿using MogMod.Items.Other;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.MagicProjectiles;
+using MogMod.Items.Other;
 
 namespace MogMod.Items.Weapons.Magic
 {

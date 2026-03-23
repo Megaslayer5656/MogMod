@@ -1,5 +1,6 @@
 ﻿using MogMod.Items.Consumables;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using MogMod.Projectiles.MagicProjectiles;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,9 +48,8 @@ namespace MogMod.Items.Ammo
         {
             CreateRecipe().
                 AddIngredient<StarShower>(1).
+                AddIngredient<FaeBar>(5).
                 AddIngredient<ManaCore>(1).
-                AddIngredient<AghanimShard>(1).
-                AddIngredient(ItemID.LunarTabletFragment, 1).
                 AddIngredient<Scroll>(1).
                 AddTile(TileID.Bookcases).
                 DisableDecraft().

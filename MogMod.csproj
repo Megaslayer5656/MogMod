@@ -57,8 +57,6 @@
     <None Remove="Items\BloodInfusion.png" />
     <None Remove="Items\Consumables\Glue.png" />
     <None Remove="Items\Consumables\VonSpawner.png" />
-    <None Remove="Items\Other\LizhardBloodVial.png" />
-    <None Remove="Items\Other\SoulOfDabdad.png" />
     <None Remove="Items\Placeable\DabdadOreP.png" />
     <None Remove="Items\Weapons\Magic\BloodMagic.png" />
     <None Remove="Items\Weapons\Melee\BlackBlade.png" />

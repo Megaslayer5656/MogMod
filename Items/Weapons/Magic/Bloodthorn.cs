@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.DataStructures;
@@ -51,7 +51,7 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient<OrchidMalevolence>(1).
                 AddIngredient(ItemID.MagnetSphere, 1).
                 AddIngredient(ItemID.Stinger, 15).
-                AddIngredient<GriefBar>(7).
+                AddIngredient<FaeBar>(12).
                 AddIngredient(ItemID.DarkShard, 1).
                 AddTile(TileID.MythrilAnvil).
                 Register();

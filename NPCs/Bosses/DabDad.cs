@@ -8,10 +8,9 @@ using Terraria.Graphics.CameraModifiers;
 using Terraria.Audio;
 using MogMod.Items.Weapons;
 using MogMod.Items.Consumables;
-using MogMod.Items.Other;
 using MogMod.Common.Systems;
-
-using MogMod.Tiles;
+using MogMod.Tiles.Ores;
+using MogMod.Items.Other;
 namespace MogMod.NPCs.Bosses
 {
     [AutoloadBossHead]

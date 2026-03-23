@@ -41,16 +41,6 @@ Items: {
 		Tooltip: ""
 	}
 
-	DabDadOreP: {
-		DisplayName: DabDad Ore
-		Tooltip: ""
-	}
-
-	DabDadBar: {
-		DisplayName: DabDad Bar
-		Tooltip: ""
-	}
-
 	Salewa: {
 		DisplayName: Salewa
 		Tooltip: ""
@@ -1414,6 +1404,7 @@ Items: {
 					'''
 					Summons a sentry
 					Explodes after a short delay when enemies come near
+					Deals double damage if inactive for 10 seconds
 					'Yes you're a good little mine. Yes you are.'
 					'''
 			}
@@ -1879,6 +1870,21 @@ Items: {
 			DisplayName: Grief Bar
 			Tooltip: Said to bring roughly 83% of the power of the chaos knight
 		}
+
+		DabDadBar: {
+			DisplayName: DabDad Bar
+			Tooltip: ""
+		}
+
+		FaeBar: {
+			DisplayName: Fae Bar
+			Tooltip: Contains nothing but joy and whimsy
+		}
+
+		BrinyRind: {
+			DisplayName: Briny Rind
+			Tooltip: Looks tasty
+		}
 	}
 
 	Fishing: {
@@ -2007,17 +2013,45 @@ Items: {
 
 		UndyingHelm: {
 			DisplayName: Wraith King's Helm
-			Tooltip:
+			Tooltip: +12% Attack Damage and Critical Strike Chance
+			SetBonus:
 				'''
+				Enemies are much more likely to target you
 				If you are reduced to 1 HP you will turn into a wraith, delaying your death by 5 seconds.
 				Undying ghosts shoot out of your body while under the effects of wraith form
 				'''
-			SetBonus: we'll find out in a second
+		}
+
+		UndyingBreastplate: {
+			DisplayName: Wraith King's Breastplate
+			Tooltip:
+				'''
+				+10% Attack Damage
+				20% chance to save ammo
+				Increases maximum mana by 60 and 12% reduced mana cost
+				'''
+		}
+
+		UndyingGreaves: {
+			DisplayName: Wraith King's Greaves
+			Tooltip:
+				'''
+				+24% Movement Speed
+				+15% Attack Speed
+				Increases your max number of minions by 2
+				'''
 		}
 	}
 
-	FireworkCrossbow: {
-		DisplayName: Firework Crossbow
-		Tooltip: ""
+	Placeables: {
+		DabDadOreP: {
+			DisplayName: DabDad Ore
+			Tooltip: ""
+		}
+
+		FaeOre: {
+			DisplayName: Fae Ore
+			Tooltip: ""
+		}
 	}
 }

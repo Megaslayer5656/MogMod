@@ -1,4 +1,5 @@
 ﻿using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.Audio;
@@ -34,7 +35,7 @@ namespace MogMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.ChargedBlasterCannon, 1).
+                AddIngredient<FaeBar>(15).
                 AddIngredient(ItemID.FireFeather, 1).
                 AddIngredient(ItemID.IceFeather, 1).
                 AddIngredient(ItemID.BrokenHeroSword, 1).

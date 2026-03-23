@@ -6,13 +6,11 @@ namespace MogMod.Items.Other
 {
     public class CraftingRecipe : ModItem, ILocalizedModType
     {
-        // does something for journey mode i think
         public new string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
         }
-
         public override void SetDefaults()
         {
             Item.width = 32;

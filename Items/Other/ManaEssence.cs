@@ -11,7 +11,6 @@ namespace MogMod.Items.Other
         {
             Item.ResearchUnlockCount = 25;
         }
-
         public override void SetDefaults()
         {
             Item.width = 26;

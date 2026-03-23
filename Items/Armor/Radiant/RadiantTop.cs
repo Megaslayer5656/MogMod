@@ -1,4 +1,5 @@
 ﻿using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -38,7 +39,7 @@ namespace MogMod.Items.Armor.Radiant
         {
             CreateRecipe().
                 AddIngredient(ItemID.SpectreRobe, 1).
-                AddIngredient<FrigidCrystal>(5).
+                AddIngredient<FaeBar>(15).
                 AddIngredient<ManaCore>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();

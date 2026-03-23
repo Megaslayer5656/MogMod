@@ -4,10 +4,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Audio;
 using MogMod.Utilities;
-using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
+using MogMod.Items.Placeable;
 
 namespace MogMod.Items.Weapons.Melee
 {

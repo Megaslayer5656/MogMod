@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Common.MogModPlayer;
-using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using MogMod.Projectiles.MeleeProjectiles;
 using Terraria;
 using Terraria.Audio;

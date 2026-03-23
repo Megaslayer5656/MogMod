@@ -24,6 +24,7 @@ namespace MogMod.Projectiles.SummonerProjectiles
         public ref float ExplosionTimer => ref Projectile.ai[1];
         private bool initialized = false;
         private bool Exploding = false;
+        private bool doubleDamage = false;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
@@ -48,7 +49,8 @@ namespace MogMod.Projectiles.SummonerProjectiles
         public override void AI()
         {
             float detectionRadius = 100f;
-
+            Vector2 spawn = Projectile.Center - Projectile.velocity / 2f;
+            Projectile.ai[0]++;
             // checks for enemies nearby
             for (int i = 0; i < Main.maxNPCs; i++) //Every npc is in an index, this goes through all of them
             {
@@ -71,14 +73,24 @@ namespace MogMod.Projectiles.SummonerProjectiles
                 }
                 // counts down explosion timer
                 ExplosionTimer += 1f;
-                Dust.NewDust(Projectile.Center + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(spawn + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
                 // after a certain time explode
                 if (Main.myPlayer == Projectile.owner && ExplosionTimer >= 60)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<ProximityMinesExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    if (doubleDamage)
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<ProximityMinesExplosion>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
+                    else
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<ProximityMinesExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
                     Projectile.Kill();
                 }
+            }
+            // doubles damage if inactive for 10 seconds
+            if (Projectile.ai[0] >= 600 && !Exploding)
+            {
+                int d = Dust.NewDust(spawn, Projectile.width, Projectile.height, DustID.Fireworks, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
+                Main.dust[d].noGravity = true;
+                doubleDamage = true;
             }
             // gravity
             Projectile.velocity.Y += 0.5f;

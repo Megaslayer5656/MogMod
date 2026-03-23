@@ -27,7 +27,6 @@ namespace MogMod.Items.Armor.TankyRizzler
             Item.defense = 38;
             Item.rare = ItemRarityID.Cyan;
         }
-
         public override void UpdateEquip(Player player)
         {
             player.GetDamage<MeleeDamageClass>() += 0.12f;
@@ -35,7 +34,6 @@ namespace MogMod.Items.Armor.TankyRizzler
             player.aggro += 700;
             player.moveSpeed -= .1f;
         }
-
         public override void AddRecipes()
         {
             CreateRecipe().

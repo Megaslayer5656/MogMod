@@ -96,11 +96,17 @@ Mods: {
 		}
 
 		DamageClasses.BoulderClass.DisplayName: Boulder Class
-		Tiles.DabDadOre.MapEntry: DabDad Ore
+
+		Tiles: {
+			DabDadOre.MapEntry: DabDad Ore
+			FaeOre.MapEntry: Fae Ore
+			FaeOreT.MapEntry: Fae Ore T
+		}
 
 		WorldGen: {
 			DabDadOrePassMessage: Your world has been blessed with the essence of Dabdad Minecraft!
 			BlessedWithDabDadOreMessage: Your world has been blessed with the essence of Dabdad Minecraft!
+			FaeOreText: The underground hallow is sparkling with blessed light.
 		}
 
 		Buffs: {
@@ -657,7 +663,5 @@ Mods: {
 			MoonveilProj.DisplayName: Moonveil Proj
 			FireworkCrossbowProj.DisplayName: Firework Crossbow Proj
 		}
-
-		UI.ExampleResource: Mods.MogMod.UI.ExampleResource
 	}
 }

@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.Utilities;
 
-namespace MogModMusic.Tiles
+namespace MogMod.Tiles.MusicBox
 {
     public abstract class MusicBoxTile : ModTile
     {

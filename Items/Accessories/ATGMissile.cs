@@ -1,5 +1,5 @@
-﻿﻿using MogMod.Common.MogModPlayer;
-using MogMod.Items.Other;
+﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Placeable;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

@@ -5,7 +5,7 @@ namespace MogMod.Items.Placeable
 {
     public class RideTheFireMusicBox : MusicBox
     {
-        public override int MusicBoxTile => ModContent.TileType<Tiles.RideTheFireMusicBox>();
+        public override int MusicBoxTile => ModContent.TileType<Tiles.MusicBox.RideTheFireMusicBox>();
         public override string MusicFilePath => "Sounds/Music/RideTheFire";
     }
 }

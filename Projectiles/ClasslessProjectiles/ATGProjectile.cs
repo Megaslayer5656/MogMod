@@ -11,6 +11,7 @@ namespace MogMod.Projectiles.ClasslessProjectiles
 {
     public class ATGProjectile : ModProjectile, ILocalizedModType
     {
+        // hits town npcs slop slop kirked goon
         public new string LocalizationCategory => "Projectiles.ClasslessProjectiles";
         public override void SetDefaults()
         {
@@ -20,6 +21,7 @@ namespace MogMod.Projectiles.ClasslessProjectiles
             Projectile.timeLeft = 600;
             Projectile.tileCollide = false;
             Projectile.friendly = true;
+            Projectile.hostile = false;
             Projectile.DamageType = DamageClass.Generic;
             Projectile.ArmorPenetration = 50;
         }

@@ -3,7 +3,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Other
+namespace MogMod.Items.Consumables
 {
     public class AnglerFish : ModItem, ILocalizedModType
     {

@@ -1,10 +1,10 @@
-﻿using MogMod.Items.Other;
-using MogMod.Projectiles.MagicProjectiles;
+﻿using MogMod.Projectiles.MagicProjectiles;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
+using MogMod.Items.Other;
 
 namespace MogMod.Items.Ammo
 {

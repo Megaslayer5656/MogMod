@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Other;
 using MogMod.Projectiles.RangedProjectiles;
 using System.Collections.Generic;
 using Terraria;
@@ -7,6 +6,8 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
+using MogMod.Items.Placeable;
+using MogMod.Items.Other;
 
 namespace MogMod.Items.Weapons.Ranged
 {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using MogMod.Projectiles.RangedProjectiles;
 using System;
 using Terraria;

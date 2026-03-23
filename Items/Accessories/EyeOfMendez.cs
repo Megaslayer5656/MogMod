@@ -67,6 +67,10 @@ namespace MogMod.Items.Accessories
             mogPlayer.vladsAura = true;
             mogPlayer.wraithAura = true;
             mogPlayer.exultationEquipped = true;
+
+            player.pickSpeed *= 0f;
+            player.tileSpeed *= 100f;
+            player.blockRange += 300;
             player.statLifeMax2 += 1500;
             player.statManaMax2 += 2000;
             player.GetDamage(DamageClass.Generic) += 25f;

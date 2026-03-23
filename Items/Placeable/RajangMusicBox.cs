@@ -5,7 +5,7 @@ namespace MogMod.Items.Placeable
 {
     public class RajangMusicBox : MusicBox
     {
-        public override int MusicBoxTile => ModContent.TileType<Tiles.RajangMusicBox>();
+        public override int MusicBoxTile => ModContent.TileType<Tiles.MusicBox.RajangMusicBox>();
         public override string MusicFilePath => "Sounds/Music/Rajang";
     }
 }

@@ -4,7 +4,7 @@ using Terraria.ObjectData;
 using Microsoft.Xna.Framework;
 using Terraria.Localization;
 
-namespace MogMod.Tiles
+namespace MogMod.Tiles.Bars
 {
         public class DabDadBars : ModTile
     {
