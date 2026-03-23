@@ -1014,6 +1014,15 @@ Items: {
 					Loaded attacks explode on swing
 					'''
 			}
+
+			GreatswordOfSouls: {
+				DisplayName: Greatsword of Souls
+				Tooltip:
+					'''
+					Fires homing souls
+					'''
+
+			}
 		}
 
 		Ranged: {
@@ -1884,6 +1893,11 @@ Items: {
 		BrinyRind: {
 			DisplayName: Briny Rind
 			Tooltip: Looks tasty
+		}
+
+		SoulFragment: {
+			DisplayName: Soul Fragment
+			Tooltip: ""
 		}
 	}
 

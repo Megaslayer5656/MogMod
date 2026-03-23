@@ -13,11 +13,11 @@ namespace MogMod.Items.Other
         }
         public override void SetDefaults()
         {
-            Item.width = 5;
-            Item.height = 5;
+            Item.width = 15;
+            Item.height = 15;
             Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.Master;
-            Item.master = true;
+            Item.master = false;
             Item.value = 100000000;
         }
     }

@@ -650,6 +650,7 @@ Mods: {
 				PolyluteProj.DisplayName: Polylute Proj
 				PlasmaShrimpProj.DisplayName: Plasma Shrimp Proj
 				PlayerUndyingPortalProj.DisplayName: Player Undying Portal Proj
+				GreatswordOfSoulsProj.DisplayName: Greatsword Of Souls Proj
 			}
 
 			BossProjectiles: {
