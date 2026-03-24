@@ -62,10 +62,6 @@ namespace MogMod.NPCs.Global
 
         Random rand = new Random();
 
-        // cooldowns
-        public int shivCooldown = ModContent.BuffType<SerratedShivCooldown>();
-        public int bashCooldown = ModContent.BuffType<GiantsMaulCooldown>();
-
         public int cooldownTimer = 5;
         public override bool InstancePerEntity => true;
 
@@ -120,12 +116,13 @@ namespace MogMod.NPCs.Global
 
             int itemDamage = player.HeldItem.damage;
             int enemyMaxHP = npc.lifeMax;
-            int bashDamage = 0;
+            //int bashDamage = 0;
+            int bashDamage = bashCap;
             int shivDamage = 0;
-            if (itemDamage <= bashCap)
-                bashDamage = itemDamage;
-            else
-                bashDamage = bashCap;
+            //if (itemDamage <= bashCap)
+            //    bashDamage = itemDamage;
+            //else
+            //    bashDamage = bashCap;
             if (Convert.ToInt32(enemyMaxHP * 0.01) <= shivCap)
                 shivDamage = Convert.ToInt32(enemyMaxHP * 0.01) + 50;
             else
@@ -134,9 +131,9 @@ namespace MogMod.NPCs.Global
             // skull basher
             var source = player.GetSource_OnHit(npc);
             bashProc = rand.Next(7) == 0;
-            if (bashProc && mogPlayer.wearingGiantsMaul && !player.HasBuff(bashCooldown))
+            if (bashProc && mogPlayer.wearingGiantsMaul && mogPlayer.bashCooldown <= 0)
             {
-                player.AddBuff(bashCooldown, cooldownTimer);
+                mogPlayer.bashCooldown = cooldownTimer;
                 int bash = Projectile.NewProjectile(source, npc.Center, new Vector2(10f, 10f), ModContent.ProjectileType<SkullBashProjectile>(), bashDamage, 0f, player.whoAmI);
                 Rectangle r = new Rectangle((int)npc.position.X, (int)npc.position.Y - 50, npc.width, npc.height);
                 Color textColor = new Color(255, 0, 100);
@@ -153,9 +150,9 @@ namespace MogMod.NPCs.Global
 
             // serrated shiv
             shivProc = rand.Next(5) == 0;
-            if (shivProc && mogPlayer.wearingSerratedShiv && !player.HasBuff(shivCooldown))
+            if (shivProc && mogPlayer.wearingSerratedShiv && mogPlayer.shivCooldown <= 0)
             {
-                player.AddBuff(shivCooldown, cooldownTimer);
+                mogPlayer.shivCooldown = cooldownTimer;
                 hitInfo = new NPC.HitInfo
                 {
                     Damage = shivDamage,

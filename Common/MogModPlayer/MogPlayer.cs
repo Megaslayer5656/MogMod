@@ -4,6 +4,7 @@ using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
+using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.ClasslessProjectiles;
 using System;
@@ -108,6 +109,10 @@ namespace MogMod.Common.MogModPlayer
         public int fierySoulLevel = 0;
         public static int fierySoulLevelMax = 30;
 
+        public bool holdingThrowingShade;
+        public int shadowRealmLevel = 0;
+        public static int shadowRealmLevelMax = 150;
+
         public Vector2 mouseWorld;
         public bool wearingFlameOfCorruption = false;
         public bool dragonInstallActive;
@@ -145,6 +150,8 @@ namespace MogMod.Common.MogModPlayer
 
         public float auraRange = 5000f;
 
+        public bool inShadowRealm;
+
         public bool riversOfBloodProj = false;
         public bool exultationEquipped = false;
 
@@ -154,6 +161,12 @@ namespace MogMod.Common.MogModPlayer
         public bool plasmaActive = false;
         public bool icbmActive = false;
         public bool polyluteActive = false;
+
+        public int shivCooldown = 0;
+        public int bashCooldown = 0;
+        public int gunpowderCooldown = 0;
+        public int radiantCooldown = 0;
+        public int jidiPollenCooldown = 0;
 
         public bool moonveilProj = false;
 
@@ -697,7 +710,7 @@ namespace MogMod.Common.MogModPlayer
                     Player.moveSpeed += .015f * essenceShiftLevel;
                     Player.accRunSpeed += Player.accRunSpeed * .015f * essenceShiftLevel;
                 }
-            } 
+            }
             else
             {
                 essenceShiftLevel = 0;
@@ -706,6 +719,20 @@ namespace MogMod.Common.MogModPlayer
                 {
                     SyncEssenceShift(false);
                 }
+            }
+            if (Player.HeldItem.type == ModContent.ItemType<ThrowingShade>() || Player.HeldItem.type == ModContent.ItemType<ShadowRealm>())
+            {
+                if (Player.HeldItem.type == ModContent.ItemType<ThrowingShade>())
+                    holdingThrowingShade = true;
+                if ((shadowRealmLevel < shadowRealmLevelMax) && Player.HasBuff<ShadowRealmBuff>())
+                    shadowRealmLevel++;
+                if (!Player.HasBuff<ShadowRealmBuff>())
+                    shadowRealmLevel = 0;
+            }
+            else
+            {
+                shadowRealmLevel = 0;
+                Player.ClearBuff(ModContent.BuffType<ShadowRealmBuff>());
             }
 
             // fiery soul stacking buff
@@ -1196,6 +1223,22 @@ namespace MogMod.Common.MogModPlayer
                 Player.aggro += 1000;
                 Player.lifeSteal *= 0f;
             }
+            if (inShadowRealm)
+            {
+                Player.GetDamage(DamageClass.Magic) += (shadowRealmLevel / 30) + 1;
+            }
+
+            // cooldowns
+            if (shivCooldown > 0)
+                shivCooldown--;
+            if (bashCooldown > 0)
+                shivCooldown--;
+            if (radiantCooldown > 0)
+                shivCooldown--;
+            if (jidiPollenCooldown > 0)
+                shivCooldown--;
+            if (gunpowderCooldown > 0)
+                shivCooldown--;
         }
         
         // stops player from moving while charging bow
@@ -1296,12 +1339,16 @@ namespace MogMod.Common.MogModPlayer
             drumsAura = false;
             shivasAura = false;
 
+            inShadowRealm = false;
+
             atgActive = false;
             plasmaActive = false;
             icbmActive = false;
             polyluteActive = false;
 
             duelistStacks = 0;
+
+            holdingThrowingShade = false;
 
             if (Player.controlDown)
             {

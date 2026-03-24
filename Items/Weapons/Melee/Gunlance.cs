@@ -26,7 +26,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.height = 90;
             Item.damage = 128;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = Item.useTime = 50;
+            Item.useAnimation = Item.useTime = 40;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useTurn = false;
             Item.knockBack = 10f;

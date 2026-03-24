@@ -1395,6 +1395,26 @@ Items: {
 					'Only those who have glimpsed what lies beyond the wisdom of stone may wield it.'
 					'''
 			}
+
+			ShadowRealm: {
+				DisplayName: Shadow Realm
+				Tooltip:
+					'''
+					Right click to disappear into the shadows
+					Damage is increased in correlation to the amount of time spent in the shadows
+					'What you can't see will most definitely hurt you.'
+					'''
+			}
+
+			ThrowingShade: {
+				DisplayName: Throwing Shade
+				Tooltip:
+					'''
+					Right click to disappear into the shadows
+					Damage is increased in correlation to the amount of time spent in the shadows
+					Attacking will reveal you from the shadows
+					'''
+			}
 		}
 
 		Summoner: {

@@ -34,12 +34,6 @@ namespace MogMod.Projectiles.BaseProjectiles
         public int gunpowderCap = 40;
         public int shivCap = 400;
 
-        // cooldowns
-        public int shivCooldown = ModContent.BuffType<SerratedShivCooldown>();
-        public int gunpowderCooldown = ModContent.BuffType<GunpowderGauntletCooldown>();
-        public int radiantCooldown = ModContent.BuffType<RadiantCooldown>();
-        public int jidiPollenCooldown = ModContent.BuffType<JidiPollenBagCooldown>();
-
         public int cooldownTimer = 5;
         public override bool InstancePerEntity
         {
@@ -94,12 +88,13 @@ namespace MogMod.Projectiles.BaseProjectiles
             int itemDamage = player.HeldItem.damage;
             int enemyMaxHP = target.lifeMax;
             int shivDamage = 0;
-            int gunpowderDamage = 0;
+            //int gunpowderDamage = 0;
+            int gunpowderDamage = gunpowderCap;
 
-            if (itemDamage <= gunpowderCap)
-                gunpowderDamage = itemDamage;
-            else
-                gunpowderDamage = gunpowderCap;
+            //if (itemDamage <= gunpowderCap)
+            //    gunpowderDamage = itemDamage;
+            //else
+            //    gunpowderDamage = gunpowderCap;
             if (Convert.ToInt32(enemyMaxHP * 0.01) <= shivCap)
                 shivDamage = Convert.ToInt32(enemyMaxHP * 0.01) + 50;
             else
@@ -109,37 +104,38 @@ namespace MogMod.Projectiles.BaseProjectiles
             gunpowderProc = random.Next(5) == 0;
             jidiProc = random.Next(4) == 0;
 
+            // TODO: fix enemies proccing player accessories
             if (radiantProc)
             {
-                if (modPlayer.wearingRadiantArmor && projectile.type != ProjectileType<RadiantBeamProj>() && projectile.DamageType == DamageClass.Magic && !player.HasBuff(radiantCooldown))
+                if (projectile.owner == player.whoAmI && modPlayer.wearingRadiantArmor && projectile.type != ProjectileType<RadiantBeamProj>() && projectile.DamageType == DamageClass.Magic && modPlayer.radiantCooldown <= 0)
                 {
-                    player.AddBuff(radiantCooldown, cooldownTimer);
+                    modPlayer.radiantCooldown = cooldownTimer;
                     MogModUtils.ProjectileRain(source, target.Center, 100f, 50f, 1500f, 1500f, 10f, ModContent.ProjectileType<RadiantBeamProj>(), Convert.ToInt32(projectile.damage / .75f), projectile.knockBack, projectile.owner);
                 }
             }
 
             if (gunpowderProc)
             {
-                if (modPlayer.wearingGunpowderGauntlet && projectile.type != ProjectileType<GunpowderProj>() && projectile.DamageType == DamageClass.Magic && !player.HasBuff(gunpowderCooldown))
+                if (projectile.owner == player.whoAmI && modPlayer.wearingGunpowderGauntlet && projectile.type != ProjectileType<GunpowderProj>() && projectile.DamageType == DamageClass.Magic && modPlayer.gunpowderCooldown <= 0)
                 {
-                    player.AddBuff(gunpowderCooldown, cooldownTimer);
+                    modPlayer.gunpowderCooldown = cooldownTimer;
                     int gunpowderProc = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ProjectileType<GunpowderProj>(), gunpowderDamage, 0f, projectile.owner);
                 }
             }
 
             if (jidiProc)
             {
-                if (modPlayer.wearingJidiPollenBag && projectile.type != ProjectileType<JidiPollenExplosion>() && (projectile.DamageType == DamageClass.Summon || projectile.DamageType == DamageClass.SummonMeleeSpeed) && !player.HasBuff(jidiPollenCooldown))
+                if (projectile.owner == player.whoAmI && modPlayer.wearingJidiPollenBag && projectile.type != ProjectileType<JidiPollenExplosion>() && (projectile.DamageType == DamageClass.Summon || projectile.DamageType == DamageClass.SummonMeleeSpeed) && modPlayer.jidiPollenCooldown <= 0)
                 {
-                    player.AddBuff(jidiPollenCooldown, cooldownTimer);
+                    modPlayer.jidiPollenCooldown = cooldownTimer;
                     int jidiProc = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ProjectileType<JidiPollenExplosion>(), 1, 0f, projectile.owner);
                 }
             }
 
             shivProc = random.Next(5) == 0;
-            if (shivProc && modPlayer.wearingSerratedShiv && !player.HasBuff(shivCooldown))
+            if (projectile.owner == player.whoAmI && shivProc && modPlayer.wearingSerratedShiv && modPlayer.shivCooldown <= 0)
             {
-                player.AddBuff(shivCooldown, cooldownTimer);
+                modPlayer.shivCooldown = cooldownTimer;
                 hitInfo = new NPC.HitInfo
                 {
                     Damage = shivDamage,
@@ -165,12 +161,12 @@ namespace MogMod.Projectiles.BaseProjectiles
             }
 
             // atg and plasma shrimp
-            if ((modPlayer.atgActive || modPlayer.plasmaActive) && !voidItems.Contains(projectile.type))
+            if (projectile.owner == player.whoAmI && (modPlayer.atgActive || modPlayer.plasmaActive) && !voidItems.Contains(projectile.type))
             {
                 modPlayer.doATG(damageDone);
             }
 
-            if (modPlayer.polyluteActive && !voidItems.Contains(projectile.type))
+            if (projectile.owner == player.whoAmI && modPlayer.polyluteActive && !voidItems.Contains(projectile.type))
             {
                 Vector2 kirk = new Vector2(10, 10).RotatedByRandom(MathHelper.ToRadians(360));
                 int procChance = random.Next(1, 6);

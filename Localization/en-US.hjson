@@ -65,17 +65,17 @@ Mods: {
 				}
 
 				GunlanceAmmo: {
-					Label: Gunlance Ammo
+					Label: Gunlance Ammo UI
 					Tooltip: ""
 				}
 
 				GunlanceAmmoPosX: {
-					Label: Gunlance Ammo Pos X
+					Label: Gunlance Ammo UI Position X
 					Tooltip: ""
 				}
 
 				GunlanceAmmoPosY: {
-					Label: Gunlance Ammo Pos Y
+					Label: Gunlance Ammo UI Position Y
 					Tooltip: ""
 				}
 			}
@@ -100,7 +100,7 @@ Mods: {
 		Tiles: {
 			DabDadOre.MapEntry: DabDad Ore
 			FaeOre.MapEntry: Fae Ore
-			FaeOreT.MapEntry: Fae Ore T
+			FaeOreT.MapEntry: Fae Ore
 		}
 
 		WorldGen: {
@@ -454,6 +454,11 @@ Mods: {
 				DisplayName: Wraith Form
 				Description: You've turned into a wraith!
 			}
+
+			ShadowRealmBuff: {
+				DisplayName: Shadow Realm
+				Description: something somehting mireska jex
+			}
 		}
 
 		NPCs: {
@@ -562,6 +567,8 @@ Mods: {
 				GhostflameHomingProj.DisplayName: Vengeful Spirit
 				GunpowderProj.DisplayName: Gunpowder Gauntlet
 				RadiantBeamProj.DisplayName: Radiant Beam
+				ShadowRealmProj.DisplayName: Shadow Realm Proj
+				ThrowingShadeProj.DisplayName: Throwing Shade Proj
 			}
 
 			RangedProjectiles: {

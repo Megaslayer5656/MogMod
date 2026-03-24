@@ -34,7 +34,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
         }
         public override float InitialSpeed => 2f;
         public override float ReelbackSpeed => 1f;
-        public override float ForwardSpeed => 0.7f;
+        public override float ForwardSpeed => .85f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
             var mogPlayerUI = Main.LocalPlayer.GetModPlayer<MogPlayerUI>();

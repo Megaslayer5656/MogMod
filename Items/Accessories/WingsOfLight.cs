@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -45,8 +46,8 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.GhostWings, 1).
                 AddIngredient(ItemID.GarlandHat, 1).
+                AddIngredient<FaeBar>(12).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 9).
-                AddIngredient<FrigidCrystal>(3).
                 AddIngredient<ManaCore>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
