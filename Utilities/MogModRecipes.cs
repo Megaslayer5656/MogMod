@@ -81,31 +81,35 @@ namespace MogMod.Utilities
 
             RecipeGroup HardmodeEvilMaterialGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", ItemID.Ichor, ItemID.CursedFlame);
             RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", HardmodeEvilMaterialGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 1)
+            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 1).
 
             RecipeGroup DamageClassEmblemGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Emblem"}", ItemID.WarriorEmblem, ItemID.RangerEmblem, ItemID.SorcererEmblem, ItemID.SummonerEmblem);
             RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Emblem"}", DamageClassEmblemGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Emblem"}", 1)
+            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Emblem"}", 1).
 
             RecipeGroup EvilMushroomRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Evil Mushroom"}", ItemID.VileMushroom, ItemID.ViciousMushroom);
             RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Mushroom"}", EvilMushroomRecipeGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Mushroom"}", 1)
+            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Mushroom"}", 1).
 
             RecipeGroup VertebraeRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Evil Material"}", ItemID.Vertebrae, ItemID.RottenChunk);
             RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Material"}", VertebraeRecipeGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Material"}", 1)
+            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Material"}", 1).
 
             RecipeGroup ButterflyRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Butterfly"}", ItemID.MonarchButterfly, ItemID.HellButterfly, ItemID.JuliaButterfly, ItemID.GoldButterfly, ItemID.PurpleEmperorButterfly, ItemID.RedAdmiralButterfly, ItemID.SulphurButterfly, ItemID.TreeNymphButterfly, ItemID.UlyssesButterfly, ItemID.ZebraSwallowtailButterfly);
             RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Butterfly"}", ButterflyRecipeGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Butterfly"}", 1)
+            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Butterfly"}", 1).
 
             RecipeGroup TombstoneRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Grave"}", ItemID.Tombstone, ItemID.Gravestone, ItemID.GraveMarker, ItemID.CrossGraveMarker, ItemID.Headstone, ItemID.Obelisk, ItemID.RichGravestone1, ItemID.RichGravestone2, ItemID.RichGravestone3, ItemID.RichGravestone4, ItemID.RichGravestone5);
             RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Grave"}", TombstoneRecipeGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Grave"}", 1)
+            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Grave"}", 1).
 
             RecipeGroup RocketRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Rocket"}", ItemID.RocketI, ItemID.RocketII, ItemID.RocketIII, ItemID.RocketIV, ItemID.ClusterRocketI, ItemID.ClusterRocketII, ItemID.DryRocket, ItemID.HoneyRocket, ItemID.LavaRocket, ItemID.WetRocket, ItemID.MiniNukeI, ItemID.MiniNukeII);
             RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Rocket"}", RocketRecipeGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Rocket"}", 1)
+            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Rocket"}", 1).
+
+            RecipeGroup LunarFragmentRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Lunar Fragment"}", ItemID.FragmentSolar, ItemID.FragmentStardust, ItemID.FragmentNebula, ItemID.FragmentVortex);
+            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Lunar Fragment"}", LunarFragmentRecipeGroup);
+            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Lunar Fragment"}", 1).
             #endregion
         }
 
