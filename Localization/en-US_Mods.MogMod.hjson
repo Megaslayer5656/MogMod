@@ -1017,11 +1017,7 @@ Items: {
 
 			GreatswordOfSouls: {
 				DisplayName: Greatsword of Souls
-				Tooltip:
-					'''
-					Fires homing souls
-					'''
-
+				Tooltip: Fires homing souls
 			}
 		}
 
