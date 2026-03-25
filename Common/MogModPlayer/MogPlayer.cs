@@ -7,6 +7,7 @@ using MogMod.Items.Accessories;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.ClasslessProjectiles;
+using MogMod.Projectiles.MeleeProjectiles;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -128,17 +129,21 @@ namespace MogMod.Common.MogModPlayer
         public bool dpCharge = false;
 
         // armor effects
-        public bool wearingRadiantArmor = false;
-        public bool wearingUndyingArmor = false;
+        public bool wearingRadiantArmor;
+        public bool wearingUndyingArmor;
+        public bool wearingTankyRizzler;
+        public int tankyRizzlerHits = 0;
+        public static int counterHelixDmg = 500;
 
         // debuffs
-        public bool divineDebuff = false;
-        public bool skadiDebuff = false;
-        public bool freezingDebuff = false;
-        public bool aghHexDebuff = false;
-        public bool wingsOfLightDebuff = false;
-        public bool ghostflameDebuff = false;
-        public bool jidiDebuff = false;
+        public bool divineDebuff;
+        public bool skadiDebuff;
+        public bool freezingDebuff;
+        public bool aghHexDebuff;
+        public bool wingsOfLightDebuff;
+        public bool ghostflameDebuff;
+        public bool jidiDebuff;
+        public bool shivaDebuff;
 
         // auras
         public bool greavesAura = false;
@@ -313,6 +318,16 @@ namespace MogMod.Common.MogModPlayer
             {
                 Player.AddBuff(ModContent.BuffType<BlinkDebuff>(), 600);
             }
+
+            if (wearingTankyRizzler)
+            {
+                tankyRizzlerHits++;
+                if (tankyRizzlerHits >= 2)
+                {
+                    Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<CounterHelixProj>(), counterHelixDmg, 1, Player.whoAmI, 0);
+                    tankyRizzlerHits = 0;
+                }
+            }
         }
         public override void OnHitByProjectile(Projectile proj, Terraria.Player.HurtInfo hurtInfo)
         {
@@ -348,6 +363,16 @@ namespace MogMod.Common.MogModPlayer
             if (Player.HasItemInAnyInventory(ModContent.ItemType<BlinkDagger>()))
             {
                 Player.AddBuff(ModContent.BuffType<BlinkDebuff>(), 600);
+            }
+
+            if (wearingTankyRizzler)
+            {
+                tankyRizzlerHits++;
+                if (tankyRizzlerHits >= 2)
+                {
+                    Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<CounterHelixProj>(), counterHelixDmg, 1, Player.whoAmI, 0);
+                    tankyRizzlerHits = 0;
+                }
             }
         }
         #endregion
@@ -1316,6 +1341,7 @@ namespace MogMod.Common.MogModPlayer
 
             wearingRadiantArmor = false;
             wearingUndyingArmor = false;
+            wearingTankyRizzler = false;
 
             diademMinion = false;
             dominatorMinion = false;
@@ -1331,6 +1357,7 @@ namespace MogMod.Common.MogModPlayer
             wingsOfLightDebuff = false;
             ghostflameDebuff = false;
             jidiDebuff = false;
+            shivaDebuff = false;
 
             greavesAura = false;
             wraithAura = false;

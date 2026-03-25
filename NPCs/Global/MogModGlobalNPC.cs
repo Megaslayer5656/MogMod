@@ -39,6 +39,7 @@ namespace MogMod.NPCs.Global
         public bool ghostflameDebuff;
         public bool jidiDebuff;
         public bool blackBladeDebuff;
+        public bool shivasDebuff;
 
         public NPC.HitInfo hitInfo;
         public int maxBlood = 150;
@@ -48,7 +49,8 @@ namespace MogMod.NPCs.Global
         public const int skadiNumb = 25;
         public static float skadiMult = 1 - skadiNumb / 100f;
         public const int jidiNumb = 10;
-        public static float jidiMult = 1 - jidiNumb / 100f;
+        public const int shivaNumb = 15;
+        public static float shivaMult = 1 - shivaNumb / 100f;
 
         // damage caps
         public const int bashCap = 50;
@@ -456,10 +458,10 @@ namespace MogMod.NPCs.Global
             {
                 ApplyDPSDebuff(170, 7, ref npc.lifeRegen, ref damage);
             }
-            if (jidiDebuff)
-            {
-                ApplyDPSDebuff(180, 8, ref npc.lifeRegen, ref damage);
-            }
+            //if (jidiDebuff)
+            //{
+            //    ApplyDPSDebuff(180, 8, ref npc.lifeRegen, ref damage);
+            //}
         }
 
         // movement changes
@@ -471,6 +473,11 @@ namespace MogMod.NPCs.Global
                 npc.velocity.Y *= 0.98f;
             }
             if (freezingDebuff)
+            {
+                npc.velocity.X *= 0.97f;
+                npc.velocity.Y *= 0.97f;
+            }
+            if (shivasDebuff)
             {
                 npc.velocity.X *= 0.97f;
                 npc.velocity.Y *= 0.97f;
@@ -539,7 +546,11 @@ namespace MogMod.NPCs.Global
             }
             if (jidiDebuff)
             {
-                modifiers.Defense *= jidiMult;
+                modifiers.Defense.Flat -= jidiNumb;
+            }
+            if (shivasDebuff)
+            {
+                modifiers.Defense *= shivaMult;
             }
             if (wingsOfLightDebuff)
             {
@@ -599,6 +610,11 @@ namespace MogMod.NPCs.Global
                 WingsOfLightDebuff.DrawEffects(npc, ref drawColor);
                 drawColor = Color.Gold;
             }
+            if (shivasDebuff)
+            {
+                ShivasEnemyDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.LightSkyBlue;
+            }
         }
 
         // debuff damage (how often it applies damage and how much damage is dealt)
@@ -622,6 +638,7 @@ namespace MogMod.NPCs.Global
             ghostflameDebuff = false;
             jidiDebuff = false;
             blackBladeDebuff = false;
+            shivasDebuff = false;
         }
         #endregion
     }
