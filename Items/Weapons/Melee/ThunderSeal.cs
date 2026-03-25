@@ -21,13 +21,12 @@ namespace MogMod.Items.Weapons.Melee
         }
         public override void SetDefaults()
         {
-            Item.width = 99;
-            Item.height = 100;
+            Item.width = 52;
+            Item.height = 52;
             Item.damage = 60;
-            Item.scale = .65f;
+            Item.scale = 1.25f;
             Item.DamageType = DamageClass.Melee;
-            Item.useTime = 20;
-            Item.useAnimation = 20;
+            Item.useTime = Item.useAnimation = 26;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 7f;
             Item.value = Item.buyPrice(0, 65, 0, 0);
@@ -35,44 +34,26 @@ namespace MogMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.shootSpeed = 5f;
             Item.autoReuse = true;
-            Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing
-        }
-
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            return false;
+            Item.shoot = ProjectileID.PurificationPowder;
         }
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
-        public override bool CanUseItem(Player player)
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Item.useTime = 20;
-            Item.useAnimation = 20;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.shoot = 0;
-            Item.UseSound = SoundID.Item1;
-            Item.noMelee = false;
             if (player.altFunctionUse == 2)
             {
-                //Somehow make it not melee
-                Item.useTime = 60;
-                Item.useAnimation = 60;
-                Item.useStyle = ItemUseStyleID.Swing;
-                Item.shoot = ModContent.ProjectileType<StunEdge>();
-                Item.UseSound = SoundID.Item1;
                 Item.noMelee = true;
+                Item.useStyle = ItemUseStyleID.Swing;
+                int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<StunEdge>(), 38, knockback);
             } else
             {
-                Item.useTime = 20;
-                Item.useAnimation = 20;
-                Item.useStyle = ItemUseStyleID.Swing;
-                Item.shoot = 0;
-                Item.UseSound = SoundID.Item1;
                 Item.noMelee = false;
+                Item.useStyle = ItemUseStyleID.Swing;
             }
-            return true;
+            return false;
         }
 
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
@@ -83,14 +64,9 @@ namespace MogMod.Items.Weapons.Melee
                 var source = target.GetSource_FromAI();
                 for (int x = 0; x < 4; x++)
                 {
-                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ThunderSealProj>(), 75, 0f, player.whoAmI, false, 0f);
+                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ThunderSealProj>(), 38, 0f, player.whoAmI, false, 0f);
                 }
             }
-        }
-
-        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
-        {
-            damage = 50;
         }
 
         public override void AddRecipes()

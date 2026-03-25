@@ -102,9 +102,9 @@ namespace MogMod.Projectiles.RangedProjectiles
                 return;
 
 
-            if (!currentTarget.active || currentTarget.dontTakeDamage) //Just changed this and haven't tested so might not work
+            if (!currentTarget.active || currentTarget.dontTakeDamage)
             {
-                if (npcList.IndexOf(currentTarget) == npcList.Count - 1) //Might need to remove this if/else and just make it null and return, as this might be too much for multiplayer sync
+                if (npcList.IndexOf(currentTarget) == npcList.Count - 1)
                 {
                     currentTarget = null;
                     return;

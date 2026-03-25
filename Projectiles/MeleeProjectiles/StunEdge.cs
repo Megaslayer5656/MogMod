@@ -19,8 +19,8 @@ namespace MogMod.Projectiles.MeleeProjectiles
         private bool initialized = false;
         public override void SetDefaults()
         {
-            Projectile.width = 8;
-            Projectile.height = 8;
+            Projectile.width = 50;
+            Projectile.height = 20;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.friendly = true;
             Projectile.hostile = false;
@@ -61,7 +61,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
         {
             if (!initialized)
             {
-                SoundEngine.PlaySound(stunEdgeSFX, Projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item92, Projectile.Center);
                 initialized = true;
             }
             if (Main.rand.NextBool(15))

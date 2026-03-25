@@ -47,13 +47,10 @@
     <None Remove="description.txt" />
     <None Remove="icon.png" />
     <None Remove="Items\Accessories\ICBM.png" />
-    <None Remove="Items\Accessories\KayaAndSange.png" />
     <None Remove="Items\Accessories\LordOfBloodsExultation.png" />
     <None Remove="Items\Accessories\MewingGuide.png" />
-    <None Remove="Items\Accessories\SangeAndYasha.png" />
     <None Remove="Items\Accessories\SigmaCharm.png" />
     <None Remove="Items\Accessories\SolRing.png" />
-    <None Remove="Items\Accessories\YashaAndKaya.png" />
     <None Remove="Items\Ammo\SplinterAmmo.png" />
     <None Remove="Items\BloodInfusion.png" />
     <None Remove="Items\Consumables\Glue.png" />

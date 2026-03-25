@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using MogMod.Items.Weapons.Melee;
+using Terraria.Localization;
 
 namespace MogMod.Items.Weapons.Ranged
 {
@@ -35,6 +37,15 @@ namespace MogMod.Items.Weapons.Ranged
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-5f, .5f);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.FragmentVortex, 12).
+                AddIngredient(ItemID.Ectoplasm, 3).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }
