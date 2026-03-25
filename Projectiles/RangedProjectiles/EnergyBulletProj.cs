@@ -10,12 +10,17 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
     public class EnergyBulletProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.RangedProjectiles";
+        public bool initialized = false;
+        List<NPC> npcList = new List<NPC>();
+        public int closestIndex = -1;
+        public NPC currentTarget;
         public override void SetDefaults()
         {
             Projectile.width = 8;
@@ -24,7 +29,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.friendly = true;
             Projectile.hostile = false;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = 4;
+            Projectile.penetrate = 10;
             Projectile.timeLeft = 600;
             Projectile.light = .5f;
             Projectile.ignoreWater = true;
@@ -35,24 +40,84 @@ namespace MogMod.Projectiles.RangedProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) //This stuff like basically works, I'll polish it later
         {
-            for (int i = 0; i < Main.maxNPCs; i++)
+            if (!initialized)
             {
-                NPC npc = Main.npc[i];
-                if (npc != target && npc.active && npc.townNPC == false)
+                npcList.Clear();
+
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    //ok so here I plan to find the closest npc and set the projectile's velocity towards that npc
-                    //So this bullet's 'thing' will be that it ricoches between npcs, likely 4 or 5 times
+                    NPC npc = Main.npc[i];
+
+                    if (npc.active && !npc.townNPC && npc.whoAmI != target.whoAmI && !npc.dontTakeDamage)
+                    {
+                        if (Microsoft.Xna.Framework.Vector2.Distance(Projectile.Center, npc.Center) < 2000f)
+                        {
+                            npcList.Add(npc);
+                        }
+                    }
+                }
+
+                initialized = true;
+            }
+
+            if (npcList.Count == 0)
+            {
+                currentTarget = null;
+                return;
+            }
+
+            float closestDist = float.MaxValue;
+
+            for (int i = 0; i < npcList.Count; i++)
+            {
+                NPC npc = npcList[i];
+
+                if (!npc.active)
+                    continue;
+
+                float dist = Vector2.DistanceSquared(Projectile.Center, npc.Center);
+
+                if (dist < closestDist)
+                {
+                    closestDist = dist;
+                    closestIndex = i;
                 }
             }
 
-            
+            if (closestIndex == -1)
+                return;
+
+            currentTarget = npcList[closestIndex];
+            npcList.RemoveAt(closestIndex);
+
             for (int i = 0; i < 4; i++)
             {
                 int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Electric, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 100, default, .5f);
                 Main.dust[d].position = Projectile.Center;
             }
+        }
+
+        public override void AI()
+        {
+            if (currentTarget == null)
+                return;
+
+
+            if (!currentTarget.active || currentTarget.dontTakeDamage)
+            {
+                currentTarget = null; //Possibly make this the next npc in the list????
+                return;
+            }
+
+            Vector2 direction = currentTarget.Center - Projectile.Center;
+            float speed = 12f;
+
+            direction.Normalize();
+            Vector2 desiredVelocity = direction * speed;
+
+            Projectile.velocity = Vector2.Lerp(Projectile.velocity, desiredVelocity, 0.15f);
         }
 
         public override void OnKill(int timeLeft)
