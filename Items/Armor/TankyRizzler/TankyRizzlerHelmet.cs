@@ -1,7 +1,9 @@
-﻿using MogMod.Items.Consumables;
+﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Consumables;
 using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.TankyRizzler
@@ -10,39 +12,43 @@ namespace MogMod.Items.Armor.TankyRizzler
     public class TankyRizzlerHelmet : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public static LocalizedText SetBonusText { get; private set; }
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
                 return;
 
             int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
+
+            // set bonus text
+            SetBonusText = this.GetLocalization("SetBonus");
         }
         public override void SetDefaults()
         {
             Item.width = 28;
-            Item.height = 30;
+            Item.height = 24;
             Item.defense = 26;
             Item.rare = ItemRarityID.Cyan;
         }
-
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             return body.type == ModContent.ItemType<TankyRizzlerChestplate>() && legs.type == ModContent.ItemType<TankyRizzlerLeggings>();
         }
-        // make the set bonus similar to counter helix from axe dota2
         public override void UpdateArmorSet(Player player)
         {
-            player.statLifeMax2 += 70;
+            player.setBonus = SetBonusText.Value;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.wearingTankyRizzler = true;
+
+            player.statLifeMax2 += 100;
             player.endurance *= .10f;
-            player.noKnockback = true;
+            player.aggro += 1300;
         }
         public override void UpdateEquip(Player player)
         {
+            player.noKnockback = true;
             player.GetDamage<MeleeDamageClass>() += 0.08f;
-            player.statLifeMax2 += 80;
             player.lifeRegen += 10;
-            player.aggro += 700;
-            player.moveSpeed -= .1f;
         }
         public override void AddRecipes()
         {

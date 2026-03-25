@@ -1961,17 +1961,35 @@ Items: {
 
 		TankyRizzlerChestplate: {
 			DisplayName: Tanky Rizzler Chestplate
-			Tooltip: ""
+			Tooltip:
+				'''
+				+12% Melee Damage
+				+8% Melee Critical Strike Chance
+				'''
 		}
 
 		TankyRizzlerHelmet: {
 			DisplayName: Tanky Rizzler Helmet
-			Tooltip: ""
+			Tooltip:
+				'''
+				+8% Melee Damage
+				Grants immunity to knockback
+				Increases life regeneration by 10
+				'''
+			SetBonus:
+				'''
+				+1300 Aggro, +10% Damage Reduction, and Increases maximum life by 100
+				Getting hit twice causes you to spin an axe around yourself, dealing melee damage
+				'''
 		}
 
 		TankyRizzlerLeggings: {
 			DisplayName: Tanky Rizzler Leggings
-			Tooltip: ""
+			Tooltip:
+				'''
+				+10% Melee Attack Speed
+				+10% Movement Speed
+				'''
 		}
 
 		TiglaHelmet: {

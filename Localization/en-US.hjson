@@ -642,6 +642,7 @@ Mods: {
 				GunlanceSpear.DisplayName: Gunlance Spear
 				GunlanceBoom.DisplayName: Gunlance Boom
 				GunlanceReload.DisplayName: Gunlance Reload
+				CounterHelixProj.DisplayName: Counter Helix Proj
 			}
 
 			SummonerProjectiles: {
@@ -653,7 +654,7 @@ Mods: {
 			ClasslessProjectiles: {
 				UndyingPortalProj.DisplayName: Undying Portal
 				UndyingHomingProj.DisplayName: Undying Spirit
-				ATGProjectile.DisplayName: A T G Projectile
+				ATGProjectile.DisplayName: ATG Projectile
 				PolyluteProj.DisplayName: Polylute Proj
 				PlasmaShrimpProj.DisplayName: Plasma Shrimp Proj
 				PlayerUndyingPortalProj.DisplayName: Player Undying Portal Proj

@@ -26,7 +26,6 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.EmpressFlightBooster, 1).
                 AddIngredient<HelmOfIronWill>(1).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Grave"}", 10).
                 AddIngredient<UltimateOrb>(3).
