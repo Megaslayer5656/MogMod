@@ -85,10 +85,6 @@ namespace MogMod.Items.Global
 
             if (!item.IsAir && !item.noMelee || MeleeSizeAlwaysAffects.Contains(item.type))
             {
-                if (modPlayer.wearingSange)
-                {
-                    scale *= SangeAndYasha.SangeWeaponSize(modPlayer);
-                }
                 if (modPlayer.wearingGiantsMaul)
                 {
                     scale *= GiantsMaul.GiantsMaulWeaponSize(modPlayer);

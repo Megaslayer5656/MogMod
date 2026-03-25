@@ -40,7 +40,6 @@ namespace MogMod.Common.MogModPlayer
         public bool wingsOfLightVisual = false;
         public bool wearingFishSlop1 = false;
         public bool wearingFishSlop2 = false;
-        public bool wearingSange = false;
         public bool wearingGiantsMaul = false;
         public bool wearingGunpowderGauntlet = false;
         public bool wearingDuelistGloves = false;
@@ -1320,7 +1319,6 @@ namespace MogMod.Common.MogModPlayer
             wingsOfLightVisual = false;
             wearingFishSlop1 = false;
             wearingFishSlop2 = false;
-            wearingSange = false;
             wearingGiantsMaul = false;
             wearingGunpowderGauntlet = false;
             wearingDuelistGloves = false;
