@@ -1,12 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using Microsoft.Xna.Framework;
 using Terraria.GameContent.ItemDropRules;
-using Terraria.Graphics.CameraModifiers;
-using Terraria.Audio;
-using MogMod.Items.Weapons;
 using MogMod.Items.Consumables;
 using MogMod.Common.Systems;
 using MogMod.Tiles.Ores;

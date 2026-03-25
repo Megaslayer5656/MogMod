@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;

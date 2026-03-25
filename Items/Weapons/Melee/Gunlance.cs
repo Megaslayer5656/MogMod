@@ -24,7 +24,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 94;
             Item.height = 90;
-            Item.damage = 128;
+            Item.damage = 150;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 40;
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -77,7 +77,7 @@ namespace MogMod.Items.Weapons.Melee
                 comboExpireTimer = 0; // Every time the weapon is used, we reset this so the combo does not expire
                 // custom spear projectile since its easier
                 int spear = ModContent.ProjectileType<GunlanceSpear>();
-                Projectile.NewProjectile(source, position, velocity * 6f, spear, (int)(damage * 1.5f), knockback, player.whoAmI, 0, 0);
+                Projectile.NewProjectile(source, position, velocity * 6f, spear, (int)(damage * 1.75f), knockback, player.whoAmI, 0, 0);
                 return false;
             }
         }

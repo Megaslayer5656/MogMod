@@ -1,16 +1,10 @@
-﻿using MogMod.Buffs.Debuffs;
-using Steamworks;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using MogMod.Common.MogModPlayer;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
@@ -42,6 +36,7 @@ namespace MogMod.Projectiles.RangedProjectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) //This stuff like basically works, I'll polish it later
         {
+            Projectile.netUpdate = true;
             if (!initialized)
             {
                 npcList.Clear();
@@ -101,14 +96,22 @@ namespace MogMod.Projectiles.RangedProjectiles
 
         public override void AI()
         {
+            Projectile.netUpdate = true;
+            Projectile.netImportant = true;
             if (currentTarget == null)
                 return;
 
 
-            if (!currentTarget.active || currentTarget.dontTakeDamage)
+            if (!currentTarget.active || currentTarget.dontTakeDamage) //Just changed this and haven't tested so might not work
             {
-                currentTarget = null; //Possibly make this the next npc in the list????
-                return;
+                if (npcList.IndexOf(currentTarget) == npcList.Count - 1) //Might need to remove this if/else and just make it null and return, as this might be too much for multiplayer sync
+                {
+                    currentTarget = null;
+                    return;
+                } else
+                {
+                    currentTarget = npcList[npcList.IndexOf(currentTarget) + 1];
+                }
             }
 
             Vector2 direction = currentTarget.Center - Projectile.Center;

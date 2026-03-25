@@ -66,7 +66,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.ChlorophyteBar, 15).
-                AddIngredient(ItemID.Ectoplasm, 7).
+                AddIngredient(ItemID.Ectoplasm, 3).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Butterfly"}", 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();

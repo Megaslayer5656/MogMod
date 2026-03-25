@@ -45,10 +45,10 @@ namespace MogMod.NPCs.Enemies
             NPC.scale = .05f;
         }
 
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            return SpawnCondition.OverworldNightMonster.Chance * .1f;
-        }
+        //public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        //{
+        //    return SpawnCondition.OverworldNightMonster.Chance * .1f;
+        //}
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {

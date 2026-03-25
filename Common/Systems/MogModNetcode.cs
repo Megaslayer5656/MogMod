@@ -1,15 +1,11 @@
 using Terraria;
 using Terraria.ModLoader;
-﻿using System.Collections.Generic;
 using System.IO;
 using Terraria.ID;
-using MogMod.Utilities;
 using MogMod.Common.MogModPlayer;
 using System;
 using MogMod.NPCs.Global;
 using Microsoft.Xna.Framework;
-using MogMod.Items.Weapons.Melee;
-using Terraria.ModLoader.IO;
 
 namespace MogMod.Common.Systems
 {

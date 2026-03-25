@@ -1,5 +1,4 @@
-﻿using MogMod.Items.Accessories;
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;

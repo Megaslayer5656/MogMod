@@ -14,7 +14,7 @@ namespace MogMod.NPCs.Enemies
 {
     public class RadiantCreep : ModNPC
     {
-        public override void SetStaticDefaults()
+        public override void SetStaticDefaults() //Gotta resprite this mud
         {
             Main.npcFrameCount[Type] = Main.npcFrameCount[NPCID.Zombie];
         }
