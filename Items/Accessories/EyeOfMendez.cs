@@ -39,7 +39,6 @@ namespace MogMod.Items.Accessories
             mogPlayer.wearingPike = true;
             mogPlayer.wearingRadiantArmor = true;
             mogPlayer.wearingRefresherOrb = true;
-            mogPlayer.wearingSange = true;
             mogPlayer.wearingSatanic = true;
             mogPlayer.wearingSearingSignet = true;
             mogPlayer.wearingSerratedShiv = true;
