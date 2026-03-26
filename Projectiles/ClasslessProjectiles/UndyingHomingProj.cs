@@ -50,7 +50,6 @@ namespace MogMod.Projectiles.ClasslessProjectiles
                 Projectile.spriteDirection = 1;
                 Projectile.rotation = Projectile.velocity.ToRotation();
             }
-
         }
         public override void OnKill(int timeLeft)
         {

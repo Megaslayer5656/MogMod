@@ -291,6 +291,8 @@ namespace MogMod.NPCs.Global
 
         public override void OnKill(NPC npc)
         {
+            Player player = Main.LocalPlayer;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             if (npc.type == NPCID.HallowBoss)
             {
                 if (!NPC.downedEmpressOfLight)
@@ -300,6 +302,18 @@ namespace MogMod.NPCs.Global
 
                     WorldGeneration.BroadcastLocalizedText(FaeOreText.Value, Color.HotPink);
                     SyncWorld();
+                }
+            }
+            if (npc.HasBuff<FreezingDebuff>() || mogPlayer.wearingFrostArmor)
+            {
+                int numSplits = 6;
+                float angleVariance = MathHelper.TwoPi / numSplits;
+                Vector2 projVec = new Vector2(4.5f, 0f).RotatedByRandom(MathHelper.ToRadians(45));
+
+                for (int i = 0; i < numSplits; ++i)
+                {
+                    projVec = projVec.RotatedBy(angleVariance);
+                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, projVec, ProjectileID.Blizzard, 50, 1f, Main.myPlayer);
                 }
             }
         }

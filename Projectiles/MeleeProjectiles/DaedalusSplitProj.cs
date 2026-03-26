@@ -41,13 +41,13 @@ namespace MogMod.Projectiles.MeleeProjectiles
             // Spawn dust, with less dust as it fades away
             if (Main.rand.Next(256) > Projectile.alpha - 60)
             {
-                int idx = Dust.NewDust(Projectile.Center, 1, 1, DustID.RedTorch);
-                Main.dust[idx].position = Projectile.Center - Projectile.velocity * 0.7f;
-                Main.dust[idx].noGravity = true;
-                Main.dust[idx].velocity *= 0.3f;
-                Main.dust[idx].velocity += Projectile.velocity * 0.4f;
-                Main.dust[idx].scale = Main.rand.NextFloat(0.5f, 1.0f);
-                Main.dust[idx].alpha = Main.rand.Next(80, 200);
+                int d = Dust.NewDust(Projectile.Center, 1, 1, DustID.RedTorch);
+                Main.dust[d].position = Projectile.Center - Projectile.velocity * 0.7f;
+                Main.dust[d].noGravity = true;
+                Main.dust[d].velocity *= 0.3f;
+                Main.dust[d].velocity += Projectile.velocity * 0.4f;
+                Main.dust[d].scale = Main.rand.NextFloat(0.5f, 1.0f);
+                Main.dust[d].alpha = Main.rand.Next(80, 200);
             }
         }
     }

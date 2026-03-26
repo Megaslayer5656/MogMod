@@ -75,11 +75,12 @@ namespace MogMod.Common.MogModPlayer
         public int armletTimerMax = 120;
         public bool armletOn = false;
 
-        public bool wearingHelmOfDominator = false;
-        public bool wearingHelmOfOverlord = false;
-        public bool wearingForceStaff = false;
-        public bool wearingPike = false;
-        public bool wearingBladeMail = false;
+        public bool wearingHelmOfDominator;
+        public bool wearingHelmOfOverlord;
+        public bool wearingForceStaff;
+        public bool wearingPike;
+        public bool wearingBladeMail;
+        public bool wearingFrostArmor;
 
         public bool diademMinion = false;
         public bool dominatorMinion = false;
@@ -245,17 +246,13 @@ namespace MogMod.Common.MogModPlayer
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (wearingEyeOfSkadi)
-            {
                 target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 360);
-            }
             if (wearingSearingSignet)
-            {
                 target.AddBuff(BuffID.ShadowFlame, 300);
-            }
             if (Player.HasBuff<DragonInstallBuff>())
-            {
                 target.AddBuff(BuffID.Daybreak, 600);
-            }
+            if (wearingFrostArmor)
+                target.AddBuff(ModContent.BuffType<FreezingDebuff>(), 300);
         }
 
         public void doATG(int damageDone)
@@ -1311,7 +1308,6 @@ namespace MogMod.Common.MogModPlayer
             wearingMekansm = false;
             wearingForceStaff = false;
             wearingPike = false;
-            wearingBladeMail = false;
             wearingShivasGuard = false;
             wearingEyeOfSkadi = false;
             wearingFlameOfCorruption = false;
@@ -1340,6 +1336,8 @@ namespace MogMod.Common.MogModPlayer
             wearingRadiantArmor = false;
             wearingUndyingArmor = false;
             wearingTankyRizzler = false;
+            wearingBladeMail = false;
+            wearingFrostArmor = false;
 
             diademMinion = false;
             dominatorMinion = false;

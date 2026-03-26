@@ -2089,6 +2089,46 @@ Items: {
 				Increases your max number of minions by 2
 				'''
 		}
+
+		FrostMaidenMagic: {
+			DisplayName: Frost Maiden Mask
+			Tooltip: +6% Magic Critical Strike Chance
+			SetBonus:
+				'''
+				+8% Magic Attack Damage
+				Attacks inflict freezing
+				Freezing enemies explode into ice shards on death
+				'''
+		}
+
+		FrostMaidenSummon: {
+			DisplayName: Frost Maiden Hood
+			Tooltip:
+				'''
+				+7% Summon Attack Damage
+				Increases your max number of minions by 1
+				'''
+			SetBonus:
+				'''
+				Increases your max number of minions by 1
+				Attacks inflict freezing
+				Freezing enemies move slower and explode into ice shards on death
+				'''
+		}
+
+		FrostMaidenPants: {
+			DisplayName: Frost Maiden Pants
+			Tooltip:
+				'''
+				+12% Movement Speed
+				Increases maximum mana by 20
+				'''
+		}
+
+		FrostMaidenRobe: {
+			DisplayName: Frost Maiden Robe
+			Tooltip: Increases maximum mana by 80 and 16% reduced mana cost
+		}
 	}
 
 	Placeables: {
