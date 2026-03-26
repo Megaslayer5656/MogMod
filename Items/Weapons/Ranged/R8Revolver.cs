@@ -21,7 +21,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.width = 100;
             Item.height = 19;
-            Item.scale = .15f;
+            Item.scale = .75f;
             Item.useTime = 80;
             Item.useAnimation = 80;
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -70,15 +70,14 @@ namespace MogMod.Items.Weapons.Ranged
         }
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-15f, -.5f);
+            return new Vector2(8.5f, 0f);
         }
         public override bool AltFunctionUse(Player player) => true;
-        public override void AddRecipes()
+        public override void AddRecipes() //Make this cooler
         {
             CreateRecipe().
-               AddIngredient(ItemID.Revolver, 1).
+               AddIngredient(ItemID.FlintlockPistol, 1).
                AddRecipeGroup("IronBar", 20).
-               AddRecipeGroup("GoldBar", 15).
                AddTile(TileID.Anvils).
                Register();
 

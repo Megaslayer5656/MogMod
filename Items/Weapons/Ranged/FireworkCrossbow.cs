@@ -15,7 +15,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAnimation = Item.useTime = 16;
-            Item.shootSpeed = 8f;
+            Item.shootSpeed = 10f;
             Item.knockBack = 2f;
             Item.width = 56;
             Item.height = 26;

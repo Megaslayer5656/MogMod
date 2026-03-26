@@ -1216,7 +1216,11 @@ Items: {
 
 			Equalizer: {
 				DisplayName: Equalizer
-				Tooltip: ""
+				Tooltip:
+					'''
+					Shoots energy bullets that bounce between enemies
+					Not to be confused with 'The Great Equalizer'
+					'''
 			}
 
 			FireworkCrossbow: {
@@ -1960,7 +1964,7 @@ Items: {
 		}
 
 		TankyRizzlerChestplate: {
-			DisplayName: Tanky Rizzler Chestplate
+			DisplayName: Berserker Chestplate
 			Tooltip:
 				'''
 				+12% Melee Damage
@@ -1969,7 +1973,7 @@ Items: {
 		}
 
 		TankyRizzlerHelmet: {
-			DisplayName: Tanky Rizzler Helmet
+			DisplayName: Berserker Helmet
 			Tooltip:
 				'''
 				+8% Melee Damage
@@ -1984,7 +1988,7 @@ Items: {
 		}
 
 		TankyRizzlerLeggings: {
-			DisplayName: Tanky Rizzler Leggings
+			DisplayName: Berserker Leggings
 			Tooltip:
 				'''
 				+10% Melee Attack Speed

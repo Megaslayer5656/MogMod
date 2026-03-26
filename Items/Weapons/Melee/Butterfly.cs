@@ -44,7 +44,7 @@ namespace MogMod.Items.Weapons.Melee
             if (!player.HasBuff<ButterflyCooldown>())
             {
                 player.AddBuff(ModContent.BuffType<ButterflyBuff>(), 60);
-                player.AddBuff(ModContent.BuffType<ButterflyCooldown>(), 600);
+                player.AddBuff(ModContent.BuffType<ButterflyCooldown>(), 900);
                 return true;
             }
             return false;
