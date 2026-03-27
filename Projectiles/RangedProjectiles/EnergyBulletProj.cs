@@ -39,7 +39,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.netUpdate = true;
             if (!initialized)
             {
-                npcList.Clear();
+                npcList.Clear(); //Just in case
 
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
@@ -110,7 +110,13 @@ namespace MogMod.Projectiles.RangedProjectiles
                     return;
                 } else
                 {
-                    currentTarget = npcList[npcList.IndexOf(currentTarget) + 1];
+                    if (npcList.Count > 0) //To ensure that the list actually exists. Just in case.
+                        {
+                            currentTarget = npcList[npcList.IndexOf(currentTarget) + 1];
+                        } else 
+                        {
+                            currentTarget = null;
+                        }
                 }
             }
 
