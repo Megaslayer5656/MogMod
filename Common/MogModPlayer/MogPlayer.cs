@@ -84,7 +84,8 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingPike;
         public bool wearingBladeMail;
         public bool wearingFrostArmor;
-        public bool wearingDamascus;
+        public bool wearingDamascus1;
+        public bool wearingDamascus2;
 
         public bool diademMinion = false;
         public bool dominatorMinion = false;
@@ -1353,7 +1354,8 @@ namespace MogMod.Common.MogModPlayer
             wearingTankyRizzler = false;
             wearingBladeMail = false;
             wearingFrostArmor = false;
-            wearingDamascus = false;
+            wearingDamascus1 = false;
+            wearingDamascus2 = false;
 
             diademMinion = false;
             dominatorMinion = false;

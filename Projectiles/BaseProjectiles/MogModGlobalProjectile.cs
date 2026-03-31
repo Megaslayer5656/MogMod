@@ -173,6 +173,16 @@ namespace MogMod.Projectiles.BaseProjectiles
                 if (procChance == 5)
                     Projectile.NewProjectile(source, target.Center, kirk, ModContent.ProjectileType<PolyluteProj>(), Convert.ToInt32(damageDone * .3f) + 1, 3, player.whoAmI);
             }
+
+            if (modPlayer.wearingDamascus2 && hit.Crit)
+            {
+                int heal = 1;
+                heal *= Convert.ToInt32(player.lifeSteal * 0.01);
+                player.statLife += heal;
+                player.HealEffect(heal);
+                if (player.statLife > player.statLifeMax2)
+                    player.statLife = player.statLifeMax2;
+            }
         }
 
         // stolen STRAIGHT from fargos souls mod

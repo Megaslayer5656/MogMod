@@ -69,8 +69,21 @@ namespace MogMod.Items.Global
         public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            if (mogPlayer.wearingDamascus)
+            if (mogPlayer.wearingDamascus1)
                 modifiers.CritDamage *= 1.2f;
+        }
+        public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            if (mogPlayer.wearingDamascus2 && hit.Crit)
+            {
+                int heal = 1;
+                heal *= Convert.ToInt32(player.lifeSteal * 0.02);
+                player.statLife += heal;
+                player.HealEffect(heal);
+                if (player.statLife > player.statLifeMax2)
+                    player.statLife = player.statLifeMax2;
+            }
         }
         public override bool InstancePerEntity => true;
         // makes melee weapons size bigger when wearing certain accessories

@@ -37,14 +37,13 @@ namespace MogMod.Items.Armor.Damascus
         public override void UpdateArmorSet(Player player)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            mogPlayer.wearingDamascus = true;
+            mogPlayer.wearingDamascus1 = true;
             player.setBonus = SetBonusText.Value;
-            player.GetCritChance<RangedDamageClass>() += 10;
+            player.GetCritChance<GenericDamageClass>() += 10;
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetCritChance<RangedDamageClass>() += 8;
-            player.huntressAmmoCost90 = true;
+            player.GetCritChance<GenericDamageClass>() += 8;
         }
         public override void AddRecipes()
         {

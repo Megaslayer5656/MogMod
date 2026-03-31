@@ -2131,25 +2131,21 @@ Items: {
 
 		DamascusHelm: {
 			DisplayName: Damascus Helm
-			Tooltip:
-				'''
-				+8% Ranged Critical Strike Chance
-				10% Chance to save ammo
-				'''
+			Tooltip: +8% Critical Strike Chance
 			SetBonus:
 				'''
-				+10% Ranged Critical Strike Chance
+				+10% Critical Strike Chance
 				Critical Strikes deal 20% more damage
 				'''
 		}
 
 		DamascusMask: {
 			DisplayName: Damascus Mask
-			Tooltip: +8% Melee Critical Strike Chance
+			Tooltip: +6% Critical Strike Chance
 			SetBonus:
 				'''
-				+10% Melee Critical Strike Chance
-				Critical Strikes deal 20% more damage
+				+8% Critical Strike Chance
+				Critical Strikes heal you
 				'''
 		}
 
