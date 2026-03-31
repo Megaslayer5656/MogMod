@@ -38,7 +38,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.knockBack = 2f;
             Item.width = 56;
             Item.height = 26;
-            Item.damage = 9;
+            Item.damage = 10;
             Item.shoot = ModContent.ProjectileType<WindrunnerHoldout>();
             Item.useAmmo = AmmoID.Arrow;
             Item.rare = ItemRarityID.Green;

@@ -16,12 +16,12 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 32;
             Item.height = 32;
-            Item.damage = 32;
+            Item.damage = 42;
             Item.useTime = 22;
             Item.useAnimation = 22;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 3f;
-            Item.shootSpeed = 12f;
+            Item.shootSpeed = 15f;
             Item.UseSound = SoundID.Item1;
             Item.value = Item.buyPrice(0, 38, 0, 0);
             Item.axe = 150 / 5;

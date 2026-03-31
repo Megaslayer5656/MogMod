@@ -20,7 +20,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 120;
             Item.height = 120;
-            Item.damage = 20;
+            Item.damage = 25;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 33;
             Item.useStyle = ItemUseStyleID.Swing;
@@ -40,7 +40,7 @@ namespace MogMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_OnHit(target);
-            bashProc = rand.Next(9) == 0;
+            bashProc = rand.Next(5) == 0; //1 in 4
             if (bashProc)
             {
                 int bash = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ModContent.ProjectileType<SkullBashProjectile>(), Item.damage * 5, 0f, player.whoAmI);

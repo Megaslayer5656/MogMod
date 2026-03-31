@@ -31,11 +31,11 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 50;
             Item.height = 64;
-            Item.damage = 74;
+            Item.damage = 82;
             Item.scale = 1.5f;
             Item.DamageType = DamageClass.Melee;
-            Item.useTime = 16;
-            Item.useAnimation = 16;
+            Item.useTime = 14;
+            Item.useAnimation = 14;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 4.5f;
             Item.value = Item.buyPrice(0, 1, 50, 0);

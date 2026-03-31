@@ -72,7 +72,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Player player = Main.player[Projectile.owner];
             if (target.type != NPCID.TargetDummy)
             {
-                player.AddBuff(ModContent.BuffType<EssenceShift>(), 180);
+                player.AddBuff(ModContent.BuffType<EssenceShift>(), 300);
                 MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
                 mogPlayer.essenceShiftLevel += 1;
                 if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)

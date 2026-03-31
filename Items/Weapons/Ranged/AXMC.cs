@@ -13,13 +13,13 @@ namespace MogMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
-            Item.damage = 1150; //Damage of ap lapua in tarkov * 10
+            Item.damage = 1200;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 193;
             Item.height = 37;
             Item.scale = .5f;
-            Item.useTime = 90;
-            Item.useAnimation = 90;
+            Item.useTime = 85;
+            Item.useAnimation = 85;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 10f;
             Item.UseSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/AXMCShot")

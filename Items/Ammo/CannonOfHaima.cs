@@ -17,7 +17,7 @@ namespace MogMod.Items.Ammo
             // display purposes only;
             Item.mana = manaCost;
 
-            Item.damage = 145;
+            Item.damage = 300;
             Item.DamageType = DamageClass.Magic;
             Item.width = 50;
             Item.height = 52;

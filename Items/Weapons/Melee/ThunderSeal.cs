@@ -7,6 +7,7 @@ using MogMod.Utilities;
 using MogMod.Buffs.Debuffs;
 using MogMod.Projectiles.MeleeProjectiles;
 using Terraria.DataStructures;
+using System;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -23,7 +24,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 52;
             Item.height = 52;
-            Item.damage = 60;
+            Item.damage = 75;
             Item.scale = 1.25f;
             Item.DamageType = DamageClass.Melee;
             Item.useTime = Item.useAnimation = 26;
@@ -64,7 +65,7 @@ namespace MogMod.Items.Weapons.Melee
                 var source = target.GetSource_FromAI();
                 for (int x = 0; x < 4; x++)
                 {
-                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ThunderSealProj>(), 38, 0f, player.whoAmI, false, 0f);
+                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ThunderSealProj>(), Convert.ToInt32(Item.damage * .95), 0f, player.whoAmI, false, 0f);
                 }
             }
         }

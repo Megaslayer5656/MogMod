@@ -14,7 +14,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             Item.width = 14;
             Item.height = 66;
-            Item.damage = 22; // compared to megashark with basic bullets
+            Item.damage = 26; // compared to megashark with basic bullets
             Item.knockBack = 3;
             Item.noMelee = true;
             Item.noUseGraphic = true;

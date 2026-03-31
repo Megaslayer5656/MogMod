@@ -38,6 +38,10 @@ namespace MogMod.Projectiles.BaseProjectiles
             {
                 bloodDamage = 200;
             }
+            else if (entity.type == ModContent.ProjectileType<BloodthornBeam>())
+            {
+                bloodDamage = 20; //This one in particular might need some adjustings
+            }
             else
             {
                 bloodDamage = 0;

@@ -17,7 +17,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 60;
             Item.height = 60;
-            Item.damage = 30; // true melee so it has to be good
+            Item.damage = 60; // true melee so it has to be good
             Item.DamageType = DamageClass.Melee;
             Item.useTime = 8;
             Item.useAnimation = 16;

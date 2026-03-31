@@ -20,7 +20,7 @@ namespace MogMod.Items.Weapons.Magic
         {
             Item.width = 32;
             Item.height = 32;
-            Item.damage = 24;
+            Item.damage = 42;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 10;
             Item.useTime = 23;
