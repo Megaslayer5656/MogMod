@@ -14,8 +14,8 @@ namespace MogMod.Buffs.PotionBuffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetAttackSpeed(DamageClass.Generic) += 0.20f;
-            player.GetDamage(DamageClass.Generic) += .20f;
+            player.GetAttackSpeed(DamageClass.Generic) += 0.15f;
+            player.GetDamage(DamageClass.Generic) += .15f;
             float dim = .02f;
             Lighting.AddLight(player.Center, 136f * dim, 8f * dim, 8f * dim);
         }

@@ -1,34 +1,33 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Other;
-using MogMod.Items.Placeable;
+﻿using MogMod.Items.Placeable;
 using MogMod.Projectiles.MeleeProjectiles;
-using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class BattleFury : ModItem, ILocalizedModType
+    public class WarFury : ModItem
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
 
         public override void SetDefaults()
         {
-            Item.width = 32;
-            Item.height = 32;
-            Item.damage = 42;
+            Item.width = 56;
+            Item.height = 56;
+            Item.damage = 58;
             Item.useTime = 22;
             Item.useAnimation = 22;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.knockBack = 3f;
-            Item.shootSpeed = 15f;
+            Item.knockBack = 4f;
+            Item.shootSpeed = 16f;
             Item.UseSound = SoundID.Item1;
             Item.value = Item.buyPrice(0, 38, 0, 0);
             Item.axe = 150 / 5;
             Item.rare = ItemRarityID.Orange;
             Item.DamageType = DamageClass.MeleeNoSpeed;
-            Item.shoot = ModContent.ProjectileType<BattleFuryProjectile>();
+            Item.shoot = ModContent.ProjectileType<WarFuryProjectile>();
             Item.noMelee = true;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
@@ -42,9 +41,9 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.MoltenHamaxe, 1).
-                AddRecipeGroup("IronBar", 12).
-                AddIngredient<FuciumBar>(8).
+                AddIngredient<BattleFury>(1).
+                AddIngredient(ItemID.SoulofNight, 7).
+                AddIngredient(ItemID.LivingFireBlock, 12).
                 AddTile(TileID.Anvils).
                 Register();
         }

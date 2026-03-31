@@ -181,6 +181,8 @@ namespace MogMod.Common.MogModPlayer
 
         public bool moonveilProj = false;
 
+        public bool wearingWhiteArmor = false;
+
         // sound effects
         public static readonly SoundStyle WandUse = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Magic_Stick")
         {
@@ -1396,6 +1398,8 @@ namespace MogMod.Common.MogModPlayer
             duelistStacks = 0;
 
             holdingThrowingShade = false;
+
+            wearingWhiteArmor = false;
 
             if (Player.controlDown)
             {

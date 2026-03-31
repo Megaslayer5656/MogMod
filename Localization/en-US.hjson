@@ -677,6 +677,7 @@ Mods: {
 			SelvesProj3.DisplayName: Selves Proj3
 			MoonveilProj.DisplayName: Moonveil Proj
 			FireworkCrossbowProj.DisplayName: Firework Crossbow Proj
+			WarFuryProjectile.DisplayName: War Fury Projectile
 		}
 	}
 }
