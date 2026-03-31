@@ -350,12 +350,17 @@ namespace MogMod.NPCs.Global
             if (maxBlood < 150)
                 maxBlood = 150;
 
-            int bloodToAdd;
+            int bloodToAdd = globalItem.bloodDamage;
 
             if (mogPlayer.exultationEquipped)
-                bloodToAdd = globalItem.bloodDamage + (int)(globalItem.bloodDamage * 0.15f);
-            else
-                bloodToAdd = globalItem.bloodDamage;
+            {
+                bloodToAdd = (int)(bloodToAdd * 1.15f);
+            }
+
+            if (mogPlayer.wearingWhiteArmor)
+            {
+                bloodToAdd = (int)(bloodToAdd * 1.15f);
+            }
 
             currentBlood += bloodToAdd;
 
@@ -375,10 +380,11 @@ namespace MogMod.NPCs.Global
             {
                 bloodToAdd = (int)(bloodToAdd * 1.15f);
             }
-            //if (mogPlayer.exultationEquipped)
-            //{
-            //    bloodToAdd = (int)(bloodToAdd * 1.5f);
-            //}
+
+            if (mogPlayer.wearingWhiteArmor)
+            {
+                bloodToAdd = (int)(bloodToAdd * 1.15f);
+            }
 
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {

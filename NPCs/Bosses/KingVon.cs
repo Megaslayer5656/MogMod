@@ -158,8 +158,12 @@ namespace MogMod.NPCs.Bosses
                 {
                     if (NPC.HasValidTarget && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(entitySource, NPC.Center, toPlayer * 15, ModContent.ProjectileType<VonGreenTracerProj>(), 60, .5f, Main.myPlayer);
-                        SoundEngine.PlaySound(VonShot, NPC.Center);
+                        Projectile.NewProjectile(entitySource, NPC.Center, toPlayer * 15, ModContent.ProjectileType<VonGreenTracerProj>(), 60, .5f, 255);
+                        if (Main.netMode != NetmodeID.Server)
+                        {
+                            SoundEngine.PlaySound(VonShot, NPC.Center);
+                        }
+
                         vonShotTimer = 0; //Reset timer
                     }
                 }
@@ -193,12 +197,16 @@ namespace MogMod.NPCs.Bosses
                     if (vonRandAttack > 5) //If the random int is greater than 5 throw a nade
                     {
                         //TODO: Make a custom grenade with a bigger explosion
-                        int vonNade = Projectile.NewProjectile(entitySource, NPC.Center, nadeToPlayer, ProjectileID.Grenade, 100, 2f, Main.myPlayer);
+                        int vonNade = Projectile.NewProjectile(entitySource, NPC.Center, nadeToPlayer, ProjectileID.Grenade, 100, 2f, 255);
                         Main.projectile[vonNade].friendly = false;
                         Main.projectile[vonNade].hostile = true;
                         Main.projectile[vonNade].scale = 2f;
                         Main.projectile[vonNade].timeLeft = 60;
-                        SoundEngine.PlaySound(VonNade, NPC.Center); //TODO: Make this change in multiplayer
+                        if (Main.netMode != NetmodeID.Server)
+                        {
+                            SoundEngine.PlaySound(VonNade, NPC.Center);
+                        }
+
                         vonSpecialTimer = 0; //Reset special timer
                     }
                     else //If the random int is 5 or less
@@ -244,7 +252,7 @@ namespace MogMod.NPCs.Bosses
             vonShooting++;
 
             if (vonLaserEyes == 120)
-                Projectile.NewProjectile(entitySource, NPC.Center, new Vector2(0f, 0f), ModContent.ProjectileType<VonLaserSpawner>(), 120, 0, Main.myPlayer);
+                Projectile.NewProjectile(entitySource, NPC.Center, new Vector2(0f, 0f), ModContent.ProjectileType<VonLaserSpawner>(), 120, 0, 255);
             if (vonLaserEyes == 240)
                 vonLaserEyes = 0;
 
@@ -253,8 +261,11 @@ namespace MogMod.NPCs.Bosses
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Vector2 kirk = new Vector2(8, 8).RotatedByRandom(MathHelper.ToRadians(360));
-                    Projectile.NewProjectile(entitySource, NPC.Center, kirk, ModContent.ProjectileType<VonGreenTracerProj>(), 60, .5f, Main.myPlayer);
-                    SoundEngine.PlaySound(VonShot, NPC.Center);
+                    Projectile.NewProjectile(entitySource, NPC.Center, kirk, ModContent.ProjectileType<VonGreenTracerProj>(), 60, .5f, 255);
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        SoundEngine.PlaySound(VonShot, NPC.Center);
+                    }
                 }
                 if (vonShooting == 180)
                     vonShooting = 0;
@@ -265,12 +276,18 @@ namespace MogMod.NPCs.Bosses
                 if (vonCharge == 1)
                 {
                     NPC.velocity *= .05f;
-                    SoundEngine.PlaySound(SoundID.Item149, NPC.Center);
-                    Projectile.NewProjectile(entitySource, NPC.Center, toPlayer, ModContent.ProjectileType<VonTargetLaser>(), 0, 0, Main.myPlayer);
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        SoundEngine.PlaySound(SoundID.Item149, NPC.Center);
+                    }
+                    Projectile.NewProjectile(entitySource, NPC.Center, toPlayer, ModContent.ProjectileType<VonTargetLaser>(), 0, 0, 255);
                 }
                 if (vonCharge >= 40)
                 {
-                    SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center);
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center);
+                    }
                     Vector2 charge = Vector2.Normalize(player.Center - NPC.Center) * 30f * 2f;
                     NPC.velocity = charge;
                     vonCharge = 0;

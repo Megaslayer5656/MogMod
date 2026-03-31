@@ -25,8 +25,8 @@ namespace MogMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.statDefense += 7;
-            player.GetAttackSpeed(DamageClass.Generic) += .10f;
-            player.GetDamage(DamageClass.Generic) += .10f;
+            player.GetAttackSpeed(DamageClass.Generic) += .05f;
+            player.GetDamage(DamageClass.Generic) += .05f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.armletActive = true;
         }

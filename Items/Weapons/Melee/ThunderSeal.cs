@@ -24,7 +24,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 52;
             Item.height = 52;
-            Item.damage = 75;
+            Item.damage = 78;
             Item.scale = 1.25f;
             Item.DamageType = DamageClass.Melee;
             Item.useTime = Item.useAnimation = 26;
@@ -48,7 +48,7 @@ namespace MogMod.Items.Weapons.Melee
             {
                 Item.noMelee = true;
                 Item.useStyle = ItemUseStyleID.Swing;
-                int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<StunEdge>(), 38, knockback);
+                int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<StunEdge>(), damage, knockback);
             } else
             {
                 Item.noMelee = false;
@@ -74,9 +74,9 @@ namespace MogMod.Items.Weapons.Melee
         {
             //TODO: Make this recipe more interesting but not too grindy
             CreateRecipe().
-                AddIngredient(ItemID.SoulofLight, 10).
-                AddIngredient(ItemID.SoulofFlight, 5).
                 AddRecipeGroup("CobaltBar", 15).
+                AddIngredient(ItemID.SoulofLight, 10).
+                AddIngredient(ItemID.SoulofMight, 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

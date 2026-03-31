@@ -79,9 +79,9 @@ Items: {
 			Tooltip:
 				'''
 				7 Defense
-				+10% Attack Damage
-				+10% Attack Speed
-				Pressing [KEY] will increase attack damage and speed by 20% when activated
+				+5% Attack Damage
+				+5% Attack Speed
+				Pressing [KEY] will increase attack damage and speed by 15% when activated
 				[c/A62D24:'Weapon of choice among brutes, the bearer sacrifices their life energy to gain immense strength and power.']
 				'''
 		}
@@ -2166,6 +2166,21 @@ Items: {
 				+8% Melee Attack Speed
 				'''
 		}
+
+		WhiteMask: {
+			Tooltip:
+				'''
+				+6% Damage
+				+8% Critical Strike Chance
+				'''
+			DisplayName: White Mask
+			SetBonus: +15% Blood Damage
+		}
+
+		WhiteCloak: {
+			Tooltip: +8% Damage
+			DisplayName: White Cloak
+		}
 	}
 
 	Placeables: {
@@ -2183,5 +2198,10 @@ Items: {
 			DisplayName: Fucium Ore
 			Tooltip: ""
 		}
+	}
+
+	WarFury: {
+		Tooltip: ""
+		DisplayName: War Fury
 	}
 }
