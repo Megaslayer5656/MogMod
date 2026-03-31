@@ -45,7 +45,6 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.ManaRegenerationBand, 1).
                 AddIngredient<BladesOfAttack>(1).
-                AddRecipeGroup("IronBar", 18).
                 AddIngredient(ItemID.Silk, 12).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 7).
                 AddIngredient<ManaEssence>(3).

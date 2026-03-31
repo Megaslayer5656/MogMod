@@ -1,23 +1,22 @@
-﻿using System;
-using Terraria.ModLoader;
-using Terraria;
-using Terraria.ID;
-using Terraria.Audio;
-using MogMod.Utilities;
-using MogMod.Projectiles.MeleeProjectiles;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Placeable;
+using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Utilities;
+using System;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using static MogMod.Common.Systems.MogModNetcode;
 
 namespace MogMod.Items.Weapons.Melee
 {
+    // might resprite
     public class AbyssalBlade : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        Random random = new Random();
-        public int randChance;
-        public int randNumProjectiles;
-        public bool skullBash = false;
+        Random rand = new Random();
+        public bool bashProc = false;
         public override void SetDefaults()
         {
             Item.width = 120;
@@ -35,39 +34,31 @@ namespace MogMod.Items.Weapons.Melee
             Item.shootSpeed = 10f;
             Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing
         }
-
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            return false;
-        }
-
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_OnHit(target);
-            Item.damage = 68;
-            Item.crit = 66;
-
-            randChance = random.Next(1, 4);
-            if (skullBash)
+            bashProc = rand.Next(4) == 0;
+            if (bashProc)
             {
-                target.AddBuff(BuffID.Dazed, 360);
-                target.AddBuff(BuffID.Slow, 360);
-                target.AddBuff(BuffID.BrokenArmor, 360);
-                bool randomBool = random.Next(2) == 0;
                 for (int i = 0; i < 4; i++)
                 {
+                    bool randomBool = rand.Next(2) == 0;
                     MogModUtils.ProjectileBarrage(source, target.Center, target.Center, randomBool, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<AbyssalBladeProj>(), Convert.ToInt32(Item.damage / 2), 0f, player.whoAmI, false, 0f);
                 }
-                skullBash = false;
-            }
-            if (randChance == 2)
-            {
-                Item.damage += 182;
-                Item.crit = 96;
-                skullBash = true;
+                Rectangle r = new Rectangle((int)target.position.X - 10, (int)target.position.Y - 50, target.width, target.height);
+                Color textColor = new Color(255, 0, 75);
+                CombatText.NewText(r, textColor, "Bash!", true);
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    ModPacket packet = Mod.GetPacket();
+                    packet.Write((byte)MogModMessageType.BashProcTextSync);
+                    packet.Write(target.lastInteraction);
+                    packet.WriteVector2(r.Center.ToVector2());
+                    packet.Send();
+                }
             }
         }
-
         public override void AddRecipes()
         {
             CreateRecipe().

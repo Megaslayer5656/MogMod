@@ -1,13 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using MogMod.Projectiles.MagicProjectiles;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
-using MogMod.Items.Placeable;
-using MogMod.Items.Other;
+
 
 namespace MogMod.Items.Weapons.Magic
 {
@@ -70,6 +71,20 @@ namespace MogMod.Items.Weapons.Magic
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
+            List<Color> colorList = new List<Color>()
+            {
+                Color.Purple,
+                Color.BlueViolet,
+                Color.Blue
+            };
+            int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % colorList.Count);
+            Color currentColor = colorList[colorIndex];
+            Color nextColor = colorList[(colorIndex + 1) % colorList.Count];
+            Color tooltipColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
+
+            TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip4");
+            if (line != null)
+                line.OverrideColor = Color.Lerp(tooltipColor, Color.White, 0.5f);
             var changedLine = tooltips.FirstOrDefault(x => x.Name == "Master" && x.Mod == "Terraria");
             if (changedLine != null)
             {

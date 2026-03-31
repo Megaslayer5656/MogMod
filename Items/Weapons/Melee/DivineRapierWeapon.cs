@@ -3,6 +3,8 @@ using MogMod.Items.Accessories;
 using MogMod.Items.Consumables;
 using MogMod.Items.Placeable;
 using MogMod.Projectiles.MeleeProjectiles;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -55,6 +57,24 @@ namespace MogMod.Items.Weapons.Melee
             return true;
         }
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            List<Color> colorList = new List<Color>()
+            {
+                Color.NavajoWhite,
+                Color.LightCoral,
+                Color.LightSalmon
+            };
+
+            int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % colorList.Count);
+            Color currentColor = colorList[colorIndex];
+            Color nextColor = colorList[(colorIndex + 1) % colorList.Count];
+            Color tooltipColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
+
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+            if (line != null)
+                line.OverrideColor = Color.Lerp(tooltipColor, Color.White, 0.5f);
+        }
         public override void AddRecipes()
         {
             CreateRecipe().

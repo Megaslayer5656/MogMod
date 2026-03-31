@@ -54,6 +54,21 @@ namespace MogMod.Items.Weapons.Ranged
         // gets rid of "Expert" tag at the bottom of the item desc
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
+            List<Color> colorList = new List<Color>()
+            {
+                Color.SkyBlue,
+                Color.LimeGreen,
+                Color.YellowGreen
+            };
+
+            int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % colorList.Count);
+            Color currentColor = colorList[colorIndex];
+            Color nextColor = colorList[(colorIndex + 1) % colorList.Count];
+            Color tooltipColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
+
+            TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
+            if (line != null)
+                line.OverrideColor = Color.Lerp(tooltipColor, Color.White, 0.5f);
             var changedLine = tooltips.FirstOrDefault(x => x.Name == "Expert" && x.Mod == "Terraria");
             if (changedLine != null)
             {
@@ -67,7 +82,6 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.VortexBeater, 1).
                 AddIngredient(ItemID.Megashark, 1).
                 AddIngredient<VoniumBar>(5).
-                AddIngredient<UltimateOrb>(3).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
             CreateRecipe().
@@ -75,7 +89,6 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.VortexBeater, 1).
                 AddIngredient<Minislark>(1).
                 AddIngredient<VoniumBar>(5).
-                AddIngredient<UltimateOrb>(3).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

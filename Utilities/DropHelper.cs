@@ -1,5 +1,6 @@
 ﻿using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
+using Terraria;
 
 namespace MogMod.Utilities
 {
@@ -18,6 +19,12 @@ namespace MogMod.Utilities
     }
     public static class DropHelper
     {
+        public static IItemDropRuleCondition PostFish(bool ui = true) => Condition.DownedDukeFishron.ToDropCondition(ui ? ShowItemDropInUI.Always : ShowItemDropInUI.Never);
+        public static IItemDropRuleCondition PostEoL(bool ui = true) => Condition.DownedEmpressOfLight.ToDropCondition(ui ? ShowItemDropInUI.Always : ShowItemDropInUI.Never);
+        public static IItemDropRule Add(this LeadingConditionRule mainRule, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
+        {
+            return mainRule.OnSuccess(ItemDropRule.Common(itemID, dropRateInt, minQuantity, maxQuantity), hideLootReport);
+        }
         public static LeadingConditionRule DefineConditionalDropSet(this ILoot loot, IItemDropRuleCondition condition)
         {
             LeadingConditionRule rule = new LeadingConditionRule(condition);

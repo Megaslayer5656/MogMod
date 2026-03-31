@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace MogMod.Projectiles.EnemyProjectiles.KingVon
+namespace MogMod.Projectiles.EnemyProjectiles.Boss
 {
     public class VonNade : ModProjectile, ILocalizedModType
     {

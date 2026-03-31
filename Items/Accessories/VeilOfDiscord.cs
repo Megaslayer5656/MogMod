@@ -1,4 +1,5 @@
 ﻿using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,7 +33,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient<HelmOfIronWill>(1).
                 AddIngredient<Crown>(1).
                 AddIngredient(ItemID.Bone, 40).
-                AddIngredient<FrigidShard>(3).
+                AddIngredient<FuciumBar>(8).
                 AddIngredient(ItemID.LargeAmethyst, 1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

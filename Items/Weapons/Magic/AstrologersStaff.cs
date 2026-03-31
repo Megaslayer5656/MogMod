@@ -18,13 +18,13 @@ namespace MogMod.Items.Weapons.Magic
         {
             // TODO: make it so that certain sorceries play different sounds, change item usetime and mana cost for each sorcery;
             Item.useTime = Item.useAnimation = 30;
-            Item.mana = 0;
+            Item.mana = 1;
 
             Item.damage = 15;
             Item.width = Item.height = 58;
             Item.DamageType = DamageClass.Magic;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.knockBack = 0f;
+            Item.knockBack = 1.1f;
             Item.value = Item.buyPrice(0, 7, 0, 0);
             Item.rare = ItemRarityID.Green;
             Item.autoReuse = true;
@@ -104,6 +104,7 @@ namespace MogMod.Items.Weapons.Magic
             }
             return true;
         }
+        public override bool MagicPrefix() => true;
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             string[] lLine = { "mana", "speed", "knockback" };

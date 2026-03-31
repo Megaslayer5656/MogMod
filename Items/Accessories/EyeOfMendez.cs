@@ -1,7 +1,10 @@
-﻿using MogMod.Common.MogModPlayer;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 namespace MogMod.Items.Accessories
 {
@@ -79,6 +82,27 @@ namespace MogMod.Items.Accessories
             player.statDefense += 500;
             player.aggro += -2500;
             player.endurance *= 5f;
+        }
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            List<Color> colorList = new List<Color>()
+            {
+                Color.Red,
+                Color.Orange,
+                Color.Yellow,
+                Color.Green,
+                Color.Blue,
+                Color.Purple
+            };
+
+            int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % colorList.Count);
+            Color currentColor = colorList[colorIndex];
+            Color nextColor = colorList[(colorIndex + 1) % colorList.Count];
+            Color tooltipColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
+
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+            if (line != null)
+                line.OverrideColor = Color.Lerp(tooltipColor, Color.White, 0.5f);
         }
     }
 }

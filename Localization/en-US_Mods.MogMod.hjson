@@ -70,7 +70,7 @@ Items: {
 				Increased Maximum Mana by 50
 				Slightly Increased Mana Regeneration
 				Pressing [KEY] will restore 200 Mana to you and nearby allies
-				'Magi equipped with these boots are valued in battle.'
+				[c/2481A6:'Magi equipped with these boots are valued in battle.']
 				'''
 		}
 
@@ -82,7 +82,7 @@ Items: {
 				+10% Attack Damage
 				+10% Attack Speed
 				Pressing [KEY] will increase attack damage and speed by 20% when activated
-				'Weapon of choice among brutes, the bearer sacrifices their life energy to gain immense strength and power.'
+				[c/A62D24:'Weapon of choice among brutes, the bearer sacrifices their life energy to gain immense strength and power.']
 				'''
 		}
 
@@ -98,7 +98,7 @@ Items: {
 				Provides you and nearby team members +20 Maximum Life, +50 Maximum Mana, 
 				+6 HP/s Life regen, +4 Defense and +7.5% Increased Attack Damage
 				Pressing [KEY] will restore 100 Life and 300 Mana to you and nearby team members
-				'One of many holy instruments constructed to honor the Omniscience.'
+				[c/1CA396:'One of many holy instruments constructed to honor the Omniscience.']
 				'''
 		}
 
@@ -134,7 +134,7 @@ Items: {
 				+10% Attack Damage
 				Vastly Increases lifesteal of weapons that utilize it
 				Press [KEY] to increase lifesteal affectiveness
-				'Immense power at the cost of your soul.'
+				[c/872727:'Immense power at the cost of your soul.']
 				'''
 		}
 
@@ -146,7 +146,7 @@ Items: {
 				+10% Summon Damage
 				Increases Maximum Mana by 50
 				Pressing [KEY] will refresh the cooldowns of all items
-				'A powerful artifact created for wizards.'
+				[c/27873F:'A powerful artifact created for wizards.']
 				'''
 		}
 
@@ -223,7 +223,7 @@ Items: {
 				+30% Knockback
 				Increases block placement range by 3
 				Pressing [KEY] will boost you forward in the direction you are facing
-				'A legendary pike once held as royal sigil of the ancient wyvern riders.'
+				[c/A62828:'A legendary pike once held as royal sigil of the ancient wyvern riders.']
 				'''
 		}
 
@@ -260,7 +260,7 @@ Items: {
 			Tooltip:
 				'''
 				Run like the wind!
-				'Winged boots that grant ultra-omnipresence.'
+				[c/C98E3C:'Winged boots that grant ultra-omnipresence.']
 				'''
 		}
 
@@ -314,7 +314,7 @@ Items: {
 				Grants immunity to knockback and fire blocks
 				Grants immunity to most debuffs
 				Vastly Increased Life Regeneration, increasing even more if standing still
-				'Preserved heart of an extinct monster, it bolsters the bearer's fortitude.'
+				[c/7D0A0A:'Preserved heart of an extinct monster, it bolsters the bearer's fortitude.']
 				'''
 		}
 
@@ -337,19 +337,6 @@ Items: {
 		DesperationCharm: {
 			DisplayName: Desperation Charm
 			Tooltip: When there's no exit...
-		}
-
-		DaedalusUnused: {
-			DisplayName: Daedalus (ACCESSORY)
-			Tooltip:
-				'''
-				+40% Attack Damage 
-				+30% Crit Chance
-				GONNA BE A WEAPON
-				'A weapon of incredible power that is difficult 
-				for even the strongest of warriors to control.'
-
-				'''
 		}
 
 		DabdadWings: {
@@ -379,7 +366,7 @@ Items: {
 				Enemies are more likely to target you
 				Grants immunity to knockback
 				Absorbs 25% of damage done to players on your team when above 25% life
-				'A cuirass originally built to protect against the dreaded Year Beast.'
+				[c/7D411A:'A cuirass originally built to protect against the dreaded Year Beast.']
 				'''
 		}
 
@@ -437,7 +424,7 @@ Items: {
 				+15% Summon Damage
 				Increased Maximum Mana by 100
 				Press [KEY] to summon a flying beast!
-				'The powerful headpiece of a dead overlord.'
+				[c/AB4920:'The powerful headpiece of a dead overlord.']
 				'''
 		}
 
@@ -450,7 +437,7 @@ Items: {
 				+25 Armor Penetration
 				Grants immunity to some debuffs
 				Attacks inflict Cold Attack
-				'Extremely rare artifact, guarded by the azure dragons.'
+				[c/2F4BB5:'Extremely rare artifact, guarded by the azure dragons.']
 				'''
 		}
 
@@ -465,7 +452,7 @@ Items: {
 				Increased Maximum Mana by 70
 				Taking damage adds a charge to the wand
 				Pressing [KEY] expends all charges and heals 10 Life and Mana for each charge
-				'A prized relic long thought lost forever in a failed crusade.'
+				[c/AFC25B:'A prized relic long thought lost forever in a failed crusade.']
 				'''
 		}
 
@@ -483,7 +470,7 @@ Items: {
 				Increases Maximum Mana by 50
 				Pressing [KEY] damages nearby enemies and lowers their armor by 15%
 				Provides nearby team members +10 defense and +10% ranged damage
-				'Said to have belonged to a goddess, today it retains much of its former power.'
+				[c/278187:'Said to have belonged to a goddess, today it retains much of its former power.']
 				'''
 		}
 
@@ -492,7 +479,7 @@ Items: {
 			Tooltip:
 				'''
 				+35% Attack Damage when at full life
-				'So magnificent, it cannot abide failure.'
+				[c/E8E5C1:'So magnificent, it cannot abide failure.']
 				'''
 		}
 
@@ -574,7 +561,7 @@ Items: {
 				Allows flight and slow fall
 				Increased movement speed
 				Radiates a heavenly aura that damages nearby enemies over time
-				'Was ablaze with gold embers'
+				[c/C4BB74:'Was ablaze with gold embers']
 				'''
 		}
 
@@ -606,7 +593,7 @@ Items: {
 				+30% Melee Weapon Size
 				-20% Melee Speed
 				True melee attacks have a small chance to bash enemies, dealing up to 50 melee damage
-				'Crude but smashingly effective.'
+				[c/A62450:'Crude but smashingly effective.']
 				'''
 		}
 
@@ -645,7 +632,7 @@ Items: {
 				+15% Magic Damage
 				+15% Summon Damage
 				+15% Damage Taken
-				'The air that passes through this amulet makes a dreadful sound.'
+				[c/C25B99:'The air that passes through this amulet makes a dreadful sound.']
 				'''
 		}
 
@@ -654,7 +641,7 @@ Items: {
 			Tooltip:
 				'''
 				Attacks have a chance to true strike enemies, dealing 1% of their maximum life as damage
-				'Too dangerous for taskwork, this blade's only purpose is vile murder.'
+				[c/C25B5B:'Too dangerous for taskwork, this blade's only purpose is vile murder.']
 				'''
 		}
 
@@ -664,7 +651,7 @@ Items: {
 				'''
 				Reduces the respawn timer by 40%
 				Dying summons vengeful ghosts that chase after your enemy
-				'The price for wearing it is paid in the afterlife.'
+				[c/78C25B:'The price for wearing it is paid in the afterlife.']
 				'''
 		}
 
@@ -684,7 +671,7 @@ Items: {
 				'''
 				+7% Non-Melee Damage
 				Attacks inflict shadowflame
-				'To torture a magic user, one must devise means far beyond the mundane.'
+				[c/A6288D:'To torture a magic user, one must devise means far beyond the mundane.']
 				'''
 		}
 
@@ -706,7 +693,7 @@ Items: {
 				Increases your max number of sentries by 5
 				Provides you and nearby team members the 10 defense, +5 Flat Attack Damage, +10% Attack damage,
 				Increased Mana Regeneration by 10, and Greatly Increased lifesteal effectiveness
-				'A sentient amulet whose animus shakes the courage of even the strongest foes.'
+				[c/528727:'A sentient amulet whose animus shakes the courage of even the strongest foes.']
 				'''
 		}
 
@@ -837,8 +824,8 @@ Items: {
 				Tooltip:
 					'''
 					Has a chance to bash enemies multiple times
-					'The lost blade of the Commander of the Abyss, 
-					this edge cuts into an enemy's soul.'
+					[c/912F20:'The lost blade of the Commander of the Abyss, ]
+					[c/912F20:this edge cuts into an enemy's soul.']
 					'''
 			}
 
@@ -864,8 +851,8 @@ Items: {
 				DisplayName: Daedalus
 				Tooltip:
 					'''
-					'A weapon of incredible power that is difficult 
-					for even the strongest of warriors to control.'
+					[c/962938:'A weapon of incredible power that is difficult ]
+					[c/962938:for even the strongest of warriors to control.']
 					'''
 			}
 
@@ -876,7 +863,7 @@ Items: {
 					Right click to fire a stun edge
 					Enemies hit by stun edge gain shock state
 					Hitting an enemy afflicted with shock state deals extra damage
-					'A king's blade is not just for show.'
+					[c/6AAABA:'A king's blade is not just for show.']
 					'''
 			}
 
@@ -897,7 +884,7 @@ Items: {
 					Shoots a deadly sickle that bursts into 4 smaller homing sickles
 					Deals more damage the lower life you have
 					Attacks lower defense and inflict Destined Death on enemies
-					'A wicked weapon, used in torturing political criminals.'
+					[c/912049:'A wicked weapon, used in torturing political criminals.']
 					'''
 			}
 
@@ -923,7 +910,7 @@ Items: {
 					'''
 					Shoots a homing axe
 					Right click to summon 2 illusions that mirror your attacks
-					'An axe made of reflective materials that causes confusion amongst enemy ranks.'
+					[c/A1D3D6:'An axe made of reflective materials that causes confusion amongst enemy ranks.']
 					'''
 			}
 
@@ -1000,8 +987,7 @@ Items: {
 					'''
 					Right click to parry
 					After a successful parry, shoots a projectile
-					'Katana forged of glintstone,
-					 masterpiece of a Sellian swordsmith.'
+					[c/839ED4:'Katana forged of glintstone, masterpiece of a Sellian swordsmith.']
 					'''
 			}
 
@@ -1046,8 +1032,8 @@ Items: {
 				Tooltip:
 					'''
 					Casts down heavenly beams from the sky
-					'This halberd moves with the speed of a smaller weapon, 
-					allowing the bearer to win duels that a heavy edge would not.'
+					[c/57D9A0:'This halberd moves with the speed of a smaller weapon, ]
+					[c/57D9A0:allowing the bearer to win duels that a heavy edge would not.']
 					'''
 			}
 
@@ -1094,7 +1080,7 @@ Items: {
 					'''
 					Shoots AP Lapua rounds
 					Right click to scope in
-					'Time for some area brainrot.'
+					[c/1E6329:'Time for some area brainrot.']
 					'''
 			}
 
@@ -1104,7 +1090,7 @@ Items: {
 					'''
 					Rapidly fires arrows at the cost of accuracy
 					Right click to fire a powershot
-					'Feel the wind in your hair!'
+					[c/36C93F:'Feel the wind in your hair!']
 					'''
 			}
 
@@ -1115,7 +1101,7 @@ Items: {
 					Can be charged up to 5 times, doubling damage at max charge
 					Right click to slowly charge up a Dragon Piercer Bolt
 					You are unable to move while charging the Dragon Piercer Bolt
-					'Jumpin' Jaggis, a Rathian!'
+					[c/85A845:'Jumpin' Jaggis, a Rathian!']
 					'''
 			}
 
@@ -1167,7 +1153,7 @@ Items: {
 					Occasionally fire a water bolt, granting a stack of essence shift upon hitting an enemy
 					Essence shift increases your attack speed, movement speed, and armor penetration per stack
 					35% chance to save ammo
-					'You think you caught me? Ha ha ha ha ha!'
+					[c/48C7C1:'You think you caught me? Ha ha ha ha ha!']
 					'''
 			}
 
@@ -1235,7 +1221,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires a barrage of homing swords
-					'The scepter of a wizard with demigod-like powers.'
+					[c/5A3AB5:'The scepter of a wizard with demigod-like powers.']
 					'''
 			}
 
@@ -1254,7 +1240,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires a weak bolt
-					'A lesser wand that brings magic to the fingertips of the user.'
+					[c/CF8459:'A lesser wand that brings magic to the fingertips of the user.']
 					'''
 			}
 
@@ -1313,7 +1299,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires a flaming bolt
-					'A wand that brings magic to the fingertips of the user.'
+					[c/CC7352:'A wand that brings magic to the fingertips of the user.']
 					'''
 			}
 
@@ -1322,7 +1308,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires a blazing volatile bolt
-					'A staff that brings volatile magic to the fingertips of the user.'
+					[c/C7654A:'A staff that brings volatile magic to the fingertips of the user.']
 					'''
 			}
 
@@ -1331,7 +1317,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires three blazing bolts that summon homing volatile orbs on hit
-					'A superior staff that brings volatile magic to the fingertips of the user.'
+					[c/C2563E:'A superior staff that brings volatile magic to the fingertips of the user.']
 					'''
 			}
 
@@ -1341,7 +1327,7 @@ Items: {
 					'''
 					Fires five randomized infernal bolts
 					On hit, bolts either explode, summon beams from the sky, or split into solar orbs
-					'A legendary staff that holds unimaginable power.'
+					[c/B83928:'A legendary staff that holds unimaginable power.']
 					'''
 			}
 
@@ -1359,8 +1345,7 @@ Items: {
 				Tooltip:
 					'''
 					Launches 3 orbs that fire homing lifestealing beams
-					'A reviled blade that bites deeper with 
-					each wriggle of its victim's final throes.'
+					[c/B04C89:'A reviled blade that bites deeper with each wriggle of its victim's final throes.']
 					'''
 			}
 
@@ -1381,7 +1366,7 @@ Items: {
 				Tooltip:
 					'''
 					Swing a magical sword that fires a beam that explodes on hit
-					'Bathed in Radiant Dawn'
+					[c/F5C969:'Bathed in Radiant Dawn']
 					'''
 			}
 
@@ -1400,8 +1385,8 @@ Items: {
 				Tooltip:
 					'''
 					A catalyst used to cast sorceries
-					Consumes 50% more mana per cast
-					'Only those who have glimpsed what lies beyond the wisdom of stone may wield it.'
+					[c/701228:Consumes 50% more mana per cast]
+					[c/1F2787:'Only those who have glimpsed what lies beyond the wisdom of stone may wield it.']
 					'''
 			}
 
@@ -1411,7 +1396,7 @@ Items: {
 					'''
 					Right click to disappear into the shadows
 					Damage is increased in correlation to the amount of time spent in the shadows
-					'What you can't see will most definitely hurt you.'
+					[c/723680:'What you can't see will most definitely hurt you.']
 					'''
 			}
 
@@ -1550,7 +1535,7 @@ Items: {
 		Tooltip:
 			'''
 			Greatly increased mana regeneration, but is lost on hit
-			'Clear water that enhances the ability to meditate.'
+			[c/4890C7:'Clear water that enhances the ability to meditate.']
 			'''
 	}
 
@@ -1559,7 +1544,7 @@ Items: {
 		Tooltip:
 			'''
 			Greatly increased life regeneration, but is lost on hit
-			'A magical salve that can quickly mend even the deepest of wounds.'
+			[c/48C768:'A magical salve that can quickly mend even the deepest of wounds.']
 			'''
 	}
 
@@ -1568,7 +1553,7 @@ Items: {
 		Tooltip:
 			'''
 			Greatly increases attack speed
-			'Said to be a tear from the lunar goddess Selemene.'
+			[c/76BFCF:'Said to be a tear from the lunar goddess Selemene.']
 			'''
 	}
 
@@ -1919,6 +1904,16 @@ Items: {
 			DisplayName: Soul Fragment
 			Tooltip: ""
 		}
+
+		FuciumBar: {
+			DisplayName: Fucium Bar
+			Tooltip: ""
+		}
+
+		VonWarning: {
+			DisplayName: Von's Warning
+			Tooltip: "'I ain't lookin for no trouble I jus lookin out for me'"
+		}
 	}
 
 	Fishing: {
@@ -1945,7 +1940,7 @@ Items: {
 				'''
 				Increases maximum mana by 100 and 17% reduced mana cost
 				+13% Magic Damage and Critical Strike Chance
-				'A bolt of lightning shows me where to fly'
+				[c/76BACF:'A bolt of lightning shows me where to fly']
 				'''
 			SetBonus:
 				'''
@@ -2133,6 +2128,48 @@ Items: {
 			DisplayName: Frost Maiden Robe
 			Tooltip: Increases maximum mana by 80 and 16% reduced mana cost
 		}
+
+		DamascusHelm: {
+			DisplayName: Damascus Helm
+			Tooltip:
+				'''
+				+8% Ranged Critical Strike Chance
+				10% Chance to save ammo
+				'''
+			SetBonus:
+				'''
+				+10% Ranged Critical Strike Chance
+				Critical Strikes deal 20% more damage
+				'''
+		}
+
+		DamascusMask: {
+			DisplayName: Damascus Mask
+			Tooltip: +8% Melee Critical Strike Chance
+			SetBonus:
+				'''
+				+10% Melee Critical Strike Chance
+				Critical Strikes deal 20% more damage
+				'''
+		}
+
+		DamascusGreaves: {
+			DisplayName: Damascus Greaves
+			Tooltip:
+				'''
+				+10% Movement Speed
+				+8% Critical Strike Chance
+				'''
+		}
+
+		DamascusMail: {
+			DisplayName: Damascus Mail
+			Tooltip:
+				'''
+				+8% Critical Strike Chance
+				+8% Melee Attack Speed
+				'''
+		}
 	}
 
 	Placeables: {
@@ -2143,6 +2180,11 @@ Items: {
 
 		FaeOre: {
 			DisplayName: Fae Ore
+			Tooltip: ""
+		}
+
+		FuciumOre: {
+			DisplayName: Fucium Ore
 			Tooltip: ""
 		}
 	}

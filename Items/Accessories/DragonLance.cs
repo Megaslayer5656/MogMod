@@ -1,4 +1,5 @@
 ﻿using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -27,8 +28,7 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<BeltOfStrength>(1).
-                AddIngredient(ItemID.GreenPhaseblade, 1).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 7).
+                AddIngredient<FuciumBar>(7).
                 AddIngredient(ItemID.Ruby, 5).
                 AddIngredient(ItemID.AntlionMandible, 3).
                 AddTile(TileID.TinkerersWorkbench).

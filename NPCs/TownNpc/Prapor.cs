@@ -78,7 +78,7 @@ namespace MogMod.NPCs.TownNpc
         public override string GetChat()
         {
             NPC.FindFirstNPC(ModContent.NPCType<Mendez>());
-            switch (Main.rand.Next(5))
+            switch (Main.rand.Next(7))
             {
                 case 0:
                     return "Lost your gear, musketeer?";
@@ -92,6 +92,8 @@ namespace MogMod.NPCs.TownNpc
                     return "Found my pocket watch yet?";
                 case 5:
                     return "Don't listen to that skier guy, he's a bum.";
+                case 6:
+                    return "I heard tale of a fancy ore round the edge of the dungeon, why don't ya take a peep over?";
                 default:
                     return "I sent my dogs to look for your stuff.";
             }

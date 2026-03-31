@@ -7,12 +7,14 @@ using MogMod.Items.Accessories;
 using MogMod.Items.Ammo;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
 using MogMod.Tiles.Ores;
+using MogMod.Utilities;
 using Mono.Cecil;
 using System;
 using System.IO;
@@ -248,6 +250,8 @@ namespace MogMod.NPCs.Global
         }
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
+            LeadingConditionRule postFish = npcLoot.DefineConditionalDropSet(DropHelper.PostFish());
+            LeadingConditionRule postEoL = npcLoot.DefineConditionalDropSet(DropHelper.PostEoL());
             if (npc.type == NPCID.Tim)
             {
                 npcLoot.RemoveWhere(rule => true, false);
@@ -286,6 +290,14 @@ namespace MogMod.NPCs.Global
             if (npc.type == NPCID.DukeFishron)
             {
                 npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<BrinyRind>(), 1, 7, 14));
+            }
+            if (npc.type == NPCID.Shark || npc.type == NPCID.PigronCorruption || npc.type == NPCID.PigronCrimson || npc.type == NPCID.PigronHallow)
+            {
+                postFish.Add(ModContent.ItemType<BrinyRind>(), 4, 3, 5);
+            }
+            if (npc.type == NPCID.RainbowSlime || npc.type == NPCID.LightMummy)
+            {
+                postEoL.Add(ModContent.ItemType<FaeOre>(), 2, 12, 20);
             }
         }
 

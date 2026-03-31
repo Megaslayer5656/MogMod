@@ -65,6 +65,13 @@ namespace MogMod.Items.Global
                 itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<BrinyRind>(), 1, 9, 16));
             }
         }
+        // damascus crit damage increase
+        public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers)
+        {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            if (mogPlayer.wearingDamascus)
+                modifiers.CritDamage *= 1.2f;
+        }
         public override bool InstancePerEntity => true;
         // makes melee weapons size bigger when wearing certain accessories
         public static List<int> MeleeSizeAlwaysAffects =
@@ -77,6 +84,7 @@ namespace MogMod.Items.Global
             ItemID.PiercingStarlight,
             ItemID.TheHorsemansBlade,
             ItemID.LucyTheAxe,
+            ModContent.ItemType<Gunlance>(),
             ItemID.TheAxe
         ];
         public override void ModifyItemScale(Item item, Player player, ref float scale)
@@ -86,9 +94,7 @@ namespace MogMod.Items.Global
             if (!item.IsAir && !item.noMelee || MeleeSizeAlwaysAffects.Contains(item.type))
             {
                 if (modPlayer.wearingGiantsMaul)
-                {
                     scale *= GiantsMaul.GiantsMaulWeaponSize(modPlayer);
-                }
             }
         }
     }

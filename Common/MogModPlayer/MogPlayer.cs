@@ -4,17 +4,20 @@ using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
+using MogMod.Items.Other;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Default;
 
 namespace MogMod.Common.MogModPlayer
 {
@@ -81,6 +84,7 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingPike;
         public bool wearingBladeMail;
         public bool wearingFrostArmor;
+        public bool wearingDamascus;
 
         public bool diademMinion = false;
         public bool dominatorMinion = false;
@@ -654,7 +658,6 @@ namespace MogMod.Common.MogModPlayer
                 Player.velocity = newVelocity;
                 Player.AddBuff(forceStaffCooldown, 300);
             }
-
         }
         public void MiscEffects()
         {
@@ -811,6 +814,18 @@ namespace MogMod.Common.MogModPlayer
         {
             MiscEffects();
             OtherBuffEffects();
+        }
+        public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)
+        {
+            static Item createItem(int type)
+            {
+                Item i = new Item();
+                i.SetDefaults(type);
+                return i;
+            }
+
+            if (!mediumCoreDeath)
+                yield return createItem(ModContent.ItemType<VonWarning>());
         }
         public override void PostUpdate()
         {
@@ -1338,6 +1353,7 @@ namespace MogMod.Common.MogModPlayer
             wearingTankyRizzler = false;
             wearingBladeMail = false;
             wearingFrostArmor = false;
+            wearingDamascus = false;
 
             diademMinion = false;
             dominatorMinion = false;

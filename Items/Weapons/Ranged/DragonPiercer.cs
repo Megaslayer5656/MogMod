@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
 using Terraria.DataStructures;
@@ -94,7 +95,7 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.MagicQuiver, 1).
                 AddIngredient(ItemID.Cog, 48).
                 AddRecipeGroup("AdamantiteBar", 18).
-                AddIngredient(ItemID.WirePipe, 8).
+                AddIngredient<FuciumBar>(8).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

@@ -21,13 +21,13 @@ namespace MogMod.Items.Weapons.Magic //So yeah I'm gonna make a glintstone sorce
         {
             // TODO: make it so that certain sorceries play different sounds, change item usetime and mana cost for each sorcery;
             Item.useTime = Item.useAnimation = 30;
-            Item.mana = 0;
+            Item.mana = 1; // set to 1 so it can recieve all magic reforges (doesnt work)
 
             Item.damage = 7;
             Item.width = Item.height = 32;
             Item.DamageType = DamageClass.Magic;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.knockBack = 0f;
+            Item.knockBack = 1.1f; // set to 1 so it can recieve all magic reforges
             Item.value = Item.buyPrice(0, 4, 50, 0);
             Item.rare = ItemRarityID.Blue;
             Item.autoReuse = true;
@@ -114,6 +114,7 @@ namespace MogMod.Items.Weapons.Magic //So yeah I'm gonna make a glintstone sorce
                 lLine.Any(word => line.Text.ToLower().Contains(word.ToLower()))
             );
         }
+        public override bool MagicPrefix() => true;
         public override void AddRecipes()
         {
             CreateRecipe().

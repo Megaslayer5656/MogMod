@@ -12,7 +12,7 @@ namespace MogMod.Tiles.Ores
         {
             TileID.Sets.Ore[Type] = true;
             Main.tileSpelunker[Type] = true;
-            Main.tileOreFinderPriority[Type] = 410;
+            Main.tileOreFinderPriority[Type] = 710;
             Main.tileShine2[Type] = true;
             Main.tileShine[Type] = 975;
             Main.tileMergeDirt[Type] = true;

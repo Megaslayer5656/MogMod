@@ -1,4 +1,5 @@
 ﻿using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
 using Terraria.ID;
@@ -32,8 +33,8 @@ namespace MogMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient(ItemID.ThornChakram, 1).
                 AddIngredient(ItemID.Deathweed, 12).
+                AddIngredient<FuciumBar>(7).
                 AddIngredient(ItemID.BeeWax, 8).
-                AddIngredient<FrigidShard>(3).
                 AddTile(TileID.Anvils).
                 Register();
         }

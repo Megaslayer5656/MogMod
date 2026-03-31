@@ -53,8 +53,8 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-         Projectile.Kill();
-            return false;
+             Projectile.Kill();
+                return false;
         }
 
         public override void OnKill(int timeLeft)

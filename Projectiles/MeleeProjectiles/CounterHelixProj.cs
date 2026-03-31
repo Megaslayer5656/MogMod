@@ -15,7 +15,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
     {
         // taken from example mod custom swing sword
         public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
-        public override string Texture => "MogMod/Items/Weapons/Melee/Gunlance";
 
         // We define some constants that determine the swing range of the sword
         // Not that we use multipliers here since that simplifies the amount of tweaks for these interactions
@@ -59,8 +58,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
         }
         public override void SetDefaults()
         {
-            Projectile.width = 94;
-            Projectile.height = 90;
+            Projectile.width = Projectile.height = 118;
             Projectile.friendly = true;
             Projectile.timeLeft = 10000;
             Projectile.penetrate = -1;

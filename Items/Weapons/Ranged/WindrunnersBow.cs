@@ -2,6 +2,7 @@
 using MogMod.Buffs.Debuffs;
 using MogMod.Items.Consumables;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Projectiles.RangedProjectiles;
 using System;
@@ -122,10 +123,10 @@ namespace MogMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.BeesKnees, 1).
                 AddIngredient(ItemID.MoltenFury, 1).
                 AddIngredient(ItemID.AnkletoftheWind, 1).
-                AddIngredient(ItemID.JungleSpores, 8).
+                AddIngredient(ItemID.JungleSpores, 10).
+                AddIngredient<FuciumBar>(8).
                 AddTile(TileID.Anvils).
                 Register();
         }

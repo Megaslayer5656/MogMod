@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Consumables;
-using MogMod.Projectiles.EnemyProjectiles.KingVon;
+using MogMod.Projectiles.EnemyProjectiles.Boss;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -17,9 +17,9 @@ namespace MogMod.NPCs.Bosses
         {
             NPC.width = 200;
             NPC.height = 100;
-            NPC.damage = 50;
-            NPC.defense = 20;
-            NPC.lifeMax = 50000;
+            NPC.damage = 134;
+            NPC.defense = 45;
+            NPC.lifeMax = 92400;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.value = Item.buyPrice(1, 0, 0, 0);
@@ -49,10 +49,16 @@ namespace MogMod.NPCs.Bosses
         public int vonRageTimer = 0; //The timer that determines how long he is in 'rage' mode (his dash)
         public static int vonRageTimerMax = 300;
         public int randRotate = random.Next(0, 11);
-        
-        
-        
-        
+
+
+        public static float laserScale = 1.2f;
+        public static float laserLength = 2000f;
+        public static float laserLifetime = 100f;
+        public int vonLaserEyes = 0;
+        public int vonShooting = 0;
+        public int vonCharge = 0;
+
+
         public static readonly SoundStyle VonShot = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Switch_Shot_2") //Shot sound effect
         {
             Volume = .2f,
@@ -66,8 +72,8 @@ namespace MogMod.NPCs.Bosses
 
         public bool Phase2 //Does something for phase 2 not entirely sure what (stolen from examplemod)
         {
-            get => NPC.ai[0] == 1f;
-            set => NPC.ai[0] = value ? 1f : 0f;
+            get => NPC.ai[1] == 1f;
+            set => NPC.ai[1] = value ? 1f : 0f;
         }
 
         public override void Load()
@@ -152,7 +158,7 @@ namespace MogMod.NPCs.Bosses
                 {
                     if (NPC.HasValidTarget && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(entitySource, NPC.Center, toPlayer * 15, ModContent.ProjectileType<VonGreenTracerProj>(), 80, .5f, Main.myPlayer);
+                        Projectile.NewProjectile(entitySource, NPC.Center, toPlayer * 15, ModContent.ProjectileType<VonGreenTracerProj>(), 60, .5f, Main.myPlayer);
                         SoundEngine.PlaySound(VonShot, NPC.Center);
                         vonShotTimer = 0; //Reset timer
                     }
@@ -220,11 +226,10 @@ namespace MogMod.NPCs.Bosses
         private void DoPhase2(Player player) //AI for phase 2
         {
             NPC.noGravity = true; //Remove gravity (because he flies in phase 2)
+            NPC.noTileCollide = true;
             NPC.setNPCName("Von, Evil Incarnate", ModContent.NPCType<KingVon>()); //Change display name
             if (!Main.dedServ)
-            {
                 Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/VonTheme2"); //Change music
-            }
             var entitySource = NPC.GetSource_FromAI(); //Source for projectiles
             Vector2 toPlayer = player.Center - NPC.Center; //All this is same as phase1 (until I change it)
             float speed = .015f;
@@ -234,11 +239,47 @@ namespace MogMod.NPCs.Bosses
             Vector2 moveTo = toPlayer * speed;
             Vector2 moveToFast = toPlayer * fastSpeed;
             NPC.velocity = (NPC.velocity * (inertia - 1) + moveTo) / inertia;
+
+            vonLaserEyes++;
+            vonShooting++;
+
+            if (vonLaserEyes == 120)
+                Projectile.NewProjectile(entitySource, NPC.Center, new Vector2(0f, 0f), ModContent.ProjectileType<VonLaserSpawner>(), 120, 0, Main.myPlayer);
+            if (vonLaserEyes == 240)
+                vonLaserEyes = 0;
+
+            if (vonShooting >= 90)
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Vector2 kirk = new Vector2(8, 8).RotatedByRandom(MathHelper.ToRadians(360));
+                    Projectile.NewProjectile(entitySource, NPC.Center, kirk, ModContent.ProjectileType<VonGreenTracerProj>(), 60, .5f, Main.myPlayer);
+                    SoundEngine.PlaySound(VonShot, NPC.Center);
+                }
+                if (vonShooting == 180)
+                    vonShooting = 0;
+            }
+            if (vonLaserEyes == 0 && vonShooting == 0 || vonCharge > 0)
+            {
+                vonCharge++;
+                if (vonCharge == 1)
+                {
+                    NPC.velocity *= .05f;
+                    SoundEngine.PlaySound(SoundID.Item149, NPC.Center);
+                    Projectile.NewProjectile(entitySource, NPC.Center, toPlayer, ModContent.ProjectileType<VonTargetLaser>(), 0, 0, Main.myPlayer);
+                }
+                if (vonCharge >= 40)
+                {
+                    SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center);
+                    Vector2 charge = Vector2.Normalize(player.Center - NPC.Center) * 30f * 2f;
+                    NPC.velocity = charge;
+                    vonCharge = 0;
+                }
+            }
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-
-            npcLoot.Add(ItemDropRule.Common(ItemID.GreaterHealingPotion, 1, 1, 5));
+            npcLoot.Add(ItemDropRule.Common(ItemID.SuperHealingPotion, 1, 8, 20));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<VonBossBag>()));
         }
     }

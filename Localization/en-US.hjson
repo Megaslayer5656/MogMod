@@ -101,12 +101,14 @@ Mods: {
 			DabDadOre.MapEntry: DabDad Ore
 			FaeOre.MapEntry: Fae Ore
 			FaeOreT.MapEntry: Fae Ore
+			FuciumOreT.MapEntry: Fucium Ore
 		}
 
 		WorldGen: {
 			DabDadOrePassMessage: Your world has been blessed with the essence of Dabdad Minecraft!
 			BlessedWithDabDadOreMessage: Your world has been blessed with the essence of Dabdad Minecraft!
 			FaeOreText: The underground hallow is sparkling with blessed light.
+			FuciumOrePassMessage: Generating Ores...
 		}
 
 		Buffs: {
@@ -307,7 +309,7 @@ Mods: {
 
 			MoonShardBuff: {
 				DisplayName: Moon Shard
-				Description: +30% Attack Speed
+				Description: +10% Attack Speed
 			}
 
 			ChargingShot: {
@@ -514,6 +516,7 @@ Mods: {
 			}
 
 			FreakyTien.DisplayName: Freaky Tien
+			FaeSlime.DisplayName: Fae Slime
 		}
 
 		Projectiles: {
@@ -664,6 +667,9 @@ Mods: {
 			BossProjectiles: {
 				VonNade.DisplayName: Von's Grenade
 				VonGreenTracerProj.DisplayName: Von's Green Tracer
+				VonLaserEyes.DisplayName: Von Laser Eyes
+				VonTargetLaser.DisplayName: Von Target Laser
+				VonLaserSpawner.DisplayName: Von Laser Spawner
 			}
 
 			SelvesProj1.DisplayName: Selves Proj1

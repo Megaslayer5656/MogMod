@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using MogMod.Buffs.Debuffs;
 
-namespace MogMod.Projectiles.EnemyProjectiles.KingVon
+namespace MogMod.Projectiles.EnemyProjectiles.Boss
 {
     public class VonGreenTracerProj : ModProjectile, ILocalizedModType
     {
@@ -14,7 +14,6 @@ namespace MogMod.Projectiles.EnemyProjectiles.KingVon
             ProjectileID.Sets.TrailCacheLength[Type] = 5;
             ProjectileID.Sets.TrailingMode[Type] = 0;
         }
-
         public override void SetDefaults()
         {
             Projectile.width = 8;
@@ -24,23 +23,29 @@ namespace MogMod.Projectiles.EnemyProjectiles.KingVon
             Projectile.hostile = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 300;
             Projectile.light = .5f;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;
             Projectile.extraUpdates = 1;
-            Projectile.scale = .60f;
             Projectile.tileCollide = false;
 
             AIType = ProjectileID.Bullet;
         }
-
+        public override void AI()
+        {
+            if (Main.rand.NextBool(2))
+            {
+                Dust dust = Dust.NewDustPerfect(Projectile.position, DustID.TerraBlade, Projectile.velocity, 100, default, 0.5f);
+                dust.noGravity = true;
+                dust.noLight = true;
+            }
+        }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-         Projectile.Kill();
-            return false;
+             Projectile.Kill();
+                return false;
         }
-
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<VonDebuff>(), 240);

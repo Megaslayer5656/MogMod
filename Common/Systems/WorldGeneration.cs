@@ -1,13 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Tiles.Ores;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.Chat;
+using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using System;
+using Terraria.WorldBuilding;
 
 namespace MogMod.Common.Systems
 {
