@@ -1,6 +1,4 @@
-﻿using MogMod.Items.Accessories;
-using MogMod.Items.Other;
-using MogMod.Items.Placeable;
+﻿using MogMod.Items.Placeable;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

@@ -86,6 +86,7 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingFrostArmor;
         public bool wearingDamascus1;
         public bool wearingDamascus2;
+        public bool wearingBoneArmor;
 
         public bool diademMinion = false;
         public bool dominatorMinion = false;
@@ -395,6 +396,10 @@ namespace MogMod.Common.MogModPlayer
                 Player.ClearBuff(forceStaffCooldown);
                 Player.ClearBuff(blademailCooldown);
                 Player.ClearBuff(ShivasCooldown);
+                Player.ClearBuff(ModContent.BuffType<BlinkDebuff>());
+                Player.ClearBuff(ModContent.BuffType<ButterflyCooldown>());
+                Player.ClearBuff(ModContent.BuffType<LagunaBladeCooldown>());
+                Player.ClearBuff(ModContent.BuffType<ParryCooldown>());
                 //Don't add dragon install to this. It shouldn't be able to be refreshed by refresher as it is more of a different mechanic than a buff. Will if you see this stop playing Chen <-- Chen (pronounced "shen") has crazy micro and once i get good at him hes gonna be crazy. that one game was a loss no matter who i played. also it was mendez fault for picking IO
 
                 Player.AddBuff(refresherCooldown, 9000);
@@ -1356,6 +1361,7 @@ namespace MogMod.Common.MogModPlayer
             wearingFrostArmor = false;
             wearingDamascus1 = false;
             wearingDamascus2 = false;
+            wearingBoneArmor = false;
 
             diademMinion = false;
             dominatorMinion = false;
@@ -1413,6 +1419,7 @@ namespace MogMod.Common.MogModPlayer
             }
         }
         #endregion
+
         #endregion
     }
 }

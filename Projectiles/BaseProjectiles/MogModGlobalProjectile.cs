@@ -48,7 +48,19 @@ namespace MogMod.Projectiles.BaseProjectiles
         ];
         // Amount of extra updates that are set in SetDefaults.
         public int defExtraUpdates = -1;
-
+        public override bool PreAI(Projectile projectile)
+        {
+            Player player = Main.player[projectile.owner];
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            // faster hook ai
+            if (mogPlayer.wearingBoneArmor && projectile.aiStyle == ProjAIStyleID.Hook)
+            {
+                int cap = projectile.type == ProjectileID.QueenSlimeHook ? 4 : 1;
+                if (projectile.extraUpdates < cap)
+                    projectile.extraUpdates += cap;
+            }
+            return true;
+        }
         public override void ModifyHitPlayer(Projectile projectile, Player target, ref Player.HurtModifiers modifiers)
         {
             if (target.HasBuff(ModContent.BuffType<Parrying>()))

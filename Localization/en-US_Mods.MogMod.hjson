@@ -2166,6 +2166,46 @@ Items: {
 				+8% Melee Attack Speed
 				'''
 		}
+
+		BoneGreaves: {
+			DisplayName: Bone Greaves
+			Tooltip: +12% Movement Speed
+		}
+
+		BoneMask: {
+			DisplayName: Bone Mask
+			Tooltip:
+				'''
+				+15% Mining Speed
+				+40% Block and Wall Placement Speed
+				'''
+			SetBonus:
+				'''
+				Shows the location of treasure and ore
+				Increases block placement range by 3
+				Grappling hooks shoot 2x as fast and retract 3x as fast
+				'''
+		}
+
+		BoneHelm: {
+			DisplayName: Bone Helm
+			Tooltip: +6% Attack Damage
+			SetBonus:
+				'''
+				+8% Attack Speed
+				Grants the effects of Hunter potion
+				Grappling hooks shoot 2x as fast and retract 3x as fast
+				'''
+		}
+
+		BoneMail: {
+			DisplayName: Bone Mail
+			Tooltip:
+				'''
+				+4% Critical Strike Chance
+				+5% Attack Damage
+				'''
+		}
 	}
 
 	Placeables: {

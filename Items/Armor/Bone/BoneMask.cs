@@ -1,14 +1,13 @@
 ﻿using MogMod.Common.MogModPlayer;
-using MogMod.Items.Placeable;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Armor.Damascus
+namespace MogMod.Items.Armor.Bone
 {
     [AutoloadEquip(EquipType.Head)]
-    public class DamascusMask : ModItem, ILocalizedModType
+    public class BoneMask : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
         public static LocalizedText SetBonusText { get; private set; }
@@ -26,29 +25,33 @@ namespace MogMod.Items.Armor.Damascus
         public override void SetDefaults()
         {
             Item.width = 22;
-            Item.height = 20;
-            Item.defense = 8;
-            Item.rare = ItemRarityID.LightRed;
+            Item.height = 30;
+            Item.defense = 2;
+            Item.rare = ItemRarityID.Green;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<DamascusMail>() && legs.type == ModContent.ItemType<DamascusGreaves>();
+            return body.type == ModContent.ItemType<BoneMail>() && legs.type == ModContent.ItemType<BoneGreaves>();
         }
         public override void UpdateArmorSet(Player player)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            mogPlayer.wearingDamascus2 = true;
             player.setBonus = SetBonusText.Value;
-            player.GetCritChance<GenericDamageClass>() += 8;
+            mogPlayer.wearingBoneArmor = true;
+            player.findTreasure = true;
+            player.blockRange += 3;
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetCritChance<GenericDamageClass>() += 6;
+            player.pickSpeed -= .15f;
+            player.tileSpeed += 0.4f;
+            player.wallSpeed += 0.4f;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<FuciumBar>(12).
+                AddIngredient(ItemID.Silk, 10).
+                AddIngredient(ItemID.FossilOre, 10).
                 AddTile(TileID.Anvils).
                 Register();
         }
