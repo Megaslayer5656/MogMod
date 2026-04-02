@@ -8,7 +8,7 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Armor.WhiteMask
+namespace MogMod.Items.Armor.WhiteMaskSet
 {
     [AutoloadEquip(EquipType.Body)]
     public class WhiteCloak : ModItem, ILocalizedModType
@@ -18,7 +18,7 @@ namespace MogMod.Items.Armor.WhiteMask
         {
             if (Main.netMode == NetmodeID.Server)
                 return;
-            EquipLoader.AddEquipTexture(Mod, "MogMod/Items/Armor/WhiteMask/WhiteCloak_Legs", EquipType.Legs, this);
+            EquipLoader.AddEquipTexture(Mod, "MogMod/Items/Armor/WhiteMaskSet/WhiteCloak_Legs", EquipType.Legs, this);
         }
         public override void SetStaticDefaults()
         {

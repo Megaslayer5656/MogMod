@@ -716,9 +716,9 @@ namespace MogMod.Common.MogModPlayer
                     {
                         essenceShiftLevel = essenceShiftLevelMax;
                     }
-                    Player.GetAttackSpeed(DamageClass.Melee) += .1f * essenceShiftLevel;
-                    Player.moveSpeed += .025f * essenceShiftLevel;
-                    Player.accRunSpeed += Player.accRunSpeed * .025f * essenceShiftLevel;
+                    Player.GetAttackSpeed(DamageClass.Melee) += .075f * essenceShiftLevel;
+                    Player.moveSpeed += .0125f * essenceShiftLevel;
+                    Player.accRunSpeed += Player.accRunSpeed * .0125f * essenceShiftLevel;
                 }
                 if (Player.HeldItem.Name == "Megaslark")
                 {

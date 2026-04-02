@@ -12,7 +12,7 @@ using Terraria.Localization;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Armor.WhiteMask
+namespace MogMod.Items.Armor.WhiteMaskSet
 {
     [AutoloadEquip(EquipType.Head)]
     public class WhiteMask : ModItem, ILocalizedModType
@@ -31,6 +31,7 @@ namespace MogMod.Items.Armor.WhiteMask
             SetBonusText = this.GetLocalization("SetBonus");
 
             ArmorIDs.Head.Sets.DrawFullHair[equipSlot] = true;
+            ArmorIDs.Head.Sets.DrawsBackHairWithoutHeadgear[equipSlot] = true;
         }
         public override void SetDefaults()
         {

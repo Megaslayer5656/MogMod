@@ -60,7 +60,7 @@ namespace MogMod.Items.Weapons.Melee
             {
                 player.AddBuff(ModContent.BuffType<Parrying>(), 30); //Actually accurate to Sekiro parry timing
                 player.AddBuff(ModContent.BuffType<ParryCooldown>(), 600);
-                player.AddBuff(ModContent.BuffType<ParrySlow>(), 60);
+                player.AddBuff(ModContent.BuffType<ParrySlow>(), 90);
                 return true;
             }
             return false;
@@ -68,7 +68,7 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-            AddIngredient(ItemID.Katana, 1).
+            AddIngredient(ItemID.Iron, 12).
             AddIngredient<VitalityBooster>(1).
             AddTile(TileID.Anvils).
             Register(); //TODO: Add something else cool to this recipe (pre boss still)

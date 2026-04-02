@@ -270,9 +270,9 @@ namespace MogMod.NPCs.Global
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LizhardBloodVial>(), 1, 1, 2));
             }
-            if (npc.type == NPCID.Shark || npc.type == NPCID.Squid || npc.type == NPCID.BlueJellyfish || npc.type == NPCID.GreenJellyfish || npc.type == NPCID.PinkJellyfish || npc.type == NPCID.Crab)
+            if (npc.type == NPCID.Shark)
             {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 10, 1, 1));
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 5, 1, 1));
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<OceanHeart>(), 500, 1, 1));
             }
             if (npc.type == NPCID.DarkCaster)
@@ -334,7 +334,7 @@ namespace MogMod.NPCs.Global
         #region Blood Effects
         public override void AI(NPC npc)
         {
-            maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense); //(This scaling will definitely change as I test)
+            maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense); //(This scaling still could change, especially for different difficulties)
             if (maxBlood < 150) //Sets lower bound of possible max blood
             {
                 maxBlood = 150;

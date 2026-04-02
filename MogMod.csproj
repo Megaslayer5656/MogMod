@@ -52,6 +52,11 @@
     <None Remove="Items\Accessories\SigmaCharm.png" />
     <None Remove="Items\Accessories\SolRing.png" />
     <None Remove="Items\Ammo\SplinterAmmo.png" />
+    <None Remove="Items\Armor\WhiteMaskSet\WhiteCloak.png" />
+    <None Remove="Items\Armor\WhiteMaskSet\WhiteCloak_Body.png" />
+    <None Remove="Items\Armor\WhiteMaskSet\WhiteCloak_Legs.png" />
+    <None Remove="Items\Armor\WhiteMaskSet\WhiteMask.png" />
+    <None Remove="Items\Armor\WhiteMaskSet\WhiteMask_Head.png" />
     <None Remove="Items\BloodInfusion.png" />
     <None Remove="Items\Consumables\Glue.png" />
     <None Remove="Items\Consumables\VonSpawner.png" />
@@ -67,6 +72,7 @@
     <None Remove="Items\Weapons\Melee\Reduvia.png" />
     <None Remove="Items\Weapons\Melee\RiversOfBlood.png" />
     <None Remove="Items\Weapons\Melee\ThunderSeal.png" />
+    <None Remove="Items\Weapons\Melee\WarFury.png" />
     <None Remove="Items\Weapons\Ranged\BerserkersSpear.png" />
     <None Remove="Items\Weapons\Ranged\FireworkCrossbow.png" />
     <None Remove="Items\Weapons\Ranged\R8Revolver.png" />

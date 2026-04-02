@@ -21,7 +21,6 @@ namespace MogMod.Items.Other
         {
             CreateRecipe(3).
                 AddIngredient(ItemID.IceBlock, 3).
-                AddIngredient(ItemID.Diamond, 1).
                 AddTile(TileID.Anvils).
                 Register();
         }

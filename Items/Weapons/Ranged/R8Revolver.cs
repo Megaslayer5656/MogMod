@@ -35,7 +35,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Green;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;
-            Item.shootSpeed = 15f;
+            Item.shootSpeed = 11f;
             Item.useAmmo = AmmoID.Bullet;
             Item.noMelee = true;
         }

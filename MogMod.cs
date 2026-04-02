@@ -12,7 +12,6 @@ namespace MogMod
     {
         public override void Load()
         {
-            
         }
 
         public override void HandlePacket(BinaryReader reader, int whoAmI)

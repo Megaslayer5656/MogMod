@@ -21,8 +21,7 @@ namespace MogMod.Items.Other
         {
             CreateRecipe().
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 5).
-                AddIngredient(ItemID.LifeCrystal, 3).
-                AddIngredient(ItemID.Diamond, 1).
+                AddIngredient(ItemID.LifeCrystal, 1).
                 AddTile(TileID.Anvils).
                 Register();
         }
