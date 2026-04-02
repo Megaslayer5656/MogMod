@@ -43,7 +43,7 @@ namespace MogMod.Items.Armor.Bone
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage<GenericDamageClass>() += .06f;
+            player.statLifeMax2 += 20;
         }
         public override void AddRecipes()
         {

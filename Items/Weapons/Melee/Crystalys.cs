@@ -43,8 +43,8 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup("AdamantiteBar", 28).
                 AddIngredient<BladesOfAttack>(1).
+                AddRecipeGroup("AdamantiteBar", 10).
                 AddIngredient(ItemID.SoulofNight, 7).
                 AddTile(TileID.MythrilAnvil).
                 Register();

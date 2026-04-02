@@ -20,7 +20,8 @@ namespace MogMod.Items.Other
         public override void AddRecipes()
         {
             CreateRecipe(3).
-                AddIngredient(ItemID.IceBlock, 3).
+                AddIngredient(ItemID.IceBlock, 9).
+                AddIngredient(ItemID.Glass, 3).
                 AddTile(TileID.Anvils).
                 Register();
         }

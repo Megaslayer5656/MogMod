@@ -20,7 +20,7 @@ namespace MogMod.Items.Other
         {
             CreateRecipe().
                 AddRecipeGroup("MythrilBar", 7).
-                AddIngredient(ItemID.SoulofLight, 5).
+                AddIngredient(ItemID.SoulofLight, 4).
                 AddIngredient(ItemID.ManaCrystal, 1).
                 AddTile(TileID.MythrilAnvil).
                 Register();

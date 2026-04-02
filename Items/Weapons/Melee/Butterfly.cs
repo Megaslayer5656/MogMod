@@ -18,8 +18,7 @@ namespace MogMod.Items.Weapons.Melee
         Random rand = new Random();
         public override void SetDefaults()
         {
-            Item.width = 100;
-            Item.height = 205;
+            Item.width = Item.height = 96;
             Item.damage = 95;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 10;
@@ -30,7 +29,6 @@ namespace MogMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.rare = ItemRarityID.Cyan;
-            Item.scale = 1f;
             Item.shoot = ProjectileID.PurificationPowder; //This and the shoot method are to allow the weapon to swing in the direction of your cursor
         }
 

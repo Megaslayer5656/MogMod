@@ -38,9 +38,9 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<HelmOfTheDominator>(1).
-                AddIngredient(ItemID.ChlorophyteBar, 7).
                 AddIngredient<GriefBar>(7).
                 AddIngredient<FaeBar>(7).
+                AddIngredient<FuciumBar>(7).
                 AddIngredient<ManaCore>(1).
                 AddIngredient<FrigidCrystal>(1).
                 AddTile(TileID.TinkerersWorkbench).

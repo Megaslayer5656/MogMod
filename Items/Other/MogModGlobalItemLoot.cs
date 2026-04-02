@@ -35,7 +35,7 @@ namespace MogMod.Items.Other
 
 
                 case ItemID.IronCrate:
-                    loot.Add(ItemDropRule.Common(ModContent.ItemType<FuciumOre>(), 6, 8, 18));
+                    loot.Add(ItemDropRule.Common(ModContent.ItemType<FuciumOre>(), 6, 8, 14));
                     loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(20, 1,
                     ModContent.ItemType<BeltOfStrength>(),
                     ModContent.ItemType<AstrologersStaff>()));

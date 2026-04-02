@@ -38,7 +38,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient<Diadem>(1).
                 AddIngredient<SolRing>(1).
                 AddIngredient(ItemID.DiamondGemsparkBlock, 20).
-                AddRecipeGroup("AdamantiteBar", 15).
+                AddRecipeGroup("AdamantiteBar", 8).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

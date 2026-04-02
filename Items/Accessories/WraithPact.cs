@@ -47,7 +47,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient<VladmirsOffering>(1).
                 AddIngredient(ItemID.AvengerEmblem, 1).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 18).
-                AddIngredient<GriefBar>(16).
+                AddIngredient<GriefBar>(12).
                 AddIngredient<PointBooster>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

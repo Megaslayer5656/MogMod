@@ -46,7 +46,7 @@ namespace MogMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup("AdamantiteBar", 18).
+                AddRecipeGroup("AdamantiteBar", 13).
                 AddIngredient(ItemID.SoulofFright, 7).
                 AddIngredient(ItemID.GolfCupFlagBlue, 1).
                 AddTile(TileID.MythrilAnvil).

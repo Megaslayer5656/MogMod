@@ -2189,7 +2189,7 @@ Items: {
 
 		BoneHelm: {
 			DisplayName: Bone Helm
-			Tooltip: +6% Attack Damage
+			Tooltip: Increases maximum life by 20
 			SetBonus:
 				'''
 				+8% Attack Speed
