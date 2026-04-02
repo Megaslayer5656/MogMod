@@ -68,7 +68,7 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-            AddIngredient(ItemID.Iron, 12).
+            AddIngredient(ItemID.IronBar, 12).
             AddIngredient<VitalityBooster>(1).
             AddTile(TileID.Anvils).
             Register(); //TODO: Add something else cool to this recipe (pre boss still)
