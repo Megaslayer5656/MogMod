@@ -17,21 +17,23 @@ namespace MogMod.Buffs.PotionBuffs
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             int heal = 7 * mogPlayer.wandCharges;
 
-            player.statLife += heal;
-            player.HealEffect(heal);
-            if (player.statLife > player.statLifeMax2)
-            {
-                player.statLife = player.statLifeMax2;
-            }
+                player.statLife += heal;
+                player.HealEffect(heal);
+                if (player.statLife > player.statLifeMax2)
+                {
+                    player.statLife = player.statLifeMax2;
+                }
 
-            player.statMana += heal;
-            player.ManaEffect(heal);
-            if (player.statMana > player.statManaMax2)
-            {
-                player.statMana = player.statManaMax2;
-            }
+                player.statMana += heal;
+                player.ManaEffect(heal);
+                if (player.statMana > player.statManaMax2)
+                {
+                    player.statMana = player.statManaMax2;
+                }
 
-            mogPlayer.wandCharges = 0;
+                mogPlayer.wandCharges = 0;
+
+            player.DelBuff(buffIndex);
         }
     }
 }

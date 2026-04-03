@@ -500,9 +500,9 @@ namespace MogMod.Common.MogModPlayer
             }
 
             //Wand
-            if (KeybindSystem.WandKeybind.JustPressed && wandCharges > 0)
+            if (KeybindSystem.WandKeybind.JustPressed)
             {
-                if (wandActive)
+                if (wandActive && wandCharges > 0)
                 {
                     Player.AddBuff(wandHeal, 6);
                     SoundEngine.PlaySound(WandUse, Player.Center);
@@ -510,9 +510,9 @@ namespace MogMod.Common.MogModPlayer
             }
 
             //Magic Stick
-            if (KeybindSystem.WandKeybind.JustPressed && stickCharges > 0)
+            if (KeybindSystem.WandKeybind.JustPressed)
             {
-                if (stickActive)
+                if (stickActive && stickCharges > 0)
                 {
                     Player.AddBuff(stickHeal, 6);
                     SoundEngine.PlaySound(WandUse, Player.Center);
