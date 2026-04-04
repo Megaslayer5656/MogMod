@@ -492,7 +492,7 @@ namespace MogMod.Common.MogModPlayer
             // holy locket
             if (KeybindSystem.WandKeybind.JustPressed)
             {
-                if (locketActive)
+                if (locketActive && locketCharges > 0)
                 {
                     Player.AddBuff(locketHeal, 6);
                     SoundEngine.PlaySound(WandUse, Player.Center);
@@ -502,7 +502,7 @@ namespace MogMod.Common.MogModPlayer
             //Wand
             if (KeybindSystem.WandKeybind.JustPressed)
             {
-                if (wandActive)
+                if (wandActive && wandCharges > 0)
                 {
                     Player.AddBuff(wandHeal, 6);
                     SoundEngine.PlaySound(WandUse, Player.Center);
@@ -512,7 +512,7 @@ namespace MogMod.Common.MogModPlayer
             //Magic Stick
             if (KeybindSystem.WandKeybind.JustPressed)
             {
-                if (stickActive)
+                if (stickActive && stickCharges > 0)
                 {
                     Player.AddBuff(stickHeal, 6);
                     SoundEngine.PlaySound(WandUse, Player.Center);

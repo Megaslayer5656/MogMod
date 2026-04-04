@@ -15,9 +15,24 @@ namespace MogMod.Buffs.PotionBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            player.statLife += 5 * mogPlayer.stickCharges;
-            player.statMana += 5 * mogPlayer.stickCharges;
-            mogPlayer.stickCharges = 0;
+            int heal = 5 * mogPlayer.stickCharges;
+
+                player.statLife += heal;
+                player.HealEffect(heal);
+                if (player.statLife > player.statLifeMax2)
+                {
+                    player.statLife = player.statLifeMax2;
+                }
+
+                player.statMana += heal;
+                player.ManaEffect(heal);
+                if (player.statMana > player.statManaMax2)
+                {
+                    player.statMana = player.statManaMax2;
+                }
+
+                mogPlayer.stickCharges = 0;
+                player.DelBuff(buffIndex);
         }
     }
 }
