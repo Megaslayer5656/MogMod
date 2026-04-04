@@ -108,7 +108,7 @@ Items: {
 				'''
 				-30% Melee Damage
 				Provides you and nearby team members +4 HP/s Life regen
-				'Creates a soothing aura that restores allies in battle.'
+				[c/51A68A:'Creates a soothing aura that restores allies in battle.']
 				'''
 		}
 
@@ -121,7 +121,7 @@ Items: {
 				Increases placement speed and range
 				Provides you and nearby team members +4 HP/s Life regen
 				Pressing [KEY] will restore 50 Life to you and nearby team members
-				'A glowing jewel formed out of assorted parts that somehow fit together perfectly.'
+				[c/5EA651:'A glowing jewel formed out of assorted parts that somehow fit together perfectly.']
 				'''
 		}
 
@@ -158,8 +158,8 @@ Items: {
 				Increased Maximum Mana by 30
 				Taking damage adds a charge to the wand
 				Pressing [KEY] expends all charges and heals 7 Life and Mana for each charge
-				'A simple wand used to channel magic energies, it is 
-				favored by apprentice wizards and great warlocks alike.'
+				[c/51A67A:'A simple wand used to channel magic energies, it is ]
+				[c/51A67A:favored by apprentice wizards and great warlocks alike.']
 				'''
 		}
 
@@ -169,8 +169,8 @@ Items: {
 				'''
 				Taking damage adds a charge to the stick
 				Pressing [KEY] expends all charges and heals 5 Life and Mana for each charge
-				'A simple stick used to channel magic energies, it is 
-				favored by apprentice wizards and great warlocks alike.'
+				[c/51A668:'A simple stick used to channel magic energies, it is ]
+				[c/51A668:favored by apprentice wizards and great warlocks alike.']
 				'''
 		}
 
@@ -185,7 +185,7 @@ Items: {
 				+5% Summon Damage
 				Increased Maximum Mana by 50
 				Press [KEY] to summon a mighty beast!
-				'The powerful headpiece of a dead necromancer.'
+				[c/A68351:'The powerful headpiece of a dead necromancer.']
 				'''
 		}
 
@@ -196,7 +196,7 @@ Items: {
 				Increased Maximum Mana by 50
 				Enemies are less likely to target you
 				Pressing [KEY] will turn you invisible and increase movement speed
-				'The stolen cape of a master illusionist.'
+				[c/515BA6:'The stolen cape of a master illusionist.']
 				'''
 		}
 
@@ -208,7 +208,7 @@ Items: {
 				+4% Summon Damage
 				+20% Knockback
 				Pressing [KEY] will boost you forward in the direction you are facing
-				'Allows you to manipulate yourself, for good or evil.'
+				[c/72C281:'Allows you to manipulate yourself, for good or evil.']
 				'''
 		}
 
@@ -236,7 +236,7 @@ Items: {
 				+5% Attack Speed
 				Increased Maximum Life and Mana by 20
 				Slightly Increased Life Regeneration
-				'The headwear of corrupt magi.'
+				[c/853D74:'The headwear of corrupt magi.']
 				'''
 		}
 
@@ -250,8 +250,8 @@ Items: {
 				Increased Life Regeneration
 				Greatly Decreased Mana Regeneration
 				Grants immunity to knockback
-				'A powerful shield that defends its wielder 
-				from even the most vicious of attacks.'
+				[c/85483D:'A powerful shield that defends its wielder ]
+				[c/85483D:from even the most vicious of attacks.']
 				'''
 		}
 
@@ -274,7 +274,7 @@ Items: {
 			Tooltip:
 				'''
 				After not moving for 5 seconds, turn completely invisible!
-				'A small talisman that clouds the senses of one's enemies when held perfectly still.'
+				[c/E090D2:'A small talisman that clouds the senses of one's enemies when held perfectly still.']
 				'''
 		}
 
@@ -297,7 +297,7 @@ Items: {
 				Increased Maximum Life by 20
 				Slightly Increased Life Regeneration
 				Decreased Mana Regeneration
-				'The helmet of a legendary warrior who fell in battle.'
+				[c/D2D46E:'The helmet of a legendary warrior who fell in battle.']
 				'''
 		}
 
@@ -325,7 +325,7 @@ Items: {
 				+7% Ranged Attack Speed
 				+5% Ranged Damage
 				Increases block placement range by 1
-				'The forward charge of the wyvern host grants no quarter.'
+				[c/D4816E:'The forward charge of the wyvern host grants no quarter.']
 				'''
 		}
 
@@ -350,9 +350,9 @@ Items: {
 				'''
 				+5% Attack Damage
 				+5% Attack Speed
-				'A stately crown created to ensure a well-
-				meaning but ungifted heir could fend off 
-				usurpers and govern with a strong hand.'
+				[c/E0DE84:'A stately crown created to ensure a well-]
+				[c/E0DE84:meaning but ungifted heir could fend off ]
+				[c/E0DE84:usurpers and govern with a strong hand.']
 				'''
 		}
 
@@ -375,7 +375,7 @@ Items: {
 			Tooltip:
 				'''
 				Vastly Increased movement speed
-				'Winged boots that grant omnipresence.'
+				[c/E3B8A1:'Winged boots that grant omnipresence.']
 				'''
 		}
 
@@ -385,8 +385,8 @@ Items: {
 				'''
 				+3% Crit Chance
 				+5% Attack Damage
-				'The damage of these small, concealable 
-				blades should not be underestimated.'
+				[c/B8A7A7:'The damage of these small, concealable ]
+				[c/B8A7A7:blades should not be underestimated.']
 				'''
 		}
 
@@ -396,7 +396,7 @@ Items: {
 				'''
 				+5% Attack Damage
 				+10% Knockback
-				'A valued accessory for improving strength.'
+				[c/BD4040:'A valued accessory for improving strength.']
 				'''
 		}
 
@@ -409,7 +409,7 @@ Items: {
 				-30% Melee Damage
 				Grants you and nearby team members 
 				30% movement speed and 10% Melee and Summon Attack Speed
-				'A relic that enchants the bodies of those around it for swifter movement in times of crisis.'
+				[c/40BD67:'A relic that enchants the bodies of those around it for swifter movement in times of crisis.']
 				'''
 		}
 
@@ -492,52 +492,6 @@ Items: {
 				'''
 		}
 
-		KayaAndSange: {
-			DisplayName: Kaya And Sange
-			Tooltip:
-				'''
-				+16% Attack Damage
-				+12% Magic Damage
-				Vastly Increases lifesteal of weapons that utilize it
-				Greatly Increased Life Regeneration
-				Greatly Increases Mana Regeneration
-				Increases Maximum Life by 30
-				Increases Maximum Mana by 70
-				'Two of three known items of unimaginable power that many 
-				believe were crafted at the same enchanter's forge.'
-				'''
-		}
-
-		SangeAndYasha: {
-			DisplayName: Sange And Yasha
-			Tooltip:
-				'''
-				+24% Movement Speed
-				+16% Attack Damage
-				+24% Melee Speed
-				+50% Melee Weapon Size
-				Vastly Increases lifesteal of weapons that utilize it
-				Greatly Increased Life Regeneration
-				Increased Maximum Life by 50
-				'Sange and Yasha, when attuned by the moonlight and 
-				used together, become a very powerful combination.'
-				'''
-		}
-
-		YashaAndKaya: {
-			DisplayName: Yasha And Kaya
-			Tooltip:
-				'''
-				+24% Movement Speed
-				+24% Attack Speed
-				+16% Attack Damage
-				+12% Magic Damage
-				Greatly Increased Mana Regeneration
-				Increases Maximum Mana by 50
-				'Yasha and Kaya when paired together share a natural resonance.'
-				'''
-		}
-
 		VladmirsOffering: {
 			DisplayName: Vladmir's Offering
 			Tooltip:
@@ -545,7 +499,7 @@ Items: {
 				Increases your max number of sentries by 2
 				Provides you and nearby team members 3 defense, +5 Flat Attack damage,
 				Increased Mana Regeneration by 4, and Increased lifesteal effectiveness
-				'An eerie mask that is haunted with the malice of a fallen vampire.'
+				[c/24964A:'An eerie mask that is haunted with the malice of a fallen vampire.']
 				'''
 		}
 
@@ -570,7 +524,7 @@ Items: {
 			Tooltip:
 				'''
 				Boosts bleed buildup by 15%
-				'His awakening shall herald the dawn of our dynasty.'
+				[c/962424:'His awakening shall herald the dawn of our dynasty.']
 				'''
 		}
 
@@ -579,10 +533,10 @@ Items: {
 			Tooltip:
 				'''
 				Increases fishing power by 60
-				Fishing rods shoot 24 extra lures, Does not stack with downgrades
+				Fishing rods shoot 14 extra lures, Does not stack with downgrades
 				Permanent Sonar and Crate Buffs
 				Grants the effects of Lavaproof Tackle Bag
-				'Glory to Fishrael'
+				[c/08F8FF:'Glory to Fishrael']
 				'''
 		}
 
@@ -612,7 +566,7 @@ Items: {
 				'''
 				+5% Magic Attack Speed
 				Magic attacks have a small chance to explode, dealing up to 40 magic damage
-				'A harmless prank that went entirely too far.'
+				[c/B87133:'A harmless prank that went entirely too far.']
 				'''
 		}
 
@@ -621,7 +575,7 @@ Items: {
 			Tooltip:
 				'''
 				Enemies take a small amount of damage when they hit you
-				'It doesn't look like much, but it's oddly comfy.'
+				[c/ABABAB:'It doesn't look like much, but it's oddly comfy.']
 				'''
 		}
 
@@ -660,8 +614,8 @@ Items: {
 			Tooltip:
 				'''
 				Increases max mana by 40
-				'Lost to time is the artificer's art of trapping light 
-				 from a distant star in a ring of purest gold.'
+				[c/F2D69B:'Lost to time is the artificer's art of trapping light ]
+				[c/F2D69B:from a distant star in a ring of purest gold.']
 				'''
 		}
 
@@ -680,9 +634,9 @@ Items: {
 			Tooltip:
 				'''
 				Increases fishing power by 15
-				Fishing rods shoot 9 extra lures
+				Fishing rods shoot 4 extra lures
 				Grants the effects of Lavaproof Tackle Bag
-				'A charm blessed by the Council of the Brine.'
+				[c/9BD7F2:'A charm blessed by the Council of the Brine.']
 				'''
 		}
 
@@ -703,7 +657,7 @@ Items: {
 				'''
 				+8% Summon Damage
 				Summon attacks have a chance to explode into pollen, reducing enemy armor by 10
-				'Very dangerous. Very difficult to obtain more.'
+				[c/2BA63A:'Very dangerous. Very difficult to obtain more.']
 				'''
 		}
 
@@ -731,7 +685,7 @@ Items: {
 				'''
 				+7.5% Attack Speed
 				Attacks have a small chance to shoot 3 homing missiles on hit
-				'What's better than one missile...? MORE missiles.'
+				[c/87564D:'What's better than one missile...? MORE missiles.']
 				'''
 		}
 
@@ -741,7 +695,7 @@ Items: {
 				'''
 				+7% Critical Strike Chance
 				Attacks have a chance to summon homing orb on enemy
-				'polylute plasma shrimp'
+				[c/D9A5D1:'polylute plasma shrimp']
 				'''
 		}
 	}
@@ -753,8 +707,8 @@ Items: {
 				Tooltip:
 					'''
 					Crits with this weapon deal extra damage
-					'A blade forged from rare crystals, 
-					it seeks weak points in enemy armor.'
+					[c/CF6BA0:'A blade forged from rare crystals, ]
+					[c/CF6BA0:it seeks weak points in enemy armor.']
 					'''
 			}
 
@@ -763,7 +717,7 @@ Items: {
 				Tooltip:
 					'''
 					Right click to teleport to your cursor
-					'Refresher Blink'
+					[c/6BB1CF:'Refresher Blink']
 					'''
 			}
 
@@ -772,7 +726,7 @@ Items: {
 				Tooltip:
 					'''
 					Randomized damage and crit chance on each hit, with a small chance for an ultra crit
-					'The light shall be blackened, and chaos shall reign.'
+					[c/8A3232:'The light shall be blackened, and chaos shall reign.']
 					'''
 			}
 
@@ -786,7 +740,7 @@ Items: {
 				Tooltip:
 					'''
 					Increases your attack speed and movement speed on hit
-					'The golden shiv of an escapee of dark reef.'
+					[c/C2A80A:'The golden shiv of an escapee of dark reef.']
 					'''
 			}
 
@@ -795,7 +749,7 @@ Items: {
 				Tooltip:
 					'''
 					Increases your attack speed and movement speed on hit
-					'The shiv of an escapee of dark reef.'
+					[c/52A3AB:'The shiv of an escapee of dark reef.']
 					'''
 			}
 
@@ -803,8 +757,8 @@ Items: {
 				DisplayName: Sange
 				Tooltip:
 					'''
-					'Sange is an unusually accurate weapon, 
-					seeking weak points automatically.'
+					[c/AB5267:'Sange is an unusually accurate weapon, ]
+					[c/AB5267:seeking weak points automatically.']
 					'''
 			}
 
@@ -813,9 +767,9 @@ Items: {
 				Tooltip:
 					'''
 					Has a chance to bash enemies
-					'A feared weapon in the right hands, 
-					this maul's ability to shatter the defenses 
-					of its opponents should not be underestimated.'
+					[c/96383D:'A feared weapon in the right hands, ]
+					[c/96383D:this maul's ability to shatter the defenses ]
+					[c/96383D:of its opponents should not be underestimated.']
 					'''
 			}
 
@@ -834,7 +788,7 @@ Items: {
 				Tooltip:
 					'''
 					Strikes twice on every swing
-					'A deceptively swift blade imbued with resonant magic.'
+					[c/AAC773:'A deceptively swift blade imbued with resonant magic.']
 					'''
 			}
 
@@ -842,8 +796,8 @@ Items: {
 				DisplayName: Battle Fury
 				Tooltip:
 					'''
-					'The bearer of this mighty axe gains the
-					ability to cut down swaths of enemies at once.'
+					[c/BD6B39:'The bearer of this mighty axe gains the]
+					[c/BD6B39:ability to cut down swaths of enemies at once.']
 					'''
 			}
 
@@ -873,7 +827,7 @@ Items: {
 					'''
 					Fires a dolphin
 					Hitting enemies spawn dolphins
-					'Totsugeki!'
+					[c/DBAE70:'Totsugeki!']
 					'''
 			}
 
@@ -899,8 +853,8 @@ Items: {
 					'''
 					On hit, chance to summon homing butterflies around the enemy
 					Right click to dodge an attack
-					'Only the mightiest and most experienced of warriors can wield the Butterfly,
-					but it provides incredible dexterity in combat.'
+					[c/3C8C35:'Only the mightiest and most experienced of warriors can wield the Butterfly,]
+					[c/3C8C35:but it provides incredible dexterity in combat.']
 					'''
 			}
 
@@ -1014,7 +968,7 @@ Items: {
 					'''
 					Right click to throw a flaming spear at the cost of your life
 					When at low life the spear gains a huge stat boost
-					'Huskar!'
+					[c/913E24:'Huskar!']
 					'''
 			}
 
@@ -1047,13 +1001,13 @@ Items: {
 				Tooltip:
 					'''
 					Right click to fire rapidly at the cost of accuracy
-					'I'm moving like prime kenny.' - Mq
+					[c/6341B5:'I'm moving like prime kenny.'] - Mq
 					'''
 			}
 
 			Switch: {
 				DisplayName: Switch
-				Tooltip: "'I ain't lookin for no trouble, I jus looking out for me.'"
+				Tooltip: [c/736464:"'I ain't lookin for no trouble, I jus looking out for me.'"]
 			}
 
 			WarriorsSpear: {
@@ -1061,7 +1015,7 @@ Items: {
 				Tooltip:
 					'''
 					Right click to throw a flaming spear at the cost of your life
-					'My blood boils!'
+					[c/A65E4B:'My blood boils!']
 					'''
 			}
 
@@ -1070,7 +1024,7 @@ Items: {
 				Tooltip:
 					'''
 					Strikes two extra times on the first hit
-					'Yasha is regarded as the swiftest weapon ever created.'
+					[c/77BA63:'Yasha is regarded as the swiftest weapon ever created.']
 					'''
 			}
 
@@ -1090,7 +1044,7 @@ Items: {
 					'''
 					Rapidly fires arrows at the cost of accuracy
 					Right click to fire a powershot
-					[c/36C93F:'Feel the wind in your hair!']
+					[c/5DC964:'Feel the wind in your hair!']
 					'''
 			}
 
@@ -1121,7 +1075,7 @@ Items: {
 					'''
 					Hitting an enemy causes the blade to home in on it
 					Enemies hit get afflicted with Venom
-					'A spiteful blade inadvertently possessed by the soul of its incautious creator.'
+					[c/AB6AA0:'A spiteful blade inadvertently possessed by the soul of its incautious creator.']
 					'''
 			}
 
@@ -1131,7 +1085,7 @@ Items: {
 					'''
 					Throw a halberd that explodes into 3 homing orbs on hit
 					Enemies hit get afflicted with Venom
-					'Devastating.'
+					[c/2D7331:'Devastating.']
 					'''
 			}
 
@@ -1162,7 +1116,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires a burst of 3 freezing arrows
-					'I walk alone, but the shadows are company enough.'
+					[c/2B6082:'I walk alone, but the shadows are company enough.']
 					'''
 			}
 
@@ -1171,7 +1125,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires a barrage of freezing arrows
-					'I don't care who you are, we are all guilty of something.'
+					[c/144C70:'I don't care who you are, we are all guilty of something.']
 					'''
 			}
 
@@ -1205,7 +1159,7 @@ Items: {
 				Tooltip:
 					'''
 					Shoots energy bullets that bounce between enemies
-					Not to be confused with 'The Great Equalizer'
+					Not to be confused with [c/FFC896:'The Great Equalizer']
 					'''
 			}
 
@@ -1231,7 +1185,7 @@ Items: {
 					'''
 					Low bleed buildup
 					Heals the player on hit
-					'Created by the famous sorcerer Vlad'
+					[c/FF9696:'Created by the famous sorcerer Vlad']
 					'''
 			}
 
@@ -1258,8 +1212,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires a barrage of swords
-					'The staff of a renowned sorceress, 
-					lost for countless millennia.'
+					[c/5191B8:'The staff of a renowned sorceress, lost for countless millennia.']
 					'''
 			}
 
@@ -1275,7 +1228,7 @@ Items: {
 					Hitting enemies grants a stack of Fiery Soul, 
 					increasing magic attack speed and movement speed per stack.
 					Right click to fire a bolt of lightning, granting max stacks of Fiery Soul
-					'Words hurt more than Laguna Blade'
+					[c/18A9C9:'Words hurt more than Laguna Blade']
 					'''
 			}
 
@@ -1336,7 +1289,7 @@ Items: {
 				Tooltip:
 					'''
 					Launches an orb that fires a homing lifestealing beam
-					'A garnet rod constructed from the essence of a fire demon.'
+					[c/B3609D:'A garnet rod constructed from the essence of a fire demon.']
 					'''
 			}
 
@@ -1419,7 +1372,7 @@ Items: {
 					Summons a sentry
 					Explodes after a short delay when enemies come near
 					Deals double damage if inactive for 10 seconds
-					'Yes you're a good little mine. Yes you are.'
+					[c/B39960:'Yes you're a good little mine. Yes you are.']
 					'''
 			}
 		}
@@ -1496,7 +1449,7 @@ Items: {
 			20% Increased magic damage
 			100 additional Maximum Mana
 			Greatly Increased Mana Regeneration
-			'With origins known only to a single wizard, fragments of this impossible crystal are nearly as coveted as the renowned scepter itself.'
+			[c/3583CC:'With origins known only to a single wizard, fragments of this impossible crystal are nearly as coveted as the renowned scepter itself].'
 			'''
 	}
 
@@ -1510,8 +1463,8 @@ Items: {
 		Tooltip:
 			'''
 			Major improvements to all stats
-			'Made from the milk of a long lost Furbolg vendor,
-			it restores the vitality of those who taste it.'
+			[c/D1B35E:'Made from the milk of a long lost Furbolg vendor,]
+			[c/D1B35E:it restores the vitality of those who taste it.']
 			'''
 	}
 

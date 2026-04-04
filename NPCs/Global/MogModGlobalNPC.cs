@@ -273,7 +273,7 @@ namespace MogMod.NPCs.Global
             if (npc.type == NPCID.Shark)
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 5, 1, 1));
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<OceanHeart>(), 500, 1, 1));
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<OceanHeart>(), 100, 1, 1));
             }
             if (npc.type == NPCID.DarkCaster)
             {
@@ -316,7 +316,8 @@ namespace MogMod.NPCs.Global
                     SyncWorld();
                 }
             }
-            if (npc.HasBuff<FreezingDebuff>() || mogPlayer.wearingFrostArmor)
+            // npc.HasBuff<FreezingDebuff>() || 
+            if (mogPlayer.wearingFrostArmor)
             {
                 int numSplits = 6;
                 float angleVariance = MathHelper.TwoPi / numSplits;
@@ -328,6 +329,23 @@ namespace MogMod.NPCs.Global
                     Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, projVec, ProjectileID.Blizzard, 50, 1f, Main.myPlayer);
                 }
             }
+        }
+        // may work
+        public override bool PreKill(NPC npc)
+        {
+            if (npc.HasBuff<FreezingDebuff>())
+            {
+                int numSplits = 6;
+                float angleVariance = MathHelper.TwoPi / numSplits;
+                Vector2 projVec = new Vector2(4.5f, 0f).RotatedByRandom(MathHelper.ToRadians(45));
+
+                for (int i = 0; i < numSplits; ++i)
+                {
+                    projVec = projVec.RotatedBy(angleVariance);
+                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, projVec, ProjectileID.Blizzard, 50, 1f, Main.myPlayer);
+                }
+            }
+                return true;
         }
         #endregion
 

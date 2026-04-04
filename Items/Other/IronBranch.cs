@@ -1,4 +1,5 @@
-﻿using Terraria.ID;
+﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Other
@@ -10,6 +11,7 @@ namespace MogMod.Items.Other
         {
             Item.height = 50;
             Item.width = 32;
+            Item.maxStack = Item.CommonMaxStack;
         }
 
         public override void AddRecipes()

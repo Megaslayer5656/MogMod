@@ -9,12 +9,17 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo
 {
-    public class CarianSlicer : ModItem
+    public class CarianSlicer : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Ammo";
+        public const int manaCost = 4;
         public override void SetDefaults()
         {
-            // AS OF NOW IT DOES NOTHING (interesting);
-            Item.damage = 8;
+            // display purposes only;
+            Item.mana = manaCost;
+            // proj size is 60x60
+
+            Item.damage = 12;
             Item.DamageType = DamageClass.Magic;
             Item.width = 50;
             Item.height = 52;
@@ -37,13 +42,13 @@ namespace MogMod.Items.Ammo
         }
         public override void AddRecipes()
         {
-            //CreateRecipe().
-            //    AddIngredient(ItemID.Katana, 1).
-            //    AddRecipeGroup("GoldBar", 18).
-            //    AddIngredient(ItemID.FallenStar, 7).
-            //    AddIngredient<CraftingRecipe>(1).
-            //    AddTile(TileID.Bookcases).
-            //    Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Sapphire, 6).
+                AddIngredient(ItemID.Diamond, 4).
+                AddIngredient<ManaEssence>(3).
+                AddIngredient<Scroll>(1).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

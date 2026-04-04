@@ -209,9 +209,9 @@ namespace MogMod.Projectiles.BaseProjectiles
             {
                 int splitCount = 0;
                 if (modPlayer.wearingFishSlop1)
-                    splitCount += 10;
+                    splitCount += 5;
                 if (modPlayer.wearingFishSlop2)
-                    splitCount += 15;
+                    splitCount += 10;
                 if (player.whoAmI == Main.myPlayer && splitCount > 0)
                     SplitProj(projectile, splitCount, MathHelper.Pi / 3, 1);
             }
