@@ -1007,7 +1007,7 @@ Items: {
 
 			Switch: {
 				DisplayName: Switch
-				Tooltip: [c/736464:"'I ain't lookin for no trouble, I jus looking out for me.'"]
+				Tooltip: "[c/736464:'I ain't lookin for no trouble, I jus looking out for me.']"
 			}
 
 			WarriorsSpear: {
@@ -1736,6 +1736,11 @@ Items: {
 
 		EnergyBullet: {
 			DisplayName: Energy Bullet
+			Tooltip: ""
+		}
+
+		CarianSlicer: {
+			DisplayName: Carian Slicer
 			Tooltip: ""
 		}
 	}

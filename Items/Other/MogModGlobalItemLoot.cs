@@ -38,7 +38,7 @@ namespace MogMod.Items.Other
 
 
                 case ItemID.IronCrate:
-                    postEvil.Add(ItemDropRule.Common(ModContent.ItemType<FuciumOre>(), 6, 8, 14));
+                    //postEvil.Add(ItemDropRule.Common(ModContent.ItemType<FuciumOre>(), 6, 8, 14));
                     loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(20, 1,
                         ModContent.ItemType<BeltOfStrength>(),
                         ModContent.ItemType<AstrologersStaff>()));
@@ -58,8 +58,8 @@ namespace MogMod.Items.Other
                 case ItemID.GoldenCrate:
                     loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(50, 1,
                         ModContent.ItemType<BizarreMusicBox>()));
-                    postEvil.Add(new OneFromOptionsNotScaledWithLuckDropRule(50, 1,
-                        ModContent.ItemType<BootsOfTravel>()));
+                    //postEvil.Add(new OneFromOptionsNotScaledWithLuckDropRule(50, 1,
+                        //ModContent.ItemType<BootsOfTravel>()));
                     break;
 
                 case ItemID.GoldenCrateHard:
@@ -89,11 +89,11 @@ namespace MogMod.Items.Other
 
 
                 case ItemID.HallowedFishingCrate:
-                    postEoL.Add(ItemDropRule.Common(ModContent.ItemType<FaeOre>(), 6, 8, 14));
+                    //postEoL.Add(ItemDropRule.Common(ModContent.ItemType<FaeOre>(), 6, 8, 14));
                     break;
 
                 case ItemID.HallowedFishingCrateHard:
-                    postEoL.Add(ItemDropRule.Common(ModContent.ItemType<FaeOre>(), 6, 12, 18));
+                    //postEoL.Add(ItemDropRule.Common(ModContent.ItemType<FaeOre>(), 6, 12, 18));
                     loot.Add(ItemDropRule.Common(ModContent.ItemType<PointBooster>(), 7, 1, 1));
                     break;
             }
