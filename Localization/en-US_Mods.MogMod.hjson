@@ -568,7 +568,7 @@ Items: {
 				'''
 				+15% Magic Damage
 				+15% Summon Damage
-				+15% Damage Taken
+				[c/BA2F2F:+15% Damage Taken]
 				[c/C25B99:'The air that passes through this amulet makes a dreadful sound.']
 				'''
 		}

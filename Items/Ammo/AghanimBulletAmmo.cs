@@ -1,8 +1,9 @@
-﻿using Terraria.ModLoader;
+﻿using MogMod.Items.Consumables;
+using MogMod.Items.Other;
+using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
 using Terraria.ID;
-using MogMod.Projectiles.RangedProjectiles;
-using MogMod.Items.Consumables;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo
 {
@@ -29,6 +30,7 @@ namespace MogMod.Items.Ammo
             CreateRecipe(999).
                 AddIngredient(ItemID.MoonlordBullet, 999).
                 AddIngredient<AghanimShard>(1).
+                AddIngredient<VoniumEssence>(1).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

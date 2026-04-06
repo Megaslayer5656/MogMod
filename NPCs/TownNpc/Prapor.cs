@@ -71,7 +71,7 @@ namespace MogMod.NPCs.TownNpc
                 .Add<MosinLPS>()
                 .Add<Salewa>()
                 .Add<IdeaRig>()
-                .Add((ModContent.ItemType<Switch>()), Condition.DownedGolem)
+                //.Add((ModContent.ItemType<Switch>()), Condition.DownedGolem) // post von
                 .Add((ModContent.ItemType<GreenTracerAmmo>()), Condition.DownedGolem)
                 .Register();
         }
