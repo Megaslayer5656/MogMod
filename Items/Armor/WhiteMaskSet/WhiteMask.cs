@@ -1,15 +1,16 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories;
 using MogMod.Items.Armor.Undying;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.WhiteMaskSet
@@ -37,7 +38,8 @@ namespace MogMod.Items.Armor.WhiteMaskSet
         {
             Item.width = Item.height = 18;
             Item.defense = 8;
-            Item.rare = ItemRarityID.Lime;
+            Item.rare = ItemRarityID.Pink;
+            Item.value = MogGlobalItem.RarityPinkBuyPrice;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {

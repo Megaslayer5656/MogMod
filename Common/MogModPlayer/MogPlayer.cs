@@ -1276,13 +1276,13 @@ namespace MogMod.Common.MogModPlayer
             if (shivCooldown > 0)
                 shivCooldown--;
             if (bashCooldown > 0)
-                shivCooldown--;
+                bashCooldown--;
             if (radiantCooldown > 0)
-                shivCooldown--;
+                radiantCooldown--;
             if (jidiPollenCooldown > 0)
-                shivCooldown--;
+                jidiPollenCooldown--;
             if (gunpowderCooldown > 0)
-                shivCooldown--;
+                gunpowderCooldown--;
         }
         
         // stops player from moving while charging bow

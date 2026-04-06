@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,6 +21,7 @@ namespace MogMod.Items.Armor.Tigla
             Item.height = 14;
             Item.defense = 20;
             Item.rare = ItemRarityID.Yellow;
+            Item.value = MogGlobalItem.RarityYellowBuyPrice;
         }
 
         public override void UpdateEquip(Player player)

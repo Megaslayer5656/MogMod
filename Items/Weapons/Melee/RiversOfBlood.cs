@@ -1,16 +1,17 @@
-﻿using MogMod.Buffs.Cooldowns;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
-using System;
-using Terraria.Audio;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
 using MogMod.Common.MogModPlayer;
-using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Projectiles.MeleeProjectiles;
+using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -35,7 +36,8 @@ namespace MogMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 5.5f;
             Item.value = Item.buyPrice(0, 1, 50, 0);
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Cyan;
+            Item.value = MogGlobalItem.RarityCyanBuyPrice;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;

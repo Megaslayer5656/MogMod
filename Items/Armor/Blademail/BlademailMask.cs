@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
+using MogMod.Items.Global;
 using MogMod.Utilities;
 using System.Collections.Generic;
 using Terraria;
@@ -33,6 +34,7 @@ namespace MogMod.Items.Armor.Blademail
             Item.height = 24;
             Item.defense = 9;
             Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

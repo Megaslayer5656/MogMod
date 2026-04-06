@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable;
 using MogMod.Projectiles.MeleeProjectiles;
@@ -27,6 +28,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.value = Item.buyPrice(0, 38, 0, 0);
             Item.axe = 150 / 5;
             Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
             Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.shoot = ModContent.ProjectileType<BattleFuryProjectile>();
             Item.noMelee = true;

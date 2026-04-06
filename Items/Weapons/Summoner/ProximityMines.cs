@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.SummonerProjectiles;
 using Terraria;
@@ -29,6 +30,7 @@ namespace MogMod.Items.Weapons.Summoner
             Item.noMelee = true;
             Item.knockBack = 3;
             Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
             Item.shoot = ModContent.ProjectileType<ProximityMinesSummon>();
         }
 

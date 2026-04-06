@@ -12,6 +12,7 @@ namespace MogMod.Items.Other
             Item.height = 50;
             Item.width = 32;
             Item.maxStack = Item.CommonMaxStack;
+            Item.value = Item.sellPrice(copper: 60);
         }
 
         public override void AddRecipes()

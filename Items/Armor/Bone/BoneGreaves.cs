@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using MogMod.Items.Global;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,6 +15,7 @@ namespace MogMod.Items.Armor.Bone
             Item.height = 18;
             Item.defense = 5;
             Item.rare = ItemRarityID.Green;
+            Item.value = MogGlobalItem.RarityGreenBuyPrice;
         }
         public override void UpdateEquip(Player player)
         {

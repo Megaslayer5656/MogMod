@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Placeable;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,6 +15,7 @@ namespace MogMod.Items.Accessories
             Item.width = 50;
             Item.height = 42;
             Item.rare = ItemRarityID.Expert;
+            Item.value = MogGlobalItem.RarityRedBuyPrice;
             Item.expert = true;
         }
 
@@ -30,7 +32,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.ShinyStone, 1).
                 AddIngredient(ItemID.BrokenHeroSword, 1).
                 AddIngredient(ItemID.HallowedBar, 10).
-                AddIngredient<GriefBar>(10).
+                AddIngredient<BrinyRind>(10).
                 AddIngredient(ItemID.HallowedKey, 1).
                 AddTile(TileID.MythrilAnvil).
                 Register();

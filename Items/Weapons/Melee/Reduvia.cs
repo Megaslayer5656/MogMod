@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Weapons.Magic;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Weapons.Magic;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.ID;
@@ -25,6 +26,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.knockBack = 3.5f;
             Item.value = Item.buyPrice(0, 1, 50, 0);
             Item.rare = ItemRarityID.LightRed;
+            Item.value = MogGlobalItem.RarityLightRedBuyPrice;
             Item.UseSound = SoundID.Item71;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<BloodMagicProjectile>();

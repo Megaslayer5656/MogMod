@@ -1,14 +1,15 @@
-﻿using MogMod.Items.Placeable;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
+using MogMod.Items.Placeable;
 using MogMod.Projectiles.MeleeProjectiles;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class WarFury : ModItem
+    public class WarFury : ModItem, ILocalizedModType // ILocalizedModType is needed so that LocalizationCategory actually works
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
 
@@ -25,7 +26,8 @@ namespace MogMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.value = Item.buyPrice(0, 38, 0, 0);
             Item.axe = 150 / 5;
-            Item.rare = ItemRarityID.Orange;
+            Item.rare = ItemRarityID.LightRed;
+            Item.value = MogGlobalItem.RarityLightRedBuyPrice;
             Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.shoot = ModContent.ProjectileType<WarFuryProjectile>();
             Item.noMelee = true;
@@ -42,8 +44,8 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<BattleFury>(1).
-                AddIngredient(ItemID.SoulofNight, 7).
                 AddIngredient(ItemID.LivingFireBlock, 12).
+                AddIngredient(ItemID.SoulofNight, 7).
                 AddTile(TileID.Anvils).
                 Register();
         }

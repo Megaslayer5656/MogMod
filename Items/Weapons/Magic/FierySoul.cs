@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.ID;
@@ -25,6 +26,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item20;
             Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
         }
         public override void AddRecipes()
         {

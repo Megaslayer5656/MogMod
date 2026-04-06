@@ -1,14 +1,15 @@
-﻿using MogMod.Items.Ammo;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Ammo;
+using MogMod.Items.Global;
+using MogMod.Items.Weapons.Melee;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria.ID;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using MogMod.Items.Weapons.Melee;
 using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
 {
@@ -25,7 +26,8 @@ namespace MogMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 2.5f;
-            Item.rare = ItemRarityID.Pink;
+            Item.rare = ItemRarityID.Cyan;
+            Item.value = MogGlobalItem.RarityCyanBuyPrice;
             Item.UseSound = SoundID.Item91;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.autoReuse = true;

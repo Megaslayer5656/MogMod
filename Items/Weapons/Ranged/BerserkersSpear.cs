@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Placeable;
 using MogMod.Projectiles.RangedProjectiles;
 using System;
@@ -36,7 +37,8 @@ namespace MogMod.Items.Weapons.Ranged
             Item.knockBack = 6f;
             Item.UseSound = SoundID.Item1;
             Item.value = Item.buyPrice(0, 32, 82, 5);
-            Item.rare = ItemRarityID.Orange;
+            Item.rare = ItemRarityID.Yellow;
+            Item.value = MogGlobalItem.RarityYellowBuyPrice;
             Item.shoot = ModContent.ProjectileType<BerserkersSpearProj>();
             Item.shootSpeed = 15f;
         }

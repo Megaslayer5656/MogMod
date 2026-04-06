@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Items.Placeable;
 using Terraria;
 using Terraria.ID;
@@ -16,6 +17,7 @@ namespace MogMod.Items.Armor.Radiant
             Item.height = 26;
             Item.defense = 11;
             Item.rare = ItemRarityID.Cyan;
+            Item.value = MogGlobalItem.RarityCyanBuyPrice;
         }
 
         public override void UpdateEquip(Player player)

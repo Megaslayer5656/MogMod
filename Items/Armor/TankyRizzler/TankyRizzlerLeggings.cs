@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,6 +16,7 @@ namespace MogMod.Items.Armor.TankyRizzler
             Item.height = 18;
             Item.defense = 20;
             Item.rare = ItemRarityID.Cyan;
+            Item.value = MogGlobalItem.RarityCyanBuyPrice;
         }
         public override void UpdateEquip(Player player)
         {

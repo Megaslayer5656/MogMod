@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Utilities;
 using System;
@@ -19,11 +20,11 @@ namespace MogMod.Items.Accessories
             Item.width = 50;
             Item.height = 42;
             Item.rare = ItemRarityID.Green;
+            Item.value = MogGlobalItem.RarityGreenBuyPrice;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            player.GetDamage(DamageClass.Melee) += -.30f;
             if (player.miscCounter % 10 == 0)
             {
                 int myPlayer = Main.myPlayer;

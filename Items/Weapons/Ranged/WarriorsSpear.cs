@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Projectiles.RangedProjectiles;
 using System;
 using Terraria;
@@ -29,8 +30,8 @@ namespace MogMod.Items.Weapons.Ranged
             Item.noUseGraphic = true;
             Item.knockBack = 6f;
             Item.UseSound = SoundID.Item1;
-            Item.value = Item.buyPrice(0, 32, 82, 5);
             Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<WarriorsSpearProj>();
             Item.shootSpeed = 12.5f;

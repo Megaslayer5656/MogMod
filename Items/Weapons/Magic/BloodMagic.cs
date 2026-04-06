@@ -1,4 +1,5 @@
-﻿using MogMod.Projectiles.MagicProjectiles;
+﻿using MogMod.Items.Global;
+using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -23,6 +24,7 @@ namespace MogMod.Items.Weapons.Magic //Very important note: All of the blood stu
             Item.knockBack = 5f;
             Item.value = Item.buyPrice(0, 7, 30, 50);
             Item.rare = ItemRarityID.LightRed;
+            Item.value = MogGlobalItem.RarityLightRedBuyPrice;
             Item.UseSound = SoundID.Item9;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<BloodMagicProjectile>();

@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Accessories;
 using MogMod.Items.Consumables;
+using MogMod.Items.Global;
 using MogMod.Items.Placeable;
 using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Rarities;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -34,7 +36,8 @@ namespace MogMod.Items.Weapons.Melee
             Item.knockBack = 9.5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.rare = ItemRarityID.Master;
+            Item.rare = ModContent.RarityType<VonRarity>();
+            Item.value = MogGlobalItem.RarityBlueBuyPrice;
             Item.shoot = ModContent.ProjectileType<DivineRapierProj>();
             Item.shootSpeed = 12f;
         }
@@ -61,9 +64,9 @@ namespace MogMod.Items.Weapons.Melee
         {
             List<Color> colorList = new List<Color>()
             {
-                Color.NavajoWhite,
-                Color.LightCoral,
-                Color.LightSalmon
+                new Color(245, 209, 169),
+                new Color(198, 245, 169),
+                new Color(245, 169, 240),
             };
 
             int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % colorList.Count);

@@ -1,11 +1,12 @@
-﻿using MogMod.Items.Other;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.Cooldowns;
+using MogMod.Items.Global;
+using MogMod.Items.Other;
+using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using MogMod.Buffs.Cooldowns;
-using MogMod.Projectiles.MagicProjectiles;
 
 namespace MogMod.Items.Weapons.Magic
 {
@@ -27,7 +28,8 @@ namespace MogMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<FierySoulProjectile>();
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item20;
-            Item.rare = ItemRarityID.Cyan;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.value = MogGlobalItem.RarityLightPurpleBuyPrice;
         }
         public override bool AltFunctionUse(Player player) => true;
 

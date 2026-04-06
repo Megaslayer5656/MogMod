@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
@@ -22,7 +23,8 @@ namespace MogMod.Items.Weapons.Ranged
             Item.damage = 44;
             Item.shoot = ModContent.ProjectileType<FireworkCrossbowProj>();
             Item.useAmmo = AmmoID.Arrow;
-            Item.rare = ItemRarityID.Purple;
+            Item.rare = ItemRarityID.Pink;
+            Item.value = MogGlobalItem.RarityPinkBuyPrice;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Ranged;
             Item.ArmorPenetration = 10;
@@ -40,7 +42,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<UltimateOrb>(1).
-                AddIngredient(ItemID.Wood, 25).
+                AddRecipeGroup(RecipeGroupID.Wood, 25).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

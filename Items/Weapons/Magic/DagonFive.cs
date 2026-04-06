@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
@@ -30,6 +31,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.noMelee = true;
             Item.knockBack = 6.5f;
             Item.rare = ItemRarityID.Red;
+            Item.value = MogGlobalItem.RarityRedBuyPrice;
             Item.UseSound = SoundID.Item109;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<DagonFiveProj>();

@@ -1,4 +1,5 @@
 ﻿using MogMod.Items.Accessories;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
@@ -26,6 +27,7 @@ namespace MogMod.Items.Armor.FrostMaiden
             Item.height = 20;
             Item.defense = 4;
             Item.rare = ItemRarityID.Green;
+            Item.value = MogGlobalItem.RarityGreenBuyPrice;
         }
         public override void UpdateEquip(Player player)
         {

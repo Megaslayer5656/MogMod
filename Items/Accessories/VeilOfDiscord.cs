@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Items.Placeable;
 using Terraria;
 using Terraria.ID;
@@ -14,7 +15,8 @@ namespace MogMod.Items.Accessories
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.LightPurple;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
             Item.defense = 5;
         }
 

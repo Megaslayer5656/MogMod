@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using System;
@@ -35,6 +36,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.mana = 120;
             Item.useTime = Item.useAnimation = 80;
             Item.rare = ItemRarityID.Red;
+            Item.value = MogGlobalItem.RarityRedBuyPrice;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.knockBack = 15f;

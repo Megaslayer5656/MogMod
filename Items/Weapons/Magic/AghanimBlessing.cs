@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable;
 using MogMod.Projectiles.MagicProjectiles;
+using MogMod.Rarities;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -33,8 +35,8 @@ namespace MogMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 8f;
-            Item.rare = ItemRarityID.Master;
-            Item.master = true;
+            Item.rare = ModContent.RarityType<VonRarity>();
+            Item.value = MogGlobalItem.RarityVonBuyPrice;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<AghanimBlessingProj>();
             Item.shootSpeed = 26f;
@@ -73,9 +75,9 @@ namespace MogMod.Items.Weapons.Magic
         {
             List<Color> colorList = new List<Color>()
             {
-                Color.Purple,
-                Color.BlueViolet,
-                Color.Blue
+                new Color(71, 35, 161),
+                new Color(125, 35, 161),
+                new Color(161, 35, 113),
             };
             int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % colorList.Count);
             Color currentColor = colorList[colorIndex];
@@ -85,11 +87,6 @@ namespace MogMod.Items.Weapons.Magic
             TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip4");
             if (line != null)
                 line.OverrideColor = Color.Lerp(tooltipColor, Color.White, 0.5f);
-            var changedLine = tooltips.FirstOrDefault(x => x.Name == "Master" && x.Mod == "Terraria");
-            if (changedLine != null)
-            {
-                changedLine.Text = "";
-            }
         }
         public override void AddRecipes()
         {

@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Utilities;
 using System;
@@ -22,6 +23,7 @@ namespace MogMod.Items.Accessories
             Item.width = 50;
             Item.height = 42;
             Item.rare = ItemRarityID.Pink;
+            Item.value = MogGlobalItem.RarityPinkBuyPrice;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -34,7 +36,6 @@ namespace MogMod.Items.Accessories
             player.aggro -= 1000;
             player.manaRegen += (int)Math.Round(player.manaRegen * .5f);
             player.manaRegenDelay -= 5f;
-            player.GetDamage(DamageClass.Melee) += -.30f;
             Player.tileRangeX = Player.tileRangeY += 3;
             // a check on whether the player is wearing boots
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();

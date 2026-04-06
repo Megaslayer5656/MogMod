@@ -1,4 +1,5 @@
 ﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Global;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,6 +15,7 @@ namespace MogMod.Items.Accessories
             Item.width = 50;
             Item.height = 36;
             Item.rare = ItemRarityID.Green;
+            Item.value = MogGlobalItem.RarityGreenBuyPrice;
         }
         // DOES WORK !! ! ! !
         public override void UpdateAccessory(Player player, bool hideVisual)

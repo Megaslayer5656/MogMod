@@ -1,4 +1,5 @@
 ﻿using MogMod.Items.Other;
+using MogMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,7 +19,7 @@ namespace MogMod.Items.Placeable
             Item.width = 30;
             Item.height = 24;
             Item.maxStack = Item.CommonMaxStack;
-            Item.rare = ItemRarityID.Purple;
+            Item.rare = ModContent.RarityType<VonRarity>();
             Item.consumable = true;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
@@ -26,6 +27,7 @@ namespace MogMod.Items.Placeable
             Item.autoReuse = true;
             Item.createTile = ModContent.TileType<Tiles.Bars.VoniumBars>();
             Item.placeStyle = 0;
+            Item.value = Item.sellPrice(gold: 5);
         }
         public override void AddRecipes()
         {

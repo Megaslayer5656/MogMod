@@ -1,4 +1,5 @@
 ﻿﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Global;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,6 +19,7 @@ namespace MogMod.Items.Accessories
             Item.width = 50;
             Item.height = 67;
             Item.rare = ItemRarityID.LightPurple;
+            Item.value = MogGlobalItem.RarityLightPurpleBuyPrice;
         }
         // cant be equipped with atg or icbm
         public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)

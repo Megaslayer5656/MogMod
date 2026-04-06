@@ -1,10 +1,11 @@
 ﻿using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
+using MogMod.Items.Global;
+using MogMod.Utilities;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using MogMod.Utilities;
 
 namespace MogMod.Items.Armor.Blademail
 {
@@ -30,6 +31,7 @@ namespace MogMod.Items.Armor.Blademail
             Item.height = 28;
             Item.defense = 10;
             Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
         }
         public override void UpdateEquip(Player player)
         {

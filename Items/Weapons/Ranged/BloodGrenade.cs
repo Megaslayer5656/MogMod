@@ -1,4 +1,5 @@
-﻿using MogMod.Projectiles.RangedProjectiles;
+﻿using MogMod.Items.Global;
+using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -33,8 +34,8 @@ namespace MogMod.Items.Weapons.Ranged
             Item.autoReuse = true;
             Item.consumable = true;
             Item.noUseGraphic = true;
-            Item.value = Item.buyPrice(0, 0, 2, 50);
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Green;
+            Item.value = MogGlobalItem.RarityGreenBuyPrice;
             Item.shoot = ModContent.ProjectileType<BloodGrenadeProjectile>();
         }
 

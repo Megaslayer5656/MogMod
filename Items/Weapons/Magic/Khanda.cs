@@ -1,9 +1,10 @@
-﻿using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.MagicProjectiles;
-using MogMod.Items.Other;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Magic
 {
@@ -30,7 +31,8 @@ namespace MogMod.Items.Weapons.Magic
             Item.knockBack = 0f;
             Item.shoot = ModContent.ProjectileType<KhandaBeam>();
             Item.shootSpeed = 30f;
-            Item.rare = ItemRarityID.Purple;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.value = MogGlobalItem.RarityLightPurpleBuyPrice;
         }
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 26;
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;

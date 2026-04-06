@@ -13,6 +13,7 @@ namespace MogMod.Items.Ammo
     {
         public new string LocalizationCategory => "Items.Ammo";
         public const int manaCost = 12;
+        public const int attackSpeed = 40;
         public override void SetDefaults()
         {
             // display purposes only;

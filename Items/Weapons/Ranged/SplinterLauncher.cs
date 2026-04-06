@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -22,8 +23,8 @@ namespace MogMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 2f;
             Item.UseSound = SoundID.Item108; //Nail gun sound
-            Item.value = Item.buyPrice(0, 5, 82, 5);
             Item.rare = ItemRarityID.Green;
+            Item.value = MogGlobalItem.RarityGreenBuyPrice;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 9f;

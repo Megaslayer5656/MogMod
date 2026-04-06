@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Items.Placeable;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
@@ -29,6 +30,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.noMelee = true;
             Item.mana = 24;
             Item.rare = ItemRarityID.Cyan;
+            Item.value = MogGlobalItem.RarityCyanBuyPrice;
             Item.shoot = ModContent.ProjectileType<MichaelSwordHoldout>();
             Item.shootSpeed = 1f;
         }

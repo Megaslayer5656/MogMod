@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
@@ -29,6 +30,7 @@ namespace MogMod.Items.Armor.Undying
             Item.width = Item.height = 24;
             Item.defense = 15;
             Item.rare = ItemRarityID.Lime;
+            Item.value = MogGlobalItem.RarityLimeBuyPrice;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {

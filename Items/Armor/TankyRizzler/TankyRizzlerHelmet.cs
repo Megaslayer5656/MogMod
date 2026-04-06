@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Consumables;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
@@ -29,6 +30,7 @@ namespace MogMod.Items.Armor.TankyRizzler
             Item.height = 24;
             Item.defense = 26;
             Item.rare = ItemRarityID.Cyan;
+            Item.value = MogGlobalItem.RarityCyanBuyPrice;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {

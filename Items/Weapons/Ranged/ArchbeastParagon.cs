@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
@@ -29,6 +30,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.autoReuse = true;
             Item.noUseGraphic = true;
             Item.rare = ItemRarityID.Yellow;
+            Item.value = MogGlobalItem.RarityYellowBuyPrice;
             Item.UseSound = SoundID.Item20;
             Item.shoot = ModContent.ProjectileType<ArchbeastBowCharge>();
             Item.useAmmo = AmmoID.Arrow;

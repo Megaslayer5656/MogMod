@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.RangedProjectiles;
@@ -28,6 +29,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.shootSpeed = 8f;
             Item.useAmmo = AmmoID.Bullet;
             Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
         }
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 1;
         public override Vector2? HoldoutOffset() => new Vector2(0, 0);

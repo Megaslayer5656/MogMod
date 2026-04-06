@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Projectiles.RangedProjectiles;
 using System;
 using Terraria;
@@ -27,8 +28,8 @@ namespace MogMod.Items.Weapons.Ranged
                 Volume = 2.25f,
                 PitchVariance = .02f,
             };
-            Item.value = Item.buyPrice(0, 75, 0, 0);
             Item.rare = ItemRarityID.Red;
+            Item.value = MogGlobalItem.RarityRedBuyPrice;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 200f;

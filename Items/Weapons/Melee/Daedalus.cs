@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
 using System;
@@ -10,6 +11,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
+    // what a mess of a file
     public class Daedalus : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
@@ -46,6 +48,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
 
             Item.rare = ItemRarityID.Red;
+            Item.value = MogGlobalItem.RarityRedBuyPrice;
 
             // DAEDALUS CROSSBOW SLOP
             Item.shoot = ModContent.ProjectileType<DaedalusProjectile>();

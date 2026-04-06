@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
 using System;
@@ -28,7 +29,8 @@ namespace MogMod.Items.Weapons.Melee
             Item.knockBack = 8.5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
             Item.scale = 1f;
             Item.shootSpeed = 2f;
             Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing

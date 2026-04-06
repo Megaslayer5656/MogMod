@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,19 +21,17 @@ namespace MogMod.Items.Accessories
             Item.width = 50;
             Item.height = 42;
             Item.rare = ItemRarityID.Red;
+            Item.value = MogGlobalItem.RarityRedBuyPrice;
             Item.defense = 20;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.statLifeMax2 += 100;
-            player.statManaMax2 -= 100;
             player.lifeRegen += 8;
             player.shinyStone = true;
             player.PotionDelayModifier *= 0.9f;
             player.pStone = true;
-            player.GetDamage(DamageClass.Magic) -= .20f;
-            player.GetDamage(DamageClass.Summon) -= .20f;
 
             // ankh shield immunity
             player.noKnockback = true;

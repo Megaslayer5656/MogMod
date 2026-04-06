@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,6 +26,7 @@ namespace MogMod.Items.Armor.Undying
             Item.height = 20;
             Item.defense = 20;
             Item.rare = ItemRarityID.Lime;
+            Item.value = MogGlobalItem.RarityLimeBuyPrice;
         }
         public override void UpdateEquip(Player player)
         {

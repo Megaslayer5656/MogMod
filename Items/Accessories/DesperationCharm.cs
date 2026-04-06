@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Items.Placeable;
 using Terraria;
 using Terraria.ID;
@@ -14,7 +15,8 @@ namespace MogMod.Items.Accessories
         {
             Item.width = 16;
             Item.height = 16;
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Lime;
+            Item.value = MogGlobalItem.RarityLimeBuyPrice;
             Item.accessory = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)

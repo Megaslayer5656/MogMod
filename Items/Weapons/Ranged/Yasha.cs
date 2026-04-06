@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
@@ -24,7 +25,8 @@ namespace MogMod.Items.Weapons.Ranged
             Item.useTime = 15;
             Item.useAnimation = 15;
             Item.value = Item.buyPrice(0, 50, 0, 0);
-            Item.rare = ItemRarityID.Lime;
+            Item.rare = ItemRarityID.Pink;
+            Item.value = MogGlobalItem.RarityPinkBuyPrice;
             Item.shootSpeed = 8f;
             Item.shoot = ModContent.ProjectileType<YashaProjectile>();
             Item.autoReuse = true;

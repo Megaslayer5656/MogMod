@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable;
 using MogMod.Projectiles.RangedProjectiles;
@@ -26,6 +27,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.knockBack = 2f;
             Item.rare = ItemRarityID.Cyan;
+            Item.value = MogGlobalItem.RarityCyanBuyPrice;
             Item.UseSound = SoundID.Item5;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;

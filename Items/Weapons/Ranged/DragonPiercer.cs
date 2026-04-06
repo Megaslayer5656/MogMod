@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable;
 using MogMod.Projectiles.RangedProjectiles;
@@ -29,7 +30,8 @@ namespace MogMod.Items.Weapons.Ranged
             Item.channel = true;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.value = MogGlobalItem.RarityLightPurpleBuyPrice;
             Item.UseSound = SoundID.Item20;
             Item.shoot = ModContent.ProjectileType<DragonPiercerHoldout>();
             Item.useAmmo = AmmoID.Arrow;

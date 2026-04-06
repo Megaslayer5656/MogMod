@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Common.MogModPlayer;
+using MogMod.Items.Global;
 using MogMod.Items.Placeable;
 using MogMod.Projectiles.MeleeProjectiles;
 using Terraria;
@@ -34,6 +35,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.noUseGraphic = true;
             Item.noMelee = true;
             Item.rare = ItemRarityID.Yellow;
+            Item.value = MogGlobalItem.RarityYellowBuyPrice;
             Item.shoot = ModContent.ProjectileType<GunlanceHoldout>();
             Item.shootSpeed = 1f;
             Item.useAmmo = AmmoID.Rocket;

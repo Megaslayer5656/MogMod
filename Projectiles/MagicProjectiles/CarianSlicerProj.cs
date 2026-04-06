@@ -21,37 +21,22 @@ namespace MogMod.Projectiles.MagicProjectiles
         // We define some constants that determine the swing range of the sword
         // Not that we use multipliers here since that simplifies the amount of tweaks for these interactions
         // You could change the values or even replace them entirely, but they are tweaked with looks in mind
-        private const float swingRange = 1.67f * (float)Math.PI; // The angle a swing attack covers (300 deg)
-        private const float firstHalfSwing = .45f; // How much of the swing happens before it reaches the target angle (in relation to swingRange)
-        private const float windUp = 0.15f; // How far back the player's hand goes when winding their attack (in relation to swingRange)
-        private const float unwind = 0.2f; // When should the sword start disappearing
+        private const float SWINGRANGE = 1.67f * (float)Math.PI; // The angle a swing attack covers (300 deg)
+        private const float FIRSTHALFSWING = 0.45f; // How much of the swing happens before it reaches the target angle (in relation to swingRange)
+        private const float WINDUP = 0.15f; // How far back the player's hand goes when winding their attack (in relation to swingRange)
+        private const float UNWIND = 0.4f; // When should the sword start disappearing
 
         // We define timing functions for each stage, taking into account melee attack speed
         // Note that you can change this to suit the need of your projectile
-        private float prepTime => 12f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
+        private float prepTime => 10f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
         private float execTime => 12f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
-        private float hideTime => 12f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
+        private float hideTime => 4f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
         private Player Owner => Main.player[Projectile.owner];
-
-        private enum AttackType // Which attack is being performed
-        {
-            // Swings are normal sword swings that can be slightly aimed
-            // Swings goes through the full cycle of animations
-            SwingUp,
-            SwingDown,
-        }
         private enum AttackStage // What stage of the attack is being executed, see functions found in AI for description
         {
             Prepare,
             Execute,
             Unwind
-        }
-
-        // These properties wrap the usual ai and localAI arrays for cleaner and easier to understand code.
-        private AttackType CurrentAttack
-        {
-            get => (AttackType)Projectile.ai[0];
-            set => Projectile.ai[0] = (float)value;
         }
         private AttackStage CurrentStage
         {
@@ -107,7 +92,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 targetAngle = MathHelper.Clamp(targetAngle, (float)Math.PI * 5 / 6, (float)Math.PI * 4 / 3);
             }
 
-            InitialAngle = targetAngle - firstHalfSwing * swingRange * Projectile.spriteDirection; // Otherwise, we calculate the angle
+            InitialAngle = targetAngle - FIRSTHALFSWING * SWINGRANGE * Projectile.spriteDirection; // Otherwise, we calculate the angle
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -215,7 +200,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.rotation = InitialAngle + Projectile.spriteDirection * Progress; // Set projectile rotation
 
             // Set composite arm allows you to set the rotation of the arm and stretch of the front and back arms independently
-            Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.ToRadians(90f)); // set arm position (90 degree offset since arm starts lowered)
+            Owner.SetCompositeArmFront(false, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.ToRadians(90f)); // set arm position (90 degree offset since arm starts lowered)
             Vector2 armPosition = Owner.GetFrontHandPosition(Player.CompositeArmStretchAmount.Full, Projectile.rotation - (float)Math.PI / 2); // get position of hand
 
             // Adjust the position for reversed gravity.
@@ -231,78 +216,31 @@ namespace MogMod.Projectiles.MagicProjectiles
 
             Owner.heldProj = Projectile.whoAmI; // set held projectile to this projectile
         }
-
-        // Function facilitating the taking out of the sword
         private void PrepareStrike()
         {
-            // first upwards swing effect
-            if (CurrentAttack == AttackType.SwingUp)
-            {
-                Progress = (windUp / 2) * (swingRange / 2) * (1f - Timer / (prepTime / 1.4f)); // Calculates rotation from initial angle
-                Size = MathHelper.SmoothStep(0, 1, Timer / (prepTime / 1.4f)); // Make sword slowly increase in size as we prepare to strike until it reaches max
+            Progress = WINDUP * SWINGRANGE * (1f - Timer / prepTime); // Calculates rotation from initial angle
+            Size = MathHelper.SmoothStep(0, 1, Timer / prepTime); // Make sword slowly increase in size as we prepare to strike until it reaches max
 
-                if (Timer >= (prepTime / 1.4f))
-                {
-                    // Play sword sound here since playing it on spawn is too early
-                    SoundEngine.PlaySound(Gunlance.SwingSound2, Projectile.Center);
-                    CurrentStage = AttackStage.Execute; // If attack is over prep time, we go to next stage
-                }
-            }
-            // first slam effect
-            else if (CurrentAttack == AttackType.SwingDown)
+            if (Timer >= prepTime)
             {
-                Progress = windUp * swingRange * (1f - Timer / prepTime); // Calculates rotation from initial angle
-                Size = MathHelper.SmoothStep(0, 1, Timer / prepTime); // Make sword slowly increase in size as we prepare to strike until it reaches max
-
-                if (Timer >= prepTime)
-                {
-                    // Play sword sound here since playing it on spawn is too early
-                    SoundEngine.PlaySound(Gunlance.SwingSound, Projectile.Center);
-                    CurrentStage = AttackStage.Execute; // If attack is over prep time, we go to next stage
-                }
+                SoundEngine.PlaySound(SoundID.Item15); // Play sword sound here since playing it on spawn is too early
+                CurrentStage = AttackStage.Execute; // If attack is over prep time, we go to next stage
             }
         }
-
-        // Function facilitating the first half of the swing
         private void ExecuteStrike()
         {
-            var mogPlayerUI = Main.LocalPlayer.GetModPlayer<MogPlayerUI>();
-            if (CurrentAttack == AttackType.SwingUp)
-            {
-                Progress = MathHelper.SmoothStep(0, -swingRange, (1f - unwind) * Timer / (execTime / 1.4f));
+            Progress = MathHelper.SmoothStep(0, SWINGRANGE, (1f - UNWIND) * Timer / execTime);
 
-                if (Timer >= (execTime / 1.4f))
-                    CurrentStage = AttackStage.Unwind;
-            }
-            else if (CurrentAttack == AttackType.SwingDown)
-            {
-                float t = Timer / execTime;
-                float easing = (float)Math.Sin(t * MathHelper.PiOver2);
-                Progress = MathHelper.Lerp(0, swingRange, easing);
-                if (Timer >= execTime)
-                    CurrentStage = AttackStage.Unwind;
-            }
+            if (Timer >= execTime)
+                CurrentStage = AttackStage.Unwind;
         }
-
-        // Function facilitating the latter half of the swing where the sword unwinds
         private void UnwindStrike()
         {
-            if (CurrentAttack == AttackType.SwingUp)
-            {
-                Progress = MathHelper.SmoothStep(-swingRange, 0, (1f - unwind) * Timer / (execTime / 1.4f));
-                Size = 1f - MathHelper.SmoothStep(0, 1, Timer / (hideTime / 1.4f)); // Make sword slowly decrease in size as we end the swing to make a smooth hiding animation
+            Progress = MathHelper.SmoothStep(0, SWINGRANGE, (1f - UNWIND) + UNWIND * Timer / hideTime);
+            Size = 1f - MathHelper.SmoothStep(0, 1, Timer / hideTime);
 
-                if (Timer >= (hideTime / 1.4f))
-                    Projectile.Kill();
-            }
-            else if (CurrentAttack == AttackType.SwingDown)
-            {
-                float t = Timer / hideTime;
-                float easing = (float)Math.Sin(t * MathHelper.PiOver2);
-                Size = 1f - easing;
-                if (Timer >= hideTime)
-                    Projectile.Kill();
-            }
+            if (Timer >= hideTime)
+                Projectile.Kill();
         }
     }
 }

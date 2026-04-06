@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
 using Terraria;
 using Terraria.Audio;
@@ -19,7 +20,8 @@ namespace MogMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             // Common Properties
-            Item.rare = ItemRarityID.Cyan;
+            Item.rare = ItemRarityID.Blue;
+            Item.value = MogGlobalItem.RarityBlueBuyPrice;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAnimation = 32;
             Item.useTime = 35;

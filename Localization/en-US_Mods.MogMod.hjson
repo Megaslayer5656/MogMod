@@ -90,7 +90,6 @@ Items: {
 			DisplayName: Guardian Greaves
 			Tooltip:
 				'''
-				-30% Melee Damage
 				Greatly Increases placement speed and range
 				Increased Maximum Mana by 50
 				Enemies are less likely to target you
@@ -106,7 +105,6 @@ Items: {
 			DisplayName: Headdress
 			Tooltip:
 				'''
-				-30% Melee Damage
 				Provides you and nearby team members +4 HP/s Life regen
 				[c/51A68A:'Creates a soothing aura that restores allies in battle.']
 				'''
@@ -117,7 +115,6 @@ Items: {
 			Tooltip:
 				'''
 				4 Defense
-				-30% Melee Damage
 				Increases placement speed and range
 				Provides you and nearby team members +4 HP/s Life regen
 				Pressing [KEY] will restore 50 Life to you and nearby team members
@@ -217,9 +214,7 @@ Items: {
 			Tooltip:
 				'''
 				+15% Attack Speed
-				+15% Ranged Damage
-				+15% Magic Damage
-				+15% Summon Damage
+				+15% Non-Melee Damage
 				+30% Knockback
 				Increases block placement range by 3
 				Pressing [KEY] will boost you forward in the direction you are facing
@@ -244,11 +239,8 @@ Items: {
 			DisplayName: Vanguard
 			Tooltip:
 				'''
-				-10% Magic Damage
-				-10% Summon Damage
 				Increased Maximum Life by 50
 				Increased Life Regeneration
-				Greatly Decreased Mana Regeneration
 				Grants immunity to knockback
 				[c/85483D:'A powerful shield that defends its wielder ]
 				[c/85483D:from even the most vicious of attacks.']
@@ -292,11 +284,8 @@ Items: {
 			DisplayName: Helm Of Iron Will
 			Tooltip:
 				'''
-				-10% Magic Damage
-				-10% Summon Damage
 				Increased Maximum Life by 20
 				Slightly Increased Life Regeneration
-				Decreased Mana Regeneration
 				[c/D2D46E:'The helmet of a legendary warrior who fell in battle.']
 				'''
 		}
@@ -305,10 +294,7 @@ Items: {
 			DisplayName: Heart Of Tarrasque
 			Tooltip:
 				'''
-				-20% Magic Damage
-				-20% Summon Damage
 				Increases Maximum Life by 100
-				Decreases Maximum Mana by 100
 				Reduces the cooldown of healing potions by 35%
 				Does not stack with downgrades
 				Grants immunity to knockback and fire blocks
@@ -406,9 +392,7 @@ Items: {
 				'''
 				Increases your max number of minions by 1
 				+5% Summon Damage
-				-30% Melee Damage
-				Grants you and nearby team members 
-				30% movement speed and 10% Melee and Summon Attack Speed
+				Grants you and nearby team members 30% movement speed and 10% Melee and Summon Attack Speed
 				[c/40BD67:'A relic that enchants the bodies of those around it for swifter movement in times of crisis.']
 				'''
 		}
@@ -461,7 +445,6 @@ Items: {
 			Tooltip:
 				'''
 				10 Defense
-				-30% Ranged Damage
 				+10% Magic Damage
 				+10% Attack Damage
 				+10% Attack Speed
@@ -545,8 +528,8 @@ Items: {
 			Tooltip:
 				'''
 				+30% Melee Weapon Size
-				-20% Melee Speed
-				True melee attacks have a small chance to bash enemies, dealing up to 50 melee damage
+				[c/BA2F2F:-20% Melee Speed]
+				True melee attacks have a small chance to bash enemies, dealing 50 melee damage
 				[c/A62450:'Crude but smashingly effective.']
 				'''
 		}
@@ -565,7 +548,7 @@ Items: {
 			Tooltip:
 				'''
 				+5% Magic Attack Speed
-				Magic attacks have a small chance to explode, dealing up to 40 magic damage
+				Magic attacks have a small chance to explode, dealing 40 magic damage
 				[c/B87133:'A harmless prank that went entirely too far.']
 				'''
 		}
@@ -958,6 +941,11 @@ Items: {
 			GreatswordOfSouls: {
 				DisplayName: Greatsword of Souls
 				Tooltip: Fires homing souls
+			}
+
+			WarFury: {
+				Tooltip: ""
+				DisplayName: War Fury
 			}
 		}
 
@@ -1359,7 +1347,16 @@ Items: {
 					'''
 					Right click to disappear into the shadows
 					Damage is increased in correlation to the amount of time spent in the shadows
-					Attacking will reveal you from the shadows
+					[c/BA0740:Attacking will reveal you from the shadows]
+					'''
+			}
+
+			AzursGlintstoneStaff: {
+				DisplayName: Azur's Glintstone Staff
+				Tooltip:
+					'''
+					A catalyst used to cast sorceries
+					[c/34A884:Sorceries cast 20% faster]
 					'''
 			}
 		}
@@ -1580,15 +1577,6 @@ Items: {
 		Tooltip: ""
 	}
 
-	CarianSlicer: {
-		DisplayName: Carian Slicer
-		Tooltip:
-			'''
-			Swings a swift magic blade
-			'Even among the Carian sword sorceries, this is a notably effective technique.'
-			'''
-	}
-
 	Ammo: {
 		AghanimBulletAmmo: {
 			DisplayName: Aghanim's Bullet
@@ -1619,7 +1607,7 @@ Items: {
 			Tooltip:
 				'''
 				Lobs an explosive glintstone rock in an arc
-				'Drawn from the conspectus of Haima, the adjudicator of the academy, this sorcery employs might as a means to quell conflict.'
+				[c/118EAB:'Drawn from the conspectus of Haima, the adjudicator of the academy, this sorcery employs might as a means to quell conflict.']
 				'''
 		}
 
@@ -1633,7 +1621,7 @@ Items: {
 			Tooltip:
 				'''
 				Violently explodes upon casting, firing vengeful spirits around the player
-				'In the time when there was no Erdtree, death was burned in ghostflame.'
+				[c/839186:'In the time when there was no Erdtree, death was burned in ghostflame.']
 				'''
 		}
 
@@ -1642,7 +1630,7 @@ Items: {
 			Tooltip:
 				'''
 				Fires an orb that ascends upwards, raining down stars shortly after
-				'The eldest primeval sorcery, said to have been discovered by an ancient astrologer.'
+				[c/0FABA1:'The eldest primeval sorcery, said to have been discovered by an ancient astrologer.']
 				'''
 		}
 
@@ -1651,8 +1639,8 @@ Items: {
 			Tooltip:
 				'''
 				Fires a widening magic arc
-				'Granted to sorcererers who depart from the academy to embark on journeys, 
-				in order to fend off large groups of would-be adversaries. Fools often roam in packs.'
+				[c/2DABCC:'Granted to sorcererers who depart from the academy to embark on journeys, ]
+				[c/2DABCC:in order to fend off large groups of would-be adversaries. Fools often roam in packs.']
 				'''
 		}
 
@@ -1661,7 +1649,7 @@ Items: {
 			Tooltip:
 				'''
 				Fires a glintstone rock
-				'The most basic glintstone sorcery of the Academy of Raya Lucaria.'
+				[c/6ED9E0:'The most basic glintstone sorcery of the Academy of Raya Lucaria.']
 				'''
 		}
 
@@ -1670,7 +1658,7 @@ Items: {
 			Tooltip:
 				'''
 				Fires an orb that splits into 3 homing orbs
-				'A sorcery of the Olivinus Conspectus, which attracts sorcerers from Sellia, Town of Sorcery.'
+				[c/5BBCD9:'A sorcery of the Olivinus Conspectus, which attracts sorcerers from Sellia, Town of Sorcery.']
 				'''
 		}
 
@@ -1689,7 +1677,7 @@ Items: {
 			Tooltip:
 				'''
 				Fires a small meteorite that accelerates after some time
-				'A gravitational technique studied by the young Radahn. His master was an Alabaster Lord with skin of stone.'
+				[c/A364CC:'A gravitational technique studied by the young Radahn. His master was an Alabaster Lord with skin of stone.']
 				'''
 		}
 
@@ -1698,7 +1686,7 @@ Items: {
 			Tooltip:
 				'''
 				Fires 2 orbiting glintstone shards that chase after enemies
-				'A sorcery of the Karolos Conspectus, the most venerable of the academy. This was the product of a failed attempt to create a new comet.'
+				[c/6FD6CC:'A sorcery of the Karolos Conspectus, the most venerable of the academy. This was the product of a failed attempt to create a new comet.']
 				'''
 		}
 
@@ -1707,7 +1695,7 @@ Items: {
 			Tooltip:
 				'''
 				Rains down additional bullets from the sky
-				'Shrapnel!'
+				[c/AB9B87:'Shrapnel!']
 				'''
 		}
 
@@ -1721,7 +1709,7 @@ Items: {
 			Tooltip:
 				'''
 				Fires an orb that splits into 6 homing orbs
-				'The most difficult to master of the Olivinus Conspectus sorceries.'
+				[c/49ACC9:'The most difficult to master of the Olivinus Conspectus sorceries.']
 				'''
 		}
 
@@ -1730,7 +1718,7 @@ Items: {
 			Tooltip:
 				'''
 				Fires an orb that spews out 12 homing stars
-				'When Lusat glimpsed into the primeval current, he beheld the final moments of a great star cluster, and upon seeing it, he too was broken. '
+				[c/2E6AB3:'When Lusat glimpsed into the primeval current, he beheld the final moments of a great star cluster, and upon seeing it, he too was broken.']
 				'''
 		}
 
@@ -1741,7 +1729,11 @@ Items: {
 
 		CarianSlicer: {
 			DisplayName: Carian Slicer
-			Tooltip: ""
+			Tooltip:
+				'''
+				Swings a swift magic blade
+				[c/42BFC9:'Even among the Carian sword sorceries, this is a notably effective technique.']
+				'''
 		}
 	}
 
@@ -2196,10 +2188,5 @@ Items: {
 			DisplayName: Fucium Ore
 			Tooltip: ""
 		}
-	}
-
-	WarFury: {
-		Tooltip: ""
-		DisplayName: War Fury
 	}
 }

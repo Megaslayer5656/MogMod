@@ -3,12 +3,15 @@ using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories;
 using MogMod.Items.Ammo;
 using MogMod.Items.Other;
+using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Melee;
+using MogMod.Items.Weapons.Ranged;
+using MogMod.Rarities;
 using MogMod.Utilities;
 using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
+using System.Linq;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -110,5 +113,113 @@ namespace MogMod.Items.Global
                     scale *= GiantsMaul.GiantsMaulWeaponSize(modPlayer);
             }
         }
+
+        // taken from calamity mods rarity price system
+        // these values should NOT be used for materials, potions, and ammo
+        #region Rarity Price Table
+        // Base numeric rarity pricing guide.
+        private static readonly int Rarity0BuyPrice = Item.buyPrice(0, 0, 50, 0);
+        private static readonly int Rarity1BuyPrice = Item.buyPrice(0, 1, 0, 0);
+        private static readonly int Rarity2BuyPrice = Item.buyPrice(0, 2, 0, 0);
+        private static readonly int Rarity3BuyPrice = Item.buyPrice(0, 5, 0, 0);
+        private static readonly int Rarity4BuyPrice = Item.buyPrice(0, 10, 0, 0);
+        private static readonly int Rarity5BuyPrice = Item.buyPrice(0, 20, 0, 0);
+        private static readonly int Rarity6BuyPrice = Item.buyPrice(0, 35, 0, 0);
+        private static readonly int Rarity7BuyPrice = Item.buyPrice(0, 45, 0, 0);
+        private static readonly int Rarity8BuyPrice = Item.buyPrice(0, 60, 0, 0);
+        private static readonly int Rarity9BuyPrice = Item.buyPrice(0, 80, 0, 0);
+        private static readonly int Rarity10BuyPrice = Item.buyPrice(1, 0, 0, 0); // Highest raw rarity used by vanilla items (ML drops)
+        private static readonly int Rarity11BuyPrice = Item.buyPrice(1, 20, 0, 0); // End of vanilla rarities
+        private static readonly int Rarity12BuyPrice = Item.buyPrice(1, 50, 0, 0); // Von rarity
+
+        private static readonly int[] RarityBuyPriceArray = new int[] {
+            Rarity0BuyPrice,
+            Rarity1BuyPrice,
+            Rarity2BuyPrice,
+            Rarity3BuyPrice,
+            Rarity4BuyPrice,
+            Rarity5BuyPrice,
+            Rarity6BuyPrice,
+            Rarity7BuyPrice,
+            Rarity8BuyPrice,
+            Rarity9BuyPrice,
+            Rarity10BuyPrice,
+            Rarity11BuyPrice,
+            Rarity12BuyPrice,
+        };
+
+        // Canonical names which are implemented as properties that reference the base numeric rarity prices.
+        public static int RarityWhiteBuyPrice => Rarity0BuyPrice;
+        public static int RarityBlueBuyPrice => Rarity1BuyPrice;
+        public static int RarityGreenBuyPrice => Rarity2BuyPrice;
+        public static int RarityOrangeBuyPrice => Rarity3BuyPrice;
+        public static int RarityLightRedBuyPrice => Rarity4BuyPrice;
+        public static int RarityPinkBuyPrice => Rarity5BuyPrice;
+        public static int RarityLightPurpleBuyPrice => Rarity6BuyPrice;
+        public static int RarityLimeBuyPrice => Rarity7BuyPrice;
+        public static int RarityYellowBuyPrice => Rarity8BuyPrice;
+        public static int RarityCyanBuyPrice => Rarity9BuyPrice;
+        public static int RarityRedBuyPrice => Rarity10BuyPrice;
+        public static int RarityPurpleBuyPrice => Rarity11BuyPrice;
+        public static int RarityVonBuyPrice => Rarity12BuyPrice;
+        #endregion
+
+        #region Rarity / Price Helper Functions
+        public static int GetBuyPrice(int rarity)
+        {
+            // Vanilla rarities go directly to the array.
+            if (rarity >= ItemRarityID.White && rarity <= ItemRarityID.Purple)
+                return RarityBuyPriceArray[rarity];
+
+            // modded rarities aren't guaranteed to have the monotonic IDs, so they're handled directly.
+            if (rarity == ModContent.RarityType<VonRarity>())
+                return RarityVonBuyPrice;
+
+            // Return 0 if it's not a progression based or other mod's rarity
+            return 0;
+        }
+
+        public static int GetBuyPrice(Item item) => GetBuyPrice(item.rare);
+        #endregion
+
+        #region Custom Rarity Colors
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            // Apply rarity coloration to the item's name.
+            TooltipLine nameLine = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.Mod == "Terraria");
+            if (nameLine != null)
+                ApplyRarityColor(item, nameLine);
+        }
+        private void ApplyRarityColor(Item item, TooltipLine nameLine)
+        {
+            if (item.type == ModContent.ItemType<AghanimBlessing>())
+            {
+                nameLine.OverrideColor = MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / 2f % 1f, new Color[]
+                {
+                    new Color(34, 27, 194),
+                    new Color(183, 27, 194),
+                    new Color(194, 27, 83)
+                });
+            }
+            if (item.type == ModContent.ItemType<DivineRapierWeapon>())
+            {
+                nameLine.OverrideColor = MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / 2f % 1f, new Color[]
+                {
+                    new Color(250, 231, 200),
+                    new Color(200, 250, 224),
+                    new Color(243, 200, 250)
+                });
+            }
+            if (item.type == ModContent.ItemType<Megaslark>())
+            {
+                nameLine.OverrideColor = MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / 2f % 1f, new Color[]
+                {
+                    new Color(82, 156, 25),
+                    new Color(25, 156, 106),
+                    new Color(25, 106, 156)
+                });
+            }
+        }
+        #endregion
     }
 }

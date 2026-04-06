@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -14,11 +15,11 @@ namespace MogMod.Items.Accessories
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Pink;
+            Item.value = MogGlobalItem.RarityPinkBuyPrice;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Melee) += -.30f;
             player.GetDamage(DamageClass.Summon) += .05f;
             player.maxMinions += 1;
             if (player.miscCounter % 10 == 0)

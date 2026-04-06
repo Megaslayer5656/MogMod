@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Placeable;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Placeable;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,6 +35,7 @@ namespace MogMod.Items.Armor.Damascus
             Item.height = 24;
             Item.defense = 7;
             Item.rare = ItemRarityID.LightRed;
+            Item.value = MogGlobalItem.RarityLightRedBuyPrice;
         }
         public override void UpdateEquip(Player player)
         {

@@ -1,13 +1,14 @@
-﻿using Terraria.ModLoader;
-using Terraria;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
-using Terraria.Audio;
-using MogMod.Utilities;
+﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
+using MogMod.Items.Global;
 using MogMod.Projectiles.MeleeProjectiles;
-using Terraria.DataStructures;
+using MogMod.Utilities;
 using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -30,8 +31,8 @@ namespace MogMod.Items.Weapons.Melee
             Item.useTime = Item.useAnimation = 26;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 7f;
-            Item.value = Item.buyPrice(0, 65, 0, 0);
-            Item.rare = ItemRarityID.Cyan;
+            Item.rare = ItemRarityID.Pink;
+            Item.value = MogGlobalItem.RarityPinkBuyPrice;
             Item.UseSound = SoundID.Item1;
             Item.shootSpeed = 5f;
             Item.autoReuse = true;

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
@@ -31,6 +32,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.knockBack = 5f;
             Item.value = Item.buyPrice(0, 58, 0, 0);
             Item.rare = ItemRarityID.Cyan;
+            Item.value = MogGlobalItem.RarityCyanBuyPrice;
             Item.UseSound = SoundID.Item9;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<KayaProjectile>();

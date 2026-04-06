@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
@@ -32,6 +33,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<OrchidOrb>();
             Item.shootSpeed = 12f;
             Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
         }
 
 

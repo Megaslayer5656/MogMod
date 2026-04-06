@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
@@ -25,6 +26,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.knockBack = 1.5f;
             Item.rare = ItemRarityID.LightPurple;
+            Item.value = MogGlobalItem.RarityLightPurpleBuyPrice;
             Item.UseSound = SoundID.Item5;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;

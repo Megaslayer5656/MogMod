@@ -1,4 +1,5 @@
 ﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable;
 using Terraria;
@@ -33,6 +34,7 @@ namespace MogMod.Items.Armor.Radiant
             Item.height = 22;
             Item.defense = 18;
             Item.rare = ItemRarityID.Cyan;
+            Item.value = MogGlobalItem.RarityCyanBuyPrice;
         }
 
         // what armor is needed for a set bonus

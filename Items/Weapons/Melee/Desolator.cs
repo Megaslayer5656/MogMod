@@ -1,4 +1,5 @@
 ﻿using MogMod.Buffs.Debuffs;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable;
 using MogMod.Projectiles.MeleeProjectiles;
@@ -26,6 +27,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item71;
             Item.shoot = ModContent.ProjectileType<DesolatorProj>();
             Item.rare = ItemRarityID.Red;
+            Item.value = MogGlobalItem.RarityRedBuyPrice;
         }
 
         // more damage the lower life you have

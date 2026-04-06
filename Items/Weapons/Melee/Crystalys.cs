@@ -1,11 +1,12 @@
-﻿using MogMod.Items.Accessories;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Accessories;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Terraria.GameContent.UI.Elements;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -28,6 +29,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.autoReuse = true;
             //Item.value = 
             Item.rare = ItemRarityID.LightRed;
+            Item.value = MogGlobalItem.RarityLightRedBuyPrice;
             Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

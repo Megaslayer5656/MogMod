@@ -1,4 +1,5 @@
 ﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Global;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -28,6 +29,7 @@ namespace MogMod.Items.Armor.Bone
             Item.height = 30;
             Item.defense = 2;
             Item.rare = ItemRarityID.Green;
+            Item.value = MogGlobalItem.RarityGreenBuyPrice;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {

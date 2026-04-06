@@ -25,6 +25,7 @@ namespace MogMod.Items.Placeable
             Item.autoReuse = true;
             Item.createTile = ModContent.TileType<Tiles.Bars.GriefBars>();
             Item.placeStyle = 0;
+            Item.value = Item.sellPrice(silver: 88);
         }
         public override void AddRecipes()
         {

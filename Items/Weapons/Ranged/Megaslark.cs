@@ -1,13 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
+using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using MogMod.Projectiles.RangedProjectiles;
+using MogMod.Rarities;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
-using MogMod.Items.Placeable;
-using MogMod.Items.Other;
 
 namespace MogMod.Items.Weapons.Ranged
 {
@@ -29,8 +31,8 @@ namespace MogMod.Items.Weapons.Ranged
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 16f;
             Item.useAmmo = AmmoID.Bullet;
-            Item.rare = ItemRarityID.Expert;
-            Item.expert = true;
+            Item.rare = ModContent.RarityType<VonRarity>();
+            Item.value = MogGlobalItem.RarityVonBuyPrice;
         }
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 31;
         public override Vector2? HoldoutOffset() => new Vector2(-15, -2);
@@ -56,9 +58,9 @@ namespace MogMod.Items.Weapons.Ranged
         {
             List<Color> colorList = new List<Color>()
             {
-                Color.SkyBlue,
-                Color.LimeGreen,
-                Color.YellowGreen
+                new Color(189, 212, 72),
+                new Color(72, 212, 77),
+                new Color(72, 189, 212),
             };
 
             int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % colorList.Count);
@@ -69,11 +71,6 @@ namespace MogMod.Items.Weapons.Ranged
             TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
             if (line != null)
                 line.OverrideColor = Color.Lerp(tooltipColor, Color.White, 0.5f);
-            var changedLine = tooltips.FirstOrDefault(x => x.Name == "Expert" && x.Mod == "Terraria");
-            if (changedLine != null)
-            {
-                changedLine.Text = "";
-            }
         }
         public override void AddRecipes()
         {
@@ -81,6 +78,7 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.SDMG, 1).
                 AddIngredient(ItemID.VortexBeater, 1).
                 AddIngredient(ItemID.Megashark, 1).
+                AddIngredient<BrinyRind>(15).
                 AddIngredient<VoniumBar>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
@@ -88,6 +86,7 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.SDMG, 1).
                 AddIngredient(ItemID.VortexBeater, 1).
                 AddIngredient<Minislark>(1).
+                AddIngredient<BrinyRind>(15).
                 AddIngredient<VoniumBar>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

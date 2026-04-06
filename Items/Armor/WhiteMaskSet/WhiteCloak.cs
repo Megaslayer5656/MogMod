@@ -1,11 +1,12 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Terraria.ID;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.WhiteMaskSet
@@ -39,7 +40,8 @@ namespace MogMod.Items.Armor.WhiteMaskSet
             Item.width = 32;
             Item.height = 32;
             Item.defense = 14;
-            Item.rare = ItemRarityID.Lime;
+            Item.rare = ItemRarityID.Pink;
+            Item.value = MogGlobalItem.RarityPinkBuyPrice;
         }
         public override void UpdateEquip(Player player)
         {

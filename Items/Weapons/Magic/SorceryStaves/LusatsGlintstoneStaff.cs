@@ -1,14 +1,18 @@
-﻿using MogMod.Items.Ammo;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Ammo;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Projectiles.MagicProjectiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Weapons.Magic
+namespace MogMod.Items.Weapons.Magic.SorceryStaves
 {
     public class LusatsGlintstoneStaff : ModItem, ILocalizedModType
     {
@@ -30,6 +34,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.knockBack = 1.1f;
             Item.value = Item.buyPrice(0, 75, 0, 0);
             Item.rare = ItemRarityID.Cyan;
+            Item.value = MogGlobalItem.RarityCyanBuyPrice;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;
             //Item.channel = true;
@@ -48,64 +53,84 @@ namespace MogMod.Items.Weapons.Magic
             if (ammoItem.type == ModContent.ItemType<GlintstonePebble>())
             {
                 Item.mana = Convert.ToInt32(GlintstonePebble.manaCost * 1.5f);
-                Item.useTime = Item.useAnimation = 36;
+                Item.useTime = Item.useAnimation = GlintstonePebble.attackSpeed;
                 Item.UseSound = SoundID.Item9;
             }
             else if (ammoItem.type == ModContent.ItemType<RockSling>())
             {
                 Item.mana = Convert.ToInt32(RockSling.manaCost * 1.5f);
-                Item.useTime = Item.useAnimation = 60;
+                Item.useTime = Item.useAnimation = RockSling.attackSpeed;
                 Item.UseSound = SoundID.Item20;
             }
             else if (ammoItem.type == ModContent.ItemType<ShardSpiral>())
             {
                 Item.mana = Convert.ToInt32(ShardSpiral.manaCost * 1.5f);
-                Item.useTime = Item.useAnimation = 46;
+                Item.useTime = Item.useAnimation = ShardSpiral.attackSpeed;
                 Item.UseSound = SoundID.Item9;
             }
             else if (ammoItem.type == ModContent.ItemType<GlintstoneStars>())
             {
                 Item.mana = Convert.ToInt32(GlintstoneStars.manaCost * 1.5f);
-                Item.useTime = Item.useAnimation = 40;
+                Item.useTime = Item.useAnimation = GlintstoneStars.attackSpeed;
                 Item.UseSound = SoundID.Item8;
             }
             else if (ammoItem.type == ModContent.ItemType<StarShower>())
             {
                 Item.mana = Convert.ToInt32(StarShower.manaCost * 1.5f);
-                Item.useTime = Item.useAnimation = 44;
+                Item.useTime = Item.useAnimation = StarShower.attackSpeed;
                 Item.UseSound = SoundID.Item8;
             }
             else if (ammoItem.type == ModContent.ItemType<StarsOfRuin>())
             {
                 Item.mana = Convert.ToInt32(StarsOfRuin.manaCost * 1.5f);
-                Item.useTime = Item.useAnimation = 48;
+                Item.useTime = Item.useAnimation = StarsOfRuin.attackSpeed;
                 Item.UseSound = SoundID.Item8;
             }
             else if (ammoItem.type == ModContent.ItemType<GlintstoneArc>())
             {
                 Item.mana = Convert.ToInt32(GlintstoneArc.manaCost * 1.5f);
-                Item.useTime = Item.useAnimation = 36;
+                Item.useTime = Item.useAnimation = GlintstoneArc.attackSpeed;
                 Item.UseSound = SoundID.Item8;
             }
             else if (ammoItem.type == ModContent.ItemType<CannonOfHaima>())
             {
                 Item.mana = Convert.ToInt32(CannonOfHaima.manaCost * 1.5f);
-                Item.useTime = Item.useAnimation = 60;
+                Item.useTime = Item.useAnimation = CannonOfHaima.attackSpeed;
                 Item.UseSound = SoundID.Item84;
             }
             else if (ammoItem.type == ModContent.ItemType<FoundingRainOfStars>())
             {
                 Item.mana = Convert.ToInt32(FoundingRainOfStars.manaCost * 1.5f);
-                Item.useTime = Item.useAnimation = 64;
+                Item.useTime = Item.useAnimation = FoundingRainOfStars.attackSpeed;
                 Item.UseSound = SoundID.Item8;
             }
             else if (ammoItem.type == ModContent.ItemType<ExplosiveGhostflame>())
             {
                 Item.mana = Convert.ToInt32(ExplosiveGhostflame.manaCost * 1.5f);
-                Item.useTime = Item.useAnimation = 58;
+                Item.useTime = Item.useAnimation = ExplosiveGhostflame.attackSpeed;
                 Item.UseSound = SoundID.Item73;
             }
+            else if (ammoItem.type == ModContent.ItemType<CarianSlicer>())
+            {
+                Item.mana = Convert.ToInt32(CarianSlicer.manaCost * 1.5f);
+                Item.useTime = Item.useAnimation = CarianSlicer.attackSpeed;
+                Item.UseSound = null;
+            }
             return true;
+        }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Item ammoItem = player.ChooseAmmo(Item);
+            if (ammoItem.type == ModContent.ItemType<CarianSlicer>())
+            {
+                // do this so different rockets don't mess with the projectile spawned
+                int slicer = ModContent.ProjectileType<CarianSlicerProj>();
+                // Using the shoot function, we override the swing projectile to set ai[0] (which attack it is)
+                Projectile.NewProjectile(source, position, velocity, slicer, damage, knockback, Main.myPlayer);
+                return false; // return false to prevent original projectile from being shot
+            }
+            else
+                return true;
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {

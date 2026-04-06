@@ -1,10 +1,11 @@
-﻿using System;
-using Terraria.ModLoader;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Ammo;
+using MogMod.Items.Global;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
-using MogMod.Items.Ammo;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
 {
@@ -29,6 +30,7 @@ namespace MogMod.Items.Weapons.Ranged
             };
             Item.value = Item.buyPrice(0, 32, 82, 5);
             Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 15f;

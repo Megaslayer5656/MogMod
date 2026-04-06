@@ -1,4 +1,5 @@
 ﻿using MogMod.Items.Accessories;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
@@ -30,7 +31,8 @@ namespace MogMod.Items.Weapons.Magic
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<PhylacteryBeam>();
             Item.shootSpeed = 14f;
-            Item.rare = ItemRarityID.Pink;
+            Item.rare = ItemRarityID.LightRed;
+            Item.value = MogGlobalItem.RarityLightRedBuyPrice;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

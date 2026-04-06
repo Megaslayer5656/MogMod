@@ -1,9 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
+using MogMod.Projectiles.MeleeProjectiles;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,13 +16,14 @@ namespace MogMod.Items.Ammo
     {
         public new string LocalizationCategory => "Items.Ammo";
         public const int manaCost = 4;
+        public const int attackSpeed = 12;
+
         public override void SetDefaults()
         {
             // display purposes only;
             Item.mana = manaCost;
-            // proj size is 60x60
 
-            Item.damage = 12;
+            Item.damage = 30;
             Item.DamageType = DamageClass.Magic;
             Item.width = 50;
             Item.height = 52;

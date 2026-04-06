@@ -1,14 +1,15 @@
-﻿using MogMod.Buffs.Cooldowns;
-using System;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.PotionBuffs;
+using MogMod.Items.Global;
 using MogMod.Projectiles.MeleeProjectiles;
 using MogMod.Utilities;
-using Terraria.Localization;
+using System;
+using Terraria;
 using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -28,7 +29,8 @@ namespace MogMod.Items.Weapons.Melee
             Item.knockBack = 8f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.rare = ItemRarityID.Cyan;
+            Item.rare = ItemRarityID.Lime;
+            Item.value = MogGlobalItem.RarityLimeBuyPrice;
             Item.shoot = ProjectileID.PurificationPowder; //This and the shoot method are to allow the weapon to swing in the direction of your cursor
         }
 
@@ -64,8 +66,8 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.ChlorophyteBar, 15).
-                AddIngredient(ItemID.Ectoplasm, 3).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Butterfly"}", 5).
+                AddIngredient(ItemID.Ectoplasm, 3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

@@ -1,11 +1,12 @@
-﻿using MogMod.Buffs.PotionBuffs;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
+using MogMod.Items.Global;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -27,6 +28,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.rare = ItemRarityID.Yellow;
+            Item.value = MogGlobalItem.RarityYellowBuyPrice;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 3.5f;
         }

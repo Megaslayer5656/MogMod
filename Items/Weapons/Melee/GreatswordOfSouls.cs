@@ -1,12 +1,13 @@
-﻿using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable;
 using MogMod.Projectiles.MeleeProjectiles;
 using System;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -26,7 +27,8 @@ namespace MogMod.Items.Weapons.Melee
             Item.knockBack = 7.5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Red;
+            Item.value = MogGlobalItem.RarityRedBuyPrice;
             Item.shoot = ModContent.ProjectileType<GreatswordOfSoulsProj>();
             Item.shootSpeed = 10f;
             Item.scale = 1.45f;

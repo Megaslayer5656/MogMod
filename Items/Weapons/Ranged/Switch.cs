@@ -1,17 +1,19 @@
 using Microsoft.Xna.Framework;
 using MogMod.Items.Consumables;
+using MogMod.Items.Global;
+using MogMod.Rarities;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 namespace MogMod.Items.Weapons.Ranged
 {
     public class Switch : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults() {
-            Item.damage = 57;
+            Item.damage = 65;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 50;
             Item.height = 34;
@@ -25,7 +27,8 @@ namespace MogMod.Items.Weapons.Ranged
                 PitchVariance = .02f,
             };
             Item.value = 10000;
-            Item.rare = 3;
+            Item.rare = ModContent.RarityType<VonRarity>();
+            Item.value = MogGlobalItem.RarityVonBuyPrice;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 10f;

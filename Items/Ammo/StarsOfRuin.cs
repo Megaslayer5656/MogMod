@@ -14,6 +14,7 @@ namespace MogMod.Items.Ammo
     {
         public new string LocalizationCategory => "Items.Ammo";
         public const int manaCost = 28;
+        public const int attackSpeed = 48;
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<FoundingRainOfStars>();

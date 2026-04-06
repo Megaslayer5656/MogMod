@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using MogMod.Items.Global;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,7 +19,8 @@ namespace MogMod.Items.Accessories
             Item.width = 22;
             Item.height = 20;
             Item.value = 10000;
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Lime;
+            Item.value = MogGlobalItem.RarityLimeBuyPrice;
             Item.accessory = true;
         }
 

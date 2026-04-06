@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Consumables;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
 using Terraria;
@@ -37,6 +38,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Melee;
             Item.rare = ItemRarityID.Yellow;
+            Item.value = MogGlobalItem.RarityYellowBuyPrice;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -115,7 +117,7 @@ namespace MogMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient(ItemID.InfluxWaver, 1).
                 AddIngredient(ItemID.SpectreBar, 15).
-                AddIngredient<FrigidCrystal>(1).
+                AddIngredient<BrinyRind>(12).
                 AddIngredient<AghanimShard>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();

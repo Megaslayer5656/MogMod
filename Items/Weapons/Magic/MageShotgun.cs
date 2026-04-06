@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using System;
 using Terraria;
 using Terraria.DataStructures;
@@ -25,7 +26,8 @@ namespace MogMod.Items.Weapons.Magic
             Item.useStyle = 5;
             Item.knockBack = 6.5f;
             Item.value = 10000;
-            Item.rare = 5;
+            Item.rare = ItemRarityID.Yellow;
+            Item.value = MogGlobalItem.RarityYellowBuyPrice;
             Item.UseSound = SoundID.Item88;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.LostSoulFriendly;

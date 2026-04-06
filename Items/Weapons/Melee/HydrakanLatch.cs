@@ -1,10 +1,11 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.PotionBuffs;
+using MogMod.Common.MogModPlayer;
+using MogMod.Items.Global;
+using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using MogMod.Common.MogModPlayer;
-using MogMod.Buffs.PotionBuffs;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -25,7 +26,8 @@ namespace MogMod.Items.Weapons.Melee
             Item.knockBack = 3f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.rare = ItemRarityID.Blue;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
             Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing
         }
 

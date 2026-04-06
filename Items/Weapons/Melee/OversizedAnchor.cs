@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
 using MogMod.Utilities;
@@ -31,7 +32,8 @@ namespace MogMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             //Item.value = 
-            Item.rare = ItemRarityID.Cyan;
+            Item.rare = ItemRarityID.Yellow;
+            Item.value = MogGlobalItem.RarityYellowBuyPrice;
             Item.scale = 2f;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

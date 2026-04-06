@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
 using MogMod.Items.Consumables;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable;
 using MogMod.Items.Weapons.Magic;
@@ -41,7 +42,8 @@ namespace MogMod.Items.Weapons.Ranged
             Item.damage = 10;
             Item.shoot = ModContent.ProjectileType<WindrunnerHoldout>();
             Item.useAmmo = AmmoID.Arrow;
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.DamageType = DamageClass.Ranged;

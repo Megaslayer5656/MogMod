@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Consumables;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
@@ -31,6 +32,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.knockBack = 7f;
             Item.value = Item.buyPrice(0, 7, 30, 50);
             Item.rare = ItemRarityID.Purple;
+            Item.value = MogGlobalItem.RarityPurpleBuyPrice;
             Item.UseSound = SoundID.Item9;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<AghanimProjectile>();

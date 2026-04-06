@@ -11,6 +11,7 @@ namespace MogMod.Items.Ammo
     {
         public new string LocalizationCategory => "Items.Ammo";
         public const int manaCost = 7;
+        public const int attackSpeed = 36;
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ShimmerTransformToItem[Type] = ItemID.WizardHat;

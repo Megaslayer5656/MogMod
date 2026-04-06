@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable;
 using MogMod.Projectiles.MagicProjectiles;
@@ -31,6 +32,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.noMelee = true;
             Item.knockBack = 6f;
             Item.rare = ItemRarityID.Yellow;
+            Item.value = MogGlobalItem.RarityYellowBuyPrice;
             Item.UseSound = SoundID.Item109;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<DagonFourProj>();

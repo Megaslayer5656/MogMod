@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
@@ -23,8 +24,8 @@ namespace MogMod.Items.Weapons.Ranged
             Item.UseSound = SoundID.Item1;
             Item.useTime = 18;
             Item.useAnimation = 18;
-            Item.value = Item.buyPrice(0, 50, 0, 0);
             Item.rare = ItemRarityID.Lime;
+            Item.value = MogGlobalItem.RarityLimeBuyPrice;
             Item.shootSpeed = 10f;
             Item.shoot = ModContent.ProjectileType<HeavensHalberdProjectile>();
             Item.autoReuse = true;

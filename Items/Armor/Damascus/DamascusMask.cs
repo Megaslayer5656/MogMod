@@ -1,4 +1,5 @@
 ﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Global;
 using MogMod.Items.Placeable;
 using Terraria;
 using Terraria.ID;
@@ -29,6 +30,7 @@ namespace MogMod.Items.Armor.Damascus
             Item.height = 20;
             Item.defense = 8;
             Item.rare = ItemRarityID.LightRed;
+            Item.value = MogGlobalItem.RarityLightRedBuyPrice;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {

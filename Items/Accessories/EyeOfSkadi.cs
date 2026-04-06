@@ -1,4 +1,5 @@
 ﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable;
 using Terraria;
@@ -16,8 +17,8 @@ namespace MogMod.Items.Accessories
             Item.width = 50;
             Item.height = 42;
             Item.rare = ItemRarityID.Red;
+            Item.value = MogGlobalItem.RarityRedBuyPrice;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetArmorPenetration(DamageClass.Generic) += 25;

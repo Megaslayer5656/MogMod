@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Utilities;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace MogMod.Items.Accessories
             Item.width = 50;
             Item.height = 42;
             Item.rare = ItemRarityID.Blue;
+            Item.value = MogGlobalItem.RarityBlueBuyPrice;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

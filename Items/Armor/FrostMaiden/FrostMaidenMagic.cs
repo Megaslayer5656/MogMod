@@ -1,4 +1,5 @@
 ﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
@@ -28,6 +29,7 @@ namespace MogMod.Items.Armor.FrostMaiden
             Item.width = Item.height = 26;
             Item.defense = 4;
             Item.rare = ItemRarityID.Green;
+            Item.value = MogGlobalItem.RarityGreenBuyPrice;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

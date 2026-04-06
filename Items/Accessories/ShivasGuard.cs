@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Utilities;
 using System;
@@ -22,14 +23,14 @@ namespace MogMod.Items.Accessories
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.Cyan;
+            Item.rare = ItemRarityID.Yellow;
+            Item.value = MogGlobalItem.RarityYellowBuyPrice;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingShivasGuard = true;
-            player.GetDamage(DamageClass.Ranged) -= .40f;
             player.GetDamage(DamageClass.Magic) += .10f;
             player.GetDamage(DamageClass.Generic) += .10f;
             player.GetAttackSpeed(DamageClass.Generic) += .10f;

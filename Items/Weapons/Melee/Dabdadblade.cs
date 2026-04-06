@@ -1,3 +1,4 @@
+using MogMod.Items.Global;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,8 +18,9 @@ namespace MogMod.Items.Weapons.Melee
 			Item.useStyle = 1;
 			Item.knockBack = 6.5f;
 			Item.value = 10000;
-			Item.rare = 4;
-			Item.UseSound = SoundID.Item7;
+			Item.rare = ItemRarityID.LightRed;
+            Item.value = MogGlobalItem.RarityLightRedBuyPrice;
+            Item.UseSound = SoundID.Item7;
 			Item.autoReuse = true;
 			Item.shoot = ProjectileID.CursedFlameFriendly;
 			Item.shootSpeed = 10f;

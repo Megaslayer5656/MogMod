@@ -2,6 +2,7 @@
 using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
+using MogMod.Items.Global;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.DataStructures;
@@ -29,6 +30,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item109;
             Item.rare = ItemRarityID.LightRed;
+            Item.value = MogGlobalItem.RarityLightRedBuyPrice;
             Item.ArmorPenetration = 20;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

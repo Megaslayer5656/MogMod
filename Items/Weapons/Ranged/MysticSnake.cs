@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Common.MogModPlayer;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
@@ -23,6 +24,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.knockBack = 2.5f;
             Item.rare = ItemRarityID.Lime;
+            Item.value = MogGlobalItem.RarityLimeBuyPrice;
             Item.UseSound = SoundID.Item5;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;
@@ -72,7 +74,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.MedusaHead).
-                AddIngredient(ItemID.ChlorophyteBar, 16).
+                AddIngredient<BrinyRind>(16).
                 AddIngredient(ItemID.BeetleHusk, 8).
                 AddIngredient<ManaCore>(1).
                 AddTile(TileID.MythrilAnvil).

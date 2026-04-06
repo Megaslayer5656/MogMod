@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Utilities;
 using System;
@@ -21,13 +22,13 @@ namespace MogMod.Items.Accessories
             Item.width = 50;
             Item.height = 42;
             Item.rare = ItemRarityID.Green;
+            Item.value = MogGlobalItem.RarityGreenBuyPrice;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.lifeRegen += 4;
             player.statDefense += 4;
             player.blockRange += 1;
-            player.GetDamage(DamageClass.Melee) += -.30f;
             player.tileSpeed += .30f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingMekansm = true;

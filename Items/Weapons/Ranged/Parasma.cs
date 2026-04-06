@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
 using Terraria.ID;
@@ -23,6 +24,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.rare = ItemRarityID.Lime;
+            Item.value = MogGlobalItem.RarityLimeBuyPrice;
             Item.DamageType = DamageClass.Ranged;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.shoot = ModContent.ProjectileType<ParasmaProj>();

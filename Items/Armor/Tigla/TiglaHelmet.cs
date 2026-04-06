@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -30,6 +31,7 @@ namespace MogMod.Items.Armor.Tigla
             Item.width = Item.height = 24;
             Item.defense = 16;
             Item.rare = ItemRarityID.Yellow;
+            Item.value = MogGlobalItem.RarityYellowBuyPrice;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

@@ -18,6 +18,7 @@ namespace MogMod.Items.Other
             Item.height = 34;
             Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.Purple;
+            Item.value = Item.sellPrice(gold: 2);
         }
     }
 }

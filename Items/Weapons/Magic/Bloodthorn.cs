@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Placeable;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
@@ -32,6 +33,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<BloodthornOrb>();
             Item.shootSpeed = 18f;
             Item.rare = ItemRarityID.Yellow;
+            Item.value = MogGlobalItem.RarityYellowBuyPrice;
         }
 
 

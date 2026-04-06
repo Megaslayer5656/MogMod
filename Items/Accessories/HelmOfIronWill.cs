@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MogMod.Items.Global;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,6 +15,7 @@ namespace MogMod.Items.Accessories
             Item.width = 50;
             Item.height = 42;
             Item.rare = ItemRarityID.Blue;
+            Item.value = MogGlobalItem.RarityBlueBuyPrice;
             Item.defense = 5;
         }
 
@@ -21,10 +23,6 @@ namespace MogMod.Items.Accessories
         {
             player.lifeRegen += 2;
             player.statLifeMax2 += 20;
-            player.manaRegen -= (int)Math.Round(player.manaRegen * .3f);
-            player.manaRegenDelay += 1f;
-            player.GetDamage(DamageClass.Magic) += -.10f;
-            player.GetDamage(DamageClass.Summon) += -.10f;
         }
         public override void AddRecipes()
         {
