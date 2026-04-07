@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
@@ -27,9 +28,13 @@ namespace MogMod.Projectiles.MagicProjectiles
 
         public override void AI()
         {
+            Player player = Main.player[Projectile.owner];
+            var mogPlayer = Main.LocalPlayer.GetModPlayer<MogPlayer>();
             float maxSpeed = 25;
             float currentSpeed = Projectile.velocity.X * Projectile.velocity.X + Projectile.velocity.Y * Projectile.velocity.Y;
 
+            if (mogPlayer.holdingMeteoriteStaff)
+                MogModUtils.HomeInOnNPC(Projectile, false, 400, currentSpeed / 40f, 10f);
             Projectile.rotation += currentSpeed * 0.15f;
             Projectile.localAI[1] += 1f;
             if (Projectile.timeLeft < 570)

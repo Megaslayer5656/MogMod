@@ -1,4 +1,5 @@
-﻿using MogMod.Projectiles.MagicProjectiles;
+﻿using MogMod.Items.Global;
+using MogMod.Projectiles.MagicProjectiles;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -21,13 +22,13 @@ namespace MogMod.Items.Ammo
             // display purposes only;
             Item.mana = manaCost;
 
-            Item.damage = manaCost;
+            Item.damage = 25;
             Item.DamageType = DamageClass.Magic;
             Item.width = 50;
             Item.height = 52;
-            Item.knockBack = 3f;
-            Item.value = Item.buyPrice(0, 8, 50, 0);
+            Item.knockBack = 8f;
             Item.rare = ItemRarityID.Green;
+            Item.value = MogGlobalItem.RarityGreenBuyPrice;
             Item.shoot = ModContent.ProjectileType<GlintstoneArcProj>();
             Item.shootSpeed = 7f;
             Item.ammo = ModContent.ItemType<GlintstonePebble>(); // so it can be used by the glintstone staff;

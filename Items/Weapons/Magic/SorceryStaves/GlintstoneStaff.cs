@@ -32,7 +32,6 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves //So yeah I'm gonna make a gl
             Item.DamageType = DamageClass.Magic;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 1.1f; // set to 1 so it can recieve all magic reforges
-            Item.value = Item.buyPrice(0, 4, 50, 0);
             Item.rare = ItemRarityID.Blue;
             Item.value = MogGlobalItem.RarityBlueBuyPrice;
             Item.autoReuse = true;

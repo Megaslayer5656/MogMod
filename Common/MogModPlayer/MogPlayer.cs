@@ -6,6 +6,7 @@ using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
 using MogMod.Items.Other;
 using MogMod.Items.Weapons.Magic;
+using MogMod.Items.Weapons.Magic.SorceryStaves;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
@@ -119,6 +120,8 @@ namespace MogMod.Common.MogModPlayer
         public bool holdingThrowingShade;
         public int shadowRealmLevel = 0;
         public static int shadowRealmLevelMax = 150;
+
+        public bool holdingMeteoriteStaff;
 
         public Vector2 mouseWorld;
         public bool wearingFlameOfCorruption = false;
@@ -766,6 +769,8 @@ namespace MogMod.Common.MogModPlayer
                 shadowRealmLevel = 0;
                 Player.ClearBuff(ModContent.BuffType<ShadowRealmBuff>());
             }
+            if (Player.HeldItem.type == ModContent.ItemType<MeteoriteStaff>())
+                holdingMeteoriteStaff = true;
 
             // fiery soul stacking buff
             if (Player.HasBuff<FierySoulStack>())
@@ -1398,6 +1403,7 @@ namespace MogMod.Common.MogModPlayer
             duelistStacks = 0;
 
             holdingThrowingShade = false;
+            holdingMeteoriteStaff = false;
 
             wearingWhiteArmor = false;
 

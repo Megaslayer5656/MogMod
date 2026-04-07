@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Utilities;
 using System;
-using Terraria.ID;
 using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MeleeProjectiles
@@ -31,25 +32,22 @@ namespace MogMod.Projectiles.MeleeProjectiles
 
     public override void AI()
     {
-            Projectile.netUpdate = true;
+        Projectile.netUpdate = true;
 
-            Projectile.ai[0] += 1f;
-            if (++Projectile.frameCounter >= 5)
-            {
-                Projectile.frameCounter = 0;
-                if (++Projectile.frame >= Main.projFrames[Type])
-                    Projectile.frame = 0;
-            }
+        Projectile.ai[0] += 1f;
+        if (++Projectile.frameCounter >= 5)
+        {
+            Projectile.frameCounter = 0;
+            if (++Projectile.frame >= Main.projFrames[Type])
+                Projectile.frame = 0;
+        }
 
-            Projectile.rotation += MathHelper.ToRadians(-45f);
-
-            int width = Convert.ToInt32(Projectile.width / 2);
+        int width = Convert.ToInt32(Projectile.width / 2);
         int height = Convert.ToInt32(Projectile.height / 2);
         Vector2 spawn = Projectile.Center - Projectile.velocity / 2f;
 
-        Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
-        Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
-        
+        Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+
         MogModUtils.HomeInOnNPC(Projectile, true, 1000f, 8f, 20f);
 
         if (Main.rand.NextBool(2))
@@ -63,6 +61,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
 
         public override void OnKill(int timeLeft)
         {
+            SoundEngine.PlaySound(SoundID.NPCDeath39, Projectile.position);
             for (int i = 0; i < 10; i++)
             {
                 if (Main.rand.NextBool(2))

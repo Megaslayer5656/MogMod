@@ -1,4 +1,5 @@
-﻿using MogMod.Projectiles.MagicProjectiles;
+﻿using MogMod.Items.Global;
+using MogMod.Projectiles.MagicProjectiles;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -22,8 +23,8 @@ namespace MogMod.Items.Ammo
             Item.width = 50;
             Item.height = 52;
             Item.knockBack = 7f;
-            Item.value = Item.buyPrice(0, 45, 0, 0);
             Item.rare = ItemRarityID.LightPurple;
+            Item.value = MogGlobalItem.RarityLightPurpleBuyPrice;
             Item.shoot = ModContent.ProjectileType<ExplosiveGhostflameProj>();
             Item.shootSpeed = 7f;
             Item.ammo = ModContent.ItemType<GlintstonePebble>(); // so it can be used by the glintstone staff;

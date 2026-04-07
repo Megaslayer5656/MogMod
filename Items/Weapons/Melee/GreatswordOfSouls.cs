@@ -5,6 +5,7 @@ using MogMod.Items.Placeable;
 using MogMod.Projectiles.MeleeProjectiles;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,13 +26,12 @@ namespace MogMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = false;
             Item.knockBack = 7.5f;
-            Item.UseSound = SoundID.Item1;
+            Item.UseSound = SoundID.Item71;
             Item.autoReuse = true;
             Item.rare = ItemRarityID.Red;
             Item.value = MogGlobalItem.RarityRedBuyPrice;
             Item.shoot = ModContent.ProjectileType<GreatswordOfSoulsProj>();
             Item.shootSpeed = 10f;
-            Item.scale = 1.45f;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

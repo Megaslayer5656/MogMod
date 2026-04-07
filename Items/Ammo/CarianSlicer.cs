@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Common.MogModPlayer;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
@@ -15,7 +16,7 @@ namespace MogMod.Items.Ammo
     public class CarianSlicer : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Ammo";
-        public const int manaCost = 4;
+        public const int manaCost = 2;
         public const int attackSpeed = 12;
 
         public override void SetDefaults()
@@ -28,8 +29,8 @@ namespace MogMod.Items.Ammo
             Item.width = 50;
             Item.height = 52;
             Item.knockBack = 3f;
-            Item.value = Item.buyPrice(0, 15, 0, 0);
             Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
             Item.shoot = ModContent.ProjectileType<CarianSlicerProj>();
             Item.shootSpeed = 8f;
             Item.ammo = ModContent.ItemType<GlintstonePebble>(); // so it can be used by the glintstone staff;

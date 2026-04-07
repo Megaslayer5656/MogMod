@@ -20,7 +20,6 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
         }
         public override void SetDefaults()
         {
-            // TODO: make it so that certain sorceries play different sounds, change item usetime and mana cost for each sorcery;
             Item.useTime = Item.useAnimation = 30;
             Item.mana = 1;
 
@@ -29,18 +28,17 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
             Item.DamageType = DamageClass.Magic;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 1.1f;
-            Item.value = Item.buyPrice(0, 7, 0, 0);
             Item.rare = ItemRarityID.Green;
             Item.value = MogGlobalItem.RarityGreenBuyPrice;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;
-            //Item.channel = true;
 
             Item.shootSpeed = 0f;
             Item.useAmmo = ModContent.ItemType<GlintstonePebble>(); // fires glintstone ammo types;
             Item.noMelee = true;
         }
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 2;
+
         // change stats depending on what spell was casted;
         // TODO: change stats automatically from the ammo so you can easily add any new sorceries without doing this slop
         public override bool CanUseItem(Player player)

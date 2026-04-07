@@ -129,8 +129,9 @@ Items: {
 				+50 Max Life
 				+15% Melee Damage
 				+10% Attack Damage
-				Vastly Increases lifesteal of weapons that utilize it
-				Press [KEY] to increase lifesteal affectiveness
+				Vastly Increases Lifesteal
+				Weapons gain Lifesteal properties
+				Press [KEY] to increase Lifesteal effectiveness
 				[c/872727:'Immense power at the cost of your soul.']
 				'''
 		}
@@ -1359,6 +1360,25 @@ Items: {
 					[c/34A884:Sorceries cast 20% faster]
 					'''
 			}
+
+			CrystalStaff: {
+				DisplayName: Crystal Staff
+				Tooltip:
+					'''
+					A catalyst used to cast sorceries
+					[c/05C8FF:'The Crystalian's faint cognition is known as the "wisdom of stone."']
+					'''
+			}
+
+			MeteoriteStaff: {
+				DisplayName: Meteorite Staff
+				Tooltip:
+					'''
+					A catalyst used to cast sorceries
+					[c/96FF96:Rock Sling] gains slight homing
+					[c/A364CC:'Staff embedded with a dark purple glintstone, said to be the fragment of a meteorite.']
+					'''
+			}
 		}
 
 		Summoner: {
@@ -2161,7 +2181,7 @@ Items: {
 			DisplayName: White Mask
 			Tooltip:
 				'''
-				+6% Damage
+				+6% Attack Damage
 				+8% Critical Strike Chance
 				'''
 			SetBonus: +15% Blood Damage
@@ -2169,7 +2189,7 @@ Items: {
 
 		WhiteCloak: {
 			DisplayName: White Cloak
-			Tooltip: +8% Damage
+			Tooltip: +8% Attack Damage
 		}
 	}
 

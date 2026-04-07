@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +25,8 @@ namespace MogMod.Items.Ammo
             Item.width = 50;
             Item.height = 52;
             Item.knockBack = 7f;
-            Item.value = Item.buyPrice(0, 7, 50, 0);
             Item.rare = ItemRarityID.Green;
+            Item.value = MogGlobalItem.RarityGreenBuyPrice;
             Item.shoot = ModContent.ProjectileType<RockSlingProj>();
             Item.shootSpeed = 1f;
             Item.ammo = ModContent.ItemType<GlintstonePebble>(); // so it can be used by the glintstone staff;

@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Other;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +13,19 @@ namespace MogMod.Items.Ammo
     {
         public new string LocalizationCategory => "Items.Ammo";
         public const int manaCost = 20;
-        public const int attackSpeed = 44;
+        public const int attackSpeed = 46;
         public override void SetDefaults()
         {
             // display purposes only;
             Item.mana = manaCost;
 
-            Item.damage = 24;
+            Item.damage = 20;
             Item.DamageType = DamageClass.Magic;
             Item.width = 50;
             Item.height = 52;
             Item.knockBack = 5f;
-            Item.value = Item.buyPrice(0, 30, 0, 0);
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Pink;
+            Item.value = MogGlobalItem.RarityPinkBuyPrice;
             Item.shoot = ModContent.ProjectileType<StarShowerProj>();
             Item.shootSpeed = 6f;
             Item.ammo = ModContent.ItemType<GlintstonePebble>(); // so it can be used by the glintstone staff;

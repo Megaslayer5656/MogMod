@@ -1,10 +1,11 @@
-﻿using MogMod.Projectiles.MagicProjectiles;
+﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
+using MogMod.Projectiles.MagicProjectiles;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
-using MogMod.Items.Other;
 
 namespace MogMod.Items.Ammo
 {
@@ -23,8 +24,8 @@ namespace MogMod.Items.Ammo
             Item.width = 50;
             Item.height = 52;
             Item.knockBack = 2f;
-            Item.value = Item.buyPrice(0, 3, 0, 0);
             Item.rare = ItemRarityID.Blue;
+            Item.value = MogGlobalItem.RarityBlueBuyPrice;
             Item.shoot = ModContent.ProjectileType<GlintstonePebbleProj>();
             Item.shootSpeed = 6f;
             Item.ammo = ModContent.ItemType<GlintstonePebble>(); // use this for all sorceries so it can be used by staffs;
