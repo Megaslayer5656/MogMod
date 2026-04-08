@@ -26,7 +26,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = false;
             Item.knockBack = 7.5f;
-            Item.UseSound = SoundID.Item71;
+            Item.UseSound = SoundID.Item1; //Might change this sound but def not to a sickle sound I feel like that's out of place but we can change this Will
             Item.autoReuse = true;
             Item.rare = ItemRarityID.Red;
             Item.value = MogGlobalItem.RarityRedBuyPrice;
