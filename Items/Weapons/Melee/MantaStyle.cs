@@ -63,6 +63,7 @@ namespace MogMod.Items.Weapons.Melee
             {
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<MantaSummon>()] <= 0)
                 {
+                    player.statMana -= 50;
                     // summon the clones. position is determined by ai[0]
                     for (int i = 0; i < 2; i++)
                     {
@@ -79,7 +80,7 @@ namespace MogMod.Items.Weapons.Melee
             // only allow summoning clicking if the player doesn't have manta out
             if (player.altFunctionUse == 2)
             {
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<MantaSummon>()] <= 0)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<MantaSummon>()] <= 0 && player.statMana >= 50)
                 {
                     Item.UseSound = mantaActivate;
                     Item.useTurn = false;

@@ -33,6 +33,8 @@ namespace MogMod.Items.Weapons.Ranged
             Item.autoReuse = true;
             Item.shootSpeed = 10f;
             Item.ArmorPenetration = 15;
+
+            // i think we should change this to convert all bullets into energy bullets so it isnt restricted to one ammo type
             Item.useAmmo = ModContent.ItemType<EnergyBullet>();
         }
 

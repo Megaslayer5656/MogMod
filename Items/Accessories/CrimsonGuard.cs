@@ -18,6 +18,7 @@ namespace MogMod.Items.Accessories
             Item.height = 42;
             Item.rare = ItemRarityID.Yellow;
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
+            Item.defense = 20;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -25,7 +26,6 @@ namespace MogMod.Items.Accessories
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             player.statLifeMax2 += 80;
             player.lifeRegen += 6;
-            player.statDefense += 20;
             player.noKnockback = true;
             player.aggro += 1000;
             if (player.statLife > player.statLifeMax2 * 0.25f)

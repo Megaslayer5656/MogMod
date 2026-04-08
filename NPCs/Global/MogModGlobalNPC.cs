@@ -316,8 +316,9 @@ namespace MogMod.NPCs.Global
                     SyncWorld();
                 }
             }
-            // npc.HasBuff<FreezingDebuff>() || 
-            if (mogPlayer.wearingFrostArmor)
+            // if an enemy is killed in one shot from a freezing weapon it doesnt shoot out the projectiles
+            // i think this is because it doesnt apply the buff before killing them, so it cant run this line
+            if (npc.HasBuff<FreezingDebuff>() || mogPlayer.wearingFrostArmor)
             {
                 int numSplits = 6;
                 float angleVariance = MathHelper.TwoPi / numSplits;
@@ -329,23 +330,6 @@ namespace MogMod.NPCs.Global
                     Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, projVec, ProjectileID.Blizzard, 50, 1f, Main.myPlayer);
                 }
             }
-        }
-        // may work
-        public override bool PreKill(NPC npc)
-        {
-            if (npc.HasBuff<FreezingDebuff>())
-            {
-                int numSplits = 6;
-                float angleVariance = MathHelper.TwoPi / numSplits;
-                Vector2 projVec = new Vector2(4.5f, 0f).RotatedByRandom(MathHelper.ToRadians(45));
-
-                for (int i = 0; i < numSplits; ++i)
-                {
-                    projVec = projVec.RotatedBy(angleVariance);
-                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, projVec, ProjectileID.Blizzard, 50, 1f, Main.myPlayer);
-                }
-            }
-                return true;
         }
         #endregion
 

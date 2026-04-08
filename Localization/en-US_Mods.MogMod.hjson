@@ -69,7 +69,7 @@ Items: {
 				Increases movement speed
 				Increased Maximum Mana by 50
 				Slightly Increased Mana Regeneration
-				Pressing [KEY] will restore 200 Mana to you and nearby allies
+				Pressing [KEY] will restore 200 Mana
 				[c/2481A6:'Magi equipped with these boots are valued in battle.']
 				'''
 		}
@@ -78,10 +78,9 @@ Items: {
 			DisplayName: Armlet Of Mordiggian
 			Tooltip:
 				'''
-				7 Defense
 				+5% Attack Damage
 				+5% Attack Speed
-				Pressing [KEY] will increase attack damage and speed by 15% when activated
+				Pressing [KEY] will rapidly drain life, but increase attack damage and speed by 15%
 				[c/A62D24:'Weapon of choice among brutes, the bearer sacrifices their life energy to gain immense strength and power.']
 				'''
 		}
@@ -95,8 +94,8 @@ Items: {
 				Enemies are less likely to target you
 				Greatly Increased Mana regeneration
 				Provides you and nearby team members +20 Maximum Life, +50 Maximum Mana, 
-				+6 HP/s Life regen, +4 Defense and +7.5% Increased Attack Damage
-				Pressing [KEY] will restore 100 Life and 300 Mana to you and nearby team members
+				+6 HP/s Life regen, 4 Defense and +7.5% Increased Attack Damage
+				Pressing [KEY] will restore 60 Life and 300 Mana
 				[c/1CA396:'One of many holy instruments constructed to honor the Omniscience.']
 				'''
 		}
@@ -114,10 +113,9 @@ Items: {
 			DisplayName: Mekansm
 			Tooltip:
 				'''
-				4 Defense
 				Increases placement speed and range
 				Provides you and nearby team members +4 HP/s Life regen
-				Pressing [KEY] will restore 50 Life to you and nearby team members
+				Pressing [KEY] will restore 40 Life
 				[c/5EA651:'A glowing jewel formed out of assorted parts that somehow fit together perfectly.']
 				'''
 		}
@@ -347,7 +345,6 @@ Items: {
 			DisplayName: Crimson Guard
 			Tooltip:
 				'''
-				20 Defense
 				Increased Maximum Life by 80
 				Greatly Increased Life Regeneration
 				Enemies are more likely to target you
@@ -445,7 +442,6 @@ Items: {
 			DisplayName: Shivas Guard
 			Tooltip:
 				'''
-				10 Defense
 				+10% Magic Damage
 				+10% Attack Damage
 				+10% Attack Speed
@@ -453,7 +449,7 @@ Items: {
 				Increases Maximum Life by 50
 				Increases Maximum Mana by 50
 				Pressing [KEY] damages nearby enemies and lowers their armor by 15%
-				Provides nearby team members +10 defense and +10% ranged damage
+				Provides nearby team members 10 defense and +10% ranged damage
 				[c/278187:'Said to have belonged to a goddess, today it retains much of its former power.']
 				'''
 		}
@@ -848,6 +844,7 @@ Items: {
 					'''
 					Shoots a homing axe
 					Right click to summon 2 illusions that mirror your attacks
+					Consumes 50 Mana upon summoning illusions
 					[c/A1D3D6:'An axe made of reflective materials that causes confusion amongst enemy ranks.']
 					'''
 			}
@@ -877,7 +874,7 @@ Items: {
 
 			FrozenSpear: {
 				DisplayName: Frozen Spear
-				Tooltip: Freezes enemies on hit (what does he even do)
+				Tooltip: Freezes enemies on hit (what CANT he even do)
 			}
 
 			Bloodletter: {

@@ -93,7 +93,7 @@ namespace MogMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient<AghanimScepter>(1).
                 AddIngredient<DagonFive>(1).
-                AddIngredient(ItemID.LunarFlareBook, 1).
+                AddIngredient(ItemID.MoonlordTurretStaff, 1).
                 AddIngredient<VoniumBar>(5).
                 AddIngredient<ManaCore>(3).
                 AddIngredient(ItemID.CelestialSigil, 1).

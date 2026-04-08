@@ -31,7 +31,7 @@ namespace MogMod.Common.MogModPlayer
 
         Random rand = new Random();
 
-        // buffs for the accessories
+        #region Accessories
         public bool isWearingGlimmerCape = false;
         public bool armletActive = false;
         public bool wearingManaBoots = false;
@@ -83,11 +83,9 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingHelmOfOverlord;
         public bool wearingForceStaff;
         public bool wearingPike;
-        public bool wearingBladeMail;
-        public bool wearingFrostArmor;
-        public bool wearingDamascus1;
-        public bool wearingDamascus2;
-        public bool wearingBoneArmor;
+
+        public int duelistStacks = 0;
+        public static int maxDuelistStacks = 3;
 
         public bool diademMinion = false;
         public bool dominatorMinion = false;
@@ -107,10 +105,45 @@ namespace MogMod.Common.MogModPlayer
         public const float ForceVelocity = 12f;
         public const float PikeVelocity = 25f;
 
-        public int duelistStacks = 0;
-        public static int maxDuelistStacks = 3;
+        public bool atgActive = false;
+        public bool plasmaActive = false;
+        public bool icbmActive = false;
+        public bool polyluteActive = false;
 
-        // weapon buffs
+        public int shivCooldown = 0;
+        public int bashCooldown = 0;
+        public int gunpowderCooldown = 0;
+        public int radiantCooldown = 0;
+        public int jidiPollenCooldown = 0;
+
+        // dragon install
+        public Vector2 mouseWorld;
+        public bool wearingFlameOfCorruption = false;
+        public bool dragonInstallActive;
+
+        public int cooldownReference;
+        public enum MewingType
+        {
+            mewingguide = 0
+        }
+        public MewingType mewingType = MewingType.mewingguide;
+        #endregion
+
+        #region Armor
+        public bool wearingBladeMail;
+        public bool wearingFrostArmor;
+        public bool wearingDamascus1;
+        public bool wearingDamascus2;
+        public bool wearingBoneArmor;
+        public bool wearingRadiantArmor;
+        public bool wearingUndyingArmor;
+        public bool wearingTankyRizzler;
+        public int tankyRizzlerHits = 0;
+        public static int counterHelixDmg = 500;
+        public bool wearingWhiteArmor = false;
+        #endregion
+
+        #region Weapons
         public int essenceShiftLevel = 0;
         public static int essenceShiftLevelMax = 60;
 
@@ -123,27 +156,20 @@ namespace MogMod.Common.MogModPlayer
 
         public bool holdingMeteoriteStaff;
 
-        public Vector2 mouseWorld;
-        public bool wearingFlameOfCorruption = false;
-        public bool dragonInstallActive;
-
-        public int cooldownReference;
-        public enum MewingType
-        {
-            mewingguide = 0
-        }
-        public MewingType mewingType = MewingType.mewingguide;
 
         public bool chargeShot = false;
         public bool dpCharge = false;
 
-        // armor effects
-        public bool wearingRadiantArmor;
-        public bool wearingUndyingArmor;
-        public bool wearingTankyRizzler;
-        public int tankyRizzlerHits = 0;
-        public static int counterHelixDmg = 500;
+        public bool inShadowRealm;
 
+        public bool riversOfBloodProj = false;
+        public bool exultationEquipped = false;
+
+        public bool markerProjOut = false;
+        public bool moonveilProj = false;
+        #endregion
+
+        #region Buffs
         // debuffs
         public bool divineDebuff;
         public bool skadiDebuff;
@@ -163,30 +189,9 @@ namespace MogMod.Common.MogModPlayer
         public bool shivasAura = false;
 
         public float auraRange = 5000f;
+        #endregion
 
-        public bool inShadowRealm;
-
-        public bool riversOfBloodProj = false;
-        public bool exultationEquipped = false;
-
-        public bool markerProjOut = false;
-
-        public bool atgActive = false;
-        public bool plasmaActive = false;
-        public bool icbmActive = false;
-        public bool polyluteActive = false;
-
-        public int shivCooldown = 0;
-        public int bashCooldown = 0;
-        public int gunpowderCooldown = 0;
-        public int radiantCooldown = 0;
-        public int jidiPollenCooldown = 0;
-
-        public bool moonveilProj = false;
-
-        public bool wearingWhiteArmor = false;
-
-        // sound effects
+        #region Sound Effects
         public static readonly SoundStyle WandUse = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Magic_Stick")
         {
             Volume = .4f,
@@ -207,13 +212,61 @@ namespace MogMod.Common.MogModPlayer
         };
         public static readonly SoundStyle ShivasActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ShivasActivate")
         {
-            Volume = .25f,
+            Volume = .4f,
             PitchVariance = .2f,
             MaxInstances = 1,
         };
         public static readonly SoundStyle ParrySound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ParrySfx")
         {
-            Volume = .25f,
+            Volume = .5f,
+            PitchVariance = .2f,
+            MaxInstances = 1,
+        };
+        public static readonly SoundStyle BladeMailActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/BladeMailActivate")
+        {
+            Volume = .4f,
+            PitchVariance = .2f,
+            MaxInstances = 1,
+        };
+        public static readonly SoundStyle ForceStaffActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ForceStaffActivate")
+        {
+            Volume = .5f,
+            PitchVariance = .2f,
+            MaxInstances = 1,
+        };
+        public static readonly SoundStyle GlimmerActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/GlimmerActivate")
+        {
+            Volume = .8f,
+            PitchVariance = .2f,
+            MaxInstances = 1,
+        };
+        public static readonly SoundStyle GreavesActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/GreavesActivate")
+        {
+            Volume = .75f,
+            PitchVariance = .2f,
+            MaxInstances = 1,
+        };
+        public static readonly SoundStyle ManaBootsActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ManaBootsActivate")
+        {
+            Volume = .75f,
+            PitchVariance = .2f,
+            MaxInstances = 1,
+        };
+        public static readonly SoundStyle MekansmActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/MekansmActivate")
+        {
+            Volume = .75f,
+            PitchVariance = .2f,
+            MaxInstances = 1,
+        };
+        public static readonly SoundStyle RefresherActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/RefresherActivate")
+        {
+            Volume = .4f,
+            PitchVariance = .2f,
+            MaxInstances = 1,
+        };
+        public static readonly SoundStyle SatanicActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/SatanicActivate")
+        {
+            Volume = .4f,
             PitchVariance = .2f,
             MaxInstances = 1,
         };
@@ -236,19 +289,14 @@ namespace MogMod.Common.MogModPlayer
         int blademailCooldown = ModContent.BuffType<Buffs.Cooldowns.BladeMailDebuff>();
         int ShivasCooldown = ModContent.BuffType<ShivasDebuff>();
 
-        // one time buffs (and armlet)
-        int locketHeal = ModContent.BuffType<HolyLocketBuff>();
-        int wandHeal = ModContent.BuffType<WandBuff>();
-        int stickHeal = ModContent.BuffType<MagicStickBuff>();
-
-        int greavesHeal = ModContent.BuffType<GuardianGreavesBuff>();
-        int mekansmHeal = ModContent.BuffType<MekansmBuff>();
-
+        // armlet
         int armletToggled = ModContent.BuffType<Buffs.PotionBuffs.ArmletOfMordiggianBuff>();
 
         // dragon install
         int dragonInstall = ModContent.BuffType<Buffs.PotionBuffs.DragonInstallBuff>();
         int dragonInstallCooldown = ModContent.BuffType<Buffs.Cooldowns.DragonInstallCooldown>();
+        #endregion
+
         #endregion
 
         #region In Game Checks
@@ -408,6 +456,7 @@ namespace MogMod.Common.MogModPlayer
                 //Don't add dragon install to this. It shouldn't be able to be refreshed by refresher as it is more of a different mechanic than a buff. Will if you see this stop playing Chen <-- Chen (pronounced "shen") has crazy micro and once i get good at him hes gonna be crazy. that one game was a loss no matter who i played. also it was mendez fault for picking IO
 
                 Player.AddBuff(refresherCooldown, 9000);
+                SoundEngine.PlaySound(RefresherActivateSound, Player.Center);
             }
 
             // glimmer cape
@@ -417,14 +466,16 @@ namespace MogMod.Common.MogModPlayer
                 Player.AddBuff(glimmerBuff, 1800);
                 // give debuff cd
                 Player.AddBuff(glimmerCooldown, 3600);
-                // Main.NewText("applied glimmer cape"); //RandomBuffText.Format(Lang.GetBuffName(buff)));
+                // play sfx
+                SoundEngine.PlaySound(GlimmerActivateSound, Player.Center);
             }
 
             // satanic
             if (KeybindSystem.SatanicKeybind.JustPressed && wearingSatanic && !Player.HasBuff(satanicCooldown))
             {
-                Player.AddBuff(satanicBuff, 1800);
-                Player.AddBuff(satanicCooldown, 3600);
+                Player.AddBuff(satanicBuff, 480);
+                Player.AddBuff(satanicCooldown, 3240);
+                SoundEngine.PlaySound(SatanicActivateSound, Player.Center);
             }
 
             // blademail
@@ -432,48 +483,65 @@ namespace MogMod.Common.MogModPlayer
             {
                 Player.AddBuff(blademailBuff, 600);
                 Player.AddBuff(blademailCooldown, 3600);
+                SoundEngine.PlaySound(BladeMailActivateSound, Player.Center);
             }
 
             // arcane boots
             if (KeybindSystem.ArcaneBootsKeybind.JustPressed && wearingManaBoots && !Player.HasBuff(manabootsCooldown))
             {
-                for (int i = 0; i < Main.maxPlayers; i++)
-                {
-                    Terraria.Player targetPlayer = Main.player[i];
-                    if (targetPlayer.active && targetPlayer.team == targetPlayer.team && targetPlayer.team != 0)
-                    {
-                        targetPlayer.AddBuff(greavesHeal, 600);
-                        //if (Main.netMode == NetmodeID.Server) // Check if the game is in multiplayer server mode
-                        //{
-                        //    NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, null, i, mekansmHeal, 600f, 0f, 0, 0, 0);
-                        //}
-                        for (int k = 0; k < 16; k++)
-                        {
-                            Dust dust2 = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.ManaRegeneration);
-                            dust2.scale = Main.rand.NextFloat(0.6f, 0.8f);
-                        }
-                    }
-                }
-                // make it play a sound when activating
+                //for (int i = 0; i < Main.maxPlayers; i++)
+                //{
+                //    Terraria.Player targetPlayer = Main.player[i];
+                //    if (targetPlayer.active && targetPlayer.team == targetPlayer.team && targetPlayer.team != 0)
+                //    {
+                //        targetPlayer.AddBuff(greavesHeal, 600);
+                //        //if (Main.netMode == NetmodeID.Server) // Check if the game is in multiplayer server mode
+                //        //{
+                //        //    NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, null, i, mekansmHeal, 600f, 0f, 0, 0, 0);
+                //        //}
+                //        for (int k = 0; k < 16; k++)
+                //        {
+                //            Dust dust2 = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.ManaRegeneration);
+                //            dust2.scale = Main.rand.NextFloat(0.6f, 0.8f);
+                //        }
+                //    }
+                //}
                 Player.statMana += 200;
+                Player.ManaEffect(200);
+                if (Player.statMana > Player.statManaMax2)
+                    Player.statMana = Player.statManaMax2;
                 Player.AddBuff(manabootsCooldown, 1800);
+                SoundEngine.PlaySound(ManaBootsActivateSound, Player.Center);
             }
 
             // guardian greaves
             if (KeybindSystem.GuardianGreavesKeybind.JustPressed && wearingGigaManaBoots && !Player.HasBuff(guardianCooldown))
             {
                 // make it play a sound when activating
-                Player.statLife += 50;
-                Player.statMana += 250;
+                Player.statLife += 60;
+                Player.HealEffect(60);
+                if (Player.statLife > Player.statLifeMax2)
+                    Player.statLife = Player.statLifeMax2;
+
+                Player.statMana += 300;
+                Player.ManaEffect(300);
+                if (Player.statMana > Player.statManaMax2)
+                    Player.statMana = Player.statManaMax2;
+
                 Player.AddBuff(guardianCooldown, 3600);
+                SoundEngine.PlaySound(GreavesActivateSound, Player.Center);
             }
 
             // mekansm
             if (KeybindSystem.MekansmKeybind.JustPressed && wearingMekansm && !Player.HasBuff(mekansmCooldown))
             {
                 // make it play a sound when activating
-                Player.statLife += 20;
+                Player.statLife += 40;
+                Player.HealEffect(40);
+                if (Player.statLife > Player.statLifeMax2)
+                    Player.statLife = Player.statLifeMax2;
                 Player.AddBuff(mekansmCooldown, 3600);
+                SoundEngine.PlaySound(MekansmActivateSound, Player.Center);
             }
 
             // helm of dominator
@@ -497,7 +565,19 @@ namespace MogMod.Common.MogModPlayer
             {
                 if (locketActive && locketCharges > 0)
                 {
-                    Player.AddBuff(locketHeal, 6);
+                    int heal = 10 * locketCharges;
+
+                    Player.statLife += heal;
+                    Player.HealEffect(heal);
+                    if (Player.statLife > Player.statLifeMax2)
+                        Player.statLife = Player.statLifeMax2;
+
+                    Player.statMana += heal;
+                    Player.ManaEffect(heal);
+                    if (Player.statMana > Player.statManaMax2)
+                        Player.statMana = Player.statManaMax2;
+
+                    locketCharges = 0;
                     SoundEngine.PlaySound(WandUse, Player.Center);
                 }
             }
@@ -507,7 +587,19 @@ namespace MogMod.Common.MogModPlayer
             {
                 if (wandActive && wandCharges > 0)
                 {
-                    Player.AddBuff(wandHeal, 6);
+                    int heal = 7 * wandCharges;
+
+                    Player.statLife += heal;
+                    Player.HealEffect(heal);
+                    if (Player.statLife > Player.statLifeMax2)
+                        Player.statLife = Player.statLifeMax2;
+
+                    Player.statMana += heal;
+                    Player.ManaEffect(heal);
+                    if (Player.statMana > Player.statManaMax2)
+                        Player.statMana = Player.statManaMax2;
+
+                    wandCharges = 0;
                     SoundEngine.PlaySound(WandUse, Player.Center);
                 }
             }
@@ -517,7 +609,19 @@ namespace MogMod.Common.MogModPlayer
             {
                 if (stickActive && stickCharges > 0)
                 {
-                    Player.AddBuff(stickHeal, 6);
+                    int heal = 5 * stickCharges;
+
+                    Player.statLife += heal;
+                    Player.HealEffect(heal);
+                    if (Player.statLife > Player.statLifeMax2)
+                        Player.statLife = Player.statLifeMax2;
+
+                    Player.statMana += heal;
+                    Player.ManaEffect(heal);
+                    if (Player.statMana > Player.statManaMax2)
+                        Player.statMana = Player.statManaMax2;
+
+                    stickCharges = 0;
                     SoundEngine.PlaySound(WandUse, Player.Center);
                 }
             }
@@ -606,7 +710,7 @@ namespace MogMod.Common.MogModPlayer
             if (wearingForceStaff && !Player.mount.Active &&  KeybindSystem.ForceStaffKeybind.JustPressed && !Player.HasBuff(forceStaffCooldown))
             {
                 // change to force staff sound
-                SoundEngine.PlaySound(WandUse, Player.Center);
+                SoundEngine.PlaySound(ForceStaffActivateSound, Player.Center);
                 Vector2 newVelocity = Player.velocity;
 
                 switch (forceDirection)
@@ -644,7 +748,7 @@ namespace MogMod.Common.MogModPlayer
             if (wearingPike && !Player.mount.Active && KeybindSystem.ForceStaffKeybind.JustPressed && !Player.HasBuff(forceStaffCooldown))
             {
                 // change to force staff sound
-                SoundEngine.PlaySound(ArmletOnSound, Player.Center);
+                SoundEngine.PlaySound(ForceStaffActivateSound, Player.Center);
                 Vector2 newVelocity = Player.velocity;
 
                 switch (forceDirection)
@@ -760,7 +864,11 @@ namespace MogMod.Common.MogModPlayer
                 if (Player.HeldItem.type == ModContent.ItemType<ThrowingShade>())
                     holdingThrowingShade = true;
                 if ((shadowRealmLevel < shadowRealmLevelMax) && Player.HasBuff<ShadowRealmBuff>())
+                {
                     shadowRealmLevel++;
+                    if (holdingThrowingShade)
+                        shadowRealmLevel++;
+                }
                 if (!Player.HasBuff<ShadowRealmBuff>())
                     shadowRealmLevel = 0;
             }
@@ -1275,6 +1383,7 @@ namespace MogMod.Common.MogModPlayer
             if (inShadowRealm)
             {
                 Player.GetDamage(DamageClass.Magic) += (shadowRealmLevel / 30) + 1;
+                Player.aggro -= 200;
             }
 
             // cooldowns

@@ -57,6 +57,11 @@ namespace MogMod.Items.Weapons.Magic
             else
                 return true;
         }
+        public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+        {
+            if (player.altFunctionUse == 2)
+                mult *= 5f;
+        }
         public override bool AltFunctionUse(Player player) => true;
         public override void AddRecipes()
         {

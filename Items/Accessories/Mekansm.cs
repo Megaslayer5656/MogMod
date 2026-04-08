@@ -23,11 +23,11 @@ namespace MogMod.Items.Accessories
             Item.height = 42;
             Item.rare = ItemRarityID.Green;
             Item.value = MogGlobalItem.RarityGreenBuyPrice;
+            Item.defense = 4;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.lifeRegen += 4;
-            player.statDefense += 4;
             player.blockRange += 1;
             player.tileSpeed += .30f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();

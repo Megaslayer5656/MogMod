@@ -1,5 +1,6 @@
 ﻿using MogMod.Items.Consumables;
 using MogMod.Items.Other;
+using MogMod.Items.Weapons.Melee;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -163,8 +164,16 @@ namespace MogMod.Utilities
             Recipe manaBandRecipe = Recipe.Create(ItemID.BandofStarpower, 1);
             manaBandRecipe.AddIngredient(ItemID.Shackle, 1)
                 .AddIngredient<FrigidShard>(5)
-                .AddIngredient(ItemID.ManaCrystal, 1)
+                .AddIngredient<ManaEssence>(1)
                 .AddTile(TileID.Anvils)
+                .DisableDecraft()
+                .Register();
+            // band of starpower
+            Recipe northPoleRecipe = Recipe.Create(ItemID.NorthPole, 1);
+            northPoleRecipe.AddIngredient<FrozenSpear>(1)
+                .AddIngredient(ItemID.ChristmasTreeSword, 1)
+                .AddIngredient<UltimateOrb>(1)
+                .AddTile(TileID.MythrilAnvil)
                 .DisableDecraft()
                 .Register();
             #endregion

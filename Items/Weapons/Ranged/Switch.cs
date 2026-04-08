@@ -12,28 +12,29 @@ namespace MogMod.Items.Weapons.Ranged
     public class Switch : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
-        public override void SetDefaults() {
+        public override void SetDefaults() 
+        {
             Item.damage = 65;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 50;
             Item.height = 34;
             Item.scale = .5f;
-            Item.useTime = 3; //Accurate to Glock 18c firerate (at least in Tarkov)
-            Item.useAnimation = 3;
+            Item.knockBack = 2.2f;
+            Item.useTime = Item.useAnimation = 3; // Accurate to Glock 18c firerate (at least in Tarkov)
+            // values of 4 and below cause it to lose out on speed reforges like unreal
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.knockBack = 2f;
+            Item.noMelee = true;
+            Item.autoReuse = true;
+            Item.useAmmo = AmmoID.Bullet;
             Item.UseSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/Switch_Shot_2") {
                 Volume = .2f,
                 PitchVariance = .02f,
             };
-            Item.value = 10000;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 14f;
+
             Item.rare = ModContent.RarityType<VonRarity>();
             Item.value = MogGlobalItem.RarityVonBuyPrice;
-            Item.autoReuse = true;
-            Item.shoot = ProjectileID.PurificationPowder;
-            Item.shootSpeed = 10f;
-            Item.useAmmo = AmmoID.Bullet;
-            Item.noMelee = true;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {

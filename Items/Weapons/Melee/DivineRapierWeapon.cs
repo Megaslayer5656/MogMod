@@ -36,8 +36,9 @@ namespace MogMod.Items.Weapons.Melee
             Item.knockBack = 9.5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
+            Item.expert = true;
             Item.rare = ModContent.RarityType<VonRarity>();
-            Item.value = MogGlobalItem.RarityBlueBuyPrice;
+            Item.value = MogGlobalItem.RarityVonBuyPrice;
             Item.shoot = ModContent.ProjectileType<DivineRapierProj>();
             Item.shootSpeed = 12f;
         }
