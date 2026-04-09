@@ -317,7 +317,7 @@ namespace MogMod.NPCs.Global
                 }
             }
             // if an enemy is killed in one shot from a freezing weapon it doesnt shoot out the projectiles
-            // i think this is because it doesnt apply the buff before killing them, so it cant run this line
+            // i think this is because it doesnt apply the buff before killing them, so it cant run this line <--- Hey Will it's me (Megaslayer), I think we could do this in onhitbyitem, check if the npc's health is below zero (or if damagedealt was greater than the npc's current health) and if they were hit by frozen spear, and if those conditions are true, spawn the projectiles
             if (npc.HasBuff<FreezingDebuff>() || mogPlayer.wearingFrostArmor)
             {
                 int numSplits = 6;
