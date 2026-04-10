@@ -79,6 +79,7 @@ namespace MogMod.Items.Weapons.Ranged
             CreateRecipe().
                AddIngredient(ItemID.FlintlockPistol, 1).
                AddRecipeGroup("IronBar", 20).
+               AddIngredient(ItemID.IllegalGunParts, 1).
                AddTile(TileID.Anvils).
                Register();
 

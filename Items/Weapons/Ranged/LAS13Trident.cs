@@ -50,6 +50,7 @@ namespace MogMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddRecipeGroup("AdamantiteBar", 13).
                 AddIngredient(ItemID.SoulofFright, 7).
+               AddIngredient(ItemID.IllegalGunParts, 1).
                 AddIngredient(ItemID.GolfCupFlagBlue, 1).
                 AddTile(TileID.MythrilAnvil).
                 Register();

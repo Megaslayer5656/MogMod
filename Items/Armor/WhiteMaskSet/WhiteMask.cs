@@ -53,7 +53,7 @@ namespace MogMod.Items.Armor.WhiteMaskSet
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage<GenericDamageClass>() += 0.06f;
+            player.GetAttackSpeed<GenericDamageClass>() += 0.1f;
             player.GetCritChance<GenericDamageClass>() += 8;
         }
         public override void AddRecipes()

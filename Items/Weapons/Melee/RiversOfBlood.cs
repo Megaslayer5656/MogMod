@@ -28,20 +28,23 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 50;
             Item.height = 64;
+
+            Item.scale = 2.25f; // TODO: change sprite so this isnt needed
             Item.damage = 165;
-            Item.scale = 2.25f;
-            Item.DamageType = DamageClass.Melee;
-            Item.useTime = 15;
-            Item.useAnimation = 15;
-            Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 5.5f;
-            Item.value = Item.buyPrice(0, 1, 50, 0);
+            Item.DamageType = DamageClass.Melee;
+
+            Item.useTime = Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+
             Item.rare = ItemRarityID.Cyan;
             Item.value = MogGlobalItem.RarityCyanBuyPrice;
-            Item.UseSound = SoundID.Item1;
-            Item.autoReuse = true;
+
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 4.5f;
+
+            Item.autoReuse = true;
         }
         public override bool CanUseItem(Player player)
         {

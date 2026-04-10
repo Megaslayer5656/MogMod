@@ -14,11 +14,8 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
 {
     public class MeteoriteStaff : ModItem, ILocalizedModType
     {
-        public new string LocalizationCategory => "Items.Weapons.Magic";
-        public override void SetStaticDefaults()
-        {
-            Item.staff[Item.type] = true;
-        }
+        public new string LocalizationCategory => "Items.Weapons.Staves";
+        public override void SetStaticDefaults() => Item.staff[Item.type] = true;
         public override void SetDefaults()
         {
             Item.useTime = Item.useAnimation = 30;

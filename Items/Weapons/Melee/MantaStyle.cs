@@ -16,13 +16,10 @@ namespace MogMod.Items.Weapons.Melee
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public static readonly SoundStyle mantaActivate = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/MantaStyle")
         {
-            Volume = 0.2f,
+            Volume = .6f,
             PitchVariance = .2f
         };
-        public override void SetStaticDefaults()
-        {
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
-        }
+        public override void SetStaticDefaults() => ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         public override void SetDefaults()
         {
             Item.width = 58;

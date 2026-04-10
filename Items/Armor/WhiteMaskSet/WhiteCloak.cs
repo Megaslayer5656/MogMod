@@ -45,7 +45,7 @@ namespace MogMod.Items.Armor.WhiteMaskSet
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Generic) += .08f; // i think it would be cooler if it gave attack speed instead of damage because of bleed buildup
+            player.GetAttackSpeed(DamageClass.Generic) += .12f; // i think it would be cooler if it gave attack speed instead of damage because of bleed buildup
         }
         public override void AddRecipes()
         {

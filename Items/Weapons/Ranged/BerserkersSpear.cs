@@ -17,10 +17,7 @@ namespace MogMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
 
         // lets you repeatedly right click
-        public override void SetStaticDefaults()
-        {
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
-        }
+        public override void SetStaticDefaults() => ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         public override void SetDefaults()
         {
             Item.damage = 75;
@@ -36,7 +33,6 @@ namespace MogMod.Items.Weapons.Ranged
             Item.noUseGraphic = true;
             Item.knockBack = 6f;
             Item.UseSound = SoundID.Item1;
-            Item.value = Item.buyPrice(0, 32, 82, 5);
             Item.rare = ItemRarityID.Yellow;
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
             Item.shoot = ModContent.ProjectileType<BerserkersSpearProj>();

@@ -16,11 +16,8 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves //So yeah I'm gonna make a gl
 {
     public class GlintstoneStaff : ModItem, ILocalizedModType
     {
-        public new string LocalizationCategory => "Items.Weapons.Magic";
-        public override void SetStaticDefaults()
-        {
-            Item.staff[Item.type] = true;
-        }
+        public new string LocalizationCategory => "Items.Weapons.Staves";
+        public override void SetStaticDefaults() => Item.staff[Item.type] = true;
         public override void SetDefaults()
         {
             // TODO: make it so that certain sorceries play different sounds, change item usetime and mana cost for each sorcery;

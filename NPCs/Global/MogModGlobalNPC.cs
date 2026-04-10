@@ -359,6 +359,9 @@ namespace MogMod.NPCs.Global
                 bloodToAdd = (int)(bloodToAdd * 1.15f);
             }
 
+            if (mogPlayer.mercyBladeEquipped)
+                bloodToAdd = (int)(bloodToAdd * 1.2f);
+
             if (mogPlayer.wearingWhiteArmor)
             {
                 bloodToAdd = (int)(bloodToAdd * 1.15f);
@@ -382,6 +385,9 @@ namespace MogMod.NPCs.Global
             {
                 bloodToAdd = (int)(bloodToAdd * 1.15f);
             }
+
+            if (mogPlayer.mercyBladeEquipped)
+                bloodToAdd = (int)(bloodToAdd * 1.2f);
 
             if (mogPlayer.wearingWhiteArmor)
             {

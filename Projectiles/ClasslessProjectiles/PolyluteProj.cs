@@ -53,7 +53,7 @@ namespace MogMod.Projectiles.ClasslessProjectiles
         public override bool? CanHitNPC(NPC target)
         {
             if (Projectile.ai[0] >= 10)
-                return true;
+                return null;
             else
                 return false;
         }

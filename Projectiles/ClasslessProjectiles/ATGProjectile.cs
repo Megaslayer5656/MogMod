@@ -17,11 +17,9 @@ namespace MogMod.Projectiles.ClasslessProjectiles
         {
             Projectile.width = 20;
             Projectile.height = 14;
-            Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = false;
             Projectile.friendly = true;
-            Projectile.hostile = false;
             Projectile.DamageType = DamageClass.Generic;
             Projectile.ArmorPenetration = 50;
         }
@@ -71,7 +69,7 @@ namespace MogMod.Projectiles.ClasslessProjectiles
         public override bool? CanHitNPC(NPC target)
         {
             if (Projectile.timeLeft < 570)
-                return true;
+                return null; // i think returning true causes it to hit any npc, whereas null only hits enemies
             else
                 return false;
         }

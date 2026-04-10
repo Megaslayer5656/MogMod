@@ -43,7 +43,6 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<WindrunnersBow>(1).
-                AddIngredient(ItemID.HallowedRepeater).
                 AddIngredient(ItemID.SoulofNight, 8).
                 AddIngredient<FrigidShard>(5).
                 AddIngredient(ItemID.FrostCore, 1).

@@ -32,33 +32,25 @@ namespace MogMod.Items.Global
         }
         public override void SetDefaults(Item entity)
         {
+            // pre-hardmode
             if (entity.type == ModContent.ItemType<Reduvia>())
-            {
                 bloodDamage = 33;
-
-            } else if (entity.type == ModContent.ItemType<Sange>())
-            {
-                bloodDamage = 110;
-
-            } else if (entity.type == ModContent.ItemType<RiversOfBlood>())
-            {
-                bloodDamage = 135;
-
-            } else if (entity.type == ModContent.ItemType<Bloodletter>())
-            {
+            else if (entity.type == ModContent.ItemType<Bloodletter>())
                 bloodDamage = 15;
-
-            } else if (entity.type == ItemID.PsychoKnife)
-            {
-               bloodDamage = 95;
-
-            } else if (entity.type == ItemID.BloodButcherer)
-            {
+            else if (entity.type == ItemID.BloodButcherer)
                 bloodDamage = 16;
-            } else
-            {
+
+            // hardmode
+            else if (entity.type == ModContent.ItemType<Sange>())
+                bloodDamage = 110;
+            else if (entity.type == ModContent.ItemType<RiversOfBlood>())
+                bloodDamage = 135;
+            else if (entity.type == ItemID.PsychoKnife)
+                bloodDamage = 95;
+
+            // non-bleed slop
+            else
                 bloodDamage = 0;
-            }
         }
         public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
         {
@@ -201,6 +193,12 @@ namespace MogMod.Items.Global
             TooltipLine nameLine = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.Mod == "Terraria");
             if (nameLine != null)
                 ApplyRarityColor(item, nameLine);
+            
+            // apply bleed buildup text in tooltip
+            if (item.type == ItemID.BloodButcherer)
+                tooltips.Add(new TooltipLine(Mod, "CustomTooltip", "Low Bleed Buildup"));
+            if (item.type == ItemID.PsychoKnife)
+                tooltips.Add(new TooltipLine(Mod, "CustomTooltip", "High Bleed Buildup"));
         }
         private void ApplyRarityColor(Item item, TooltipLine nameLine)
         {

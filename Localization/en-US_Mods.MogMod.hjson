@@ -678,6 +678,18 @@ Items: {
 				[c/D9A5D1:'polylute plasma shrimp']
 				'''
 		}
+
+		BladeOfMercy: {
+			DisplayName: Blade Of Mercy
+			Tooltip:
+				'''
+				+10% Attack Speed
+				[c/BA2F2F:-15% Attack Damage]
+				Boosts bleed buildup by 35%
+				Does not stack with downgrades
+				[c/94132A:'After claiming numerous lives, the dagger is now broken, but has acquired a spectral aura.']
+				'''
+		}
 	}
 
 	Weapons: {
@@ -1111,6 +1123,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires a barrage of freezing arrows
+					Ignores 20 points of enemy defense
 					[c/144C70:'I don't care who you are, we are all guilty of something.']
 					'''
 			}
@@ -1152,6 +1165,17 @@ Items: {
 			FireworkCrossbow: {
 				DisplayName: Firework Crossbow
 				Tooltip: ""
+			}
+
+			MG43MachineGun: {
+				DisplayName: MG-43 Machine Gun
+				Tooltip:
+					'''
+					Right click to change firerate
+					Higher firerates have higher spread
+					Current firerate: [RPM] RPM
+					[c/D1BB28:'Say hello to Democracy!']
+					'''
 			}
 		}
 
@@ -1309,26 +1333,6 @@ Items: {
 					'''
 			}
 
-			GlintstoneStaff: {
-				DisplayName: Glintstone Staff
-				Tooltip: A catalyst used to cast sorceries
-			}
-
-			AstrologersStaff: {
-				DisplayName: Astrologer's Staff
-				Tooltip: A catalyst used to cast sorceries
-			}
-
-			LusatsGlintstoneStaff: {
-				DisplayName: Lusat's Glintstone Staff
-				Tooltip:
-					'''
-					A catalyst used to cast sorceries
-					[c/701228:Consumes 50% more mana per cast]
-					[c/1F2787:'Only those who have glimpsed what lies beyond the wisdom of stone may wield it.']
-					'''
-			}
-
 			ShadowRealm: {
 				DisplayName: Shadow Realm
 				Tooltip:
@@ -1346,6 +1350,41 @@ Items: {
 					Right click to disappear into the shadows
 					Damage is increased in correlation to the amount of time spent in the shadows
 					[c/BA0740:Attacking will reveal you from the shadows]
+					'''
+			}
+		}
+
+		Summoner: {
+			ProximityMines: {
+				DisplayName: Proximity Mines
+				Tooltip:
+					'''
+					Summons a sentry
+					Explodes after a short delay when enemies come near
+					Deals double damage if inactive for 10 seconds
+					[c/B39960:'Yes you're a good little mine. Yes you are.']
+					'''
+			}
+		}
+
+		Staves: {
+			GlintstoneStaff: {
+				DisplayName: Glintstone Staff
+				Tooltip: A catalyst used to cast sorceries
+			}
+
+			AstrologersStaff: {
+				DisplayName: Astrologer's Staff
+				Tooltip: A catalyst used to cast sorceries
+			}
+
+			LusatsGlintstoneStaff: {
+				DisplayName: Lusat's Glintstone Staff
+				Tooltip:
+					'''
+					A catalyst used to cast sorceries
+					[c/701228:Consumes 50% more mana per cast]
+					[c/1F2787:'Only those who have glimpsed what lies beyond the wisdom of stone may wield it.']
 					'''
 			}
 
@@ -1374,19 +1413,6 @@ Items: {
 					A catalyst used to cast sorceries
 					[c/96FF96:Rock Sling] gains slight homing
 					[c/A364CC:'Staff embedded with a dark purple glintstone, said to be the fragment of a meteorite.']
-					'''
-			}
-		}
-
-		Summoner: {
-			ProximityMines: {
-				DisplayName: Proximity Mines
-				Tooltip:
-					'''
-					Summons a sentry
-					Explodes after a short delay when enemies come near
-					Deals double damage if inactive for 10 seconds
-					[c/B39960:'Yes you're a good little mine. Yes you are.']
 					'''
 			}
 		}
@@ -2178,7 +2204,7 @@ Items: {
 			DisplayName: White Mask
 			Tooltip:
 				'''
-				+6% Attack Damage
+				+10% Attack Speed
 				+8% Critical Strike Chance
 				'''
 			SetBonus: +15% Blood Damage
@@ -2186,7 +2212,7 @@ Items: {
 
 		WhiteCloak: {
 			DisplayName: White Cloak
-			Tooltip: +8% Attack Damage
+			Tooltip: +12% Attack Speed
 		}
 	}
 
@@ -2203,6 +2229,18 @@ Items: {
 
 		FuciumOre: {
 			DisplayName: Fucium Ore
+			Tooltip: ""
+		}
+	}
+
+	Tools: {
+		FuciumPickaxe: {
+			DisplayName: Fucium Pickaxe
+			Tooltip: ""
+		}
+
+		FuciumWaraxe: {
+			DisplayName: Fucium Waraxe
 			Tooltip: ""
 		}
 	}

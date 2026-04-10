@@ -23,7 +23,6 @@ namespace MogMod.Items.Weapons.Melee
             Item.useAnimation = 16;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 7f;
-            Item.value = Item.buyPrice(0, 65, 0, 0);
             Item.rare = ItemRarityID.Pink;
             Item.value = MogGlobalItem.RarityPinkBuyPrice;
             Item.UseSound = SoundID.Item1;

@@ -8,10 +8,12 @@ using MogMod.Items.Other;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Magic.SorceryStaves;
 using MogMod.Items.Weapons.Melee;
+using MogMod.Items.Weapons.Ranged;
 using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Intrinsics.Arm;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -164,6 +166,7 @@ namespace MogMod.Common.MogModPlayer
 
         public bool riversOfBloodProj = false;
         public bool exultationEquipped = false;
+        public bool mercyBladeEquipped = false;
 
         public bool markerProjOut = false;
         public bool moonveilProj = false;
@@ -815,9 +818,9 @@ namespace MogMod.Common.MogModPlayer
 
             #region Weapon Buffs
             // essence shift stacking buff
-            if (Player.HasBuff<EssenceShift>() && (Player.HeldItem.Name == "Hydrakan Latch" || Player.HeldItem.Name == "Golden Hydrakan Latch" || Player.HeldItem.Name == "Megaslark" || Player.HeldItem.Name == "Minislark"))
+            if (Player.HasBuff<EssenceShift>() && (Player.HeldItem.type == ModContent.ItemType<HydrakanLatch>() || Player.HeldItem.type == ModContent.ItemType<GoldenHydrakanLatch>() || Player.HeldItem.type == ModContent.ItemType<Megaslark>() || Player.HeldItem.type == ModContent.ItemType<Minislark>()))
             {
-                if (Player.HeldItem.Name == "Hydrakan Latch" || Player.HeldItem.Name == "Golden Hydrakan Latch")
+                if (Player.HeldItem.type == ModContent.ItemType<HydrakanLatch>() || Player.HeldItem.type == ModContent.ItemType<GoldenHydrakanLatch>())
                 {
                     if (essenceShiftLevel > essenceShiftLevelMax)
                     {
@@ -827,7 +830,7 @@ namespace MogMod.Common.MogModPlayer
                     Player.moveSpeed += .0125f * essenceShiftLevel;
                     Player.accRunSpeed += Player.accRunSpeed * .0125f * essenceShiftLevel;
                 }
-                if (Player.HeldItem.Name == "Megaslark")
+                if (Player.HeldItem.type == ModContent.ItemType<Megaslark>())
                 {
                     if (essenceShiftLevel > essenceShiftLevelMax)
                     {
@@ -838,7 +841,7 @@ namespace MogMod.Common.MogModPlayer
                     Player.moveSpeed += .025f * essenceShiftLevel;
                     Player.accRunSpeed += Player.accRunSpeed * .025f * essenceShiftLevel;
                 }
-                if (Player.HeldItem.Name == "Minislark")
+                if (Player.HeldItem.type == ModContent.ItemType<Minislark>())
                 {
                     if (essenceShiftLevel > essenceShiftLevelMax)
                     {
@@ -897,7 +900,7 @@ namespace MogMod.Common.MogModPlayer
                 fierySoulLevel = 0;
             }
 
-            if (Player.HeldItem.Name == "Butterfly")
+            if (Player.HeldItem.type == ModContent.ItemType<Butterfly>())
             {
                 doButterfly(Player);
                 if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
@@ -905,6 +908,14 @@ namespace MogMod.Common.MogModPlayer
                     SyncButterfly(false); //TODO: Add a timer so this doesn't sync every tick
                 }
             }
+
+            if (Player.HeldItem.type == ModContent.ItemType<MG43MachineGun>())
+                if (MG43MachineGun.rpm <= 2)
+                {
+                    Player.GetAttackSpeed(DamageClass.Ranged) += .2f;
+                    if (MG43MachineGun.rpm <= 1)
+                        Player.GetAttackSpeed(DamageClass.Ranged) += .2f;
+                }
 
             // duelist gloves
             if (wearingDuelistGloves)
@@ -1159,7 +1170,7 @@ namespace MogMod.Common.MogModPlayer
         // sniper offlane scope effect
         public override void ModifyZoom(ref float zoom)
         {
-            if (Player.HeldItem.Name == "AXMC")
+            if (Player.HeldItem.type == ModContent.ItemType<AXMC>())
             {
                 if (Main.mouseRight == true)
                 {
@@ -1220,12 +1231,12 @@ namespace MogMod.Common.MogModPlayer
                 Player.hurtCooldowns[i] = 35;
             }
 
-            if (Player.HeldItem.Name == "Rivers Of Blood")
+            if (Player.HeldItem.type == ModContent.ItemType<RiversOfBlood>())
             {
                 riversOfBloodProj = true;
             }
 
-            if (Player.HeldItem.Name == "Moonveil")
+            if (Player.HeldItem.type == ModContent.ItemType<Moonveil>())
             {
                 moonveilProj = true;
             }
@@ -1292,7 +1303,7 @@ namespace MogMod.Common.MogModPlayer
         // more regen taking place here
         public override void UpdateLifeRegen()
         {
-            if (Player.HeldItem.Name == "Berserker's Spear")
+            if (Player.HeldItem.type == ModContent.ItemType<BerserkersSpear>())
             {
                 float percentLifeLeft = (float)Player.statLife / Player.statLifeMax2;
                 Player.lifeRegen += Convert.ToInt32((1 / (percentLifeLeft + .065)));
