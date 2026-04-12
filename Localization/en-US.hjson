@@ -646,6 +646,9 @@ Mods: {
 				GunlanceBoom.DisplayName: Gunlance Boom
 				GunlanceReload.DisplayName: Gunlance Reload
 				CounterHelixProj.DisplayName: Counter Helix Proj
+				LordOfBloodsSpearProj.DisplayName: Lord Of Bloods Spear Proj
+				LordOfBloodsSpearBloodProj.DisplayName: Lord Of Bloods Spear Blood Proj
+				BloodPortal.DisplayName: Blood Portal
 			}
 
 			SummonerProjectiles: {
@@ -678,6 +681,7 @@ Mods: {
 			MoonveilProj.DisplayName: Moonveil Proj
 			FireworkCrossbowProj.DisplayName: Firework Crossbow Proj
 			WarFuryProjectile.DisplayName: War Fury Projectile
+			BloodPortal.DisplayName: Blood Portal
 		}
 	}
 }

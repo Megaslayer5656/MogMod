@@ -60,7 +60,7 @@ namespace MogMod.Items.Weapons.Ranged
             float percentLifeLeft = (float)player.statLife / player.statLifeMax2; 
             if (player.altFunctionUse == 2)
             {
-                player.Hurt(PlayerDeathReason.ByCustomReason($"{player.name} sacrificed their lifeblood to the Berserker's Spear"), Convert.ToInt32(player.statLifeMax2 * .04), 0, false, true, 0, false, 1000, 100, 0f);
+                player.Hurt(PlayerDeathReason.ByCustomReason($"{player.name} sacrificed their lifeblood to the Berserker's Spear"), Convert.ToInt32(player.statLifeMax2 * .04), 0, false, true, 1, false, 1000, 100, 0f);
                 type = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<BerserkersFireSpearProj>(), Convert.ToInt32(Item.damage / (percentLifeLeft + .3f)), 2f, player.whoAmI); //To adjust right click damage, change the float after percentLifeLeft in the damage field of this
                 return false;
             }

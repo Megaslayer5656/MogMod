@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
@@ -13,6 +14,7 @@ using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Tiles.Ores;
 using MogMod.Utilities;
 using Mono.Cecil;
@@ -376,9 +378,33 @@ namespace MogMod.NPCs.Global
         }
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
+            MogPlayer mogPlayer = Main.player[projectile.owner].GetModPlayer<MogPlayer>();
+
+            if (projectile.type == ModContent.ProjectileType<FrozenSpearProjectile>() || projectile.type == ModContent.ProjectileType<DreadsProj>() || projectile.type == ModContent.ProjectileType<DrowRangerArrow>() || mogPlayer.wearingFrostArmor)
+            {
+                if (npc.life < 1)
+                {
+                    if (npc.HasBuff(ModContent.BuffType<FreezingDebuff>())) //This gives errors sometimes but still works. I'll look into it later. Also this whole thing is needed bc of some funky stuff going on with when the npc's debuffs get removed when they die.
+                    {
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.DelBuff(ModContent.BuffType<FreezingDebuff>());
+                        }
+                    }
+                    int numSplits = 6;
+                    float angleVariance = MathHelper.TwoPi / numSplits;
+                    Vector2 projVec = new Vector2(4.5f, 0f).RotatedByRandom(MathHelper.ToRadians(45));
+
+                    for (int i = 0; i < numSplits; ++i)
+                    {
+                        projVec = projVec.RotatedBy(angleVariance);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, projVec, ProjectileID.Blizzard, 50, 1f, Main.myPlayer);
+                    }
+                }
+            }
+
             int bloodToAdd = projectile.GetGlobalProjectile<MogModGlobalProjectileBleed>().bloodDamage;
             
-            MogPlayer mogPlayer = Main.player[projectile.owner].GetModPlayer<MogPlayer>();
 
             // add another blood accessory
             if (mogPlayer.exultationEquipped)
@@ -394,7 +420,7 @@ namespace MogMod.NPCs.Global
                 bloodToAdd = (int)(bloodToAdd * 1.2f);
             }
 
-            if (Main.netMode == NetmodeID.MultiplayerClient)
+            if (Main.netMode == NetmodeID.MultiplayerClient) //If you do anything else in this method do it before here bc this returns sometimes
             {
                 ModPacket packet = Mod.GetPacket();
                 packet.Write((byte)MogModMessageType.AddBloodFromProjectile);

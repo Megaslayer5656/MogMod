@@ -42,6 +42,14 @@ namespace MogMod.Projectiles.BaseProjectiles
             {
                 bloodDamage = 20; //This one in particular might need some adjustings
             }
+            else if (entity.type == ModContent.ProjectileType<LordOfBloodsSpearProj>()) //The spear itself
+            {
+                bloodDamage = 120;
+            }
+            else if (entity.type == ModContent.ProjectileType<LordOfBloodsSpearBloodProj>()) //The huge aoe one
+            {
+                bloodDamage = 250;
+            }
             else
             {
                 bloodDamage = 0;

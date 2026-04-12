@@ -957,6 +957,11 @@ Items: {
 				Tooltip: ""
 				DisplayName: War Fury
 			}
+
+			LordOfBloodsSpear: {
+				DisplayName: Lord Of Bloods Spear
+				Tooltip: ""
+			}
 		}
 
 		Ranged: {
