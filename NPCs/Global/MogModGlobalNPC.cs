@@ -364,7 +364,7 @@ namespace MogMod.NPCs.Global
 
             if (mogPlayer.wearingWhiteArmor)
             {
-                bloodToAdd = (int)(bloodToAdd * 1.15f);
+                bloodToAdd = (int)(bloodToAdd * 1.2f);
             }
 
             currentBlood += bloodToAdd;
@@ -391,7 +391,7 @@ namespace MogMod.NPCs.Global
 
             if (mogPlayer.wearingWhiteArmor)
             {
-                bloodToAdd = (int)(bloodToAdd * 1.15f);
+                bloodToAdd = (int)(bloodToAdd * 1.2f);
             }
 
             if (Main.netMode == NetmodeID.MultiplayerClient)

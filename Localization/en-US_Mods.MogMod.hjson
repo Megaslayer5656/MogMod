@@ -2207,7 +2207,7 @@ Items: {
 				+10% Attack Speed
 				+8% Critical Strike Chance
 				'''
-			SetBonus: +15% Blood Damage
+			SetBonus: +20% Blood Damage
 		}
 
 		WhiteCloak: {
