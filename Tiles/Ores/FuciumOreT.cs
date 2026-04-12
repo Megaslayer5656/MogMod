@@ -75,7 +75,7 @@ namespace MogMod.Tiles.Ores
             for (int k = 0; k < (int)(Main.maxTilesX * Main.maxTilesY * 6E-05); k++)
             {
                 // The inside of this for loop corresponds to one single splotch of our Ore.
-                // this should spawn the ore on the left side of the map
+                // should spawn on the dungeon side of the world (its completely random)
                 int StartX = 0;
                 StartX = GenVars.dungeonX < Main.maxTilesX / 2 ? 25 : (Main.maxTilesX - (Main.maxTilesX / 9)) - 25;
 
@@ -90,7 +90,7 @@ namespace MogMod.Tiles.Ores
 
                 // Then, we call WorldGen.TileRunner with random "strength" and random "steps", as well as the Tile we wish to place.
                 // Feel free to experiment with strength and step to see the shape they generate.
-                WorldGen.TileRunner(x, y, WorldGen.genRand.Next(3, 6), WorldGen.genRand.Next(2, 3), ModContent.TileType<FuciumOreT>());
+                WorldGen.TileRunner(x, y, WorldGen.genRand.Next(3, 6), WorldGen.genRand.Next(3, 5), ModContent.TileType<FuciumOreT>());
             }
         }
     }

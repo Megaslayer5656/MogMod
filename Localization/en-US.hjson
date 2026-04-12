@@ -613,6 +613,7 @@ Mods: {
 				MysticSnakeProj.DisplayName: Mystic Snake
 				EnergyBulletProj.DisplayName: Energy Bullet Proj
 				WaveProj.DisplayName: Wave Proj
+				IsraelArrowProj.DisplayName: Israel Arrow Proj
 			}
 
 			MeleeProjectiles: {

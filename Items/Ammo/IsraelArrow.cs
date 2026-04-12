@@ -25,7 +25,7 @@ namespace MogMod.Items.Ammo
             Item.rare = ItemRarityID.Yellow;
 
             Item.ammo = AmmoID.Arrow;
-            Item.shoot = ModContent.ProjectileType<GreenTracerProj>();
+            Item.shoot = ModContent.ProjectileType<IsraelArrowProj>();
             Item.shootSpeed = 5f;
         }
 
