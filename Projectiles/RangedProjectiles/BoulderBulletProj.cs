@@ -21,7 +21,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 10;
             Projectile.timeLeft = 600;
             Projectile.ignoreWater = false;
             Projectile.tileCollide = true;
@@ -34,15 +34,11 @@ namespace MogMod.Projectiles.RangedProjectiles
             // makes it heavy
             Projectile.velocity.Y = Projectile.velocity.Y + 0.20f;
             if (Projectile.velocity.Y > 16f)
-            {
                 Projectile.velocity.Y = 16f;
-            }
 
             // hurt player after some time (projectile frags friendlys)
-            //if (Projectile.timeLeft < 580)
-            //{
-            //    Projectile.hostile = true;
-            //}
+            if (Projectile.timeLeft < 580)
+                Projectile.hostile = true;
 
             // dust effect
             for (int k = 0; k < 1; k++)

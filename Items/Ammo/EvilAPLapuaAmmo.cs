@@ -1,7 +1,8 @@
-﻿using Terraria.ModLoader;
+﻿using MogMod.Items.Other;
+using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
 using Terraria.ID;
-using MogMod.Projectiles.RangedProjectiles;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo
 {
@@ -10,25 +11,24 @@ namespace MogMod.Items.Ammo
         public new string LocalizationCategory => "Items.Ammo";
         public override void SetDefaults()
         {
-            Item.damage = 5;
+            Item.damage = 11;
             Item.DamageType = DamageClass.Ranged;
-            Item.width = 8;
-            Item.height = 8;
+            Item.width = Item.height = 8;
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
-            Item.knockBack = 1f;
-            Item.value = Item.sellPrice(copper: 11);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.knockBack = 5f;
+            Item.value = Item.sellPrice(copper: 22);
+            Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<EvilAPLapua>();
             Item.shootSpeed = 5f;
             Item.ammo = ItemID.MusketBall;
         }
         public override void AddRecipes()
         {
-            CreateRecipe(70).
-                AddIngredient(ItemID.MusketBall, 70).
-                AddIngredient(ItemID.ShimmerBlock, 1).
-                AddTile(TileID.Anvils).
+            CreateRecipe(999).
+                AddIngredient(ItemID.ChlorophyteBullet, 999).
+                AddIngredient<PointBooster>(1).
+                AddTile(TileID.MythrilAnvil).
                 Register();
         }
     }

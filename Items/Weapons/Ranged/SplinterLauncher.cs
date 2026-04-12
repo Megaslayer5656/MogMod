@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
+using MogMod.Projectiles.RangedProjectiles;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -13,25 +15,38 @@ namespace MogMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
-            Item.damage = 25;
-            Item.DamageType = DamageClass.Ranged;
             Item.width = 84;
             Item.height = 92;
-            Item.scale = .275f;
-            Item.useTime = 20;
-            Item.useAnimation = 20;
-            Item.useStyle = ItemUseStyleID.Shoot;
+
+            Item.damage = 14;
             Item.knockBack = 2f;
+            Item.DamageType = DamageClass.Ranged;
+
+            Item.useTime = Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item108; //Nail gun sound
+
             Item.rare = ItemRarityID.Green;
             Item.value = MogGlobalItem.RarityGreenBuyPrice;
-            Item.autoReuse = true;
+            
+            Item.scale = .275f; // holy slop
+            Item.shootSpeed = 10f;
             Item.shoot = ProjectileID.PurificationPowder;
-            Item.shootSpeed = 9f;
             Item.useAmmo = AmmoID.NailFriendly;
-            Item.noMelee = true;
-        }
 
+            Item.noMelee = true;
+            Item.autoReuse = true;
+        }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                float rotationAngle = MathHelper.PiOver4 * 0.3f * (Main.rand.NextFloat(3f, 5f) / Main.rand.NextFloat(3f, 5f));
+                Vector2 splinterVelocity = velocity.RotatedByRandom(MathHelper.PiOver4 * 0.3);
+                Projectile.NewProjectile(source, position, splinterVelocity, ModContent.ProjectileType<SplinterProjectile>(), damage, knockback, player.whoAmI);
+            }
+            return false;
+        }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             Vector2 muzzleOffset = Vector2.Normalize(velocity) * 25f;

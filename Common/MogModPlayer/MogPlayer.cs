@@ -215,7 +215,7 @@ namespace MogMod.Common.MogModPlayer
         };
         public static readonly SoundStyle ShivasActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ShivasActivate")
         {
-            Volume = .4f,
+            Volume = .35f,
             PitchVariance = .2f,
             MaxInstances = 1,
         };
@@ -233,43 +233,43 @@ namespace MogMod.Common.MogModPlayer
         };
         public static readonly SoundStyle ForceStaffActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ForceStaffActivate")
         {
-            Volume = .5f,
+            Volume = .45f,
             PitchVariance = .2f,
             MaxInstances = 1,
         };
         public static readonly SoundStyle GlimmerActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/GlimmerActivate")
         {
-            Volume = .8f,
+            Volume = .7f,
             PitchVariance = .2f,
             MaxInstances = 1,
         };
         public static readonly SoundStyle GreavesActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/GreavesActivate")
         {
-            Volume = .75f,
+            Volume = .65f,
             PitchVariance = .2f,
             MaxInstances = 1,
         };
         public static readonly SoundStyle ManaBootsActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ManaBootsActivate")
         {
-            Volume = .75f,
+            Volume = .65f,
             PitchVariance = .2f,
             MaxInstances = 1,
         };
         public static readonly SoundStyle MekansmActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/MekansmActivate")
         {
-            Volume = .75f,
+            Volume = .65f,
             PitchVariance = .2f,
             MaxInstances = 1,
         };
         public static readonly SoundStyle RefresherActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/RefresherActivate")
         {
-            Volume = .4f,
+            Volume = .35f,
             PitchVariance = .2f,
             MaxInstances = 1,
         };
         public static readonly SoundStyle SatanicActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/SatanicActivate")
         {
-            Volume = .4f,
+            Volume = .35f,
             PitchVariance = .2f,
             MaxInstances = 1,
         };
@@ -521,8 +521,8 @@ namespace MogMod.Common.MogModPlayer
             if (KeybindSystem.GuardianGreavesKeybind.JustPressed && wearingGigaManaBoots && !Player.HasBuff(guardianCooldown))
             {
                 // make it play a sound when activating
-                Player.statLife += 60;
-                Player.HealEffect(60);
+                Player.statLife += 140;
+                Player.HealEffect(140);
                 if (Player.statLife > Player.statLifeMax2)
                     Player.statLife = Player.statLifeMax2;
 
@@ -539,8 +539,8 @@ namespace MogMod.Common.MogModPlayer
             if (KeybindSystem.MekansmKeybind.JustPressed && wearingMekansm && !Player.HasBuff(mekansmCooldown))
             {
                 // make it play a sound when activating
-                Player.statLife += 40;
-                Player.HealEffect(40);
+                Player.statLife += 80;
+                Player.HealEffect(80);
                 if (Player.statLife > Player.statLifeMax2)
                     Player.statLife = Player.statLifeMax2;
                 Player.AddBuff(mekansmCooldown, 3600);

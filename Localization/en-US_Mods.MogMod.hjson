@@ -95,7 +95,7 @@ Items: {
 				Greatly Increased Mana regeneration
 				Provides you and nearby team members +20 Maximum Life, +50 Maximum Mana, 
 				+6 HP/s Life regen, 4 Defense and +7.5% Increased Attack Damage
-				Pressing [KEY] will restore 60 Life and 300 Mana
+				Pressing [KEY] will restore 140 Life and 300 Mana
 				[c/1CA396:'One of many holy instruments constructed to honor the Omniscience.']
 				'''
 		}
@@ -115,7 +115,7 @@ Items: {
 				'''
 				Increases placement speed and range
 				Provides you and nearby team members +4 HP/s Life regen
-				Pressing [KEY] will restore 40 Life
+				Pressing [KEY] will restore 80 Life
 				[c/5EA651:'A glowing jewel formed out of assorted parts that somehow fit together perfectly.']
 				'''
 		}
@@ -1661,7 +1661,7 @@ Items: {
 
 		EvilAPLapuaAmmo: {
 			DisplayName: Evil AP Lapua Ammo
-			Tooltip: Homes in on enemies after a short time
+			Tooltip: Zips to an enemy after a short time
 		}
 
 		ExplosiveGhostflame: {
@@ -1782,6 +1782,20 @@ Items: {
 				Swings a swift magic blade
 				[c/42BFC9:'Even among the Carian sword sorceries, this is a notably effective technique.']
 				'''
+		}
+
+		WaveBullet: {
+			DisplayName: Wave Bullet
+			Tooltip:
+				'''
+				Zig-Zags up and down
+				[c/6BDFFF:'top 1']
+				'''
+		}
+
+		IsraelArrow: {
+			Tooltip: ""
+			DisplayName: Israel Arrow
 		}
 	}
 

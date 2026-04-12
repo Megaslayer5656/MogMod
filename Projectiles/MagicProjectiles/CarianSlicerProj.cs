@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MogMod.Common.MogModPlayer;
-using MogMod.Items.Weapons.Melee;
 using System;
 using System.IO;
 using Terraria;
@@ -28,8 +26,8 @@ namespace MogMod.Projectiles.MagicProjectiles
 
         // We define timing functions for each stage, taking into account melee attack speed
         // Note that you can change this to suit the need of your projectile
-        private float prepTime => 10f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
-        private float execTime => 12f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
+        private float prepTime => 8f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
+        private float execTime => 10f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
         private float hideTime => 4f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
         private Player Owner => Main.player[Projectile.owner];
         private enum AttackStage // What stage of the attack is being executed, see functions found in AI for description
@@ -109,6 +107,12 @@ namespace MogMod.Projectiles.MagicProjectiles
             Owner.itemAnimation = 2;
             Owner.itemTime = 2;
 
+            // cool dust effect
+            if (CurrentStage != AttackStage.Prepare)
+            {
+                int magic = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.AncientLight, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 0, Color.LightBlue);
+                Main.dust[magic].noGravity = true;
+            }
             // Kill the projectile if the player dies or gets crowd controlled
             if (!Owner.active || Owner.dead || Owner.noItems || Owner.CCed)
             {

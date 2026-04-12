@@ -18,34 +18,35 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override void SetDefaults()
         {
-            Projectile.width = 8;
-            Projectile.height = 8;
-            Projectile.aiStyle = ProjAIStyleID.Arrow;
-            Projectile.friendly = true;
-            Projectile.hostile = false;
-            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.width = Projectile.height = 8;
+
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 200;
+            Projectile.DamageType = DamageClass.Ranged;
+
+
             Projectile.light = .5f;
+            Projectile.timeLeft = 270;
+            Projectile.extraUpdates = 1;
+
+            Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.extraUpdates = 1;
-            Projectile.scale = .60f;
 
             AIType = ProjectileID.Bullet;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
         }
         public override void AI()
         {
             Projectile.localAI[1] += 1f;
-            if (Projectile.timeLeft < 170)
+            if (Projectile.timeLeft < 240)
                 Projectile.velocity *= 0.932f;
 
-            if (Projectile.timeLeft < 140)
+            if (Projectile.timeLeft < 200)
                 Projectile.ai[0] = 1f;
 
             if (Projectile.ai[0] >= 1f)
             {
-                MogModUtils.HomeInOnNPC(Projectile, true, 800f, 15f, 15f);
+                MogModUtils.HomeInOnNPC(Projectile, true, 1500f, 15f, 15f);
                 Projectile.extraUpdates = 70;
             }
 

@@ -44,66 +44,77 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
 
             if (ammoItem.type == ModContent.ItemType<GlintstonePebble>())
             {
+                Item.noUseGraphic = false;
                 Item.mana = GlintstonePebble.manaCost;
                 Item.useTime = Item.useAnimation = GlintstonePebble.attackSpeed;
                 Item.UseSound = SoundID.Item9;
             }
             else if (ammoItem.type == ModContent.ItemType<RockSling>())
             {
+                Item.noUseGraphic = false;
                 Item.mana = RockSling.manaCost;
                 Item.useTime = Item.useAnimation = RockSling.attackSpeed;
                 Item.UseSound = SoundID.Item20;
             }
             else if (ammoItem.type == ModContent.ItemType<ShardSpiral>())
             {
+                Item.noUseGraphic = false;
                 Item.mana = ShardSpiral.manaCost;
                 Item.useTime = Item.useAnimation = ShardSpiral.attackSpeed;
                 Item.UseSound = SoundID.Item9;
             }
             else if (ammoItem.type == ModContent.ItemType<GlintstoneStars>())
             {
+                Item.noUseGraphic = false;
                 Item.mana = GlintstoneStars.manaCost;
                 Item.useTime = Item.useAnimation = GlintstoneStars.attackSpeed;
                 Item.UseSound = SoundID.Item8;
             }
             else if (ammoItem.type == ModContent.ItemType<StarShower>())
             {
+                Item.noUseGraphic = false;
                 Item.mana = StarShower.manaCost;
                 Item.useTime = Item.useAnimation = StarShower.attackSpeed;
                 Item.UseSound = SoundID.Item8;
             }
             else if (ammoItem.type == ModContent.ItemType<StarsOfRuin>())
             {
+                Item.noUseGraphic = false;
                 Item.mana = StarsOfRuin.manaCost;
                 Item.useTime = Item.useAnimation = StarsOfRuin.attackSpeed;
                 Item.UseSound = SoundID.Item8;
             }
             else if (ammoItem.type == ModContent.ItemType<GlintstoneArc>())
             {
+                Item.noUseGraphic = false;
                 Item.mana = GlintstoneArc.manaCost;
                 Item.useTime = Item.useAnimation = GlintstoneArc.attackSpeed;
                 Item.UseSound = SoundID.Item8;
             }
             else if (ammoItem.type == ModContent.ItemType<CannonOfHaima>())
             {
+                Item.noUseGraphic = false;
                 Item.mana = CannonOfHaima.manaCost;
                 Item.useTime = Item.useAnimation = CannonOfHaima.attackSpeed;
                 Item.UseSound = SoundID.Item84;
             }
             else if (ammoItem.type == ModContent.ItemType<FoundingRainOfStars>())
             {
+                Item.noUseGraphic = false;
                 Item.mana = FoundingRainOfStars.manaCost;
                 Item.useTime = Item.useAnimation = FoundingRainOfStars.attackSpeed;
                 Item.UseSound = SoundID.Item8;
             }
             else if (ammoItem.type == ModContent.ItemType<ExplosiveGhostflame>())
             {
+                Item.noUseGraphic = false;
                 Item.mana = ExplosiveGhostflame.manaCost;
                 Item.useTime = Item.useAnimation = ExplosiveGhostflame.attackSpeed;
                 Item.UseSound = SoundID.Item73;
             }
             else if (ammoItem.type == ModContent.ItemType<CarianSlicer>())
             {
+                Item.noUseGraphic = true;
                 Item.mana = CarianSlicer.manaCost;
                 Item.useTime = Item.useAnimation = CarianSlicer.attackSpeed;
                 Item.UseSound = null;

@@ -13,7 +13,7 @@ namespace MogMod.Buffs.PotionBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             player.invis = true;
-            player.aggro -= 600;
+            player.aggro -= 750;
         }
     }
 }

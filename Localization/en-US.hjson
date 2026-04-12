@@ -612,6 +612,7 @@ Mods: {
 				SplinterProjectile.DisplayName: Splinter
 				MysticSnakeProj.DisplayName: Mystic Snake
 				EnergyBulletProj.DisplayName: Energy Bullet Proj
+				WaveProj.DisplayName: Wave Proj
 			}
 
 			MeleeProjectiles: {
