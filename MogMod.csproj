@@ -67,6 +67,7 @@
     <None Remove="Items\Weapons\Melee\Butterfly.png" />
     <None Remove="Items\Weapons\Melee\Flamebrand.png" />
     <None Remove="Items\Weapons\Melee\GoldenHydrakanLatch.png" />
+    <None Remove="Items\Weapons\Melee\LordOfBloodsSpear.png" />
     <None Remove="Items\Weapons\Melee\Moonveil.png" />
     <None Remove="Items\Weapons\Melee\RedKatana.png" />
     <None Remove="Items\Weapons\Melee\Reduvia.png" />
@@ -85,7 +86,9 @@
     <None Remove="NPCs\TownNpc\SolBadguy_Head.png" />
     <None Remove="Projectiles\BaseProjectiles\BerserkersSpearProj.png" />
     <None Remove="Projectiles\BaseProjectiles\BloodMagicProjectile.png" />
+    <None Remove="Projectiles\MeleeProjectiles\BloodPortal.png" />
     <None Remove="Projectiles\MeleeProjectiles\ButterflyProjectile.png" />
+    <None Remove="Projectiles\MeleeProjectiles\LordOfBloodsSpearProj.png" />
     <None Remove="Projectiles\MeleeProjectiles\MoonveilProj.png" />
     <None Remove="Projectiles\MeleeProjectiles\RiversOfBloodProj.png" />
     <None Remove="Projectiles\MeleeProjectiles\SelvesProj1.png" />
