@@ -22,7 +22,7 @@ namespace MogMod.Items.Other
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).
+            CreateRecipe(3).
                 AddIngredient<ManaEssence>(3).
                 AddIngredient<UltimateOrb>(1).
                 AddIngredient(ItemID.UnicornHorn, 1).

@@ -29,8 +29,8 @@ namespace MogMod.Items.Placeable
         }
         public override void AddRecipes()
         {
-            CreateRecipe().
-                AddIngredient(ItemID.HellstoneBar, 1).
+            CreateRecipe(3).
+                AddIngredient(ItemID.HellstoneBar, 3).
                 AddIngredient(ItemID.SoulofFright, 1).
                 AddIngredient(ItemID.SoulofNight, 1).
                 AddTile(TileID.AdamantiteForge).
