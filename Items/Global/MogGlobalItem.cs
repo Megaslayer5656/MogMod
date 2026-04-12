@@ -23,6 +23,7 @@ namespace MogMod.Items.Global
         public int bloodDamage;
         public override void SetStaticDefaults()
         {
+            ItemID.Sets.ShimmerTransformToItem[ItemID.SnowBlock] = ItemID.ShimmerBlock;
             ItemID.Sets.ShimmerTransformToItem[ItemID.WizardHat] = ModContent.ItemType<GlintstoneArc>();
             ItemID.Sets.ShimmerTransformToItem[ItemID.SparkleGuitar] = ModContent.ItemType<Polylute>();
             ItemID.Sets.ShimmerTransformToItem[ItemID.Frostbrand] = ModContent.ItemType<Flamebrand>();

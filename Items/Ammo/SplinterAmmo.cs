@@ -18,7 +18,7 @@ namespace MogMod.Items.Ammo
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
             Item.knockBack = 1f;
-            Item.value = Item.buyPrice(0, 0, 1, 3);
+            Item.value = Item.buyPrice(0, 0, 0, 7);
             Item.rare = ItemRarityID.White;
             Item.shoot = ModContent.ProjectileType<SplinterProjectile>();
             Item.shootSpeed = 1f;
@@ -28,7 +28,7 @@ namespace MogMod.Items.Ammo
         public override void AddRecipes()
         {
             CreateRecipe(100).
-            AddIngredient(ItemID.Wood, 100).
+            AddRecipeGroup(RecipeGroupID.Wood, 10).
             AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Mushroom"}", 1).
             AddTile(TileID.WorkBenches).
             Register();
