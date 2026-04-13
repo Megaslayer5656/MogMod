@@ -1363,7 +1363,7 @@ namespace MogMod.Common.MogModPlayer
             if (vladsAura)
             {
                 Player.statDefense += 3;
-                Player.GetDamage(DamageClass.Generic).Flat += 5f;
+                Player.GetDamage(DamageClass.Generic).Flat += 2f;
                 Player.lifeSteal *= 1.2f;
                 Player.manaRegenBonus += 4;
             }

@@ -33,7 +33,7 @@ namespace MogMod.Items.Weapons.Ranged
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.useAnimation = Item.useTime = 20;
+            Item.useAnimation = Item.useTime = 21;
             // By convention, the shootSpeed of a held projectile weapon usually corresponds to how far out the projectile is held. This will unfortunately also affect the velocity of the ammo projectiles this weapon spawns, so we won't be using shootSpeed as the holdout distance in this example.
             Item.shootSpeed = 6f;
             Item.knockBack = 2f;

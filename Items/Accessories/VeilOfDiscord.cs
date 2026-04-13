@@ -17,7 +17,7 @@ namespace MogMod.Items.Accessories
             Item.height = 42;
             Item.rare = ItemRarityID.Orange;
             Item.value = MogGlobalItem.RarityOrangeBuyPrice;
-            Item.defense = 5;
+            Item.defense = 2;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

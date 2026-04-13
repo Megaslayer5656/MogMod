@@ -10,7 +10,7 @@ namespace MogMod.Items.Ammo
         public new string LocalizationCategory => "Items.Ammo";
         public override void SetDefaults()
         {
-            Item.damage = 18;
+            Item.damage = 7; //This was WAY too broken
             Item.DamageType = DamageClass.Ranged;
             Item.width = Item.height = 18;
             Item.maxStack = Item.CommonMaxStack;

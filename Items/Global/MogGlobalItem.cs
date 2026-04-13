@@ -66,7 +66,7 @@ namespace MogMod.Items.Global
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             if (mogPlayer.wearingDamascus1)
-                modifiers.CritDamage *= 1.2f;
+                modifiers.CritDamage *= 1.1f;
         }
         public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {

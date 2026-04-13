@@ -25,7 +25,7 @@ namespace MogMod.Items.Ammo
             Item.rare = ItemRarityID.LightPurple;
 
             Item.shoot = ModContent.ProjectileType<WaveProj>();
-            Item.shootSpeed = 2f;
+            Item.shootSpeed = 5f;
 
             Item.ammo = ItemID.MusketBall;
         }

@@ -14,7 +14,7 @@ namespace MogMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
-            Item.damage = 50;
+            Item.damage = 80; //Might need to change this, haven't tested
             Item.DamageType = DamageClass.Ranged;
             Item.width = 100;
             Item.height = 19;

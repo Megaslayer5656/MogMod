@@ -380,28 +380,28 @@ namespace MogMod.NPCs.Global
         {
             MogPlayer mogPlayer = Main.player[projectile.owner].GetModPlayer<MogPlayer>();
 
-            if (projectile.type == ModContent.ProjectileType<FrozenSpearProjectile>() || projectile.type == ModContent.ProjectileType<DreadsProj>() || projectile.type == ModContent.ProjectileType<DrowRangerArrow>() || mogPlayer.wearingFrostArmor)
-            {
-                if (npc.life < 1)
-                {
-                    if (npc.HasBuff(ModContent.BuffType<FreezingDebuff>())) //This gives errors sometimes but still works. I'll look into it later. Also this whole thing is needed bc of some funky stuff going on with when the npc's debuffs get removed when they die.
-                    {
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
-                        {
-                            npc.DelBuff(ModContent.BuffType<FreezingDebuff>());
-                        }
-                    }
-                    int numSplits = 6;
-                    float angleVariance = MathHelper.TwoPi / numSplits;
-                    Vector2 projVec = new Vector2(4.5f, 0f).RotatedByRandom(MathHelper.ToRadians(45));
-
-                    for (int i = 0; i < numSplits; ++i)
-                    {
-                        projVec = projVec.RotatedBy(angleVariance);
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, projVec, ProjectileID.Blizzard, 50, 1f, Main.myPlayer);
-                    }
-                }
-            }
+            //if (projectile.type == ModContent.ProjectileType<FrozenSpearProjectile>() || projectile.type == ModContent.ProjectileType<DreadsProj>() || projectile.type == ModContent.ProjectileType<DrowRangerArrow>() || mogPlayer.wearingFrostArmor)
+            //{
+            //   if (npc.life < 1)
+            //    {
+            //        if (npc.HasBuff(ModContent.BuffType<FreezingDebuff>())) //This gives errors sometimes but still works. I'll look into it later. Also this whole thing is needed bc of some funky stuff going on with when the npc's debuffs get removed when they die.
+            //        {
+            //            if (Main.netMode != NetmodeID.MultiplayerClient)
+            //            {
+            //                npc.DelBuff(ModContent.BuffType<FreezingDebuff>());
+            //            }
+            //        }
+            //        int numSplits = 6;
+            //        float angleVariance = MathHelper.TwoPi / numSplits;
+            //        Vector2 projVec = new Vector2(4.5f, 0f).RotatedByRandom(MathHelper.ToRadians(45));
+            //
+            //       for (int i = 0; i < numSplits; ++i)
+            //        {
+            //            projVec = projVec.RotatedBy(angleVariance);
+            //            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, projVec, ProjectileID.Blizzard, 50, 1f, Main.myPlayer);
+            //        }
+            //    }
+            //}
 
             int bloodToAdd = projectile.GetGlobalProjectile<MogModGlobalProjectileBleed>().bloodDamage;
             

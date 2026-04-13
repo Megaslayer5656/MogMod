@@ -29,7 +29,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Green;
             Item.value = MogGlobalItem.RarityGreenBuyPrice;
             
-            Item.scale = .275f; // holy slop
+            Item.scale = .275f; // holy slop - Will <-- (Megaslayer here, gotta fix this sprite lmao)
             Item.shootSpeed = 10f;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.useAmmo = AmmoID.NailFriendly;

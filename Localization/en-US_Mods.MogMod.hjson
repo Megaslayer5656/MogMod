@@ -307,7 +307,7 @@ Items: {
 			DisplayName: Dragon Lance
 			Tooltip:
 				'''
-				+7% Ranged Attack Speed
+				+3% Ranged Attack Speed
 				+5% Ranged Damage
 				Increases block placement range by 1
 				[c/D4816E:'The forward charge of the wyvern host grants no quarter.']
@@ -477,7 +477,7 @@ Items: {
 			Tooltip:
 				'''
 				Increases your max number of sentries by 2
-				Provides you and nearby team members 3 defense, +5 Flat Attack damage,
+				Provides you and nearby team members 3 defense, +2 Flat Attack damage,
 				Increased Mana Regeneration by 4, and Increased lifesteal effectiveness
 				[c/24964A:'An eerie mask that is haunted with the malice of a fallen vampire.']
 				'''
@@ -2143,22 +2143,14 @@ Items: {
 
 		DamascusHelm: {
 			DisplayName: Damascus Helm
-			Tooltip: +8% Critical Strike Chance
-			SetBonus:
-				'''
-				+10% Critical Strike Chance
-				Critical Strikes deal 20% more damage
-				'''
+			Tooltip: +6% Critical Strike Chance
+			SetBonus: Critical Strikes deal 10% more damage
 		}
 
 		DamascusMask: {
 			DisplayName: Damascus Mask
-			Tooltip: +6% Critical Strike Chance
-			SetBonus:
-				'''
-				+8% Critical Strike Chance
-				Critical Strikes heal you
-				'''
+			Tooltip: +4% Critical Strike Chance
+			SetBonus: Critical Strikes heal you
 		}
 
 		DamascusGreaves: {
@@ -2166,7 +2158,7 @@ Items: {
 			Tooltip:
 				'''
 				+10% Movement Speed
-				+8% Critical Strike Chance
+				+4% Critical Strike Chance
 				'''
 		}
 
@@ -2174,8 +2166,8 @@ Items: {
 			DisplayName: Damascus Mail
 			Tooltip:
 				'''
-				+8% Critical Strike Chance
-				+8% Melee Attack Speed
+				+6% Critical Strike Chance
+				+6% Melee Attack Speed
 				'''
 		}
 

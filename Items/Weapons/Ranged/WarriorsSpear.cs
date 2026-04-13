@@ -34,7 +34,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.value = MogGlobalItem.RarityOrangeBuyPrice;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<WarriorsSpearProj>();
-            Item.shootSpeed = 12.5f;
+            Item.shootSpeed = 17.5f;
             Item.noMelee = true;
         }
 

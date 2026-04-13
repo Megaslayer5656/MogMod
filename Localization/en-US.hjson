@@ -284,7 +284,7 @@ Mods: {
 
 			VladmirsBuff: {
 				DisplayName: Vladmir's Aura
-				Description: +3 Defense, +5 Flat Attack Damage, Increased Mana Regeneration by 4 and Increased Lifesteal Effectiveness
+				Description: +3 Defense, +2 Flat Attack Damage, Increased Mana Regeneration by 4 and Increased Lifesteal Effectiveness
 			}
 
 			ShockState: {

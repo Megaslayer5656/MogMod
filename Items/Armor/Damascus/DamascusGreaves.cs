@@ -21,7 +21,7 @@ namespace MogMod.Items.Armor.Damascus
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetCritChance<GenericDamageClass>() += 8;
+            player.GetCritChance<GenericDamageClass>() += 4;
             player.moveSpeed += .10f;
         }
         public override void AddRecipes()

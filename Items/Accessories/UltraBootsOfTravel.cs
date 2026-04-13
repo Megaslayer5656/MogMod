@@ -20,8 +20,8 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.accRunSpeed = 12f;
-            player.moveSpeed += .45f;
+            player.accRunSpeed = 10f;
+            player.moveSpeed += .35f;
             player.rocketBoots = player.vanityRocketBoots = 3;
 
             // unique boot effects

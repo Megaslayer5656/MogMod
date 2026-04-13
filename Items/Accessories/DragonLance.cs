@@ -22,7 +22,7 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetAttackSpeed(DamageClass.Ranged) += .07f;
+            player.GetAttackSpeed(DamageClass.Ranged) += .03f;
             player.GetDamage(DamageClass.Ranged) += .05f;
             Player.tileRangeX = Player.tileRangeY += 1;
         }

@@ -36,11 +36,11 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.ai[1]++;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            if (Projectile.ai[1] <= 10)
+            if (Projectile.ai[1] <= 5)
                 Projectile.velocity.Y = -6f;
-            if (Projectile.ai[1] >= 11)
+            if (Projectile.ai[1] >= 6)
                 Projectile.velocity.Y = 6f;
-            if (Projectile.ai[1] >= 20)
+            if (Projectile.ai[1] >= 10)
                 Projectile.ai[1] = 0;
 
             Dust dust = Dust.NewDustPerfect(Projectile.Center, 264, -Projectile.velocity * 0.05f);
@@ -52,7 +52,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         public override void OnSpawn(IEntitySource source)
         {
             if (Main.rand.NextBool(2))
-                Projectile.ai[1] = 10;
+                Projectile.ai[1] = 5;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
