@@ -45,7 +45,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             {
                 Projectile.velocity.Y = 16f;
             }
-            if (Main.rand.NextBool(15))
+            if (Main.rand.NextBool(10))
             {
                 int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 150, default, 0.9f);
                 Main.dust[d].position = Projectile.Center;
