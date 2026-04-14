@@ -17,10 +17,7 @@ namespace MogMod.Items.Weapons.Melee
         public new string LocalizationCategory => "Items.Weapons.Melee";
         
         // lets you hold right click
-        public override void SetStaticDefaults()
-        {
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
-        }
+        public override void SetStaticDefaults() => ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         public override void SetDefaults()
         {
             Item.width = 52;

@@ -11,7 +11,7 @@ namespace MogMod.Projectiles.MagicProjectiles
     // ExampleSentry demonstrates both floating and grounded sentry behaviors. Use ExampleSentryItem to the left of the player spawn a grounded sentry and use it to the right to spawn a floating sentry.
     // Sentries are similar to Minions, but typically don't move, are limited by the sentry limit instead of the minion limit, don't have a corresponding buff, and last for 10 minutes instead of despawning when the player dies.
     // The most critical fields necessary for a projectile to count as a sentry will be noted in this file and in ExampleSentryItem.cs. See also ExampleSentryShot.cs.
-    public class ProximityMinesSummon : ModProjectile, ILocalizedModType
+    public class MADMineProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public static readonly SoundStyle mineActivate = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ProximityMineActivate")
@@ -25,10 +25,9 @@ namespace MogMod.Projectiles.MagicProjectiles
         private bool Exploding = false;
         private bool doubleDamage = false;
         public override void SetStaticDefaults() => ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
-
         public override void SetDefaults()
         {
-            Projectile.width = 32;
+            Projectile.width = 22;
             Projectile.height = 28;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;
@@ -38,7 +37,8 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.DamageType = DamageClass.Magic;
         }
         public override void OnSpawn(IEntitySource source)
-        { 
+        {
+            ExplosionTimer = 60f;
             SoundEngine.PlaySound(SoundID.DD2_DefenseTowerSpawn, Projectile.Center);
         }
         public override void AI()
@@ -46,6 +46,10 @@ namespace MogMod.Projectiles.MagicProjectiles
             float detectionRadius = 100f;
             Vector2 spawn = Projectile.Center - Projectile.velocity / 2f;
             Projectile.ai[0]++;
+
+            // counts up explosion timer
+            ExplosionTimer -= 1f;
+
             // checks for enemies nearby
             for (int i = 0; i < Main.maxNPCs; i++) //Every npc is in an index, this goes through all of them
             {
@@ -54,30 +58,27 @@ namespace MogMod.Projectiles.MagicProjectiles
                 {
                     if (Vector2.Distance(Projectile.Center, Main.npc[i].Center) < detectionRadius)
                     {
-                        // start exploding
-                        Exploding = true;
+                        if (!initialized)
+                        {
+                            SoundEngine.PlaySound(mineActivate, Projectile.Center);
+                            initialized = true;
+                        }
+                        Dust.NewDust(spawn + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
+                        // after a certain time explode
+                        if (Main.myPlayer == Projectile.owner && ExplosionTimer <= 0)
+                        {
+                            if (doubleDamage)
+                            {
+                                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<ProximityMinesExplosion>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
+                                Projectile.ai[0] = 0;
+                                doubleDamage = false;
+                            }
+                            else
+                                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<ProximityMinesExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                            ExplosionTimer = 60;
+                            SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
+                        }
                     }
-                }
-            }
-            if (Exploding)
-            {
-                if (!initialized)
-                {
-                    SoundEngine.PlaySound(mineActivate, Projectile.Center);
-                    initialized = true;
-                }
-                // counts down explosion timer
-                ExplosionTimer += 1f;
-                Dust.NewDust(spawn + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
-                // after a certain time explode
-                if (Main.myPlayer == Projectile.owner && ExplosionTimer >= 60)
-                {
-                    if (doubleDamage)
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<ProximityMinesExplosion>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
-                    else
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<ProximityMinesExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
-                    Projectile.Kill();
                 }
             }
             // doubles damage if inactive for 10 seconds

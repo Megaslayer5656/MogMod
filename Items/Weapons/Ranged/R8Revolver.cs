@@ -12,10 +12,7 @@ namespace MogMod.Items.Weapons.Ranged
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public bool rotated = false;
-        public override void SetStaticDefaults()
-        {
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
-        }
+        public override void SetStaticDefaults() => ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         public override void SetDefaults()
         {
             Item.damage = 30;
@@ -31,6 +28,7 @@ namespace MogMod.Items.Weapons.Ranged
             {
                 Volume = .75f,
                 PitchVariance = .02f,
+                MaxInstances = 0,
             };
             Item.rare = ItemRarityID.Green;
             Item.value = MogGlobalItem.RarityGreenBuyPrice;

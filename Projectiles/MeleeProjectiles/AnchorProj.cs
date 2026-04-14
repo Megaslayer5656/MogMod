@@ -9,6 +9,7 @@ using Terraria.Audio;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
+    // might give this slight homing
     public class AnchorProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.MeleeProjectiles";

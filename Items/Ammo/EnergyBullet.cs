@@ -10,6 +10,7 @@ using Terraria;
 
 namespace MogMod.Items.Ammo
 {
+    // unobtainable until it does something different
     public class EnergyBullet : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Ammo";
@@ -23,18 +24,18 @@ namespace MogMod.Items.Ammo
             Item.consumable = true;
             Item.knockBack = 2f;
             Item.value = Item.sellPrice(silver: 1);
-            Item.rare = ItemRarityID.Blue;
+            Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<EnergyBulletProj>();
             Item.shootSpeed = 5f;
-            Item.ammo = ModContent.ItemType<EnergyBullet>();
+            Item.ammo = AmmoID.Bullet;
         }
-        public override void AddRecipes()
-        {
-            CreateRecipe(70).
-                AddIngredient(ItemID.MusketBall, 70).
-                AddIngredient(ItemID.Ectoplasm, 1).
-                AddTile(TileID.Anvils).
-                Register();
-        }
+        //public override void AddRecipes()
+        //{
+        //    CreateRecipe(70).
+        //        AddIngredient(ItemID.MusketBall, 70).
+        //        AddIngredient(ItemID.Ectoplasm, 1).
+        //        AddTile(TileID.Anvils).
+        //        Register();
+        //}
     }
 }

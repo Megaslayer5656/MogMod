@@ -820,9 +820,8 @@ Items: {
 					'''
 					Shoots out a dolphin
 					Hitting enemies spawn more dolphins
-					Right click to swing the anchor around you
-					If an enemy is hit while spinning, spray a damaging blast of water around you
-					[c/DBAE70:'Totsugeki!']
+					Right click to swing the anchor around you, creating an explosion of water around you
+					[c/47A2A8:'Women and Children and ][c/DBAE70:Totsugeki!][c/47A2A8: first!']
 					'''
 			}
 
@@ -1166,7 +1165,7 @@ Items: {
 				DisplayName: Equalizer
 				Tooltip:
 					'''
-					Shoots energy bullets that bounce between enemies
+					Converts bullets into energy bullets that bounce between enemies
 					Not to be confused with [c/FFC896:'The Great Equalizer']
 					'''
 			}
@@ -1370,6 +1369,17 @@ Items: {
 					Explodes after a short delay when enemies come near
 					Deals double damage if inactive for 10 seconds
 					[c/B39960:'Yes you're a good little mine. Yes you are.']
+					'''
+			}
+
+			MADMine: {
+				DisplayName: M.A.D.
+				Tooltip:
+					'''
+					Summons a sentry
+					Explodes when enemies come near
+					Deals double damage if inactive for 10 seconds
+					[c/67B360:'Oh, this is gonna be fun!']
 					'''
 			}
 		}

@@ -272,7 +272,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
 
                 if (Timer >= prepTime)
                 {
-                    initialized = true;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 10f, ModContent.ProjectileType<AnchorProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     // Play sword sound here since playing it on spawn is too early
                     SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing, Projectile.Center);
                     CurrentStage = AttackStage.Execute; // If attack is over prep time, we go to next stage
@@ -284,6 +284,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 Size = MathHelper.SmoothStep(0, 1, Timer / prepTime);
                 if (Timer >= prepTime)
                 {
+                    initialized = true;
                     SoundEngine.PlaySound(SoundID.DD2_SkyDragonsFurySwing);
                     CurrentStage = AttackStage.Execute;
                 }
@@ -299,19 +300,10 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 Progress = MathHelper.SmoothStep(0, -swingRange, (1f - unwind) * Timer / (execTime / 1.4f));
 
                 // shoot out a dolphin
-                if ((Timer >= (execTime / 1.4f) / 1.5f) && initialized == true)
+                if ((Timer >= (execTime / 1.4f) / 1.5f) && initialized)
                 {
                     initialized = false;
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 10f, ModContent.ProjectileType<AnchorProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                }
-
-                // fire dolphins if hit npc
-                if (hitGoon)
-                {
-                    hitGoon = false;
-                    bool randomBool = Main.rand.Next(2) == 0;
-                    for (int i = 0; i < 3; i++)
-                        MogModUtils.ProjectileBarrage(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.Center, randomBool, 200f, 200f, -200f, 200f, 6f, ModContent.ProjectileType<AnchorProj>(), Convert.ToInt32(Projectile.damage * .45), 3f, Projectile.owner, false, 0f);
                 }
 
                 if (Timer >= (execTime / 1.4f))
@@ -323,32 +315,28 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 float easing = (float)Math.Sin(t * MathHelper.PiOver2);
                 Progress = MathHelper.Lerp(0, swingRange, easing);
 
-                // shoot out a dolphin
-                if ((Timer >= (execTime / 1.4f) / 1.5f) && initialized == true)
-                {
-                    initialized = false;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 10f, ModContent.ProjectileType<AnchorProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                }
-
                 // fire dolphins if hit npc
                 if (hitGoon)
                 {
                     hitGoon = false;
-                    bool randomBool = Main.rand.Next(2) == 0;
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < Main.rand.Next(4, 7); i++)
+                    {
+                        bool randomBool = Main.rand.Next(0, 2) == 0;
                         MogModUtils.ProjectileBarrage(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.Center, randomBool, 200f, 200f, -200f, 200f, 6f, ModContent.ProjectileType<AnchorProj>(), Convert.ToInt32(Projectile.damage * .45), 3f, Projectile.owner, false, 0f);
+                    }
                 }
-                
+
                 if (Timer >= execTime)
                     CurrentStage = AttackStage.Unwind;
             }
             else if (CurrentAttack == AttackType.Spin)
             {
                 Progress = MathHelper.SmoothStep(0, -SPINRANGE, (1f - unwind / 2) * Timer / (execTime * SPINTIME));
-                if (hitGoon)
+                if ((Timer >= (execTime / 1.4f) / 1.5f) && initialized)
                 {
-                    hitGoon = false;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AnchorSmashProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    initialized = false;
+                    SoundEngine.PlaySound(SoundID.Item107);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AnchorSmashProj>(), (int)(Projectile.damage * 1.5f), Projectile.knockBack, Projectile.owner);
                 }
                 if (Timer >= execTime * SPINTIME)
                     CurrentStage = AttackStage.Unwind;
@@ -360,6 +348,16 @@ namespace MogMod.Projectiles.MeleeProjectiles
         {
             if (CurrentAttack == AttackType.SwingUp)
             {
+                // fire dolphins if hit npc
+                if (hitGoon)
+                {
+                    hitGoon = false;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        bool randomBool = Main.rand.Next(0, 2) == 0;
+                        MogModUtils.ProjectileBarrage(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.Center, randomBool, 200f, 200f, -200f, 200f, 6f, ModContent.ProjectileType<AnchorProj>(), Convert.ToInt32(Projectile.damage * .45), 3f, Projectile.owner, false, 0f);
+                    }
+                }
                 Progress = MathHelper.SmoothStep(-swingRange, 0, (1f - unwind) * Timer / (execTime / 1.4f));
                 Size = 1f - MathHelper.SmoothStep(0, 1, Timer / (hideTime / 1.4f)); // Make sword slowly decrease in size as we end the swing to make a smooth hiding animation
 

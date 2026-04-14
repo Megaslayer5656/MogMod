@@ -918,8 +918,9 @@ namespace MogMod.Common.MogModPlayer
                 }
 
             // more mines if holding techies mines
-            if (Player.HeldItem.type == ModContent.ItemType<ProximityMines>())
+            if (Player.HeldItem.type == ModContent.ItemType<ProximityMines>() || Player.HeldItem.type == ModContent.ItemType<MADMine>())
                 Player.maxTurrets += 4;
+
             // duelist gloves
             if (wearingDuelistGloves)
             {
