@@ -4,11 +4,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Projectiles.SummonerProjectiles
+namespace MogMod.Projectiles.MagicProjectiles
 {
     public class ProximityMinesExplosion : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.SummonerProjectiles";
+        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
 
         private const float radius = 125f;
@@ -24,7 +24,7 @@ namespace MogMod.Projectiles.SummonerProjectiles
             Projectile.timeLeft = 10;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
-            Projectile.DamageType = DamageClass.Summon;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()

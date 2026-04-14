@@ -1,17 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Projectiles.SummonerProjectiles;
+using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Weapons.Summoner
+namespace MogMod.Items.Weapons.Magic
 {
     public class ProximityMines : ModItem, ILocalizedModType
     {
-        public new string LocalizationCategory => "Items.Weapons.Summoner";
+        public new string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetStaticDefaults()
         {
             ItemID.Sets.GamepadWholeScreenUseRange[Type] = true;
@@ -20,18 +20,23 @@ namespace MogMod.Items.Weapons.Summoner
 
         public override void SetDefaults()
         {
-            Item.damage = 150;
-            Item.DamageType = DamageClass.Summon;
-            Item.sentry = true;
-            Item.mana = 10;
             Item.width = Item.height = 50;
+            
+            Item.mana = 10;
+            Item.damage = 150;
+            Item.knockBack = 3;
+            Item.DamageType = DamageClass.Magic;
+
+
+            Item.shoot = ModContent.ProjectileType<ProximityMinesSummon>();
             Item.useTime = Item.useAnimation = 50;
             Item.useStyle = ItemUseStyleID.Swing;
+
+            Item.sentry = true;
             Item.noMelee = true;
-            Item.knockBack = 3;
+
             Item.rare = ItemRarityID.Orange;
             Item.value = MogGlobalItem.RarityOrangeBuyPrice;
-            Item.shoot = ModContent.ProjectileType<ProximityMinesSummon>();
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -51,6 +56,7 @@ namespace MogMod.Items.Weapons.Summoner
                 AddIngredient(ItemID.SpikyBall, 100).
                 AddIngredient(ItemID.Dynamite, 15).
                 AddIngredient(ItemID.Hellstone, 10).
+                AddIngredient(ItemID.Sign).
                 AddTile(TileID.Anvils).
                 Register();
         }

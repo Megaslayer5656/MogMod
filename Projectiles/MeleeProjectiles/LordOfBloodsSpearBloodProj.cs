@@ -22,7 +22,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Projectile.DamageType = DamageClass.Melee;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
-            Projectile.tileCollide = false;
         }
 
         public override bool? CanCutTiles()

@@ -477,7 +477,7 @@ namespace MogMod.Common.MogModPlayer
             if (KeybindSystem.SatanicKeybind.JustPressed && wearingSatanic && !Player.HasBuff(satanicCooldown))
             {
                 Player.AddBuff(satanicBuff, 480);
-                Player.AddBuff(satanicCooldown, 3240);
+                Player.AddBuff(satanicCooldown, 4800);
                 SoundEngine.PlaySound(SatanicActivateSound, Player.Center);
             }
 
@@ -917,6 +917,9 @@ namespace MogMod.Common.MogModPlayer
                         Player.GetAttackSpeed(DamageClass.Ranged) += .2f;
                 }
 
+            // more mines if holding techies mines
+            if (Player.HeldItem.type == ModContent.ItemType<ProximityMines>())
+                Player.maxTurrets += 4;
             // duelist gloves
             if (wearingDuelistGloves)
             {

@@ -24,6 +24,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Projectile.DamageType = DamageClass.Melee;
             Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.penetrate = -1;
+            Projectile.timeLeft = 1200; // 20 seconds
         }
         public override void AI()
         {
@@ -45,8 +46,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 default:
                     break;
             }
-            // if all conditions above aren't met, the clone can stick around forever
-            Projectile.timeLeft = 2;
             // move the clone to the desired position
             Projectile.Center = Vector2.Lerp(Projectile.Center, Owner.Center + moveTo, 0.4f);
             // produce smoke during initial move
@@ -126,5 +125,15 @@ namespace MogMod.Projectiles.MeleeProjectiles
         }
         public override bool? CanCutTiles() => true;
         public override bool? CanDamage() => false;
+        public override void OnKill(int timeLeft)
+        {
+            int dustsplash = 0;
+            while (dustsplash < 4)
+            {
+                int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Smoke, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 100, default, 0.9f);
+                Main.dust[d].position = Projectile.Center;
+                dustsplash += 1;
+            }
+        }
     }
 }

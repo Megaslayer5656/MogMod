@@ -625,6 +625,7 @@ Items: {
 			Tooltip:
 				'''
 				Increases your max number of sentries by 5
+				Does not stack with downgrades
 				Provides you and nearby team members the 10 defense, +5 Flat Attack Damage, +10% Attack damage,
 				Increased Mana Regeneration by 10, and Greatly Increased lifesteal effectiveness
 				[c/528727:'A sentient amulet whose animus shakes the courage of even the strongest foes.']
@@ -817,8 +818,10 @@ Items: {
 				DisplayName: Oversized Anchor
 				Tooltip:
 					'''
-					Fires a dolphin
-					Hitting enemies spawn dolphins
+					Shoots out a dolphin
+					Hitting enemies spawn more dolphins
+					Right click to swing the anchor around you
+					If an enemy is hit while spinning, spray a damaging blast of water around you
 					[c/DBAE70:'Totsugeki!']
 					'''
 			}
@@ -857,6 +860,7 @@ Items: {
 					Shoots a homing axe
 					Right click to summon 2 illusions that mirror your attacks
 					Consumes 50 Mana upon summoning illusions
+					Illusions last 20 seconds
 					[c/A1D3D6:'An axe made of reflective materials that causes confusion amongst enemy ranks.']
 					'''
 			}
@@ -1357,9 +1361,7 @@ Items: {
 					[c/BA0740:Attacking will reveal you from the shadows]
 					'''
 			}
-		}
 
-		Summoner: {
 			ProximityMines: {
 				DisplayName: Proximity Mines
 				Tooltip:
@@ -1370,6 +1372,9 @@ Items: {
 					[c/B39960:'Yes you're a good little mine. Yes you are.']
 					'''
 			}
+		}
+
+		Summoner: {
 		}
 
 		Staves: {

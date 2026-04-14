@@ -572,6 +572,8 @@ Mods: {
 				RadiantBeamProj.DisplayName: Radiant Beam
 				ShadowRealmProj.DisplayName: Shadow Realm Proj
 				ThrowingShadeProj.DisplayName: Throwing Shade Proj
+				ProximityMinesSummon.DisplayName: Proximity Mines Summon
+				ProximityMinesExplosion.DisplayName: Proximity Mines Explosion
 			}
 
 			RangedProjectiles: {
@@ -651,6 +653,8 @@ Mods: {
 				LordOfBloodsSpearProj.DisplayName: Lord Of Bloods Spear Proj
 				LordOfBloodsSpearBloodProj.DisplayName: Lord Of Bloods Spear Blood Proj
 				BloodPortal.DisplayName: Blood Portal
+				AnchorHoldout.DisplayName: Anchor Holdout
+				AnchorSmashProj.DisplayName: Anchor Smash Proj
 			}
 
 			SummonerProjectiles: {

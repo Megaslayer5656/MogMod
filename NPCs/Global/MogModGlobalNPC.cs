@@ -20,6 +20,7 @@ using MogMod.Utilities;
 using Mono.Cecil;
 using System;
 using System.IO;
+using System.Reflection;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;

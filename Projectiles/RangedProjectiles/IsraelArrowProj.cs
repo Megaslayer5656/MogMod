@@ -1,5 +1,5 @@
-﻿using MogMod.Utilities;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -11,13 +11,11 @@ namespace MogMod.Projectiles.RangedProjectiles
     public class IsraelArrowProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.RangedProjectiles";
-        private bool initialized = false;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
-
         public override void SetDefaults()
         {
             Projectile.width = 18;
@@ -47,6 +45,8 @@ namespace MogMod.Projectiles.RangedProjectiles
                 dust.noGravity = true;
             }
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Midas, 600);
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(BuffID.Midas, 600);
         public override bool PreDraw(ref Color lightColor)
         {
             MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);

@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Biomes\" />
+    <Folder Include="Items\Weapons\Summoner\" />
     <Folder Include="NPCs\Gores\" />
     <Folder Include="Projectiles\Global\" />
   </ItemGroup>

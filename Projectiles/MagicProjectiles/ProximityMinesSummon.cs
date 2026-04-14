@@ -5,7 +5,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Projectiles.SummonerProjectiles
+namespace MogMod.Projectiles.MagicProjectiles
 {
     // ExampleSentry is an example sentry.
     // ExampleSentry demonstrates both floating and grounded sentry behaviors. Use ExampleSentryItem to the left of the player spawn a grounded sentry and use it to the right to spawn a floating sentry.
@@ -13,8 +13,7 @@ namespace MogMod.Projectiles.SummonerProjectiles
     // The most critical fields necessary for a projectile to count as a sentry will be noted in this file and in ExampleSentryItem.cs. See also ExampleSentryShot.cs.
     public class ProximityMinesSummon : ModProjectile, ILocalizedModType
     {
-        // TODO: make deal double damage when planted for 10 seconds
-        public new string LocalizationCategory => "Projectiles.SummonerProjectiles";
+        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public static readonly SoundStyle mineActivate = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ProximityMineActivate")
         {
             Volume = 1.3f,
@@ -40,7 +39,7 @@ namespace MogMod.Projectiles.SummonerProjectiles
             Projectile.sentry = true;
             Projectile.timeLeft = Projectile.SentryLifeTime;
             Projectile.penetrate = -1;
-            Projectile.DamageType = DamageClass.Summon;
+            Projectile.DamageType = DamageClass.Magic;
         }
         public override void OnSpawn(IEntitySource source)
         { 

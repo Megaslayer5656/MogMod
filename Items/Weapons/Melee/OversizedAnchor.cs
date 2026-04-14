@@ -2,8 +2,6 @@
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MeleeProjectiles;
-using MogMod.Utilities;
-using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -14,43 +12,59 @@ namespace MogMod.Items.Weapons.Melee
     public class OversizedAnchor : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        Random random = new Random();
-        //TODO: Somehow make the offset look right for holding weapon <-- an issue with how the player holds melee weapons, calamity's "Earth" weapon has- HAD the same problem, the freaks changed it to something crazy
+        public int attackType = 0; // keeps track of which attack it is
+        public int comboExpireTimer = 0; // we want the attack pattern to reset if the weapon is not used for certain period of time
         public override void SetDefaults()
         {
             Item.width = 50;
             Item.height = 50;
+
             Item.damage = 78;
-            Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = 45;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.shoot = ModContent.ProjectileType<AnchorProj>(); // melee weapons have to shoot something you want to aim it, look at blade of grass vs volcano
-            Item.shootSpeed = 8f;
-            Item.useTime = 45;
-            Item.useTurn = false;
             Item.knockBack = 10f;
+            Item.DamageType = DamageClass.Melee;
+            
+            Item.useTime = Item.useAnimation = 45;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item1;
-            Item.autoReuse = true;
+            
+            Item.shoot = ModContent.ProjectileType<AnchorHoldout>();
+            Item.shootSpeed = 1f;
+            
+
             Item.rare = ItemRarityID.Yellow;
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
-            Item.scale = 2f;
+
+            Item.noMelee = true;
+            Item.useTurn = false;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<AnchorProj>(), Convert.ToInt32(Item.damage * .45), knockback, player.whoAmI, 0f, 0f);
-            return false;
-        }
-        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            // fire dolphins
-            var source = player.GetSource_OnHit(target);
-            bool randomBool = random.Next(2) == 0;
-            for (int i = 0; i < 3; i++)
+            int anchor = ModContent.ProjectileType<AnchorHoldout>();
+            if (player.altFunctionUse == 2)
             {
-                // proj barrage does (source, Vector2 originVec, Vector2 targetPos, T/F fromRight, xOffsetMin, xOffsetMax, yOffsetMin, yOffsetMax, projSpeed, projType, damage, knockback, owner, T/F clamped, innacuracy)
-                MogModUtils.ProjectileBarrage(source, target.Center, target.Center, randomBool, 200f, 200f, -200f, 200f, 6f, ModContent.ProjectileType<AnchorProj>(), Convert.ToInt32(Item.damage * .45), 3f, player.whoAmI, false, 0f);
+                attackType = 2;
+                comboExpireTimer = 119;
+                Projectile.NewProjectile(source, position, velocity, anchor, damage, knockback, Main.myPlayer, attackType);
             }
+            if (attackType <= 1)
+            {
+                // do this so different rockets don't mess with the projectile spawned
+                // Using the shoot function, we override the swing projectile to set ai[0] (which attack it is)
+                Projectile.NewProjectile(source, position, velocity, anchor, damage, knockback, Main.myPlayer, attackType);
+                attackType = (attackType + 1) % 2; // Increment attackType to make sure next swing is different
+                comboExpireTimer = 0; // Every time the weapon is used, we reset this so the combo does not expire
+            }
+            return false; // return false to prevent original projectile from being shot
         }
+        public override void UpdateInventory(Player player)
+        {
+            if (comboExpireTimer++ >= 120) // after 120 ticks (== 2 seconds) in inventory, reset the attack pattern
+                attackType = 0;
+        }
+        public override bool AltFunctionUse(Player player) => true;
+        public override bool MeleePrefix() => true;
 
         // added an anchor to the recipe but made anchors craftable
         public override void AddRecipes()

@@ -25,19 +25,25 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = 94;
             Item.height = 90;
+
             Item.damage = 150;
+            Item.knockBack = 10f;
             Item.DamageType = DamageClass.Melee;
+
             Item.useAnimation = Item.useTime = 40;
             Item.useStyle = ItemUseStyleID.Shoot;
+
+            Item.noMelee = true;
             Item.useTurn = false;
-            Item.knockBack = 10f;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
-            Item.noMelee = true;
+            
             Item.rare = ItemRarityID.Yellow;
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
+
             Item.shoot = ModContent.ProjectileType<GunlanceHoldout>();
             Item.shootSpeed = 1f;
+
             Item.useAmmo = AmmoID.Rocket;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -86,9 +92,7 @@ namespace MogMod.Items.Weapons.Melee
         public override void UpdateInventory(Player player)
         {
             if (comboExpireTimer++ >= 120) // after 120 ticks (== 2 seconds) in inventory, reset the attack pattern
-            {
                 attackType = 0;
-            }
         }
         public override bool CanConsumeAmmo(Item ammo, Player player) => false;
         public override bool AltFunctionUse(Player player) => true;
