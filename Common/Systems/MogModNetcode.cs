@@ -109,6 +109,24 @@ namespace MogMod.Common.Systems
                             Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleProjParry(reader);
                             break;
                         }
+
+                    case MogModMessageType.NPCVelocitySync:
+                        {
+                            int npcID = reader.ReadInt32();
+                            Vector2 velocity = reader.ReadVector2();
+                            Vector2 position = reader.ReadVector2();
+                            
+                            Main.npc[npcID].position = position;
+                            Main.npc[npcID].velocity = velocity;
+                            
+                            break;
+                        }
+
+                    case MogModMessageType.SoundSync:
+                        {
+                            
+                            break;
+                        }
                 }
             }
             catch (Exception e)
@@ -140,7 +158,9 @@ namespace MogMod.Common.Systems
             AddBloodFromProjectile,
             ProjParrySync,
             MarkerProjSync,
-            MarkerProjOutSync
+            MarkerProjOutSync,
+            NPCVelocitySync,
+            SoundSync
         }
     }
 }
