@@ -10,13 +10,12 @@ namespace MogMod.Items.Other
         public new string LocalizationCategory => "Items.Materials";
         public override void SetDefaults()
         {
-            Item.height = 50;
-            Item.width = 32;
+            Item.width = 22;
+            Item.height = 20;
             Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.Pink;
             Item.value = Item.sellPrice(silver: 8);
         }
-
         public override void AddRecipes()
         {
             CreateRecipe().

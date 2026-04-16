@@ -10,7 +10,7 @@ namespace MogMod.Buffs.PotionBuffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.lifeRegen += 30;
+            player.lifeRegen += 14;
         }
     }
 }

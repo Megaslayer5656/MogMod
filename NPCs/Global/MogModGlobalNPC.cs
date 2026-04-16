@@ -130,7 +130,7 @@ namespace MogMod.NPCs.Global
             //else
             //    bashDamage = bashCap;
             if (Convert.ToInt32(enemyMaxHP * 0.01) <= shivCap)
-                shivDamage = Convert.ToInt32(enemyMaxHP * 0.01) + 50;
+                shivDamage = Convert.ToInt32(enemyMaxHP * 0.005) + 50;
             else
                 shivDamage = shivCap;
 

@@ -1,13 +1,13 @@
 ﻿using MogMod.Items.Global;
-using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Armor.Undying
+namespace MogMod.Items.Armor.Fae
 {
     [AutoloadEquip(EquipType.Body)]
-    public class UndyingBreastplate : ModItem, ILocalizedModType
+    public class FaeBreastplate : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
         public override void SetStaticDefaults()
@@ -18,28 +18,28 @@ namespace MogMod.Items.Armor.Undying
             int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
 
             ArmorIDs.Body.Sets.HidesTopSkin[equipSlot] = false;
-            ArmorIDs.Body.Sets.HidesArms[equipSlot] = true;
+            ArmorIDs.Body.Sets.HidesArms[equipSlot] = false;
         }
         public override void SetDefaults()
         {
-            Item.width = 30;
-            Item.height = 20;
+            Item.width = 26;
+            Item.height = 22;
 
-            Item.defense = 24;
+            Item.defense = 20;
 
-            Item.rare = ItemRarityID.Lime;
-            Item.value = MogGlobalItem.RarityLimeBuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.value = MogGlobalItem.RarityYellowBuyPrice;
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Generic) += 0.10f;
-            player.GetCritChance<GenericDamageClass>() += 12;
+            player.GetDamage(DamageClass.Generic) += 0.15f;
+            player.ammoCost80 = true;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<BrinyRind>(10).
-                AddIngredient<UltimateOrb>(3).
+                AddIngredient<FaeBar>(15).
+                AddIngredient(ItemID.CrystalNinjaChestplate, 1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

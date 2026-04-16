@@ -19,7 +19,8 @@ namespace MogMod.Items.Tools
             Item.DamageType = DamageClass.Melee;
 
             // On the official wiki, https://terraria.wiki.gg/wiki/Pickaxes, the "Use time" column corresponds to Item.useAnimation and the "Mining speed" column corresponds to Item.useTime.
-            Item.useTime = Item.useAnimation = 18;
+            Item.useTime = 12;
+            Item.useAnimation = 16;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.UseSound = SoundID.Item1;
 
@@ -29,7 +30,7 @@ namespace MogMod.Items.Tools
             Item.useTurn = true;
             Item.autoReuse = true;
 
-            Item.pick = 100; // How strong the pickaxe is, see https://terraria.wiki.gg/wiki/Pickaxe_power for a list of common values
+            Item.pick = 105; // How strong the pickaxe is, see https://terraria.wiki.gg/wiki/Pickaxe_power for a list of common values
             Item.attackSpeedOnlyAffectsWeaponAnimation = true; // melee speed affects how fast the tool swings for damage purposes, but not how fast it can dig
         }
 

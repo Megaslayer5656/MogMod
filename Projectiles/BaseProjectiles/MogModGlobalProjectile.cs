@@ -107,7 +107,7 @@ namespace MogMod.Projectiles.BaseProjectiles
             //else
             //    gunpowderDamage = gunpowderCap;
             if (Convert.ToInt32(enemyMaxHP * 0.01) <= shivCap)
-                shivDamage = Convert.ToInt32(enemyMaxHP * 0.01) + 50;
+                shivDamage = Convert.ToInt32(enemyMaxHP * 0.005) + 50;
             else
                 shivDamage = shivCap;
 
@@ -197,7 +197,7 @@ namespace MogMod.Projectiles.BaseProjectiles
                     if (player.statLife > player.statLifeMax2)
                         player.statLife = player.statLifeMax2;
                 }
-                if (modPlayer.wearingSatanic)
+                if (modPlayer.wearingSatanic && player.HasBuff(ModContent.BuffType<SatanicBuff>()))
                 {
                     int heal = 1;
                     heal *= Convert.ToInt32(player.lifeSteal * 0.01);

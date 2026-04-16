@@ -86,7 +86,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
         }
         public override void SetDefaults()
         {
-            Projectile.width = Projectile.height = 50;
+            Projectile.width = Projectile.height = 100;
             Projectile.friendly = true;
             Projectile.timeLeft = 10000;
             Projectile.penetrate = -1;

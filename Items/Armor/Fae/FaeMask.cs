@@ -1,18 +1,18 @@
 ﻿using MogMod.Common.MogModPlayer;
-using MogMod.Items.Accessories;
 using MogMod.Items.Global;
-using MogMod.Items.Other;
+using MogMod.Items.Placeable;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Armor.Undying
+namespace MogMod.Items.Armor.Fae
 {
     [AutoloadEquip(EquipType.Head)]
-    public class UndyingHelm : ModItem, ILocalizedModType
+    public class FaeMask : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public static double FlightTimeBoost = 0.5D;
         public static LocalizedText SetBonusText { get; private set; }
         public override void SetStaticDefaults()
         {
@@ -27,36 +27,39 @@ namespace MogMod.Items.Armor.Undying
         }
         public override void SetDefaults()
         {
-            Item.width = Item.height = 24;
+            Item.width = 22;
+            Item.height = 24;
 
-            Item.defense = 16; // 58
+            Item.defense = 14; // 50
 
-            Item.rare = ItemRarityID.Lime;
-            Item.value = MogGlobalItem.RarityLimeBuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.value = MogGlobalItem.RarityYellowBuyPrice;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<UndyingBreastplate>() && legs.type == ModContent.ItemType<UndyingGreaves>();
+            return body.type == ModContent.ItemType<FaeBreastplate>() && legs.type == ModContent.ItemType<FaeGreaves>();
         }
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = SetBonusText.Value;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            mogPlayer.wearingUndyingArmor = true;
-            player.aggro += 1000;
+            mogPlayer.wearingFaeArmor = true;
+            player.wingTimeMax = (int)(player.wingTimeMax * 1.5f);
         }
-        // MEGA how should i balance post fishron armor
+        // should atleast be better than crystal assassin
+        // also post EOL so it should be really good
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage<GenericDamageClass>() += 0.18f;
-            player.GetAttackSpeed<GenericDamageClass>() += 0.15f;
+            player.GetDamage<GenericDamageClass>() += 0.12f;
+            player.GetCritChance<GenericDamageClass>() += 12;
+            player.statManaMax2 += 60;
+            player.manaCost *= 0.88f;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<BrinyRind>(12).
-                AddIngredient<HelmOfTheUndying>(1).
-                AddIngredient<UltimateOrb>(3).
+                AddIngredient<FaeBar>(10).
+                AddIngredient(ItemID.CrystalNinjaHelmet, 1). // might replace with something else
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

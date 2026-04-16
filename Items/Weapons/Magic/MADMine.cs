@@ -24,7 +24,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.height = 32;
             
             Item.mana = 20;
-            Item.damage = 205;
+            Item.damage = 80;
             Item.knockBack = 3;
             Item.DamageType = DamageClass.Magic;
 

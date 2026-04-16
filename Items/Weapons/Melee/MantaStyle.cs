@@ -60,7 +60,6 @@ namespace MogMod.Items.Weapons.Melee
             {
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<MantaSummon>()] <= 0)
                 {
-                    player.statMana -= 50;
                     // summon the clones. position is determined by ai[0]
                     for (int i = 0; i < 2; i++)
                     {
