@@ -2,6 +2,7 @@
 using MogMod.Items.Consumables;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Common.MogModPlayer
@@ -24,6 +25,14 @@ namespace MogMod.Common.MogModPlayer
                 {
                     itemDrop = ModContent.ItemType<AnglerFish>();
                     return; // This is important so your code after this that rolls items will not run
+                }
+            }
+            if (inWater && Player.ZoneRockLayerHeight && !attempt.crate)
+            {
+                if (!attempt.legendary && !attempt.veryrare && attempt.rare && Main.rand.NextBool(3))
+                {
+                    itemDrop = ItemID.Geode;
+                    return;
                 }
             }
         }

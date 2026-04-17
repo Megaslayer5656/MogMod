@@ -19,8 +19,7 @@ namespace MogMod.Items.Weapons.Melee
         public override void SetStaticDefaults() => ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         public override void SetDefaults()
         {
-            Item.width = 50;
-            Item.height = 50;
+            Item.width = Item.height = 100;
 
             Item.damage = 78;
             Item.knockBack = 10f;

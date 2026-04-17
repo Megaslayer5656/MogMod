@@ -128,8 +128,7 @@ Items: {
 				+15% Melee Damage
 				+10% Attack Damage
 				Vastly Increases Lifesteal
-				Weapons gain Lifesteal properties
-				Press [KEY] to increase Lifesteal effectiveness
+				Press [KEY] to imbue weapons with Lifesteal and increase Lifesteal effectiveness
 				[c/872727:'Immense power at the cost of your soul.']
 				'''
 		}
@@ -574,7 +573,7 @@ Items: {
 			DisplayName: Serrated Shiv
 			Tooltip:
 				'''
-				Attacks have a chance to true strike enemies, dealing 1% of their maximum life as damage
+				Attacks have a chance to true strike enemies, dealing 0.5% of their maximum life as damage
 				[c/C25B5B:'Too dangerous for taskwork, this blade's only purpose is vile murder.']
 				'''
 		}
@@ -583,7 +582,7 @@ Items: {
 			DisplayName: Helm Of The Undying
 			Tooltip:
 				'''
-				Reduces the respawn timer by 40%
+				Reduces the respawn timer by 20%
 				Dying summons vengeful ghosts that chase after your enemy
 				[c/78C25B:'The price for wearing it is paid in the afterlife.']
 				'''
@@ -771,6 +770,7 @@ Items: {
 				Tooltip:
 					'''
 					Has a chance to bash enemies multiple times
+					Bashes steal life from enemies
 					[c/912F20:'The lost blade of the Commander of the Abyss, ]
 					[c/912F20:this edge cuts into an enemy's soul.']
 					'''
@@ -818,9 +818,10 @@ Items: {
 				DisplayName: Oversized Anchor
 				Tooltip:
 					'''
-					Shoots out a dolphin
+					Shoots out a homing dolphin
 					Hitting enemies spawn more dolphins
-					Right click to swing the anchor around you, creating an explosion of water around you
+					Right click to swing the anchor around you, creating an explosion of water
+					Hitting an enemy increases damage reduction by 10% for 3 seconds
 					[c/47A2A8:'Women and Children and ][c/DBAE70:Totsugeki!][c/47A2A8: first!']
 					'''
 			}
@@ -858,7 +859,6 @@ Items: {
 					'''
 					Shoots a homing axe
 					Right click to summon 2 illusions that mirror your attacks
-					Consumes 50 Mana upon summoning illusions
 					Illusions last 20 seconds
 					[c/A1D3D6:'An axe made of reflective materials that causes confusion amongst enemy ranks.']
 					'''
@@ -1378,7 +1378,7 @@ Items: {
 					'''
 					Summons a sentry
 					Explodes when enemies come near
-					Deals double damage if inactive for 10 seconds
+					Deals double damage if inactive for 15 seconds
 					[c/67B360:'Oh, this is gonna be fun!']
 					'''
 			}
@@ -1650,11 +1650,6 @@ Items: {
 				'''
 		}
 
-		BoulderAmmo: {
-			DisplayName: Boulder Ammo
-			Tooltip: ""
-		}
-
 		BouncyBoulderAmmo: {
 			DisplayName: Bouncy Boulder Ammo
 			Tooltip: ""
@@ -1809,8 +1804,13 @@ Items: {
 		}
 
 		IsraelArrow: {
-			Tooltip: ""
 			DisplayName: Israel Arrow
+			Tooltip: Inflicts Midas on hit and summons a Goy Beam from down under
+		}
+
+		BouncyBoulderBullet: {
+			DisplayName: Bouncy Boulder Bullet
+			Tooltip: Heavier and bounces on the ground
 		}
 	}
 
@@ -2087,7 +2087,11 @@ Items: {
 
 		UndyingHelm: {
 			DisplayName: Wraith King's Helm
-			Tooltip: +12% Attack Damage and Critical Strike Chance
+			Tooltip:
+				'''
+				+12% Attack Damage 
+				+18% Critical Strike Chance
+				'''
 			SetBonus:
 				'''
 				Enemies are much more likely to target you
@@ -2101,8 +2105,7 @@ Items: {
 			Tooltip:
 				'''
 				+10% Attack Damage
-				20% chance to save ammo
-				Increases maximum mana by 60 and 12% reduced mana cost
+				+12% Critical Strike Chance
 				'''
 		}
 
@@ -2110,9 +2113,8 @@ Items: {
 			DisplayName: Wraith King's Greaves
 			Tooltip:
 				'''
-				+24% Movement Speed
-				+15% Attack Speed
-				Increases your max number of minions by 2
+				+20% Movement Speed
+				+12% Critical Strike Chance
 				'''
 		}
 
@@ -2239,6 +2241,40 @@ Items: {
 		WhiteCloak: {
 			DisplayName: White Cloak
 			Tooltip: +12% Attack Speed
+		}
+
+		FaeBreastplate: {
+			DisplayName: Fae Breastplate
+			Tooltip:
+				'''
+				+15% Attack Damage
+				20% chance to save ammo
+				'''
+		}
+
+		FaeMask: {
+			DisplayName: Fae Mask
+			Tooltip:
+				'''
+				+12% Attack Damage and +12% Critical Strike Chance
+				Increases maximum mana by 60 and 12% reduced mana cost
+				'''
+			SetBonus:
+				'''
+				Increases flight time by 50%
+				Double tap any direction to dash
+				'''
+		}
+
+		FaeGreaves: {
+			DisplayName: Fae Greaves
+			Tooltip:
+				'''
+				+24% Movement Speed
+				+12% Attack Speed
+				Increases your max number of minions by 2
+				Increases your max number of sentries by 2
+				'''
 		}
 	}
 

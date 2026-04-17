@@ -75,14 +75,14 @@ namespace MogMod.Projectiles.MagicProjectiles
                             }
                             else
                                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<ProximityMinesExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                            ExplosionTimer = 60;
+                            ExplosionTimer = 120;
                             SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
                         }
                     }
                 }
             }
-            // doubles damage if inactive for 10 seconds
-            if (Projectile.ai[0] >= 600 && !Exploding)
+            // doubles damage if inactive for 15 seconds
+            if (Projectile.ai[0] >= 900 && !Exploding)
             {
                 int d = Dust.NewDust(spawn, Projectile.width, Projectile.height, DustID.Fireworks, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
                 Main.dust[d].noGravity = true;

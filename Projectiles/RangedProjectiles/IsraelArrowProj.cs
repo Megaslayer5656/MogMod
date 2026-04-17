@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Utilities;
+using Mono.Cecil;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -18,27 +20,23 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override void SetDefaults()
         {
-            Projectile.width = 18;
-            Projectile.height = 48;
+            Projectile.width = 16;
+            Projectile.height = 16;
             Projectile.friendly = true;
-            Projectile.tileCollide = false;
-            Projectile.timeLeft = 200;
+            Projectile.timeLeft = 600;
             Projectile.DamageType = DamageClass.Ranged;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
         }
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-
-            for (int i = 0; i < 5; i++)
+            if (Main.rand.NextBool(3))
             {
-                int d = Dust.NewDust(Projectile.position, Convert.ToInt32(Projectile.width * 1.5), Convert.ToInt32(Projectile.height * 1.5), 31, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 150, default, 0.9f);
+            Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * -12f;
+                int d = Dust.NewDust(Projectile.position, (int)(Projectile.width * 1.5f), (int)(Projectile.height * 1.5f), DustID.PlatinumCoin, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 150, default, 0.9f);
                 Main.dust[d].position = Projectile.Center;
                 Main.dust[d].noLight = false;
-            }
-            Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * -12f;
-            for (int i = 0; i <= 5; i++)
-            {
-                Dust dust = Dust.NewDustPerfect(Projectile.position, DustID.Flare, shootVelocity.RotatedByRandom(MathHelper.ToRadians(18f)) * Main.rand.NextFloat(0.2f, 1.2f), 0, default, Main.rand.NextFloat(1f, 2.3f));
+                Dust dust = Dust.NewDustPerfect(Projectile.position, DustID.GoldCoin, shootVelocity.RotatedByRandom(MathHelper.ToRadians(18f)) * Main.rand.NextFloat(0.2f, 1.2f), 0, default, Main.rand.NextFloat(1f, 2.3f));
                 dust.position = Projectile.Center;
                 dust.scale = 1.5f;
                 dust.alpha = 100;
@@ -54,11 +52,13 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override void OnKill(int timeLeft)
         {
+            MogModUtils.ProjectileRain(Projectile.GetSource_FromThis(), Projectile.Center, 0f, 0f, -10f, -10f, 10f, ModContent.ProjectileType<GoyBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             int dustsplash = 0;
             while (dustsplash < 8)
             {
-                int d = Dust.NewDust(Projectile.position, Convert.ToInt32(Projectile.width * 2), Convert.ToInt32(Projectile.height * 2), DustID.Stone, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 100, default, 0.9f);
+                int d = Dust.NewDust(Projectile.position, Projectile.width * 2, Projectile.height * 2, DustID.Stone, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 100, default, 0.9f);
                 Main.dust[d].position = Projectile.Center;
                 dustsplash += 1;
             }

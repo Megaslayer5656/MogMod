@@ -617,6 +617,8 @@ Mods: {
 				EnergyBulletProj.DisplayName: Energy Bullet Proj
 				WaveProj.DisplayName: Wave Proj
 				IsraelArrowProj.DisplayName: Israel Arrow Proj
+				BouncyBoulderBulletProj.DisplayName: Bouncy Boulder Bullet Proj
+				GoyBeam.DisplayName: Goy Beam
 			}
 
 			MeleeProjectiles: {

@@ -15,6 +15,7 @@ using System.Linq;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using MogMod.Buffs.PotionBuffs;
 
 namespace MogMod.Items.Global
 {
@@ -82,7 +83,7 @@ namespace MogMod.Items.Global
                     if (player.statLife > player.statLifeMax2)
                         player.statLife = player.statLifeMax2;
                 }
-                if (mogPlayer.wearingSatanic)
+                if (mogPlayer.wearingSatanic && player.HasBuff(ModContent.BuffType<SatanicBuff>()))
                 {
                     int heal = 1;
                     heal *= Convert.ToInt32(player.lifeSteal * 0.01);

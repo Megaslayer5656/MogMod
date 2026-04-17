@@ -4,6 +4,7 @@ using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
+using MogMod.Items.Armor.Fae;
 using MogMod.Items.Other;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Magic.SorceryStaves;
@@ -18,6 +19,8 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameInput;
+using Terraria.Graphics.Renderers;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Default;
@@ -99,13 +102,26 @@ namespace MogMod.Common.MogModPlayer
         public bool shivasAttack = false;
 
         public int wingsOfLightDust = 0;
+
         public int forceDirection = -1;
+
+        public int FaeDashDir = -1;
+        public const int FaeDashCooldown = 50; // Time (frames) between starting dashes. If this is shorter than DashDuration you can start a new dash before an old one has finished
+        public const int FaeDashDuration = 35; // Duration of the dash afterimage effect in frames
+        public int FaeDashDelay = 0; // frames remaining till we can dash again
+        public int FaeDashTimer = 0; // frames remaining in the dash
+
+        public bool canDashUp;
+
         public const int DashDown = 0;
         public const int DashUp = 1;
         public const int DashRight = 2;
         public const int DashLeft = 3;
+        
+        public const float FaeDashVelocity = 22f;
         public const float ForceVelocity = 12f;
         public const float PikeVelocity = 25f;
+
 
         public bool atgActive = false;
         public bool plasmaActive = false;
@@ -142,7 +158,8 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingTankyRizzler;
         public int tankyRizzlerHits = 0;
         public static int counterHelixDmg = 500;
-        public bool wearingWhiteArmor = false;
+        public bool wearingWhiteArmor;
+        public bool wearingFaeArmor;
         #endregion
 
         #region Weapons
@@ -708,7 +725,97 @@ namespace MogMod.Common.MogModPlayer
         // force staff movement
         public override void PreUpdateMovement()
         {
-            int forceStaffCooldown = ModContent.BuffType<Buffs.Cooldowns.ForceStaffDebuff>();
+            #region Fae Dash
+            // if the player can use our dash, has double tapped in a direction, and our dash isn't currently on cooldown
+            if (wearingFaeArmor)
+            {
+                if (CanUseDash() && FaeDashDir != -1 && FaeDashDelay == 0)
+                {
+                    Vector2 newVelocity = Player.velocity;
+
+                    switch (FaeDashDir)
+                    {
+                        // Only apply the dash velocity if our current speed in the wanted direction is less than DashVelocity
+                        case DashUp when Player.velocity.Y > -FaeDashVelocity && canDashUp:
+                        case DashDown when Player.velocity.Y < FaeDashVelocity:
+                            {
+                                // Y-velocity is set here
+                                // If the direction requested was DashUp, then we adjust the velocity to make the dash appear "faster" due to gravity being immediately in effect
+                                // This adjustment is roughly 1.3x the intended dash velocity
+                                canDashUp = false;
+                                float dashDirection = FaeDashDir == DashDown ? 1 : -1f;
+                                newVelocity.Y = dashDirection * FaeDashVelocity;
+                                break;
+                            }
+                        case DashLeft when Player.velocity.X > -FaeDashVelocity:
+                        case DashRight when Player.velocity.X < FaeDashVelocity:
+                            {
+                                // X-velocity is set here
+                                float dashDirection = FaeDashDir == DashRight ? 1 : -1;
+                                newVelocity.X = dashDirection * FaeDashVelocity;
+                                break;
+                            }
+                        default:
+                            return; // not moving fast enough, so don't start our dash
+                    }
+
+                    // start our dash
+                    FaeDashDelay = FaeDashCooldown;
+                    FaeDashTimer = FaeDashDuration;
+                    Player.velocity = newVelocity;
+
+                    // Here you'd be able to set an effect that happens when the dash first activates
+                    // Some examples include:  the larger smoke effect from the Master Ninja Gear and Tabi
+                    float dustLoopcheck = 16f;
+                    int dustIncr = 0;
+                    while (dustIncr < dustLoopcheck)
+                    {
+                        Vector2 dustRotate = Vector2.UnitX * 0f;
+                        dustRotate += -Vector2.UnitY.RotatedBy((double)((float)dustIncr * (6.28318548f / dustLoopcheck)), default) * new Vector2(1f, 4f);
+                        dustRotate = dustRotate.RotatedBy((double)Player.velocity.ToRotation(), default);
+                        int bedman = Dust.NewDust(Player.Center, 0, 0, DustID.RainbowMk2, 0f, 0f, 0, Color.LightBlue, 1f);
+                        Main.dust[bedman].scale = 1.5f;
+                        Main.dust[bedman].noGravity = true;
+                        Main.dust[bedman].position = Player.Center + dustRotate;
+                        Main.dust[bedman].velocity = Player.velocity * 0f + dustRotate.SafeNormalize(Vector2.UnitY) * 1f;
+                        dustIncr++;
+                    }
+                }
+
+                if (FaeDashDelay > 0)
+                    FaeDashDelay--;
+
+                if (FaeDashTimer > 0)
+                { 
+                    // dash is active
+                    // This is where we set the afterimage effect.  You can replace these two lines with whatever you want to happen during the dash
+                    // Some examples include:  spawning dust where the player is, adding buffs, making the player immune, etc.
+                    // Here we take advantage of "player.eocDash" and "player.armorEffectDrawShadowEOCShield" to get the Shield of Cthulhu's afterimage effect
+                    Player.eocDash = FaeDashTimer;
+                    Player.armorEffectDrawShadowEOCShield = true;
+
+                    // count down frames remaining
+                    FaeDashTimer--;
+
+                    // dash dust effects
+                    for (int d = 0; d < 4; d++)
+                    {
+                        Dust faeDust = Dust.NewDustPerfect(Player.Center + new Vector2(Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-15f, 15f)) - (Player.velocity * 1.2f), DustID.EnchantedNightcrawler, -Player.velocity.RotatedByRandom(MathHelper.ToRadians(10f)) * Main.rand.NextFloat(0.1f, 0.8f), 0, default, Main.rand.NextFloat(1.8f, 2.8f));
+                        faeDust.noGravity = faeDust.type == 222 ? false : true;
+                        faeDust.fadeIn = 0.5f;
+                        faeDust.scale = Main.rand.NextFloat(0.8f, 1.2f);
+                        faeDust.velocity += new Vector2(0, -2.5f) * Main.rand.NextFloat(0.8f, 1.2f);
+
+                        Dust dust = Dust.NewDustPerfect(Player.Center + Main.rand.NextVector2Circular(6, 6) - Player.velocity * 2, DustID.CrystalPulse2);
+                        dust.velocity = -Player.velocity * Main.rand.NextFloat(0.6f, 1.4f);
+                        dust.scale = Main.rand.NextFloat(0.9f, 1.4f);
+                        dust.noGravity = true;
+                    }
+                }
+            }
+            #endregion
+
+            #region Force Staff
             // if force staff isn't on cooldown and was equipped and player just pressed keybind
             if (wearingForceStaff && !Player.mount.Active &&  KeybindSystem.ForceStaffKeybind.JustPressed && !Player.HasBuff(forceStaffCooldown))
             {
@@ -740,14 +847,12 @@ namespace MogMod.Common.MogModPlayer
                     default:
                         return; // not moving fast enough, so don't start our dash
                 }
-
-                // start our dash
-                //DashDelay = DashCooldown;
-                //DashTimer = DashDuration;
                 Player.velocity = newVelocity;
                 Player.AddBuff(forceStaffCooldown, 600);
             }
+            #endregion
 
+            #region Hurricane Pike
             if (wearingPike && !Player.mount.Active && KeybindSystem.ForceStaffKeybind.JustPressed && !Player.HasBuff(forceStaffCooldown))
             {
                 // change to force staff sound
@@ -776,6 +881,16 @@ namespace MogMod.Common.MogModPlayer
                 Player.velocity = newVelocity;
                 Player.AddBuff(forceStaffCooldown, 300);
             }
+            #endregion
+        }
+        private bool CanUseDash()
+        {
+            return wearingFaeArmor
+                && !chargeShot
+                && !dpCharge
+                //&& Player.dashType == DashID.None // player doesn't have Tabi or EoCShield equipped (give priority to those dashes)
+                //&& !Player.setSolar // player isn't wearing solar armor
+                && !Player.mount.Active; // player isn't mounted, since dashes on a mount look weird
         }
         public void MiscEffects()
         {
@@ -919,7 +1034,7 @@ namespace MogMod.Common.MogModPlayer
 
             // more mines if holding techies mines
             if (Player.HeldItem.type == ModContent.ItemType<ProximityMines>() || Player.HeldItem.type == ModContent.ItemType<MADMine>())
-                Player.maxTurrets += 4;
+                Player.maxTurrets += 2;
 
             // duelist gloves
             if (wearingDuelistGloves)
@@ -945,6 +1060,15 @@ namespace MogMod.Common.MogModPlayer
                 Player.ClearBuff(ModContent.BuffType<DragonInstallBuff>());
             }
             #endregion
+
+            #region Wing Time Buffs
+            // Flight time boosts
+            double flightTimeMult = 1D +
+                (wearingFaeArmor ? FaeMask.FlightTimeBoost: 0D);
+
+            if (Player.wingTimeMax > 0)
+                Player.wingTimeMax = (int)(Player.wingTimeMax * flightTimeMult);
+            #endregion
         }
         public override void PostUpdateMiscEffects()
         {
@@ -965,6 +1089,8 @@ namespace MogMod.Common.MogModPlayer
         }
         public override void PostUpdate()
         {
+            if (Player.velocity.Y == Player.oldVelocity.Y)
+                canDashUp = true;
             // if the player is wearing shadow amulet turn them invis after a set amount of time
             if (wearingShadowAmulet)
             {
@@ -1141,17 +1267,16 @@ namespace MogMod.Common.MogModPlayer
         }
         public void doUndying()
         {
-            Player.respawnTimer = Convert.ToInt32(Player.respawnTimer * .6f);
-            Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<UndyingPortalProj>(), 100, 1, Player.whoAmI); //Might need to rebalance this damage
+            Player.respawnTimer = Convert.ToInt32(Player.respawnTimer * .8f);
+            Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<UndyingPortalProj>(), 100, 1, Player.whoAmI);
         }
-        // both undying portals damage prob have to be nerfed
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
             if (wearingUndyingArmor && !Player.HasBuff(ModContent.BuffType<WraithBuff>()))
             {
                 SoundEngine.PlaySound(SoundID.NPCDeath52, Player.Center);
                 Player.AddBuff(ModContent.BuffType<WraithBuff>(), 300);
-                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<PlayerUndyingPortalProj>(), 100, 1, Player.whoAmI); //Might need to rebalance this damage
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<PlayerUndyingPortalProj>(), 100, 1, Player.whoAmI);
             }
             if (Player.HasBuff(ModContent.BuffType<WraithBuff>()))
             {
@@ -1440,6 +1565,8 @@ namespace MogMod.Common.MogModPlayer
         }
         #endregion
 
+        #endregion
+
         #region Reset Effects
         // resets stuff
         public override void ResetEffects()
@@ -1493,6 +1620,8 @@ namespace MogMod.Common.MogModPlayer
             wearingDamascus1 = false;
             wearingDamascus2 = false;
             wearingBoneArmor = false;
+            wearingWhiteArmor = false;
+            wearingFaeArmor = false;
 
             diademMinion = false;
             dominatorMinion = false;
@@ -1529,31 +1658,28 @@ namespace MogMod.Common.MogModPlayer
             holdingThrowingShade = false;
             holdingMeteoriteStaff = false;
 
-            wearingWhiteArmor = false;
-
             if (Player.controlDown)
-            {
                 forceDirection = DashDown;
-            }
             else if (Player.controlUp)
-            {
                 forceDirection = DashUp;
-            }
             else if (Player.controlRight)
-            {
                 forceDirection = DashRight;
-            }
             else if (Player.controlLeft)
-            {
                 forceDirection = DashLeft;
-            }
             else
-            {
                 forceDirection = -1;
-            }
-        }
-        #endregion
 
+            if (Player.controlDown && Player.releaseDown && Player.doubleTapCardinalTimer[DashDown] < 15)
+                FaeDashDir = DashDown;
+            else if (Player.controlUp && Player.releaseUp && Player.doubleTapCardinalTimer[DashUp] < 15)
+                FaeDashDir = DashUp;
+            else if (Player.controlRight && Player.releaseRight && Player.doubleTapCardinalTimer[DashRight] < 15 && Player.doubleTapCardinalTimer[DashLeft] == 0)
+                FaeDashDir = DashRight;
+            else if (Player.controlLeft && Player.releaseLeft && Player.doubleTapCardinalTimer[DashLeft] < 15 && Player.doubleTapCardinalTimer[DashRight] == 0)
+                FaeDashDir = DashLeft;
+            else
+                FaeDashDir = -1;
+        }
         #endregion
     }
 }
