@@ -3,6 +3,8 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using MogMod.Buffs.Debuffs;
+using Terraria.DataStructures;
+using Terraria.Audio;
 
 namespace MogMod.Projectiles.EnemyProjectiles.Boss
 {

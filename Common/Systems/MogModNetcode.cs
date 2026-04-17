@@ -6,6 +6,7 @@ using MogMod.Common.MogModPlayer;
 using System;
 using MogMod.NPCs.Global;
 using Microsoft.Xna.Framework;
+using Terraria.Audio;
 
 namespace MogMod.Common.Systems
 {
@@ -124,6 +125,23 @@ namespace MogMod.Common.Systems
 
                     case MogModMessageType.SoundSync:
                         {
+                            string path = reader.ReadString();
+                            float pitch = reader.ReadSingle();
+                            float volume = reader.ReadSingle();
+                            int maxInstances = reader.ReadInt32();
+                            Vector2 pos = reader.ReadVector2();
+
+                            SoundStyle sound = new SoundStyle(path)
+                            {
+                                Volume = volume,
+                                PitchVariance = pitch,
+                                MaxInstances = maxInstances,
+                            };
+
+                            if (Main.netMode != NetmodeID.Server)
+                            {
+                                SoundEngine.PlaySound(sound, pos);
+                            }
                             
                             break;
                         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Consumables;
 using MogMod.Projectiles.EnemyProjectiles.Boss;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -49,6 +50,9 @@ namespace MogMod.NPCs.Bosses
         public int vonRageTimer = 0; //The timer that determines how long he is in 'rage' mode (his dash)
         public static int vonRageTimerMax = 300;
         public int randRotate = random.Next(0, 11);
+        public int syncTimer = 0;
+        public int syncTimerMax = 180;
+        public bool isDashing = false;
 
 
         public static float laserScale = 1.2f;
@@ -122,6 +126,16 @@ namespace MogMod.NPCs.Bosses
                 DoPhase1(player);
             }
 
+            if (syncTimer >= syncTimerMax)
+            {
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    NetcodeHelper.NPCVelocitySync(NPC, NPC.velocity, NPC.position);
+                }
+                syncTimer = 0;
+            }
+
+            syncTimer++;
         }
 
         private void CheckPhase2()
@@ -156,15 +170,16 @@ namespace MogMod.NPCs.Bosses
             {
                 if (vonShotTimer >= vonShotTimerMax) //Timer between shots
                 {
-                    if (NPC.HasValidTarget && Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        Projectile.NewProjectile(entitySource, NPC.Center, toPlayer * 15, ModContent.ProjectileType<VonGreenTracerProj>(), 60, .5f, 255);
-                        if (Main.netMode != NetmodeID.Server)
+                    if (NPC.HasValidTarget)
+                    { 
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            SoundEngine.PlaySound(VonShot, NPC.Center);
+                            Projectile.NewProjectile(entitySource, NPC.Center, toPlayer * 15, ModContent.ProjectileType<VonGreenTracerProj>(), 60, .5f, 255);
                         }
 
                         vonShotTimer = 0; //Reset timer
+                        if (Main.netMode != NetmodeID.Server)
+                            SoundEngine.PlaySound(VonShot, NPC.Center);
                     }
                 }
                 else
@@ -191,40 +206,74 @@ namespace MogMod.NPCs.Bosses
 
             if (vonSpecialTimer >= vonSpecialTimerMax) //Checks if cooldown for special is up
             {
-                int vonRandAttack = random.Next(0, 11); //creates random int to choose between the 2 special options
-                if (NPC.HasValidTarget && Main.netMode != NetmodeID.MultiplayerClient) //Makes sure the client doesn't try to run it to avoid desync (it should be ran by the server)
+                if (NPC.HasValidTarget) //Makes sure the client doesn't try to run it to avoid desync (it should be ran by the server)
                 {
+                    int vonRandAttack = random.Next(0, 11); //creates random int to choose between the 2 special options
+
                     if (vonRandAttack > 5) //If the random int is greater than 5 throw a nade
                     {
-                        //TODO: Make a custom grenade with a bigger explosion
-                        int vonNade = Projectile.NewProjectile(entitySource, NPC.Center, nadeToPlayer, ProjectileID.Grenade, 100, 2f, 255);
-                        Main.projectile[vonNade].friendly = false;
-                        Main.projectile[vonNade].hostile = true;
-                        Main.projectile[vonNade].scale = 2f;
-                        Main.projectile[vonNade].timeLeft = 60;
-                        if (Main.netMode != NetmodeID.Server)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            SoundEngine.PlaySound(VonNade, NPC.Center);
+                            //TODO: Make a custom grenade with a bigger explosion
+                            int vonNade = Projectile.NewProjectile(entitySource, NPC.Center, nadeToPlayer, ProjectileID.Grenade, 100, 2f, 255);
+                            Main.projectile[vonNade].friendly = false;
+                            Main.projectile[vonNade].hostile = true;
+                            Main.projectile[vonNade].scale = 2f;
+                            Main.projectile[vonNade].timeLeft = 60;
                         }
 
-                        vonSpecialTimer = 0; //Reset special timer
-                    }
-                    else //If the random int is 5 or less
-                    {
-                        //TODO: Make a sound queue for when he jumps
-                        while (vonRageTimer < vonRageTimerMax) //How long he is dashing for
-                        {
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                        //if (vonSpecialTimer == vonSpecialTimerMax) //To ensure it only plays once
+                        //{
+                            if (Main.netMode != NetmodeID.Server)
                             {
-                                NPC.velocity = (NPC.velocity * (inertia - 1) + moveToFast) / inertia; //Change velocity towards player
-                                NPC.velocity.Y = -30; //Change velocity upwards
-                                NPC.netUpdate = true;
-                                vonRageTimer += 1; //Adds 1 to dash timer (how long he dashes for) every tick
+                                SoundEngine.PlaySound(VonNade, NPC.Center);
+                            }
+                        //}
+
+                        vonSpecialTimer = 0;
+                    }
+                    else //If the random int is 5 or less (uhh this doesn't work, I'll investigate some other time. I'm prob just gonna rewrite the entire phase 1 code.)
+                    {
+                        if (!isDashing)
+                        {
+                            isDashing = true;
+                            vonRageTimer = 0;
+
+                            if (Main.netMode != NetmodeID.Server)
+                            {
+                                SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center);
+                            }
+
+                            if (isDashing)
+                            {
+                                if (vonRageTimer < vonRageTimerMax)
+                                {
+                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    {
+                                        NPC.velocity = (NPC.velocity * (inertia - 1) + moveToFast) / inertia; //Change velocity towards player
+                                        NPC.velocity.Y = -30; //Change velocity upwards
+                                        if (Main.netMode == NetmodeID.Server)
+                                        {
+                                            NetcodeHelper.NPCVelocitySync(NPC, NPC.velocity, NPC.Center);
+                                        }
+                                    }
+                                    vonRageTimer += 1;
+                                }
+                                else
+                                {
+                                    isDashing = false;
+
+                                    vonRageTimer = 0; //Reset dash timer
+                                    vonSpecialTimer = 0; //Reset special timer
+                                    NPC.velocity = (NPC.velocity * (inertia - 1) + moveTo) / inertia; //Reset move speed
+
+                                    if (Main.netMode == NetmodeID.Server)
+                                    {
+                                        NetcodeHelper.NPCVelocitySync(NPC, NPC.velocity, NPC.Center);
+                                    }
+                                }
                             }
                         }
-                        vonRageTimer = 0; //Reset dash timer
-                        vonSpecialTimer = 0; //Reset special timer
-                        NPC.velocity = (NPC.velocity * (inertia - 1) + moveTo) / inertia; //Reset move speed
                     }
                 }
             }
@@ -262,10 +311,6 @@ namespace MogMod.NPCs.Bosses
                 {
                     Vector2 kirk = new Vector2(8, 8).RotatedByRandom(MathHelper.ToRadians(360));
                     Projectile.NewProjectile(entitySource, NPC.Center, kirk, ModContent.ProjectileType<VonGreenTracerProj>(), 60, .5f, 255);
-                    if (Main.netMode != NetmodeID.Server)
-                    {
-                        SoundEngine.PlaySound(VonShot, NPC.Center);
-                    }
                 }
                 if (vonShooting == 180)
                     vonShooting = 0;
@@ -291,6 +336,8 @@ namespace MogMod.NPCs.Bosses
                     Vector2 charge = Vector2.Normalize(player.Center - NPC.Center) * 30f * 2f;
                     NPC.velocity = charge;
                     vonCharge = 0;
+                    if (Main.netMode == NetmodeID.Server)
+                        NetcodeHelper.NPCVelocitySync(NPC, NPC.velocity, NPC.position);
                 }
             }
         }
