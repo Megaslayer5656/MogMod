@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
-using XPT.Core.Audio.MP3Sharp.Decoding.Decoders.LayerIII;
+using XPT.Core.Audio.MP3Sharp.Decoding.Decoders.LayerIII; // what?
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {

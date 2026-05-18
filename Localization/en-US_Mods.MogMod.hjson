@@ -948,6 +948,7 @@ Items: {
 					Attack to perform a 3-swing combo that ends with a poke
 					Right click to load up to 3 shells, using rockets as ammo
 					Loaded attacks explode on swing
+					[c/7D5B4D:'Witness its trademark explosive climax!']
 					'''
 			}
 
@@ -957,13 +958,24 @@ Items: {
 			}
 
 			WarFury: {
-				Tooltip: ""
 				DisplayName: War Fury
+				Tooltip: ""
 			}
 
 			LordOfBloodsSpear: {
 				DisplayName: Lord Of Bloods Spear
 				Tooltip: ""
+			}
+
+			ChaosArbiter: {
+				DisplayName: Chaos Arbiter
+				Tooltip:
+					'''
+					Randomized damage and crit chance on each swing, with a small chance for an ultra crit
+					Has a chance to fire a chaos bolt with randomized properties
+					Ultra crits summon up to 4 phantoms
+					[c/7A2129:'I consign you to dust.']
+					'''
 			}
 		}
 
@@ -1909,7 +1921,7 @@ Items: {
 
 		GriefBar: {
 			DisplayName: Grief Bar
-			Tooltip: Said to bring roughly 83% of the power of the chaos knight
+			Tooltip: Said to bring roughly 83-84% of the power of the chaos knight
 		}
 
 		DabDadBar: {

@@ -658,6 +658,12 @@ Mods: {
 				BloodPortal.DisplayName: Blood Portal
 				AnchorHoldout.DisplayName: Anchor Holdout
 				AnchorSmashProj.DisplayName: Anchor Smash Proj
+				ChaosArbiterClone.DisplayName: Chaos Arbiter Clone
+				ChaosBoltBoom.DisplayName: Chaos Bolt Boom
+				ChaosBoltProj.DisplayName: Chaos Bolt Proj
+				ChaosBoltHomingProj.DisplayName: Chaos Bolt Homing Proj
+				EvilAssChaosStar.DisplayName: Evil Ass Chaos Star
+				EvilAssChaosStarProj.DisplayName: Evil Ass Chaos Star Proj
 			}
 
 			SummonerProjectiles: {

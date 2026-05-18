@@ -22,7 +22,6 @@ namespace MogMod.Items.Weapons.Magic //Very important note: All of the blood stu
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 5f;
-            Item.value = Item.buyPrice(0, 7, 30, 50);
             Item.rare = ItemRarityID.LightRed;
             Item.value = MogGlobalItem.RarityLightRedBuyPrice;
             Item.UseSound = SoundID.Item9;
