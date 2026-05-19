@@ -1,6 +1,6 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
-using MogMod.Items.Placeable;
+using MogMod.Items.Placeable.Bars;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;

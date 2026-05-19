@@ -2,22 +2,20 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Placeable
+namespace MogMod.Items.Placeable.Ores
 {
-    public class DabDadOreP : ModItem, ILocalizedModType
+    internal class FuciumOre : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;
-            ItemID.Sets.SortingPriorityMaterials[Type] = 90; // Chlorophyte Ore
+            ItemID.Sets.SortingPriorityMaterials[Type] = 69; // Hellstone
         }
         public override void SetDefaults()
         {
-            Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.Ores.DabDadOre>());
-            Item.width = 12;
-            Item.height = 12;
-            Item.value = 3000;
+            Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.Ores.FuciumOreT>());
+            Item.value = Item.sellPrice(silver: 11);
             Item.rare = ItemRarityID.Green;
         }
     }

@@ -1,17 +1,18 @@
 ﻿using MogMod.Items.Other;
+using MogMod.Items.Placeable.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Placeable
+namespace MogMod.Items.Placeable.Bars
 {
-    public class FaeBar : ModItem, ILocalizedModType
+    public class FuciumBar : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-            ItemID.Sets.SortingPriorityMaterials[Type] = 90; // Chlorophyte Ore
+            ItemID.Sets.SortingPriorityMaterials[Type] = 69; // Hellstone
         }
 
         public override void SetDefaults()
@@ -19,23 +20,22 @@ namespace MogMod.Items.Placeable
             Item.width = 30;
             Item.height = 24;
             Item.maxStack = Item.CommonMaxStack;
-            Item.rare = ItemRarityID.Pink;
+            Item.rare = ItemRarityID.Green;
             Item.consumable = true;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
             Item.useAnimation = Item.useTime = 10;
             Item.autoReuse = true;
-            Item.createTile = ModContent.TileType<Tiles.Bars.FaeBars>();
+            Item.createTile = ModContent.TileType<Tiles.Bars.FuciumBarT>();
             Item.placeStyle = 0;
 
-            Item.value = Item.sellPrice(silver: 132);
+            Item.value = Item.sellPrice(silver: 35);
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<FaeOre>(4).
-                AddIngredient(ItemID.PixieDust, 1).
-                AddTile(TileID.AdamantiteForge).
+                AddIngredient<FuciumOre>(3).
+                AddTile(TileID.Furnaces).
                 Register();
         }
     }

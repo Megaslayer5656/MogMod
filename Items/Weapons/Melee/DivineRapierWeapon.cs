@@ -2,7 +2,7 @@
 using MogMod.Items.Accessories;
 using MogMod.Items.Consumables;
 using MogMod.Items.Global;
-using MogMod.Items.Placeable;
+using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.MeleeProjectiles;
 using MogMod.Rarities;
 using System.Collections.Generic;

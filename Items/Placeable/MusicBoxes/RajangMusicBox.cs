@@ -1,7 +1,7 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Placeable
+namespace MogMod.Items.Placeable.MusicBoxes
 {
     public class RajangMusicBox : MusicBox
     {

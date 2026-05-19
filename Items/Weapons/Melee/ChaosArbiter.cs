@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Items.Placeable;
+using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.MeleeProjectiles;
 using MogMod.Utilities;
 using System;
@@ -81,27 +81,24 @@ namespace MogMod.Items.Weapons.Melee
                 if (player.statLife > player.statLifeMax2)
                     player.statLife = player.statLifeMax2;
 
-                // TODO: make phantom spawns take up empty slots instead of going 0 -> 3
+                // TODO: make phantom spawns take up empty slots instead of random
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosArbiterClone>()] <= 3)
                 {
-                    if (numb <= 3)
-                        numb++;
-                    else
-                        numb = 0;
+                    numb = Main.rand.Next(0, 4);
                     Projectile clone = Projectile.NewProjectileDirect(Item.GetSource_FromThis(), player.Center, Vector2.Zero, ModContent.ProjectileType<ChaosArbiterClone>(), Item.damage, Item.knockBack, player.whoAmI, numb);
                     clone.OriginalCritChance = Item.crit;
                 }
             }
         }
-        //public override void AddRecipes() // unobtainable for now since it does 3k dps
-        //{
-        //    CreateRecipe().
-        //        AddIngredient<ChaosBlade>().
-        //        AddIngredient(ItemID.BrokenHeroSword).
-        //        AddIngredient<UltimateOrb>().
-        //        AddIngredient<GriefBar>(12).
-        //        AddTile(TileID.MythrilAnvil).
-        //        Register();
-        //}
+        public override void AddRecipes() // unobtainable for now since it does 3k dps
+        {
+            CreateRecipe().
+                AddIngredient<ChaosBlade>().
+                AddIngredient(ItemID.BrokenHeroSword).
+                AddIngredient<UltimateOrb>().
+                AddIngredient<GriefBar>(12).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+        }
     }
 }

@@ -3,7 +3,7 @@ using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
-using MogMod.Items.Placeable;
+using MogMod.Items.Placeable.Bars;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;

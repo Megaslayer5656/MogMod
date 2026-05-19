@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using MogMod.Projectiles.RangedProjectiles;
-using MogMod.Items.Placeable;
+using MogMod.Items.Placeable.Bars;
 
 namespace MogMod.Items.Ammo
 {

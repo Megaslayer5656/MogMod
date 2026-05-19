@@ -515,8 +515,10 @@ Mods: {
 				}
 			}
 
-			FreakyTien.DisplayName: Freaky Tien
 			FaeSlime.DisplayName: Fae Slime
+			FreakyTienBody.DisplayName: Freaky Tien
+			FreakyTienHead.DisplayName: Freaky Tien
+			FreakyTienTail.DisplayName: Freaky Tien
 		}
 
 		Projectiles: {
@@ -697,6 +699,13 @@ Mods: {
 			FireworkCrossbowProj.DisplayName: Firework Crossbow Proj
 			WarFuryProjectile.DisplayName: War Fury Projectile
 			BloodPortal.DisplayName: Blood Portal
+		}
+
+		Bestiary: {
+			ImportantFlavorText: Important Flavor Text!
+			KingVon: King Von was not a rapper who sometimes killed people... He was a serial killer who occasionally raped people!
+			FreakyTien: The greatest siege player, out on a rampage, touching whoever he lays his eyes on...
+			FaeSlime: Slimers that have absorbed vast amounts of fae energy. They no longer spread evil, instead spreading the essence of fae everywhere they go.
 		}
 	}
 }

@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using MogMod.Projectiles.RangedProjectiles;
-using MogMod.Items.Other;
 
 namespace MogMod.Items.Ammo
 {
@@ -25,9 +24,14 @@ namespace MogMod.Items.Ammo
         }
         public override void AddRecipes()
         {
-            CreateRecipe(150).
-                AddIngredient<BoulderBullet>(150).
-                AddIngredient(ItemID.PinkGel, 10).
+            CreateRecipe(100).
+                AddIngredient<BoulderBullet>(100).
+                AddIngredient(ItemID.PinkGel, 5).
+                AddTile(TileID.Anvils).
+                Register();
+            CreateRecipe(100).
+                AddIngredient(ItemID.MusketBall, 100).
+                AddIngredient(ItemID.BouncyBoulder).
                 AddTile(TileID.Anvils).
                 Register();
         }

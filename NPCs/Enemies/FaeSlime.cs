@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Placeable;
+﻿using MogMod.Items.Placeable.Banners;
+using MogMod.Items.Placeable.Ores;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
@@ -36,16 +37,16 @@ namespace MogMod.NPCs.Enemies
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             Banner = NPC.type;
-            //BannerItem = ModContent.ItemType<AeroSlimeBanner>();
+            BannerItem = ModContent.ItemType<FaeSlimeBanner>();
         }
-        //public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
-        //{
-        //    bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
-        //    {
-        //        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
-        //        new FlavorTextBestiaryInfoElement("Mods.MogMod.Bestiary.AeroSlime")
-        //    });
-        //}
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+                new FlavorTextBestiaryInfoElement("Mods.MogMod.Bestiary.FaeSlime")
+            });
+        }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.PlayerSafe || !NPC.downedEmpressOfLight)

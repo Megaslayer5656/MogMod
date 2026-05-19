@@ -2,7 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Placeable
+namespace MogMod.Items.Placeable.Bars
 {
     public class DabDadBar : ModItem, ILocalizedModType
     {

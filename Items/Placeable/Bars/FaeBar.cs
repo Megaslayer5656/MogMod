@@ -1,17 +1,20 @@
-﻿using Terraria;
+﻿using MogMod.Items.Other;
+using MogMod.Items.Placeable.Ores;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Placeable
+namespace MogMod.Items.Placeable.Bars
 {
-    public class GriefBar : ModItem, ILocalizedModType
+    public class FaeBar : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 15;
+            Item.ResearchUnlockCount = 25;
             ItemID.Sets.SortingPriorityMaterials[Type] = 90; // Chlorophyte Ore
         }
+
         public override void SetDefaults()
         {
             Item.width = 30;
@@ -23,16 +26,16 @@ namespace MogMod.Items.Placeable
             Item.useTurn = true;
             Item.useAnimation = Item.useTime = 10;
             Item.autoReuse = true;
-            Item.createTile = ModContent.TileType<Tiles.Bars.GriefBars>();
+            Item.createTile = ModContent.TileType<Tiles.Bars.FaeBars>();
             Item.placeStyle = 0;
-            Item.value = Item.sellPrice(silver: 88);
+
+            Item.value = Item.sellPrice(silver: 132);
         }
         public override void AddRecipes()
         {
-            CreateRecipe(3).
-                AddIngredient(ItemID.HellstoneBar, 3).
-                AddIngredient(ItemID.SoulofFright, 1).
-                AddIngredient(ItemID.SoulofNight, 1).
+            CreateRecipe().
+                AddIngredient<FaeOre>(4).
+                AddIngredient(ItemID.PixieDust, 1).
                 AddTile(TileID.AdamantiteForge).
                 Register();
         }

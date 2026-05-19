@@ -787,11 +787,7 @@ Items: {
 
 			BattleFury: {
 				DisplayName: Battle Fury
-				Tooltip:
-					'''
-					[c/BD6B39:'The bearer of this mighty axe gains the]
-					[c/BD6B39:ability to cut down swaths of enemies at once.']
-					'''
+				Tooltip: Throws an axe
 			}
 
 			Daedalus: {
@@ -959,12 +955,22 @@ Items: {
 
 			WarFury: {
 				DisplayName: War Fury
-				Tooltip: ""
+				Tooltip:
+					'''
+					Throws an axe that explodes on hit
+					[c/BD6B39:'The bearer of this mighty axe gains the]
+					[c/BD6B39:ability to cut down swaths of enemies at once.']
+					'''
 			}
 
 			LordOfBloodsSpear: {
 				DisplayName: Lord Of Bloods Spear
-				Tooltip: ""
+				Tooltip:
+					'''
+					High bleed buildup
+					Right click to create a delayed explosion of blood, damaging everything including yourself
+					[c/660514:'The mother of truth desires a wound.']
+					'''
 			}
 
 			ChaosArbiter: {
@@ -2317,5 +2323,15 @@ Items: {
 			DisplayName: Fucium Waraxe
 			Tooltip: ""
 		}
+	}
+
+	FaeSlimeBanner: {
+		DisplayName: Fae Slime Banner
+		Tooltip: ""
+	}
+
+	FreakyTienBanner: {
+		DisplayName: Freaky Tien Banner
+		Tooltip: ""
 	}
 }

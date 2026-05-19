@@ -1,6 +1,6 @@
 ﻿using Terraria.ModLoader;
 
-namespace MogMod.Items.Placeable
+namespace MogMod.Items.Placeable.MusicBoxes
 {
     public class BizarreMusicBox : MusicBox
     {

@@ -1,5 +1,6 @@
 ﻿using MogMod.Items.Accessories;
-using MogMod.Items.Placeable;
+using MogMod.Items.Placeable.MusicBoxes;
+using MogMod.Items.Placeable.Ores;
 using MogMod.Items.Weapons.Magic.SorceryStaves;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Utilities;

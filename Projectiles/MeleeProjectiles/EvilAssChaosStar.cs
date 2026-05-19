@@ -74,7 +74,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             for (int i = 0; i < choice; i++)
             {
                 Vector2 velocity = ((MathHelper.TwoPi * i / choice) - offset).ToRotationVector2() * (choice / 2);
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<EvilAssChaosStarProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<EvilAssChaosStarProj>(), (int)(Projectile.damage * 1.5f), Projectile.knockBack, Projectile.owner);
             }
         }
     }

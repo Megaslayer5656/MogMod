@@ -1,7 +1,7 @@
 ﻿using MogMod.Items.Accessories;
 using MogMod.Items.Consumables;
 using MogMod.Items.Other;
-using MogMod.Items.Placeable;
+using MogMod.Items.Placeable.MusicBoxes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

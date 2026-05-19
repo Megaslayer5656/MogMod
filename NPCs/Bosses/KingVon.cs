@@ -5,6 +5,7 @@ using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,7 +37,19 @@ namespace MogMod.NPCs.Bosses
                 Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/VonTheme1"); //Music
             }
         }
-        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            // We can use AddRange instead of calling Add multiple times in order to add multiple items at once
+            bestiaryEntry.Info.AddRange([
+				// Sets the spawning conditions of this NPC that is listed in the bestiary.
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Underground,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+
+				// Sets the description of this NPC that is listed in the bestiary.
+				new FlavorTextBestiaryInfoElement("Mods.MogMod.Bestiary.KingVon")
+            ]);
+        }
+
         static Random random = new Random(); //You need to have this somewhere at the top of your file if you want to use random numbers later on
         public static int Phase2HeadSlot = -1;
         public int vonShotTimer = 0; // The very short timer between all of his shots (so a proj isn't spawned every frame)

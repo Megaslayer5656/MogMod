@@ -1,7 +1,7 @@
 ﻿using MogMod.Buffs.Debuffs;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Items.Placeable;
+using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.MeleeProjectiles;
 using Terraria;
 using Terraria.ID;

@@ -2,7 +2,7 @@
 using MogMod.Common.Systems;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Items.Placeable;
+using MogMod.Items.Placeable.Bars;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Utilities;
 using System.Collections.Generic;

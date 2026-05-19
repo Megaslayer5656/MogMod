@@ -8,7 +8,7 @@ using MogMod.Items.Accessories;
 using MogMod.Items.Ammo;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Items.Placeable;
+using MogMod.Items.Placeable.Ores;
 using MogMod.Items.Weapons.Magic.SorceryStaves;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;

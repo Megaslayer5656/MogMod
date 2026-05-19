@@ -3,7 +3,7 @@ using MogMod.Buffs.Debuffs;
 using MogMod.Items.Consumables;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Items.Placeable;
+using MogMod.Items.Placeable.Bars;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Projectiles.RangedProjectiles;
 using System;

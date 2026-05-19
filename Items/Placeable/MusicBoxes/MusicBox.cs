@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace MogMod.Items.Placeable
+namespace MogMod.Items.Placeable.MusicBoxes
 {
     public abstract class MusicBox : ModItem
     {

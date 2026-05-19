@@ -182,13 +182,10 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 if (player.statLife > player.statLifeMax2)
                     player.statLife = player.statLifeMax2;
 
-                // TODO: make phantom spawns take up empty slots instead of going 0 -> 3
+                // TODO: make phantom spawns take up empty slots instead of random
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosArbiterClone>()] <= 3)
                 {
-                    if (ChaosArbiter.numb <= 3)
-                        ChaosArbiter.numb++;
-                    else
-                        ChaosArbiter.numb = 0;
+                    ChaosArbiter.numb = Main.rand.Next(0, 4);
                     Projectile clone = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ModContent.ProjectileType<ChaosArbiterClone>(), Projectile.damage, Projectile.knockBack, Projectile.owner, ChaosArbiter.numb);
                     clone.OriginalCritChance = Main.rand.Next(10, 30);
                 }

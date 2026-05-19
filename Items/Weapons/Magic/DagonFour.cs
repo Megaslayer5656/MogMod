@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Items.Placeable;
+using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.DataStructures;

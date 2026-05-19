@@ -8,7 +8,7 @@ using Terraria.Audio;
 using MogMod.Items.Other;
 using Terraria.DataStructures;
 using System;
-using MogMod.Items.Placeable;
+using MogMod.Items.Placeable.Bars;
 
 namespace MogMod.Items.Weapons.Melee
 {
