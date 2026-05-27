@@ -199,6 +199,7 @@ namespace MogMod.Common.MogModPlayer
         public bool ghostflameDebuff;
         public bool jidiDebuff;
         public bool shivaDebuff;
+        public bool infernoDebuff;
 
         // auras
         public bool greavesAura = false;
@@ -1638,6 +1639,7 @@ namespace MogMod.Common.MogModPlayer
             ghostflameDebuff = false;
             jidiDebuff = false;
             shivaDebuff = false;
+            infernoDebuff = false;
 
             greavesAura = false;
             wraithAura = false;

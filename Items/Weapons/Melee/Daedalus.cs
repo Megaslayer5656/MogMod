@@ -90,14 +90,14 @@ namespace MogMod.Items.Weapons.Melee
         // On-hit, explode for extra damage.
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.Dazed, 480);
-            target.AddBuff(BuffID.Daybreak, 480);
+            target.AddBuff(BuffID.Dazed, 300);
+            target.AddBuff(BuffID.Daybreak, 300);
             OnHitEffects(player, target.Center);
         }
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
-            target.AddBuff(BuffID.Dazed, 480);
-            target.AddBuff(BuffID.Daybreak, 480);
+            target.AddBuff(BuffID.Dazed, 300);
+            target.AddBuff(BuffID.Daybreak, 300);
             OnHitEffects(player, target.Center);
         }
 

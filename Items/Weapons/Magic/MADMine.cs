@@ -54,6 +54,7 @@ namespace MogMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient<ProximityMines>(1).
+                AddIngredient(ItemID.ExplosivePowder, 50).
                 AddIngredient<AghanimShard>(1).
                 AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.MythrilAnvil).

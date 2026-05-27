@@ -1,10 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,6 +8,7 @@ namespace MogMod.Projectiles.RangedProjectiles
 {
     public class FireworkCrossbowProj : ModProjectile
     {
+        public new string LocalizationCategory => "Projectiles.RangedProjectiles";
         public override void SetDefaults()
         {
             Projectile.width = 20;

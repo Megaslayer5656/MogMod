@@ -1,22 +1,26 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Other;
 using MogMod.Items.Placeable.Banners;
 using MogMod.NPCs.Global;
+using MogMod.Utilities;
 using System.IO;
 using Terraria;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 
 namespace MogMod.NPCs.Enemies
 {
     // These three class showcase usage of the WormHead, WormBody and WormTail classes from Worm.cs
+    #region Worm Head
     internal class FreakyTienHead : WormHead
     {
+        #region Setup
         public override int BodyType => ModContent.NPCType<FreakyTienBody>();
-
         public override int TailType => ModContent.NPCType<FreakyTienTail>();
-
         public override void SetStaticDefaults()
         {
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
@@ -28,7 +32,6 @@ namespace MogMod.NPCs.Enemies
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
         }
-
         public override void SetDefaults()
         {
             // Head is 10 defense, body 20, tail 30.
@@ -40,9 +43,11 @@ namespace MogMod.NPCs.Enemies
             Banner = Type;
             // These lines are only needed in the main body part.
             BannerItem = ModContent.ItemType<FreakyTienBanner>();
-            ItemID.Sets.KillsToBanner[BannerItem] = 25; // Custom kill count required for banner drop and bestiary unlock. Omit this line for the default 50 kill count.
+            //ItemID.Sets.KillsToBanner[BannerItem] = 25; // Custom kill count required for banner drop and bestiary unlock. Omit this line for the default 50 kill count.
         }
+        #endregion
 
+        #region Bestiary, Spawning, & Loot
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             // We can use AddRange instead of calling Add multiple times in order to add multiple items at once
@@ -54,11 +59,16 @@ namespace MogMod.NPCs.Enemies
 				new FlavorTextBestiaryInfoElement("Mods.MogMod.Bestiary.FreakyTien")
             ]);
         }
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        // We would like this npc to spawn below the surface.
+        public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.Cavern.Chance * 0.075f;
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            // We would like this npc to spawn below the surface.
-            return SpawnCondition.Cavern.Chance * 0.075f;
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<VitalityBooster>(), 1, 1, 2));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<PointBooster>(), 2, 1, 1));
         }
+        #endregion
+
+        #region AI
         public override void Init()
         {
             // Set the segment variance
@@ -68,7 +78,6 @@ namespace MogMod.NPCs.Enemies
 
             CommonWormInit(this);
         }
-
         // This method is invoked from ExampleWormHead, ExampleWormBody and ExampleWormTail
         internal static void CommonWormInit(Worm worm)
         {
@@ -76,18 +85,15 @@ namespace MogMod.NPCs.Enemies
             worm.MoveSpeed = 10f;
             worm.Acceleration = 0.1f;
         }
-
         private int attackCounter;
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(attackCounter);
         }
-
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             attackCounter = reader.ReadInt32();
         }
-
         public override void AI()
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -111,10 +117,14 @@ namespace MogMod.NPCs.Enemies
                 }
             }
         }
+        #endregion
     }
+    #endregion
 
+    #region Worm Body
     internal class FreakyTienBody : WormBody
     {
+        public override LocalizedText DisplayName => MiscUtils.GetText("NPCs.FreakyTienHead.DisplayName");
         public override void SetStaticDefaults()
         {
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
@@ -124,7 +134,6 @@ namespace MogMod.NPCs.Enemies
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
             NPCID.Sets.RespawnEnemyID[Type] = ModContent.NPCType<FreakyTienHead>();
         }
-
         public override void SetDefaults()
         {
             NPC.CloneDefaults(NPCID.DiggerBody);
@@ -135,15 +144,17 @@ namespace MogMod.NPCs.Enemies
             // Extra body parts should use the same Banner value as the main ModNPC.
             Banner = ModContent.NPCType<FreakyTienHead>();
         }
-
         public override void Init()
         {
             FreakyTienHead.CommonWormInit(this);
         }
     }
+    #endregion
 
+    #region Worm Tail
     internal class FreakyTienTail : WormTail
     {
+        public override LocalizedText DisplayName => MiscUtils.GetText("NPCs.FreakyTienHead.DisplayName");
         public override void SetStaticDefaults()
         {
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
@@ -153,7 +164,6 @@ namespace MogMod.NPCs.Enemies
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
             NPCID.Sets.RespawnEnemyID[Type] = ModContent.NPCType<FreakyTienHead>();
         }
-
         public override void SetDefaults()
         {
             NPC.CloneDefaults(NPCID.DiggerTail);
@@ -164,10 +174,10 @@ namespace MogMod.NPCs.Enemies
             // Extra body parts should use the same Banner value as the main ModNPC.
             Banner = ModContent.NPCType<FreakyTienHead>();
         }
-
         public override void Init()
         {
             FreakyTienHead.CommonWormInit(this);
         }
     }
+    #endregion
 }

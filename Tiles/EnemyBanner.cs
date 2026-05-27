@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.Enums;
 using Terraria.ModLoader;
 
-namespace MogMod.Tiles.Banners
+namespace MogMod.Tiles
 {
     // This tile is for enemy banners (https://terraria.wiki.gg/wiki/Banners_(enemy)). Several ModNPC in ExampleMod (ExampleZombieThief and PartyZombie) share a banner with an existing enemy, but the enemies represented in this tile have their own.
     // This class inherits from ModBannerTile. By inheriting from ModBannerTile, most of the logic needed to implement an enemy banner tile is automatically handled.
@@ -20,7 +20,8 @@ namespace MogMod.Tiles.Banners
         public enum StyleID
         {
             FreakyTien,
-            FaeSlime
+            FaeSlime,
+			Ahmod
         }
     }
 

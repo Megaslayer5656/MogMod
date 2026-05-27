@@ -166,14 +166,18 @@ namespace MogMod.Utilities
                 .AddIngredient<FrigidShard>(5)
                 .AddIngredient<ManaEssence>(1)
                 .AddTile(TileID.Anvils)
-                .DisableDecraft()
                 .Register();
-            // band of starpower
+            // north pole
             Recipe northPoleRecipe = Recipe.Create(ItemID.NorthPole, 1);
             northPoleRecipe.AddIngredient<FrozenSpear>(1)
                 .AddIngredient(ItemID.ChristmasTreeSword, 1)
                 .AddIngredient<UltimateOrb>(1)
                 .AddTile(TileID.MythrilAnvil)
+                .Register();
+            // tnt barrel
+            Recipe tntBarrel = Recipe.Create(ItemID.TNTBarrel, 3);
+            tntBarrel.AddIngredient(ItemID.ExplosivePowder, 3)
+                .AddIngredient(ItemID.Barrel, 3)
                 .DisableDecraft()
                 .Register();
             #endregion

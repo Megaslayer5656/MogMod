@@ -8,6 +8,7 @@ namespace MogMod.Utilities
     public static partial class NPCUtils
     {
         #region Minion Homing
+        // copied from calamity mod
         public static float Modulo(this float dividend, float divisor)
         {
             return dividend - (float)Math.Floor(dividend / divisor) * divisor;

@@ -18,11 +18,7 @@ namespace MogMod.Items.Weapons.Melee
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public static bool MaxLife = false;
-        public override void SetStaticDefaults()
-        {
-            ItemID.Sets.Spears[Item.type] = true;
-        }
-
+        public override void SetStaticDefaults() => ItemID.Sets.Spears[Item.type] = true;
         public override void SetDefaults()
         {
             Item.damage = 240;
@@ -42,9 +38,8 @@ namespace MogMod.Items.Weapons.Melee
             Item.shoot = ModContent.ProjectileType<DivineRapierProj>();
             Item.shootSpeed = 12f;
         }
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 76;
-
-        // TODO: shoot a beam regardless of current health, make beam home and split into 8 mini beams at max health;
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 96;
+        public override bool MeleePrefix() => true;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             // only fire beams at max health

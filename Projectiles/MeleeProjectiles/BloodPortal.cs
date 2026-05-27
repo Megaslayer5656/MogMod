@@ -9,6 +9,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
 {
     public class BloodPortal : ModProjectile, ILocalizedModType
     {
+        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         public override void SetDefaults()
         {
@@ -36,12 +37,20 @@ namespace MogMod.Projectiles.MeleeProjectiles
             float width = (float)Projectile.width * Projectile.scale;
             float height = (float)Projectile.height * Projectile.scale;
             Projectile.Center = Main.player[Projectile.owner].Center;
-            Vector2 dustPos = Projectile.Center - new Vector2(width / 2f, height / 2f);
-            Vector2 randomOffset = Main.rand.NextVector2Circular(width / 2f, height / 2f); //Maybe remove this?
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 70; i++)
             {
-                int d = Dust.NewDust(dustPos + randomOffset, Convert.ToInt32(width), Convert.ToInt32(height), DustID.Blood);
+                Vector2 randomOffset = Main.rand.NextVector2Circular(width / 2f, height / 2f);
+                Dust d = Dust.NewDustPerfect(Projectile.Center + randomOffset, DustID.Blood, Projectile.DirectionFrom(Projectile.Center + Projectile.velocity + randomOffset) * Main.rand.NextFloat(5f, 7f));
+                d.fadeIn = .15f;
+                d.scale = 1.5f;
+            }
+
+            for (int i = 0; i < 150; i++)
+            {
+                Vector2 randPos = Main.rand.NextVector2CircularEdge(width / 2f, height / 2f);
+                Dust telegraphDust = Dust.NewDustPerfect(Projectile.Center + randPos, DustID.Blood, Projectile.DirectionFrom(Projectile.Center + Projectile.velocity + randPos) * Main.rand.NextFloat(5f, 7f), 0, default, 1.5f);
+                telegraphDust.noGravity = true;
             }
 
             Lighting.AddLight(Projectile.Center, Projectile.scale, .1f, .1f);

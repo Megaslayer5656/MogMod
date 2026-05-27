@@ -44,6 +44,7 @@ namespace MogMod.NPCs.Global
         public bool jidiDebuff;
         public bool blackBladeDebuff;
         public bool shivasDebuff;
+        public bool infernoDebuff;
 
         public NPC.HitInfo hitInfo;
         public int maxBlood = 150;
@@ -514,7 +515,7 @@ namespace MogMod.NPCs.Global
             }
             if (wingsOfLightDebuff)
             {
-                ApplyDPSDebuff(200, 10, ref npc.lifeRegen, ref damage);
+                ApplyDPSDebuff(300, 15, ref npc.lifeRegen, ref damage);
             }
             if (blackBladeDebuff)
             {
@@ -523,6 +524,10 @@ namespace MogMod.NPCs.Global
             if (ghostflameDebuff)
             {
                 ApplyDPSDebuff(170, 7, ref npc.lifeRegen, ref damage);
+            }
+            if (infernoDebuff)
+            {
+                ApplyDPSDebuff(500, 50, ref npc.lifeRegen, ref damage);
             }
             //if (jidiDebuff)
             //{
@@ -681,6 +686,11 @@ namespace MogMod.NPCs.Global
                 ShivasEnemyDebuff.DrawEffects(npc, ref drawColor);
                 drawColor = Color.LightSkyBlue;
             }
+            if (infernoDebuff)
+            {
+                InfernoDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.OrangeRed;
+            }
         }
 
         // debuff damage (how often it applies damage and how much damage is dealt)
@@ -705,6 +715,7 @@ namespace MogMod.NPCs.Global
             jidiDebuff = false;
             blackBladeDebuff = false;
             shivasDebuff = false;
+            infernoDebuff = false;
         }
         #endregion
     }

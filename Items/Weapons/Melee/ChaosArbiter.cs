@@ -74,7 +74,7 @@ namespace MogMod.Items.Weapons.Melee
                 
                 int heal = Main.rand.Next(1, 5);
                 // for SOME REASON player has a default of 70 lifesteal
-                heal *= Convert.ToInt32(player.lifeSteal * 0.12);
+                heal *= Convert.ToInt32(player.lifeSteal * 0.1);
                 player.statLife += heal;
                 player.HealEffect(heal);
                 // so we dont go over max life
@@ -90,12 +90,12 @@ namespace MogMod.Items.Weapons.Melee
                 }
             }
         }
-        public override void AddRecipes() // unobtainable for now since it does 3k dps
+        public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient<ChaosBlade>().
                 AddIngredient(ItemID.BrokenHeroSword).
-                AddIngredient<UltimateOrb>().
+                AddIngredient<LizhardBloodVial>().
                 AddIngredient<GriefBar>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();

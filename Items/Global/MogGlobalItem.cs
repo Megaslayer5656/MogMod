@@ -231,6 +231,15 @@ namespace MogMod.Items.Global
                     new Color(25, 106, 156)
                 });
             }
+            if (item.type == ModContent.ItemType<Flamewall>())
+            {
+                nameLine.OverrideColor = MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / 2f % 1f, new Color[]
+                {
+                    new Color(245, 44, 44),
+                    new Color(237, 118, 31),
+                    new Color(247, 194, 47),
+                });
+            }
         }
         #endregion
     }

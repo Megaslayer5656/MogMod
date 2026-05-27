@@ -5,10 +5,10 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Placeable.Banners
 {
-    public class FaeSlimeBanner : ModItem
+    public class AhmodBanner : ModItem
 	{
 		public override void SetDefaults() {
-			Item.DefaultToPlaceableTile(ModContent.TileType<EnemyBanner>(), (int)EnemyBanner.StyleID.FaeSlime);
+			Item.DefaultToPlaceableTile(ModContent.TileType<EnemyBanner>(), (int)EnemyBanner.StyleID.Ahmod);
 			Item.width = 10;
 			Item.height = 24;
 			Item.SetShopValues(ItemRarityColor.Blue1, Item.buyPrice(silver: 10));

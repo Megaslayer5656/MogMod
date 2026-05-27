@@ -983,6 +983,16 @@ Items: {
 					[c/7A2129:'I consign you to dust.']
 					'''
 			}
+
+			Flamewall: {
+				DisplayName: Flamewall
+				Tooltip:
+					'''
+					Rains down a firey meteors from the sky
+					Striking an enemy causes a fire tornado to appear
+					'The ultimate endurance test.'
+					'''
+			}
 		}
 
 		Ranged: {
@@ -1849,7 +1859,7 @@ Items: {
 		}
 
 		LizhardBloodVial: {
-			DisplayName: Lizhard Blood Vial
+			DisplayName: Lihzahrd Blood Vial
 			Tooltip: Appears to be fuel for the Golem
 		}
 
@@ -2333,5 +2343,10 @@ Items: {
 	FreakyTienBanner: {
 		DisplayName: Freaky Tien Banner
 		Tooltip: ""
+	}
+
+	AhmodBanner: {
+		Tooltip: ""
+		DisplayName: Ahmod Banner
 	}
 }

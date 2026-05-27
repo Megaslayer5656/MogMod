@@ -2,12 +2,22 @@
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Localization;
 
 namespace MogMod.Utilities
 {
     public static partial class MiscUtils
     {
         // all from calamity mod thank you 
+        /// <param name="key">The language key. This will have "Mods.MogMod." appended behind it.</param>
+        /// <returns>
+        /// A <see cref="LocalizedText"/> instance found using the provided key with "Mods.MogMod." appended behind it. 
+        /// <para>NOTE: Modded translations are not loaded until after PostSetupContent.</para>Caching the result is suggested.
+        /// </returns>
+        public static LocalizedText GetText(string key)
+        {
+            return Language.GetOrRegister("Mods.MogMod." + key);
+        }
         public static void AddWithCondition<T>(this List<T> list, T type, bool condition)
         {
             if (condition)

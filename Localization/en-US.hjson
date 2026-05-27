@@ -461,6 +461,11 @@ Mods: {
 				DisplayName: Shadow Realm
 				Description: something somehting mireska jex
 			}
+
+			InfernoDebuff: {
+				DisplayName: Inferno Debuff
+				Description: Mods.MogMod.Buffs.InfernoDebuff.Description
+			}
 		}
 
 		NPCs: {
@@ -480,10 +485,6 @@ Mods: {
 					Princess_LovesNPC: The aura radiating off of {NPCName} is sooo sweet to loot at.
 				}
 			}
-
-			KingVon.DisplayName: King Von
-			RadiantCreep.DisplayName: Radiant Creep
-			Rajang.DisplayName: Rajang
 
 			Mendez: {
 				DisplayName: Mendez
@@ -515,10 +516,12 @@ Mods: {
 				}
 			}
 
+			KingVon.DisplayName: King Von
+			Rajang.DisplayName: Rajang
+			Ahmod.DisplayName: Ahmod
 			FaeSlime.DisplayName: Fae Slime
-			FreakyTienBody.DisplayName: Freaky Tien
 			FreakyTienHead.DisplayName: Freaky Tien
-			FreakyTienTail.DisplayName: Freaky Tien
+			RadiantCreep.DisplayName: Radiant Creep
 		}
 
 		Projectiles: {
@@ -574,9 +577,9 @@ Mods: {
 				RadiantBeamProj.DisplayName: Radiant Beam
 				ShadowRealmProj.DisplayName: Shadow Realm Proj
 				ThrowingShadeProj.DisplayName: Throwing Shade Proj
-				ProximityMinesSummon.DisplayName: Proximity Mines Summon
-				ProximityMinesExplosion.DisplayName: Proximity Mines Explosion
-				MADMineProj.DisplayName: M A D Mine Proj
+				ProximityMinesSummon.DisplayName: Proximity Mine
+				ProximityMinesExplosion.DisplayName: Proximity Mine
+				MADMineProj.DisplayName: MAD Mine
 			}
 
 			RangedProjectiles: {
@@ -666,6 +669,10 @@ Mods: {
 				ChaosBoltHomingProj.DisplayName: Chaos Bolt Homing Proj
 				EvilAssChaosStar.DisplayName: Evil Ass Chaos Star
 				EvilAssChaosStarProj.DisplayName: Evil Ass Chaos Star Proj
+				FlamePortal.DisplayName: Flame Portal
+				FlameTornado.DisplayName: Flame Tornado
+				FlameMeteorProj.DisplayName: Flame Meteor Proj
+				FlameTornadoProj.DisplayName: Flame Tornado Proj
 			}
 
 			SummonerProjectiles: {
@@ -692,20 +699,20 @@ Mods: {
 				VonLaserSpawner.DisplayName: Von Laser Spawner
 			}
 
+			MoonveilProj.DisplayName: Moonveil Proj
 			SelvesProj1.DisplayName: Selves Proj1
 			SelvesProj2.DisplayName: Selves Proj2
 			SelvesProj3.DisplayName: Selves Proj3
-			MoonveilProj.DisplayName: Moonveil Proj
-			FireworkCrossbowProj.DisplayName: Firework Crossbow Proj
 			WarFuryProjectile.DisplayName: War Fury Projectile
-			BloodPortal.DisplayName: Blood Portal
+			FireworkCrossbowProj.DisplayName: Firework Crossbow Proj
+			EnemyProjectiles.AhmodStickyNade.DisplayName: Ahmod Sticky Nade
 		}
 
 		Bestiary: {
 			ImportantFlavorText: Important Flavor Text!
 			KingVon: King Von was not a rapper who sometimes killed people... He was a serial killer who occasionally raped people!
 			FreakyTien: The greatest siege player, out on a rampage, touching whoever he lays his eyes on...
-			FaeSlime: Slimers that have absorbed vast amounts of fae energy. They no longer spread evil, instead spreading the essence of fae everywhere they go.
+			FaeSlime: The master of aggravation, riding atop a tamed nimbus, his only drive is to enrage the lives of others. When close to death, he tries to suicide bomb whomever he sees.
 		}
 	}
 }

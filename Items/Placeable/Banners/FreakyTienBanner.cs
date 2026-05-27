@@ -1,4 +1,4 @@
-﻿using MogMod.Tiles.Banners;
+﻿using MogMod.Tiles;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ModLoader;
