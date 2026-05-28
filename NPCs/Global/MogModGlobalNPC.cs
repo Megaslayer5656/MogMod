@@ -77,6 +77,10 @@ namespace MogMod.NPCs.Global
             Volume = .7f,
             PitchVariance = .2f,
         };
+
+        // Dash damage immunity timer
+        public const int maxPlayerImmunities = Main.maxPlayers + 1;
+        public int[] dashImmunityTime = new int[maxPlayerImmunities];
         #endregion
         public static LocalizedText FaeOreText { get; private set; }
         public override void SetStaticDefaults()

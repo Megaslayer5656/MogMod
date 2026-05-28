@@ -15,8 +15,8 @@ namespace MogMod.Items.Accessories
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.Green;
-            Item.value = MogGlobalItem.RarityGreenBuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.value = MogGlobalItem.RarityBlueBuyPrice;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -28,9 +28,9 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Amethyst, 7).
-                AddIngredient(ItemID.Sapphire, 3).
-                AddIngredient(ItemID.InvisibilityPotion, 2).
+                AddIngredient(ItemID.Amethyst, 5).
+                AddIngredient(ItemID.Sapphire, 1).
+                AddIngredient(ItemID.InvisibilityPotion, 1).
                 AddTile(TileID.Anvils).
                 Register();
         }

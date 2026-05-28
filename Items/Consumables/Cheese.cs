@@ -26,7 +26,7 @@ namespace MogMod.Items.Consumables
             Item.consumable = true;
             Item.potion = true;
             Item.healMana = 300;
-            Item.healLife = 170;
+            Item.healLife = 200;
             Item.rare = ItemRarityID.Quest;
             Item.value = Item.buyPrice(0, 10, 30, 0);
             Item.buffType = BuffID.WellFed3;

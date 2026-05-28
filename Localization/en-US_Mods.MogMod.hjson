@@ -125,7 +125,6 @@ Items: {
 			Tooltip:
 				'''
 				+50 Max Life
-				+15% Melee Damage
 				+10% Attack Damage
 				Vastly Increases Lifesteal
 				Press [KEY] to imbue weapons with Lifesteal and increase Lifesteal effectiveness
@@ -199,10 +198,8 @@ Items: {
 			DisplayName: Force Staff
 			Tooltip:
 				'''
-				+4% Magic Damage
-				+4% Summon Damage
 				+20% Knockback
-				Pressing [KEY] will boost you forward in the direction you are facing
+				Press [KEY] to consume 50 mana and boost forward in the direction you are facing
 				[c/72C281:'Allows you to manipulate yourself, for good or evil.']
 				'''
 		}
@@ -211,11 +208,10 @@ Items: {
 			DisplayName: Hurricane Pike
 			Tooltip:
 				'''
-				+15% Attack Speed
-				+15% Non-Melee Damage
+				+20% Attack Speed
 				+30% Knockback
 				Increases block placement range by 3
-				Pressing [KEY] will boost you forward in the direction you are facing
+				Press [KEY] to consume 50 mana and boost forward in the direction you are facing
 				[c/A62828:'A legendary pike once held as royal sigil of the ancient wyvern riders.']
 				'''
 		}
@@ -698,7 +694,7 @@ Items: {
 				DisplayName: Crystalys
 				Tooltip:
 					'''
-					Crits with this weapon deal extra damage
+					Critical strikes deal 20% extra damage
 					[c/CF6BA0:'A blade forged from rare crystals, ]
 					[c/CF6BA0:it seeks weak points in enemy armor.']
 					'''
@@ -988,8 +984,9 @@ Items: {
 				DisplayName: Flamewall
 				Tooltip:
 					'''
-					Rains down a firey meteors from the sky
+					Rains down flaming meteors from the sky
 					Striking an enemy causes a fire tornado to appear
+					Critical strikes deal 50% extra damage
 					'The ultimate endurance test.'
 					'''
 			}
@@ -2290,7 +2287,8 @@ Items: {
 			SetBonus:
 				'''
 				Increases flight time by 50%
-				Double tap any direction to dash
+				Double tap any direction to ram dash
+				This dash can ram through enemies without taking damage
 				'''
 		}
 
@@ -2348,5 +2346,17 @@ Items: {
 	AhmodBanner: {
 		Tooltip: ""
 		DisplayName: Ahmod Banner
+	}
+
+	Pets: {
+		AhmodInABottle: {
+			DisplayName: Ahmod In A Bottle
+			Tooltip: Summons an Ahmod
+		}
+	}
+
+	WarlockGolemBanner: {
+		DisplayName: Warlock Golem Banner
+		Tooltip: ""
 	}
 }

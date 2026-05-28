@@ -25,7 +25,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.width = Item.height = 134;
             Item.damage = 220;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = Item.useTime = 12;
+            Item.useAnimation = Item.useTime = 14;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 8f;
             Item.UseSound = SoundID.Item105;
@@ -44,7 +44,7 @@ namespace MogMod.Items.Weapons.Melee
             for (int i = 0; i < 6; ++i)
             {
                 float randSpeed = speed * Main.rand.NextFloat(0.7f, 1.4f);
-                MogModUtils.ProjectileRain(source, Main.MouseWorld, 290f, 130f, 850f, 1100f, randSpeed, meteorProj, damage, knockback, player.whoAmI);
+                MogModUtils.ProjectileRain(source, Main.MouseWorld, 300f, 150f, 850f, 1100f, randSpeed, meteorProj, damage, knockback, player.whoAmI);
             }
             float adjustedItemScale = player.GetAdjustedItemScale(Item); // Get the melee scale of the player and item.
             Projectile.NewProjectile(source, player.MountedCenter, new Vector2(player.direction, 0f), type, damage, knockback, player.whoAmI, player.direction * player.gravDir, player.itemAnimationMax, adjustedItemScale);
@@ -52,7 +52,7 @@ namespace MogMod.Items.Weapons.Melee
 
             return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 66;
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 56;
         public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers) => modifiers.CritDamage *= 1.5f;
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -91,7 +91,7 @@ namespace MogMod.Items.Weapons.Melee
             Color currentColor = colorList[colorIndex];
             Color nextColor = colorList[(colorIndex + 1) % colorList.Count];
             Color tooltipColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
-            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
             if (line != null)
                 line.OverrideColor = Color.Lerp(tooltipColor, Color.White, 0.5f);
         }

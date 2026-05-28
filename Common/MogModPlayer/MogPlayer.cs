@@ -105,11 +105,22 @@ namespace MogMod.Common.MogModPlayer
 
         public int forceDirection = -1;
 
-        public int FaeDashDir = -1;
-        public const int FaeDashCooldown = 50; // Time (frames) between starting dashes. If this is shorter than DashDuration you can start a new dash before an old one has finished
-        public const int FaeDashDuration = 35; // Duration of the dash afterimage effect in frames
+        public int DashDir = -1;
         public int FaeDashDelay = 0; // frames remaining till we can dash again
         public int FaeDashTimer = 0; // frames remaining in the dash
+
+        public const int FaeDashCooldown = 50; // Time (frames) between starting dashes. If this is shorter than DashDuration you can start a new dash before an old one has finished
+        public const int FaeDashDuration = 35; // Duration of the dash afterimage effect in frames
+
+        public int ForceDashTimer = 0;
+
+        //public const int ForceDashCooldown = 60;
+        public const int ForceDashDuration = 20;
+
+        public int PikeDashTimer = 0;
+
+        //public const int PikeDashCooldown = 60;
+        public const int PikeDashDuration = 60;
 
         public bool canDashUp;
 
@@ -119,8 +130,8 @@ namespace MogMod.Common.MogModPlayer
         public const int DashLeft = 3;
         
         public const float FaeDashVelocity = 22f;
-        public const float ForceVelocity = 12f;
-        public const float PikeVelocity = 25f;
+        public const float ForceDashVelocity = 15f;
+        public const float PikeDashVelocity = 25f;
 
 
         public bool atgActive = false;
@@ -210,6 +221,9 @@ namespace MogMod.Common.MogModPlayer
         public bool shivasAura = false;
 
         public float auraRange = 5000f;
+
+        // pets
+        public bool ahmodPet = false;
         #endregion
 
         #region Sound Effects
@@ -730,11 +744,11 @@ namespace MogMod.Common.MogModPlayer
             // if the player can use our dash, has double tapped in a direction, and our dash isn't currently on cooldown
             if (wearingFaeArmor)
             {
-                if (CanUseDash() && FaeDashDir != -1 && FaeDashDelay == 0)
+                if (CanUseDash() && DashDir != -1 && FaeDashDelay == 0)
                 {
                     Vector2 newVelocity = Player.velocity;
 
-                    switch (FaeDashDir)
+                    switch (DashDir)
                     {
                         // Only apply the dash velocity if our current speed in the wanted direction is less than DashVelocity
                         case DashUp when Player.velocity.Y > -FaeDashVelocity && canDashUp:
@@ -744,7 +758,7 @@ namespace MogMod.Common.MogModPlayer
                                 // If the direction requested was DashUp, then we adjust the velocity to make the dash appear "faster" due to gravity being immediately in effect
                                 // This adjustment is roughly 1.3x the intended dash velocity
                                 canDashUp = false;
-                                float dashDirection = FaeDashDir == DashDown ? 1 : -1f;
+                                float dashDirection = DashDir == DashDown ? 1 : -1f;
                                 newVelocity.Y = dashDirection * FaeDashVelocity;
                                 break;
                             }
@@ -752,7 +766,7 @@ namespace MogMod.Common.MogModPlayer
                         case DashRight when Player.velocity.X < FaeDashVelocity:
                             {
                                 // X-velocity is set here
-                                float dashDirection = FaeDashDir == DashRight ? 1 : -1;
+                                float dashDirection = DashDir == DashRight ? 1 : -1;
                                 newVelocity.X = dashDirection * FaeDashVelocity;
                                 break;
                             }
@@ -774,7 +788,7 @@ namespace MogMod.Common.MogModPlayer
                         Vector2 dustRotate = Vector2.UnitX * 0f;
                         dustRotate += -Vector2.UnitY.RotatedBy((double)((float)dustIncr * (6.28318548f / dustLoopcheck)), default) * new Vector2(1f, 4f);
                         dustRotate = dustRotate.RotatedBy((double)Player.velocity.ToRotation(), default);
-                        int bedman = Dust.NewDust(Player.Center, 0, 0, DustID.RainbowMk2, 0f, 0f, 0, Color.LightBlue, 1f);
+                        int bedman = Dust.NewDust(Player.Center, 0, 0, DustID.RainbowMk2, 0f, 0f, 0, Color.LightPink, 1f);
                         Main.dust[bedman].scale = 1.5f;
                         Main.dust[bedman].noGravity = true;
                         Main.dust[bedman].position = Player.Center + dustRotate;
@@ -787,7 +801,7 @@ namespace MogMod.Common.MogModPlayer
                     FaeDashDelay--;
 
                 if (FaeDashTimer > 0)
-                { 
+                {
                     // dash is active
                     // This is where we set the afterimage effect.  You can replace these two lines with whatever you want to happen during the dash
                     // Some examples include:  spawning dust where the player is, adding buffs, making the player immune, etc.
@@ -816,7 +830,7 @@ namespace MogMod.Common.MogModPlayer
             }
             #endregion
 
-            #region Force Staff
+            #region Force Staff (Old)
             // if force staff isn't on cooldown and was equipped and player just pressed keybind
             if (wearingForceStaff && !Player.mount.Active &&  KeybindSystem.ForceStaffKeybind.JustPressed && !Player.HasBuff(forceStaffCooldown))
             {
@@ -827,61 +841,254 @@ namespace MogMod.Common.MogModPlayer
                 switch (forceDirection)
                 {
                     // Only apply the dash velocity if our current speed in the wanted direction is less than DashVelocity
-                    case DashUp when Player.velocity.Y > -ForceVelocity:
-                    case DashDown when Player.velocity.Y < ForceVelocity:
+                    case DashUp when Player.velocity.Y > -ForceDashVelocity:
+                    case DashDown when Player.velocity.Y < ForceDashVelocity:
                             {
                             // Y-velocity is set here
                             // If the direction requested was DashUp, then we adjust the velocity to make the dash appear "faster" due to gravity being immediately in effect
                             // This adjustment is roughly 1.3x the intended dash velocity
                             float dashDirection = forceDirection == DashDown ? 1 : -1.3f;
-                            newVelocity.Y = dashDirection * ForceVelocity;
+                            newVelocity.Y = dashDirection * ForceDashVelocity;
                             break;
                         }
-                    case DashLeft when Player.velocity.X > -ForceVelocity:
-                    case DashRight when Player.velocity.X < ForceVelocity:
+                    case DashLeft when Player.velocity.X > -ForceDashVelocity:
+                    case DashRight when Player.velocity.X < ForceDashVelocity:
                         {
                             // X-velocity is set here
                             float dashDirection = forceDirection == DashRight ? 1 : -1;
-                            newVelocity.X = dashDirection * ForceVelocity;
+                            newVelocity.X = dashDirection * ForceDashVelocity;
                             break;
                         }
                     default:
                         return; // not moving fast enough, so don't start our dash
                 }
                 Player.velocity = newVelocity;
-                Player.AddBuff(forceStaffCooldown, 600);
+                Player.AddBuff(forceStaffCooldown, 180);
+                Player.statMana -= 50;
+                Player.ManaEffect(-50);
+
+                ForceDashTimer = ForceDashDuration;
+                float dustLoopcheck = 16f;
+                int dustIncr = 0;
+                while (dustIncr < dustLoopcheck)
+                {
+                    Vector2 dustRotate = Vector2.UnitX * 0f;
+                    dustRotate += -Vector2.UnitY.RotatedBy((double)((float)dustIncr * (6.28318548f / dustLoopcheck)), default) * new Vector2(1f, 4f);
+                    dustRotate = dustRotate.RotatedBy((double)Player.velocity.ToRotation(), default);
+                    int bedman = Dust.NewDust(Player.Center, 0, 0, DustID.RainbowMk2, 0f, 0f, 0, Color.LightGreen, 1f);
+                    Main.dust[bedman].scale = 1.5f;
+                    Main.dust[bedman].noGravity = true;
+                    Main.dust[bedman].position = Player.Center + dustRotate;
+                    Main.dust[bedman].velocity = Player.velocity * 0f + dustRotate.SafeNormalize(Vector2.UnitY) * 1f;
+                    dustIncr++;
+                }
+            }
+            if (ForceDashTimer > 0)
+            {
+                Player.eocDash = ForceDashTimer;
+                Player.armorEffectDrawShadowEOCShield = true;
+                ForceDashTimer--;
+                for (int d = 0; d < 4; d++)
+                {
+                    Dust faeDust = Dust.NewDustPerfect(Player.Center + new Vector2(Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-15f, 15f)) - (Player.velocity * 1.2f), DustID.Terra, -Player.velocity.RotatedByRandom(MathHelper.ToRadians(10f)) * Main.rand.NextFloat(0.1f, 0.8f), 0, default, Main.rand.NextFloat(1.8f, 2.8f));
+                    faeDust.noGravity = faeDust.type == 222 ? false : true;
+                    faeDust.fadeIn = 0.5f;
+                    faeDust.scale = Main.rand.NextFloat(0.8f, 1.2f);
+                    faeDust.velocity += new Vector2(0, -2.5f) * Main.rand.NextFloat(0.8f, 1.2f);
+                    Dust dust = Dust.NewDustPerfect(Player.Center + Main.rand.NextVector2Circular(6, 6) - Player.velocity * 2, DustID.GemEmerald);
+                    dust.velocity = -Player.velocity * Main.rand.NextFloat(0.6f, 1.4f);
+                    dust.scale = Main.rand.NextFloat(0.9f, 1.4f);
+                    dust.noGravity = true;
+                }
             }
             #endregion
 
-            #region Hurricane Pike
+            #region Force Staff
+            /*
+            if (wearingForceStaff)
+            {
+                if (CanUseDash() && DashDir != -1 && ForceDashDelay == 0)
+                {
+                    Vector2 newVelocity = Player.velocity;
+                    switch (DashDir)
+                    {
+                        case DashUp when Player.velocity.Y > -ForceDashVelocity && canDashUp:
+                        case DashDown when Player.velocity.Y < ForceDashVelocity:
+                            {
+                                canDashUp = false;
+                                float dashDirection = DashDir == DashDown ? 1 : -1f;
+                                newVelocity.Y = dashDirection * ForceDashVelocity;
+                                break;
+                            }
+                        case DashLeft when Player.velocity.X > -ForceDashVelocity:
+                        case DashRight when Player.velocity.X < ForceDashVelocity:
+                            {
+                                float dashDirection = DashDir == DashRight ? 1 : -1;
+                                newVelocity.X = dashDirection * ForceDashVelocity;
+                                break;
+                            }
+                        default:
+                            return;
+                    }
+                    ForceDashTimer = ForceDashDuration;
+                    Player.velocity = newVelocity;
+                    float dustLoopcheck = 16f;
+                    int dustIncr = 0;
+                    while (dustIncr < dustLoopcheck)
+                    {
+                        Vector2 dustRotate = Vector2.UnitX * 0f;
+                        dustRotate += -Vector2.UnitY.RotatedBy((double)((float)dustIncr * (6.28318548f / dustLoopcheck)), default) * new Vector2(1f, 4f);
+                        dustRotate = dustRotate.RotatedBy((double)Player.velocity.ToRotation(), default);
+                        int bedman = Dust.NewDust(Player.Center, 0, 0, DustID.RainbowMk2, 0f, 0f, 0, Color.LightGreen, 1f);
+                        Main.dust[bedman].scale = 1.5f;
+                        Main.dust[bedman].noGravity = true;
+                        Main.dust[bedman].position = Player.Center + dustRotate;
+                        Main.dust[bedman].velocity = Player.velocity * 0f + dustRotate.SafeNormalize(Vector2.UnitY) * 1f;
+                        dustIncr++;
+                    }
+                }
+                if (FaeDashTimer > 0)
+                {
+                    Player.eocDash = FaeDashTimer;
+                    Player.armorEffectDrawShadowEOCShield = true;
+                    FaeDashTimer--;
+                    for (int d = 0; d < 4; d++)
+                    {
+                        Dust faeDust = Dust.NewDustPerfect(Player.Center + new Vector2(Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-15f, 15f)) - (Player.velocity * 1.2f), DustID.Terra, -Player.velocity.RotatedByRandom(MathHelper.ToRadians(10f)) * Main.rand.NextFloat(0.1f, 0.8f), 0, default, Main.rand.NextFloat(1.8f, 2.8f));
+                        faeDust.noGravity = faeDust.type == 222 ? false : true;
+                        faeDust.fadeIn = 0.5f;
+                        faeDust.scale = Main.rand.NextFloat(0.8f, 1.2f);
+                        faeDust.velocity += new Vector2(0, -2.5f) * Main.rand.NextFloat(0.8f, 1.2f);
+                        Dust dust = Dust.NewDustPerfect(Player.Center + Main.rand.NextVector2Circular(6, 6) - Player.velocity * 2, DustID.GemEmerald);
+                        dust.velocity = -Player.velocity * Main.rand.NextFloat(0.6f, 1.4f);
+                        dust.scale = Main.rand.NextFloat(0.9f, 1.4f);
+                        dust.noGravity = true;
+                    }
+                }
+            }
+            */
+            #endregion
+
+            #region Hurricane Pike (Old)
             if (wearingPike && !Player.mount.Active && KeybindSystem.ForceStaffKeybind.JustPressed && !Player.HasBuff(forceStaffCooldown))
             {
-                // change to force staff sound
                 SoundEngine.PlaySound(ForceStaffActivateSound, Player.Center);
                 Vector2 newVelocity = Player.velocity;
 
                 switch (forceDirection)
                 {
-                    case DashUp when Player.velocity.Y > -PikeVelocity:
-                    case DashDown when Player.velocity.Y < PikeVelocity:
+                    case DashUp when Player.velocity.Y > -PikeDashVelocity:
+                    case DashDown when Player.velocity.Y < PikeDashVelocity:
                         {
                             float dashDirection = forceDirection == DashDown ? 1 : -1.3f;
-                            newVelocity.Y = dashDirection * PikeVelocity;
+                            newVelocity.Y = dashDirection * PikeDashVelocity;
                             break;
                         }
-                    case DashLeft when Player.velocity.X > -PikeVelocity:
-                    case DashRight when Player.velocity.X < PikeVelocity:
+                    case DashLeft when Player.velocity.X > -PikeDashVelocity:
+                    case DashRight when Player.velocity.X < PikeDashVelocity:
                         {
                             float dashDirection = forceDirection == DashRight ? 1 : -1;
-                            newVelocity.X = dashDirection * PikeVelocity;
+                            newVelocity.X = dashDirection * PikeDashVelocity;
                             break;
                         }
                     default:
                         return;
                 }
                 Player.velocity = newVelocity;
-                Player.AddBuff(forceStaffCooldown, 300);
+                Player.AddBuff(forceStaffCooldown, 180);
+                Player.statMana -= 50;
+                Player.ManaEffect(-50);
+
+                PikeDashTimer = PikeDashDuration;
+                float dustLoopcheck = 16f;
+                int dustIncr = 0;
+                while (dustIncr < dustLoopcheck)
+                {
+                    Vector2 dustRotate = Vector2.UnitX * 0f;
+                    dustRotate += -Vector2.UnitY.RotatedBy((double)((float)dustIncr * (6.28318548f / dustLoopcheck)), default) * new Vector2(1f, 4f);
+                    dustRotate = dustRotate.RotatedBy((double)Player.velocity.ToRotation(), default);
+                    int bedman = Dust.NewDust(Player.Center, 0, 0, DustID.RainbowMk2, 0f, 0f, 0, Color.LightYellow, 1f);
+                    Main.dust[bedman].scale = 1.5f;
+                    Main.dust[bedman].noGravity = true;
+                    Main.dust[bedman].position = Player.Center + dustRotate;
+                    Main.dust[bedman].velocity = Player.velocity * 0f + dustRotate.SafeNormalize(Vector2.UnitY) * 1f;
+                    dustIncr++;
+                }
             }
+            if (PikeDashTimer > 0)
+            {
+                Player.eocDash = PikeDashTimer;
+                Player.armorEffectDrawShadowEOCShield = true;
+                PikeDashTimer--;
+                for (int d = 0; d < 4; d++)
+                {
+                    Dust faeDust = Dust.NewDustPerfect(Player.Center + new Vector2(Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-15f, 15f)) - (Player.velocity * 1.2f), DustID.Sandnado, -Player.velocity.RotatedByRandom(MathHelper.ToRadians(10f)) * Main.rand.NextFloat(0.1f, 0.8f), 0, default, Main.rand.NextFloat(1.8f, 2.8f));
+                    faeDust.noGravity = faeDust.type == 222 ? false : true;
+                    faeDust.fadeIn = 0.5f;
+                    faeDust.scale = Main.rand.NextFloat(0.8f, 1.2f);
+                    faeDust.velocity += new Vector2(0, -2.5f) * Main.rand.NextFloat(0.8f, 1.2f);
+                    Dust dust = Dust.NewDustPerfect(Player.Center + Main.rand.NextVector2Circular(6, 6) - Player.velocity * 2, DustID.YellowStarDust);
+                    dust.velocity = -Player.velocity * Main.rand.NextFloat(0.6f, 1.4f);
+                    dust.scale = Main.rand.NextFloat(0.9f, 1.4f);
+                    dust.noGravity = true;
+                }
+            }
+            #endregion
+
+            #region Hurricane Pike
+            /*
+            if (wearingPike)
+            {
+                if (CanUseDash() && DashDir != -1 && FaeDashDelay == 0)
+                {
+                    Vector2 newVelocity = Player.velocity;
+                    switch (DashDir)
+                    {
+                        case DashUp when Player.velocity.Y > -PikeDashVelocity && canDashUp:
+                        case DashDown when Player.velocity.Y < PikeDashVelocity:
+                            {
+                                canDashUp = false;
+                                float dashDirection = DashDir == DashDown ? 1 : -1f;
+                                newVelocity.Y = dashDirection * PikeDashVelocity;
+                                break;
+                            }
+                        case DashLeft when Player.velocity.X > -PikeDashVelocity:
+                        case DashRight when Player.velocity.X < PikeDashVelocity:
+                            {
+                                float dashDirection = DashDir == DashRight ? 1 : -1;
+                                newVelocity.X = dashDirection * PikeDashVelocity;
+                                break;
+                            }
+                        default:
+                            return;
+                    }
+                    FaeDashDelay = PikeDashCooldown;
+                    FaeDashTimer = PikeDashDuration;
+                    Player.velocity = newVelocity;
+
+                }
+                if (FaeDashDelay > 0)
+                    FaeDashDelay--;
+                if (FaeDashTimer > 0)
+                {
+                    Player.eocDash = FaeDashTimer;
+                    Player.armorEffectDrawShadowEOCShield = true;
+                    FaeDashTimer--;
+                    for (int d = 0; d < 4; d++)
+                    {
+                        Dust faeDust = Dust.NewDustPerfect(Player.Center + new Vector2(Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-15f, 15f)) - (Player.velocity * 1.2f), DustID.Sandnado, -Player.velocity.RotatedByRandom(MathHelper.ToRadians(10f)) * Main.rand.NextFloat(0.1f, 0.8f), 0, default, Main.rand.NextFloat(1.8f, 2.8f));
+                        faeDust.noGravity = faeDust.type == 222 ? false : true;
+                        faeDust.fadeIn = 0.5f;
+                        faeDust.scale = Main.rand.NextFloat(0.8f, 1.2f);
+                        faeDust.velocity += new Vector2(0, -2.5f) * Main.rand.NextFloat(0.8f, 1.2f);
+                        Dust dust = Dust.NewDustPerfect(Player.Center + Main.rand.NextVector2Circular(6, 6) - Player.velocity * 2, DustID.YellowStarDust);
+                        dust.velocity = -Player.velocity * Main.rand.NextFloat(0.6f, 1.4f);
+                        dust.scale = Main.rand.NextFloat(0.9f, 1.4f);
+                        dust.noGravity = true;
+                    }
+                }
+            }
+            */
             #endregion
         }
         private bool CanUseDash()
@@ -889,8 +1096,6 @@ namespace MogMod.Common.MogModPlayer
             return wearingFaeArmor
                 && !chargeShot
                 && !dpCharge
-                //&& Player.dashType == DashID.None // player doesn't have Tabi or EoCShield equipped (give priority to those dashes)
-                //&& !Player.setSolar // player isn't wearing solar armor
                 && !Player.mount.Active; // player isn't mounted, since dashes on a mount look weird
         }
         public void MiscEffects()
@@ -1648,6 +1853,8 @@ namespace MogMod.Common.MogModPlayer
             drumsAura = false;
             shivasAura = false;
 
+            ahmodPet = false;
+
             inShadowRealm = false;
 
             atgActive = false;
@@ -1672,15 +1879,15 @@ namespace MogMod.Common.MogModPlayer
                 forceDirection = -1;
 
             if (Player.controlDown && Player.releaseDown && Player.doubleTapCardinalTimer[DashDown] < 15)
-                FaeDashDir = DashDown;
+                DashDir = DashDown;
             else if (Player.controlUp && Player.releaseUp && Player.doubleTapCardinalTimer[DashUp] < 15)
-                FaeDashDir = DashUp;
+                DashDir = DashUp;
             else if (Player.controlRight && Player.releaseRight && Player.doubleTapCardinalTimer[DashRight] < 15 && Player.doubleTapCardinalTimer[DashLeft] == 0)
-                FaeDashDir = DashRight;
+                DashDir = DashRight;
             else if (Player.controlLeft && Player.releaseLeft && Player.doubleTapCardinalTimer[DashLeft] < 15 && Player.doubleTapCardinalTimer[DashRight] == 0)
-                FaeDashDir = DashLeft;
+                DashDir = DashLeft;
             else
-                FaeDashDir = -1;
+                DashDir = -1;
         }
         #endregion
     }

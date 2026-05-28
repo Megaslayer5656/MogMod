@@ -144,5 +144,55 @@ namespace MogMod.Utilities
             return ClosestNPCAt(origin, maxDistanceToCheck, ignoreTiles);
         }
         #endregion
+        internal const int TinyHealthThreshold = 5;
+        internal const int TinyDamageThreshold = 5;
+        internal const int NoContactDamageHealthThreshold = 3000;
+        // This function controls the behavior of Proximity Rage.
+        //
+        // TODO -- In multiplayer, with more than one player, all enemies are listed as statue spawned.
+        // This sounds like packet corruption or something, but it's impossible to know.
+        // Even stranger, this bug only affects players who aren't player slot 0.
+        // As such, statue enemies are currently allowed by default for Proximity Rage.
+        // This is not the intent. Ideally, they would not count.
+        //
+        // TODO -- Use this function EVERYWHERE that target validity is checked, not just for Proximity Rage.
+        // The easiest way to find locations this should be used is checks for whether something is statue spawned.
+        public static bool IsAnEnemy(this NPC npc, bool allowStatues = true, bool checkDead = true, bool checkDamage = true)
+        {
+            // Null, inactive, town NPCs, and friendlies are right out.
+            if (npc is null || (!npc.active && (!checkDead || npc.life > 0)) || npc.townNPC || npc.friendly)
+                return false;
+
+            // Unless allowed, statue spawns don't count for rage.
+            if (!allowStatues && npc.SpawnedFromStatue)
+                return false;
+
+            // "Non-enemies" (e.g. butterflies or projectile enemies) with near zero max health,
+            // or anything but the strongest enemies with no contact damage (e.g. Celestial Pillars, Providence)
+            // do not generate rage.
+            if (npc.lifeMax <= TinyHealthThreshold || ((npc.defDamage <= TinyDamageThreshold && checkDamage) && npc.lifeMax <= NoContactDamageHealthThreshold))
+                return false;
+
+            // Exclude NPCs that specified to not be counted as enemy
+            // This includes: TargetDummy, SuperDummy by Default
+            if (npc.type == NPCID.TargetDummy)
+                return false;
+
+            // Anything else is considered a valid enemy target.
+            return true;
+        }
+        /// <summary>
+        /// Check if an NPC can be moved
+        /// </summary>
+        /// <param name="target">The NPC attacked.</param>
+        /// <returns>Whether or not the NPC can be moved around.</returns>
+        public static bool CanBeMoved(this NPC target, bool ignoreKBImmune = false)
+        {
+            // Ideally we can replace [!CalamityPlayer.areThereAnyDamnBosses] with a check for problematic boss minions so that you can knock back regular ones in bossfights.
+            bool isAPillar = target.type == NPCID.LunarTowerSolar || target.type == NPCID.LunarTowerVortex || target.type == NPCID.LunarTowerNebula || target.type == NPCID.LunarTowerStardust;
+            if (!isAPillar && !target.boss && target.IsAnEnemy(true, true, false) && (ignoreKBImmune || target.knockBackResist > 0))
+                return true;
+            return false;
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace MogMod.Common.Player {
+﻿namespace MogMod.Common.MoggedPlayer {
     public struct PlayerData<T> {
         public string Tag;
         public T Value;

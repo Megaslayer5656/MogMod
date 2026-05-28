@@ -31,10 +31,7 @@ namespace MogMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetKnockback(DamageClass.Generic) += .30f;
-            player.GetAttackSpeed(DamageClass.Generic) += .15f;
-            player.GetDamage(DamageClass.Ranged) += .15f;
-            player.GetDamage(DamageClass.Magic) += .15f;
-            player.GetDamage(DamageClass.Summon) += .15f;
+            player.GetAttackSpeed(DamageClass.Generic) += .20f;
             Player.tileRangeX = Player.tileRangeY += 3;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingPike = true;
@@ -44,7 +41,6 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<DragonLance>(1).
                 AddIngredient<ForceStaff>(1).
-                AddIngredient(ItemID.AvengerEmblem, 1).
                 AddIngredient(ItemID.ShroomiteBar, 15).
                 AddIngredient(ItemID.SoulofMight, 7).
                 AddIngredient(ItemID.Silk, 3).

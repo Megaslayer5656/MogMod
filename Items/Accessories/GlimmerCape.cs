@@ -27,14 +27,12 @@ namespace MogMod.Items.Accessories
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.Blue;
-            Item.value = MogGlobalItem.RarityBlueBuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.value = MogGlobalItem.RarityGreenBuyPrice;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            // Mod.Logger.Info("updated glimmer cape");
-            // make a keybind to turn player invisible and grant movement speed for 1 minute with a 2 minute cooldown
             player.statManaMax2 += 50;
             player.aggro -= 600;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
@@ -46,7 +44,6 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.Robe, 1).
                 AddIngredient<ShadowAmulet>(1).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 7).
                 AddIngredient<FrigidShard>(3).
                 AddIngredient<ManaEssence>(1).
                 AddTile(TileID.TinkerersWorkbench).

@@ -21,7 +21,8 @@ namespace MogMod.Tiles
         {
             FreakyTien,
             FaeSlime,
-			Ahmod
+            Ahmod,
+            WarlockGolem,
         }
     }
 

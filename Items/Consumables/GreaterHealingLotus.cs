@@ -26,7 +26,7 @@ namespace MogMod.Items.Consumables
             Item.consumable = true;
             Item.potion = true;
             Item.healMana = 220;
-            Item.healLife = 140;
+            Item.healLife = 160;
             Item.rare = ItemRarityID.LightRed;
             Item.value = Item.buyPrice(0, 4, 60, 0);
         }

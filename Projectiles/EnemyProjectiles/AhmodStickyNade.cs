@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Projectiles.MeleeProjectiles;
 using MogMod.Utilities;
 ﻿using System;
 using Terraria;
@@ -71,6 +72,14 @@ namespace MogMod.Projectiles.EnemyProjectiles
                 target.AddBuff(BuffID.OnFire, 120);
             if (Projectile.timeLeft > 60)
                 Projectile.timeLeft = 60;
+        }
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
+        {
+            if (!exploding)
+            {
+                modifiers.FinalDamage *= 0f;
+                modifiers.Knockback *= 0f;
+            }
         }
         public override bool? CanDamage()
         {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Pets;
 using MogMod.Items.Placeable.Banners;
 using MogMod.Projectiles.EnemyProjectiles;
 using MogMod.Utilities;
@@ -144,11 +145,10 @@ namespace MogMod.NPCs.Enemies
                     Vector2 vecToPlayer = NPC.DirectionTo(player.Center);
                     Vector2 projVelocity = vecToPlayer * ProjectileSpeed;
                     int type = ModContent.ProjectileType<AhmodStickyNade>();
-                    int damage = Main.masterMode ? 7 : Main.expertMode ? 8 : 10;
 
-                    // If expert mode is on, the enemy will shoot out a spead of projectiles
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
+                        int damage = Main.masterMode ? 7 : Main.expertMode ? 8 : 10;
                         int projectile = Projectile.NewProjectile(NPC.GetSource_FromAI(),
                             NPC.Center + projVelocity.SafeNormalize(Vector2.Zero) * 10f,
                             projVelocity,
@@ -278,6 +278,7 @@ namespace MogMod.NPCs.Enemies
                 ItemDropRule.NotScalingWithLuck(ItemID.RainCloud, 1, 7, 11)
             }));
             npcLoot.Add(ItemDropRule.Common(ItemID.Ruby, 5, 1, 3));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<AhmodInABottle>(), 20, 1, 1));
         }
         public override void HitEffect(NPC.HitInfo hit)
         {

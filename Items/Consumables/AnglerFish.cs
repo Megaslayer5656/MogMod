@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using MogMod.Items.Other;
+using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -77,6 +78,7 @@ namespace MogMod.Items.Consumables
                 AddIngredient(ItemID.Trout, 1).
                 AddIngredient(ItemID.Shrimp, 1).
                 AddIngredient(ItemID.RedSnapper, 1).
+                AddIngredient<CraftingRecipe>(1).
                 AddTile(TileID.WorkBenches).
                 Register();
         }

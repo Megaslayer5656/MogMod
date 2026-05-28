@@ -44,7 +44,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
                     SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             }
             Projectile.localAI[0] += 1f;
-            if (Projectile.localAI[0] == 30f)
+            if (Projectile.localAI[0] == 50f)
             {
                 Projectile.localAI[0] = 0f;
                 for (int l = 0; l < 12; l++)

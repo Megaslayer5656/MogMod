@@ -24,7 +24,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Projectile.alpha = 255;
             Projectile.timeLeft = 600;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 8;
+            Projectile.idStaticNPCHitCooldown = 2;
         }
         public override void AI()
         {

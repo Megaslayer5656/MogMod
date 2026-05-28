@@ -40,7 +40,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
 
             for (int i = 0; i < 70; i++)
             {
-                Vector2 randomOffset = Main.rand.NextVector2Circular(width / 2f, height / 2f);
+                Vector2 randomOffset = Main.rand.NextVector2Circular(width / 2.1f, height / 2.1f);
                 Dust d = Dust.NewDustPerfect(Projectile.Center + randomOffset, DustID.Blood, Projectile.DirectionFrom(Projectile.Center + Projectile.velocity + randomOffset) * Main.rand.NextFloat(5f, 7f));
                 d.fadeIn = .15f;
                 d.scale = 1.5f;
