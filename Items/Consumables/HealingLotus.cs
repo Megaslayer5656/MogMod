@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using MogMod.Items.Other;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,7 +34,7 @@ namespace MogMod.Items.Consumables
         {
             CreateRecipe(3).
                 AddIngredient(ItemID.Moonglow, 3).
-                AddIngredient(ItemID.FallenStar, 2).
+                AddIngredient<CreepBlood>(2).
                 AddTile(TileID.Bottles).
                 Register()
                 .DisableDecraft();

@@ -32,6 +32,11 @@ namespace MogMod.Items.Armor.Damascus
             Item.rare = ItemRarityID.LightRed;
             Item.value = MogGlobalItem.RarityLightRedBuyPrice;
         }
+        // visual effects
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawShadow = true;
+        }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             return body.type == ModContent.ItemType<DamascusMail>() && legs.type == ModContent.ItemType<DamascusGreaves>();

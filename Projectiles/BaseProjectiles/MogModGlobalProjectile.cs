@@ -32,6 +32,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         // damage caps
         public int gunpowderCap = 40;
         public int shivCap = 400;
+        public const int hellfireCap = 800;
 
         public int cooldownTimer = 5;
         public override bool InstancePerEntity
@@ -101,6 +102,7 @@ namespace MogMod.Projectiles.BaseProjectiles
             int shivDamage = 0;
             //int gunpowderDamage = 0;
             int gunpowderDamage = gunpowderCap;
+            int hellfireDamage = hellfireCap;
 
             //if (itemDamage <= gunpowderCap)
             //    gunpowderDamage = itemDamage;
@@ -205,6 +207,16 @@ namespace MogMod.Projectiles.BaseProjectiles
                     player.HealEffect(heal);
                     if (player.statLife > player.statLifeMax2)
                         player.statLife = player.statLifeMax2;
+                }
+            }
+
+            // hellfire armor
+            if (modPlayer.wearingHellfireArmor && modPlayer.hellfireCooldown <= 0)
+            {
+                if (damageDone >= 100)
+                {
+                    modPlayer.hellfireCooldown = cooldownTimer * 72;
+                    int hellfire = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), hellfireDamage, 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 }
             }
         }

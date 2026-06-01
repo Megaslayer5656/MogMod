@@ -986,7 +986,7 @@ Items: {
 					'''
 					Rains down flaming meteors from the sky
 					Striking an enemy causes a fire tornado to appear
-					Critical strikes deal 50% extra damage
+					True melee critical strikes deal 50% extra damage
 					'The ultimate endurance test.'
 					'''
 			}
@@ -1370,7 +1370,7 @@ Items: {
 				DisplayName: Shadow Realm
 				Tooltip:
 					'''
-					Right click to disappear into the shadows
+					Right click to consume 60 mana and disappear into the shadows
 					Damage is increased in correlation to the amount of time spent in the shadows
 					[c/723680:'What you can't see will most definitely hurt you.']
 					'''
@@ -1380,7 +1380,7 @@ Items: {
 				DisplayName: Throwing Shade
 				Tooltip:
 					'''
-					Right click to disappear into the shadows
+					Right click to consume 40 mana and disappear into the shadows
 					Damage is increased in correlation to the amount of time spent in the shadows
 					[c/BA0740:Attacking will reveal you from the shadows]
 					'''
@@ -1934,7 +1934,7 @@ Items: {
 
 		GriefBar: {
 			DisplayName: Grief Bar
-			Tooltip: Said to bring roughly 83-84% of the power of the chaos knight
+			Tooltip: Said to bring roughly 84% of the chaos knight's strength
 		}
 
 		DabDadBar: {
@@ -1965,6 +1965,26 @@ Items: {
 		VonWarning: {
 			DisplayName: Von's Warning
 			Tooltip: "'I ain't lookin for no trouble I jus lookin out for me'"
+		}
+
+		CreepBlood: {
+			DisplayName: Creep Blood
+			Tooltip: ""
+		}
+
+		HellfireEssence: {
+			DisplayName: Hellfire Essence
+			Tooltip: The hatred of the Underworld's creatures manifested
+		}
+
+		ScorchedCore: {
+			DisplayName: Scorched Core
+			Tooltip: Can fuel a bastion for decades
+		}
+
+		RuntyBar: {
+			DisplayName: Runty Bar
+			Tooltip: ""
 		}
 	}
 
@@ -2006,7 +2026,7 @@ Items: {
 			Tooltip:
 				'''
 				+13% Magic Damage
-				+10% Jump Speed and Movement Speed
+				+12% Jump Speed and Movement Speed
 				'''
 		}
 
@@ -2287,8 +2307,7 @@ Items: {
 			SetBonus:
 				'''
 				Increases flight time by 50%
-				Double tap any direction to ram dash
-				This dash can ram through enemies without taking damage
+				Double tap any direction to dash
 				'''
 		}
 
@@ -2301,6 +2320,56 @@ Items: {
 				Increases your max number of minions by 2
 				Increases your max number of sentries by 2
 				'''
+		}
+
+		HellfireMask: {
+			DisplayName: Hellfire Mask
+			Tooltip: +8% Attack Damage
+			SetBonus:
+				'''
+				Immunity to lava
+				Attacks inflict hellfire
+				When dealing over 100 damage in a single attack, summon a hellfire explosion dealing 800 damage
+				Effect has a 6 second cooldown
+				'''
+		}
+
+		HellfireBreastplate: {
+			DisplayName: Hellfire Breastplate
+			Tooltip:
+				'''
+				+10% Attack Damage
+				Cannot be set on fire
+				'''
+		}
+
+		HellfireGreaves: {
+			DisplayName: Hellfire Greaves
+			Tooltip:
+				'''
+				+10% Critical Strike Chance
+				+12% Movement Speed
+				'''
+		}
+
+		RuntyHelmet: {
+			DisplayName: Runty Helmet
+			Tooltip: +1 Flat Attack Damage
+			SetBonus:
+				'''
+				+2 Defense
+				+2 Flat Attack Damage
+				'''
+		}
+
+		RuntyBreastplate: {
+			DisplayName: Runty Breastplate
+			Tooltip: +3% Critical Strike Chance
+		}
+
+		RuntyGreaves: {
+			DisplayName: Runty Greaves
+			Tooltip: +8% Jump Speed and Movement Speed
 		}
 	}
 
@@ -2357,6 +2426,21 @@ Items: {
 
 	WarlockGolemBanner: {
 		DisplayName: Warlock Golem Banner
+		Tooltip: ""
+	}
+
+	RadiantMeleeCreepBanner: {
+		DisplayName: Melee Creep Banner
+		Tooltip: ""
+	}
+
+	RadiantRangedCreepBanner: {
+		DisplayName: Ranged Creep Banner
+		Tooltip: ""
+	}
+
+	HellfireSpiritBanner: {
+		DisplayName: Hellfire Spirit Banner
 		Tooltip: ""
 	}
 }

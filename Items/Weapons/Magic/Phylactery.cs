@@ -1,6 +1,7 @@
 ﻿using MogMod.Items.Accessories;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.ID;
@@ -51,10 +52,10 @@ namespace MogMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<Diadem>(1).
-                AddIngredient(ItemID.LargeAmethyst, 1).
                 AddIngredient(ItemID.ShimmerBlock, 20).
                 AddIngredient(ItemID.PinkGel, 18).
+                AddIngredient<FrigidShard>(3).
+                AddIngredient(ItemID.LargeAmethyst, 1).
                 AddTile(TileID.Anvils).
                 Register();
         }

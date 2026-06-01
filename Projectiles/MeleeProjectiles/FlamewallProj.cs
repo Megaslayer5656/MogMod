@@ -9,11 +9,12 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
-    public class FlamewallProj : ModProjectile
-	{
-		// We could use a vanilla texture if we want instead of supplying our own.
-		// public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.Excalibur;
-		public override void SetStaticDefaults() {
+    public class FlamewallProj : ModProjectile, ILocalizedModType
+    {
+        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
+        // We could use a vanilla texture if we want instead of supplying our own.
+        // public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.Excalibur;
+        public override void SetStaticDefaults() {
 			// If a Jellyfish is zapping and we attack it with this projectile, it will deal damage to us.
 			// This set has the projectiles for the Night's Edge, Excalibur, Terra Blade (close range), and The Horseman's Blade (close range).
 			// This set does not have the True Night's Edge, True Excalibur, or the long range Terra Beam projectiles.

@@ -1,4 +1,5 @@
 ﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
 using Terraria.DataStructures;
@@ -18,7 +19,6 @@ namespace MogMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            //Item.velocity = 5.5f;
             Item.width = 14;
             Item.height = 20;
             Item.damage = 90;
@@ -50,7 +50,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe(50).
                 AddIngredient(ItemID.Grenade, 50).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 1).
+                AddIngredient<CreepBlood>(1).
                 AddTile(TileID.Anvils).
                 Register();
         }

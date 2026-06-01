@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.MeleeProjectiles;
 using System;
 using Terraria;
@@ -64,7 +65,7 @@ namespace MogMod.Items.Weapons.Melee
             CreateRecipe().
                 AddRecipeGroup("IronBar", 20).
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 18).
-                AddIngredient(ItemID.Skull, 1).
+                AddIngredient<RuntyBar>(12).
                 AddIngredient<VitalityBooster>(1).
                 AddTile(TileID.Anvils).
                 Register();

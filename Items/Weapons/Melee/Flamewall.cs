@@ -52,7 +52,7 @@ namespace MogMod.Items.Weapons.Melee
 
             return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 56;
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 46;
         public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers) => modifiers.CritDamage *= 1.5f;
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -102,7 +102,7 @@ namespace MogMod.Items.Weapons.Melee
                 AddIngredient(ItemID.TheAxe, 1).
                 AddIngredient<Flamebrand>(1).
                 AddIngredient<VoniumBar>(5).
-                AddIngredient<SoulFragment>(5).
+                AddIngredient<ScorchedCore>(3).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

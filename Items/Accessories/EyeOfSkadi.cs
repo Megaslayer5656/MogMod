@@ -46,10 +46,9 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.EyeoftheGolem, 1).
-                AddIngredient<GriefBar>(12).
                 AddIngredient(ItemID.ShroomiteBar, 12).
                 AddIngredient(ItemID.BlackLens, 1).
-                AddIngredient<ManaCore>(1).
+                AddIngredient<ScorchedCore>(1).
                 AddIngredient<PointBooster>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();

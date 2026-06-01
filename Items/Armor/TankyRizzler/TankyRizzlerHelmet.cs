@@ -32,6 +32,10 @@ namespace MogMod.Items.Armor.TankyRizzler
             Item.rare = ItemRarityID.Cyan;
             Item.value = MogGlobalItem.RarityCyanBuyPrice;
         }
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawShadowLokis = true;
+        }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             return body.type == ModContent.ItemType<TankyRizzlerChestplate>() && legs.type == ModContent.ItemType<TankyRizzlerLeggings>();

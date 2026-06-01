@@ -1,5 +1,7 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
+using MogMod.Items.Other;
+using MogMod.Items.Placeable.Bars;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,7 +19,6 @@ namespace MogMod.Items.Accessories
             Item.rare = ItemRarityID.Green;
             Item.value = MogGlobalItem.RarityGreenBuyPrice;
         }
-        // DOES WORK !! ! ! !
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
@@ -30,7 +31,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.FeralClaws, 1).
                 AddIngredient(ItemID.Cactus, 75).
-                AddIngredient(ItemID.SharkFin, 3).
+                AddIngredient<RuntyBar>(5).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

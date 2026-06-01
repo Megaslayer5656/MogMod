@@ -144,6 +144,7 @@ namespace MogMod.Common.MogModPlayer
         public int gunpowderCooldown = 0;
         public int radiantCooldown = 0;
         public int jidiPollenCooldown = 0;
+        public int hellfireCooldown = 0;
 
         // dragon install
         public Vector2 mouseWorld;
@@ -166,6 +167,7 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingBoneArmor;
         public bool wearingRadiantArmor;
         public bool wearingUndyingArmor;
+        public bool wearingHellfireArmor;
         public bool wearingTankyRizzler;
         public int tankyRizzlerHits = 0;
         public static int counterHelixDmg = 500;
@@ -340,13 +342,15 @@ namespace MogMod.Common.MogModPlayer
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (wearingEyeOfSkadi)
-                target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 360);
+                target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 300);
             if (wearingSearingSignet)
                 target.AddBuff(BuffID.ShadowFlame, 300);
             if (Player.HasBuff<DragonInstallBuff>())
                 target.AddBuff(BuffID.Daybreak, 600);
             if (wearingFrostArmor)
                 target.AddBuff(ModContent.BuffType<FreezingDebuff>(), 300);
+            if (wearingHellfireArmor)
+                target.AddBuff(BuffID.OnFire3, 300);
         }
 
         public void doATG(int damageDone)
@@ -1193,6 +1197,11 @@ namespace MogMod.Common.MogModPlayer
                     if (holdingThrowingShade)
                         shadowRealmLevel++;
                 }
+                if (shadowRealmLevel == shadowRealmLevelMax)
+                {
+                    shadowRealmLevel = 151;
+                    SoundEngine.PlaySound(SoundID.Item104, Player.Center); // might change to something else
+                }
                 if (!Player.HasBuff<ShadowRealmBuff>())
                     shadowRealmLevel = 0;
             }
@@ -1360,6 +1369,21 @@ namespace MogMod.Common.MogModPlayer
             else
             {
                 shadowTimer = 0;
+            }
+            if (wearingHellfireArmor)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    int dust = Dust.NewDust(Player.position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(3) ? DustID.Lava : 174, Player.velocity.X * 0.04f, Player.velocity.Y * 0.04f, 100, default, 1f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 0.65f;
+                    Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.03f;
+                    if (Main.rand.NextBool(4))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.3f;
+                    }
+                }
             }
         }
 
@@ -1743,6 +1767,8 @@ namespace MogMod.Common.MogModPlayer
                 jidiPollenCooldown--;
             if (gunpowderCooldown > 0)
                 gunpowderCooldown--;
+            if (hellfireCooldown > 0)
+                hellfireCooldown--;
         }
         
         // stops player from moving while charging bow
@@ -1828,6 +1854,7 @@ namespace MogMod.Common.MogModPlayer
             wearingBoneArmor = false;
             wearingWhiteArmor = false;
             wearingFaeArmor = false;
+            wearingHellfireArmor = false;
 
             diademMinion = false;
             dominatorMinion = false;

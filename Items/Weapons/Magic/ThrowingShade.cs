@@ -18,10 +18,10 @@ namespace MogMod.Items.Weapons.Magic
         {
             Item.width = 28;
             Item.height = 30;
-            Item.damage = 36;
+            Item.damage = 38;
             Item.knockBack = 3f;
             Item.DamageType = DamageClass.Magic;
-            Item.useAnimation = Item.useTime = 20;
+            Item.useAnimation = Item.useTime = 22;
             Item.mana = 9;
             Item.noMelee = true;
             Item.autoReuse = true;
@@ -58,7 +58,7 @@ namespace MogMod.Items.Weapons.Magic
         public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
         {
             if (player.altFunctionUse == 2)
-                mult *= 5f;
+                mult *= 4.5f;
         }
         public override bool AltFunctionUse(Player player) => true;
         public override void AddRecipes()

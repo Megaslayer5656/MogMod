@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using MogMod.Items.Other;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,9 +30,9 @@ namespace MogMod.Items.Placeable.Bars
         }
         public override void AddRecipes()
         {
-            CreateRecipe(3).
-                AddIngredient(ItemID.HellstoneBar, 3).
-                AddIngredient(ItemID.SoulofFright, 1).
+            CreateRecipe(4).
+                AddIngredient(ItemID.HellstoneBar, 4).
+                AddIngredient<HellfireEssence>(1).
                 AddIngredient(ItemID.SoulofNight, 1).
                 AddTile(TileID.AdamantiteForge).
                 Register();

@@ -40,53 +40,45 @@ namespace MogMod.NPCs.Enemies
         public override void SetStaticDefaults() => Main.npcFrameCount[NPC.type] = 4;
         public override void SetDefaults()
         {
-            NPC.noGravity = true;
-            NPC.lavaImmune = false;
-            NPC.damage = 13;
             NPC.width = 40;
             NPC.height = 58;
+
+            NPC.damage = 12;
             NPC.defense = 7;
-            NPC.lifeMax = 62;
+            NPC.lifeMax = Main.hardMode ? 146 : 58;
+            NPC.knockBackResist = 1.2f;
+
+            NPC.noGravity = true;
+            NPC.lavaImmune = false;
+
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 7, 0);
             NPC.HitSound = SoundID.NPCHit40;
             NPC.DeathSound = SoundID.NPCDeath42;
-            NPC.knockBackResist = 1.2f;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AhmodBanner>();
         }
-#endregion
-        
+        #endregion
+
         #region Bestiary & Spawning
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
-            {
+            bestiaryEntry.Info.AddRange([
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
-                new FlavorTextBestiaryInfoElement("MogMod/NPCs/Enemies/Ahmod_Beastiary")
-            });
+                new FlavorTextBestiaryInfoElement("Mods.MogMod.Bestiary.Ahmod")
+            ]);
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.Player.ZoneCorrupt ||
-                spawnInfo.Player.ZoneCrimson ||
-                spawnInfo.Player.ZoneOldOneArmy ||
-                spawnInfo.Player.ZoneSkyHeight ||
-                spawnInfo.PlayerSafe ||
-                !spawnInfo.Player.ZoneDesert ||
-                !spawnInfo.Player.ZoneOverworldHeight ||
-                Main.eclipse ||
-                Main.snowMoon ||
-                Main.pumpkinMoon ||
-                Main.invasionType != InvasionID.None)
+            if (spawnInfo.PlayerSafe || !spawnInfo.Player.ZoneDesert || !spawnInfo.Player.ZoneOverworldHeight)
                 return 0f;
 
             // Keep this as a separate if check, because it's a loop and we don't want to be checking it constantly.
             if (NPC.AnyNPCs(NPC.type))
                 return 0f;
 
-            return 0.1f;
+            return 0.175f;
         }
         #endregion
         
@@ -105,7 +97,6 @@ namespace MogMod.NPCs.Enemies
             else
                 NPC.direction = 1;
             NPC.spriteDirection = NPC.direction;
-            float distToTarget = NPC.Distance(player.Center) + .1f;
 
             switch (CurrentState)
             {
@@ -145,6 +136,7 @@ namespace MogMod.NPCs.Enemies
                     Vector2 vecToPlayer = NPC.DirectionTo(player.Center);
                     Vector2 projVelocity = vecToPlayer * ProjectileSpeed;
                     int type = ModContent.ProjectileType<AhmodStickyNade>();
+                    SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -158,9 +150,6 @@ namespace MogMod.NPCs.Enemies
                             Main.myPlayer);
                         NPC.netUpdate = true;
                     }
-
-                    SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
-                    NPC.netUpdate = true;
                 }
 
                 TimerForShooting++;
@@ -170,7 +159,8 @@ namespace MogMod.NPCs.Enemies
                 {
                     TimerForShooting = 0f;
                     AITimer = 0f;
-                    NPC.netUpdate = true;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                        NPC.netUpdate = true;
                 }
             }
         }
@@ -183,8 +173,6 @@ namespace MogMod.NPCs.Enemies
             NPC.velocity.Y = NPC.velocity.Y + (float)NPC.directionY * 0.12f;
             NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X, -8f, 8f);
             NPC.velocity.Y = MathHelper.Clamp(NPC.velocity.Y, -8f, 8f);
-            int npcTileX = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
-            int npcTileY = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
             if (NPC.velocity.Y > 0.4f || NPC.velocity.Y < -0.4f)
                 NPC.velocity.Y *= 0.95f;
             ExplosionTimer++;
@@ -211,17 +199,6 @@ namespace MogMod.NPCs.Enemies
 
                 Rectangle myRect = NPC.getRect();
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    foreach (Player target in Main.ActivePlayers)
-                    {
-                        if (target.getRect().Intersects(myRect))
-                        {
-                            int direction = NPC.Center.X - target.Center.X < 0 ? -1 : 1;
-                            target.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), NPC.damage, direction);
-                        }
-                    }
-                }
                 for (int i = 0; i < 45; i++)
                 {
                     int dust = Dust.NewDust(NPC.Center, size, size, DustID.RainCloud, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-3f, 3f), 0, default, Main.rand.NextFloat(1f, 2f));
@@ -242,6 +219,14 @@ namespace MogMod.NPCs.Enemies
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
+                    foreach (Player target in Main.ActivePlayers)
+                    {
+                        if (target.getRect().Intersects(myRect))
+                        {
+                            int direction = NPC.Center.X - target.Center.X < 0 ? -1 : 1;
+                            target.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), NPC.damage, direction);
+                        }
+                    }
                     NPC.StrikeInstantKill();
                     NPC.active = false;
                     NPC.netUpdate = true;

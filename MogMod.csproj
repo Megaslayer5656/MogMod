@@ -81,7 +81,6 @@
     <None Remove="Items\Weapons\Sange.png" />
     <None Remove="NPCs\Bosses\DabDad.png" />
     <None Remove="NPCs\Bosses\KingVon_Head_Boss.png" />
-    <None Remove="NPCs\Enemies\RadiantCreep.png" />
     <None Remove="NPCs\TownNpc\SolBadguy.png" />
     <None Remove="NPCs\TownNpc\SolBadguy_Head.png" />
     <None Remove="Projectiles\BaseProjectiles\BerserkersSpearProj.png" />

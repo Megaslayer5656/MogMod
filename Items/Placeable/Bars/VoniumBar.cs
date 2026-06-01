@@ -12,8 +12,8 @@ namespace MogMod.Items.Placeable.Bars
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;
+            ItemID.Sets.SortingPriorityMaterials[Type] = 120;
         }
-
         public override void SetDefaults()
         {
             Item.width = 30;

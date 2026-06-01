@@ -42,7 +42,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
             AddIngredient(ItemID.HighVelocityBullet, 100).
             AddIngredient(ItemID.ChlorophyteBar, 15).
-            AddIngredient<GriefBar>(10).
+            AddIngredient(ItemID.IllegalGunParts).
             AddTile(TileID.MythrilAnvil).
             Register();
         }

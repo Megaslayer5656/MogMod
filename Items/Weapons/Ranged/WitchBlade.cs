@@ -34,7 +34,6 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.ThornChakram, 1).
-                AddIngredient(ItemID.Deathweed, 12).
                 AddIngredient(ItemID.BeeWax, 8).
                 AddIngredient<FuciumBar>(7).
                 AddTile(TileID.Anvils).

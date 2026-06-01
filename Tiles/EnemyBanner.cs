@@ -23,6 +23,9 @@ namespace MogMod.Tiles
             FaeSlime,
             Ahmod,
             WarlockGolem,
+            RadiantMeleeCreep,
+			RadiantRangedCreep,
+			HellfireSpirit,
         }
     }
 

@@ -109,6 +109,7 @@ Mods: {
 			BlessedWithDabDadOreMessage: Your world has been blessed with the essence of Dabdad Minecraft!
 			FaeOreText: The underground hallow is sparkling with blessed light.
 			FuciumOrePassMessage: Generating Ores...
+			HellfireEssenceText: The Underworld's wicked depravity grows ever stronger...
 		}
 
 		Buffs: {
@@ -526,8 +527,11 @@ Mods: {
 			Ahmod.DisplayName: Ahmod
 			FaeSlime.DisplayName: Fae Slime
 			FreakyTienHead.DisplayName: Freaky Tien
-			RadiantCreep.DisplayName: Radiant Creep
 			WarlockGolem.DisplayName: Warlock Golem
+			WarlockFireball.DisplayName: Scorching Fireball
+			RadiantMeleeCreep.DisplayName: Melee Creep
+			RadiantRangedCreep.DisplayName: Ranged Creep
+			HellfireSpirit.DisplayName: Hellfire Spirit
 		}
 
 		Projectiles: {
@@ -586,6 +590,7 @@ Mods: {
 				ProximityMinesSummon.DisplayName: Proximity Mine
 				ProximityMinesExplosion.DisplayName: Proximity Mine
 				MADMineProj.DisplayName: MAD Mine
+				RuntyStaffProj.DisplayName: Runty Staff Proj
 			}
 
 			RangedProjectiles: {
@@ -630,6 +635,7 @@ Mods: {
 				IsraelArrowProj.DisplayName: Israel Arrow
 				BouncyBoulderBulletProj.DisplayName: Bouncy Boulder Bullet
 				GoyBeam.DisplayName: Goy Beam
+				RuntyFlamethrowerProj.DisplayName: Runty Flamethrower Proj
 			}
 
 			MeleeProjectiles: {
@@ -679,6 +685,12 @@ Mods: {
 				FlameTornado.DisplayName: Flame Tornado
 				FlameMeteorProj.DisplayName: Flame Meteor
 				FlameTornadoProj.DisplayName: Flamewall
+				FlamewallProj.DisplayName: Flamewall Proj
+			}
+
+			Melee: {
+				RuntyBladesAltProj.DisplayName: Runty Blades Alt Proj
+				RuntyBladesProj.DisplayName: Runty Blades Proj
 			}
 
 			SummonerProjectiles: {
@@ -695,6 +707,7 @@ Mods: {
 				PlasmaShrimpProj.DisplayName: Plasma Shrimp
 				PlayerUndyingPortalProj.DisplayName: Undying Portal
 				GreatswordOfSoulsProj.DisplayName: Greatsword Of Souls
+				HellfireExplosion.DisplayName: Hellfire Explosion
 			}
 
 			BossProjectiles: {
@@ -715,19 +728,23 @@ Mods: {
 			EnemyProjectiles: {
 				AhmodStickyNade.DisplayName: Gel Trap
 				WarlockBoom.DisplayName: Warlock Boom
+				RadiantRangedCreepProj.DisplayName: Radiant Ranged Creep Proj
 			}
 
-			FlamewallProj.DisplayName: Flamewall
 			Pets.AhmodInABottlePet.DisplayName: Ahmod
-			Typeless.DirectStrike.DisplayName: Direct Strike
+			Tools.RuntyDrillProj.DisplayName: Runty Drill Proj
 		}
 
 		Bestiary: {
 			ImportantFlavorText: Important Flavor Text!
 			KingVon: King Von was not a rapper who sometimes killed people... He was a serial killer who occasionally raped people!
-			FreakyTien: The greatest siege player, out on a rampage, touching whoever he lays his eyes on...
-			FaeSlime: The master of aggravation, riding atop a tamed nimbus, his only drive is to enrage the lives of others. When close to death, he tries to suicide bomb whomever he sees.
-			WarlockGolem: A destructive golem hell-bent on causing destruction on anything it lays it's eyes on.
+			FreakyTien: The greatest siege player, out on a rampage, shooting sticky substances on whoever he lays his eyes on...
+			Ahmod: The master of aggravation, riding atop a tamed nimbus. His only drive is to enrage the lives of others. When close to death, he tries to suicide bomb the closest target.
+			FaeSlime: Slimers that have absorbed vast amounts of fae energy. They no longer spread evil, instead spreading the essence of fae everywhere they go.
+			WarlockGolem: A destructive golem hell-bent on causing destruction everywhere. Beware the exploding fireballs!
+			RadiantMeleeCreep: sex offender
+			RadiantRangedCreep: victim
+			HellfireSpirit: Demons when exposed to hellfire essence fuel a dastardly hatred in their bodies, to the point where it materialized into a spirit.
 		}
 	}
 }

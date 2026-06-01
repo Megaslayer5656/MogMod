@@ -14,7 +14,6 @@ namespace MogMod.Items.Weapons.Magic
         {
             Item.staff[Item.type] = true;
         }
-
         public override void SetDefaults()
         {
             Item.width = 32;

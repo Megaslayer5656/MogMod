@@ -19,6 +19,7 @@ namespace MogMod.NPCs.Enemies
     internal class FreakyTienHead : WormHead
     {
         #region Setup
+        public const int TotalHealth = 220;
         public override int BodyType => ModContent.NPCType<FreakyTienBody>();
         public override int TailType => ModContent.NPCType<FreakyTienTail>();
         public override void SetStaticDefaults()
@@ -37,7 +38,7 @@ namespace MogMod.NPCs.Enemies
             // Head is 10 defense, body 20, tail 30.
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.aiStyle = -1;
-            NPC.lifeMax = 420;
+            NPC.lifeMax = TotalHealth;
             NPC.damage = 42;
 
             Banner = Type;
@@ -73,8 +74,8 @@ namespace MogMod.NPCs.Enemies
         {
             // Set the segment variance
             // If you want the segment length to be constant, set these two properties to the same value
-            MinSegmentLength = 32;
-            MaxSegmentLength = 40;
+            MinSegmentLength = 16;
+            MaxSegmentLength = 20;
 
             CommonWormInit(this);
         }
@@ -138,7 +139,7 @@ namespace MogMod.NPCs.Enemies
         {
             NPC.CloneDefaults(NPCID.DiggerBody);
             NPC.aiStyle = -1;
-            NPC.lifeMax = 840;
+            NPC.lifeMax = FreakyTienHead.TotalHealth;
             NPC.damage = 38;
 
             // Extra body parts should use the same Banner value as the main ModNPC.
@@ -168,7 +169,7 @@ namespace MogMod.NPCs.Enemies
         {
             NPC.CloneDefaults(NPCID.DiggerTail);
             NPC.aiStyle = -1;
-            NPC.lifeMax = 840;
+            NPC.lifeMax = FreakyTienHead.TotalHealth;
             NPC.damage = 34;
 
             // Extra body parts should use the same Banner value as the main ModNPC.

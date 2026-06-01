@@ -35,6 +35,11 @@ namespace MogMod.Items.Armor.Fae
             Item.rare = ItemRarityID.Yellow;
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
         }
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawShadow = true;
+            player.armorEffectDrawShadowBasilisk = true;
+        }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             return body.type == ModContent.ItemType<FaeBreastplate>() && legs.type == ModContent.ItemType<FaeGreaves>();

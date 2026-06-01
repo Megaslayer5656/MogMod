@@ -23,8 +23,8 @@ namespace MogMod.Items.Armor.Radiant
         public override void UpdateEquip(Player player)
         {
             player.GetDamage<MagicDamageClass>() += 0.1f;
-            player.jumpSpeedBoost += 0.1f;
-            player.moveSpeed += 0.1f;
+            player.jumpSpeedBoost += 0.12f;
+            player.moveSpeed += 0.12f;
         }
 
         public override void AddRecipes()

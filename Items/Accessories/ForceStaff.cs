@@ -2,6 +2,7 @@
 using MogMod.Common.Systems;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable.Bars;
 using MogMod.Utilities;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.EmeraldStaff, 1).
                 AddIngredient(ItemID.PinkEskimoHood, 1).
                 AddIngredient(ItemID.RichMahogany, 12).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 3).
+                AddIngredient<RuntyBar>(8).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

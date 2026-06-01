@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Items.Weapons.Melee;
 using Terraria;
 using Terraria.ID;
@@ -33,7 +34,6 @@ namespace MogMod.Items.Accessories
         }
         public override void AddRecipes()
         {
-            // give this another item to make the recipe more interesting
             CreateRecipe().
                 AddIngredient<SkullBasher>(1).
                 AddIngredient(ItemID.HellstoneBar, 12).

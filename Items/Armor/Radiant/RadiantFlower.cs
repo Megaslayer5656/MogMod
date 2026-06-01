@@ -48,6 +48,7 @@ namespace MogMod.Items.Armor.Radiant
         {
             player.armorEffectDrawShadowSubtle = true;
             player.armorEffectDrawOutlines = true;
+            player.armorEffectDrawShadow = true;
         }
 
         // set bonus

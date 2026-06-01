@@ -28,11 +28,10 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VitalityBooster>(1).
                 AddIngredient(ItemID.CobaltShield, 1).
                 AddIngredient(ItemID.BandofRegeneration, 1).
                 AddIngredient(ItemID.HellstoneBar, 12).
-                AddIngredient(ItemID.Ruby, 2).
+                AddIngredient<VitalityBooster>(1).
                 AddTile(TileID.Anvils).
                 Register();
         }

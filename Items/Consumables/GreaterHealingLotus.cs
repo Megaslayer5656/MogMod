@@ -34,13 +34,13 @@ namespace MogMod.Items.Consumables
         {
             CreateRecipe(3).
                 AddIngredient<GreatHealingLotus>(1).
-                AddIngredient(ItemID.Shiverthorn, 3).
+                AddIngredient<HellfireEssence>(2).
                 AddIngredient(ItemID.PixieDust, 1).
                 AddTile(TileID.Bottles).
                 Register()
                 .DisableDecraft();
             CreateRecipe(3).
-                AddIngredient(ItemID.Waterleaf, 3).
+                AddIngredient<HellfireEssence>(3).
                 AddIngredient<FrigidCrystal>(1).
                 AddIngredient(ItemID.UnicornHorn, 1).
                 AddTile(TileID.Bottles).

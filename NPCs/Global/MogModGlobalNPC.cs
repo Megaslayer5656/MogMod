@@ -11,6 +11,8 @@ using MogMod.Items.Other;
 using MogMod.Items.Placeable.Ores;
 using MogMod.Items.Weapons.Magic.SorceryStaves;
 using MogMod.Items.Weapons.Melee;
+using MogMod.NPCs.Enemies;
+using MogMod.NPCs.ProjectileEnemies;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
@@ -21,8 +23,10 @@ using Mono.Cecil;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Security.Policy;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
@@ -33,7 +37,7 @@ namespace MogMod.NPCs.Global
 {
     public class MogModGlobalNPC : GlobalNPC
     {
-        #region ID/s
+        #region Setup
         // debuffs ID
         public bool divineDebuff;
         public bool skadiDebuff;
@@ -60,6 +64,7 @@ namespace MogMod.NPCs.Global
         // damage caps
         public const int bashCap = 50;
         public const int shivCap = 400;
+        public const int hellfireCap = 800;
 
         public bool markedByMarker;
 
@@ -78,14 +83,99 @@ namespace MogMod.NPCs.Global
             PitchVariance = .2f,
         };
 
-        // Dash damage immunity timer
-        public const int maxPlayerImmunities = Main.maxPlayers + 1;
-        public int[] dashImmunityTime = new int[maxPlayerImmunities];
-        #endregion
+        // 
+        public bool hellEpstein = false;
         public static LocalizedText FaeOreText { get; private set; }
+        public static LocalizedText HellfireEssenceText { get; private set; }
         public override void SetStaticDefaults()
         {
             FaeOreText = Mod.GetLocalization($"WorldGen.{nameof(FaeOreText)}");
+            HellfireEssenceText = Mod.GetLocalization($"WorldGen.{nameof(HellfireEssenceText)}");
+        }
+        #endregion
+        // modifies vanilla npc shop
+        public override void ModifyShop(NPCShop shop)
+        {
+            if (shop.NpcType == NPCID.SkeletonMerchant)
+                shop.Add(new Item(ModContent.ItemType<AstrologersStaff>()));
+        }
+
+        #region NPC Drops
+        // LEDX and REDX chance to drop
+        public override void ModifyGlobalLoot(GlobalLoot globalLoot)
+        {
+            globalLoot.Add(new CommonDrop(ModContent.ItemType<LedX>(), 10000, 1, 1, 1));
+            globalLoot.Add(new CommonDrop(ModContent.ItemType<RedX>(), 100000, 1, 1, 1));
+        }
+        public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
+        {
+            LeadingConditionRule postFish = npcLoot.DefineConditionalDropSet(DropHelper.PostFish());
+            LeadingConditionRule postEoL = npcLoot.DefineConditionalDropSet(DropHelper.PostEoL());
+            LeadingConditionRule postOneMech = npcLoot.DefineConditionalDropSet(DropHelper.PostOneMech());
+            switch (npc.type)
+            {
+                case NPCID.Tim:
+                case NPCID.RuneWizard:
+                    npcLoot.RemoveWhere(rule => true, false);
+                    ItemDropRule.OneFromOptions(1, ItemID.WizardHat, ModContent.ItemType<GlintstoneArc>());
+                    break;
+                case NPCID.CrimsonAxe:
+                case NPCID.CursedHammer:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ExplosiveGhostflame>(), 15, 1, 1));
+                    break;
+                case NPCID.Golem:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LizhardBloodVial>(), 1, 1, 2));
+                    break;
+                case NPCID.Shark:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 5, 1, 1));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<OceanHeart>(), 100, 1, 1));
+                    postFish.Add(ModContent.ItemType<BrinyRind>(), 4, 3, 5);
+                    break;
+                case NPCID.PigronCorruption:
+                case NPCID.PigronCrimson:
+                case NPCID.PigronHallow:
+                    postFish.Add(ModContent.ItemType<BrinyRind>(), 4, 3, 5);
+                    break;
+                case NPCID.DukeFishron:
+                    npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<BrinyRind>(), 1, 7, 14));
+                    break;
+                case NPCID.DarkCaster:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BlinkDagger>(), 10, 1, 1));
+                    break;
+                case NPCID.GoblinSorcerer:
+                    npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 20, 1, 1));
+                    break;
+                case NPCID.GoblinSummoner:
+                    npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 5, 1, 1));
+                    break;
+                case NPCID.RainbowSlime:
+                case NPCID.LightMummy:
+                    postEoL.Add(ModContent.ItemType<FaeOre>(), 2, 12, 20);
+                    break;
+            }
+        }
+        #endregion
+
+        #region AI && On Hit Effects
+        public override void AI(NPC npc)
+        {
+            maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense); //(This scaling still could change, especially for different difficulties)
+            if (maxBlood < 150) //Sets lower bound of possible max blood
+            {
+                maxBlood = 150;
+            }
+            if (hellEpstein)
+            {
+                float size = 15f;
+                Lighting.AddLight(npc.Center, Color.OrangeRed.ToVector3());
+                for (int i = 0; i < 50; i++)
+                {
+                    Vector2 randPos = Main.rand.NextVector2CircularEdge(size * 2f, size * 2f);
+                    Dust telegraphDust = Dust.NewDustPerfect(npc.Center + randPos, DustID.CopperCoin, npc.DirectionFrom(npc.Center + npc.velocity + randPos) * Main.rand.NextFloat(1f, 1f), 0, default, 1.5f);
+                    telegraphDust.noGravity = true;
+                }
+            }
+
         }
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
@@ -138,6 +228,7 @@ namespace MogMod.NPCs.Global
                 shivDamage = Convert.ToInt32(enemyMaxHP * 0.005) + 50;
             else
                 shivDamage = shivCap;
+            int hellfireDamage = hellfireCap;
 
             // skull basher
             var source = player.GetSource_OnHit(npc);
@@ -202,184 +293,15 @@ namespace MogMod.NPCs.Global
                 if (procChance == 5)
                     Projectile.NewProjectile(source, npc.Center, kirk, ModContent.ProjectileType<PolyluteProj>(), Convert.ToInt32(damageDone * .3f) + 1, 3, player.whoAmI);
             }
-        }
-        public static void SpawnMarkerProjectile(NPC target, Player player, Item item, Vector2 velocity, float rotation)
-        {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            if (target.type == NPCID.TargetDummy) return;
-            if (mogPlayer.markerProjOut) return;
 
-            int proj = Projectile.NewProjectile(target.GetSource_FromAI(), target.Center, velocity, ModContent.ProjectileType<MarkerTargetProj>(), (int)(item.damage * 1.45f), 0f, player.whoAmI, rotation); //Might have to change the source if problems arise
-
-            if (proj >= 0)
+            // hellfire armor
+            if (mogPlayer.wearingHellfireArmor && mogPlayer.hellfireCooldown <= 0)
             {
-                Main.projectile[proj].netUpdate = true;
-            }
-
-            mogPlayer.markerProjOut = true;
-
-            foreach (NPC other in Main.npc)
-            {
-                if (other.active && other.TryGetGlobalNPC<MogModGlobalNPC>(out var g))
+                if (damageDone >= 100)
                 {
-                    if (g.markedByMarker && other != target)
-                    {
-                        g.markedByMarker = false;
-                    }
+                    mogPlayer.hellfireCooldown = cooldownTimer * 72;
+                    int hellfire = Projectile.NewProjectile(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), hellfireDamage, 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 }
-            }
-
-            target.GetGlobalNPC<MogModGlobalNPC>().markedByMarker = true;
-        }
-        public static void doTrueStrikeFX(Vector2 position)
-        {
-            SoundEngine.PlaySound(SoundID.NPCDeath56, position);
-            for (int i = 0; i < 40; i++)
-            {
-                int strike = Dust.NewDust(position, 20, 20, DustID.CopperCoin, 0, 0, 100, default, 2f);
-                Main.dust[strike].velocity.Y *= 1.05f;
-                Main.dust[strike].noGravity = true;
-            }
-        }
-
-        // modifies vanilla npc shop
-        public override void ModifyShop(NPCShop shop)
-        {
-            if (shop.NpcType == NPCID.SkeletonMerchant)
-                shop.Add(new Item(ModContent.ItemType<AstrologersStaff>()));
-        }
-
-        #region NPC Drops
-        // LEDX and REDX chance to drop
-        public override void ModifyGlobalLoot(GlobalLoot globalLoot)
-        {
-            globalLoot.Add(new CommonDrop(ModContent.ItemType<LedX>(), 10000, 1, 1, 1));
-            globalLoot.Add(new CommonDrop(ModContent.ItemType<RedX>(), 100000, 1, 1, 1));
-        }
-        public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
-        {
-            LeadingConditionRule postFish = npcLoot.DefineConditionalDropSet(DropHelper.PostFish());
-            LeadingConditionRule postEoL = npcLoot.DefineConditionalDropSet(DropHelper.PostEoL());
-            if (npc.type == NPCID.Tim)
-            {
-                npcLoot.RemoveWhere(rule => true, false);
-                ItemDropRule.OneFromOptions(1, ItemID.WizardHat, ModContent.ItemType<GlintstoneArc>());
-            }
-            if (npc.type == NPCID.RuneWizard)
-            {
-                npcLoot.RemoveWhere(rule => true, false);
-                ItemDropRule.OneFromOptions(1, ItemID.WizardHat, ModContent.ItemType<GlintstoneArc>());
-            }
-            if (npc.type == NPCID.CrimsonAxe || npc.type == NPCID.CursedHammer)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ExplosiveGhostflame>(), 15, 1, 1));
-            }
-            if (npc.type == NPCID.Golem)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LizhardBloodVial>(), 1, 1, 2));
-            }
-            if (npc.type == NPCID.Shark)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 5, 1, 1));
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<OceanHeart>(), 100, 1, 1));
-            }
-            if (npc.type == NPCID.DarkCaster)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BlinkDagger>(), 10, 1, 1));
-            }
-            if (npc.type == NPCID.GoblinSorcerer)
-            {
-                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 20, 1, 1));
-            }
-            if (npc.type == NPCID.GoblinSummoner)
-            {
-                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 5, 1, 1));
-            }
-            if (npc.type == NPCID.DukeFishron)
-            {
-                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<BrinyRind>(), 1, 7, 14));
-            }
-            if (npc.type == NPCID.Shark || npc.type == NPCID.PigronCorruption || npc.type == NPCID.PigronCrimson || npc.type == NPCID.PigronHallow)
-            {
-                postFish.Add(ModContent.ItemType<BrinyRind>(), 4, 3, 5);
-            }
-            if (npc.type == NPCID.RainbowSlime || npc.type == NPCID.LightMummy)
-            {
-                postEoL.Add(ModContent.ItemType<FaeOre>(), 2, 12, 20);
-            }
-        }
-
-        public override void OnKill(NPC npc)
-        {
-            Player player = Main.LocalPlayer;
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            if (npc.type == NPCID.HallowBoss)
-            {
-                if (!NPC.downedEmpressOfLight)
-                {
-                    FaeOreText = Mod.GetLocalization($"WorldGen.{nameof(FaeOreText)}");
-                    WorldGeneration.SpawnOre(ModContent.TileType<FaeOreT>(), 16E-05, 0.35f, .8f, 7, 12, TileID.Pearlstone, TileID.HallowedIce, TileID.HallowSandstone, TileID.HallowHardenedSand);
-
-                    WorldGeneration.BroadcastLocalizedText(FaeOreText.Value, Color.HotPink);
-                    SyncWorld();
-                }
-            }
-            // if an enemy is killed in one shot from a freezing weapon it doesnt shoot out the projectiles
-            // i think this is because it doesnt apply the buff before killing them, so it cant run this line <--- Hey Will it's me (Megaslayer), I think we could do this in onhitbyitem, check if the npc's health is below zero (or if damagedealt was greater than the npc's current health) and if they were hit by frozen spear, and if those conditions are true, spawn the projectiles
-            if (npc.HasBuff<FreezingDebuff>() || mogPlayer.wearingFrostArmor)
-            {
-                int numSplits = 6;
-                float angleVariance = MathHelper.TwoPi / numSplits;
-                Vector2 projVec = new Vector2(4.5f, 0f).RotatedByRandom(MathHelper.ToRadians(45));
-
-                for (int i = 0; i < numSplits; ++i)
-                {
-                    projVec = projVec.RotatedBy(angleVariance);
-                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, projVec, ProjectileID.Blizzard, 50, 1f, Main.myPlayer);
-                }
-            }
-        }
-        #endregion
-
-        #region Blood Effects
-        public override void AI(NPC npc)
-        {
-            maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense); //(This scaling still could change, especially for different difficulties)
-            if (maxBlood < 150) //Sets lower bound of possible max blood
-            {
-                maxBlood = 150;
-            }
-        }
-        public void AddItemBlood(NPC npc, Player player, Item item)
-        {
-            MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-
-            maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense);
-
-            if (maxBlood < 150)
-                maxBlood = 150;
-
-            int bloodToAdd = globalItem.bloodDamage;
-
-            if (mogPlayer.exultationEquipped)
-            {
-                bloodToAdd = (int)(bloodToAdd * 1.15f);
-            }
-
-            if (mogPlayer.mercyBladeEquipped)
-                bloodToAdd = (int)(bloodToAdd * 1.2f);
-
-            if (mogPlayer.wearingWhiteArmor)
-            {
-                bloodToAdd = (int)(bloodToAdd * 1.2f);
-            }
-
-            currentBlood += bloodToAdd;
-
-            if (currentBlood >= maxBlood)
-            {
-                ApplyBleedProc(npc);
             }
         }
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
@@ -437,6 +359,76 @@ namespace MogMod.NPCs.Global
             }
                 AddProjectileBlood(npc, bloodToAdd);
             
+        }
+        public static void SpawnMarkerProjectile(NPC target, Player player, Item item, Vector2 velocity, float rotation)
+        {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            if (target.type == NPCID.TargetDummy) return;
+            if (mogPlayer.markerProjOut) return;
+
+            int proj = Projectile.NewProjectile(target.GetSource_FromAI(), target.Center, velocity, ModContent.ProjectileType<MarkerTargetProj>(), (int)(item.damage * 1.45f), 0f, player.whoAmI, rotation); //Might have to change the source if problems arise
+
+            if (proj >= 0)
+            {
+                Main.projectile[proj].netUpdate = true;
+            }
+
+            mogPlayer.markerProjOut = true;
+
+            foreach (NPC other in Main.npc)
+            {
+                if (other.active && other.TryGetGlobalNPC<MogModGlobalNPC>(out var g))
+                {
+                    if (g.markedByMarker && other != target)
+                    {
+                        g.markedByMarker = false;
+                    }
+                }
+            }
+
+            target.GetGlobalNPC<MogModGlobalNPC>().markedByMarker = true;
+        }
+        public static void doTrueStrikeFX(Vector2 position)
+        {
+            SoundEngine.PlaySound(SoundID.NPCDeath56, position);
+            for (int i = 0; i < 40; i++)
+            {
+                int strike = Dust.NewDust(position, 20, 20, DustID.CopperCoin, 0, 0, 100, default, 2f);
+                Main.dust[strike].velocity.Y *= 1.05f;
+                Main.dust[strike].noGravity = true;
+            }
+        }
+        public void AddItemBlood(NPC npc, Player player, Item item)
+        {
+            MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+
+            maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense);
+
+            if (maxBlood < 150)
+                maxBlood = 150;
+
+            int bloodToAdd = globalItem.bloodDamage;
+
+            if (mogPlayer.exultationEquipped)
+            {
+                bloodToAdd = (int)(bloodToAdd * 1.15f);
+            }
+
+            if (mogPlayer.mercyBladeEquipped)
+                bloodToAdd = (int)(bloodToAdd * 1.2f);
+
+            if (mogPlayer.wearingWhiteArmor)
+            {
+                bloodToAdd = (int)(bloodToAdd * 1.2f);
+            }
+
+            currentBlood += bloodToAdd;
+
+            if (currentBlood >= maxBlood)
+            {
+                ApplyBleedProc(npc);
+            }
         }
         public void AddProjectileBlood(NPC npc, int bloodToAdd)
         {
@@ -500,8 +492,89 @@ namespace MogMod.NPCs.Global
         }
         #endregion
 
-        #region Debuffs
+        #region On Kill && On Spawn
+        public override void OnKill(NPC npc)
+        {
+            Player player = Main.LocalPlayer;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            if (npc.type == NPCID.HallowBoss)
+                if (!NPC.downedEmpressOfLight)
+                {
+                    FaeOreText = Mod.GetLocalization($"WorldGen.{nameof(FaeOreText)}");
+                    WorldGeneration.SpawnOre(ModContent.TileType<FaeOreT>(), 16E-05, 0.35f, .8f, 7, 12, TileID.Pearlstone, TileID.HallowedIce, TileID.HallowSandstone, TileID.HallowHardenedSand);
 
+                    WorldGeneration.BroadcastLocalizedText(FaeOreText.Value, Color.HotPink);
+                    SyncWorld();
+                }
+            if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyer)
+            {
+                if (!NPC.downedMechBossAny)
+                {
+                    HellfireEssenceText = Mod.GetLocalization($"WorldGen.{nameof(HellfireEssenceText)}");
+                    WorldGeneration.BroadcastLocalizedText(HellfireEssenceText.Value, Color.Orange);
+                    SyncWorld();
+                }
+            }
+            // if an enemy is killed in one shot from a freezing weapon it doesnt shoot out the projectiles
+            // i think this is because it doesnt apply the buff before killing them, so it cant run this line <--- Hey Will it's me (Megaslayer), I think we could do this in onhitbyitem, check if the npc's health is below zero (or if damagedealt was greater than the npc's current health) and if they were hit by frozen spear, and if those conditions are true, spawn the projectiles
+            if (npc.HasBuff<FreezingDebuff>() || mogPlayer.wearingFrostArmor)
+            {
+                int numSplits = 6;
+                float angleVariance = MathHelper.TwoPi / numSplits;
+                Vector2 projVec = new Vector2(4.5f, 0f).RotatedByRandom(MathHelper.ToRadians(45));
+
+                for (int i = 0; i < numSplits; ++i)
+                {
+                    projVec = projVec.RotatedBy(angleVariance);
+                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, projVec, ProjectileID.Blizzard, 50, 1f, Main.myPlayer);
+                }
+            }
+            if (Condition.DownedMechBossAny.IsMet())
+            {
+                if (hellEpstein)
+                    switch (npc.type)
+                    {
+                        case NPCID.Hellbat:
+                        case NPCID.LavaSlime:
+                        case NPCID.FireImp:
+                        case NPCID.Demon:
+                        case NPCID.VoodooDemon:
+                        case NPCID.DemonTaxCollector:
+                        case NPCID.Lavabat:
+                        case NPCID.RedDevil:
+                                var entitySource = npc.GetSource_FromAI();
+                                NPC fireball = NPC.NewNPCDirect(entitySource, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HellfireSpirit>(), npc.whoAmI);
+                                if (Main.netMode == NetmodeID.Server)
+                                    NetMessage.SendData(MessageID.SyncNPC, number: fireball.whoAmI);
+                            break;
+                    }
+            }
+        }
+        public override void OnSpawn(NPC npc, IEntitySource source)
+        {
+            if (Condition.DownedMechBossAny.IsMet())
+                if (Main.rand.Next(0, 4) == 0)
+                    switch (npc.type)
+                    {
+                        case NPCID.Hellbat:
+                        case NPCID.LavaSlime:
+                        case NPCID.FireImp:
+                        case NPCID.Demon:
+                        case NPCID.VoodooDemon:
+                        case NPCID.DemonTaxCollector:
+                        case NPCID.Lavabat:
+                        case NPCID.RedDevil:
+                            hellEpstein = true;
+                            npc.lifeMax = (int)(npc.lifeMax * Main.rand.NextFloat(1.2f, 2.5f));
+                            npc.life = npc.lifeMax;
+                            npc.defDamage = (int)(npc.damage * 1.5f);
+                            npc.knockBackResist *= 0.2f;
+                            break;
+                    }
+        }
+        #endregion
+
+        #region Debuffs
         // actual debuff effect
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {

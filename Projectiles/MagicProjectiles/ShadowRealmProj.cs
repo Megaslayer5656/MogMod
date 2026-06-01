@@ -23,6 +23,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         {
             Projectile.width = Projectile.height = 32;
             Projectile.friendly = true;
+            Projectile.tileCollide = false;
             Projectile.alpha = 255;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 420;

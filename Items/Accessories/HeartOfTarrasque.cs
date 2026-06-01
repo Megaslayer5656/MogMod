@@ -54,7 +54,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.AnkhShield, 1).
                 AddIngredient(ItemID.ShinyStone, 1).
                 AddIngredient(ItemID.CharmofMyths, 1).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 16).
+                AddIngredient<ScorchedCore>(1).
                 AddIngredient<VitalityBooster>(1).
                 AddIngredient<UltimateOrb>(1).
                 AddTile(TileID.DemonAltar).
