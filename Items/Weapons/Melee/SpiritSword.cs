@@ -53,8 +53,9 @@ namespace MogMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            float randDir = random.Next(-5, 5);
-            Vector2 velocity = new Vector2(randDir * 5, randDir * 5);
+            float randDirX = random.Next(-5, 5);
+            float randDirY = random.Next(-5, 5);
+            Vector2 velocity = new Vector2(randDirX * 5, randDirY * 5);
             Projectile.NewProjectile(player.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<SpiritSwordProj>(), Convert.ToInt32(Item.damage * .5f), 1f, player.whoAmI);
         }
 
