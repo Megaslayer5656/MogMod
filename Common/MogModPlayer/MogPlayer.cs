@@ -35,6 +35,9 @@ namespace MogMod.Common.MogModPlayer
         public float mewingguide = 0;
 
         Random rand = new Random();
+        public Vector2 mouseWorld => Player.MountedCenter + mouseWorldDeltaFromPlayer;
+        public Vector2 mouseWorldDeltaFromPlayer;
+        public bool mouseWorldListener = false;
 
         #region Accessories
         public bool isWearingGlimmerCape = false;
@@ -146,8 +149,8 @@ namespace MogMod.Common.MogModPlayer
         public int jidiPollenCooldown = 0;
         public int hellfireCooldown = 0;
 
+
         // dragon install
-        public Vector2 mouseWorld;
         public bool wearingFlameOfCorruption = false;
         public bool dragonInstallActive;
 
@@ -339,11 +342,11 @@ namespace MogMod.Common.MogModPlayer
         #region In Game Checks
 
         #region On Hit Effects
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        public void NPCDebuffs(NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool whip, bool crit, bool proj = false, bool noFlask = false)
         {
             if (wearingEyeOfSkadi)
                 target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 300);
-            if (wearingSearingSignet)
+            if (wearingSearingSignet && !melee)
                 target.AddBuff(BuffID.ShadowFlame, 300);
             if (Player.HasBuff<DragonInstallBuff>())
                 target.AddBuff(BuffID.Daybreak, 600);
@@ -352,7 +355,18 @@ namespace MogMod.Common.MogModPlayer
             if (wearingHellfireArmor)
                 target.AddBuff(BuffID.OnFire3, 300);
         }
-
+        public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (Player.whoAmI != Main.myPlayer)
+                return;
+            NPCDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.CountsAsClass<ThrowingDamageClass>(), item.CountsAsClass<SummonMeleeSpeedDamageClass>(), hit.Crit);
+        }
+        public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (Player.whoAmI != Main.myPlayer)
+                return;
+            NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), proj.CountsAsClass<SummonMeleeSpeedDamageClass>(), hit.Crit);
+        }
         public void doATG(int damageDone)
         {
             Vector2 kirk = new Vector2(0, -5).RotatedByRandom(MathHelper.ToRadians(15));

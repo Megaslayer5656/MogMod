@@ -591,6 +591,7 @@ Mods: {
 				ProximityMinesExplosion.DisplayName: Proximity Mine
 				MADMineProj.DisplayName: MAD Mine
 				RuntyStaffProj.DisplayName: Runty Staff Proj
+				InfernoMHoldout.DisplayName: Inferno M Holdout
 			}
 
 			RangedProjectiles: {
@@ -636,6 +637,7 @@ Mods: {
 				BouncyBoulderBulletProj.DisplayName: Bouncy Boulder Bullet
 				GoyBeam.DisplayName: Goy Beam
 				RuntyFlamethrowerProj.DisplayName: Runty Flamethrower Proj
+				HellfireCannonProj.DisplayName: Hellfire Cannon Proj
 			}
 
 			MeleeProjectiles: {
@@ -686,6 +688,10 @@ Mods: {
 				FlameMeteorProj.DisplayName: Flame Meteor
 				FlameTornadoProj.DisplayName: Flamewall
 				FlamewallProj.DisplayName: Flamewall Proj
+				RuntyBladesProj.DisplayName: Runty Blades Proj
+				RuntyBladesAltProj.DisplayName: Runty Blades Alt Proj
+				ScorchingShivProj.DisplayName: Scorching Shiv Proj
+				ScorchingShivBoom.DisplayName: Scorching Shiv Boom
 			}
 
 			Melee: {
@@ -708,6 +714,7 @@ Mods: {
 				PlayerUndyingPortalProj.DisplayName: Undying Portal
 				GreatswordOfSoulsProj.DisplayName: Greatsword Of Souls
 				HellfireExplosion.DisplayName: Hellfire Explosion
+				HellfireBoom.DisplayName: Hellfire Boom
 			}
 
 			BossProjectiles: {
@@ -744,7 +751,7 @@ Mods: {
 			WarlockGolem: A destructive golem hell-bent on causing destruction everywhere. Beware the exploding fireballs!
 			RadiantMeleeCreep: sex offender
 			RadiantRangedCreep: victim
-			HellfireSpirit: Demons when exposed to hellfire essence fuel a dastardly hatred in their bodies, to the point where it materialized into a spirit.
+			HellfireSpirit: When a demon is exposed to hellfire essence their dastardly hatred deep in their bodies supercharges, to the point where it materializes into a spirit that can only be released on the hosts death.
 		}
 	}
 }

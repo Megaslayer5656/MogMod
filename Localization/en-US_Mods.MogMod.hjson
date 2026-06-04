@@ -599,7 +599,7 @@ Items: {
 			Tooltip:
 				'''
 				+7% Non-Melee Damage
-				Attacks inflict shadowflame
+				Non-Melee attacks inflict shadowflame
 				[c/A6288D:'To torture a magic user, one must devise means far beyond the mundane.']
 				'''
 		}
@@ -990,6 +990,16 @@ Items: {
 					'The ultimate endurance test.'
 					'''
 			}
+
+			RuntyBlades: {
+				DisplayName: Runty Blades
+				Tooltip: A pair of dual blades with short range
+			}
+
+			ScorchingShiv: {
+				DisplayName: Scorching Shiv
+				Tooltip: Hitting an enemy summons an explosion
+			}
 		}
 
 		Ranged: {
@@ -1210,6 +1220,20 @@ Items: {
 					[c/D1BB28:'Say hello to Democracy!']
 					'''
 			}
+
+			RuntyFlamethrower: {
+				DisplayName: Runty Flamethrower
+				Tooltip: Uses gel for ammo
+			}
+
+			HellfireCannon: {
+				DisplayName: Hellfire Cannon
+				Tooltip:
+					'''
+					Fires a volatile ball of gel
+					Uses gel for ammo
+					'''
+			}
 		}
 
 		Magic: {
@@ -1405,6 +1429,20 @@ Items: {
 					Explodes when enemies come near
 					Deals double damage if inactive for 15 seconds
 					[c/67B360:'Oh, this is gonna be fun!']
+					'''
+			}
+
+			RuntyStaff: {
+				DisplayName: Runty Staff
+				Tooltip: Swiftly fires 2 bouncing bolts
+			}
+
+			InfernoMaelstrom: {
+				DisplayName: Inferno Maelstrom
+				Tooltip:
+					'''
+					Conjures a growing fiery maelstrom
+					When finished 
 					'''
 			}
 		}
@@ -2329,7 +2367,7 @@ Items: {
 				'''
 				Immunity to lava
 				Attacks inflict hellfire
-				When dealing over 100 damage in a single attack, summon a hellfire explosion dealing 800 damage
+				When dealing over 100 damage in a single attack, summon a hellfire explosion dealing 600 damage
 				Effect has a 6 second cooldown
 				'''
 		}
@@ -2398,6 +2436,31 @@ Items: {
 
 		FuciumWaraxe: {
 			DisplayName: Fucium Waraxe
+			Tooltip: ""
+		}
+
+		RuntyHammer: {
+			Tooltip: ""
+			DisplayName: Runty Hammer
+		}
+
+		RuntyDrill: {
+			Tooltip: ""
+			DisplayName: Runty Drill
+		}
+
+		RuntyAxe: {
+			Tooltip: ""
+			DisplayName: Runty Axe
+		}
+
+		HellfireHamaxe: {
+			DisplayName: Hellfire Hamaxe
+			Tooltip: ""
+		}
+
+		HellfirePickaxe: {
+			DisplayName: Hellfire Pickaxe
 			Tooltip: ""
 		}
 	}

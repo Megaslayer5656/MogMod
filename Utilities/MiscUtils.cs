@@ -170,5 +170,19 @@ namespace MogMod.Utilities
             }
             return ratio;
         }
+        /// <summary>
+        /// Used to limit the cursor up to a 1080p monitor. A similar method is used for items such as Zenith in vanilla.
+        /// </summary>
+        /// <param name="player">The player to check.</param>
+        /// <returns>The current position of the player's mouse, clamped to a 1920x1080 screen.</returns>
+        public static Vector2 ClampedMouseWorld(this Player player)
+        {
+            Vector2 mouseWorld = player.MogMod().mouseWorld;
+
+            // Clamp each axis
+            mouseWorld.X = mouseWorld.X >= player.MountedCenter.X ? MathF.Min(mouseWorld.X, player.MountedCenter.X + 960f) : MathF.Max(mouseWorld.X, player.MountedCenter.X - 960f);
+            mouseWorld.Y = mouseWorld.Y >= player.MountedCenter.Y ? MathF.Min(mouseWorld.Y, player.MountedCenter.Y + 540f) : MathF.Max(mouseWorld.Y, player.MountedCenter.Y - 540f);
+            return mouseWorld;
+        }
     }
 }

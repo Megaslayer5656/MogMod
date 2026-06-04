@@ -1,15 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-﻿using System;
+using System;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.ClasslessProjectiles
 {
-    public class HellfireExplosion : ModProjectile, ILocalizedModType
+    public class HellfireBoom : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.ClasslessProjectiles";
         public override void SetStaticDefaults() => Main.projFrames[Type] = 5;
@@ -104,12 +102,12 @@ namespace MogMod.Projectiles.ClasslessProjectiles
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.direction = Main.player[Projectile.owner].direction;
-            target.AddBuff(BuffID.OnFire3, 300);
+            target.AddBuff(BuffID.OnFire3, 180);
         }
-        public override void OnHitPlayer(Player target, Player.HurtInfo info)   
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Projectile.direction = Main.player[Projectile.owner].direction;
-            target.AddBuff(BuffID.OnFire3, 300);
+            target.AddBuff(BuffID.OnFire3, 180);
         }
     }
 }

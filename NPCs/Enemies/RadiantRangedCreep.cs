@@ -124,7 +124,9 @@ namespace MogMod.NPCs.Enemies
         {
             var entitySource = NPC.GetSource_FromAI();
             NPC.ai[0]++;
-            NPC.velocity.X = 0f;
+            NPC.velocity.X *= 0.9f;
+            if (NPC.velocity.X > -0.1 && NPC.velocity.X < 0.1)
+                NPC.velocity.X = 0f;
             if (NPC.ai[0] >= 60f)
             {
                 if (NPC.ai[0] < 90f)
@@ -180,9 +182,11 @@ namespace MogMod.NPCs.Enemies
         }
         public override void FindFrame(int frameHeight)
         {
+            // attack animation
             if (Shooting || NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter += 1.0;
+                // set frameCounter to 0 so the animation plays properly
                 if (NPC.frameCounter > 7.0)
                 {
                     NPC.frameCounter = 0.0;
@@ -193,16 +197,20 @@ namespace MogMod.NPCs.Enemies
                 if (NPC.frame.Y > frameHeight * 13)
                     NPC.frame.Y = frameHeight * 9;
             }
+            // jumping animation
             else if (NPC.velocity.Y != 0.0)
                 NPC.frame.Y = frameHeight * 8;
+            // walking animation
             else
             {
                 NPC.frameCounter += (double)Math.Abs(NPC.velocity.X);
+                // reset the frame counter
                 if (NPC.frameCounter > 7.0)
                 {
                     NPC.frameCounter = 0.0;
                     NPC.frame.Y = NPC.frame.Y + frameHeight;
                 }
+                // if the npc is in the air, dont change direction
                 if (NPC.velocity.Y == 0f)
                 {
                     if (NPC.direction == 1)

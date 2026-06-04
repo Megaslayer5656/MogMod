@@ -33,8 +33,8 @@ namespace MogMod.Items.Armor.Hellfire
 
             Item.defense = 13; // 45
 
-            Item.rare = ItemRarityID.Pink;
-            Item.value = MogGlobalItem.RarityPinkBuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.value = MogGlobalItem.RarityLimeBuyPrice;
         }
         public override void ArmorSetShadows(Player player)
         {

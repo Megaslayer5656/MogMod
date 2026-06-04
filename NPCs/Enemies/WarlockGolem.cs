@@ -52,6 +52,9 @@ namespace MogMod.NPCs.Enemies
                 Scale = 0.6f,
             };
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+            NPCID.Sets.SpecificDebuffImmunity[NPC.type][BuffID.OnFire] = true;
+            NPCID.Sets.SpecificDebuffImmunity[NPC.type][BuffID.OnFire3] = true;
+            NPCID.Sets.SpecificDebuffImmunity[NPC.type][BuffID.Burning] = true;
         }
         public override void SetDefaults()
         {
@@ -90,11 +93,11 @@ namespace MogMod.NPCs.Enemies
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             LeadingConditionRule postEvil = npcLoot.DefineConditionalDropSet(DropHelper.PostEvil());
-            LeadingConditionRule postOneMech = npcLoot.DefineConditionalDropSet(DropHelper.PostOneMech());
+            LeadingConditionRule postAllMech = npcLoot.DefineConditionalDropSet(DropHelper.PostAllMech());
             npcLoot.Add(ItemDropRule.Common(ItemID.Obsidian, 1, 12, 18));
             postEvil.Add(ItemID.Hellstone, 1, 12, 18);
             npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<ScorchedCore>(), 1, 1, 1));
-            postOneMech.Add(ModContent.ItemType<HellfireEssence>(), 1, 1, 1);
+            postAllMech.Add(ModContent.ItemType<HellfireEssence>(), 1, 1, 1);
         }
         #endregion
 

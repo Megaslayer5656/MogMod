@@ -32,7 +32,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         // damage caps
         public int gunpowderCap = 40;
         public int shivCap = 400;
-        public const int hellfireCap = 800;
+        public const int hellfireCap = 600;
 
         public int cooldownTimer = 5;
         public override bool InstancePerEntity

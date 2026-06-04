@@ -40,7 +40,6 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient<PointBooster>(1).
                 AddIngredient(ItemID.MagmaStone, 1).
                 AddIngredient(ItemID.LivingFireBlock, 15).
-                AddIngredient<HellfireEssence>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

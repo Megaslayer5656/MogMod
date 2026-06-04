@@ -64,7 +64,7 @@ namespace MogMod.NPCs.Global
         // damage caps
         public const int bashCap = 50;
         public const int shivCap = 400;
-        public const int hellfireCap = 800;
+        public const int hellfireCap = 600;
 
         public bool markedByMarker;
 
@@ -112,6 +112,7 @@ namespace MogMod.NPCs.Global
             LeadingConditionRule postFish = npcLoot.DefineConditionalDropSet(DropHelper.PostFish());
             LeadingConditionRule postEoL = npcLoot.DefineConditionalDropSet(DropHelper.PostEoL());
             LeadingConditionRule postOneMech = npcLoot.DefineConditionalDropSet(DropHelper.PostOneMech());
+            LeadingConditionRule postAllMech = npcLoot.DefineConditionalDropSet(DropHelper.PostAllMech());
             switch (npc.type)
             {
                 case NPCID.Tim:
@@ -166,13 +167,14 @@ namespace MogMod.NPCs.Global
             }
             if (hellEpstein)
             {
-                float size = 15f;
                 Lighting.AddLight(npc.Center, Color.OrangeRed.ToVector3());
-                for (int i = 0; i < 50; i++)
+                for (int n = 0; n < 6; n++)
                 {
-                    Vector2 randPos = Main.rand.NextVector2CircularEdge(size * 2f, size * 2f);
-                    Dust telegraphDust = Dust.NewDustPerfect(npc.Center + randPos, DustID.CopperCoin, npc.DirectionFrom(npc.Center + npc.velocity + randPos) * Main.rand.NextFloat(1f, 1f), 0, default, 1.5f);
-                    telegraphDust.noGravity = true;
+                    float swirlRotation = Main.GlobalTimeWrappedHourly * -5.75f + (MathHelper.TwoPi / 6f * n);
+                    Vector2 swirlPos = npc.Center + Vector2.UnitX.RotatedBy(swirlRotation) * 220f;
+                    Vector2 swirlVelocity = Vector2.Normalize(swirlPos - npc.Center).RotatedBy(MathHelper.ToRadians(70)) * 2f;
+                    Dust swirlDust = Dust.NewDustPerfect(swirlPos, DustID.CopperCoin, swirlVelocity * Main.rand.NextFloat(5f, 7f), 0, default, 1.5f);
+                    swirlDust.noGravity = true;
                 }
             }
 
@@ -508,7 +510,7 @@ namespace MogMod.NPCs.Global
                 }
             if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyer)
             {
-                if (!NPC.downedMechBossAny)
+                if (!Condition.DownedMechBossAll.IsMet())
                 {
                     HellfireEssenceText = Mod.GetLocalization($"WorldGen.{nameof(HellfireEssenceText)}");
                     WorldGeneration.BroadcastLocalizedText(HellfireEssenceText.Value, Color.Orange);
@@ -529,7 +531,7 @@ namespace MogMod.NPCs.Global
                     Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, projVec, ProjectileID.Blizzard, 50, 1f, Main.myPlayer);
                 }
             }
-            if (Condition.DownedMechBossAny.IsMet())
+            if (Condition.DownedMechBossAll.IsMet())
             {
                 if (hellEpstein)
                     switch (npc.type)
@@ -552,7 +554,7 @@ namespace MogMod.NPCs.Global
         }
         public override void OnSpawn(NPC npc, IEntitySource source)
         {
-            if (Condition.DownedMechBossAny.IsMet())
+            if (Condition.DownedMechBossAll.IsMet())
                 if (Main.rand.Next(0, 4) == 0)
                     switch (npc.type)
                     {
@@ -565,7 +567,7 @@ namespace MogMod.NPCs.Global
                         case NPCID.Lavabat:
                         case NPCID.RedDevil:
                             hellEpstein = true;
-                            npc.lifeMax = (int)(npc.lifeMax * Main.rand.NextFloat(1.2f, 2.5f));
+                            npc.lifeMax = (int)(npc.lifeMax * Main.rand.NextFloat(1.5f, 3f));
                             npc.life = npc.lifeMax;
                             npc.defDamage = (int)(npc.damage * 1.5f);
                             npc.knockBackResist *= 0.2f;

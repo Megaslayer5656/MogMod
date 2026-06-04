@@ -28,8 +28,8 @@ namespace MogMod.Items.Armor.Hellfire
 
             Item.defense = 19;
 
-            Item.rare = ItemRarityID.Pink;
-            Item.value = MogGlobalItem.RarityPinkBuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.value = MogGlobalItem.RarityLimeBuyPrice;
         }
         public override void UpdateEquip(Player player)
         {

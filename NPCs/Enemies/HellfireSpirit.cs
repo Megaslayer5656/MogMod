@@ -16,7 +16,13 @@ namespace MogMod.NPCs.Enemies
         #region Setup
         public ref float ExplosionTimer => ref NPC.ai[1];
         public const float ExplodeTime = 240f;
-        public override void SetStaticDefaults() => Main.npcFrameCount[NPC.type] = 3;
+        public override void SetStaticDefaults()
+        {
+            Main.npcFrameCount[NPC.type] = 3;
+            NPCID.Sets.SpecificDebuffImmunity[NPC.type][BuffID.OnFire] = true;
+            NPCID.Sets.SpecificDebuffImmunity[NPC.type][BuffID.OnFire3] = true;
+            NPCID.Sets.SpecificDebuffImmunity[NPC.type][BuffID.Burning] = true;
+        }
         public override void SetDefaults()
         {
             NPC.width = 24;

@@ -48,6 +48,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => Projectile.Kill();
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
             Projectile.damage = (int)(Projectile.damage * 1.15);
             Projectile.penetrate--;
             if (Projectile.penetrate <= 0)

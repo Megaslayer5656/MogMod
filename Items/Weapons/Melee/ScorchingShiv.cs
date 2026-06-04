@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.MeleeProjectiles;
 using Terraria;
@@ -10,21 +11,19 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class RuntyBlades : ModItem, ILocalizedModType
+    public class ScorchingShiv : ModItem, ILocalizedModType
     {
-        // code taken from calamity mod sahara slicers
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        public bool AltProjectile = true;
         public override void SetDefaults()
         {
-            Item.width = Item.height = 36;
+            Item.width = Item.height = 48;
 
-            Item.damage = 16;
+            Item.damage = 60;
             Item.DamageType = DamageClass.Melee;
-            Item.useTime = Item.useAnimation = 12;
+            Item.useTime = Item.useAnimation = 18;
             Item.shoot = ProjectileID.PurificationPowder;
-            Item.shootSpeed = 3.3f;
-            Item.knockBack = 6f;
+            Item.shootSpeed = 5f;
+            Item.knockBack = 7f;
 
             Item.noMelee = true;
             Item.channel = true;
@@ -33,31 +32,22 @@ namespace MogMod.Items.Weapons.Melee
             Item.noUseGraphic = true;
             Item.useStyle = ItemUseStyleID.Shoot;
 
-            Item.rare = ItemRarityID.Blue;
-            Item.value = MogGlobalItem.RarityBlueBuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.value = MogGlobalItem.RarityLimeBuyPrice;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Item.useStyle = ItemUseStyleID.Shoot;
-            if (AltProjectile)
-            {
-                SoundEngine.PlaySound(SoundID.Item1 with { Pitch = 0.7f }, player.Center);
-                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<RuntyBladesAltProj>(), damage, knockback, player.whoAmI);
-            }
-            else
-            {
-                SoundEngine.PlaySound(SoundID.Item1, player.Center);
-                Projectile.NewProjectile(source, position, velocity * 0.75f, ModContent.ProjectileType<RuntyBladesProj>(), damage, knockback, player.whoAmI);
-            }
-            AltProjectile = !AltProjectile;
+            SoundEngine.PlaySound(SoundID.Item1, player.Center);
+            Projectile.NewProjectile(source, position, velocity * 0.75f, ModContent.ProjectileType<ScorchingShivProj>(), damage, knockback, player.whoAmI);
             return false;
         }
         public override bool MeleePrefix() => true;
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<RuntyBar>(15).
-                AddTile(TileID.Anvils).
+                AddIngredient<GriefBar>(12).
+                AddTile(TileID.MythrilAnvil).
                 Register();
         }
     }

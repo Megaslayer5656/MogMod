@@ -17,13 +17,13 @@ namespace MogMod.Items.Weapons.Magic
             Item.width = 42;
             Item.height = 22;
 
-            Item.damage = 23;
+            Item.damage = 24;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 8;
 
             Item.useTime = 12;
             Item.useAnimation = 24;
-            Item.reuseDelay = 6;
+            Item.reuseDelay = 12;
             Item.useLimitPerAnimation = 2;
 
             Item.useStyle = ItemUseStyleID.Shoot;

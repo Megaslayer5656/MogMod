@@ -83,8 +83,14 @@ namespace MogMod.Projectiles.MagicProjectiles
             // doubles damage if inactive for 10 seconds
             if (Projectile.ai[0] >= 600 && !Exploding)
             {
-                int d = Dust.NewDust(spawn, Projectile.width, Projectile.height, DustID.Fireworks, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
-                Main.dust[d].noGravity = true;
+                for (int n = 0; n < 3; n++)
+                {
+                    float swirlRotation = Main.GlobalTimeWrappedHourly * -5.75f + (MathHelper.TwoPi / 3f * n);
+                    Vector2 swirlPos = Projectile.Center + Vector2.UnitX.RotatedBy(swirlRotation) * 5f;
+                    Vector2 swirlVelocity = Vector2.Normalize(swirlPos - Projectile.Center).RotatedBy(MathHelper.ToRadians(20)) * 2f;
+                    Dust swirlDust = Dust.NewDustPerfect(swirlPos, DustID.Fireworks, swirlVelocity * Main.rand.NextFloat(2f, 4f), 0, default, 1f);
+                    swirlDust.noGravity = true;
+                }
                 doubleDamage = true;
             }
             // gravity
