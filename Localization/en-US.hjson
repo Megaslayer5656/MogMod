@@ -532,6 +532,7 @@ Mods: {
 			RadiantMeleeCreep.DisplayName: Melee Creep
 			RadiantRangedCreep.DisplayName: Ranged Creep
 			HellfireSpirit.DisplayName: Hellfire Spirit
+			TwilightDrover.DisplayName: Twilight Drover
 		}
 
 		Projectiles: {
@@ -687,11 +688,11 @@ Mods: {
 				FlameTornado.DisplayName: Flame Tornado
 				FlameMeteorProj.DisplayName: Flame Meteor
 				FlameTornadoProj.DisplayName: Flamewall
-				FlamewallProj.DisplayName: Flamewall Proj
-				RuntyBladesProj.DisplayName: Runty Blades Proj
-				RuntyBladesAltProj.DisplayName: Runty Blades Alt Proj
-				ScorchingShivProj.DisplayName: Scorching Shiv Proj
-				ScorchingShivBoom.DisplayName: Scorching Shiv Boom
+				FlamewallProj.DisplayName: Flamewall
+				RuntyBladesProj.DisplayName: Runty Blade
+				RuntyBladesAltProj.DisplayName: Runty Blade
+				ScorchingShivProj.DisplayName: Scorching Shiv
+				ScorchingShivBoom.DisplayName: Scorching Shiv
 			}
 
 			Melee: {
@@ -740,6 +741,7 @@ Mods: {
 
 			Pets.AhmodInABottlePet.DisplayName: Ahmod
 			Tools.RuntyDrillProj.DisplayName: Runty Drill Proj
+			SpiritSwordProj.DisplayName: Spirit Sword Proj
 		}
 
 		Bestiary: {

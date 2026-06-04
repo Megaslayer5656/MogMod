@@ -2463,6 +2463,21 @@ Items: {
 			DisplayName: Hellfire Pickaxe
 			Tooltip: ""
 		}
+
+		RuntyAxe: {
+			DisplayName: Runty Axe
+			Tooltip: ""
+		}
+
+		RuntyDrill: {
+			DisplayName: Runty Drill
+			Tooltip: ""
+		}
+
+		RuntyHammer: {
+			DisplayName: Runty Hammer
+			Tooltip: ""
+		}
 	}
 
 	FaeSlimeBanner: {
@@ -2504,6 +2519,16 @@ Items: {
 
 	HellfireSpiritBanner: {
 		DisplayName: Hellfire Spirit Banner
+		Tooltip: ""
+	}
+
+	SpiritShard: {
+		DisplayName: Spirit Shard
+		Tooltip: ""
+	}
+
+	SpiritSword: {
+		DisplayName: Spirit Sword
 		Tooltip: ""
 	}
 }
