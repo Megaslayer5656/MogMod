@@ -11,7 +11,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
-namespace MogMod.Common.Systems
+namespace MogMod.World
 {
     // copied this from calamity mod world gen
     public class WorldGeneration : ModSystem

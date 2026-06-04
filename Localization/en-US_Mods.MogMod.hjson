@@ -990,6 +990,11 @@ Items: {
 					'The ultimate endurance test.'
 					'''
 			}
+
+			RuntyBlades: {
+				DisplayName: Runty Blades
+				Tooltip: ""
+			}
 		}
 
 		Ranged: {
@@ -1210,6 +1215,11 @@ Items: {
 					[c/D1BB28:'Say hello to Democracy!']
 					'''
 			}
+
+			RuntyFlamethrower: {
+				DisplayName: Runty Flamethrower
+				Tooltip: ""
+			}
 		}
 
 		Magic: {
@@ -1406,6 +1416,11 @@ Items: {
 					Deals double damage if inactive for 15 seconds
 					[c/67B360:'Oh, this is gonna be fun!']
 					'''
+			}
+
+			RuntyStaff: {
+				DisplayName: Runty Staff
+				Tooltip: ""
 			}
 		}
 
@@ -2400,6 +2415,21 @@ Items: {
 			DisplayName: Fucium Waraxe
 			Tooltip: ""
 		}
+
+		RuntyAxe: {
+			DisplayName: Runty Axe
+			Tooltip: ""
+		}
+
+		RuntyDrill: {
+			DisplayName: Runty Drill
+			Tooltip: ""
+		}
+
+		RuntyHammer: {
+			DisplayName: Runty Hammer
+			Tooltip: ""
+		}
 	}
 
 	FaeSlimeBanner: {
@@ -2441,6 +2471,16 @@ Items: {
 
 	HellfireSpiritBanner: {
 		DisplayName: Hellfire Spirit Banner
+		Tooltip: ""
+	}
+
+	SpiritShard: {
+		DisplayName: Spirit Shard
+		Tooltip: ""
+	}
+
+	SpiritSword: {
+		DisplayName: Spirit Sword
 		Tooltip: ""
 	}
 }
