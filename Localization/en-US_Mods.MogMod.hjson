@@ -2440,18 +2440,18 @@ Items: {
 		}
 
 		RuntyHammer: {
-			Tooltip: ""
 			DisplayName: Runty Hammer
+			Tooltip: ""
 		}
 
 		RuntyDrill: {
-			Tooltip: ""
 			DisplayName: Runty Drill
+			Tooltip: ""
 		}
 
 		RuntyAxe: {
-			Tooltip: ""
 			DisplayName: Runty Axe
+			Tooltip: ""
 		}
 
 		HellfireHamaxe: {
@@ -2461,21 +2461,6 @@ Items: {
 
 		HellfirePickaxe: {
 			DisplayName: Hellfire Pickaxe
-			Tooltip: ""
-		}
-
-		RuntyAxe: {
-			DisplayName: Runty Axe
-			Tooltip: ""
-		}
-
-		RuntyDrill: {
-			DisplayName: Runty Drill
-			Tooltip: ""
-		}
-
-		RuntyHammer: {
-			DisplayName: Runty Hammer
 			Tooltip: ""
 		}
 	}
