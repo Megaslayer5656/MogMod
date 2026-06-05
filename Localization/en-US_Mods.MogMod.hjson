@@ -998,7 +998,17 @@ Items: {
 
 			ScorchingShiv: {
 				DisplayName: Scorching Shiv
-				Tooltip: Hitting an enemy summons an explosion
+				Tooltip: Hitting an enemy causes an explosion
+			}
+
+			SylvanStiletto: {
+				DisplayName: Sylvan Stiletto
+				Tooltip: Shoots out a leaf blade
+			}
+
+			SpiritSword: {
+				DisplayName: Spirit Sword
+				Tooltip: Hitting an enemy summons a spirit that chases after your foes
 			}
 		}
 
@@ -1234,6 +1244,15 @@ Items: {
 					Uses gel for ammo
 					'''
 			}
+
+			DragonFlayer: {
+				DisplayName: Dragon Flayer
+				Tooltip:
+					'''
+					Uses gel for ammo
+					[c/E39127:'here be dragons']
+					'''
+			}
 		}
 
 		Magic: {
@@ -1439,11 +1458,7 @@ Items: {
 
 			InfernoMaelstrom: {
 				DisplayName: Inferno Maelstrom
-				Tooltip:
-					'''
-					Conjures a growing fiery maelstrom
-					When finished 
-					'''
+				Tooltip: Conjure a fiery maelstrom
 			}
 		}
 
@@ -2440,18 +2455,18 @@ Items: {
 		}
 
 		RuntyHammer: {
-			Tooltip: ""
 			DisplayName: Runty Hammer
+			Tooltip: ""
 		}
 
 		RuntyDrill: {
-			Tooltip: ""
 			DisplayName: Runty Drill
+			Tooltip: ""
 		}
 
 		RuntyAxe: {
-			Tooltip: ""
 			DisplayName: Runty Axe
+			Tooltip: ""
 		}
 
 		HellfireHamaxe: {
@@ -2461,21 +2476,6 @@ Items: {
 
 		HellfirePickaxe: {
 			DisplayName: Hellfire Pickaxe
-			Tooltip: ""
-		}
-
-		RuntyAxe: {
-			DisplayName: Runty Axe
-			Tooltip: ""
-		}
-
-		RuntyDrill: {
-			DisplayName: Runty Drill
-			Tooltip: ""
-		}
-
-		RuntyHammer: {
-			DisplayName: Runty Hammer
 			Tooltip: ""
 		}
 	}
@@ -2527,8 +2527,8 @@ Items: {
 		Tooltip: ""
 	}
 
-	SpiritSword: {
-		DisplayName: Spirit Sword
+	TwilightDroverBanner: {
+		DisplayName: Twilight Drover Banner
 		Tooltip: ""
 	}
 }

@@ -1,9 +1,5 @@
 ﻿using MogMod.Items.Global;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
@@ -14,8 +10,9 @@ using MogMod.Items.Other;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class SpiritSword : ModItem
+    public class SpiritSword : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         Random random = new Random();
         public override void SetDefaults()
         {

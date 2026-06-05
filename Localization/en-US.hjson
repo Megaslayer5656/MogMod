@@ -639,6 +639,7 @@ Mods: {
 				GoyBeam.DisplayName: Goy Beam
 				RuntyFlamethrowerProj.DisplayName: Runty Flamethrower Proj
 				HellfireCannonProj.DisplayName: Hellfire Cannon Proj
+				DragonFlayerProj.DisplayName: Dragon Flayer Proj
 			}
 
 			MeleeProjectiles: {
@@ -693,6 +694,8 @@ Mods: {
 				RuntyBladesAltProj.DisplayName: Runty Blade
 				ScorchingShivProj.DisplayName: Scorching Shiv
 				ScorchingShivBoom.DisplayName: Scorching Shiv
+				SylvanStilettoProj.DisplayName: Sylvan Stiletto Proj
+				SpiritSwordProj.DisplayName: Spirit Sword Proj
 			}
 
 			Melee: {
@@ -741,7 +744,6 @@ Mods: {
 
 			Pets.AhmodInABottlePet.DisplayName: Ahmod
 			Tools.RuntyDrillProj.DisplayName: Runty Drill Proj
-			SpiritSwordProj.DisplayName: Spirit Sword Proj
 		}
 
 		Bestiary: {
@@ -754,6 +756,7 @@ Mods: {
 			RadiantMeleeCreep: sex offender
 			RadiantRangedCreep: victim
 			HellfireSpirit: When a demon is exposed to hellfire essence their dastardly hatred deep in their bodies supercharges, to the point where it materializes into a spirit that can only be released on the hosts death.
+			TwilightDrover: Whenever a creature token leaves the battlefield, put a +1/+1 counter on this creature.
 		}
 	}
 }

@@ -1,9 +1,4 @@
 ﻿using MogMod.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria;
@@ -11,10 +6,11 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
-    public class SpiritSwordProj : ModProjectile
+    public class SpiritSwordProj : ModProjectile, ILocalizedModType
     {
-        bool canHitNPC = false;
+        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
+        bool canHitNPC = false;
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 4;

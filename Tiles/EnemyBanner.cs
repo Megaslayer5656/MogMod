@@ -26,6 +26,7 @@ namespace MogMod.Tiles
             RadiantMeleeCreep,
 			RadiantRangedCreep,
 			HellfireSpirit,
+			TwilightDrover,
         }
     }
 

@@ -21,7 +21,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         public const float FizzleOutTime = 40f;
         public const float StartScale = 0.0004f;
         public const float EndScale = 10.25f;
-        public const float ChargeTime = 240f;
+        public const float ChargeTime = 180f;
         public ref float Timer => ref Projectile.ai[0];
         public override void SetStaticDefaults()
         {
@@ -49,7 +49,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             Lighting.AddLight(Projectile.Center, Color.OrangeRed.ToVector3() * (Projectile.scale * 0.5f));
             bool canUseMana = Owner.CheckMana(Owner.HeldItem);
             float dustTimer = 0f;
-            if (Timer <= 240f)
+            if (Timer <= ChargeTime)
                 dustTimer++;
             if (Owner.CantUseHoldout() || !canUseMana)
             {
@@ -84,7 +84,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 Projectile.ExpandHitboxBy((int)(Projectile.scale * 50f));
 
                 // Consume mana periodically
-                if (Timer % AttackSpeed == 0f)
+                if (Timer % AttackSpeed == 0f && Timer >= ChargeTime)
                 {
                     Owner.CheckMana(Owner.HeldItem, -1, true);
                     CanExplode = true;

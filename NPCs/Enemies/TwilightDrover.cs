@@ -43,7 +43,7 @@ namespace MogMod.NPCs.Enemies
         private float target_walkMaxSpeed = 1.6f;
         private float target_walkAcceleration = 0.12f;
         public bool Shooting = false;
-        public override void SetStaticDefaults() => Main.npcFrameCount[Type] = 15;
+        public override void SetStaticDefaults() => Main.npcFrameCount[Type] = 11;
         public override void SetDefaults()
         {
             NPC.width = 30;
@@ -62,10 +62,21 @@ namespace MogMod.NPCs.Enemies
 
             NPC.aiStyle = -1;
             AIType = -1;
+
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<TwilightDroverBanner>();
         }
         #endregion
 
-        #region Loot
+        #region Bestiary && Loot
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange([
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+                new FlavorTextBestiaryInfoElement("Mods.MogMod.Bestiary.TwilightDrover")
+            ]);
+        }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ManaEssence>(), 8, 1, 3));
@@ -85,7 +96,7 @@ namespace MogMod.NPCs.Enemies
         public override void AI()
         {
             NPC.TargetClosest(true);
-            if (NPC.Distance(Target.Center) < 400f)
+            if (NPC.Distance(Target.Center) < 600f)
                 Shoot();
             else
             {
@@ -130,13 +141,14 @@ namespace MogMod.NPCs.Enemies
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int damage = Main.masterMode ? 7 : Main.expertMode ? 8 : 10;
-                        int projectile = Projectile.NewProjectile(NPC.GetSource_FromAI(),
+                        Projectile bolt = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(),
                             NPC.Center + projVelocity.SafeNormalize(Vector2.Zero) * 10f,
                             projVelocity,
                             type,
                             damage,
                             0f,
                             Main.myPlayer);
+                        bolt.tileCollide = false;
                         NPC.netUpdate = true;
                     }
                 }
@@ -180,7 +192,7 @@ namespace MogMod.NPCs.Enemies
 
                 if (NPC.frame.Y < frameHeight * 10)
                     NPC.frame.Y = frameHeight * 10;
-                if (NPC.frame.Y > frameHeight * 14)
+                if (NPC.frame.Y > frameHeight * 10)
                     NPC.frame.Y = frameHeight * 10;
             }
             else if (NPC.velocity.Y != 0.0)

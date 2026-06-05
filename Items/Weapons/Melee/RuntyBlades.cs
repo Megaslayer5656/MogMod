@@ -22,9 +22,9 @@ namespace MogMod.Items.Weapons.Melee
             Item.damage = 16;
             Item.DamageType = DamageClass.Melee;
             Item.useTime = Item.useAnimation = 12;
-            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shoot = ModContent.ProjectileType<RuntyBladesProj>();
             Item.shootSpeed = 3.3f;
-            Item.knockBack = 6f;
+            Item.knockBack = 4f;
 
             Item.noMelee = true;
             Item.channel = true;
@@ -47,7 +47,7 @@ namespace MogMod.Items.Weapons.Melee
             else
             {
                 SoundEngine.PlaySound(SoundID.Item1, player.Center);
-                Projectile.NewProjectile(source, position, velocity * 0.75f, ModContent.ProjectileType<RuntyBladesProj>(), damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity * 0.75f, type, damage, knockback, player.whoAmI);
             }
             AltProjectile = !AltProjectile;
             return false;
