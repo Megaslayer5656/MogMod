@@ -60,6 +60,7 @@
     <None Remove="Items\BloodInfusion.png" />
     <None Remove="Items\Consumables\Glue.png" />
     <None Remove="Items\Consumables\VonSpawner.png" />
+    <None Remove="Items\Other\SpiritShard.png" />
     <None Remove="Items\Placeable\DabdadOreP.png" />
     <None Remove="Items\Weapons\Magic\BloodMagic.png" />
     <None Remove="Items\Weapons\Melee\BlackBlade.png" />
@@ -72,6 +73,7 @@
     <None Remove="Items\Weapons\Melee\RedKatana.png" />
     <None Remove="Items\Weapons\Melee\Reduvia.png" />
     <None Remove="Items\Weapons\Melee\RiversOfBlood.png" />
+    <None Remove="Items\Weapons\Melee\SpiritSword.png" />
     <None Remove="Items\Weapons\Melee\ThunderSeal.png" />
     <None Remove="Items\Weapons\Melee\WarFury.png" />
     <None Remove="Items\Weapons\Ranged\BerserkersSpear.png" />
@@ -81,6 +83,7 @@
     <None Remove="Items\Weapons\Sange.png" />
     <None Remove="NPCs\Bosses\DabDad.png" />
     <None Remove="NPCs\Bosses\KingVon_Head_Boss.png" />
+    <None Remove="NPCs\Enemies\TwilightDrover.png" />
     <None Remove="NPCs\TownNpc\SolBadguy.png" />
     <None Remove="NPCs\TownNpc\SolBadguy_Head.png" />
     <None Remove="Projectiles\BaseProjectiles\BerserkersSpearProj.png" />

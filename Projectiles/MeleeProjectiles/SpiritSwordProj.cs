@@ -15,7 +15,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
         {
             Projectile.width = Projectile.height = 4;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 180;
             Projectile.friendly = true;
             Projectile.hostile = false;
             Projectile.DamageType = DamageClass.Melee;
@@ -35,7 +35,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             if (Projectile.ai[1] > 30)
             {
                 canHitNPC = true;
-                MogModUtils.HomeInOnNPC(Projectile, false, 2400, 10f, 10f);
+                MogModUtils.HomeInOnNPC(Projectile, true, 2400, 10f, 10f);
             }
 
 
