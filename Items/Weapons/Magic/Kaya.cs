@@ -73,10 +73,9 @@ namespace MogMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.SkyFracture, 1).
-                AddRecipeGroup("MythrilBar", 14).
-                AddIngredient(ItemID.SoulofMight, 7).
-                AddIngredient<FrigidCrystal>(1).
+                AddRecipeGroup("MythrilBar", 10).
+                AddIngredient(ItemID.SoulofSight, 7).
+                AddIngredient<FrigidCrystal>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

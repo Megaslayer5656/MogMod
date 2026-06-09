@@ -27,7 +27,7 @@ namespace MogMod.Items.Ammo
         {
             CreateRecipe(999).
                 AddIngredient(ItemID.ChlorophyteBullet, 999).
-                AddIngredient<PointBooster>(1).
+                AddIngredient<LizhardBloodVial>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

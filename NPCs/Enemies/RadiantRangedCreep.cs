@@ -210,7 +210,6 @@ namespace MogMod.NPCs.Enemies
                     NPC.frameCounter = 0.0;
                     NPC.frame.Y = NPC.frame.Y + frameHeight;
                 }
-                // if the npc is in the air, dont change direction
                 if (NPC.velocity.Y == 0f)
                 {
                     if (NPC.direction == 1)

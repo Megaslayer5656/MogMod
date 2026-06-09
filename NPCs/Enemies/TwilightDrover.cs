@@ -184,17 +184,7 @@ namespace MogMod.NPCs.Enemies
         public override void FindFrame(int frameHeight)
         {
             if (Shooting || NPC.IsABestiaryIconDummy)
-            {
-                if (NPC.frame.Y < frameHeight * 10)
-                    NPC.frame.Y = frameHeight * 10;
-
-                NPC.frameCounter += 1.0;
-
-                if (NPC.frame.Y < frameHeight * 10)
-                    NPC.frame.Y = frameHeight * 10;
-                if (NPC.frame.Y > frameHeight * 10)
-                    NPC.frame.Y = frameHeight * 10;
-            }
+                NPC.frame.Y = frameHeight * 10;
             else if (NPC.velocity.Y != 0.0)
                 NPC.frame.Y = 0;
             else

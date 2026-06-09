@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
+    // TODO: completely change this into a monster hunter styled greatsword that can be charged for increased power
     public class BlackBlade : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";

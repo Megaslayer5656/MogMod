@@ -200,7 +200,7 @@ Items: {
 				'''
 				+20% Knockback
 				Press [KEY] to consume 50 mana and boost forward in the direction you are facing
-				[c/72C281:'Allows you to manipulate yourself, for good or evil.']
+				[c/72C281:'Allows you to boost yourself, for good or evil.']
 				'''
 		}
 
@@ -651,7 +651,7 @@ Items: {
 			Tooltip:
 				'''
 				+5% Critical Strike Chance
-				Attacks have a chance to shoot a plasma orb on hit
+				Attacks shoot a plasma orb on hit
 				'''
 		}
 
@@ -1010,6 +1010,15 @@ Items: {
 				DisplayName: Spirit Sword
 				Tooltip: Hitting an enemy summons a spirit that chases after your foes
 			}
+
+			ScintillantStabber: {
+				DisplayName: Scintillant Stabber
+				Tooltip:
+					'''
+					Every 10 hits, summon a mini-sandstorm
+					[c/DEC240:'I will show you fear in a handful of sand…']
+					'''
+			}
 		}
 
 		Ranged: {
@@ -1249,9 +1258,45 @@ Items: {
 				DisplayName: Dragon Flayer
 				Tooltip:
 					'''
+					Unleashes a barrage of flames that can pass through tiles
 					Uses gel for ammo
 					[c/E39127:'here be dragons']
 					'''
+			}
+
+			Sharpshooter: {
+				DisplayName: Sharpshooter
+				Tooltip:
+					'''
+					Hold left click to charge up a crossbow bolt
+					Right click to fire a squirrel
+					Hitting an enemy with a fully charged bolt empowers the next 5 squirrels
+					[c/4BB850:'Acorn in your eye!']
+					'''
+			}
+
+			Jericolt: {
+				DisplayName: Jericolt
+				Tooltip:
+					'''
+					Imbues your bullets with Hellfire and Frostburn, alternating every shot
+					[c/62CCF5:'So cold, ][c/F59562:it burns!']
+					'''
+			}
+
+			Greafer: {
+				DisplayName: Greafer
+				Tooltip:
+					'''
+					Fires a four round burst in a shotgun-like spread
+					Imbues your bullets with Daybreak and Destined Death, alternating every shot
+					[c/660514:'get back on grief']
+					'''
+			}
+
+			Tripshot: {
+				DisplayName: Trip-shot
+				Tooltip: Fires a three round burst in a shotgun-like spread
 			}
 		}
 
@@ -1383,6 +1428,7 @@ Items: {
 				DisplayName: Bloodthorn
 				Tooltip:
 					'''
+					High bleed buildup
 					Launches 3 orbs that fire homing lifestealing beams
 					[c/B04C89:'A reviled blade that bites deeper with each wriggle of its victim's final throes.']
 					'''
@@ -2529,6 +2575,11 @@ Items: {
 
 	TwilightDroverBanner: {
 		DisplayName: Twilight Drover Banner
+		Tooltip: ""
+	}
+
+	ScavBanner: {
+		DisplayName: Scav Banner
 		Tooltip: ""
 	}
 }

@@ -61,4 +61,10 @@ namespace MogMod.World
                 ChatHelper.BroadcastChatMessage(NetworkText.FromKey(key), textColor.Value);
         }
     }
+    public static class MogModWorld
+    {
+        public static bool spawnedMendez = false;
+        public static bool spawnedPrapor = false;
+        public static bool spawnedSolBadguy = false;
+    }
 }

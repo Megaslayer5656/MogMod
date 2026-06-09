@@ -14,7 +14,6 @@ namespace MogMod.Projectiles.RangedProjectiles
             ProjectileID.Sets.TrailCacheLength[Type] = 5;
             ProjectileID.Sets.TrailingMode[Type] = 0;
         }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;
@@ -33,13 +32,7 @@ namespace MogMod.Projectiles.RangedProjectiles
 
             AIType = ProjectileID.Bullet;
         }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            Projectile.Kill();
-            return false;
-        }
-
+        public override void AI() => Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         public override void OnKill(int timeLeft)
         {
             Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);

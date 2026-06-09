@@ -50,10 +50,9 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<Crystalys>(1).
-                AddRecipeGroup("AdamantiteBar", 12).
+                AddRecipeGroup("MythrilBar", 10).
                 AddIngredient(ItemID.SoulofFright, 7).
-                AddIngredient(ItemID.SoulofNight, 7).
+                AddIngredient<FrigidCrystal>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

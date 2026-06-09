@@ -43,11 +43,9 @@ namespace MogMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Javelin, 25).
-                AddRecipeGroup("CobaltBar", 16).
-                AddIngredient(ItemID.SoulofSight, 7).
-                AddIngredient(ItemID.SoulofFlight, 7).
-                AddIngredient<FrigidShard>(5).
+                AddRecipeGroup("MythrilBar", 10).
+                AddIngredient(ItemID.SoulofMight, 7).
+                AddIngredient<FrigidCrystal>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

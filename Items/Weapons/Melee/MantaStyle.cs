@@ -115,7 +115,7 @@ namespace MogMod.Items.Weapons.Melee
                 AddIngredient(ItemID.InfluxWaver, 1).
                 AddIngredient(ItemID.SpectreBar, 15).
                 AddIngredient<BrinyRind>(12).
-                AddIngredient<AghanimShard>(1).
+                AddIngredient<SpiritShard>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

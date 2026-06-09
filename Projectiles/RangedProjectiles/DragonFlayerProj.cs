@@ -3,12 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 using MogMod.Utilities;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
-    // TODO: give this a color like the flamethrower
     public class DragonFlayerProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.RangedProjectiles";
@@ -17,7 +17,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         public ref float LightPower => ref Projectile.ai[1];
         private static readonly int NumAnimationFrames = 7;
         private static readonly int AnimationFrameTime = 3;
-        public Color FlameColor = new Color(255, 160, 100);
+        public Color FlameColor = Color.OrangeRed;
         public override void SetStaticDefaults()
         {
             Main.projFrames[Type] = NumAnimationFrames;
@@ -46,6 +46,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.rotation -= 0.2f;
             if (Time >= 8f)
             {
+                FlameColor = Color.Lerp(Color.OrangeRed, Color.Goldenrod, Main.rand.NextFloat());
                 float cinderSize = Utils.GetLerpValue(6f, 12f, Time, true);
                 Dust cinder = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 10, default, 0.75f);
                 if (Main.rand.NextBool(3))
@@ -67,6 +68,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 {
                     Projectile.frame++;
                     Projectile.frameCounter = 0;
+                    FlameColor.G += (byte)Main.rand.Next(10, 80 + 1);
                 }
                 if (Projectile.frame >= NumAnimationFrames)
                     Projectile.Kill();
@@ -81,7 +83,35 @@ namespace MogMod.Projectiles.RangedProjectiles
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(BuffID.Daybreak, 300);
         public override bool PreDraw(ref Color lightColor)
         {
+            lightColor = FlameColor;
             MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+
+            // SpriteEffects helps to flip texture horizontally and vertically
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (Projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
+            // Getting texture of projectile
+            Texture2D texture = TextureAssets.Projectile[Type].Value;
+
+            // Calculating frameHeight and current Y pos dependence of frame
+            // If texture without animation frameHeight is always texture.Height and startY is always 0
+            int frameHeight = texture.Height / Main.projFrames[Type];
+            int startY = frameHeight * Projectile.frame;
+
+            // Get this frame on texture
+            Rectangle sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
+
+            // Alternatively, you can skip defining frameHeight and startY and use this:
+            // Rectangle sourceRectangle = texture.Frame(1, Main.projFrames[Type], frameY: Projectile.frame);
+
+            Vector2 origin = sourceRectangle.Size() / 2f;
+
+            Main.EntitySpriteDraw(texture,
+                Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY),
+                sourceRectangle, lightColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+
+            // It's important to return false, otherwise we also draw the original texture.
             return false;
         }
     }

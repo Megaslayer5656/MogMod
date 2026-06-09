@@ -489,6 +489,12 @@ Mods: {
 					HateCrowded: I hate how crowded I am, all these betas make me soft.
 					LikeNPC_Princess: I like {NPCName}.
 					Princess_LovesNPC: The aura radiating off of {NPCName} is sooo sweet to loot at.
+					LoveBiome: Ich liebe {BiomeName}.
+					DislikeBiome: Ich mag {BiomeName} nicht.
+					LoveNPC: Ich liebe {NPCName}.
+					LikeNPC: Ich mag {NPCName}.
+					DislikeNPC: Ich mag {NPCName} nicht.
+					HateNPC: Ich hasse {NPCName}
 				}
 			}
 
@@ -504,6 +510,11 @@ Mods: {
 					HateCrowded: o na tis' be to the o vass.
 					LikeNPC_Princess: o na scavvy-o luve {NPCName}.
 					Princess_LovesNPC: I love {NPCName}'s way with words!
+					LoveBiome: Ich liebe {BiomeName}.
+					DislikeBiome: Ich mag {BiomeName} nicht.
+					LoveNPC: Ich liebe {NPCName}.
+					LikeNPC: Ich mag {NPCName}.
+					DislikeNPC: Ich mag {NPCName} nicht.
 				}
 			}
 
@@ -519,6 +530,12 @@ Mods: {
 					HateCrowded: I hate how crowded I am.
 					LikeNPC_Princess: I like {NPCName}.
 					Princess_LovesNPC: I like {NPCName}.
+					LoveBiome: Ich liebe {BiomeName}.
+					DislikeBiome: Ich mag {BiomeName} nicht.
+					LoveNPC: Ich liebe {NPCName}.
+					LikeNPC: Ich mag {NPCName}.
+					DislikeNPC: Ich mag {NPCName} nicht.
+					HateNPC: Ich hasse {NPCName}
 				}
 			}
 
@@ -533,6 +550,7 @@ Mods: {
 			RadiantRangedCreep.DisplayName: Ranged Creep
 			HellfireSpirit.DisplayName: Hellfire Spirit
 			TwilightDrover.DisplayName: Twilight Drover
+			Scav.DisplayName: Scav
 		}
 
 		Projectiles: {
@@ -637,9 +655,12 @@ Mods: {
 				IsraelArrowProj.DisplayName: Israel Arrow
 				BouncyBoulderBulletProj.DisplayName: Bouncy Boulder Bullet
 				GoyBeam.DisplayName: Goy Beam
-				RuntyFlamethrowerProj.DisplayName: Runty Flamethrower Proj
-				HellfireCannonProj.DisplayName: Hellfire Cannon Proj
-				DragonFlayerProj.DisplayName: Dragon Flayer Proj
+				RuntyFlamethrowerProj.DisplayName: Runty Flamethrower
+				HellfireCannonProj.DisplayName: Volatile Gel Ball
+				DragonFlayerProj.DisplayName: Dragon Flayer
+				SharpshooterHoldout.DisplayName: Sharpshooter
+				SharpshooterProj.DisplayName: Sharpshooter
+				SquirrelProj.DisplayName: Squirrel
 			}
 
 			MeleeProjectiles: {
@@ -696,6 +717,8 @@ Mods: {
 				ScorchingShivBoom.DisplayName: Scorching Shiv
 				SylvanStilettoProj.DisplayName: Sylvan Stiletto Proj
 				SpiritSwordProj.DisplayName: Spirit Sword Proj
+				ScintillantStabberProj.DisplayName: Scintillant Stabber Proj
+				SandstormProj.DisplayName: Sandstorm Proj
 			}
 
 			Melee: {
@@ -757,6 +780,7 @@ Mods: {
 			RadiantRangedCreep: victim
 			HellfireSpirit: When a demon is exposed to hellfire essence their dastardly hatred deep in their bodies supercharges, to the point where it materializes into a spirit that can only be released on the hosts death.
 			TwilightDrover: Whenever a creature token leaves the battlefield, put a +1/+1 counter on this creature.
+			Scav: Amidst the chaos and lawlessness, scarcity of vital provisions and territories, the first to lift up their heads are shady characters, unembarrassed by excessive moral or ethical restraints or quick to lose them under influence of conditions.
 		}
 	}
 }

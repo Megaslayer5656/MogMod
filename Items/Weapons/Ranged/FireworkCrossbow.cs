@@ -15,7 +15,7 @@ namespace MogMod.Items.Weapons.Ranged
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.useAnimation = Item.useTime = 16;
+            Item.useAnimation = Item.useTime = 14;
             Item.shootSpeed = 10f;
             Item.knockBack = 2f;
             Item.width = 56;

@@ -52,6 +52,7 @@ namespace MogMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient<OrchidMalevolence>(1).
                 AddIngredient(ItemID.MagnetSphere, 1).
+                AddIngredient<BloodMagic>(1).
                 AddIngredient(ItemID.Stinger, 15).
                 AddIngredient<FaeBar>(12).
                 AddIngredient(ItemID.DarkShard, 1).

@@ -111,6 +111,10 @@ namespace MogMod.Utilities
             RecipeGroup LunarFragmentRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Lunar Fragment"}", ItemID.FragmentSolar, ItemID.FragmentStardust, ItemID.FragmentNebula, ItemID.FragmentVortex);
             RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Lunar Fragment"}", LunarFragmentRecipeGroup);
             // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Lunar Fragment"}", 1).
+
+            RecipeGroup SquirrelRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Squirrel"}", ItemID.Squirrel, ItemID.SquirrelRed, ItemID.SquirrelGold, ItemID.GemSquirrelAmber, ItemID.GemSquirrelAmethyst, ItemID.GemSquirrelDiamond, ItemID.GemSquirrelEmerald, ItemID.GemSquirrelRuby, ItemID.GemSquirrelSapphire, ItemID.GemSquirrelTopaz);
+            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Squirrel"}", SquirrelRecipeGroup);
+            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Squirrel"}", 1).
             #endregion
         }
 

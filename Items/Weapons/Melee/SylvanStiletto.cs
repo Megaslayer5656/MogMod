@@ -1,13 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
-using MogMod.Items.Other;
-using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.MeleeProjectiles;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
@@ -19,7 +16,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = Item.height = 36;
 
-            Item.damage = 15;
+            Item.damage = 20;
             Item.DamageType = DamageClass.Melee;
             Item.useTime = Item.useAnimation = 12;
             Item.shoot = ModContent.ProjectileType<SylvanStilettoProj>();

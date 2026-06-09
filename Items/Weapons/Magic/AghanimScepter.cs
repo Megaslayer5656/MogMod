@@ -75,7 +75,7 @@ namespace MogMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient<Kaya>(1).
                 AddIngredient(4952, 1). // nightglow from empress
-                AddIngredient<FrigidCrystal>(3).
+                AddIngredient<SpiritShard>(5).
                 AddIngredient<PointBooster>(1).
                 AddIngredient<AghanimShard>(1).
                 AddTile(TileID.MythrilAnvil).

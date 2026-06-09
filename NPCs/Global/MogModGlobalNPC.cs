@@ -171,7 +171,7 @@ namespace MogMod.NPCs.Global
                 for (int n = 0; n < 6; n++)
                 {
                     float swirlRotation = Main.GlobalTimeWrappedHourly * -5.75f + (MathHelper.TwoPi / 6f * n);
-                    Vector2 swirlPos = npc.Center + Vector2.UnitX.RotatedBy(swirlRotation) * 220f;
+                    Vector2 swirlPos = npc.Center + Vector2.UnitX.RotatedBy(swirlRotation) * npc.width;
                     Vector2 swirlVelocity = Vector2.Normalize(swirlPos - npc.Center).RotatedBy(MathHelper.ToRadians(70)) * 2f;
                     Dust swirlDust = Dust.NewDustPerfect(swirlPos, DustID.CopperCoin, swirlVelocity * Main.rand.NextFloat(5f, 7f), 0, default, 1.5f);
                     swirlDust.noGravity = true;

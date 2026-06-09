@@ -60,6 +60,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         // makes it summon an additional projectile <- lie
         public override void OnKill(int timeLeft)
         {
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             //Dust splash
             int dustsplash = 0;

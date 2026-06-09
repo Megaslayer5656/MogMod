@@ -48,8 +48,8 @@ namespace MogMod.Items.Ammo
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Sapphire, 6).
-                AddIngredient(ItemID.Diamond, 4).
+                AddIngredient<FrigidShard>(6).
+                AddIngredient<SpiritShard>(4).
                 AddIngredient<ManaEssence>(3).
                 AddIngredient<Scroll>(1).
                 AddTile(TileID.Bookcases).

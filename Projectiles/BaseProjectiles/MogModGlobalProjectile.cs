@@ -29,6 +29,11 @@ namespace MogMod.Projectiles.BaseProjectiles
         public bool shivProc = false;
         public bool jidiProc = false;
 
+        public bool fireBullet = false;
+        public bool iceBullet = false;
+        public bool deathBullet = false;
+        public bool daybreakBullet = false;
+
         // damage caps
         public int gunpowderCap = 40;
         public int shivCap = 400;
@@ -61,6 +66,51 @@ namespace MogMod.Projectiles.BaseProjectiles
                     projectile.extraUpdates += cap;
             }
             return true;
+        }
+        public override void AI(Projectile projectile)
+        {
+            if (fireBullet)
+                if (projectile.timeLeft > 200)
+                    for (int i = 0; i < 2; ++i)
+                    {
+                        Dust dust = Dust.NewDustPerfect(projectile.Center, Main.rand.NextBool() ? DustID.Flare : DustID.Torch, projectile.velocity * Main.rand.NextFloat(0.1f, 0.9f));
+                        dust.noGravity = true;
+                        dust.scale = Main.rand.NextFloat(0.4f, 0.8f);
+                    }
+            if (iceBullet)
+                if (projectile.timeLeft > 200)
+                    for (int i = 0; i < 2; ++i)
+                    {
+                        Dust dust = Dust.NewDustPerfect(projectile.Center, Main.rand.NextBool() ? DustID.Frost : DustID.IceRod, projectile.velocity * Main.rand.NextFloat(0.1f, 0.9f));
+                        dust.noGravity = true;
+                        dust.scale = Main.rand.NextFloat(0.4f, 0.8f);
+                    }
+            if (deathBullet)
+                if (projectile.timeLeft > 200)
+                {
+                    float helixOffset = (float)Math.Sin(projectile.timeLeft / 25f * MathHelper.TwoPi) * -8f;
+                    Vector2 spawnOffset = new Vector2(helixOffset, 10f).RotatedBy(projectile.rotation);
+
+                    for (int i = 0; i < 2; ++i)
+                    {
+                        Dust dust = Dust.NewDustPerfect(projectile.Center + spawnOffset, Main.rand.NextBool() ? DustID.DesertTorch : DustID.CrimsonSpray, projectile.velocity * Main.rand.NextFloat(0.1f, 0.9f));
+                        dust.noGravity = true;
+                        dust.scale = Main.rand.NextFloat(0.4f, 0.8f);
+                    }
+                }
+            if (daybreakBullet)
+                if (projectile.timeLeft > 200)
+                {
+                    float helixOffset = (float)Math.Sin(projectile.timeLeft / 25f * MathHelper.TwoPi) * -8f;
+                    Vector2 spawnOffset = new Vector2(helixOffset, 10f).RotatedBy(projectile.rotation);
+
+                    for (int i = 0; i < 2; ++i)
+                    {
+                        Dust dust = Dust.NewDustPerfect(projectile.Center + spawnOffset, Main.rand.NextBool() ? 174 : DustID.SolarFlare, projectile.velocity * Main.rand.NextFloat(0.1f, 0.9f));
+                        dust.noGravity = true;
+                        dust.scale = Main.rand.NextFloat(0.4f, 0.8f);
+                    }
+                }
         }
         public override void ModifyHitPlayer(Projectile projectile, Player target, ref Player.HurtModifiers modifiers)
         {

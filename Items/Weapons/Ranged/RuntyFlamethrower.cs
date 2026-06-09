@@ -16,7 +16,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.width = 64;
             Item.height = 16;
 
-            Item.damage = 21;
+            Item.damage = 16;
             Item.knockBack = 1f;
             Item.DamageType = DamageClass.Ranged;
             Item.autoReuse = true;
@@ -43,7 +43,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<RuntyBar>(10).
-                AddIngredient(ItemID.IllegalGunParts).
+                AddIngredient(ItemID.Gel, 10).
                 AddTile(TileID.Anvils).
                 Register();
         }

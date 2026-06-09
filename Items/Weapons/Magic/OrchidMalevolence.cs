@@ -47,9 +47,9 @@ namespace MogMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<BloodMagic>(1).
                 AddIngredient(ItemID.HellstoneBar, 8).
-                AddIngredient(ItemID.Deathweed, 5).
+                AddIngredient(ItemID.Deathweed, 6).
+                AddIngredient<SpiritShard>(5).
                 AddIngredient<FrigidShard>(3).
                 AddTile(TileID.Anvils).
                 Register();

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
 using Terraria.ID;
@@ -17,7 +16,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.width = 118;
             Item.height = 64;
 
-            Item.damage = 65;
+            Item.damage = 75;
             Item.knockBack = 3f;
             Item.DamageType = DamageClass.Ranged;
             Item.autoReuse = true;

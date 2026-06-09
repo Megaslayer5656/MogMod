@@ -44,7 +44,7 @@ namespace MogMod.Items.Ammo
         {
             CreateRecipe()
                 .AddIngredient(ItemID.StoneBlock, 40)
-                .AddIngredient(ItemID.LargeSapphire, 1)
+                .AddIngredient(ItemID.Sapphire, 4)
                 .AddIngredient<Scroll>(1)
                 .AddTile(TileID.Bookcases)
                 .Register();

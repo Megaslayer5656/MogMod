@@ -39,8 +39,9 @@ namespace MogMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.SpellTome).
                 AddIngredient<GriefBar>(12).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.Bookcases).
                 Register();
         }
     }

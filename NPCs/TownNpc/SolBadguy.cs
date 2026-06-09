@@ -1,11 +1,13 @@
-﻿using MogMod.Items.Accessories;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MogMod.Items.Accessories;
 using MogMod.Items.Consumables;
-using System;
+using MogMod.Items.Weapons.Melee;
+using MogMod.Utilities;
+using MogMod.World;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
+using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -15,9 +17,23 @@ namespace MogMod.NPCs.TownNpc
     [AutoloadHead]
     public class SolBadguy : ModNPC
     {
+        // attacking doesnt work properly since sol doesnt have a town npc spritesheet
+        #region Setup
         public override void SetStaticDefaults()
         {
-            
+            Main.npcFrameCount[Type] = 9;
+            NPCID.Sets.DangerDetectRange[Type] = 120;
+            NPCID.Sets.AttackType[Type] = 3;
+            NPCID.Sets.AttackTime[Type] = 18;
+            NPCID.Sets.AttackAverageChance[Type] = 8;
+            NPC.Happiness
+                .SetBiomeAffection<DesertBiome>(AffectionLevel.Love)
+                .SetBiomeAffection<HallowBiome>(AffectionLevel.Dislike)
+                .SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Love)
+                .SetNPCAffection(NPCID.ArmsDealer, AffectionLevel.Like)
+                .SetNPCAffection(NPCID.PartyGirl, AffectionLevel.Dislike)
+                .SetNPCAffection(NPCID.Angler, AffectionLevel.Hate)
+            ;
         }
         public override void SetDefaults()
         {
@@ -25,31 +41,54 @@ namespace MogMod.NPCs.TownNpc
             NPC.friendly = true;
             NPC.width = 35;
             NPC.height = 52;
-            NPC.aiStyle = 7;
+            NPC.aiStyle = NPCAIStyleID.Passive;
             NPC.defense = 150;
             NPC.lifeMax = 20000;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.HitSound = SoundID.NPCDeath1;
             NPC.knockBackResist = 0.5f;
-            Main.npcFrameCount[NPC.type] = 9;
-            NPCID.Sets.ExtraFramesCount[NPC.type] = 0;
-            NPCID.Sets.AttackFrameCount[NPC.type] = 0;
-            NPCID.Sets.DangerDetectRange[NPC.type] = 500;
-            NPCID.Sets.AttackType[NPC.type] = -1;
             AnimationType = 48;
+        }
+        public override bool CanGoToStatue(bool toKingStatue) => true;
+        #endregion
+
+        #region Attacking
+        public override void TownNPCAttackSwing(ref int itemWidth, ref int itemHeight)
+        {
+            itemWidth = itemHeight = 134;
+        }
+        public override void DrawTownAttackSwing(ref Texture2D item, ref Rectangle itemFrame, ref int itemSize, ref float scale, ref Vector2 offset)
+        {
+            int itemType = ModContent.ItemType<Flamewall>();
+            Main.GetItemDrawFrame(itemType, out item, out itemFrame);
+        }
+        public override void TownNPCAttackStrength(ref int damage, ref float knockback)
+        {
+            damage = 60;
+            knockback = 10f;
+        }
+        public override void TownNPCAttackCooldown(ref int cooldown, ref int randExtraCooldown)
+        {
+            cooldown = 50;
+            randExtraCooldown = 1;
+        }
+        #endregion
+
+        #region Name && Spawning
+        public override void AI()
+        {
+            if (!MogModWorld.spawnedSolBadguy)
+                MogModWorld.spawnedSolBadguy = true;
         }
         public override bool CanTownNPCSpawn(int numTownNPCs)
         {
-            for (var i = 0; i < 225; i++)
+            if (MogModWorld.spawnedSolBadguy)
+                return true;
+            foreach (Player player in Main.ActivePlayers)
             {
-                Player player = Main.player[i];
-                foreach (Item item in player.inventory)
-                {
-                    if (item.type == ItemID.HellstoneBar)
-                    {
-                        return true;
-                    }
-                }
+                bool strive = player.InventoryHas(ItemID.HellstoneBar) || player.PortableStorageHas(ItemID.HellstoneBar);
+                if (strive)
+                    return true;
             }
             return false;
         }
@@ -62,6 +101,10 @@ namespace MogMod.NPCs.TownNpc
                  "The Big SBG"
             };
         }
+        #endregion
+
+        #region Chatting
+        public override bool CanChat() => true;
         public override void SetChatButtons(ref string button, ref string button2)
         {
             button = Language.GetTextValue("LegacyInterface.28");
@@ -98,7 +141,7 @@ namespace MogMod.NPCs.TownNpc
                     return "Only real sigmas jelq.";
             }
         }
-        public override bool CanGoToStatue(bool toKingStatue) => true;
+        #endregion
         public override void OnKill()
         {
             Item.NewItem(NPC.GetSource_Death(), NPC.getRect(), ModContent.ItemType<MewingGuide>(), 1, false, 0, false, false);

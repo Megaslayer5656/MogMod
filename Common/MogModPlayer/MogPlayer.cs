@@ -10,8 +10,11 @@ using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Magic.SorceryStaves;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Items.Weapons.Ranged;
+using MogMod.NPCs.Global;
+using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Intrinsics.Arm;
@@ -365,6 +368,15 @@ namespace MogMod.Common.MogModPlayer
         {
             if (Player.whoAmI != Main.myPlayer)
                 return;
+            MogModGlobalProjectile mogProj = proj.MogMod();
+            if (mogProj.fireBullet)
+                target.AddBuff(BuffID.OnFire3, 180);
+            if (mogProj.iceBullet)
+                target.AddBuff(BuffID.Frostburn2, 180);
+            if (mogProj.deathBullet)
+                target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), 180);
+            if (mogProj.daybreakBullet)
+                target.AddBuff(BuffID.Daybreak, 180);
             NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), proj.CountsAsClass<SummonMeleeSpeedDamageClass>(), hit.Crit);
         }
         public void doATG(int damageDone)
@@ -1766,6 +1778,7 @@ namespace MogMod.Common.MogModPlayer
             }
             if (inShadowRealm)
             {
+                Player.yoraiz0rDarkness = true;
                 Player.GetDamage(DamageClass.Magic) += (shadowRealmLevel / 30) + 1;
                 Player.aggro -= 200;
             }

@@ -53,7 +53,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         public override void OnKill(int timeLeft)
         {
             MogModUtils.ProjectileRain(Projectile.GetSource_FromThis(), Projectile.Center, 0f, 0f, -10f, -10f, 10f, ModContent.ProjectileType<GoyBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             int dustsplash = 0;
             while (dustsplash < 8)

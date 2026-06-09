@@ -1,4 +1,5 @@
 ﻿using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
@@ -24,7 +25,6 @@ namespace MogMod.Items.Weapons.Melee
             Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 3.5f;
-            Item.value = Item.buyPrice(0, 1, 50, 0);
             Item.rare = ItemRarityID.LightRed;
             Item.value = MogGlobalItem.RarityLightRedBuyPrice;
             Item.UseSound = SoundID.Item71;
@@ -32,34 +32,21 @@ namespace MogMod.Items.Weapons.Melee
             Item.shoot = ModContent.ProjectileType<BloodMagicProjectile>();
             Item.shootSpeed = 10f;
         }
-
-        public override bool CanShoot(Player player)
-        {
-            if (shotCounter == 2)
-            {
-                return true;
-            } else
-            {
-                return false;
-            }
-        }
-
+        public override bool CanShoot(Player player) => shotCounter == 2;
         public override bool? UseItem(Player player)
         {
             shotCounter++;
             if (shotCounter > 2)
-            {
                 shotCounter = 0;
-            }
             return true;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-              AddIngredient<BloodMagic>().
               AddIngredient(ItemID.Sickle).
               AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 15). // von squad;
               AddIngredient(ItemID.Bone, 10).
+              AddIngredient<SpiritShard>(5).
               AddTile(TileID.Anvils).
               Register();
         }

@@ -21,10 +21,9 @@ namespace MogMod.Items.Weapons.Ranged
         {
             Item.width = 14;
             Item.height = 20;
-            Item.damage = 90;
+            Item.damage = 80;
             Item.DamageType = DamageClass.Ranged;
-            Item.useAnimation = 40;
-            Item.useTime = 40;
+            Item.useTime = Item.useAnimation = 40;
             Item.knockBack = 8f;
             Item.maxStack = Item.CommonMaxStack;
             Item.shootSpeed = 8f;

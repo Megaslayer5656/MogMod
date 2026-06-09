@@ -42,7 +42,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient<DragonLance>(1).
                 AddIngredient<ForceStaff>(1).
                 AddIngredient(ItemID.ShroomiteBar, 15).
-                AddIngredient(ItemID.SoulofMight, 7).
+                AddIngredient(ItemID.SoulofFright, 7).
                 AddIngredient(ItemID.Silk, 3).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

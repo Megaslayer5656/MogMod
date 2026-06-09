@@ -44,7 +44,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
         }
         public override Action<Projectile> EffectBeforePullback => (proj) =>
         {
-            Projectile leaf = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ProjectileID.BladeOfGrass, Projectile.damage, Projectile.knockBack, Projectile.owner);
+            Projectile leaf = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ProjectileID.BladeOfGrass, (int)(Projectile.damage * .4f), Projectile.knockBack, Projectile.owner);
             leaf.DamageType = DamageClass.Melee;
         };
         public override void ExtraBehavior()

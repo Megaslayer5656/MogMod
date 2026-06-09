@@ -45,7 +45,7 @@ namespace MogMod.Items.Ammo
         {
             CreateRecipe().
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 18).
-                AddIngredient(ItemID.LargeAmethyst, 1).
+                AddIngredient(ItemID.Amethyst, 4).
                 AddIngredient<Scroll>(1).
                 AddTile(TileID.Bookcases).
                 Register();
