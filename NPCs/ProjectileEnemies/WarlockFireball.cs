@@ -1,11 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.Debuffs;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -47,15 +45,28 @@ namespace MogMod.NPCs.ProjectileEnemies
 
         #region AI
         public override void OnSpawn(IEntitySource source) => SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
+        //public override void SendExtraAI(BinaryWriter writer)
+        //{
+        //    writer.Write(NPC.dontTakeDamage);
+        //}
+        //public override void ReceiveExtraAI(BinaryReader reader)
+        //{
+        //    NPC.dontTakeDamage = reader.ReadBoolean();
+        //}
         public override void AI()
         {
-            NPC.immortal = true;
             Lighting.AddLight(NPC.Center, Color.OrangeRed.ToVector3());
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || player.dead || !player.active)
                 NPC.TargetClosest(true);
             if (Main.rand.Next(0, 10) == 0)
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.SolarFlare, NPC.velocity.X * 0.25f, NPC.velocity.Y * 0.25f, 0, default, 1f);
             AITimer++;
+            if (NPC.WithinRange(player.Center, player.Size.Length()))
+            {
+                if (AITimer < explodeTimer)
+                    AITimer = explodeTimer;
+                NPC.netUpdate = true;
+            }
             if (AITimer < explodeTimer)
                 AIMovement(player);
             else
@@ -63,6 +74,7 @@ namespace MogMod.NPCs.ProjectileEnemies
         }
         public void AIMovement(Player player)
         {
+            NPC.immortal = true;
             if (NPC.FindBuffIndex(ModContent.BuffType<WingsOfLightDebuff>()) >= 0)
                 AITimer = explodeTimer;
             Vector2 epstein = new Vector2(NPC.Center.X + (float)(40 * NPC.direction), NPC.position.Y + (float)NPC.height * 0.8f);
@@ -78,7 +90,7 @@ namespace MogMod.NPCs.ProjectileEnemies
         }
         public void State_Exploding(Player player)
         {
-            NPC.velocity *= 0.1f;
+            NPC.velocity *= 0.9f;
             NPC.dontTakeDamage = true;
             if (AITimer == (explodeTimer + 1f))
                 SoundEngine.PlaySound(SoundID.Zombie91, NPC.Center);
@@ -128,32 +140,26 @@ namespace MogMod.NPCs.ProjectileEnemies
                     dust = Dust.NewDust(NPC.Center - offset, size, size, DustID.Torch, 0f, 0f, 100, default, 1.6f);
                     Main.dust[dust].velocity *= 3f;
                 }
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                NPC.immortal = false;
+                NPC.StrikeInstantKill();
+                foreach (Player target in Main.ActivePlayers)
                 {
-                    foreach (Player target in Main.ActivePlayers)
-                    {
-                        if (target.getRect().Intersects(myRect))
-                        {
-                            int direction = NPC.Center.X - target.Center.X < 0 ? -1 : 1;
-                            target.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), NPC.damage, -direction);
-                        }
-                    }
-                    NPC.StrikeInstantKill();
-                    NPC.active = false;
-                    NPC.netUpdate = true;
+                    if (player.dead || !NPC.Hitbox.Intersects(player.Hitbox))
+                        continue;
+                    int direction = NPC.Center.X - target.Center.X < 0 ? -1 : 1;
+                    target.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), NPC.damage, -direction);
                 }
+                NPC.active = true;
+                //NPC.StrikeInstantKill();
+                NPC.netUpdate = true;
             }
         }
         public override bool CanHitNPC(NPC target) => AITimer <= explodeTimer;
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => AITimer <= explodeTimer;
-        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone) => AITimer = explodeTimer;
-        public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone) => AITimer = explodeTimer;
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             int duration = AITimer >= explodeTimer ? 300 : 120;
             target.AddBuff(BuffID.Burning, duration);
-            if (AITimer < explodeTimer) 
-                AITimer = explodeTimer;
         }
         #endregion
 
@@ -167,6 +173,8 @@ namespace MogMod.NPCs.ProjectileEnemies
         }
         public override void HitEffect(NPC.HitInfo hit)
         {
+            if (AITimer < explodeTimer)
+                AITimer = explodeTimer;
             for (int k = 0; k < 5; k++)
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.SolarFlare, hit.HitDirection, -1f, 0, default, 1f);
             if (NPC.life <= 0)

@@ -15,7 +15,7 @@ namespace MogMod.NPCs.Enemies
 {
     public class Ahmod : ModNPC
     {
-        // copied from ice clasper npc && nova npc from calamity mod
+        // copied from ice clasper npc && nova npc && sunskater npc from calamity mod
         // sorry emaad i made you a terrorist
         
         #region Setup
@@ -217,6 +217,7 @@ namespace MogMod.NPCs.Enemies
                     dust = Dust.NewDust(NPC.Center, size, size, DustID.Torch, 0f, 0f, 100, default, 1.6f);
                     Main.dust[dust].velocity *= 3f;
                 }
+                NPC.StrikeInstantKill();
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     foreach (Player target in Main.ActivePlayers)
@@ -227,16 +228,18 @@ namespace MogMod.NPCs.Enemies
                             target.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), NPC.damage, direction);
                         }
                     }
-                    NPC.StrikeInstantKill();
                     NPC.active = false;
+                    //NPC.StrikeInstantKill();
                     NPC.netUpdate = true;
                 }
             }
         }
+        // doesnt explode on server side
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (CurrentState == AhmodAIState.Suicide)
                 ExplosionTimer = 180f;
+            NPC.netUpdate = true;
         }
         #endregion
 

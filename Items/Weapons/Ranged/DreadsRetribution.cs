@@ -56,6 +56,7 @@ namespace MogMod.Items.Weapons.Ranged
             }
             return false;
         }
+        public override Vector2? HoldoutOffset() => new Vector2(-10f, 0f);
         public override void AddRecipes()
         {
             CreateRecipe().

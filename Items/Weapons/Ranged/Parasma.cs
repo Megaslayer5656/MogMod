@@ -28,6 +28,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.shoot = ModContent.ProjectileType<ParasmaProj>();
+            Item.ArmorPenetration = 20;
         }
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 16;
         public override void AddRecipes()

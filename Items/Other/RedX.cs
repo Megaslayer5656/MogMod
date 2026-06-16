@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using MogMod.Rarities;
+using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace MogMod.Items.Other
 {
@@ -16,7 +16,7 @@ namespace MogMod.Items.Other
             Item.width = 15;
             Item.height = 15;
             Item.maxStack = Item.CommonMaxStack;
-            Item.rare = ItemRarityID.Master;
+            Item.rare = ModContent.RarityType<VonRarity>();
             Item.master = false;
             Item.value = 100000000;
         }

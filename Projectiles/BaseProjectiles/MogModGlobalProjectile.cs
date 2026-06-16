@@ -249,9 +249,11 @@ namespace MogMod.Projectiles.BaseProjectiles
                     if (player.statLife > player.statLifeMax2)
                         player.statLife = player.statLifeMax2;
                 }
-                if (modPlayer.wearingSatanic && player.HasBuff(ModContent.BuffType<SatanicBuff>()))
+                if (modPlayer.wearingSatanic && player.HasBuff(ModContent.BuffType<SatanicBuff>()) && modPlayer.satanicAccCooldown <= 0)
+                //if (modPlayer.wearingSatanic) // for testing
                 {
-                    int heal = 1;
+                    modPlayer.satanicAccCooldown = cooldownTimer * 2;
+                    int heal = (int)(damageDone / 100) + 1;
                     heal *= Convert.ToInt32(player.lifeSteal * 0.01);
                     player.statLife += heal;
                     player.HealEffect(heal);

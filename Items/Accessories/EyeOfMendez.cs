@@ -85,7 +85,7 @@ namespace MogMod.Items.Accessories
             player.maxTurrets += 500;
             player.statDefense += 500;
             player.aggro += -2500;
-            player.endurance *= 5f;
+            player.endurance += 5f;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

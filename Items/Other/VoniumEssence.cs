@@ -10,8 +10,8 @@ namespace MogMod.Items.Other
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 15;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
-
         public override void SetDefaults()
         {
             Item.width = 20;

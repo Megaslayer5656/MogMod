@@ -47,7 +47,7 @@ namespace MogMod.Items.Armor.TankyRizzler
             mogPlayer.wearingTankyRizzler = true;
 
             player.statLifeMax2 += 100;
-            player.endurance *= .10f;
+            player.endurance += .10f;
             player.aggro += 1300;
         }
         public override void UpdateEquip(Player player)

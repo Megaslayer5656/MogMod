@@ -28,13 +28,15 @@ namespace MogMod.Projectiles.MagicProjectiles
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
-
-            int heal = 1;
-            heal *= Convert.ToInt32(player.lifeSteal * 0.045);
-            player.statLife += heal;
-            player.HealEffect(heal);
-            if (player.statLife > player.statLifeMax2)
-                player.statLife = player.statLifeMax2;
+            if (target.type != NPCID.TargetDummy)
+            {
+                int heal = 1;
+                heal *= Convert.ToInt32(player.lifeSteal * 0.045);
+                player.statLife += heal;
+                player.HealEffect(heal);
+                if (player.statLife > player.statLifeMax2)
+                    player.statLife = player.statLifeMax2;
+            }
         }
 
         public override void OnKill(int timeLeft)

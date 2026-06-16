@@ -813,7 +813,8 @@ Items: {
 					Shoots out a homing dolphin
 					Hitting enemies spawn more dolphins
 					Right click to swing the anchor around you, creating an explosion of water
-					Hitting an enemy increases damage reduction by 10% for 3 seconds
+					Hitting an enemy surrounds yourself in a kraken shell for 3 seconds
+					The kraken shell increases damage reduction by 10%, but greatly reduces movement speed
 					[c/47A2A8:'Women and Children and ][c/DBAE70:Totsugeki!][c/47A2A8: first!']
 					'''
 			}
@@ -875,6 +876,7 @@ Items: {
 				Tooltip:
 					'''
 					Inflicts Destined Death on hit
+					Can be charged for increased damage
 					Deals more damage to unhurt enemies
 					'''
 			}
@@ -1016,7 +1018,7 @@ Items: {
 				Tooltip:
 					'''
 					Every 10 hits, summon a mini-sandstorm
-					[c/DEC240:'I will show you fear in a handful of sand…']
+					[c/DEC240:'I will show you fear in a handful of sandï¿½']
 					'''
 			}
 		}
@@ -1145,6 +1147,7 @@ Items: {
 					'''
 					Throw a halberd that explodes into 3 homing orbs on hit
 					Enemies hit get afflicted with Venom
+					Ignores 20 points of enemy Defense
 					[c/2D7331:'Devastating.']
 					'''
 			}
@@ -1285,7 +1288,7 @@ Items: {
 			}
 
 			Greafer: {
-				DisplayName: Greafer
+				DisplayName: Griefer
 				Tooltip:
 					'''
 					Fires a four round burst in a shotgun-like spread
@@ -2033,7 +2036,7 @@ Items: {
 
 		GriefBar: {
 			DisplayName: Grief Bar
-			Tooltip: Said to bring roughly 84% of the chaos knight's strength
+			Tooltip: Said to behold roughly 93% of the chaos knight's strength
 		}
 
 		DabDadBar: {
@@ -2580,6 +2583,11 @@ Items: {
 
 	ScavBanner: {
 		DisplayName: Scav Banner
+		Tooltip: ""
+	}
+
+	WanderingJellyfishBanner: {
+		DisplayName: Wandering Jellyfish Banner
 		Tooltip: ""
 	}
 }

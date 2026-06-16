@@ -51,7 +51,7 @@ namespace MogMod.NPCs.Enemies
 
             NPC.damage = 8;
             NPC.defense = 0;
-            NPC.lifeMax = 40;
+            NPC.lifeMax = 50;
             NPC.knockBackResist = 1f;
             NPC.alpha = 50;
 
@@ -96,6 +96,8 @@ namespace MogMod.NPCs.Enemies
         public override void AI()
         {
             NPC.TargetClosest(true);
+            if (Main.rand.Next(0, 10) == 0)
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.SilverCoin, NPC.velocity.X * 0.1f, NPC.velocity.Y * 0.1f, 0, default, .75f);
             if (NPC.Distance(Target.Center) < 600f)
                 Shoot();
             else
@@ -181,6 +183,9 @@ namespace MogMod.NPCs.Enemies
             }
             return true;
         }
+        #endregion
+
+        #region Framing && Hit Effects
         public override void FindFrame(int frameHeight)
         {
             if (Shooting || NPC.IsABestiaryIconDummy)
@@ -228,6 +233,14 @@ namespace MogMod.NPCs.Enemies
                         NPC.frame.Y = frameHeight;
                 }
             }
+        }
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            for (int k = 0; k < 5; k++)
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 76, hit.HitDirection, -1f, 0, default, 1f);
+            if (NPC.life <= 0)
+                for (int k = 0; k < 25; k++)
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 76, hit.HitDirection, -1f, 0, default, 1f);
         }
         #endregion
     }

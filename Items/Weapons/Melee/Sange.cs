@@ -39,13 +39,16 @@ namespace MogMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             // for SOME REASON player has a default of 70 lifesteal
-            int heal = 1;
-            heal *= Convert.ToInt32(player.lifeSteal * 0.015);
-            player.statLife += heal;
-            player.HealEffect(heal);
-            // so we dont go over max life
-            if (player.statLife > player.statLifeMax2)
-                player.statLife = player.statLifeMax2;
+            if (target.type != NPCID.TargetDummy)
+            {
+                int heal = 1;
+                heal *= Convert.ToInt32(player.lifeSteal * 0.015);
+                player.statLife += heal;
+                player.HealEffect(heal);
+                // so we dont go over max life
+                if (player.statLife > player.statLifeMax2)
+                    player.statLife = player.statLifeMax2;
+            }
         }
         public override void AddRecipes()
         {

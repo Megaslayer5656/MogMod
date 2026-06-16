@@ -14,10 +14,15 @@ namespace MogMod.Items.Weapons.Melee
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         Random random = new Random();
+        public override void SetStaticDefaults()
+        {
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 5));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
+        }
         public override void SetDefaults()
         {
             Item.width = 50;
-            Item.height = 50;
+            Item.height = 52;
             Item.damage = 38;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 23;
@@ -43,11 +48,7 @@ namespace MogMod.Items.Weapons.Melee
             }
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            return false;
-        }
-
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             float randDirX = random.Next(-5, 5);
@@ -56,11 +57,10 @@ namespace MogMod.Items.Weapons.Melee
             Projectile.NewProjectile(player.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<SpiritSwordProj>(), Convert.ToInt32(Item.damage * .5f), 1f, player.whoAmI);
         }
 
-        public override void AddRecipes() //TODO: add something cooler to this recipe
+        public override void AddRecipes() // simple recipies like this keep me hard at night
         {
             CreateRecipe().
-            AddRecipeGroup(RecipeGroupID.IronBar, 12).
-            AddIngredient<SpiritShard>(4).
+            AddIngredient<SpiritShard>(6).
             AddTile(TileID.Anvils).
             Register();
         }

@@ -1,6 +1,7 @@
-﻿using Terraria.ModLoader;
+﻿using MogMod.Buffs.PotionBuffs;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
@@ -8,6 +9,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
     {
         public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
+        public Player Owner => Main.player[Projectile.owner];
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 240;
@@ -23,6 +25,12 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (target.type != NPCID.TargetDummy)
+                Owner.AddBuff(ModContent.BuffType<KrakenShellBuff>(), 180);
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => Owner.AddBuff(ModContent.BuffType<KrakenShellBuff>(), 180);
         public override void AI()
         {
            for (int i = 0; i < 60; i++)

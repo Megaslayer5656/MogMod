@@ -111,6 +111,7 @@ namespace MogMod.NPCs.Enemies
                     dust = Dust.NewDust(NPC.Center, size, size, DustID.Torch, 0f, 0f, 100, default, 1.6f);
                     Main.dust[dust].velocity *= 3f;
                 }
+                NPC.StrikeInstantKill();
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     foreach (Player target in Main.ActivePlayers)
@@ -121,17 +122,19 @@ namespace MogMod.NPCs.Enemies
                             target.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), NPC.damage, direction);
                         }
                     }
-                    NPC.StrikeInstantKill();
                     NPC.active = false;
+                    //NPC.StrikeInstantKill();
                     NPC.netUpdate = true;
                 }
             }
         }
         public override void OnSpawn(IEntitySource source) => NPC.immune[Main.myPlayer] = 10;
+        // doesnt explode on server side
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             ExplosionTimer = ExplodeTime;
             target.AddBuff(BuffID.Burning, 180);
+            NPC.netUpdate = true;
         }
         #endregion
 

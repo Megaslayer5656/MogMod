@@ -28,6 +28,7 @@ namespace MogMod.Tiles
 			HellfireSpirit,
 			TwilightDrover,
 			Scav,
+            WanderingJellyfish,
         }
     }
 

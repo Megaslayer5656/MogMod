@@ -472,6 +472,11 @@ Mods: {
 				DisplayName: Ahmod In A Bottle
 				Description: Ragebaited
 			}
+
+			KrakenShellBuff: {
+				DisplayName: Kraken Shell
+				Description: +10% Damage Reduction, Greatly reduced movement
+			}
 		}
 
 		NPCs: {
@@ -551,6 +556,7 @@ Mods: {
 			HellfireSpirit.DisplayName: Hellfire Spirit
 			TwilightDrover.DisplayName: Twilight Drover
 			Scav.DisplayName: Scav
+			WanderingJellyfish.DisplayName: Wandering Jellyfish
 		}
 
 		Projectiles: {
@@ -715,10 +721,11 @@ Mods: {
 				RuntyBladesAltProj.DisplayName: Runty Blade
 				ScorchingShivProj.DisplayName: Scorching Shiv
 				ScorchingShivBoom.DisplayName: Scorching Shiv
-				SylvanStilettoProj.DisplayName: Sylvan Stiletto Proj
-				SpiritSwordProj.DisplayName: Spirit Sword Proj
-				ScintillantStabberProj.DisplayName: Scintillant Stabber Proj
-				SandstormProj.DisplayName: Sandstorm Proj
+				SylvanStilettoProj.DisplayName: Sylvan Stiletto
+				SpiritSwordProj.DisplayName: Spirit Sword
+				ScintillantStabberProj.DisplayName: Scintillant Stabber
+				SandstormProj.DisplayName: Mini Sandstorm
+				BlackBladeHoldout.DisplayName: Black Blade
 			}
 
 			Melee: {
@@ -781,6 +788,7 @@ Mods: {
 			HellfireSpirit: When a demon is exposed to hellfire essence their dastardly hatred deep in their bodies supercharges, to the point where it materializes into a spirit that can only be released on the hosts death.
 			TwilightDrover: Whenever a creature token leaves the battlefield, put a +1/+1 counter on this creature.
 			Scav: Amidst the chaos and lawlessness, scarcity of vital provisions and territories, the first to lift up their heads are shady characters, unembarrassed by excessive moral or ethical restraints or quick to lose them under influence of conditions.
+			WanderingJellyfish: An airborne creature, capable of flight using a combination of gases in its clear hull. Like the Jellyfish on earth, they also use pulsation to aid in locomotion.
 		}
 	}
 }

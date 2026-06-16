@@ -69,14 +69,17 @@ namespace MogMod.Items.Weapons.Melee
                     // proj barrage does (source, Vector2 originVec, Vector2 targetPos, T/F fromRight, xOffsetMin, xOffsetMax, yOffsetMin, yOffsetMax, projSpeed, projType, damage, knockback, owner, T/F clamped, innacuracy)
                     MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ChaosBladeProj>(), random.Next(40, 65), 0f, player.whoAmI, false, 0f);
                 }
-                int heal = random.Next(1, 5);
-                // for SOME REASON player has a default of 70 lifesteal
-                heal *= Convert.ToInt32(player.lifeSteal * 0.08);
-                player.statLife += heal;
-                player.HealEffect(heal);
-                // so we dont go over max life
-                if (player.statLife > player.statLifeMax2)
-                    player.statLife = player.statLifeMax2;
+                if (target.type != NPCID.TargetDummy)
+                {
+                    int heal = random.Next(1, 5);
+                    // for SOME REASON player has a default of 70 lifesteal
+                    heal *= Convert.ToInt32(player.lifeSteal * 0.08);
+                    player.statLife += heal;
+                    player.HealEffect(heal);
+                    // so we dont go over max life
+                    if (player.statLife > player.statLifeMax2)
+                        player.statLife = player.statLifeMax2;
+                }
                 ultraCrit = false;
             }
             if (randUltraCrit == 10)

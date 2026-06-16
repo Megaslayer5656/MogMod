@@ -37,7 +37,7 @@ namespace MogMod.Items.Weapons.Melee
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Item.useStyle = ItemUseStyleID.Shoot;
-            SoundEngine.PlaySound(SoundID.Item1, player.Center);
+            SoundEngine.PlaySound(SoundID.Item1 with { Pitch = 0.5f }, player.Center);
             Projectile.NewProjectile(source, position, velocity * 0.75f, type, damage, knockback, player.whoAmI);
             return false;
         }

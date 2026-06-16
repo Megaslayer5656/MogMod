@@ -60,10 +60,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 Main.dust[dust].velocity -= Projectile.oldVelocity * 0.3f;
             }
         }
-
-        public override bool? CanHitNPC(NPC target)
-        {
-            return canHitNPC;
-        }
+        public override bool? CanHitNPC(NPC target) => canHitNPC ? null : false;
     }
 }

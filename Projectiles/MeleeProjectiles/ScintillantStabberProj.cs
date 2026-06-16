@@ -65,7 +65,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             if (ScintillantStabber.hitCount > 9)
             {
                 var source = Projectile.GetSource_FromThis();
-                Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<SandstormProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<SandstormProj>(), Projectile.damage, 0f, Projectile.owner);
                 ScintillantStabber.hitCount = 0;
             }
         }
@@ -79,7 +79,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             if (ScintillantStabber.hitCount > 9)
             {
                 var source = Projectile.GetSource_FromThis();
-                Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<SandstormProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<SandstormProj>(), Projectile.damage, 0f, Projectile.owner);
                 ScintillantStabber.hitCount = 0;
             }
         }

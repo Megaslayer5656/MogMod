@@ -20,10 +20,15 @@ namespace MogMod.Items.Weapons.Melee
         public static int numb;
         public static int strikeMin = 60;
         public static int strikeMax = 120;
+        public override void SetStaticDefaults()
+        {
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 9));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
+        }
         public override void SetDefaults()
         {
-            Item.width = 62;
-            Item.height = 68;
+            Item.width = 66;
+            Item.height = 72;
             Item.damage = 80;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 24;
@@ -71,15 +76,18 @@ namespace MogMod.Items.Weapons.Melee
                 int randDamage = Main.rand.Next(strikeMin, strikeMax);
                 for (int i = 0; i < randNumProjectiles; i++)
                     MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ChaosBladeProj>(), randDamage, 0f, player.whoAmI, false, 0f);
-                
-                int heal = Main.rand.Next(1, 5);
-                // for SOME REASON player has a default of 70 lifesteal
-                heal *= Convert.ToInt32(player.lifeSteal * 0.1);
-                player.statLife += heal;
-                player.HealEffect(heal);
-                // so we dont go over max life
-                if (player.statLife > player.statLifeMax2)
-                    player.statLife = player.statLifeMax2;
+
+                if (target.type != NPCID.TargetDummy)
+                {
+                    int heal = Main.rand.Next(1, 5);
+                    // for SOME REASON player has a default of 70 lifesteal
+                    heal *= Convert.ToInt32(player.lifeSteal * 0.1);
+                    player.statLife += heal;
+                    player.HealEffect(heal);
+                    // so we dont go over max life
+                    if (player.statLife > player.statLifeMax2)
+                        player.statLife = player.statLifeMax2;
+                }
 
                 // TODO: make phantom spawns take up empty slots instead of random
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosArbiterClone>()] <= 3)

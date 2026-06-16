@@ -27,31 +27,37 @@ namespace MogMod.Buffs.Debuffs
         internal static void DrawEffects(PlayerDrawSet drawInfo)
         {
             Player player = drawInfo.drawPlayer;
+            int hot = Dust.NewDust(drawInfo.Position - new Vector2(2f), player.width + 4, player.height + 4, DustID.Torch, player.velocity.X * 1.4f, player.velocity.Y * 1.4f, 100, default, 2.4f);
+            Main.dust[hot].noGravity = false;
+            Main.dust[hot].velocity *= 1.85f;
+            Main.dust[hot].scale *= .95f;
             if (Main.rand.NextBool(2))
             {
-                int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), player.width + 4, player.height + 4, DustID.Flare, player.velocity.X * 0.04f, player.velocity.Y * 0.04f, 100, default, 1f);
+                int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), player.width + 4, player.height + 4, DustID.DesertTorch, player.velocity.X * 1.4f, player.velocity.Y * 1.4f, 100, default, 2.4f);
                 Main.dust[dust].noGravity = true;
-                Main.dust[dust].velocity *= 0.65f;
-                Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.03f;
+                Main.dust[dust].velocity *= 1.85f;
                 if (Main.rand.NextBool(4))
                 {
                     Main.dust[dust].noGravity = false;
-                    Main.dust[dust].scale *= 0.3f;
+                    Main.dust[dust].scale *= .95f;
                 }
             }
         }
         internal static void DrawEffects(NPC npc, ref Color drawColor)
         {
+            int hot = Dust.NewDust(npc.position - new Vector2(2f), npc.width + 4, npc.height + 4, DustID.Torch, npc.velocity.X * 1.4f, npc.velocity.Y * 1.4f, 100, default, 2.4f);
+            Main.dust[hot].noGravity = false;
+            Main.dust[hot].velocity *= 1.85f;
+            Main.dust[hot].scale *= .95f;
             if (Main.rand.NextBool(2))
             {
-                int dust = Dust.NewDust(npc.position - new Vector2(2f), npc.width + 4, npc.height + 4, DustID.Flare, npc.velocity.X * 0.04f, npc.velocity.Y * 0.04f, 100, default, 1f);
+                int dust = Dust.NewDust(npc.position - new Vector2(2f), npc.width + 4, npc.height + 4, DustID.DesertTorch, npc.velocity.X * 1.4f, npc.velocity.Y * 1.4f, 100, default, 2.4f);
                 Main.dust[dust].noGravity = true;
-                Main.dust[dust].velocity *= 0.65f;
-                Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.03f;
+                Main.dust[dust].velocity *= 1.85f;
                 if (Main.rand.NextBool(4))
                 {
                     Main.dust[dust].noGravity = false;
-                    Main.dust[dust].scale *= 0.3f;
+                    Main.dust[dust].scale *= 0.95f;
                 }
             }
         }

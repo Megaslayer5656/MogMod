@@ -87,7 +87,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Player player = Main.player[Projectile.owner];
             if (Projectile.ai[0] != 3)
                 Projectile.Kill();
-            if (Projectile.ai[0] == 5)
+            if (Projectile.ai[0] == 5 && target.type != NPCID.TargetDummy)
             {
                 int heal = 1;
                 heal *= Convert.ToInt32(player.lifeSteal * 0.04);
@@ -117,14 +117,17 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 for (int i = 0; i < randNumProjectiles; i++)
                     MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ChaosBladeProj>(), randDamage, 0f, Projectile.owner, false, 0f);
 
-                int heal = Main.rand.Next(1, 3);
-                // for SOME REASON player has a default of 70 lifesteal
-                heal *= Convert.ToInt32(player.lifeSteal * 0.08);
-                player.statLife += heal;
-                player.HealEffect(heal);
-                // so we dont go over max life
-                if (player.statLife > player.statLifeMax2)
-                    player.statLife = player.statLifeMax2;
+                if (target.type != NPCID.TargetDummy)
+                {
+                    int heal = Main.rand.Next(1, 3);
+                    // for SOME REASON player has a default of 70 lifesteal
+                    heal *= Convert.ToInt32(player.lifeSteal * 0.08);
+                    player.statLife += heal;
+                    player.HealEffect(heal);
+                    // so we dont go over max life
+                    if (player.statLife > player.statLifeMax2)
+                        player.statLife = player.statLifeMax2;
+                }
 
                 // TODO: make phantom spawns take up empty slots instead of going 0 -> 3
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosArbiterClone>()] <= 3)

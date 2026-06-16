@@ -150,7 +150,7 @@ namespace MogMod.Common.MogModPlayer
         public int gunpowderCooldown = 0;
         public int radiantCooldown = 0;
         public int jidiPollenCooldown = 0;
-        public int hellfireCooldown = 0;
+        public int satanicAccCooldown = 0;
 
 
         // dragon install
@@ -174,6 +174,7 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingRadiantArmor;
         public bool wearingUndyingArmor;
         public bool wearingHellfireArmor;
+        public int hellfireCooldown = 0;
         public bool wearingTankyRizzler;
         public int tankyRizzlerHits = 0;
         public static int counterHelixDmg = 500;
@@ -199,6 +200,7 @@ namespace MogMod.Common.MogModPlayer
         public bool dpCharge = false;
 
         public bool inShadowRealm;
+        public bool krakenBuff;
 
         public bool riversOfBloodProj = false;
         public bool exultationEquipped = false;
@@ -1782,6 +1784,11 @@ namespace MogMod.Common.MogModPlayer
                 Player.GetDamage(DamageClass.Magic) += (shadowRealmLevel / 30) + 1;
                 Player.aggro -= 200;
             }
+            if (krakenBuff)
+            {
+                Player.endurance += .10f;
+                Player.velocity.X *= 0.9f;
+            }
 
             // cooldowns
             if (shivCooldown > 0)
@@ -1796,6 +1803,8 @@ namespace MogMod.Common.MogModPlayer
                 gunpowderCooldown--;
             if (hellfireCooldown > 0)
                 hellfireCooldown--;
+            if (satanicAccCooldown > 0)
+                satanicAccCooldown--;
         }
         
         // stops player from moving while charging bow
@@ -1910,6 +1919,7 @@ namespace MogMod.Common.MogModPlayer
             ahmodPet = false;
 
             inShadowRealm = false;
+            krakenBuff = false;
 
             atgActive = false;
             plasmaActive = false;

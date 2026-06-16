@@ -5,6 +5,7 @@ using MogMod.NPCs.ProjectileEnemies;
 using MogMod.Projectiles.EnemyProjectiles;
 using MogMod.Utilities;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
@@ -122,6 +123,16 @@ namespace MogMod.NPCs.Enemies
                 return 0f;
             return 0.04f;
         }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(canExplode);
+            writer.Write(exploding);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            canExplode = reader.ReadBoolean();
+            exploding = reader.ReadBoolean();
+        }
         public override void AI()
         {
             if (!NPC.HasValidTarget)
@@ -235,7 +246,7 @@ namespace MogMod.NPCs.Enemies
             }
             return true;
         }
-#endregion
+        #endregion
 
         #region Frames && Hit Effects
         public override void FindFrame(int frameHeight)

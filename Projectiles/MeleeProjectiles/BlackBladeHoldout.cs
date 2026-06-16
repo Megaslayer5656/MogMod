@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MogMod.Buffs.PotionBuffs;
-using MogMod.Common.MogModPlayer;
+using System.Linq;
+using MogMod.Buffs.Debuffs;
+using MogMod.Items.Weapons.Melee;
 using MogMod.Utilities;
 using System;
 using System.IO;
@@ -14,42 +15,28 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MeleeProjectiles
 {
-    // what the FUCK am i doing
-    public class AnchorHoldout : ModProjectile, ILocalizedModType
+    // TODO: find some way to change weapon direction while holding it
+    public class BlackBladeHoldout : ModProjectile, ILocalizedModType
     {
         // taken from example mod custom swing sword
         public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
-        public override string Texture => "MogMod/Items/Weapons/Melee/OversizedAnchor";
-
-        // We define some constants that determine the swing range of the sword
-        // Not that we use multipliers here since that simplifies the amount of tweaks for these interactions
-        // You could change the values or even replace them entirely, but they are tweaked with looks in mind
+        public override string Texture => "MogMod/Items/Weapons/Melee/BlackBlade";
+        private ref float CurrentCharge => ref Projectile.ai[0];
+        public bool canAttack = false;
+        public bool initialized = false;
+        public float chargeDamage = 0f;
+        private readonly float[] amount = [30f, 60f, 100f];
         private const float swingRange = 1.67f * (float)Math.PI; // The angle a swing attack covers (300 deg)
         private const float firstHalfSwing = .45f; // How much of the swing happens before it reaches the target angle (in relation to swingRange)
         private const float windUp = 0.15f; // How far back the player's hand goes when winding their attack (in relation to swingRange)
         private const float unwind = 0.2f; // When should the sword start disappearing
 
-        private const float SPINRANGE = 2.5f * (float)Math.PI;
-        private const float SPINTIME = 1f; // How much longer a spin is than a swing
-
-        public bool hitGoon = false;
-        public bool initialized = false;
-
         // We define timing functions for each stage, taking into account melee attack speed
         // Note that you can change this to suit the need of your projectile
-        private float prepTime => 10f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
-        private float execTime => 30f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
-        private float hideTime => 10f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
+        private float prepTime => 24f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
+        private float execTime => 16f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
+        private float hideTime => 12f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
         private Player Owner => Main.player[Projectile.owner];
-
-        private enum AttackType // Which attack is being performed
-        {
-            // Swings are normal sword swings that can be slightly aimed
-            // Swings goes through the full cycle of animations
-            SwingUp,
-            Slam,
-            Spin,
-        }
         private enum AttackStage // What stage of the attack is being executed, see functions found in AI for description
         {
             Prepare,
@@ -58,11 +45,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
         }
 
         // These properties wrap the usual ai and localAI arrays for cleaner and easier to understand code.
-        private AttackType CurrentAttack
-        {
-            get => (AttackType)Projectile.ai[0];
-            set => Projectile.ai[0] = (float)value;
-        }
         private AttackStage CurrentStage
         {
             get => (AttackStage)Projectile.localAI[0];
@@ -78,8 +60,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
         private ref float Timer => ref Projectile.ai[2]; // Timer to keep track of progression of each stage
         private ref float Progress => ref Projectile.localAI[1]; // Position of sword relative to initial angle
         private ref float Size => ref Projectile.localAI[2]; // Size of sword
-
-
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.HeldProjDoesNotUsePlayerGfxOffY[Type] = true;
@@ -87,7 +67,8 @@ namespace MogMod.Projectiles.MeleeProjectiles
         }
         public override void SetDefaults()
         {
-            Projectile.width = Projectile.height = 100;
+            Projectile.width = 94;
+            Projectile.height = 90;
             Projectile.friendly = true;
             Projectile.timeLeft = 10000;
             Projectile.penetrate = -1;
@@ -158,7 +139,50 @@ namespace MogMod.Projectiles.MeleeProjectiles
             }
 
             SetSwordPosition();
-            Timer++;
+            if (CurrentStage != AttackStage.Prepare)
+            {
+                if (CurrentCharge <= BlackBlade.MaxCharge && !Owner.CantUseHoldout())
+                {
+                    Projectile.spriteDirection = Main.MouseWorld.X > Owner.MountedCenter.X ? 1 : -1;
+                    float targetAngle = (Main.MouseWorld - Owner.MountedCenter).ToRotation();
+                    if (Projectile.spriteDirection == 1)
+                        targetAngle = MathHelper.Clamp(targetAngle, (float)-Math.PI * 1 / 3, (float)Math.PI * 1 / 6);
+                    else
+                    {
+                        if (targetAngle < 0)
+                            targetAngle += 2 * (float)Math.PI;
+                        targetAngle = MathHelper.Clamp(targetAngle, (float)Math.PI * 5 / 6, (float)Math.PI * 4 / 3);
+                    }
+                    if (Projectile.owner == Main.myPlayer)
+                    {
+                        Projectile.direction = Main.MouseWorld.X > Owner.Center.X ? 1 : -1;
+                        Projectile.netUpdate = true;
+                    }
+                    InitialAngle = targetAngle - firstHalfSwing * swingRange * Projectile.spriteDirection;
+                    Owner.ChangeDir(Projectile.direction);
+                    CurrentCharge++;
+                }
+                if (CurrentCharge >= BlackBlade.MaxCharge || Owner.CantUseHoldout())
+                {
+                    canAttack = true;
+                    Timer++;
+                }
+                if (amount.Contains(CurrentCharge))
+                {
+                    chargeDamage = CurrentCharge;
+                    SoundEngine.PlaySound(SoundID.Item23 with { Pitch = CurrentCharge >= BlackBlade.MaxCharge ? -0.2f : 0.1f});
+                    int dustAmt = CurrentCharge == BlackBlade.MaxCharge ? 20 : 8;
+                    for (int j = 0; j < dustAmt; j++)
+                    {
+                        Vector2 dustRotate = new Vector2((float)Owner.width / 2f, (float)Owner.height) * 0.1f;
+                        dustRotate = dustRotate.RotatedBy((double)((float)(j - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default) + Owner.Center;
+                        Vector2 dustDirection = dustRotate - Owner.Center;
+                        int killDust = Dust.NewDust(dustRotate + dustDirection, 0, 0, DustID.AncientLight, dustDirection.X, dustDirection.Y, 100, CurrentCharge >= BlackBlade.MaxCharge ? Color.PaleVioletRed : Color.LightGoldenrodYellow, 1.2f);
+                        Main.dust[killDust].noGravity = true;
+                        Main.dust[killDust].velocity = dustDirection;
+                    }
+                }
+            }
         }
 
         // Calculate origin of sword (hilt) based on orientation and offset sword rotation (as sword is angled in its sprite)
@@ -209,7 +233,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
         // We make it so that the projectile can only do damage in its release and unwind phases
         public override bool? CanDamage()
         {
-            if (CurrentStage == AttackStage.Prepare)
+            if (!canAttack)
                 return false;
             return base.CanDamage();
         }
@@ -217,13 +241,13 @@ namespace MogMod.Projectiles.MeleeProjectiles
         {
             // Make knockback go away from player
             modifiers.HitDirectionOverride = target.position.X > Owner.MountedCenter.X ? 1 : -1;
-            if (CurrentAttack == AttackType.Slam)
-            {
-                modifiers.Knockback += 1;
-                modifiers.SourceDamage *= 1.5f;
-            }
+            modifiers.SourceDamage *= (chargeDamage / 25f) + 1f;
+            modifiers.Knockback += (chargeDamage / 25f);
+            if (target.life >= (int)(target.lifeMax * .9f))
+                modifiers.FinalDamage *= 1.5f;
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => hitGoon = true;
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), CurrentCharge >= BlackBlade.MaxCharge ? 300 : 90);
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), CurrentCharge >= BlackBlade.MaxCharge ? 300 : 90);
 
         // Function to easily set projectile and arm position
         public void SetSwordPosition()
@@ -251,137 +275,54 @@ namespace MogMod.Projectiles.MeleeProjectiles
         // Function facilitating the taking out of the sword
         private void PrepareStrike()
         {
-            // first upwards swing effect
-            if (CurrentAttack == AttackType.SwingUp)
-            {
-                Progress = windUp / 2 * (swingRange / 2) * (1f - Timer / (prepTime / 1.4f)); // Calculates rotation from initial angle
-                Size = MathHelper.SmoothStep(0, 1, Timer / (prepTime / 1.4f)); // Make sword slowly increase in size as we prepare to strike until it reaches max
-
-                if (Timer >= (prepTime / 1.4f))
-                {
-                    initialized = true;
-                    // Play sword sound here since playing it on spawn is too early
-                    SoundEngine.PlaySound(SoundID.DD2_SkyDragonsFurySwing, Projectile.Center);
-                    CurrentStage = AttackStage.Execute; // If attack is over prep time, we go to next stage
-                }
-            }
+            Timer++;
             // first slam effect
-            else if (CurrentAttack == AttackType.Slam)
-            {
-                Progress = windUp * swingRange * (1f - Timer / prepTime); // Calculates rotation from initial angle
-                Size = MathHelper.SmoothStep(0, 1, Timer / prepTime); // Make sword slowly increase in size as we prepare to strike until it reaches max
+            Progress = windUp * swingRange * (1f - Timer / prepTime); // Calculates rotation from initial angle
+            Size = MathHelper.SmoothStep(0, 1, Timer / prepTime); // Make sword slowly increase in size as we prepare to strike until it reaches max
 
-                if (Timer >= prepTime)
-                {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 10f, ModContent.ProjectileType<AnchorProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    // Play sword sound here since playing it on spawn is too early
-                    SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing, Projectile.Center);
-                    CurrentStage = AttackStage.Execute; // If attack is over prep time, we go to next stage
-                }
-            }
-            else if (CurrentAttack == AttackType.Spin)
+            if (Timer >= prepTime)
             {
-                Progress = windUp / 2 * (swingRange / 2) * (1f - Timer / prepTime);
-                Size = MathHelper.SmoothStep(0, 1, Timer / prepTime);
-                if (Timer >= prepTime)
-                {
-                    initialized = true;
-                    SoundEngine.PlaySound(SoundID.DD2_SkyDragonsFurySwing);
-                    CurrentStage = AttackStage.Execute;
-                }
+                CurrentStage = AttackStage.Execute; // If attack is over prep time, we go to next stage
             }
         }
 
         // Function facilitating the first half of the swing
         private void ExecuteStrike()
         {
-            var mogPlayerUI = Main.LocalPlayer.GetModPlayer<MogPlayerUI>();
-            if (CurrentAttack == AttackType.SwingUp)
+            float t = Timer / execTime;
+            float easing = (float)Math.Sin(t * MathHelper.PiOver2);
+            Progress = MathHelper.Lerp(0, swingRange, easing);
+            if (canAttack && !initialized)
             {
-                Progress = MathHelper.SmoothStep(0, -swingRange, (1f - unwind) * Timer / (execTime / 1.4f));
-
-                // shoot out a dolphin
-                if ((Timer >= (execTime / 1.4f) / 1.5f) && initialized)
-                {
-                    initialized = false;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 10f, ModContent.ProjectileType<AnchorProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                }
-
-                if (Timer >= (execTime / 1.4f))
-                    CurrentStage = AttackStage.Unwind;
+                SoundEngine.PlaySound(SoundID.Item1 with { Pitch = CurrentCharge >= BlackBlade.MaxCharge ? -0.3f : -0.15f }, Projectile.Center);
+                initialized = true;
             }
-            else if (CurrentAttack == AttackType.Slam)
+
+            if (Main.rand.NextBool(3))
             {
-                float t = Timer / execTime;
-                float easing = (float)Math.Sin(t * MathHelper.PiOver2);
-                Progress = MathHelper.Lerp(0, swingRange, easing);
-
-                // fire dolphins if hit npc
-                if (hitGoon)
-                {
-                    hitGoon = false;
-                    for (int i = 0; i < Main.rand.Next(4, 7); i++)
-                    {
-                        bool randomBool = Main.rand.Next(0, 2) == 0;
-                        MogModUtils.ProjectileBarrage(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.Center, randomBool, 200f, 200f, -200f, 200f, 6f, ModContent.ProjectileType<AnchorProj>(), Convert.ToInt32(Projectile.damage * .45), 3f, Projectile.owner, false, 0f);
-                    }
-                }
-
-                if (Timer >= execTime)
-                    CurrentStage = AttackStage.Unwind;
+                Vector2 dustCorner = Owner.position - 2f * Vector2.One;
+                Vector2 dustVel = Owner.velocity + new Vector2(0f, Main.rand.NextFloat(-5f, -1f));
+                int d = Dust.NewDust(dustCorner, Owner.width, Owner.height, DustID.CrimsonSpray, dustVel.X, dustVel.Y);
+                Main.dust[d].noGravity = true;
+                Main.dust[d].velocity.Y -= 1.5f;
+                Main.dust[d].scale = 0.8f;
+                Main.dust[d].fadeIn = Main.rand.NextFloat(0.6f, 0.8f);
             }
-            else if (CurrentAttack == AttackType.Spin)
+            if (Timer >= execTime)
             {
-                Progress = MathHelper.SmoothStep(0, -SPINRANGE, (1f - unwind / 2) * Timer / (execTime * SPINTIME));
-                if ((Timer >= (execTime / 1.4f) / 1.5f) && initialized)
-                {
-                    initialized = false;
-                    SoundEngine.PlaySound(SoundID.Item107);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AnchorSmashProj>(), (int)(Projectile.damage * 1.5f), Projectile.knockBack, Projectile.owner);
-                }
-                if (Timer >= execTime * SPINTIME)
-                    CurrentStage = AttackStage.Unwind;
+                CurrentStage = AttackStage.Unwind;
             }
         }
 
         // Function facilitating the latter half of the swing where the sword unwinds
         private void UnwindStrike()
         {
-            if (CurrentAttack == AttackType.SwingUp)
+            float t = Timer / hideTime;
+            float easing = (float)Math.Sin(t * MathHelper.PiOver2);
+            Size = 1f - easing;
+            if (Timer >= hideTime)
             {
-                // fire dolphins if hit npc
-                if (hitGoon)
-                {
-                    hitGoon = false;
-                    for (int i = 0; i < 3; i++)
-                    {
-                        bool randomBool = Main.rand.Next(0, 2) == 0;
-                        MogModUtils.ProjectileBarrage(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.Center, randomBool, 200f, 200f, -200f, 200f, 6f, ModContent.ProjectileType<AnchorProj>(), Convert.ToInt32(Projectile.damage * .45), 3f, Projectile.owner, false, 0f);
-                    }
-                }
-                Progress = MathHelper.SmoothStep(-swingRange, 0, (1f - unwind) * Timer / (execTime / 1.4f));
-                Size = 1f - MathHelper.SmoothStep(0, 1, Timer / (hideTime / 1.4f)); // Make sword slowly decrease in size as we end the swing to make a smooth hiding animation
-
-                if (Timer >= (hideTime / 1.4f))
-                    Projectile.Kill();
-            }
-            else if (CurrentAttack == AttackType.Slam)
-            {
-                float t = Timer / hideTime;
-                float easing = (float)Math.Sin(t * MathHelper.PiOver2);
-                Size = 1f - easing;
-                if (Timer >= hideTime)
-                    Projectile.Kill();
-            }
-            else if (CurrentAttack == AttackType.Spin)
-            {
-                Progress = MathHelper.SmoothStep(-swingRange, 0, (1f - unwind / 2) + unwind / 2 * Timer / (hideTime * SPINTIME / 2));
-                Size = 1f - MathHelper.SmoothStep(0, 1, Timer / (hideTime * SPINTIME / 2));
-                if (Timer >= hideTime * SPINTIME / 2)
-                {
-                    CurrentAttack = AttackType.SwingUp;
-                    Projectile.Kill();
-                }
+                Projectile.Kill();
             }
         }
     }

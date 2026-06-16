@@ -24,12 +24,17 @@ namespace MogMod.Items.Weapons.Melee
             PitchVariance = .2f,
             MaxInstances = 1,
         };
+        public override void SetStaticDefaults()
+        {
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 9));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
+        }
         public override void SetDefaults()
         {
-            Item.width = 50;
-            Item.height = 64;
+            Item.width = 54;
+            Item.height = 70;
 
-            Item.scale = 2.25f; // TODO: change sprite so this isnt needed
+            Item.scale = 2.25f;
             Item.damage = 165;
             Item.knockBack = 5.5f;
             Item.DamageType = DamageClass.Melee;

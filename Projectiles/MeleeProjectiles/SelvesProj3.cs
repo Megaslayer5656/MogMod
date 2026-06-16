@@ -44,11 +44,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             canHit = false;
         }
 
-        public override bool? CanHitNPC(NPC target)
-        {
-            if (canHit) return true;
-            else return false;
-        }
+        public override bool? CanHitNPC(NPC target) => canHit ? null : false;
 
         public override void OnSpawn(IEntitySource source)
         {

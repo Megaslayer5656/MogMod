@@ -1,8 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Buffs.Debuffs;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
-using System;
+using MogMod.Projectiles.MeleeProjectiles;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -10,51 +9,41 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    // TODO: completely change this into a monster hunter styled greatsword that can be charged for increased power
+    // TODO: resprite this (fextralife logo is plastered on the weapon)
     public class BlackBlade : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
+        public const float MaxCharge = 100f;
         public override void SetDefaults()
         {
             Item.width = 97;
             Item.height = 96;
-            Item.damage = 192;
+
+            Item.damage = 255;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = Item.useTime = 28;
+            Item.useAnimation = Item.useTime = 45;
             Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 14f;
+            Item.UseSound = SoundID.Item20 with { Pitch = -0.15f };
+            Item.shoot = ModContent.ProjectileType<BlackBladeHoldout>();
+            Item.shootSpeed = 10f;
+
+            Item.channel = true;
+            Item.noMelee = true;
             Item.autoReuse = true;
-            Item.knockBack = 13f;
-            Item.UseSound = SoundID.Item1;
+            Item.noUseGraphic = true;
+
             Item.rare = ItemRarityID.Yellow;
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
-            Item.scale = 1.5f;
-            Item.shootSpeed = 10f;
-            Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing
         }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            Projectile.NewProjectileDirect(source, player.MountedCenter, Vector2.Zero, type, damage, knockback, player.whoAmI, 0);
             return false;
         }
-
-        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), 300);
-        }
-        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
-        {
-            target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), 300);
-        }
-
-        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
-        {
-            if (target.life >= Convert.ToInt32(target.lifeMax * .9f))
-            {
-                modifiers.FinalDamage *= 1.5f;
-            }
-        }
-
-        public override void AddRecipes() //TODO: Make this use grief bar and maybe nerf it a little bit for that
+        public override bool? CanAutoReuseItem(Player player) => false;
+        public override bool MeleePrefix() => true;
+        public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient(ItemID.BreakerBlade, 1).

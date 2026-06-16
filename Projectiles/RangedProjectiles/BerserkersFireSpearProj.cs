@@ -32,12 +32,15 @@ namespace MogMod.Projectiles.RangedProjectiles
             target.AddBuff(BuffID.CursedInferno, 300);
             Player player = Main.player[Projectile.owner];
 
-            int heal = Convert.ToInt32(player.statLifeMax2 * .0175);
-            heal *= Convert.ToInt32(player.lifeSteal * 0.0135);
-            player.statLife += heal;
-            player.HealEffect(heal);
-            if (player.statLife > player.statLifeMax2)
-                player.statLife = player.statLifeMax2;
+            if (target.type != NPCID.TargetDummy)
+            {
+                int heal = Convert.ToInt32(player.statLifeMax2 * .0175);
+                heal *= Convert.ToInt32(player.lifeSteal * 0.0135);
+                player.statLife += heal;
+                player.HealEffect(heal);
+                if (player.statLife > player.statLifeMax2)
+                    player.statLife = player.statLifeMax2;
+            }
         }
 
         public override void AI()

@@ -80,9 +80,12 @@ namespace MogMod.Projectiles.RangedProjectiles
                 swirlDust.noGravity = true;
                 swirlDust.fadeIn = .6f;
             }
-            var source = Projectile.GetSource_FromThis();
-            Projectile explosion = Projectile.NewProjectileDirect(source, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<HellfireBoom>(), Projectile.damage * 2, 0f, Main.myPlayer, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-            explosion.DamageType = DamageClass.Ranged;
+            if (Projectile.owner == Main.myPlayer)
+            {
+                var source = Projectile.GetSource_FromThis();
+                Projectile explosion = Projectile.NewProjectileDirect(source, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<HellfireBoom>(), Projectile.damage * 2, 0f, Main.myPlayer, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                explosion.DamageType = DamageClass.Ranged;
+            }
         }
         public override bool PreDraw(ref Color lightColor)
         {

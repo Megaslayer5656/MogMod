@@ -95,6 +95,7 @@ namespace MogMod.Items.Weapons.Melee
                 attackType = 0;
         }
         public override bool CanConsumeAmmo(Item ammo, Player player) => false;
+        public override bool NeedsAmmo(Player player) => false;
         public override bool AltFunctionUse(Player player) => true;
         public override bool MeleePrefix() => true;
 

@@ -63,12 +63,15 @@ namespace MogMod.Projectiles.MagicProjectiles
         {
             Player player = Main.player[Projectile.owner];
 
-            int heal = 1;
-            heal *= Convert.ToInt32(player.lifeSteal * 0.01);
-            player.statLife += heal;
-            player.HealEffect(heal);
-            if (player.statLife > player.statLifeMax2)
-                player.statLife = player.statLifeMax2;
+            if (target.type != NPCID.TargetDummy)
+            {
+                int heal = 1;
+                heal *= Convert.ToInt32(player.lifeSteal * 0.01);
+                player.statLife += heal;
+                player.HealEffect(heal);
+                if (player.statLife > player.statLifeMax2)
+                    player.statLife = player.statLifeMax2;
+            }
         }
         public override void OnKill(int timeLeft)
         {

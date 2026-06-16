@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories;
 using MogMod.Items.Ammo;
@@ -6,22 +7,24 @@ using MogMod.Items.Other;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Items.Weapons.Ranged;
+using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Rarities;
 using MogMod.Utilities;
 using System;
 using System.Collections.Generic;
-using Terraria;
 using System.Linq;
+using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using MogMod.Buffs.PotionBuffs;
 
 namespace MogMod.Items.Global
 {
     public class MogGlobalItem : GlobalItem
     {
         public int bloodDamage;
+        public int cooldownTimer = 5;
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ShimmerTransformToItem[ItemID.SnowBlock] = ItemID.ShimmerBlock;
@@ -83,9 +86,11 @@ namespace MogMod.Items.Global
                     if (player.statLife > player.statLifeMax2)
                         player.statLife = player.statLifeMax2;
                 }
-                if (mogPlayer.wearingSatanic && player.HasBuff(ModContent.BuffType<SatanicBuff>()))
+                if (mogPlayer.wearingSatanic && player.HasBuff(ModContent.BuffType<SatanicBuff>()) && mogPlayer.satanicAccCooldown <= 0)
+                //if (mogPlayer.wearingSatanic) // for testing
                 {
-                    int heal = 1;
+                    mogPlayer.satanicAccCooldown = cooldownTimer * 2;
+                    int heal = (int)(damageDone / 100) + 1;
                     heal *= Convert.ToInt32(player.lifeSteal * 0.01);
                     player.statLife += heal;
                     player.HealEffect(heal);
@@ -107,6 +112,8 @@ namespace MogMod.Items.Global
             ItemID.TheHorsemansBlade,
             ItemID.LucyTheAxe,
             ModContent.ItemType<Gunlance>(),
+            ModContent.ItemType<BlackBlade>(),
+            ModContent.ItemType<OversizedAnchor>(),
             ItemID.TheAxe
         ];
         public override void ModifyItemScale(Item item, Player player, ref float scale)
