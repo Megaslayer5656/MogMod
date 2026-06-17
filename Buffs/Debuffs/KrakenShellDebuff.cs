@@ -2,14 +2,15 @@
 using MogMod.Common.MogModPlayer;
 using Terraria;
 using Terraria.ModLoader;
-namespace MogMod.Buffs.PotionBuffs
+namespace MogMod.Buffs.Debuffs
 {
-    public class KrakenShellBuff : ModBuff
+    public class KrakenShellDebuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            Main.buffNoSave[Type] = false;
-            Main.debuff[Type] = false;
+            Main.debuff[Type] = true;
+            Main.pvpBuff[Type] = true;
+            Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = false;
         }
         public override void Update(Player player, ref int buffIndex)

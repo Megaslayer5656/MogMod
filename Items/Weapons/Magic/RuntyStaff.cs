@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Global;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.MagicProjectiles;
@@ -15,7 +16,7 @@ namespace MogMod.Items.Weapons.Magic
         public override void SetDefaults()
         {
             Item.width = 42;
-            Item.height = 22;
+            Item.height = 40;
 
             Item.damage = 18;
             Item.DamageType = DamageClass.Magic;

@@ -473,7 +473,7 @@ Mods: {
 				Description: Ragebaited
 			}
 
-			KrakenShellBuff: {
+			KrakenShellDebuff: {
 				DisplayName: Kraken Shell
 				Description: +10% Damage Reduction, Greatly reduced movement
 			}

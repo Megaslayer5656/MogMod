@@ -17,7 +17,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.penetrate = 5;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 300;
         }
         public override void AI()
         {

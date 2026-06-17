@@ -1,4 +1,4 @@
-﻿using MogMod.Buffs.PotionBuffs;
+﻿using MogMod.Buffs.Debuffs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,9 +28,9 @@ namespace MogMod.Projectiles.MeleeProjectiles
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (target.type != NPCID.TargetDummy)
-                Owner.AddBuff(ModContent.BuffType<KrakenShellBuff>(), 180);
+                Owner.AddBuff(ModContent.BuffType<KrakenShellDebuff>(), 180);
         }
-        public override void OnHitPlayer(Player target, Player.HurtInfo info) => Owner.AddBuff(ModContent.BuffType<KrakenShellBuff>(), 180);
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => Owner.AddBuff(ModContent.BuffType<KrakenShellDebuff>(), 180);
         public override void AI()
         {
            for (int i = 0; i < 60; i++)
