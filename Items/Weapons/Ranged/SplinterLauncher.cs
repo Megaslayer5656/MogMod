@@ -63,7 +63,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
             AddIngredient(ItemID.FlintlockPistol).
-            AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 15).
+            AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Material"}", 8).
             AddTile(TileID.Anvils).
             Register();
         }

@@ -71,7 +71,7 @@ namespace MogMod.NPCs.Enemies
         #region Spawning && AI
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.PlayerSafe || !spawnInfo.Player.ZoneRain || spawnInfo.Player.ZoneDesert || !Condition.DownedEowOrBoc.IsMet())
+            if (spawnInfo.PlayerSafe || !spawnInfo.Player.ZoneRain || spawnInfo.Player.ZoneDesert || !Condition.DownedEyeOfCthulhu.IsMet())
                 return 0f;
 
             return SpawnCondition.OverworldDayRain.Chance * .15f;

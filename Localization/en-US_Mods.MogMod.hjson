@@ -1021,6 +1021,15 @@ Items: {
 					[c/DEC240:'I will show you fear in a handful of sand�']
 					'''
 			}
+
+			WyvernJawblade: {
+				DisplayName: Wyvern Jawblade
+				Tooltip:
+					'''
+					Can be charged for increased damage
+					Movement speed is reduced while charging
+					'''
+			}
 		}
 
 		Ranged: {

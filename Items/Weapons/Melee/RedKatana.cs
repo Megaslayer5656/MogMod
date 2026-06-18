@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
@@ -71,8 +72,8 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-            AddRecipeGroup(RecipeGroupID.IronBar, 12).
-            AddIngredient<VitalityBooster>(1).
+            AddRecipeGroup("SilverBar", 10).
+            AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Material"}", 8).
             AddTile(TileID.Anvils).
             Register();
         }

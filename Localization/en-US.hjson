@@ -726,6 +726,7 @@ Mods: {
 				ScintillantStabberProj.DisplayName: Scintillant Stabber
 				SandstormProj.DisplayName: Mini Sandstorm
 				BlackBladeHoldout.DisplayName: Black Blade
+				WyvernJawbladeHoldout.DisplayName: Wyvern Jawblade Holdout
 			}
 
 			Melee: {

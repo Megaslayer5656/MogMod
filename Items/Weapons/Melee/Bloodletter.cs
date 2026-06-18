@@ -3,6 +3,7 @@ using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Items.Global;
+using MogMod.Items.Other;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -77,7 +78,8 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 12).
-                AddRecipeGroup(RecipeGroupID.IronBar, 12).
+                AddRecipeGroup("GoldBar", 12).
+                AddIngredient<VitalityBooster>().
                 AddTile(TileID.Anvils).
                 Register();
         }

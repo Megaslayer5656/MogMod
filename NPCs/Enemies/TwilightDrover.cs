@@ -88,7 +88,7 @@ namespace MogMod.NPCs.Enemies
         #region Spawning && AI
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.PlayerSafe || !spawnInfo.Player.ZoneOverworldHeight || !Condition.DownedEowOrBoc.IsMet())
+            if (spawnInfo.PlayerSafe || !spawnInfo.Player.ZoneOverworldHeight || !Condition.DownedEyeOfCthulhu.IsMet())
                 return 0f;
 
             return SpawnCondition.OverworldNightMonster.Chance * .1f;

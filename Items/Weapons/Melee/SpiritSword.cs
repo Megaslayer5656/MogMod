@@ -60,7 +60,7 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes() // simple recipies like this keep me hard at night
         {
             CreateRecipe().
-            AddIngredient<SpiritShard>(6).
+            AddIngredient<SpiritShard>(8).
             AddTile(TileID.Anvils).
             Register();
         }

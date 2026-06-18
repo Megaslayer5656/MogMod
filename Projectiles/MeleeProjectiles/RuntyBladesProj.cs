@@ -50,7 +50,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 dust.velocity = -Projectile.velocity * 0.5f;
             }
 
-            float armPointingDirection = ((Owner.MogMod().mouseWorld - Owner.MountedCenter).ToRotation());
+            float armPointingDirection = (Main.MouseWorld - Owner.MountedCenter).ToRotation();
             Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, armPointingDirection - MathHelper.PiOver2);
             Owner.heldProj = Projectile.whoAmI;
 

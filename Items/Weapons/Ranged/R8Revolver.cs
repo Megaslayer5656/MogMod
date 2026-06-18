@@ -17,9 +17,8 @@ namespace MogMod.Items.Weapons.Ranged
         {
             Item.damage = 27;
             Item.DamageType = DamageClass.Ranged;
-            Item.width = 100;
-            Item.height = 19;
-            Item.scale = .75f;
+            Item.width = 44;
+            Item.height = 20;
             Item.useTime = 80;
             Item.useAnimation = 80;
             Item.useStyle = ItemUseStyleID.Shoot;
