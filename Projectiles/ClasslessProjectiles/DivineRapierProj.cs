@@ -6,11 +6,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Projectiles.MeleeProjectiles
+namespace MogMod.Projectiles.ClasslessProjectiles
 {
     public class DivineRapierProj : BaseSpearProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
+        public new string LocalizationCategory => "Projectiles.ClasslessProjectiles";
 
         // spear code taken from calamity mod
         public override void SetDefaults()
@@ -41,6 +41,12 @@ namespace MogMod.Projectiles.MeleeProjectiles
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<DivineMightDebuff>(), 600);
+        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.SetCrit();
+            float critDamage = Main.player[Projectile.owner].GetTotalCritChance(Projectile.DamageType) * 0.02f;
+            modifiers.CritDamage += critDamage;
         }
         public override void ExtraBehavior()
         {

@@ -57,8 +57,7 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<VeilOfDiscord>(1).
-                AddRecipeGroup("AdamantiteBar", 20).
-                AddIngredient(ItemID.SoulofMight, 15).
+                AddIngredient(ItemID.SpectreBar, 18).
                 AddIngredient<FrigidCrystal>(3).
                 AddIngredient<ManaCore>(1).
                 AddIngredient(ItemID.FrostCore, 1).

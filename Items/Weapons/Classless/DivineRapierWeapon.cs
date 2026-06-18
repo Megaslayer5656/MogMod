@@ -3,7 +3,7 @@ using MogMod.Items.Accessories;
 using MogMod.Items.Consumables;
 using MogMod.Items.Global;
 using MogMod.Items.Placeable.Bars;
-using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Rarities;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,17 +12,17 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Weapons.Melee
+namespace MogMod.Items.Weapons.Classless
 {
     public class DivineRapierWeapon : ModItem, ILocalizedModType
     {
-        public new string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Classless";
         public static bool MaxLife = false;
         public override void SetStaticDefaults() => ItemID.Sets.Spears[Item.type] = true;
         public override void SetDefaults()
         {
             Item.damage = 240;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.Generic;
             Item.width = Item.height = 112;
             Item.noMelee = true;
             Item.useTurn = true;
@@ -70,9 +70,15 @@ namespace MogMod.Items.Weapons.Melee
             Color nextColor = colorList[(colorIndex + 1) % colorList.Count];
             Color tooltipColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
 
-            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
             if (line != null)
                 line.OverrideColor = Color.Lerp(tooltipColor, Color.White, 0.5f);
+        }
+        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.SetCrit();
+            float critDamage = player.GetTotalCritChance(Item.DamageType) * 0.02f;
+            modifiers.CritDamage += critDamage;
         }
         public override void AddRecipes()
         {

@@ -1,4 +1,5 @@
 ﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Consumables;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
@@ -46,11 +47,11 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VladmirsOffering>(1).
-                AddIngredient(ItemID.AvengerEmblem, 1).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 18).
+                AddIngredient<VladmirsOffering>().
+                AddIngredient(ItemID.AvengerEmblem).
                 AddIngredient<GriefBar>(12).
-                AddIngredient<PointBooster>(1).
+                AddIngredient<PointBooster>().
+                AddIngredient<AghanimShard>().
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

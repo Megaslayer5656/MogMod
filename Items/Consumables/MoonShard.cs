@@ -43,7 +43,6 @@ namespace MogMod.Items.Consumables
         {
             CreateRecipe(3).
                 AddIngredient(ItemID.LunarTabletFragment, 3).
-                AddIngredient(ItemID.Moonglow, 3).
                 AddIngredient(ItemID.Ectoplasm, 2).
                 AddIngredient<FrigidCrystal>(1).
                 AddTile(TileID.CrystalBall).

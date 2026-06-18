@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
+using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Projectiles.MagicProjectiles;
+using MogMod.Projectiles.MeleeProjectiles;
 using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Projectiles.SummonerProjectiles;
 using MogMod.Utilities;
@@ -39,6 +41,9 @@ namespace MogMod.Projectiles.BaseProjectiles
         public int shivCap = 400;
         public const int hellfireCap = 600;
 
+        public const int bashCap = 50;
+        public bool bashProc = false;
+
         public int cooldownTimer = 5;
         public override bool InstancePerEntity
         {
@@ -51,6 +56,14 @@ namespace MogMod.Projectiles.BaseProjectiles
         [
             ModContent.ProjectileType<PolyluteProj>(),
             ModContent.ProjectileType<PlasmaShrimpProj>()
+        ];
+        public static readonly List<int> MeleeHoldouts =
+        [
+            ModContent.ProjectileType<GunlanceHoldout>(),
+            ModContent.ProjectileType<GunlanceSpear>(),
+            ModContent.ProjectileType<BlackBladeHoldout>(),
+            ModContent.ProjectileType<AnchorHoldout>(),
+            ModContent.ProjectileType<WyvernJawbladeHoldout>(),
         ];
         // Amount of extra updates that are set in SetDefaults.
         public int defExtraUpdates = -1;
@@ -221,6 +234,25 @@ namespace MogMod.Projectiles.BaseProjectiles
                     packet.Send();
                 }
                 doTrueStrikeFX(target.Center);
+            }
+
+            // skull basher (melee holdout projectiles only)
+            bashProc = Main.rand.Next(7) == 0;
+            if (bashProc && modPlayer.wearingGiantsMaul && modPlayer.bashCooldown <= 0 && MeleeHoldouts.Contains(projectile.type))
+            {
+                modPlayer.bashCooldown = cooldownTimer;
+                int bash = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ModContent.ProjectileType<SkullBashProjectile>(), bashCap, 0f, player.whoAmI);
+                Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
+                Color textColor = new Color(255, 0, 100);
+                CombatText.NewText(r, textColor, "Bash!", true);
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    ModPacket packet = Mod.GetPacket();
+                    packet.Write((byte)MogModMessageType.BashProcTextSync);
+                    packet.Write(target.lastInteraction);
+                    packet.WriteVector2(r.Center.ToVector2());
+                    packet.Send();
+                }
             }
 
             // atg and plasma shrimp

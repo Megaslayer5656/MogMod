@@ -113,7 +113,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.InfluxWaver, 1).
-                AddIngredient(ItemID.SpectreBar, 15).
+                AddIngredient(ItemID.SpectreBar, 16).
                 AddIngredient<BrinyRind>(12).
                 AddIngredient<SpiritShard>(5).
                 AddTile(TileID.MythrilAnvil).

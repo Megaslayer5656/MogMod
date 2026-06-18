@@ -4,6 +4,7 @@ using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories;
 using MogMod.Items.Ammo;
 using MogMod.Items.Other;
+using MogMod.Items.Weapons.Classless;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Items.Weapons.Ranged;
@@ -114,6 +115,7 @@ namespace MogMod.Items.Global
             ModContent.ItemType<Gunlance>(),
             ModContent.ItemType<BlackBlade>(),
             ModContent.ItemType<OversizedAnchor>(),
+            ModContent.ItemType<WyvernJawblade>(),
             ItemID.TheAxe
         ];
         public override void ModifyItemScale(Item item, Player player, ref float scale)

@@ -1,4 +1,5 @@
-﻿using MogMod.Utilities;
+﻿using MogMod.Common.MogModPlayer;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -10,6 +11,7 @@ namespace MogMod.Projectiles.ClasslessProjectiles
     public class PlasmaShrimpProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.ClasslessProjectiles";
+        public Player Owner => Main.player[Projectile.owner];
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 16;
@@ -47,7 +49,9 @@ namespace MogMod.Projectiles.ClasslessProjectiles
         }
         public override void OnSpawn(IEntitySource source)
         {
-            SoundEngine.PlaySound(SoundID.Item72, Projectile.Center);
+            MogPlayer mogPlayer = Owner.GetModPlayer<MogPlayer>();
+            if (mogPlayer.plasmaVisual)
+                SoundEngine.PlaySound(SoundID.Item72, Projectile.Center);
         }
     }
 }

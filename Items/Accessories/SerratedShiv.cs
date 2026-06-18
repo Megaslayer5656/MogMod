@@ -31,6 +31,7 @@ namespace MogMod.Items.Accessories
                 AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Emblem"}", 1).
                 AddRecipeGroup("AdamantiteBar", 18).
                 AddIngredient<FuciumBar>(12).
+                AddIngredient(ItemID.SoulofFright, 7).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

@@ -30,7 +30,7 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<LordOfBloodsExultation>(1).
-                AddRecipeGroup("CobaltBar", 8).
+                AddIngredient(ItemID.SoulofFright, 7).
                 AddIngredient<PointBooster>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

@@ -68,6 +68,7 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingShadowAmulet = false;
         public bool shadowAmuletVisual = false;
         public bool wearingMendez;
+        public bool plasmaVisual;
 
         public bool wraithActive = false;
 
@@ -1553,7 +1554,6 @@ namespace MogMod.Common.MogModPlayer
 
             modifiers.SourceDamage *= (float)damageMult;
         }
-
         // sniper offlane scope effect
         public override void ModifyZoom(ref float zoom)
         {
@@ -1875,6 +1875,7 @@ namespace MogMod.Common.MogModPlayer
             wearingShadowAmulet = false;
             shadowAmuletVisual = false;
             exultationEquipped = false;
+            plasmaVisual = false;
 
             wearingMendez = false;
 

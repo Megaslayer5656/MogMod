@@ -22,13 +22,13 @@ namespace MogMod.Projectiles.MeleeProjectiles
         public bool canAttack = false;
         public bool initialized = false;
         public float chargeDamage = 0f;
-        private readonly float[] amount = [30f, 60f, 100f];
+        private readonly float[] amount = [40f, 80f, WyvernJawblade.MaxCharge];
         private const float swingRange = 1.67f * (float)Math.PI;
         private const float firstHalfSwing = .45f;
         private const float windUp = 0.15f;
         private const float unwind = 0.2f;
         private float prepTime => 24f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
-        private float execTime => 16f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
+        private float execTime => 26f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
         private float hideTime => 12f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
         private Player Owner => Main.player[Projectile.owner];
         private enum AttackStage

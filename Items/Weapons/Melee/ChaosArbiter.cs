@@ -102,9 +102,9 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<ChaosBlade>().
+                AddIngredient<GriefBar>(12).
                 AddIngredient(ItemID.BrokenHeroSword).
                 AddIngredient<LizhardBloodVial>().
-                AddIngredient<GriefBar>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

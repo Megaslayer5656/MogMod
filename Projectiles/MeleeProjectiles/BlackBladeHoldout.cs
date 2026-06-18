@@ -24,7 +24,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
         public bool canAttack = false;
         public bool initialized = false;
         public float chargeDamage = 0f;
-        private readonly float[] amount = [30f, 60f, 100f];
+        private readonly float[] amount = [30f, 60f, BlackBlade.MaxCharge];
         private const float swingRange = 1.67f * (float)Math.PI; // The angle a swing attack covers (300 deg)
         private const float firstHalfSwing = .45f; // How much of the swing happens before it reaches the target angle (in relation to swingRange)
         private const float windUp = 0.15f; // How far back the player's hand goes when winding their attack (in relation to swingRange)
@@ -33,7 +33,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
         // We define timing functions for each stage, taking into account melee attack speed
         // Note that you can change this to suit the need of your projectile
         private float prepTime => 24f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
-        private float execTime => 16f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
+        private float execTime => 22f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
         private float hideTime => 12f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
         private Player Owner => Main.player[Projectile.owner];
         private enum AttackStage // What stage of the attack is being executed, see functions found in AI for description
@@ -66,8 +66,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
         }
         public override void SetDefaults()
         {
-            Projectile.width = 94;
-            Projectile.height = 90;
+            Projectile.width = Projectile.height = 114;
             Projectile.friendly = true;
             Projectile.timeLeft = 10000;
             Projectile.penetrate = -1;

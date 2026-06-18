@@ -2,6 +2,7 @@
 using MogMod.Items.Global;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -28,6 +29,7 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.Dynamite, 12).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 8).
                 AddIngredient(ItemID.Leather, 5).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

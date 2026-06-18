@@ -11,7 +11,6 @@ namespace MogMod.Projectiles.ClasslessProjectiles
 {
     public class ATGProjectile : ModProjectile, ILocalizedModType
     {
-        // hits town npcs slop slop kirked goon
         public new string LocalizationCategory => "Projectiles.ClasslessProjectiles";
         public override void SetDefaults()
         {

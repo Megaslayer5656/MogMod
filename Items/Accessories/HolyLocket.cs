@@ -39,8 +39,8 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.PygmyNecklace, 1).
                 AddIngredient<Diadem>(1).
                 AddIngredient<SolRing>(1).
-                AddIngredient(ItemID.DiamondGemsparkBlock, 20).
                 AddRecipeGroup("AdamantiteBar", 8).
+                AddIngredient(ItemID.SoulofSight, 7).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

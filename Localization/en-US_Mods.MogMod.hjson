@@ -354,6 +354,7 @@ Items: {
 			Tooltip:
 				'''
 				Vastly Increased movement speed
+				Negates fall damage
 				[c/E3B8A1:'Winged boots that grant omnipresence.']
 				'''
 		}
@@ -363,7 +364,7 @@ Items: {
 			Tooltip:
 				'''
 				+3% Crit Chance
-				+5% Attack Damage
+				+2 Flat Attack Damage
 				[c/B8A7A7:'The damage of these small, concealable ]
 				[c/B8A7A7:blades should not be underestimated.']
 				'''
@@ -823,7 +824,7 @@ Items: {
 				DisplayName: Desolator
 				Tooltip:
 					'''
-					Shoots a deadly sickle that bursts into 4 smaller homing sickles
+					Shoots a deathly sickle that bursts into 4 smaller homing sickles
 					Deals more damage the lower life you have
 					Attacks lower defense and inflict Destined Death on enemies
 					[c/912049:'A wicked weapon, used in torturing political criminals.']
@@ -854,15 +855,6 @@ Items: {
 					Right click to summon 2 illusions that mirror your attacks
 					Illusions last 20 seconds
 					[c/A1D3D6:'An axe made of reflective materials that causes confusion amongst enemy ranks.']
-					'''
-			}
-
-			DivineRapierWeapon: {
-				DisplayName: Divine Rapier
-				Tooltip:
-					'''
-					Fires a divine sword of light that gains additional properties at max life
-					'So powerful, it cannot have a single owner.'
 					'''
 			}
 
@@ -1569,6 +1561,18 @@ Items: {
 					A catalyst used to cast sorceries
 					[c/96FF96:Rock Sling] gains slight homing
 					[c/A364CC:'Staff embedded with a dark purple glintstone, said to be the fragment of a meteorite.']
+					'''
+			}
+		}
+
+		Classless: {
+			DivineRapierWeapon: {
+				DisplayName: Divine Rapier
+				Tooltip:
+					'''
+					Fires a divine sword of light that gains additional properties at max life
+					Additional critical strike chance increases critical strike damage
+					'So powerful, it cannot have a single owner.'
 					'''
 			}
 		}

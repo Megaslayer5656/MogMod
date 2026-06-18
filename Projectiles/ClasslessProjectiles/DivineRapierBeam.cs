@@ -7,11 +7,11 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Projectiles.MeleeProjectiles
+namespace MogMod.Projectiles.ClasslessProjectiles
 {
     public class DivineRapierBeam : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
+        public new string LocalizationCategory => "Projectiles.ClasslessProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         private bool initialized = false;
         public override void SetDefaults()
@@ -99,6 +99,12 @@ namespace MogMod.Projectiles.MeleeProjectiles
                 SummonLasers();
             }
             target.AddBuff(ModContent.BuffType<DivineMightDebuff>(), 600);
+        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.SetCrit();
+            float critDamage = Main.player[Projectile.owner].GetTotalCritChance(Projectile.DamageType) * 0.02f;
+            modifiers.CritDamage += critDamage;
         }
         private void SummonLasers()
         {

@@ -66,10 +66,7 @@ namespace MogMod.Items.Weapons.Ranged
                 velocity = velocity.RotatedByRandom(MathHelper.ToRadians(35));
             }
         }
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(8.5f, 0f);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-4f, 0f);
         public override bool AltFunctionUse(Player player) => true;
         public override void AddRecipes() //Make this cooler
         {

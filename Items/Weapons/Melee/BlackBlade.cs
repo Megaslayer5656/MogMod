@@ -9,15 +9,13 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    // TODO: resprite this (fextralife logo is plastered on the weapon)
     public class BlackBlade : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public const float MaxCharge = 100f;
         public override void SetDefaults()
         {
-            Item.width = 97;
-            Item.height = 96;
+            Item.width = Item.height = 114;
 
             Item.damage = 255;
             Item.DamageType = DamageClass.Melee;

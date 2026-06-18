@@ -686,12 +686,6 @@ Mods: {
 				ButterflyProjectile.DisplayName: Butterfly
 				MantaSummon.DisplayName: Manta Style
 				MantaProj.DisplayName: Manta Style
-				DivineRapierProj.DisplayName: Divine Rapier
-				DivineRapierBeam.DisplayName: Divine Rapier
-				DivineRapierExplosion.DisplayName: Divine Rapier
-				DivineRapierSecProj.DisplayName: Divine Rapier
-				DivineRapierSecBeam.DisplayName: Divine Rapier
-				DivineRapierThirdBeam.DisplayName: Divine Rapier
 				RiversOfBloodProj.DisplayName: Rivers Of Blood
 				MarkerTargetProj.DisplayName: Marker
 				MarkerProjProj.DisplayName: Marker
@@ -750,6 +744,11 @@ Mods: {
 				GreatswordOfSoulsProj.DisplayName: Greatsword Of Souls
 				HellfireExplosion.DisplayName: Hellfire Explosion
 				HellfireBoom.DisplayName: Hellfire Boom
+				DivineRapierProj.DisplayName: Divine Rapier
+				DivineRapierBeam.DisplayName: Divine Rapier
+				DivineRapierSecProj.DisplayName: Divine Rapier
+				DivineRapierSecBeam.DisplayName: Divine Rapier
+				DivineRapierThirdBeam.DisplayName: Divine Rapier
 			}
 
 			BossProjectiles: {

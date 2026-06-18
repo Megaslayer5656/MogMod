@@ -51,10 +51,9 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<Headdress>(1).
-                AddRecipeGroup(RecipeGroupID.IronBar, 25).
+                AddIngredient(ItemID.Bone, 20).
+                AddRecipeGroup("SilverBar", 15).
                 AddIngredient<FrigidShard>(5).
-                AddRecipeGroup("GoldBar", 3).
-                AddIngredient(ItemID.Book, 3).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

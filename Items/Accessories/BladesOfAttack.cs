@@ -21,7 +21,7 @@ namespace MogMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetCritChance(DamageClass.Generic) += 3f;
-            player.GetDamage(DamageClass.Generic) += .05f;
+            player.GetDamage(DamageClass.Generic).Flat += 2f;
         }
     }
 }

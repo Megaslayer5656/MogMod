@@ -35,6 +35,7 @@ namespace MogMod.Items.Accessories
             player.GetCritChance(DamageClass.Generic) += 5f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.plasmaActive = true;
+            mogPlayer.plasmaVisual = !hideVisual;
         }
     }
 }

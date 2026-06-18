@@ -12,13 +12,13 @@ namespace MogMod.Items.Weapons.Melee
     public class WyvernJawblade : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        public const float MaxCharge = 100f;
+        public const float MaxCharge = 120f;
         public override void SetDefaults()
         {
             Item.width = 80;
             Item.height = 88;
 
-            Item.damage = 52;
+            Item.damage = 54;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 80;
             Item.useStyle = ItemUseStyleID.Swing;

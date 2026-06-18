@@ -44,7 +44,7 @@ namespace MogMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient<Yasha>(1).
                 AddIngredient(ItemID.ScourgeoftheCorruptor, 1).
-                AddIngredient(ItemID.SpectreBar, 10).
+                AddIngredient(ItemID.SpectreBar, 12).
                 AddIngredient(ItemID.SoulofFlight, 7).
                 AddIngredient(ItemID.GiantHarpyFeather, 1).
                 AddTile(TileID.MythrilAnvil).
