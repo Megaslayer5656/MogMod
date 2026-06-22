@@ -160,7 +160,9 @@ namespace MogMod.NPCs.TownNpc
         public override string GetChat()
         {
             NPC.FindFirstNPC(ModContent.NPCType<Mendez>());
-            if (!Main.dayTime)
+            if (Main.bloodMoon)
+                return "tigz fav streamer. we heart tigz. tigz is are lord and savyor";
+            else if (!Main.dayTime)
             {
                 switch (Main.rand.Next(7))
                 {
@@ -180,8 +182,6 @@ namespace MogMod.NPCs.TownNpc
                         return "tis be' to the o na.";
                 }
             }
-            else if (Main.bloodMoon)
-                return "tigz fav streamer. we heart tigz. tigz is are lord and savyor";
             else
             {
                 switch (Main.rand.Next(8))

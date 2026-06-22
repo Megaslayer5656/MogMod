@@ -69,7 +69,6 @@ namespace MogMod.NPCs.Enemies
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            // TODO: add/replace an item with something better
             npcLoot.Add(ItemDropRule.Common(ItemID.IllegalGunParts, 10, 1, 1));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MosinLPS>(), 1, 4, 12));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Mosin>(), 20, 1, 1));
