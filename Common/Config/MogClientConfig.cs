@@ -17,6 +17,10 @@ namespace MogMod.Common.Config
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         public bool GunlanceAmmo { get; set; }
+
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        public bool TheGravitySpells { get; set; }
         #endregion
 
         #region UI
@@ -33,6 +37,18 @@ namespace MogMod.Common.Config
         [Range(-100f, 500f)]
         [DefaultValue(UI.GunlanceUI.GunlanceAmmo.GunlanceAmmoPosY)]
         public float GunlanceAmmoPosY { get; set; }
+
+        [BackgroundColor(192, 54, 64, 192)]
+        [SliderColor(224, 165, 56, 128)]
+        [Range(0f, 1000f)]
+        [DefaultValue(UI.TheGravityUI.TheGravitySpells.TheGravityPosX)]
+        public float TheGravityPosX { get; set; }
+
+        [BackgroundColor(192, 54, 64, 192)]
+        [SliderColor(224, 165, 56, 128)]
+        [Range(-100f, 500f)]
+        [DefaultValue(UI.TheGravityUI.TheGravitySpells.TheGravityPosY)]
+        public float TheGravityPosY { get; set; }
         #endregion
     }
 }

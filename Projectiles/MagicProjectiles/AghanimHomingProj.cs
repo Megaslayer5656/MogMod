@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Projectiles.RangedProjectiles
+namespace MogMod.Projectiles.MagicProjectiles
 {
     internal class AghanimHomingProj : ModProjectile, ILocalizedModType
     {

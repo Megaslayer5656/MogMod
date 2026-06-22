@@ -249,6 +249,15 @@ namespace MogMod.Items.Global
                     new Color(247, 194, 47),
                 });
             }
+            if (item.type == ModContent.ItemType<TheGravity>())
+            {
+                nameLine.OverrideColor = MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / 2f % 1f, new Color[]
+                {
+                    new Color(145, 38, 222),
+                    new Color(222, 38, 41),
+                    new Color(38, 69, 222)
+                });
+            }
         }
         #endregion
     }

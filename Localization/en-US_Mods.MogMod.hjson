@@ -1510,6 +1510,23 @@ Items: {
 				DisplayName: Inferno Maelstrom
 				Tooltip: Conjure a fiery maelstrom
 			}
+
+			TheGravity: {
+				DisplayName: The Gravity
+				Tooltip:
+					'''
+					[c/AE6CD4:A powerful spell tome containing multiple different spells]
+					[c/6C86D4:Right click an empty card slot to bookmark a card]
+					[c/D46C89:Left click a bookmarked card to cast it]
+					[c/6CD46F:Right clicking a bookmarked card slot switches the selected card]
+					'Does meaning have a meaning'
+					'''
+			}
+
+			VortexOfConflagration: {
+				DisplayName: Vortex Of Conflagration
+				Tooltip: Casts two incinerating razorwheels
+			}
 		}
 
 		Summoner: {

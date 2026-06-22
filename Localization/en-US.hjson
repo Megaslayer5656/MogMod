@@ -78,6 +78,21 @@ Mods: {
 					Label: Gunlance Ammo UI Position Y
 					Tooltip: ""
 				}
+
+				TheGravitySpells: {
+					Label: The Gravity Spells
+					Tooltip: ""
+				}
+
+				TheGravityPosX: {
+					Label: The Gravity Pos X
+					Tooltip: ""
+				}
+
+				TheGravityPosY: {
+					Label: The Gravity Pos Y
+					Tooltip: ""
+				}
 			}
 
 			Location: {
@@ -617,6 +632,8 @@ Mods: {
 				MADMineProj.DisplayName: MAD Mine
 				RuntyStaffProj.DisplayName: Runty Staff Proj
 				InfernoMHoldout.DisplayName: Inferno M Holdout
+				EmptySpellCard.DisplayName: Empty Spell Card
+				VoCProj.DisplayName: Vo C Proj
 			}
 
 			RangedProjectiles: {

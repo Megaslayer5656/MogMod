@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Utilities;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -9,6 +11,12 @@ namespace MogMod.Projectiles.MagicProjectiles
     public class BloodMagicProjectile : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 4;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+            Main.projFrames[Projectile.type] = 3;
+        }
         public override void SetDefaults()
         {
             Projectile.width = 10;
@@ -48,6 +56,11 @@ namespace MogMod.Projectiles.MagicProjectiles
                 int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Blood, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 100, default, 2f);
                 Main.dust[d].position = Projectile.Center;
             }
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
         }
     }
 }

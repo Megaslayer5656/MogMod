@@ -109,6 +109,5 @@
     <Folder Include="Items\Weapons\Summoner\" />
     <Folder Include="NPCs\Gores\" />
     <Folder Include="Projectiles\Global\" />
-    <Folder Include="Projectiles\MagicProjectiles\TheGravitySpells\" />
   </ItemGroup>
 </Project>
