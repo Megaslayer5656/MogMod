@@ -84,7 +84,7 @@ namespace MogMod.Items.Weapons.Magic
             Color nextColor = colorList[(colorIndex + 1) % colorList.Count];
             Color tooltipColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
 
-            TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip4");
+            TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
             if (line != null)
                 line.OverrideColor = Color.Lerp(tooltipColor, Color.White, 0.5f);
         }

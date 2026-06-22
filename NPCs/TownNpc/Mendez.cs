@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Items.Accessories;
+using MogMod.Items.Armor.Other;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.MusicBoxes;
 using MogMod.Items.Weapons.Ranged;
@@ -152,6 +153,7 @@ namespace MogMod.NPCs.TownNpc
                 .Add<LedX>()
                 .Add(ItemID.ChlorophyteShotbow, Condition.DownedMechBossAll)
                 .Add<Phasma>()
+                .Add<PleaseStopMe>(Condition.DownedEyeOfCthulhu, Condition.EclipseOrBloodMoon)
                 .Add(ModContent.ItemType<EyeOfMendez>(), Condition.PlayerCarriesItem(ModContent.ItemType<RedX>()))
                 .Register();
         }
@@ -178,14 +180,16 @@ namespace MogMod.NPCs.TownNpc
                         return "tis be' to the o na.";
                 }
             }
+            else if (Main.bloodMoon)
+                return "tigz fav streamer. we heart tigz. tigz is are lord and savyor";
             else
             {
-                switch (Main.rand.Next(7))
+                switch (Main.rand.Next(8))
                 {
                     case 0:
                         return "I found these in a chest.";
                     case 1:
-                        return "O na o na o na.";
+                        return "son.";
                     case 2:
                         return "tarkov.";
                     case 3:
@@ -193,7 +197,9 @@ namespace MogMod.NPCs.TownNpc
                     case 4:
                         return "liked by J* Mendih.";
                     case 5:
-                        return "su ban su ban suban o na.";
+                        return "what the vud";
+                    case 6:
+                        return "tigz be to the suban";
                     default:
                         return "ona.";
                 }

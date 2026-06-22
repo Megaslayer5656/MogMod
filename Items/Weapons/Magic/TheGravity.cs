@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
@@ -13,16 +14,6 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Magic
 {
-    /*Weapon Details
-    4 spell slots that each can contain a spell
-    left click fires current spell and discards it, if empty, nothing happens
-    right click bookmarks a spell if the spell slot is empty, switches current spell slot otherwise
-    different spells interact differently with eachother (for more interesting damage potential)
-    spell slots have ui elements && each spell has a unique ui element, refer to gunlance ui for help
-    "Does meaning have a meaning"
-    34x40
-    post moon-lord
-    */
     /*Spell List
      * * = proj sprited
      * # = dust effect
@@ -59,21 +50,43 @@ namespace MogMod.Items.Weapons.Magic
     public class TheGravity : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
-        public static bool SwitchCard = false;
+        // for switching cards
+        public static int SwitchCard = 0;
+        // for storing cards
         public int CardNumb = 0;
+        public static int Card1 = 0;
+        public static int Card2 = 0;
+        public static int Card3 = 0;
+        public static int Card4 = 0;
         public static int CurrentCard = 0;
+        private static int attackSpeed = 20;
         private static readonly List<int> cardList =
         [
-            ModContent.ProjectileType<AghanimBlessingProj>(),
-            ModContent.ProjectileType<AghanimProjectile>(),
-            ModContent.ProjectileType<BloodMagicProjectile>(),
-            ModContent.ProjectileType<BloodthornOrb>(),
-            ModContent.ProjectileType<CannonOfHaimaProj>(),
-            ModContent.ProjectileType<DagonOneProj>(),
-            ModContent.ProjectileType<DagonTwoProj>(),
-            ModContent.ProjectileType<DagonThreeProj>(),
-            ModContent.ProjectileType<DagonFourProj>(),
-            ModContent.ProjectileType<DagonFiveProj>(),
+            // attack cards (0 - 4) (might add more later)
+            ModContent.ProjectileType<AghanimBlessingProj>(), // water cube
+            ModContent.ProjectileType<AghanimProjectile>(), // fire circle
+            ModContent.ProjectileType<BloodMagicProjectile>(), // ice spike
+            ModContent.ProjectileType<BloodthornOrb>(), // gravity orb
+            ModContent.ProjectileType<CannonOfHaimaProj>(), // void explosion
+            // player cards (5 - 10)
+            ModContent.ProjectileType<EmptySpellCard>(), // instant health
+            ModContent.ProjectileType<EmptySpellCard>(), // instant mana
+            ModContent.ProjectileType<EmptySpellCard>(), // overtime health
+            ModContent.ProjectileType<EmptySpellCard>(), // overtime mana
+            ModContent.ProjectileType<EmptySpellCard>(), // movement
+            ModContent.ProjectileType<EmptySpellCard>(), // defense
+            // slot cards (11 - 13)
+            ModContent.ProjectileType<EmptySpellCard>(), // bookmark
+            ModContent.ProjectileType<EmptySpellCard>(), // replay
+            ModContent.ProjectileType<EmptySpellCard>(), // shuffle
+            // staff cards (14 - 17)
+            ModContent.ProjectileType<EmptySpellCard>(), // slow staff
+            ModContent.ProjectileType<EmptySpellCard>(), // speed staff
+            ModContent.ProjectileType<EmptySpellCard>(), // gravity staff
+            ModContent.ProjectileType<EmptySpellCard>(), // repulsion staff
+            // chaos cards (18 - 19)
+            ModContent.ProjectileType<EmptySpellCard>(), // auto cast
+            ModContent.ProjectileType<EmptySpellCard>(), // teleport
         ];
         public override void SetStaticDefaults() => ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         public override void SetDefaults()
@@ -85,7 +98,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.damage = 100;
             Item.knockBack = 8f;
             Item.DamageType = DamageClass.Magic;
-            Item.useAnimation = Item.useTime = 24;
+            Item.useAnimation = Item.useTime = attackSpeed;
 
             Item.noMelee = true;
             Item.autoReuse = true;
@@ -98,6 +111,151 @@ namespace MogMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Purple;
             Item.value = MogGlobalItem.RarityPurpleBuyPrice;
         }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            var mogPlayerUI = player.GetModPlayer<MogPlayerUI>();
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            if (player.altFunctionUse == 2)
+            {
+                // update the ui texture && store the card
+                switch (SwitchCard)
+                {
+                    case 0:
+                        if (mogPlayerUI.theGravityCurrent1 == 1)
+                        {
+                            SwitchCard++;
+                            break;
+                        }
+                        // get a random card from the list of cards
+                        CurrentCard = Main.rand.Next(cardList.Count);
+                        // set the selected card to the random card
+                        Card1 = CurrentCard;
+                        // update the selected card ui
+                        mogPlayerUI.theGravityCurrent1++;
+                        return false;
+                    case 1:
+                        if (mogPlayerUI.theGravityCurrent2 == 1)
+                        {
+                            SwitchCard++;
+                            break;
+                        }
+                        CurrentCard = Main.rand.Next(cardList.Count);
+                        Card2 = CurrentCard;
+                        mogPlayerUI.theGravityCurrent2++;
+                        return false;
+                    case 2:
+                        if (mogPlayerUI.theGravityCurrent3 == 1)
+                        {
+                            SwitchCard++;
+                            break;
+                        }
+                        CurrentCard = Main.rand.Next(cardList.Count);
+                        Card3 = CurrentCard;
+                        mogPlayerUI.theGravityCurrent3++;
+                        return false;
+                    case 3:
+                        if (mogPlayerUI.theGravityCurrent4 == 1)
+                        {
+                            SwitchCard++;
+                            break;
+                        }
+                        CurrentCard = Main.rand.Next(cardList.Count);
+                        Card4 = CurrentCard;
+                        mogPlayerUI.theGravityCurrent4++;
+                        return false;
+                }
+                if (SwitchCard >= 4)
+                    SwitchCard = 0;
+                return false;
+            }
+            else if (player.altFunctionUse != 2)
+            {
+                // if the card is an empty card cast nothing
+                switch (SwitchCard)
+                {
+                    case 0:
+                        if (mogPlayerUI.theGravityCurrent1 == 0)
+                        {
+                            SwitchCard++;
+                            CardNumb = ModContent.ProjectileType<EmptySpellCard>();
+                            break;
+                        }
+                        CardNumb = cardList[Card1];
+                        ApplyBuffs(player, Card1);
+                        mogPlayerUI.theGravityCurrent1--;
+                        break;
+                    case 1:
+                        if (mogPlayerUI.theGravityCurrent2 == 0)
+                        {
+                            SwitchCard++;
+                            CardNumb = ModContent.ProjectileType<EmptySpellCard>();
+                            break;
+                        }
+                        CardNumb = cardList[Card2];
+                        ApplyBuffs(player, Card2);
+                        mogPlayerUI.theGravityCurrent2--;
+                        break;
+                    case 2:
+                        if (mogPlayerUI.theGravityCurrent3 == 0)
+                        {
+                            SwitchCard++;
+                            CardNumb = ModContent.ProjectileType<EmptySpellCard>();
+                            break;
+                        }
+                        CardNumb = cardList[Card3];
+                        ApplyBuffs(player, Card3);
+                        mogPlayerUI.theGravityCurrent3--;
+                        break;
+                    case 3:
+                        if (mogPlayerUI.theGravityCurrent4 == 0)
+                        {
+                            SwitchCard = 0;
+                            CardNumb = ModContent.ProjectileType<EmptySpellCard>();
+                            break;
+                        }
+                        CardNumb = cardList[Card4];
+                        ApplyBuffs(player, Card4);
+                        mogPlayerUI.theGravityCurrent4--;
+                        break;
+                }
+                type = CardNumb;
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                return false;
+            }
+            else
+                return true;
+        }
+        public void ApplyBuffs(Player player, int card)
+        {
+            int bufftime = 600;
+            switch (card)
+            {
+                case 5: // instant health
+                    player.statLife += 50;
+                    player.HealEffect(50);
+                    if (player.statLife > player.statLifeMax2)
+                        player.statLife = player.statLifeMax2;
+                    break;
+                case 6: // instant mana
+                    player.statMana += 150;
+                    player.ManaEffect(150);
+                    if (player.statMana > player.statManaMax2)
+                        player.statMana = player.statManaMax2;
+                    break;
+                case 7: // overtime health
+                    player.AddBuff(ModContent.BuffType<HealingSalveBuff>(), bufftime);
+                    break;
+                case 8: // overtime mana
+                    player.AddBuff(ModContent.BuffType<ClarityBuff>(), bufftime);
+                    break;
+                case 9: // movement
+                    player.AddBuff(ModContent.BuffType<GlimmerCapeBuff>(), bufftime);
+                    break;
+                case 10: // defense
+                    player.AddBuff(ModContent.BuffType<CheeseBuff>(), bufftime);
+                    break;
+            }
+        }
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2)
@@ -107,48 +265,10 @@ namespace MogMod.Items.Weapons.Magic
             }
             else
             {
-                Item.useAnimation = Item.useTime = 28;
+                Item.useAnimation = Item.useTime = attackSpeed;
                 Item.UseSound = SoundID.Item43;
             }
             return true;
-        }
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            /*TODO:
-             * make rightclicking a bookmarked card switch the selected card
-             */
-            var mogPlayerUI = player.GetModPlayer<MogPlayerUI>();
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            if (player.altFunctionUse == 2)
-            {
-                if (type == ModContent.ProjectileType<EmptySpellCard>())
-                {
-                    // get a random card from the list of cards
-                    CurrentCard = Main.rand.Next(cardList.Count);
-                    // set the proj fired to the random card
-                    CardNumb = cardList[CurrentCard];
-                    // update the ui texture
-                    mogPlayerUI.theGravityCurrent++;
-                }
-                else
-                {
-                    SwitchCard = true;
-                }
-                return false;
-            }
-            else if (player.altFunctionUse != 2)
-            {
-                if (mogPlayerUI.theGravityCurrent == 0)
-                    CardNumb = ModContent.ProjectileType<EmptySpellCard>();
-                type = CardNumb;
-                knockback *= 1.2f;
-                velocity *= 1.2f;
-                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
-                mogPlayerUI.theGravityCurrent--;
-                return false;
-            }
-            else
-                return true;
         }
         public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
         {

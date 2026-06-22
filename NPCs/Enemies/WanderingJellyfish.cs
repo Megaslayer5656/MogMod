@@ -83,7 +83,7 @@ namespace MogMod.NPCs.Enemies
                 NPC.TargetClosest(true);
             if (Main.rand.Next(0, 10) == 0)
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.SilverCoin, NPC.velocity.X * 0.1f, NPC.velocity.Y * 0.1f, 0, default, .75f);
-            if (NPC.WithinRange(player.Center, player.Size.Length() * 2f))
+            if (NPC.WithinRange(player.Center, player.Size.Length() * 2f) && !player.dead)
             {
                 if (AITimer < explodeTimer)
                     AITimer = explodeTimer;

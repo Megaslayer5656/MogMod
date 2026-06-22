@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Ammo;
+using MogMod.Items.Armor.Other;
 using MogMod.Items.Placeable.Banners;
 using MogMod.Items.Weapons.Ranged;
 using System;
@@ -72,12 +73,14 @@ namespace MogMod.NPCs.Enemies
             npcLoot.Add(ItemDropRule.Common(ItemID.IllegalGunParts, 10, 1, 1));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MosinLPS>(), 1, 4, 12));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Mosin>(), 20, 1, 1));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PleaseStopMe>(), 20, 1, 1));
         }
         #endregion
 
         #region Spawning && AI
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
+            // might change to after eow/boc
             if (spawnInfo.PlayerSafe || !NPC.downedBoss1)
                 return 0f;
             if (spawnInfo.PlayerFloorX > Main.maxTilesX * 0.333f && spawnInfo.PlayerFloorX < Main.maxTilesX - Main.maxTilesX * 0.333f)

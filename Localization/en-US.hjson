@@ -80,17 +80,17 @@ Mods: {
 				}
 
 				TheGravitySpells: {
-					Label: The Gravity Spells
+					Label: The Gravity Spell UI
 					Tooltip: ""
 				}
 
 				TheGravityPosX: {
-					Label: The Gravity Pos X
+					Label: The Gravity Spell UI Position X
 					Tooltip: ""
 				}
 
 				TheGravityPosY: {
-					Label: The Gravity Pos Y
+					Label: The Gravity Spell UI Position Y
 					Tooltip: ""
 				}
 			}
@@ -684,6 +684,7 @@ Mods: {
 				SharpshooterHoldout.DisplayName: Sharpshooter
 				SharpshooterProj.DisplayName: Sharpshooter
 				SquirrelProj.DisplayName: Squirrel
+				LabGerminatorProj.DisplayName: Lab Germinator Proj
 			}
 
 			MeleeProjectiles: {

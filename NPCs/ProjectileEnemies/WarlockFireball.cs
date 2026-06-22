@@ -61,7 +61,7 @@ namespace MogMod.NPCs.ProjectileEnemies
             if (Main.rand.Next(0, 10) == 0)
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.SolarFlare, NPC.velocity.X * 0.25f, NPC.velocity.Y * 0.25f, 0, default, 1f);
             AITimer++;
-            if (NPC.WithinRange(player.Center, player.Size.Length()))
+            if (NPC.WithinRange(player.Center, player.Size.Length()) && !player.dead)
             {
                 if (AITimer < explodeTimer)
                     AITimer = explodeTimer;

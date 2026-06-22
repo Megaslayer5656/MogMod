@@ -10,9 +10,14 @@ namespace MogMod.Common.MogModPlayer
         // Here we create a custom resource, similar to mana or health.
         // Creating some variables to define the current value of our example resource as well as the current maximum value. We also include a temporary max value, as well as some variables to handle the natural regeneration of this resource.
         public int gunlanceCurrent; // Current value of our example resource
-        public int theGravityCurrent;
+
+        public int theGravityCurrent = 0;
+        public int theGravityCurrent1 = 0;
+        public int theGravityCurrent2 = 0;
+        public int theGravityCurrent3 = 0;
+        public int theGravityCurrent4 = 0;
         public const int gunlanceMax = 3; // Default maximum value of example resource
-        public int theGravityMax = 4;
+        public int theGravityMax = 1;
         public int exampleResourceMax; // Buffer variable that is used to reset maximum resource to default value in ResetDefaults().
         public int exampleResourceMax2; // Maximum amount of our example resource. We will change that variable to increase maximum amount of our resource
         public float exampleResourceRegenRate; // By changing that variable we can increase/decrease regeneration rate of our resource
@@ -60,7 +65,11 @@ namespace MogMod.Common.MogModPlayer
         {
             // Limit gunlanceCurrent from going over the limit imposed by exampleResourceMax.
             gunlanceCurrent = Utils.Clamp(gunlanceCurrent, 0, exampleResourceMax2);
-            theGravityCurrent = Utils.Clamp(theGravityCurrent, 0, theGravityMax);
+            theGravityCurrent = Utils.Clamp(theGravityCurrent, 0, 4);
+            theGravityCurrent1 = Utils.Clamp(theGravityCurrent1, 0, theGravityMax);
+            theGravityCurrent2 = Utils.Clamp(theGravityCurrent2, 0, theGravityMax);
+            theGravityCurrent3 = Utils.Clamp(theGravityCurrent3, 0, theGravityMax);
+            theGravityCurrent4 = Utils.Clamp(theGravityCurrent4, 0, theGravityMax);
         }
 
         private void CapResourceGodMode()
@@ -68,7 +77,6 @@ namespace MogMod.Common.MogModPlayer
             if (Main.myPlayer == Player.whoAmI && Player.creativeGodMode)
             {
                 gunlanceCurrent = exampleResourceMax2;
-                theGravityCurrent = theGravityMax;
             }
         }
     }

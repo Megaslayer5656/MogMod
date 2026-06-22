@@ -347,6 +347,14 @@ namespace MogMod.Common.MogModPlayer
 
         #region In Game Checks
 
+        public override void OnEnterWorld()
+        {
+            if (Main.rand.Next(0, 10) == 0)
+                Main.NewText("enimga daedalus butternfly", 200, 250, 224);
+            if (Main.rand.Next(0, 100) == 0)
+                Main.NewText("Von would like to have a word with you...", new Color(Main.DiscoR / 5, (byte)(Main.DiscoG / 0f), (byte)(Main.DiscoB / 5f)));
+        }
+
         #region On Hit Effects
         public void NPCDebuffs(NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool whip, bool crit, bool proj = false, bool noFlask = false)
         {

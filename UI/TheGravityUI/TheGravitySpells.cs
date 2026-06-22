@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Config;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Weapons.Magic;
+using MogMod.Projectiles.MagicProjectiles.TheGravitySpells;
 using ReLogic.Content;
 using System.Collections.Generic;
 using Terraria;
@@ -11,10 +12,12 @@ using Terraria.UI;
 
 namespace MogMod.UI.TheGravityUI
 {
-    // TODO: make the unselected cards darker
     internal class TheGravitySpells : ModSystem
     {
-        private Asset<Texture2D> card1;
+        private Asset<Texture2D> card1 = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityEmptyCard");
+        private Asset<Texture2D> card2 = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityEmptyCard");
+        private Asset<Texture2D> card3 = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityEmptyCard");
+        private Asset<Texture2D> card4 = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityEmptyCard");
         private Asset<Texture2D> emptyCard;
         internal const float TheGravityPosX = 340f;
         internal const float TheGravityPosY = 20;
@@ -24,26 +27,31 @@ namespace MogMod.UI.TheGravityUI
             if (!Main.dedServ)
             {
                 cardTexture = new Asset<Texture2D>[20];
-                cardTexture[0] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityAutoCard");
-                cardTexture[1] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityBookmarkCard");
-                cardTexture[2] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityDefenseCard");
-                cardTexture[3] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityFireCard");
-                cardTexture[4] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityGravityCard");
-                cardTexture[5] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityGravityStaffCard");
-                cardTexture[6] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityIceCard");
-                cardTexture[7] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityInstantHealthCard");
-                cardTexture[8] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityInstantManaCard");
+                // attack cards
+                cardTexture[0] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityWaterCard");
+                cardTexture[1] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityFireCard");
+                cardTexture[2] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityIceCard");
+                cardTexture[3] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityGravityCard");
+                cardTexture[4] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityVoidCard");
+                // player cards
+                cardTexture[5] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityInstantHealthCard");
+                cardTexture[6] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityInstantManaCard");
+                cardTexture[7] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityOvertimeHealthCard");
+                cardTexture[8] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityOvertimeManaCard");
                 cardTexture[9] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityMovementCard");
-                cardTexture[10] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityOvertimeHealthCard");
-                cardTexture[11] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityOvertimeManaCard");
+                cardTexture[10] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityDefenseCard");
+                // slot cards
+                cardTexture[11] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityBookmarkCard");
                 cardTexture[12] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityReplayCard");
-                cardTexture[13] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityRepulsionStaffCard");
-                cardTexture[14] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityShuffleCard");
-                cardTexture[15] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravitySlowStaffCard");
-                cardTexture[16] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravitySpeedStaffCard");
-                cardTexture[17] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityTeleportCard");
-                cardTexture[18] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityVoidCard");
-                cardTexture[19] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityWaterCard");
+                cardTexture[13] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityShuffleCard");
+                // staff cards
+                cardTexture[14] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravitySlowStaffCard");
+                cardTexture[15] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravitySpeedStaffCard");
+                cardTexture[16] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityGravityStaffCard");
+                cardTexture[17] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityRepulsionStaffCard");
+                // chaos cards
+                cardTexture[18] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityAutoCard");
+                cardTexture[19] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityTeleportCard");
                 emptyCard = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityEmptyCard");
             }
         }
@@ -85,12 +93,26 @@ namespace MogMod.UI.TheGravityUI
             int padding = 6;
             int iconSize = 20;
 
-            card1 = cardTexture[TheGravity.CurrentCard];
+            switch (TheGravity.SwitchCard)
+            {
+                case 0:
+                    card1 = cardTexture[TheGravity.Card1];
+                    break;
+                case 1:
+                    card2 = cardTexture[TheGravity.Card2];
+                    break;
+                case 2:
+                    card3 = cardTexture[TheGravity.Card3];
+                    break;
+                case 3:
+                    card4 = cardTexture[TheGravity.Card4];
+                    break;
+            }
 
-            Texture2D tex1 = (mogPlayerUI.theGravityCurrent <= 3) ? emptyCard.Value : card1.Value;
-            Texture2D tex2 = (mogPlayerUI.theGravityCurrent <= 2) ? emptyCard.Value : card1.Value;
-            Texture2D tex3 = (mogPlayerUI.theGravityCurrent <= 1) ? emptyCard.Value : card1.Value;
-            Texture2D tex4 = (mogPlayerUI.theGravityCurrent <= 0) ? emptyCard.Value : card1.Value;
+            Texture2D tex1 = (mogPlayerUI.theGravityCurrent1 < 1) ? emptyCard.Value : card1.Value;
+            Texture2D tex2 = (mogPlayerUI.theGravityCurrent2 < 1) ? emptyCard.Value : card2.Value;
+            Texture2D tex3 = (mogPlayerUI.theGravityCurrent3 < 1) ? emptyCard.Value : card3.Value;
+            Texture2D tex4 = (mogPlayerUI.theGravityCurrent4 < 1) ? emptyCard.Value : card4.Value;
 
             Vector2 pos1 = new Vector2(baseRight, baseTop);
             Vector2 pos2 = new Vector2(baseRight - (iconSize + padding), baseTop);
@@ -99,10 +121,10 @@ namespace MogMod.UI.TheGravityUI
 
             if (Main.LocalPlayer.HeldItem.ModItem is TheGravity && MogClientConfig.Instance.TheGravitySpells)
             {
-                spriteBatch.Draw(tex1, pos1, Color.White);
-                spriteBatch.Draw(tex2, pos2, Color.White);
-                spriteBatch.Draw(tex3, pos3, Color.White);
-                spriteBatch.Draw(tex4, pos4, Color.White);
+                spriteBatch.Draw(tex1, pos4, TheGravity.SwitchCard != 0 ? new Color(80, 80, 80) : Color.White);
+                spriteBatch.Draw(tex2, pos3, TheGravity.SwitchCard != 1 ? new Color(80, 80, 80) : Color.White);
+                spriteBatch.Draw(tex3, pos2, TheGravity.SwitchCard != 2 ? new Color(80, 80, 80) : Color.White);
+                spriteBatch.Draw(tex4, pos1, TheGravity.SwitchCard != 3 ? new Color(80, 80, 80) : Color.White);
             }
         }
     }

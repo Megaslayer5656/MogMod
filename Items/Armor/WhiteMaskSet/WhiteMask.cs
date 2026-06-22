@@ -1,13 +1,5 @@
 ﻿using MogMod.Common.MogModPlayer;
-using MogMod.Items.Accessories;
-using MogMod.Items.Armor.Undying;
 using MogMod.Items.Global;
-using MogMod.Items.Other;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;

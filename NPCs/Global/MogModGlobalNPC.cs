@@ -10,6 +10,7 @@ using MogMod.Items.Other;
 using MogMod.Items.Placeable.Ores;
 using MogMod.Items.Weapons.Magic.SorceryStaves;
 using MogMod.Items.Weapons.Melee;
+using MogMod.Items.Weapons.Ranged;
 using MogMod.NPCs.Enemies;
 using MogMod.NPCs.ProjectileEnemies;
 using MogMod.Projectiles.BaseProjectiles;
@@ -128,7 +129,7 @@ namespace MogMod.NPCs.Global
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LizhardBloodVial>(), 1, 1, 2));
                     break;
                 case NPCID.Shark:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 5, 1, 1));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 8, 1, 1));
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<OceanHeart>(), 100, 1, 1));
                     postFish.Add(ModContent.ItemType<BrinyRind>(), 4, 3, 5);
                     break;
@@ -152,6 +153,21 @@ namespace MogMod.NPCs.Global
                 case NPCID.RainbowSlime:
                 case NPCID.LightMummy:
                     postEoL.Add(ModContent.ItemType<FaeOre>(), 2, 12, 20);
+                    break;
+                case NPCID.Salamander:
+                case NPCID.Salamander2:
+                case NPCID.Salamander3:
+                case NPCID.Salamander4:
+                case NPCID.Salamander5:
+                case NPCID.Salamander6:
+                case NPCID.Salamander7:
+                case NPCID.Salamander8:
+                case NPCID.Salamander9:
+                case NPCID.Crawdad:
+                case NPCID.Crawdad2:
+                case NPCID.GiantShelly:
+                case NPCID.GiantShelly2:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LabGerminator>(), 50, 1, 1));
                     break;
             }
         }
