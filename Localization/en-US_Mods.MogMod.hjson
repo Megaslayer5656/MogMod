@@ -1524,9 +1524,9 @@ Items: {
 				Tooltip:
 					'''
 					[c/AE6CD4:A powerful spell tome containing multiple different spells]
-					[c/6C86D4:Right click an empty card slot to bookmark a card]
+					[c/6C86D4:Right click to bookmark a card]
 					[c/D46C89:Left click a bookmarked card to cast it]
-					[c/6CD46F:Right clicking a bookmarked card slot switches the selected card]
+					[c/6CD46F:Press [KEY] to switch the selected card]
 					'Does meaning have a meaning'
 					'''
 			}

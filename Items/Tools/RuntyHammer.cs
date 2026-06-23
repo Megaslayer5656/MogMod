@@ -14,7 +14,7 @@ namespace MogMod.Items.Tools
         {
             Item.width = Item.height = 40;
 
-            Item.damage = 10;
+            Item.damage = 7;
             Item.knockBack = 6;
             Item.DamageType = DamageClass.Melee;
 

@@ -3,6 +3,7 @@ using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
 using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Projectiles.MagicProjectiles.TheGravitySpells;
 using System.Collections.Generic;
@@ -11,6 +12,9 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using MogMod.Common.Systems;
+using Terraria.Localization;
 
 namespace MogMod.Items.Weapons.Magic
 {
@@ -52,6 +56,7 @@ namespace MogMod.Items.Weapons.Magic
         public new string LocalizationCategory => "Items.Weapons.Magic";
         // for switching cards
         public static int SwitchCard = 0;
+        ModKeybind keybindActive = null;
         // for storing cards
         public int CardNumb = 0;
         public static int Card1 = 0;
@@ -122,10 +127,7 @@ namespace MogMod.Items.Weapons.Magic
                 {
                     case 0:
                         if (mogPlayerUI.theGravityCurrent1 == 1)
-                        {
-                            SwitchCard++;
-                            break;
-                        }
+                            player.CheckMana(Item.mana, true, true);
                         // get a random card from the list of cards
                         CurrentCard = Main.rand.Next(cardList.Count);
                         // set the selected card to the random card
@@ -135,37 +137,26 @@ namespace MogMod.Items.Weapons.Magic
                         return false;
                     case 1:
                         if (mogPlayerUI.theGravityCurrent2 == 1)
-                        {
-                            SwitchCard++;
-                            break;
-                        }
+                            player.CheckMana(Item.mana, true, true);
                         CurrentCard = Main.rand.Next(cardList.Count);
                         Card2 = CurrentCard;
                         mogPlayerUI.theGravityCurrent2++;
                         return false;
                     case 2:
                         if (mogPlayerUI.theGravityCurrent3 == 1)
-                        {
-                            SwitchCard++;
-                            break;
-                        }
+                            player.CheckMana(Item.mana, true, true);
                         CurrentCard = Main.rand.Next(cardList.Count);
                         Card3 = CurrentCard;
                         mogPlayerUI.theGravityCurrent3++;
                         return false;
                     case 3:
                         if (mogPlayerUI.theGravityCurrent4 == 1)
-                        {
-                            SwitchCard++;
-                            break;
-                        }
+                            player.CheckMana(Item.mana, true, true);
                         CurrentCard = Main.rand.Next(cardList.Count);
                         Card4 = CurrentCard;
                         mogPlayerUI.theGravityCurrent4++;
                         return false;
                 }
-                if (SwitchCard >= 4)
-                    SwitchCard = 0;
                 return false;
             }
             else if (player.altFunctionUse != 2)
@@ -176,45 +167,41 @@ namespace MogMod.Items.Weapons.Magic
                     case 0:
                         if (mogPlayerUI.theGravityCurrent1 == 0)
                         {
-                            SwitchCard++;
                             CardNumb = ModContent.ProjectileType<EmptySpellCard>();
                             break;
                         }
                         CardNumb = cardList[Card1];
-                        ApplyBuffs(player, Card1);
+                        ApplyCards(player, Card1);
                         mogPlayerUI.theGravityCurrent1--;
                         break;
                     case 1:
                         if (mogPlayerUI.theGravityCurrent2 == 0)
                         {
-                            SwitchCard++;
                             CardNumb = ModContent.ProjectileType<EmptySpellCard>();
                             break;
                         }
                         CardNumb = cardList[Card2];
-                        ApplyBuffs(player, Card2);
+                        ApplyCards(player, Card2);
                         mogPlayerUI.theGravityCurrent2--;
                         break;
                     case 2:
                         if (mogPlayerUI.theGravityCurrent3 == 0)
                         {
-                            SwitchCard++;
                             CardNumb = ModContent.ProjectileType<EmptySpellCard>();
                             break;
                         }
                         CardNumb = cardList[Card3];
-                        ApplyBuffs(player, Card3);
+                        ApplyCards(player, Card3);
                         mogPlayerUI.theGravityCurrent3--;
                         break;
                     case 3:
                         if (mogPlayerUI.theGravityCurrent4 == 0)
                         {
-                            SwitchCard = 0;
                             CardNumb = ModContent.ProjectileType<EmptySpellCard>();
                             break;
                         }
                         CardNumb = cardList[Card4];
-                        ApplyBuffs(player, Card4);
+                        ApplyCards(player, Card4);
                         mogPlayerUI.theGravityCurrent4--;
                         break;
                 }
@@ -225,7 +212,7 @@ namespace MogMod.Items.Weapons.Magic
             else
                 return true;
         }
-        public void ApplyBuffs(Player player, int card)
+        public void ApplyCards(Player player, int card)
         {
             int bufftime = 600;
             switch (card)
@@ -254,6 +241,36 @@ namespace MogMod.Items.Weapons.Magic
                 case 10: // defense
                     player.AddBuff(ModContent.BuffType<CheeseBuff>(), bufftime);
                     break;
+                case 19:
+                    SoundEngine.PlaySound(SoundID.Item8, player.Center);
+                    for (int i = 0; i < 35; i++)
+                    {
+                        Vector2 dustCorner = player.position - 2f * Vector2.One;
+                        Vector2 dustVel = player.velocity + new Vector2(0f, Main.rand.NextFloat(-5f, -1f));
+                        int dust = Dust.NewDust(dustCorner, player.width + 4, player.height + 4, Main.rand.NextBool(3) ? 71 : 72, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1.4f);
+                        Main.dust[dust].noGravity = true;
+                        Main.dust[dust].velocity *= 0.75f;
+                        Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.85f;
+                        Main.dust[dust].velocity.Y = Main.dust[dust].velocity.Y - 1.5f;
+                        if (Main.rand.NextBool(4))
+                        {
+                            Main.dust[dust].noGravity = false;
+                            Main.dust[dust].scale *= 0.2f;
+                        }
+                    }
+                    player.Teleport(Main.MouseWorld, TeleportationStyleID.DebugTeleport);
+                    if (Main.netMode == NetmodeID.MultiplayerClient)
+                        NetMessage.SendData(65, -1, -1, null, 0, player.whoAmI, Main.MouseWorld.X, Main.MouseWorld.Y, TeleportationStyleID.DebugTeleport); //Needed for multiplayer
+                    break;
+            }
+        }
+        public override void UpdateInventory(Player player)
+        {
+            if (KeybindSystem.TheGravityKeybind.JustPressed)
+            {
+                SwitchCard++;
+                if (SwitchCard >= 4)
+                    SwitchCard = 0;
             }
         }
         public override bool CanUseItem(Player player)
@@ -273,10 +290,12 @@ namespace MogMod.Items.Weapons.Magic
         public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
         {
             if (player.altFunctionUse == 2)
-                mult *= 0f;
+                reduce -= 10f;
+                //mult *= 0f;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {
+            list.IntegrateHotkey(KeybindSystem.TheGravityKeybind);
             List<Color> colorList = new List<Color>()
             {
                 new Color(164, 97, 212),

@@ -26,6 +26,7 @@ Mods: {
 			ActivateHelmOfTheDominator.DisplayName: Activate Helm Of The Dominator
 			ActivateRefresherOrb.DisplayName: Activate Refresher Orb
 			DragonInstall.DisplayName: Dragon Install
+			TheGravityCardSwitch.DisplayName: The Gravity Card Switch
 		}
 
 		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage

@@ -23,7 +23,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.timeLeft = 600;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
-            Projectile.ArmorPenetration = 20;
+            Projectile.ArmorPenetration = 8;
         }
         public override void AI()
         {
