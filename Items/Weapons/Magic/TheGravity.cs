@@ -64,8 +64,10 @@ namespace MogMod.Items.Weapons.Magic
         public static int Card2 = 0;
         public static int Card3 = 0;
         public static int Card4 = 0;
-        public static int CurrentCard = 0;
         private static int attackSpeed = 20;
+        public bool Bookmark = false;
+        public bool Shuffle = false;
+        private readonly int[] SlotCards = [11, 12, 13];
         private static readonly List<int> cardList =
         [
             // attack cards (0 - 4) (might add more later)
@@ -127,34 +129,30 @@ namespace MogMod.Items.Weapons.Magic
                 switch (SwitchCard)
                 {
                     case 0:
+                        // spend mana if rerolling a bookmarked card
                         if (mogPlayerUI.theGravityCurrent1 == 1)
                             player.CheckMana(Item.mana, true, true);
-                        // get a random card from the list of cards
-                        CurrentCard = Main.rand.Next(cardList.Count);
-                        // set the selected card to the random card
-                        Card1 = CurrentCard;
+                        // get a random card from the list of cards && set the selected card to the random card
+                        Card1 = Main.rand.Next(cardList.Count);
                         // update the selected card ui
                         mogPlayerUI.theGravityCurrent1++;
                         return false;
                     case 1:
                         if (mogPlayerUI.theGravityCurrent2 == 1)
                             player.CheckMana(Item.mana, true, true);
-                        CurrentCard = Main.rand.Next(cardList.Count);
-                        Card2 = CurrentCard;
+                        Card2 = Main.rand.Next(cardList.Count);
                         mogPlayerUI.theGravityCurrent2++;
                         return false;
                     case 2:
                         if (mogPlayerUI.theGravityCurrent3 == 1)
                             player.CheckMana(Item.mana, true, true);
-                        CurrentCard = Main.rand.Next(cardList.Count);
-                        Card3 = CurrentCard;
+                        Card3 = Main.rand.Next(cardList.Count);
                         mogPlayerUI.theGravityCurrent3++;
                         return false;
                     case 3:
                         if (mogPlayerUI.theGravityCurrent4 == 1)
                             player.CheckMana(Item.mana, true, true);
-                        CurrentCard = Main.rand.Next(cardList.Count);
-                        Card4 = CurrentCard;
+                        Card4 = Main.rand.Next(cardList.Count);
                         mogPlayerUI.theGravityCurrent4++;
                         return false;
                 }
@@ -166,14 +164,38 @@ namespace MogMod.Items.Weapons.Magic
                 switch (SwitchCard)
                 {
                     case 0:
+                        // if the card is empty, dont cast anything
                         if (mogPlayerUI.theGravityCurrent1 == 0)
                         {
                             CardNumb = ModContent.ProjectileType<EmptySpellCard>();
                             break;
                         }
+                        // set the proj fired to the card numb
                         CardNumb = cardList[Card1];
+                        // apply the card effects
                         ApplyCards(player, Card1);
-                        mogPlayerUI.theGravityCurrent1--;
+                        // if the replay card is not active, cast it
+                        if (mogPlayerUI.theGravityReplay == 0)
+                            mogPlayerUI.theGravityCurrent1--;
+                        // if the current card is a replay card, dont use the replay effect
+                        if (Card1 != 12)
+                        {
+                            // stop other effects if replay
+                            if (player.HasBuff<TheGravityAutoBuff>())
+                            {
+                                Projectile.NewProjectile(source, position, velocity, CardNumb, damage, knockback, player.whoAmI);
+                                ApplyOtherEffects(player);
+                                return false;
+                            }
+                            mogPlayerUI.theGravityReplay--;
+                        }
+                        // if the card is a replay card, cast it
+                        else
+                        {
+                            mogPlayerUI.theGravityCurrent1--;
+                            Projectile.NewProjectile(source, position, velocity, CardNumb, damage, knockback, player.whoAmI);
+                            return false;
+                        }
                         break;
                     case 1:
                         if (mogPlayerUI.theGravityCurrent2 == 0)
@@ -183,7 +205,24 @@ namespace MogMod.Items.Weapons.Magic
                         }
                         CardNumb = cardList[Card2];
                         ApplyCards(player, Card2);
-                        mogPlayerUI.theGravityCurrent2--;
+                        if (mogPlayerUI.theGravityReplay == 0)
+                            mogPlayerUI.theGravityCurrent2--;
+                        if (Card2 != 12)
+                        {
+                            if (player.HasBuff<TheGravityAutoBuff>())
+                            {
+                                Projectile.NewProjectile(source, position, velocity, CardNumb, damage, knockback, player.whoAmI);
+                                ApplyOtherEffects(player);
+                                return false;
+                            }
+                            mogPlayerUI.theGravityReplay--;
+                        }
+                        else
+                        {
+                            mogPlayerUI.theGravityCurrent2--;
+                            Projectile.NewProjectile(source, position, velocity, CardNumb, damage, knockback, player.whoAmI);
+                            return false;
+                        }
                         break;
                     case 2:
                         if (mogPlayerUI.theGravityCurrent3 == 0)
@@ -193,7 +232,24 @@ namespace MogMod.Items.Weapons.Magic
                         }
                         CardNumb = cardList[Card3];
                         ApplyCards(player, Card3);
-                        mogPlayerUI.theGravityCurrent3--;
+                        if (mogPlayerUI.theGravityReplay == 0)
+                            mogPlayerUI.theGravityCurrent3--;
+                        if (Card3 != 12)
+                        {
+                            if (player.HasBuff<TheGravityAutoBuff>())
+                            {
+                                Projectile.NewProjectile(source, position, velocity, CardNumb, damage, knockback, player.whoAmI);
+                                ApplyOtherEffects(player);
+                                return false;
+                            }
+                            mogPlayerUI.theGravityReplay--;
+                        }
+                        else
+                        {
+                            mogPlayerUI.theGravityCurrent3--;
+                            Projectile.NewProjectile(source, position, velocity, CardNumb, damage, knockback, player.whoAmI);
+                            return false;
+                        }
                         break;
                     case 3:
                         if (mogPlayerUI.theGravityCurrent4 == 0)
@@ -203,15 +259,119 @@ namespace MogMod.Items.Weapons.Magic
                         }
                         CardNumb = cardList[Card4];
                         ApplyCards(player, Card4);
-                        mogPlayerUI.theGravityCurrent4--;
+                        if (mogPlayerUI.theGravityReplay == 0 )
+                            mogPlayerUI.theGravityCurrent4--;
+                        if (Card4 != 12)
+                        {
+                            if (player.HasBuff<TheGravityAutoBuff>())
+                            {
+                                Projectile.NewProjectile(source, position, velocity, CardNumb, damage, knockback, player.whoAmI);
+                                ApplyOtherEffects(player);
+                                return false;
+                            }
+                            mogPlayerUI.theGravityReplay--;
+                        }
+                        else
+                        {
+                            mogPlayerUI.theGravityCurrent4--;
+                            Projectile.NewProjectile(source, position, velocity, CardNumb, damage, knockback, player.whoAmI);
+                            return false;
+                        }
                         break;
                 }
-                type = CardNumb;
-                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                // fire projectile
+                Projectile.NewProjectile(source, position, velocity, CardNumb, damage, knockback, player.whoAmI);
+                ApplyOtherEffects(player);
                 return false;
             }
             else
                 return true;
+        }
+        public void ApplyOtherEffects(Player player)
+        {
+            var mogPlayerUI = player.GetModPlayer<MogPlayerUI>();
+            // if the player has auto cast, auto-bookmark the card
+            if (player.HasBuff<TheGravityAutoBuff>())
+            {
+                // only do this to the selected card
+                switch (SwitchCard)
+                {
+                    case 0:
+                        if (mogPlayerUI.theGravityReplay == 1)
+                        {
+                            mogPlayerUI.theGravityReplay--;
+                            break;
+                        }
+                        Card1 = Main.rand.Next(cardList.Count);
+                        mogPlayerUI.theGravityCurrent1++;
+                        break;
+                    case 1:
+                        if (mogPlayerUI.theGravityReplay == 1)
+                        {
+                            mogPlayerUI.theGravityReplay--;
+                            break;
+                        }
+                        Card2 = Main.rand.Next(cardList.Count);
+                        mogPlayerUI.theGravityCurrent2++;
+                        break;
+                    case 2:
+                        if (mogPlayerUI.theGravityReplay == 1)
+                        {
+                            mogPlayerUI.theGravityReplay--;
+                            break;
+                        }
+                        Card3 = Main.rand.Next(cardList.Count);
+                        mogPlayerUI.theGravityCurrent3++;
+                        break;
+                    case 3:
+                        if (mogPlayerUI.theGravityReplay == 1)
+                        {
+                            mogPlayerUI.theGravityReplay--;
+                            break;
+                        }
+                        Card4 = Main.rand.Next(cardList.Count);
+                        mogPlayerUI.theGravityCurrent4++;
+                        break;
+                }
+            }
+            // if the player casted a bookmark card, bookmark all cards if they're empty
+            if (Bookmark)
+            {
+                if (mogPlayerUI.theGravityCurrent1 == 0)
+                {
+                    Card1 = Main.rand.Next(cardList.Count);
+                    mogPlayerUI.theGravityCurrent1++;
+                }
+                if (mogPlayerUI.theGravityCurrent2 == 0)
+                {
+                    Card2 = Main.rand.Next(cardList.Count);
+                    mogPlayerUI.theGravityCurrent2++;
+                }
+                if (mogPlayerUI.theGravityCurrent3 == 0)
+                {
+                    Card3 = Main.rand.Next(cardList.Count);
+                    mogPlayerUI.theGravityCurrent3++;
+                }
+                if (mogPlayerUI.theGravityCurrent4 == 0)
+                {
+                    Card4 = Main.rand.Next(cardList.Count);
+                    mogPlayerUI.theGravityCurrent4++;
+                }
+                Bookmark = false;
+            }
+            // if the player casted a shuffle card, shuffle all cards regardless if they're empty or not
+            if (Shuffle)
+            {
+                Card1 = Main.rand.Next(cardList.Count);
+                mogPlayerUI.theGravityCurrent1++;
+                Card2 = Main.rand.Next(cardList.Count);
+                mogPlayerUI.theGravityCurrent2++;
+                Card3 = Main.rand.Next(cardList.Count);
+                mogPlayerUI.theGravityCurrent3++;
+                Card4 = Main.rand.Next(cardList.Count);
+                mogPlayerUI.theGravityCurrent4++;
+                Shuffle = false;
+            }
         }
         public void ApplyCards(Player player, int card)
         {
@@ -244,55 +404,18 @@ namespace MogMod.Items.Weapons.Magic
                     player.AddBuff(ModContent.BuffType<TheGravityDefenseBuff>(), bufftime);
                     break;
                 case 11: // bookmark
-                    if (mogPlayerUI.theGravityCurrent1 == 0)
-                    {
-                        CurrentCard = Main.rand.Next(cardList.Count);
-                        Card1 = CurrentCard;
-                        mogPlayerUI.theGravityCurrent1++;
-                    }
-                    if (mogPlayerUI.theGravityCurrent2 == 0)
-                    {
-                        CurrentCard = Main.rand.Next(cardList.Count);
-                        Card2 = CurrentCard;
-                        mogPlayerUI.theGravityCurrent2++;
-                    }
-                    if (mogPlayerUI.theGravityCurrent3 == 0)
-                    {
-                        CurrentCard = Main.rand.Next(cardList.Count);
-                        Card3 = CurrentCard;
-                        mogPlayerUI.theGravityCurrent3++;
-                    }
-                    if (mogPlayerUI.theGravityCurrent4 == 0)
-                    {
-                        CurrentCard = Main.rand.Next(cardList.Count);
-                        Card4 = CurrentCard;
-                        mogPlayerUI.theGravityCurrent4++;
-                    }
+                    Bookmark = true;
                     break;
-                case 12: // replay (add a ui effect for this instead of a buff)
-                    player.AddBuff(ModContent.BuffType<TheGravityReplayBuff>(), bufftime);
+                case 12: // replay
+                    mogPlayerUI.theGravityReplay++;
                     break;
                 case 13: // shuffle
-                    for (int i = 0; i < 3; i++)
-                    {
-                        CurrentCard = Main.rand.Next(cardList.Count);
-                        Card1 = CurrentCard;
-                        mogPlayerUI.theGravityCurrent1++;
-                        CurrentCard = Main.rand.Next(cardList.Count);
-                        Card2 = CurrentCard;
-                        mogPlayerUI.theGravityCurrent2++;
-                        CurrentCard = Main.rand.Next(cardList.Count);
-                        Card3 = CurrentCard;
-                        mogPlayerUI.theGravityCurrent3++;
-                        CurrentCard = Main.rand.Next(cardList.Count);
-                        Card4 = CurrentCard;
-                        mogPlayerUI.theGravityCurrent4++;
-                    }
+                    Shuffle = true;
                     break;
                 case 18: // auto bookmark
                     player.AddBuff(ModContent.BuffType<TheGravityAutoBuff>(), bufftime);
                     break;
-                case 19:
+                case 19: // teleport
                     SoundEngine.PlaySound(SoundID.Item8, player.Center);
                     for (int i = 0; i < 35; i++)
                     {
@@ -342,7 +465,6 @@ namespace MogMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
                 reduce -= 10f;
-                //mult *= 0f;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

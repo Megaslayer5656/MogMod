@@ -11,7 +11,7 @@ namespace MogMod.Common.MogModPlayer
         // Creating some variables to define the current value of our example resource as well as the current maximum value. We also include a temporary max value, as well as some variables to handle the natural regeneration of this resource.
         public int gunlanceCurrent; // Current value of our example resource
 
-        public int theGravityCurrent = 0;
+        public int theGravityReplay = 0;
         public int theGravityCurrent1 = 0;
         public int theGravityCurrent2 = 0;
         public int theGravityCurrent3 = 0;
@@ -65,7 +65,7 @@ namespace MogMod.Common.MogModPlayer
         {
             // Limit gunlanceCurrent from going over the limit imposed by exampleResourceMax.
             gunlanceCurrent = Utils.Clamp(gunlanceCurrent, 0, exampleResourceMax2);
-            theGravityCurrent = Utils.Clamp(theGravityCurrent, 0, 4);
+            theGravityReplay = Utils.Clamp(theGravityReplay, 0, theGravityMax);
             theGravityCurrent1 = Utils.Clamp(theGravityCurrent1, 0, theGravityMax);
             theGravityCurrent2 = Utils.Clamp(theGravityCurrent2, 0, theGravityMax);
             theGravityCurrent3 = Utils.Clamp(theGravityCurrent3, 0, theGravityMax);

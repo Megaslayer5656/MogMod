@@ -213,6 +213,9 @@ namespace MogMod.Common.MogModPlayer
         #endregion
 
         #region Buffs
+
+        public bool infiniteFlight = false;
+
         // debuffs
         public bool divineDebuff;
         public bool skadiDebuff;
@@ -779,6 +782,11 @@ namespace MogMod.Common.MogModPlayer
 
         #region Miscelanious Effects (spelt right)
 
+        public override void PreUpdate()
+        {
+            if (infiniteFlight)
+                Player.wingTime = Player.wingTimeMax;
+        }
         // force staff movement
         public override void PreUpdateMovement()
         {
@@ -1317,8 +1325,7 @@ namespace MogMod.Common.MogModPlayer
             #region Wing Time Buffs
             // Flight time boosts
             double flightTimeMult = 1D +
-                (wearingFaeArmor ? FaeMask.FlightTimeBoost: 0D) +
-                (Player.HasBuff<TheGravityMovementBuff>() ? TheGravityMovementBuff.FlightTimeBoost : 0D);
+                (wearingFaeArmor ? FaeMask.FlightTimeBoost : 0D);
 
             if (Player.wingTimeMax > 0)
                 Player.wingTimeMax = (int)(Player.wingTimeMax * flightTimeMult);
@@ -1909,6 +1916,8 @@ namespace MogMod.Common.MogModPlayer
 
             chargeShot = false;
             dpCharge = false;
+
+            infiniteFlight = false;
 
             divineDebuff = false;
             skadiDebuff = false;

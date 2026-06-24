@@ -29,7 +29,7 @@ namespace MogMod.Items.Armor.Other
         public override void SetDefaults()
         {
             Item.width = Item.height = 24;
-            Item.defense = 8;
+            Item.defense = 6;
             Item.rare = ItemRarityID.Orange;
             Item.value = MogGlobalItem.RarityOrangeBuyPrice;
         }

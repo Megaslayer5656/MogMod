@@ -18,6 +18,8 @@ namespace MogMod.UI.TheGravityUI
         private Asset<Texture2D> card2 = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityEmptyCard");
         private Asset<Texture2D> card3 = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityEmptyCard");
         private Asset<Texture2D> card4 = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityEmptyCard");
+        private Asset<Texture2D> replay = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityReplay");
+        private Asset<Texture2D> invis = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/InvisibleProj");
         private Asset<Texture2D> emptyCard;
         internal const float TheGravityPosX = 340f;
         internal const float TheGravityPosY = 20;
@@ -53,6 +55,7 @@ namespace MogMod.UI.TheGravityUI
                 cardTexture[18] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityAutoCard");
                 cardTexture[19] = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityTeleportCard");
                 emptyCard = ModContent.Request<Texture2D>("MogMod/UI/TheGravityUI/TheGravityEmptyCard");
+
             }
         }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
@@ -90,34 +93,34 @@ namespace MogMod.UI.TheGravityUI
 
             float baseRight = Main.screenWidth - posSlop.X;
             float baseTop = posSlop.Y;
+            float replayTop = posSlop.Y + 25f;
             int padding = 6;
             int iconSize = 20;
 
-            switch (TheGravity.SwitchCard)
-            {
-                case 0:
-                    card1 = cardTexture[TheGravity.Card1];
-                    break;
-                case 1:
-                    card2 = cardTexture[TheGravity.Card2];
-                    break;
-                case 2:
-                    card3 = cardTexture[TheGravity.Card3];
-                    break;
-                case 3:
-                    card4 = cardTexture[TheGravity.Card4];
-                    break;
-            }
+            card1 = cardTexture[TheGravity.Card1];
+            card2 = cardTexture[TheGravity.Card2];
+            card3 = cardTexture[TheGravity.Card3];
+            card4 = cardTexture[TheGravity.Card4];
 
             Texture2D tex1 = (mogPlayerUI.theGravityCurrent1 < 1) ? emptyCard.Value : card1.Value;
             Texture2D tex2 = (mogPlayerUI.theGravityCurrent2 < 1) ? emptyCard.Value : card2.Value;
             Texture2D tex3 = (mogPlayerUI.theGravityCurrent3 < 1) ? emptyCard.Value : card3.Value;
             Texture2D tex4 = (mogPlayerUI.theGravityCurrent4 < 1) ? emptyCard.Value : card4.Value;
 
+            Texture2D replayTex1 = (mogPlayerUI.theGravityReplay < 1 || mogPlayerUI.theGravityCurrent1 < 1) ? invis.Value : replay.Value;
+            Texture2D replayTex2 = (mogPlayerUI.theGravityReplay < 1 || mogPlayerUI.theGravityCurrent2 < 1) ? invis.Value : replay.Value;
+            Texture2D replayTex3 = (mogPlayerUI.theGravityReplay < 1 || mogPlayerUI.theGravityCurrent3 < 1) ? invis.Value : replay.Value;
+            Texture2D replayTex4 = (mogPlayerUI.theGravityReplay < 1 || mogPlayerUI.theGravityCurrent4 < 1) ? invis.Value : replay.Value;
+
             Vector2 pos1 = new Vector2(baseRight, baseTop);
             Vector2 pos2 = new Vector2(baseRight - (iconSize + padding), baseTop);
             Vector2 pos3 = new Vector2(baseRight - (iconSize + padding) * 2, baseTop);
             Vector2 pos4 = new Vector2(baseRight - (iconSize + padding) * 3, baseTop);
+
+            Vector2 replayPos1 = new Vector2(baseRight, replayTop);
+            Vector2 replayPos2 = new Vector2(baseRight - (iconSize + padding), replayTop);
+            Vector2 replayPos3 = new Vector2(baseRight - (iconSize + padding) * 2, replayTop);
+            Vector2 replayPos4 = new Vector2(baseRight - (iconSize + padding) * 3, replayTop);
 
             if (Main.LocalPlayer.HeldItem.ModItem is TheGravity && MogClientConfig.Instance.TheGravitySpells)
             {
@@ -125,6 +128,11 @@ namespace MogMod.UI.TheGravityUI
                 spriteBatch.Draw(tex2, pos3, TheGravity.SwitchCard != 1 ? new Color(80, 80, 80) : Color.White);
                 spriteBatch.Draw(tex3, pos2, TheGravity.SwitchCard != 2 ? new Color(80, 80, 80) : Color.White);
                 spriteBatch.Draw(tex4, pos1, TheGravity.SwitchCard != 3 ? new Color(80, 80, 80) : Color.White);
+
+                spriteBatch.Draw(replayTex1, replayPos4, TheGravity.SwitchCard != 0 ? new Color(80, 80, 80) : Color.White);
+                spriteBatch.Draw(replayTex2, replayPos3, TheGravity.SwitchCard != 1 ? new Color(80, 80, 80) : Color.White);
+                spriteBatch.Draw(replayTex3, replayPos2, TheGravity.SwitchCard != 2 ? new Color(80, 80, 80) : Color.White);
+                spriteBatch.Draw(replayTex4, replayPos1, TheGravity.SwitchCard != 3 ? new Color(80, 80, 80) : Color.White);
             }
         }
     }

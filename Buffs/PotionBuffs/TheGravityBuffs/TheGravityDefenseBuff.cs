@@ -14,7 +14,8 @@ namespace MogMod.Buffs.PotionBuffs.TheGravityBuffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.statDefense += 15;
+            player.statDefense += 20;
+            player.endurance += .10f;
             if (Main.rand.NextBool(3))
             {
                 Vector2 dustCorner = player.position - 2f * Vector2.One;

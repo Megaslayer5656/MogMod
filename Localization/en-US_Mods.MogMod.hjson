@@ -1308,7 +1308,7 @@ Items: {
 				Tooltip:
 					'''
 					Repeatedly fires a spread of poisoning snails
-					[c/4F8F2F:'mattimeo']
+					[c/4F8F2F:'junkmunt-baby junkmunt']
 					'''
 			}
 		}
@@ -1976,6 +1976,11 @@ Items: {
 		BouncyBoulderBullet: {
 			DisplayName: Bouncy Boulder Bullet
 			Tooltip: Heavier and bounces on the ground
+		}
+
+		EndlessGreenTracerPouch: {
+			Tooltip: ""
+			DisplayName: Endless Green Tracer Pouch
 		}
 	}
 

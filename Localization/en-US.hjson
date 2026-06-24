@@ -191,7 +191,7 @@ Mods: {
 
 			GuardianGreavesAura: {
 				DisplayName: Guardian Greaves Aura
-				Description: +2 HP/s, +4 Defense, +20 Max HP, +50 Max Mana, +7.5% Magic damage
+				Description: +4 HP/s, +4 Defense, +20 Max HP, +50 Max Mana, +7.5% Magic damage
 			}
 
 			GuardianGreavesBuff: {
@@ -495,33 +495,28 @@ Mods: {
 			}
 
 			TheGravityAutoBuff: {
-				DisplayName: The Gravity Auto Buff
-				Description: Mods.MogMod.Buffs.TheGravityAutoBuff.Description
+				DisplayName: Auto Bookmark
+				Description: Your spells automatically bookmark!
 			}
 
 			TheGravityDefenseBuff: {
-				DisplayName: The Gravity Defense Buff
-				Description: Mods.MogMod.Buffs.TheGravityDefenseBuff.Description
+				DisplayName: Stone Defense
+				Description: +20 Defense, +10% Damage Reduction
 			}
 
 			TheGravityHealthBuff: {
-				DisplayName: The Gravity Health Buff
-				Description: Mods.MogMod.Buffs.TheGravityHealthBuff.Description
+				DisplayName: Vigorous Health
+				Description: Greatly Increased Life Regeneration
 			}
 
 			TheGravityManaBuff: {
-				DisplayName: The Gravity Mana Buff
-				Description: Mods.MogMod.Buffs.TheGravityManaBuff.Description
+				DisplayName: Enchanting Mana
+				Description: Greatly Increased Mana Regeneration
 			}
 
 			TheGravityMovementBuff: {
-				DisplayName: The Gravity Movement Buff
-				Description: Mods.MogMod.Buffs.TheGravityMovementBuff.Description
-			}
-
-			TheGravityReplayBuff: {
-				DisplayName: The Gravity Replay Buff
-				Description: Mods.MogMod.Buffs.TheGravityReplayBuff.Description
+				DisplayName: Fleeting Movement
+				Description: +25% Jump Speed and Movement Speed, Infinite Flight Time
 			}
 		}
 

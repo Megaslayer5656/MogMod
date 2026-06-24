@@ -30,7 +30,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             if (target.type != NPCID.TargetDummy)
                 Owner.AddBuff(ModContent.BuffType<KrakenShellDebuff>(), 180);
         }
-        public override void OnHitPlayer(Player target, Player.HurtInfo info) => Owner.AddBuff(ModContent.BuffType<KrakenShellDebuff>(), 180);
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => Owner.AddBuff(ModContent.BuffType<KrakenShellDebuff>(), 300);
         public override void AI()
         {
            for (int i = 0; i < 60; i++)

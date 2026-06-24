@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -14,9 +15,10 @@ namespace MogMod.Buffs.PotionBuffs.TheGravityBuffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             player.moveSpeed += 0.25f;
             player.jumpSpeedBoost += 0.25f;
-            player.wingTimeMax = (int)(player.wingTimeMax * 1.5f);
+            mogPlayer.infiniteFlight = true;
             if (Main.rand.NextBool(3))
             {
                 Vector2 dustCorner = player.position - 2f * Vector2.One;
