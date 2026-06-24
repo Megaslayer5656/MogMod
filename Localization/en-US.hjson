@@ -500,7 +500,7 @@ Mods: {
 			}
 
 			TheGravityDefenseBuff: {
-				DisplayName: Stone Defense
+				DisplayName: Stalwart Defense
 				Description: +20 Defense, +10% Damage Reduction
 			}
 
@@ -510,12 +510,12 @@ Mods: {
 			}
 
 			TheGravityManaBuff: {
-				DisplayName: Enchanting Mana
+				DisplayName: Nebulous Mana
 				Description: Greatly Increased Mana Regeneration
 			}
 
 			TheGravityMovementBuff: {
-				DisplayName: Fleeting Movement
+				DisplayName: Boundless Movement
 				Description: +25% Jump Speed and Movement Speed, Infinite Flight Time
 			}
 		}

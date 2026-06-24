@@ -35,6 +35,7 @@ namespace MogMod.Items.Accessories
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingForceStaff = true;
         }
+        /* Moved to Dryad shop since I like it better that way.
         public override void AddRecipes()
         {
             CreateRecipe().
@@ -45,5 +46,6 @@ namespace MogMod.Items.Accessories
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
+        */
     }
 }

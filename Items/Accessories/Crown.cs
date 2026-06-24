@@ -14,8 +14,8 @@ namespace MogMod.Items.Accessories
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.Blue;
-            Item.value = MogGlobalItem.RarityBlueBuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -23,6 +23,7 @@ namespace MogMod.Items.Accessories
             player.GetDamage(DamageClass.Generic) += .05f;
             player.GetAttackSpeed(DamageClass.Generic) += .05f;
         }
+        /* Moved to Merchant shop.
         public override void AddRecipes()
         {
             CreateRecipe().
@@ -33,5 +34,6 @@ namespace MogMod.Items.Accessories
                 AddTile(TileID.Anvils).
                 Register();
         }
+        */
     }
 }

@@ -20,7 +20,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.damage = 85;
             Item.mana = 24;
             Item.DamageType = DamageClass.Magic;
-            Item.useTime = Item.useAnimation = 48;
+            Item.useTime = Item.useAnimation = 50;
             Item.UseSound = SoundID.Item84;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 6f;

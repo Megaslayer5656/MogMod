@@ -97,8 +97,18 @@ namespace MogMod.NPCs.Global
         // modifies vanilla npc shop
         public override void ModifyShop(NPCShop shop)
         {
-            if (shop.NpcType == NPCID.SkeletonMerchant)
-                shop.Add(new Item(ModContent.ItemType<AstrologersStaff>()));
+            switch (shop.NpcType)
+            {
+                case NPCID.SkeletonMerchant:
+                    shop.InsertAfter(ItemID.Rope, ModContent.ItemType<AstrologersStaff>());
+                    break;
+                case NPCID.Merchant:
+                    shop.InsertAfter(ItemID.Glowstick, ModContent.ItemType<Crown>(), Condition.DownedEyeOfCthulhu, Condition.HappyEnoughToSellPylons);
+                    break;
+                case NPCID.Dryad:
+                    shop.InsertAfter(ItemID.DirtRod, ModContent.ItemType<ForceStaff>(), Condition.HappyEnoughToSellPylons);
+                    break;
+            }
         }
 
         #region NPC Drops
@@ -110,6 +120,7 @@ namespace MogMod.NPCs.Global
         }
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
+            LeadingConditionRule postEye = npcLoot.DefineConditionalDropSet(DropHelper.PostEye());
             LeadingConditionRule postFish = npcLoot.DefineConditionalDropSet(DropHelper.PostFish());
             LeadingConditionRule postEoL = npcLoot.DefineConditionalDropSet(DropHelper.PostEoL());
             LeadingConditionRule postOneMech = npcLoot.DefineConditionalDropSet(DropHelper.PostOneMech());
@@ -168,6 +179,9 @@ namespace MogMod.NPCs.Global
                 case NPCID.GiantShelly:
                 case NPCID.GiantShelly2:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LabGerminator>(), 50, 1, 1));
+                    break;
+                case NPCID.Ghost:
+                    postEye.Add(ModContent.ItemType<SpiritShard>(), 5, 1, 3);
                     break;
             }
         }
