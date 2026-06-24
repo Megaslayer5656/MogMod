@@ -493,6 +493,36 @@ Mods: {
 				DisplayName: Kraken Shell
 				Description: +10% Damage Reduction, Greatly reduced movement
 			}
+
+			TheGravityAutoBuff: {
+				DisplayName: The Gravity Auto Buff
+				Description: Mods.MogMod.Buffs.TheGravityAutoBuff.Description
+			}
+
+			TheGravityDefenseBuff: {
+				DisplayName: The Gravity Defense Buff
+				Description: Mods.MogMod.Buffs.TheGravityDefenseBuff.Description
+			}
+
+			TheGravityHealthBuff: {
+				DisplayName: The Gravity Health Buff
+				Description: Mods.MogMod.Buffs.TheGravityHealthBuff.Description
+			}
+
+			TheGravityManaBuff: {
+				DisplayName: The Gravity Mana Buff
+				Description: Mods.MogMod.Buffs.TheGravityManaBuff.Description
+			}
+
+			TheGravityMovementBuff: {
+				DisplayName: The Gravity Movement Buff
+				Description: Mods.MogMod.Buffs.TheGravityMovementBuff.Description
+			}
+
+			TheGravityReplayBuff: {
+				DisplayName: The Gravity Replay Buff
+				Description: Mods.MogMod.Buffs.TheGravityReplayBuff.Description
+			}
 		}
 
 		NPCs: {

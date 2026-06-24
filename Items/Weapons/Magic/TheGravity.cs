@@ -15,6 +15,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using MogMod.Common.Systems;
 using Terraria.Localization;
+using MogMod.Buffs.PotionBuffs.TheGravityBuffs;
 
 namespace MogMod.Items.Weapons.Magic
 {
@@ -214,6 +215,7 @@ namespace MogMod.Items.Weapons.Magic
         }
         public void ApplyCards(Player player, int card)
         {
+            var mogPlayerUI = player.GetModPlayer<MogPlayerUI>();
             int bufftime = 600;
             switch (card)
             {
@@ -230,16 +232,65 @@ namespace MogMod.Items.Weapons.Magic
                         player.statMana = player.statManaMax2;
                     break;
                 case 7: // overtime health
-                    player.AddBuff(ModContent.BuffType<HealingSalveBuff>(), bufftime);
+                    player.AddBuff(ModContent.BuffType<TheGravityHealthBuff>(), bufftime);
                     break;
                 case 8: // overtime mana
-                    player.AddBuff(ModContent.BuffType<ClarityBuff>(), bufftime);
+                    player.AddBuff(ModContent.BuffType<TheGravityManaBuff>(), bufftime);
                     break;
                 case 9: // movement
-                    player.AddBuff(ModContent.BuffType<GlimmerCapeBuff>(), bufftime);
+                    player.AddBuff(ModContent.BuffType<TheGravityMovementBuff>(), bufftime);
                     break;
                 case 10: // defense
-                    player.AddBuff(ModContent.BuffType<CheeseBuff>(), bufftime);
+                    player.AddBuff(ModContent.BuffType<TheGravityDefenseBuff>(), bufftime);
+                    break;
+                case 11: // bookmark
+                    if (mogPlayerUI.theGravityCurrent1 == 0)
+                    {
+                        CurrentCard = Main.rand.Next(cardList.Count);
+                        Card1 = CurrentCard;
+                        mogPlayerUI.theGravityCurrent1++;
+                    }
+                    if (mogPlayerUI.theGravityCurrent2 == 0)
+                    {
+                        CurrentCard = Main.rand.Next(cardList.Count);
+                        Card2 = CurrentCard;
+                        mogPlayerUI.theGravityCurrent2++;
+                    }
+                    if (mogPlayerUI.theGravityCurrent3 == 0)
+                    {
+                        CurrentCard = Main.rand.Next(cardList.Count);
+                        Card3 = CurrentCard;
+                        mogPlayerUI.theGravityCurrent3++;
+                    }
+                    if (mogPlayerUI.theGravityCurrent4 == 0)
+                    {
+                        CurrentCard = Main.rand.Next(cardList.Count);
+                        Card4 = CurrentCard;
+                        mogPlayerUI.theGravityCurrent4++;
+                    }
+                    break;
+                case 12: // replay (add a ui effect for this instead of a buff)
+                    player.AddBuff(ModContent.BuffType<TheGravityReplayBuff>(), bufftime);
+                    break;
+                case 13: // shuffle
+                    for (int i = 0; i < 3; i++)
+                    {
+                        CurrentCard = Main.rand.Next(cardList.Count);
+                        Card1 = CurrentCard;
+                        mogPlayerUI.theGravityCurrent1++;
+                        CurrentCard = Main.rand.Next(cardList.Count);
+                        Card2 = CurrentCard;
+                        mogPlayerUI.theGravityCurrent2++;
+                        CurrentCard = Main.rand.Next(cardList.Count);
+                        Card3 = CurrentCard;
+                        mogPlayerUI.theGravityCurrent3++;
+                        CurrentCard = Main.rand.Next(cardList.Count);
+                        Card4 = CurrentCard;
+                        mogPlayerUI.theGravityCurrent4++;
+                    }
+                    break;
+                case 18: // auto bookmark
+                    player.AddBuff(ModContent.BuffType<TheGravityAutoBuff>(), bufftime);
                     break;
                 case 19:
                     SoundEngine.PlaySound(SoundID.Item8, player.Center);

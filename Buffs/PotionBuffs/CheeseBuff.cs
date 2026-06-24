@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
+
 namespace MogMod.Buffs.PotionBuffs
 {
     public class CheeseBuff : ModBuff

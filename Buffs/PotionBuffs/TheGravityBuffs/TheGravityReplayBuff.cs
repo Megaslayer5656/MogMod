@@ -1,9 +1,9 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 
-namespace MogMod.Buffs.PotionBuffs
+namespace MogMod.Buffs.PotionBuffs.TheGravityBuffs
 {
-    public class EssenceShift : ModBuff
+    public class TheGravityReplayBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {

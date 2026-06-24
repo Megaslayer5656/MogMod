@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
+using MogMod.Buffs.PotionBuffs.TheGravityBuffs;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
 using MogMod.Items.Armor.Fae;
@@ -1316,7 +1317,8 @@ namespace MogMod.Common.MogModPlayer
             #region Wing Time Buffs
             // Flight time boosts
             double flightTimeMult = 1D +
-                (wearingFaeArmor ? FaeMask.FlightTimeBoost: 0D);
+                (wearingFaeArmor ? FaeMask.FlightTimeBoost: 0D) +
+                (Player.HasBuff<TheGravityMovementBuff>() ? TheGravityMovementBuff.FlightTimeBoost : 0D);
 
             if (Player.wingTimeMax > 0)
                 Player.wingTimeMax = (int)(Player.wingTimeMax * flightTimeMult);
