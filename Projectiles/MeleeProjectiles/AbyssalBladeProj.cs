@@ -2,6 +2,7 @@
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,8 +12,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
     {
         public new string LocalizationCategory => "Projectiles.MeleeProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
-
-        private bool initialized = false;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
@@ -40,11 +39,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
         }
         public override void AI()
         {
-            if (!initialized)
-            {
-                SoundEngine.PlaySound(bashProc, Projectile.Center);
-                initialized = true;
-            }
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
@@ -55,6 +49,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
             Main.dust[suvass].velocity *= 1.4f;
             Main.dust[suvass].scale += Main.rand.NextFloat();
         }
+        public override void OnSpawn(IEntitySource source) => SoundEngine.PlaySound(bashProc, Projectile.Center);
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];

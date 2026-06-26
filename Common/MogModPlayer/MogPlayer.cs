@@ -70,6 +70,7 @@ namespace MogMod.Common.MogModPlayer
         public bool shadowAmuletVisual = false;
         public bool wearingMendez;
         public bool plasmaVisual;
+        public bool polyluteVisual;
 
         public bool wraithActive = false;
 
@@ -210,6 +211,15 @@ namespace MogMod.Common.MogModPlayer
 
         public bool markerProjOut = false;
         public bool moonveilProj = false;
+
+        /*
+        public static List<int> PlayerHurtWeapons =
+        [
+            ModContent.ItemType<BloodGrenade>(),
+            ModContent.ItemType<WarriorsSpear>(),
+            ModContent.ItemType<BerserkersSpear>()
+        ];
+        */
         #endregion
 
         #region Buffs
@@ -1893,6 +1903,7 @@ namespace MogMod.Common.MogModPlayer
             shadowAmuletVisual = false;
             exultationEquipped = false;
             plasmaVisual = false;
+            polyluteVisual = false;
 
             wearingMendez = false;
 

@@ -12,6 +12,11 @@ namespace MogMod.Projectiles.ClasslessProjectiles
     public class ATGProjectile : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.ClasslessProjectiles";
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
+        }
         public override void SetDefaults()
         {
             Projectile.width = 20;
@@ -22,20 +27,15 @@ namespace MogMod.Projectiles.ClasslessProjectiles
             Projectile.DamageType = DamageClass.Generic;
             Projectile.ArmorPenetration = 50;
         }
-
         public override void AI()
         {
             int width = Convert.ToInt32(Projectile.width / 2);
             int height = Convert.ToInt32(Projectile.height / 2);
             Vector2 spawn = Projectile.Center - Projectile.velocity / 2f;
-
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
-
             if (Projectile.timeLeft < 570)
-            {
                 MogModUtils.HomeInOnNPC(Projectile, true, 1500f, 10f, 25f);
-            }
             if (Main.rand.NextBool(2))
             {
                 Dust d = Dust.NewDustPerfect(spawn, DustID.Smoke);
@@ -64,18 +64,14 @@ namespace MogMod.Projectiles.ClasslessProjectiles
                 Main.dust[d].noGravity = true;
             }
         }
-
-        public override bool? CanHitNPC(NPC target)
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 570 ? null : false;
+        public override void OnSpawn(IEntitySource source) => SoundEngine.PlaySound(SoundID.Item73, Projectile.Center); //Might make this a custom sound in the future
+        public override bool PreDraw(ref Color lightColor)
         {
-            if (Projectile.timeLeft < 570)
-                return null; // i think returning true causes it to hit any npc, whereas null only hits enemies
-            else
+            if (Projectile.timeLeft > 595)
                 return false;
-        }
-
-        public override void OnSpawn(IEntitySource source)
-        {
-            SoundEngine.PlaySound(SoundID.Item73, Projectile.Center); //Might make this a custom sound in the future
+            MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 3);
+            return false;
         }
     }
 }

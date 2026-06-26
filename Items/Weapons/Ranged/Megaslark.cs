@@ -76,18 +76,18 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.SDMG, 1).
-                AddIngredient(ItemID.VortexBeater, 1).
                 AddIngredient(ItemID.Megashark, 1).
                 AddIngredient<BrinyRind>(15).
                 AddIngredient<VoniumBar>(5).
+                AddIngredient<SoulOfMogMod>().
                 AddTile(TileID.LunarCraftingStation).
                 Register();
             CreateRecipe().
                 AddIngredient(ItemID.SDMG, 1).
-                AddIngredient(ItemID.VortexBeater, 1).
                 AddIngredient<Minislark>(1).
                 AddIngredient<BrinyRind>(15).
                 AddIngredient<VoniumBar>(5).
+                AddIngredient<SoulOfMogMod>().
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

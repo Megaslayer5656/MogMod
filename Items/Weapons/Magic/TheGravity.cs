@@ -464,7 +464,7 @@ namespace MogMod.Items.Weapons.Magic
         public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
         {
             if (player.altFunctionUse == 2)
-                reduce -= 10f;
+                reduce -= Item.mana;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

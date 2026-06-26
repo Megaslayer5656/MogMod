@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Global;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
@@ -12,11 +13,7 @@ namespace MogMod.Items.Weapons.Ranged
     public class BloodGrenade : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 99;
-        }
-
+        public override void SetStaticDefaults() => Item.ResearchUnlockCount = 99;
         public override void SetDefaults()
         {
             Item.width = 14;
@@ -37,14 +34,11 @@ namespace MogMod.Items.Weapons.Ranged
             Item.value = MogGlobalItem.RarityGreenBuyPrice;
             Item.shoot = ModContent.ProjectileType<BloodGrenadeProjectile>();
         }
-
-        public override bool? UseItem(Player player)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, System.Int32 type, System.Int32 damage, System.Single knockback)
         {
-            // (death message, damage, hitDirection, pvp, quiet, cooldownCounter, dodgeable, armorPenetration, scalingArmorPenetration, knockback)
-            player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " threw a blood grenade."), 5, -player.direction, false, false, -1, false, 0, 0, 0);
+            player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " poured their lifeforce into a blood grenade."), 5, -player.direction, false, false, -1, false, 9999, 0, 0);
             return true;
         }
-
         public override void AddRecipes()
         {
             CreateRecipe(50).

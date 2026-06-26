@@ -111,7 +111,10 @@ Mods: {
 			}
 		}
 
-		DamageClasses.BoulderClass.DisplayName: Boulder Class
+		DamageClasses: {
+			BoulderClass.DisplayName: Boulder Class
+			MeleeRangedMagicDamageClass.DisplayName: Melee/Ranged/Magic Damage
+		}
 
 		Tiles: {
 			DabDadOre.MapEntry: DabDad Ore
@@ -656,10 +659,10 @@ Mods: {
 				ProximityMinesSummon.DisplayName: Proximity Mine
 				ProximityMinesExplosion.DisplayName: Proximity Mine
 				MADMineProj.DisplayName: MAD Mine
-				RuntyStaffProj.DisplayName: Runty Staff Proj
-				InfernoMHoldout.DisplayName: Inferno M Holdout
-				EmptySpellCard.DisplayName: Empty Spell Card
-				VoCProj.DisplayName: Vo C Proj
+				RuntyStaffProj.DisplayName: Runty Staff
+				InfernoMHoldout.DisplayName: Inferno Maelstrom
+				EmptySpellCard.DisplayName: Empty Spell
+				VoCProj.DisplayName: Vortex Of Conflagration
 			}
 
 			RangedProjectiles: {
@@ -710,7 +713,7 @@ Mods: {
 				SharpshooterHoldout.DisplayName: Sharpshooter
 				SharpshooterProj.DisplayName: Sharpshooter
 				SquirrelProj.DisplayName: Squirrel
-				LabGerminatorProj.DisplayName: Lab Germinator Proj
+				LabGerminatorProj.DisplayName: Snail
 			}
 
 			MeleeProjectiles: {
@@ -764,12 +767,7 @@ Mods: {
 				ScintillantStabberProj.DisplayName: Scintillant Stabber
 				SandstormProj.DisplayName: Mini Sandstorm
 				BlackBladeHoldout.DisplayName: Black Blade
-				WyvernJawbladeHoldout.DisplayName: Wyvern Jawblade Holdout
-			}
-
-			Melee: {
-				RuntyBladesAltProj.DisplayName: Runty Blades Alt Proj
-				RuntyBladesProj.DisplayName: Runty Blades Proj
+				WyvernJawbladeHoldout.DisplayName: Wyvern Jawblade
 			}
 
 			SummonerProjectiles: {
@@ -793,6 +791,9 @@ Mods: {
 				DivineRapierSecProj.DisplayName: Divine Rapier
 				DivineRapierSecBeam.DisplayName: Divine Rapier
 				DivineRapierThirdBeam.DisplayName: Divine Rapier
+				TridentSpear.DisplayName: Trident
+				TridentProj.DisplayName: Trident
+				TridentHomingProj.DisplayName: Trident Homing Proj
 			}
 
 			BossProjectiles: {
@@ -812,12 +813,12 @@ Mods: {
 
 			EnemyProjectiles: {
 				AhmodStickyNade.DisplayName: Gel Trap
-				WarlockBoom.DisplayName: Warlock Boom
-				RadiantRangedCreepProj.DisplayName: Radiant Ranged Creep Proj
+				WarlockBoom.DisplayName: Hellfire Explosion
+				RadiantRangedCreepProj.DisplayName: Magic Bolt
 			}
 
 			Pets.AhmodInABottlePet.DisplayName: Ahmod
-			Tools.RuntyDrillProj.DisplayName: Runty Drill Proj
+			Tools.RuntyDrillProj.DisplayName: Runty Drill
 		}
 
 		Bestiary: {

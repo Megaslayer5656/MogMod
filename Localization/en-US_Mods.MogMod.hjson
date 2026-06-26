@@ -657,7 +657,7 @@ Items: {
 		}
 
 		ICBM: {
-			DisplayName: ICBM
+			DisplayName: I.C.B.M.
 			Tooltip:
 				'''
 				+7.5% Attack Speed
@@ -1526,7 +1526,7 @@ Items: {
 					[c/AE6CD4:A powerful spell tome containing multiple different spells]
 					[c/6C86D4:Right click to bookmark a card]
 					[c/D46C89:Left click a bookmarked card to cast it]
-					[c/6CD46F:Press [KEY] to switch the selected card]
+					[c/6CD46F:Press] [KEY] [c/6CD46F:to switch the selected card]
 					'Does meaning have a meaning'
 					'''
 			}
@@ -1598,6 +1598,17 @@ Items: {
 					Fires a divine sword of light that gains additional properties at max life
 					Additional critical strike chance increases critical strike damage
 					'So powerful, it cannot have a single owner.'
+					'''
+			}
+
+			Trident: {
+				DisplayName: Trident
+				Tooltip:
+					'''
+					Fires a spear that returns back to the player
+					The spear repeatedly splits into homing orbs
+					This weapon is boosted by melee, ranged, and magic damage
+					Critical strikes deal 20% extra damage
 					'''
 			}
 		}
@@ -2130,6 +2141,11 @@ Items: {
 		RuntyBar: {
 			DisplayName: Runty Bar
 			Tooltip: ""
+		}
+
+		SoulOfMogMod: {
+			DisplayName: Soul Of Mog Mod
+			Tooltip: This... Is Mog Mod.
 		}
 	}
 

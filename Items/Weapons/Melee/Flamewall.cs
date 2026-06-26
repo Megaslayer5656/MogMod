@@ -102,7 +102,7 @@ namespace MogMod.Items.Weapons.Melee
                 AddIngredient(ItemID.TheAxe, 1).
                 AddIngredient<Flamebrand>(1).
                 AddIngredient<VoniumBar>(5).
-                AddIngredient<ScorchedCore>(3).
+                AddIngredient<SoulOfMogMod>().
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

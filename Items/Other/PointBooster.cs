@@ -17,8 +17,8 @@ namespace MogMod.Items.Other
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup("MythrilBar", 7).
-                AddIngredient(ItemID.SoulofLight, 4).
+                AddRecipeGroup("MythrilBar", 5).
+                AddIngredient(ItemID.SoulofLight, 3).
                 AddIngredient(ItemID.ManaCrystal, 1).
                 AddTile(TileID.MythrilAnvil).
                 Register();

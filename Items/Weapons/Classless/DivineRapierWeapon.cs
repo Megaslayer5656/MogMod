@@ -2,6 +2,7 @@
 using MogMod.Items.Accessories;
 using MogMod.Items.Consumables;
 using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Rarities;
@@ -83,10 +84,11 @@ namespace MogMod.Items.Weapons.Classless
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.NorthPole, 1).
-                AddIngredient<DivineRapier>(1).
+                AddIngredient<Trident>().
+                AddIngredient<DivineRapier>().
                 AddIngredient<VoniumBar>(5).
-                AddIngredient<AghanimShard>(1).
+                AddIngredient<SoulOfMogMod>(3).
+                AddIngredient<AghanimShard>().
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

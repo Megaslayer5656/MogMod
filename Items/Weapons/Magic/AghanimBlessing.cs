@@ -95,8 +95,7 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient<DagonFive>(1).
                 AddIngredient(ItemID.MoonlordTurretStaff, 1).
                 AddIngredient<VoniumBar>(5).
-                AddIngredient<ManaCore>(5).
-                AddIngredient(ItemID.CelestialSigil, 1).
+                AddIngredient<SoulOfMogMod>().
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

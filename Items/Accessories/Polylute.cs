@@ -27,6 +27,7 @@ namespace MogMod.Items.Accessories
             player.GetCritChance(DamageClass.Generic) += 7f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.polyluteActive = true;
+            mogPlayer.polyluteVisual = !hideVisual;
         }
     }
 }

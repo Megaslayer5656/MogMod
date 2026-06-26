@@ -48,7 +48,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.EyeoftheGolem, 1).
                 AddIngredient(ItemID.ShroomiteBar, 12).
                 AddIngredient(ItemID.BlackLens, 1).
-                AddIngredient<ScorchedCore>(1).
+                AddIngredient<SoulOfMogMod>(1).
                 AddIngredient<PointBooster>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();

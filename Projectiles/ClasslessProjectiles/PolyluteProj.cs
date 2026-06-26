@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
@@ -18,6 +19,7 @@ namespace MogMod.Projectiles.ClasslessProjectiles
             PitchVariance = 0.2f,
             MaxInstances = -1
         };
+        public Player Owner => Main.player[Projectile.owner];
         private float wSpeed = 0f;
         public override void SetDefaults()
         {
@@ -46,17 +48,9 @@ namespace MogMod.Projectiles.ClasslessProjectiles
                 wSpeed = Projectile.velocity.Length();
 
             if (Projectile.ai[0] >= 10)
-            {
                 MogModUtils.HomeInOnNPC(Projectile, true, 200f, wSpeed, 1f);
-            }
         }
-        public override bool? CanHitNPC(NPC target)
-        {
-            if (Projectile.ai[0] >= 10)
-                return null;
-            else
-                return false;
-        }
+        public override bool? CanHitNPC(NPC target) => Projectile.ai[0] >= 10 ? null : false;
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.position = Projectile.Center;
@@ -85,7 +79,9 @@ namespace MogMod.Projectiles.ClasslessProjectiles
                 Main.dust[killDust].velocity = dustDirection;
             }
             Projectile.ai[0] = 1f;
-            SoundEngine.PlaySound(polylute, Projectile.Center);
+            MogPlayer mogPlayer = Owner.GetModPlayer<MogPlayer>();
+            if (mogPlayer.polyluteVisual)
+                SoundEngine.PlaySound(polylute, Projectile.Center);
         }
     }
 }

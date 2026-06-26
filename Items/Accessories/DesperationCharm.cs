@@ -30,7 +30,7 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient<SoulOfDabdad>(5);
+            recipe.AddIngredient<SoulOfMogMod>(5);
             recipe.AddIngredient<DabDadBar>(10);
             recipe.AddIngredient(ItemID.CharmofMyths, 1);
             recipe.AddTile(TileID.LunarCraftingStation);

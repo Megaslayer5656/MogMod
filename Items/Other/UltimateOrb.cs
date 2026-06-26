@@ -8,17 +8,10 @@ namespace MogMod.Items.Other
     public class UltimateOrb : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Materials";
-        public override void SetStaticDefaults()
-        {
-            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 4));
-            ItemID.Sets.AnimatesAsSoul[Item.type] = true;
-            ItemID.Sets.ItemNoGravity[Item.type] = true;
-            ItemID.Sets.ItemIconPulse[Item.type] = true;
-        }
+        public override void SetStaticDefaults() => Item.ResearchUnlockCount = 15;
         public override void SetDefaults()
         {
-            Item.height = 50;
-            Item.width = 32;
+            Item.height = Item.width = 30;
             Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.LightRed;
             Item.value = Item.sellPrice(gold: 1, silver: 20);

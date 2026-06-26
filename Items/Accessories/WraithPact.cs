@@ -51,7 +51,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.AvengerEmblem).
                 AddIngredient<GriefBar>(12).
                 AddIngredient<PointBooster>().
-                AddIngredient<AghanimShard>().
+                AddIngredient<SoulOfMogMod>().
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Other
 {
-    public class SoulOfDabdad : ModItem, ILocalizedModType
+    public class SoulOfMogMod : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
@@ -14,14 +14,26 @@ namespace MogMod.Items.Other
             ItemID.Sets.AnimatesAsSoul[Item.type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
             ItemID.Sets.ItemIconPulse[Item.type] = true;
+            Item.ResearchUnlockCount = 5;
         }
         public override void SetDefaults()
         {
             Item.width = 22;
             Item.height = 22;
             Item.maxStack = Item.CommonMaxStack;
-            Item.rare = ItemRarityID.Green;
-            Item.value = 20000;
+            Item.rare = ItemRarityID.Lime;
+            Item.value = Item.sellPrice(gold: 5);
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<SpiritShard>(5).
+                AddIngredient(ItemID.Ectoplasm, 3).
+                AddIngredient<ManaCore>().
+                AddIngredient<ScorchedCore>().
+                AddIngredient(ItemID.FrostCore).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

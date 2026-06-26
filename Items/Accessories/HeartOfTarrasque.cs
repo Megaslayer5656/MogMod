@@ -51,12 +51,12 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.AnkhShield, 1).
-                AddIngredient(ItemID.ShinyStone, 1).
-                AddIngredient(ItemID.CharmofMyths, 1).
-                AddIngredient<ScorchedCore>(1).
-                AddIngredient<VitalityBooster>(1).
-                AddIngredient<UltimateOrb>(1).
+                AddIngredient(ItemID.AnkhShield).
+                AddIngredient(ItemID.ShinyStone).
+                AddIngredient(ItemID.CharmofMyths).
+                AddIngredient<SoulOfMogMod>().
+                AddIngredient<LizhardBloodVial>().
+                AddIngredient<UltimateOrb>().
                 AddTile(TileID.DemonAltar).
                 Register();
         }
