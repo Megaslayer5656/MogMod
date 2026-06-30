@@ -30,14 +30,15 @@ namespace MogMod.Items.Other
             Item.height = 30;
             Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.Cyan;
-            Item.value = Item.sellPrice(silver: 30);
+            Item.value = Item.sellPrice(gold: 3);
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
+                DisableDecraft().
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Lunar Fragment"}", 3).
                 AddIngredient(ItemID.Ectoplasm, 1).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Lunar Fragment"}", 1).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

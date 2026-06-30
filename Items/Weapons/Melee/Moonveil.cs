@@ -2,6 +2,7 @@
 using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
+using MogMod.Common.Classes;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;

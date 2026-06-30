@@ -35,6 +35,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 20;
+            Projectile.arrow = true;
         }
         public override void AI()
         {

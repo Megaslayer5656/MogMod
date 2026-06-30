@@ -1,7 +1,7 @@
 ﻿using MogMod.Common.MogModPlayer;
+using MogMod.Common.Systems;
 using MogMod.Items.Global;
-using MogMod.Items.Other;
-using MogMod.Items.Weapons.Melee;
+using MogMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +12,8 @@ namespace MogMod.Items.Accessories
     {
         public new string LocalizationCategory => "Items.Accessories";
         public const float sizeMult = 1.3f;
+        public static double DamageMult = 2D;
+        public const int DamageCap = 100;
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -27,11 +29,18 @@ namespace MogMod.Items.Accessories
             mogPlayer.wearingGiantsMaul = true;
 
             player.GetAttackSpeed(DamageClass.Melee) -= .20f;
+
+            if (Main.netMode != NetmodeID.MultiplayerClient && !MogModWorld.HasFoundGiantsMaul)
+            {
+                MogModWorld.HasFoundGiantsMaul = true;
+                MogModNetcode.SyncWorld();
+            }
         }
         public static float GiantsMaulWeaponSize(MogPlayer mogPlayer)
         {
             return sizeMult;
         }
+        /* Moved to be guaranteed in a custom structure chest
         public override void AddRecipes()
         {
             CreateRecipe().
@@ -40,5 +49,6 @@ namespace MogMod.Items.Accessories
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
+        */
     }
 }

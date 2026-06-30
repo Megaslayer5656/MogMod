@@ -6,6 +6,7 @@ using MogMod.Buffs.PotionBuffs.TheGravityBuffs;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
 using MogMod.Items.Armor.Fae;
+using MogMod.Items.Armor.Seraphic;
 using MogMod.Items.Other;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Magic.SorceryStaves;
@@ -71,6 +72,10 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingMendez;
         public bool plasmaVisual;
         public bool polyluteVisual;
+        public bool wearingRuntyHorseshoe;
+
+        public bool stopFallDamage;
+        int fallDamageTimer = 0;
 
         public bool wraithActive = false;
 
@@ -171,6 +176,9 @@ namespace MogMod.Common.MogModPlayer
         #region Armor
         public bool wearingBladeMail;
         public bool wearingFrostArmor;
+        public bool wearingFrostMagic;
+        public bool wearingFrostSummon;
+        public bool wearingSpiritArmor;
         public bool wearingDamascus1;
         public bool wearingDamascus2;
         public bool wearingBoneArmor;
@@ -183,6 +191,10 @@ namespace MogMod.Common.MogModPlayer
         public static int counterHelixDmg = 500;
         public bool wearingWhiteArmor;
         public bool wearingFaeArmor;
+        public static int wraithDamage = 100;
+        public bool wearingSeraphic;
+        public int seraphicReviveCounter = 0;
+        public bool canSeraphicRevive;
         #endregion
 
         #region Weapons
@@ -220,6 +232,10 @@ namespace MogMod.Common.MogModPlayer
             ModContent.ItemType<BerserkersSpear>()
         ];
         */
+        #endregion
+
+        #region Summons
+        public bool fCrystal;
         #endregion
 
         #region Buffs
@@ -1340,6 +1356,21 @@ namespace MogMod.Common.MogModPlayer
             if (Player.wingTimeMax > 0)
                 Player.wingTimeMax = (int)(Player.wingTimeMax * flightTimeMult);
             #endregion
+
+            #region Revives
+            if (seraphicReviveCounter > 17700)
+            {
+                Dust seraphic = Dust.NewDustDirect(Player.position, Player.width, Player.height, Main.rand.NextBool(3) ? DustID.HallowSpray : 133, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 2f);
+                seraphic.position.X += (float)Main.rand.Next(-20, 21);
+                seraphic.position.Y += (float)Main.rand.Next(-20, 21);
+                seraphic.velocity *= 0.9f;
+                seraphic.noGravity = true;
+                seraphic.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                seraphic.shader = GameShaders.Armor.GetSecondaryShader(Player.ArmorSetDye(), Player);
+                if (Main.rand.NextBool())
+                    seraphic.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+            }
+            #endregion
         }
         public override void PostUpdateMiscEffects()
         {
@@ -1348,6 +1379,7 @@ namespace MogMod.Common.MogModPlayer
         }
         public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)
         {
+            string targetName = "Joise Stain";
             static Item createItem(int type)
             {
                 Item i = new Item();
@@ -1356,7 +1388,11 @@ namespace MogMod.Common.MogModPlayer
             }
 
             if (!mediumCoreDeath)
+            {
                 yield return createItem(ModContent.ItemType<VonWarning>());
+                if (Player.name.Equals(targetName, System.StringComparison.OrdinalIgnoreCase))
+                    yield return createItem(ModContent.ItemType<Phasma>());
+            }
         }
         public override void PostUpdate()
         {
@@ -1423,22 +1459,45 @@ namespace MogMod.Common.MogModPlayer
                     shadowTimer = 0;
             }
             else
-            {
                 shadowTimer = 0;
-            }
-            if (wearingHellfireArmor)
+            if (wearingRuntyHorseshoe)
             {
-                if (Main.rand.NextBool(2))
+                // code taken from calamity mods wulfrum acrobatics pack
+                Vector2 checkedPlayerPosition = Player.position;
+                bool imminentDanger = false;
+
+                for (int i = 0; i < 3; i++)
                 {
-                    int dust = Dust.NewDust(Player.position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(3) ? DustID.Lava : 174, Player.velocity.X * 0.04f, Player.velocity.Y * 0.04f, 100, default, 1f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 0.65f;
-                    Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.03f;
-                    if (Main.rand.NextBool(4))
+                    Vector2 collisionVector = Collision.TileCollision(checkedPlayerPosition, Player.velocity, Player.width, Player.height, gravDir: (int)Player.gravDir);
+                    if (collisionVector.Y < Player.velocity.Y)
                     {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.3f;
+                        imminentDanger = true;
+                        checkedPlayerPosition += collisionVector;
+                        //Main.NewText("player will die!", 255, 25, 24);
+                        break;
                     }
+                    checkedPlayerPosition += collisionVector;
+                }
+
+                int fallDistance = (int)(checkedPlayerPosition.Y / 16f) - Player.fallStart;
+                int fallDmgThreshold = 5 + Player.extraFall;
+
+                if (!imminentDanger)
+                {
+                    fallDamageTimer++;
+                    if (fallDamageTimer == 5)
+                    {
+                        //Main.NewText("player can die!", 50, 55, 124);
+                        stopFallDamage = false;
+                    }
+                    return;
+                }
+
+                if (fallDistance * Player.gravDir > fallDmgThreshold)
+                {
+                    fallDamageTimer = 0;
+                    //Main.NewText("player died!", 155, 25, 24);
+                    stopFallDamage = true;
                 }
             }
         }
@@ -1547,25 +1606,42 @@ namespace MogMod.Common.MogModPlayer
         public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
         {
             if (wearingUndyingHelm)
-            {
                 doUndying();
-            }
+            if (seraphicReviveCounter > 0)
+                seraphicReviveCounter = 0;
         }
         public void doUndying()
         {
             Player.respawnTimer = Convert.ToInt32(Player.respawnTimer * .8f);
-            Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<UndyingPortalProj>(), 100, 1, Player.whoAmI);
+            Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<UndyingPortalProj>(), wraithDamage, 1, Player.whoAmI);
         }
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
+            if ((wearingSeraphic && seraphicReviveCounter <= 0) || Player.HasBuff(ModContent.BuffType<SeraphicReviveBuff>()))
+            {
+                if (seraphicReviveCounter == 18000 && !canSeraphicRevive)
+                {
+                    SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, Player.Center);
+                    Player.AddBuff(ModContent.BuffType<SeraphicReviveBuff>(), SeraphicBreastplate.ReviveDuration);
+                }
+                canSeraphicRevive = true;
+                if (Player.statLife < 1)
+                    Player.statLife = 1;
+                return false;
+            }
             if (wearingUndyingArmor && !Player.HasBuff(ModContent.BuffType<WraithBuff>()))
             {
                 SoundEngine.PlaySound(SoundID.NPCDeath52, Player.Center);
                 Player.AddBuff(ModContent.BuffType<WraithBuff>(), 300);
-                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<PlayerUndyingPortalProj>(), 100, 1, Player.whoAmI);
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<PlayerUndyingPortalProj>(), wraithDamage, 1, Player.whoAmI);
             }
             if (Player.HasBuff(ModContent.BuffType<WraithBuff>()))
+                return false;
+            if (wearingRuntyHorseshoe && stopFallDamage)
             {
+                fallDamageTimer = 0;
+                if (Player.statLife < 1)
+                    Player.statLife = 1;
                 return false;
             }
             return true;
@@ -1816,6 +1892,8 @@ namespace MogMod.Common.MogModPlayer
                 Player.endurance += .10f;
                 Player.velocity.X *= 0.9f;
             }
+            if (wearingSpiritArmor)
+                Player.slowFall = true;
 
             // cooldowns
             if (shivCooldown > 0)
@@ -1832,6 +1910,8 @@ namespace MogMod.Common.MogModPlayer
                 hellfireCooldown--;
             if (satanicAccCooldown > 0)
                 satanicAccCooldown--;
+            if (seraphicReviveCounter > 0)
+                seraphicReviveCounter--;
         }
         
         // stops player from moving while charging bow
@@ -1904,6 +1984,8 @@ namespace MogMod.Common.MogModPlayer
             exultationEquipped = false;
             plasmaVisual = false;
             polyluteVisual = false;
+            wearingRuntyHorseshoe = false;
+            //stopFallDamage = false;
 
             wearingMendez = false;
 
@@ -1914,12 +1996,17 @@ namespace MogMod.Common.MogModPlayer
             wearingTankyRizzler = false;
             wearingBladeMail = false;
             wearingFrostArmor = false;
+            wearingFrostMagic = false;
+            wearingFrostSummon = false;
             wearingDamascus1 = false;
             wearingDamascus2 = false;
             wearingBoneArmor = false;
             wearingWhiteArmor = false;
             wearingFaeArmor = false;
             wearingHellfireArmor = false;
+            wearingSpiritArmor = false;
+            wearingSeraphic = false;
+            canSeraphicRevive = false;
 
             diademMinion = false;
             dominatorMinion = false;
@@ -1961,6 +2048,8 @@ namespace MogMod.Common.MogModPlayer
 
             holdingThrowingShade = false;
             holdingMeteoriteStaff = false;
+
+            fCrystal = false;
 
             if (Player.controlDown)
                 forceDirection = DashDown;

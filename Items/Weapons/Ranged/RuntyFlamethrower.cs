@@ -42,7 +42,7 @@ namespace MogMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<RuntyBar>(10).
+                AddIngredient<RuntyBar>(12).
                 AddIngredient(ItemID.Gel, 10).
                 AddTile(TileID.Anvils).
                 Register();

@@ -14,20 +14,20 @@ namespace MogMod.Items.Armor.FrostMaiden
         {
             Item.width = 26;
             Item.height = 18;
-            Item.defense = 3;
-            Item.rare = ItemRarityID.Green;
-            Item.value = MogGlobalItem.RarityGreenBuyPrice;
+            Item.defense = 7;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
         }
         public override void UpdateEquip(Player player)
         {
-            player.statManaMax2 += 20;
-            player.moveSpeed += .12f;
+            player.maxMinions += 2;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<FrigidShard>(4).
-                AddIngredient<ManaEssence>(2).
+                AddIngredient(ItemID.Bone, 25).
+                AddIngredient<FrigidShard>(5).
+                AddIngredient(ItemID.FlinxFur, 3).
                 AddTile(TileID.Anvils).
                 Register();
         }

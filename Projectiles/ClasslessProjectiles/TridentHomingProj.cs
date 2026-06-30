@@ -1,5 +1,4 @@
-﻿using MogMod.Common.MogModPlayer;
-using MogMod.Utilities;
+﻿using MogMod.Utilities;
 using MogMod.Common.Classes;
 using Terraria;
 using Terraria.Audio;
@@ -21,6 +20,7 @@ namespace MogMod.Projectiles.ClasslessProjectiles
         };
         public override void SetStaticDefaults()
         {
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
@@ -28,7 +28,7 @@ namespace MogMod.Projectiles.ClasslessProjectiles
         {
             Projectile.width = Projectile.height = 16;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 300;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.friendly = true;
@@ -42,7 +42,7 @@ namespace MogMod.Projectiles.ClasslessProjectiles
             {
                 int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.NextBool() ? 111 : 92, 0, 0, 100, default, .75f);
             }
-            if (Projectile.timeLeft < 500)
+            if (Projectile.timeLeft < 200)
                 Projectile.ai[0] = 1f;
             if (Projectile.ai[0] >= 1f)
                 MogModUtils.HomeInOnNPC(Projectile, true, 1500f, 15f, 15f);

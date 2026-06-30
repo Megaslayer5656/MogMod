@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
 using Terraria.Audio;
+using MogMod.Buffs.Debuffs;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
@@ -27,9 +28,14 @@ namespace MogMod.Projectiles.RangedProjectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            target.AddBuff(BuffID.Oiled, 300);
             target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(BuffID.OnFire3, 300);
+            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(BuffID.Frostburn2, 300);
             target.AddBuff(BuffID.ShadowFlame, 300);
             target.AddBuff(BuffID.CursedInferno, 300);
+            target.AddBuff(ModContent.BuffType<GhostflameDebuff>(), 300);
             Player player = Main.player[Projectile.owner];
 
             if (target.type != NPCID.TargetDummy)
@@ -42,7 +48,25 @@ namespace MogMod.Projectiles.RangedProjectiles
                     player.statLife = player.statLifeMax2;
             }
         }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            target.AddBuff(BuffID.Oiled, 300);
+            target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(BuffID.OnFire3, 300);
+            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(BuffID.Frostburn2, 300);
+            target.AddBuff(BuffID.ShadowFlame, 300);
+            target.AddBuff(BuffID.CursedInferno, 300);
+            target.AddBuff(ModContent.BuffType<GhostflameDebuff>(), 300);
+            Player player = Main.player[Projectile.owner];
 
+            int heal = Convert.ToInt32(player.statLifeMax2 * .0175);
+            heal *= Convert.ToInt32(player.lifeSteal * 0.0135);
+            player.statLife += heal;
+            player.HealEffect(heal);
+            if (player.statLife > player.statLifeMax2)
+                player.statLife = player.statLifeMax2;
+        }
         public override void AI()
         {
             if (Main.rand.NextBool(3))

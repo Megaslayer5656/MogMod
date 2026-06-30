@@ -45,7 +45,6 @@ namespace MogMod.Items.Weapons.Classless
         //public override bool RangedPrefix() => true;
         //public override bool MagicPrefix() => true;
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
-        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers) => modifiers.CritDamage *= 1.2f;
         public override void AddRecipes()
         {
             CreateRecipe().

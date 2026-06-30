@@ -12,6 +12,7 @@ namespace MogMod.Projectiles.ClasslessProjectiles
     {
         public new string LocalizationCategory => "Projectiles.ClasslessProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = 4;

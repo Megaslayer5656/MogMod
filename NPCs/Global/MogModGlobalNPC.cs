@@ -5,6 +5,7 @@ using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories;
 using MogMod.Items.Ammo;
+using MogMod.Items.Armor.Hellfire;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Ores;
@@ -63,9 +64,9 @@ namespace MogMod.NPCs.Global
         public static float shivaMult = 1 - shivaNumb / 100f;
 
         // damage caps
-        public const int bashCap = 50;
-        public const int shivCap = 400;
-        public const int hellfireCap = 600;
+        public const int bashCap = GiantsMaul.DamageCap;
+        public const int shivCap = SerratedShiv.DamageCap;
+        public const int hellfireCap = HellfireMask.DamageCap;
 
         public bool markedByMarker;
 
@@ -100,7 +101,8 @@ namespace MogMod.NPCs.Global
             switch (shop.NpcType)
             {
                 case NPCID.SkeletonMerchant:
-                    shop.InsertAfter(ItemID.Rope, ModContent.ItemType<AstrologersStaff>());
+                    shop.InsertAfter(ItemID.Rope, ModContent.ItemType<AstrologersStaff>(), (Condition.MoonPhasesHalf0));
+                    shop.InsertAfter(ItemID.Rope, ModContent.ItemType<LabGerminator>(), (Condition.MoonPhasesHalf1));
                     break;
                 case NPCID.Merchant:
                     shop.InsertAfter(ItemID.Glowstick, ModContent.ItemType<Crown>(), Condition.DownedEyeOfCthulhu, Condition.HappyEnoughToSellPylons);
@@ -249,18 +251,9 @@ namespace MogMod.NPCs.Global
 
             int itemDamage = player.HeldItem.damage;
             int enemyMaxHP = npc.lifeMax;
-            //int bashDamage = 0;
-            int bashDamage = bashCap;
-            int shivDamage = 0;
-            //if (itemDamage <= bashCap)
-            //    bashDamage = itemDamage;
-            //else
-            //    bashDamage = bashCap;
-            if (Convert.ToInt32(enemyMaxHP * 0.01) <= shivCap)
-                shivDamage = Convert.ToInt32(enemyMaxHP * 0.005) + 50;
-            else
-                shivDamage = shivCap;
-            int hellfireDamage = hellfireCap;
+            int shivDamage = MogModUtils.DamageHardCap(Convert.ToInt32(enemyMaxHP * 0.005) + 50, shivCap);
+            int hellfireDamage = MogModUtils.DamageSoftCap(damageDone * HellfireMask.DamageMult, hellfireCap);
+            int bashDamage = MogModUtils.DamageSoftCap(damageDone * GiantsMaul.DamageMult, bashCap);
 
             // skull basher
             var source = player.GetSource_OnHit(npc);
@@ -317,6 +310,7 @@ namespace MogMod.NPCs.Global
                 mogPlayer.doATG(damageDone);
             }
 
+            // polylute
             if (mogPlayer.polyluteActive)
             {
                 Vector2 kirk = new Vector2(-10, 10).RotatedByRandom(MathHelper.ToRadians(360));
@@ -538,7 +532,7 @@ namespace MogMod.NPCs.Global
                     WorldGeneration.BroadcastLocalizedText(FaeOreText.Value, Color.HotPink);
                     SyncWorld();
                 }
-            if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyer)
+            if (npc.type == NPCID.SkeletronPrime || npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism || npc.type == NPCID.TheDestroyer)
             {
                 if (!Condition.DownedMechBossAll.IsMet())
                 {

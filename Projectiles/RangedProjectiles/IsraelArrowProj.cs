@@ -26,6 +26,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.timeLeft = 600;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
+            Projectile.arrow = true;
         }
         public override void AI()
         {

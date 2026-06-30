@@ -240,7 +240,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
         {
             // Make knockback go away from player
             modifiers.HitDirectionOverride = target.position.X > Owner.MountedCenter.X ? 1 : -1;
-            modifiers.SourceDamage *= (chargeDamage / 25f) + 1f;
+            modifiers.SourceDamage *= (chargeDamage / (CurrentCharge >= BlackBlade.MaxCharge ? 20.833f : 50f)) + 1f;
             modifiers.Knockback += (chargeDamage / 25f);
             if (target.life >= (int)(target.lifeMax * .9f))
                 modifiers.FinalDamage *= 1.5f;

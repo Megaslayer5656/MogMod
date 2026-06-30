@@ -95,6 +95,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
         {
             Owner.itemAnimation = 2;
             Owner.itemTime = 2;
+            Owner.velocity.X *= .94f;
             if (!Owner.active || Owner.dead || Owner.noItems || Owner.CCed)
             {
                 Projectile.Kill();
@@ -134,7 +135,6 @@ namespace MogMod.Projectiles.MeleeProjectiles
                     }
                     InitialAngle = targetAngle - firstHalfSwing * swingRange * Projectile.spriteDirection;
                     Owner.ChangeDir(Projectile.direction);
-                    Owner.velocity.X *= .95f;
                     if (CurrentCharge <= WyvernJawblade.MaxCharge)
                         CurrentCharge++;
                 }
@@ -203,7 +203,7 @@ namespace MogMod.Projectiles.MeleeProjectiles
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             modifiers.HitDirectionOverride = target.position.X > Owner.MountedCenter.X ? 1 : -1;
-            modifiers.SourceDamage *= (chargeDamage / 25f) + 1f;
+            modifiers.SourceDamage *= (chargeDamage / (CurrentCharge >= WyvernJawblade.MaxCharge ? 25f : 50f)) + 1f;
             modifiers.Knockback += (chargeDamage / 100f);
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => Projectile.damage = (int)(Projectile.damage * .9f);

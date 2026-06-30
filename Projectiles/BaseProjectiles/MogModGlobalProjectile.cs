@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
+using MogMod.Items.Accessories;
+using MogMod.Items.Armor.FrostMaiden;
+using MogMod.Items.Armor.Hellfire;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Projectiles.MagicProjectiles;
@@ -22,7 +25,6 @@ namespace MogMod.Projectiles.BaseProjectiles
 {
     public partial class MogModGlobalProjectile : GlobalProjectile
     {
-        // exists for projectile utils hopefully
         private Random random = new Random();
         public NPC.HitInfo hitInfo;
         public bool CanSplit = true;
@@ -36,12 +38,16 @@ namespace MogMod.Projectiles.BaseProjectiles
         public bool deathBullet = false;
         public bool daybreakBullet = false;
 
-        // damage caps
-        public int gunpowderCap = 40;
-        public int shivCap = 400;
-        public const int hellfireCap = 600;
+        public int Time = 0;
+        private bool doubleDamage = false;
 
-        public const int bashCap = 50;
+        // damage caps
+        public int gunpowderCap = GunpowderGauntlet.DamageCap;
+        public int shivCap = SerratedShiv.DamageCap;
+        public const int hellfireCap = HellfireMask.DamageCap;
+
+        // for melee holdouts only
+        public const int bashCap = GiantsMaul.DamageCap;
         public bool bashProc = false;
 
         public int cooldownTimer = 5;
@@ -82,6 +88,9 @@ namespace MogMod.Projectiles.BaseProjectiles
         }
         public override void AI(Projectile projectile)
         {
+            Player player = Main.player[projectile.owner];
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            Time++;
             if (fireBullet)
                 if (projectile.timeLeft > 200)
                     for (int i = 0; i < 2; ++i)
@@ -124,6 +133,29 @@ namespace MogMod.Projectiles.BaseProjectiles
                         dust.scale = Main.rand.NextFloat(0.4f, 0.8f);
                     }
                 }
+            /* doubles damage if channeled for 3 seconds (idk what to use this for)
+            if (player.channel && Time >= 180 && !doubleDamage)
+            {
+                doubleDamage = true;
+                projectile.damage = (int)(projectile.damage * 1.5f);
+            }
+            */
+            if (projectile.CountsAsClass(DamageClass.Magic) || projectile.CountsAsClass(DamageClass.MagicSummonHybrid))
+            {
+                if (mogPlayer.wearingFrostMagic)
+                {
+                    if (Time % 10 == 0)
+                    {
+                        if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.NorthPoleSnowflake] < FrostMaidenMagic.ShardMax && projectile.type != ProjectileID.NorthPoleSnowflake)
+                        {
+                            int crystalDamage = MogModUtils.DamageSoftCap(projectile.damage * FrostMaidenMagic.ShardDamage, FrostMaidenMagic.ShardCap);
+
+                            int shard = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileID.NorthPoleSnowflake, crystalDamage, 1f, projectile.owner);
+                            Main.projectile[shard].DamageType = projectile.DamageType;
+                        }
+                    }
+                }
+            }
         }
         public override void ModifyHitPlayer(Projectile projectile, Player target, ref Player.HurtModifiers modifiers)
         {
@@ -143,7 +175,6 @@ namespace MogMod.Projectiles.BaseProjectiles
                 ParryProjectile(projectile, target.whoAmI);
             }
         }
-
         public static void ParryProjectile(Projectile projectile, int newOwner)
         {
             projectile.velocity *= -1f;
@@ -160,21 +191,10 @@ namespace MogMod.Projectiles.BaseProjectiles
             Player player = Main.player[projectile.owner];
             MogPlayer modPlayer = player.MogMod();
             var source = player.GetSource_OnHit(target);
-            int itemDamage = player.HeldItem.damage;
             int enemyMaxHP = target.lifeMax;
-            int shivDamage = 0;
-            //int gunpowderDamage = 0;
-            int gunpowderDamage = gunpowderCap;
-            int hellfireDamage = hellfireCap;
-
-            //if (itemDamage <= gunpowderCap)
-            //    gunpowderDamage = itemDamage;
-            //else
-            //    gunpowderDamage = gunpowderCap;
-            if (Convert.ToInt32(enemyMaxHP * 0.01) <= shivCap)
-                shivDamage = Convert.ToInt32(enemyMaxHP * 0.005) + 50;
-            else
-                shivDamage = shivCap;
+            int shivDamage = MogModUtils.DamageHardCap(Convert.ToInt32(enemyMaxHP * 0.005) + 50, shivCap);
+            int hellfireDamage = MogModUtils.DamageSoftCap(damageDone * HellfireMask.DamageMult, hellfireCap);
+            int gunpowderDamage = MogModUtils.DamageSoftCap(damageDone * GunpowderGauntlet.DamageMult, gunpowderCap);
 
             radiantProc = random.Next(2) == 0;
             gunpowderProc = random.Next(5) == 0;
@@ -211,7 +231,7 @@ namespace MogMod.Projectiles.BaseProjectiles
             shivProc = random.Next(5) == 0;
             if (projectile.owner == player.whoAmI && shivProc && modPlayer.wearingSerratedShiv && modPlayer.shivCooldown <= 0)
             {
-                modPlayer.shivCooldown = cooldownTimer;
+                modPlayer.shivCooldown = cooldownTimer * 4;
                 hitInfo = new NPC.HitInfo
                 {
                     Damage = shivDamage,
@@ -238,7 +258,7 @@ namespace MogMod.Projectiles.BaseProjectiles
 
             // skull basher (melee holdout projectiles only)
             bashProc = Main.rand.Next(7) == 0;
-            if (bashProc && modPlayer.wearingGiantsMaul && modPlayer.bashCooldown <= 0 && MeleeHoldouts.Contains(projectile.type))
+            if (projectile.owner == player.whoAmI && bashProc && modPlayer.wearingGiantsMaul && modPlayer.bashCooldown <= 0 && MeleeHoldouts.Contains(projectile.type))
             {
                 modPlayer.bashCooldown = cooldownTimer;
                 int bash = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ModContent.ProjectileType<SkullBashProjectile>(), bashCap, 0f, player.whoAmI);

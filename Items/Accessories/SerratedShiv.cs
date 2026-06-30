@@ -11,6 +11,7 @@ namespace MogMod.Items.Accessories
     public class SerratedShiv : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const int DamageCap = 400;
         public override void SetDefaults()
         {
             Item.accessory = true;

@@ -27,6 +27,7 @@ namespace MogMod.Items.Other
         public override void AddRecipes()
         {
             CreateRecipe().
+                DisableDecraft().
                 AddIngredient<SpiritShard>(5).
                 AddIngredient(ItemID.Ectoplasm, 3).
                 AddIngredient<ManaCore>().

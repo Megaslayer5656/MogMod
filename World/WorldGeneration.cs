@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Tiles.Ores;
+using MogMod.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.Chat;
@@ -14,7 +16,7 @@ using Terraria.WorldBuilding;
 namespace MogMod.World
 {
     // copied this from calamity mod world gen
-    public class WorldGeneration : ModSystem
+    public partial class WorldGeneration : ModSystem
     {
         /// <summary>
         /// Generates clusters of ore across the world based on various requirements and with various strengths/frequencies.
@@ -60,11 +62,47 @@ namespace MogMod.World
             else if (Main.dedServ)
                 ChatHelper.BroadcastChatMessage(NetworkText.FromKey(key), textColor.Value);
         }
+        public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight)
+        {
+            int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
+            int SurfaceIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
+            int HellIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Lakes"));
+            int DesertIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
+            int TrapsIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Traps"));
+            int EndIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Tile Cleanup"));
+
+            if (ShiniesIndex != -1)
+            {
+                tasks.Insert(SurfaceIndex + 1, new PassLegacy("MogMod Grief", GenGrief));
+                tasks.Insert(SurfaceIndex + 1, new PassLegacy("MogMod Caves", GenCave));
+                tasks.Insert(SurfaceIndex + 1, new PassLegacy("MogMod Clubstep Monster", GenClubstepMonster));
+            }
+        }
     }
     public static class MogModWorld
     {
         public static bool spawnedMendez = false;
         public static bool spawnedPrapor = false;
         public static bool spawnedSolBadguy = false;
+        public static bool HasFoundGiantsMaul = false;
+        public static void Save(List<string> boolTagContainer)
+        {
+            boolTagContainer.AddWithCondition("HasFoundGiantsMaul", HasFoundGiantsMaul);
+        }
+        public static void Load(IList<string> boolTagContainer)
+        {
+            HasFoundGiantsMaul = boolTagContainer.Contains("HasFoundGiantsMaul");
+        }
+        public static void SendData(BinaryWriter writer)
+        {
+            BitsByte flags = new BitsByte();
+            flags[0] = HasFoundGiantsMaul;
+            writer.Write(flags);
+        }
+        public static void ReceiveData(BinaryReader reader)
+        {
+            BitsByte flags = reader.ReadByte();
+            HasFoundGiantsMaul = flags[0];
+        }
     }
 }

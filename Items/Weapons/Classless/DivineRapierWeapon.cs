@@ -75,12 +75,6 @@ namespace MogMod.Items.Weapons.Classless
             if (line != null)
                 line.OverrideColor = Color.Lerp(tooltipColor, Color.White, 0.5f);
         }
-        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
-        {
-            modifiers.SetCrit();
-            float critDamage = player.GetTotalCritChance(Item.DamageType) * 0.02f;
-            modifiers.CritDamage += critDamage;
-        }
         public override void AddRecipes()
         {
             CreateRecipe().

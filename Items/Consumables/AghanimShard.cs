@@ -42,6 +42,7 @@ namespace MogMod.Items.Consumables
         public override void AddRecipes()
         {
             CreateRecipe(5).
+                DisableDecraft().
                 AddIngredient(ItemID.MagicPowerPotion, 1).
                 AddIngredient(ItemID.ManaRegenerationPotion, 1).
                 AddIngredient(ItemID.Ectoplasm, 2).

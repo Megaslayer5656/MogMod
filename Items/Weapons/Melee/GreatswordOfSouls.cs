@@ -53,8 +53,8 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<GriefBar>(12).
-                AddIngredient<SoulFragment>(8).
                 AddIngredient(ItemID.SoulofNight, 7).
+                AddIngredient<SoulFragment>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

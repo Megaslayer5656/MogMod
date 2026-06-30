@@ -1,3 +1,4 @@
 displayName = Mog Mod
-author = Megaslayer_
+author = Megaslayer_;PokemonTrainer
 version = 0.1
+modReferences = StructureHelper

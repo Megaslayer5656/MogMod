@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
@@ -14,7 +13,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using MogMod.Common.Systems;
-using Terraria.Localization;
 using MogMod.Buffs.PotionBuffs.TheGravityBuffs;
 
 namespace MogMod.Items.Weapons.Magic
@@ -413,7 +411,7 @@ namespace MogMod.Items.Weapons.Magic
                     Shuffle = true;
                     break;
                 case 18: // auto bookmark
-                    player.AddBuff(ModContent.BuffType<TheGravityAutoBuff>(), bufftime);
+                    player.AddBuff(ModContent.BuffType<TheGravityAutoBuff>(), bufftime / 2);
                     break;
                 case 19: // teleport
                     SoundEngine.PlaySound(SoundID.Item8, player.Center);
@@ -494,7 +492,7 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient<ShadowRealm>().
                 AddIngredient<LagunaBlade>().
                 AddIngredient(ItemID.LunarBar, 15).
-                AddIngredient<SoulFragment>(10).
+                AddIngredient<SoulFragment>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

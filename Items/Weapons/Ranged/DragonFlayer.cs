@@ -43,7 +43,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.LunarBar, 12).
-                AddIngredient<SoulFragment>(7).
+                AddIngredient<SoulFragment>(5).
                 AddIngredient<ScorchedCore>().
                 AddTile(TileID.LunarCraftingStation).
                 Register();

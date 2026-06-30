@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Items.Accessories;
 using MogMod.Items.Consumables;
+using MogMod.Items.Other;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Utilities;
 using MogMod.World;
@@ -122,6 +123,9 @@ namespace MogMod.NPCs.TownNpc
             new NPCShop(Type)
                 .Add<Glue>()
                 .Add<MewingGuide>()
+                .Add<GiantsMaul>(new Condition(MiscUtils.GetText("Condition.HasFoundGiantsMaul"), () => MogModWorld.HasFoundGiantsMaul))
+                .Add<SoulFragment>(Condition.DownedMoonLord)
+                .Add<AghanimShard>(Condition.DownedCultist)
                 .Register();
         }
         public override string GetChat()

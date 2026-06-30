@@ -114,6 +114,7 @@ Mods: {
 		DamageClasses: {
 			BoulderClass.DisplayName: Boulder Class
 			MeleeRangedMagicDamageClass.DisplayName: Melee/Ranged/Magic Damage
+			MeleeMagicDamageClass.DisplayName: Melee/Magic Damage
 		}
 
 		Tiles: {
@@ -521,6 +522,11 @@ Mods: {
 				DisplayName: Boundless Movement
 				Description: +25% Jump Speed and Movement Speed, Infinite Flight Time
 			}
+
+			FrostCrystalSummonBuff: {
+				DisplayName: Frost Crystal
+				Description: The Frost Crystal will protect you
+			}
 		}
 
 		NPCs: {
@@ -714,6 +720,8 @@ Mods: {
 				SharpshooterProj.DisplayName: Sharpshooter
 				SquirrelProj.DisplayName: Squirrel
 				LabGerminatorProj.DisplayName: Snail
+				RuntyArrowProj.DisplayName: Runty Arrow
+				RuntyShardProj.DisplayName: Runty Shard
 			}
 
 			MeleeProjectiles: {
@@ -776,6 +784,8 @@ Mods: {
 				JidiPollenExplosion.DisplayName: Jidi Pollen Bag
 			}
 
+			Summoner.FrostCrystalSummon.DisplayName: Frost Crystal Summon
+
 			ClasslessProjectiles: {
 				UndyingPortalProj.DisplayName: Undying Portal
 				UndyingHomingProj.DisplayName: Undying Spirit
@@ -835,5 +845,7 @@ Mods: {
 			Scav: Amidst the chaos and lawlessness, scarcity of vital provisions and territories, the first to lift up their heads are shady characters, unembarrassed by excessive moral or ethical restraints or quick to lose them under influence of conditions.
 			WanderingJellyfish: An airborne creature, capable of flight using a combination of gases in its clear hull. Like the Jellyfish on earth, they also use pulsation to aid in locomotion.
 		}
+
+		Condition.HasFoundGiantsMaul: Mods.MogMod.Condition.HasFoundGiantsMaul
 	}
 }

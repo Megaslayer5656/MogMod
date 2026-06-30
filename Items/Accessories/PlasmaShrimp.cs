@@ -9,10 +9,7 @@ namespace MogMod.Items.Accessories
     public class PlasmaShrimp : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public override void SetStaticDefaults()
-        {
-            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<ATGMissile>();
-        }
+        public override void SetStaticDefaults() => ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<ATGMissile>();
         public override void SetDefaults()
         {
             Item.accessory = true;

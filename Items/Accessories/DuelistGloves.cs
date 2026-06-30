@@ -31,7 +31,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.FeralClaws, 1).
                 AddIngredient(ItemID.Cactus, 75).
-                AddIngredient<RuntyBar>(5).
+                AddIngredient<RuntyBar>(8).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

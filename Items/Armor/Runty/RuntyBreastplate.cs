@@ -38,7 +38,7 @@ namespace MogMod.Items.Armor.Runty
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<RuntyBar>(12).
+                AddIngredient<RuntyBar>(16).
                 AddTile(TileID.Anvils).
                 Register();
         }

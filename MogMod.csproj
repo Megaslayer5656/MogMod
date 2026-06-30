@@ -8,6 +8,15 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+	<Reference Include="StructureHelper">
+		<HintPath>..\ModAssemblies\StructureHelper.dll</HintPath>
+	</Reference>
+	</ItemGroup>
+	<PropertyGroup>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<DocumentationFile>$StructureHelper.xml</DocumentationFile>
+	</PropertyGroup>
+  <ItemGroup>
     <AdditionalFiles Remove="Armor\**" />
     <AdditionalFiles Remove="obj\**" />
     <AdditionalFiles Remove="Properties\**" />

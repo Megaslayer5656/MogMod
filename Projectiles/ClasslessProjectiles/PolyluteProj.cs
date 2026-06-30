@@ -21,6 +21,7 @@ namespace MogMod.Projectiles.ClasslessProjectiles
         };
         public Player Owner => Main.player[Projectile.owner];
         private float wSpeed = 0f;
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 4;

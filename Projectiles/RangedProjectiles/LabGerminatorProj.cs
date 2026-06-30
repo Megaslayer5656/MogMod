@@ -10,6 +10,12 @@ namespace MogMod.Projectiles.RangedProjectiles
     public class LabGerminatorProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.RangedProjectiles";
+        public static readonly SoundStyle dead = new SoundStyle("Terraria/Sounds/NPC_Killed_1")
+        {
+            Volume = 1f,
+            PitchVariance = 0.2f,
+            MaxInstances = -1
+        };
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
@@ -60,7 +66,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         public override void OnKill(int timeLeft)
         {
             Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
-            SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.position);
+            SoundEngine.PlaySound(dead, Projectile.position);
             int dustsplash = 0;
             while (dustsplash < 8)
             {

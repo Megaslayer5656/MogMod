@@ -10,6 +10,8 @@ namespace MogMod.Items.Accessories
     public class GunpowderGauntlet : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public static double DamageMult = 1.5D;
+        public const int DamageCap = 50;
         public override void SetDefaults()
         {
             Item.accessory = true;

@@ -21,6 +21,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.penetrate = 1;
             Projectile.MaxUpdates = 2;
             Projectile.DamageType = DamageClass.Ranged;
+            Projectile.arrow = true;
         }
 
         private Vector2 Recalibrate()

@@ -27,6 +27,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.extraUpdates = 1;
+            Projectile.arrow = true;
         }
 
         public override bool PreDraw(ref Color lightColor)

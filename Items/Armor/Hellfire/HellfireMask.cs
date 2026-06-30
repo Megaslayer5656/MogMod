@@ -1,4 +1,5 @@
-﻿using MogMod.Common.MogModPlayer;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
@@ -14,6 +15,8 @@ namespace MogMod.Items.Armor.Hellfire
     public class HellfireMask : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public static double DamageMult = 4D;
+        public const int DamageCap = 1000;
         public static LocalizedText SetBonusText { get; private set; }
         public override void SetStaticDefaults()
         {
@@ -50,6 +53,21 @@ namespace MogMod.Items.Armor.Hellfire
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingHellfireArmor = true;
             player.lavaImmune = true;
+        }
+        public override void UpdateVanitySet(Player player)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                int dust = Dust.NewDust(player.position - new Vector2(2f), player.width + 4, player.height + 4, Main.rand.NextBool(3) ? DustID.Lava : 174, player.velocity.X * 0.04f, player.velocity.Y * 0.04f, 100, default, 1f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity *= 0.65f;
+                Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.03f;
+                if (Main.rand.NextBool(4))
+                {
+                    Main.dust[dust].noGravity = false;
+                    Main.dust[dust].scale *= 0.3f;
+                }
+            }
         }
         public override void UpdateEquip(Player player)
         {

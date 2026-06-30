@@ -522,7 +522,7 @@ Items: {
 				'''
 				+30% Melee Weapon Size
 				[c/BA2F2F:-20% Melee Speed]
-				True melee attacks have a small chance to bash enemies, dealing 50 melee damage
+				True melee attacks have a small chance to bash enemies, dealing 2x the damage dealt, with a soft cap of 100
 				[c/A62450:'Crude but smashingly effective.']
 				'''
 		}
@@ -541,7 +541,7 @@ Items: {
 			Tooltip:
 				'''
 				+5% Magic Attack Speed
-				Magic attacks have a small chance to explode, dealing 40 magic damage
+				Magic attacks have a small chance to explode, dealing 1.5x the damage dealt, with a soft cap of 50
 				[c/B87133:'A harmless prank that went entirely too far.']
 				'''
 		}
@@ -570,7 +570,7 @@ Items: {
 			DisplayName: Serrated Shiv
 			Tooltip:
 				'''
-				Attacks have a chance to true strike enemies, dealing 0.5% of their maximum life as damage
+				Attacks have a chance to true strike enemies, dealing 0.5% of their maximum life as damage, with a hard cap of 400
 				[c/C25B5B:'Too dangerous for taskwork, this blade's only purpose is vile murder.']
 				'''
 		}
@@ -685,6 +685,16 @@ Items: {
 				Boosts bleed buildup by 35%
 				Does not stack with downgrades
 				[c/94132A:'After claiming numerous lives, the dagger is now broken, but has acquired a spectral aura.']
+				'''
+		}
+
+		RuntyHorseshoe: {
+			DisplayName: Runty Horseshoe
+			Tooltip:
+				'''
+				+10% Jump Height
+				Increases fall resistance
+				Fall damage cannot kill you
 				'''
 		}
 	}
@@ -868,14 +878,14 @@ Items: {
 				Tooltip:
 					'''
 					Inflicts Destined Death on hit
-					Can be charged for increased damage
+					Can be charged for up to 4.8x increased damage
 					Deals more damage to unhurt enemies
 					'''
 			}
 
 			FrozenSpear: {
 				DisplayName: Frozen Spear
-				Tooltip: Freezes enemies on hit (what CANT he even do)
+				Tooltip: Freezes enemies on hit
 			}
 
 			Bloodletter: {
@@ -1018,7 +1028,7 @@ Items: {
 				DisplayName: Wyvern Jawblade
 				Tooltip:
 					'''
-					Can be charged for increased damage
+					Can be charged for up to 4.8x increased damage
 					Movement speed is reduced while charging
 					'''
 			}
@@ -1993,6 +2003,11 @@ Items: {
 			Tooltip: ""
 			DisplayName: Endless Green Tracer Pouch
 		}
+
+		RuntyArrow: {
+			DisplayName: Runty Arrow
+			Tooltip: Splits into multiple shards
+		}
 	}
 
 	Materials: {
@@ -2028,14 +2043,7 @@ Items: {
 
 		Phasma: {
 			DisplayName: Phasma
-			Tooltip:
-				'''
-				67 Ranged Damage
-				41% Attack Speed
-				Very fast speed
-				Very weak knockback
-				67% chance to save ammo
-				'''
+			Tooltip: 66% chance to save ammo
 		}
 
 		PointBooster: {
@@ -2326,42 +2334,34 @@ Items: {
 
 		FrostMaidenMagic: {
 			DisplayName: Frost Maiden Mask
-			Tooltip: +6% Magic Critical Strike Chance
+			Tooltip: +10% Magic Critical Strike Chance
 			SetBonus:
 				'''
-				+8% Magic Attack Damage
-				Attacks inflict freezing
-				Freezing enemies explode into ice shards on death
+				+12% Magic Attack Damage
+				Attacks inflict freezing and summon ice shards as they travel
+				Increased Mana Regeneration by 4
 				'''
 		}
 
 		FrostMaidenSummon: {
 			DisplayName: Frost Maiden Hood
-			Tooltip:
-				'''
-				+7% Summon Attack Damage
-				Increases your max number of minions by 1
-				'''
+			Tooltip: +10% Summon Attack Damage
 			SetBonus:
 				'''
-				Increases your max number of minions by 1
 				Attacks inflict freezing
-				Freezing enemies move slower and explode into ice shards on death
+				Increases your max number of minions by 1
+				Summons a frost crystal to shoot at nearby enemies
 				'''
 		}
 
 		FrostMaidenPants: {
 			DisplayName: Frost Maiden Pants
-			Tooltip:
-				'''
-				+12% Movement Speed
-				Increases maximum mana by 20
-				'''
+			Tooltip: Increases your max number of minions by 2
 		}
 
 		FrostMaidenRobe: {
 			DisplayName: Frost Maiden Robe
-			Tooltip: Increases maximum mana by 80 and 16% reduced mana cost
+			Tooltip: Increases maximum mana by 80 and 20% reduced mana cost
 		}
 
 		DamascusHelm: {
@@ -2490,7 +2490,7 @@ Items: {
 				'''
 				Immunity to lava
 				Attacks inflict hellfire
-				When dealing over 100 damage in a single attack, summon a hellfire explosion dealing 600 damage
+				When dealing over 100 damage in a single attack, create a hellfire explosion dealing 4x the damage dealt, with a soft cap of 1000
 				Effect has a 6 second cooldown
 				'''
 		}
@@ -2540,6 +2540,84 @@ Items: {
 				Grants immunity to knockback
 				+16% Movement Speed
 				[c/660514:'My enemies blood runs dry...']
+				'''
+		}
+
+		SpiritedHelmet: {
+			DisplayName: Spirited Helmet
+			Tooltip: +6% Melee and Magic Critical Strike Chance
+			SetBonus:
+				'''
+				+8% Melee and Magic Damage
+				Increases maximum mana by 80
+				Grants an extra jump and permanent slow fall
+				'''
+		}
+
+		SpiritedBreastplate: {
+			DisplayName: Spirited Breastplate
+			Tooltip:
+				'''
+				16% reduced mana cost
+				Increased Mana Regeneration by 2
+				'''
+		}
+
+		SpiritedLeggings: {
+			DisplayName: Spirited Leggings
+			Tooltip:
+				'''
+				+10% Jump Speed and Movement Speed
+				+10% Melee Speed
+				'''
+		}
+
+		SeraphicHelm: {
+			DisplayName: Seraphic Helm
+			Tooltip:
+				'''
+				+30% Melee Damage
+				Increases life regeneration by 10
+				'''
+			SetBonus:
+				'''
+				Enemies are much more likely to target you
+				Taking fatal damage will revive you and make you unkillable for 5 seconds
+				Effect has a 5 minute cooldown
+				'''
+		}
+
+		SeraphicCrown: {
+			DisplayName: Seraphic Crown
+			Tooltip:
+				'''
+				+30% Summon Damage
+				+20% Whip Range and Whip Speed
+				'''
+			SetBonus:
+				'''
+				Increases your max number of minions by 5
+				Increases your max number of sentries by 5
+				Taking fatal damage will revive you and make you unkillable for 5 seconds
+				Effect has a 5 minute cooldown
+				'''
+		}
+
+		SeraphicBreastplate: {
+			DisplayName: Seraphic Breastplate
+			Tooltip:
+				'''
+				+32% Melee Critical Strike Chance
+				+20% Whip Speed
+				'''
+		}
+
+		SeraphicGreaves: {
+			DisplayName: Seraphic Greaves
+			Tooltip:
+				'''
+				+25% Movement and Melee Speed
+				+20% Whip Range
 				'''
 		}
 	}

@@ -30,6 +30,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.extraUpdates = 1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 30;
+            Projectile.arrow = true;
         }
 
         public override bool PreDraw(ref Color lightColor)

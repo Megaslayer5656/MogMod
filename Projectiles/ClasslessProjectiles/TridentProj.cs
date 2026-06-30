@@ -29,7 +29,7 @@ namespace MogMod.Projectiles.ClasslessProjectiles
             Projectile.friendly = true;
             Projectile.DamageType = MeleeRangedMagicDamageClass.Instance;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 300;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.usesLocalNPCImmunity = true;

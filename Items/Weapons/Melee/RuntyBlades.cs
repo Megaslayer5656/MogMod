@@ -56,7 +56,7 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<RuntyBar>(15).
+                AddIngredient<RuntyBar>(16).
                 AddTile(TileID.Anvils).
                 Register();
         }
