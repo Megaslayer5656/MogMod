@@ -49,6 +49,7 @@ namespace MogMod.Items.Armor.Nihilum
             player.setBonus = SetBonusText.Value;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingNihilum = true;
+            mogPlayer.wearingNihilumRanged = true;
             player.aggro -= 1000;
         }
         public override void UpdateEquip(Player player)

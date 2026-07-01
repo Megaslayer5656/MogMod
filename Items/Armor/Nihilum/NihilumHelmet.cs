@@ -49,6 +49,7 @@ namespace MogMod.Items.Armor.Nihilum
             player.setBonus = SetBonusText.Value;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingNihilum = true;
+            mogPlayer.wearingNihilumMagic = true;
             player.manaCost *= 0.76f;
             player.manaRegenBonus += 14;
         }

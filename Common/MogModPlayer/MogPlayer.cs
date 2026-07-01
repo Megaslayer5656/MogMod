@@ -198,6 +198,9 @@ namespace MogMod.Common.MogModPlayer
         public int seraphicReviveCounter = 0;
         public bool canSeraphicRevive;
         public bool wearingNihilum;
+        public bool wearingNihilumRanged;
+        public bool wearingNihilumMagic;
+        public int NihilumLifeCooldown = 0;
         #endregion
 
         #region Weapons
@@ -1794,9 +1797,9 @@ namespace MogMod.Common.MogModPlayer
         public override void UpdateBadLifeRegen()
         {
             if (armletOn && Player.HasBuff<ArmletOfMordiggianBuff>())
-            {
                 DamageOverTime(30);
-            }
+            if (wearingNihilum)
+                DamageOverTime(30);
         }
 
         // more regen taking place here
@@ -1921,6 +1924,8 @@ namespace MogMod.Common.MogModPlayer
                 satanicAccCooldown--;
             if (seraphicReviveCounter > 0)
                 seraphicReviveCounter--;
+            if (NihilumLifeCooldown > 0)
+                NihilumLifeCooldown--;
         }
         
         // stops player from moving while charging bow
@@ -2017,6 +2022,8 @@ namespace MogMod.Common.MogModPlayer
             wearingSeraphic = false;
             canSeraphicRevive = false;
             wearingNihilum = false;
+            wearingNihilumRanged = false;
+            wearingNihilumMagic = false;
 
             diademMinion = false;
             dominatorMinion = false;

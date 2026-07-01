@@ -312,6 +312,16 @@ namespace MogMod.Projectiles.BaseProjectiles
                     if (player.statLife > player.statLifeMax2)
                         player.statLife = player.statLifeMax2;
                 }
+                if ((modPlayer.wearingNihilumRanged && projectile.CountsAsClass(DamageClass.Ranged)) || (modPlayer.wearingNihilumMagic && projectile.CountsAsClass(DamageClass.Magic)))
+                {
+                    modPlayer.satanicAccCooldown = cooldownTimer * 3;
+                    int heal = (int)(damageDone / 100) + 1;
+                    heal *= Convert.ToInt32(player.lifeSteal * 0.01);
+                    player.statLife += heal;
+                    player.HealEffect(heal);
+                    if (player.statLife > player.statLifeMax2)
+                        player.statLife = player.statLifeMax2;
+                }
             }
 
             // hellfire armor
