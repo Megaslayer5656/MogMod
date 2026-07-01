@@ -1640,6 +1640,11 @@ Items: {
 					Critical strikes deal 20% extra damage
 					'''
 			}
+
+			GreatswordOfSouls: {
+				DisplayName: Greatsword Of Souls
+				Tooltip: ""
+			}
 		}
 	}
 

@@ -438,11 +438,14 @@ namespace MogMod.Items.Weapons.Magic
         }
         public override void UpdateInventory(Player player)
         {
-            if (KeybindSystem.TheGravityKeybind.JustPressed)
+            if (player.whoAmI == Main.myPlayer)
             {
-                SwitchCard++;
-                if (SwitchCard >= 4)
-                    SwitchCard = 0;
+                if (KeybindSystem.TheGravityKeybind.JustPressed)
+                {
+                    SwitchCard++;
+                    if (SwitchCard >= 4)
+                        SwitchCard = 0;
+                }
             }
         }
         public override bool CanUseItem(Player player)
