@@ -24,7 +24,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.height = 120;
             Item.damage = 25;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = Item.useTime = 33;
+            Item.useAnimation = Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = false;
             Item.knockBack = 8.5f;
@@ -65,8 +65,7 @@ namespace MogMod.Items.Weapons.Melee
             CreateRecipe().
                 AddRecipeGroup("IronBar", 20).
                 AddIngredient<RuntyBar>(12).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 8).
-                AddIngredient<VitalityBooster>(1).
+                AddIngredient<CreepBlood>(3).
                 AddTile(TileID.Anvils).
                 Register();
         }
