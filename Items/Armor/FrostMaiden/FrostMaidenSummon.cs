@@ -3,7 +3,7 @@ using MogMod.Buffs.Summons;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Projectiles.SummonerProjectiles;
+using MogMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;

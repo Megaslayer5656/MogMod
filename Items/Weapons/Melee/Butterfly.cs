@@ -2,7 +2,7 @@
 using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Items.Global;
-using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
 using System;
 using Terraria;

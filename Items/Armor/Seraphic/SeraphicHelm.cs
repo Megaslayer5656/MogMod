@@ -38,8 +38,8 @@ namespace MogMod.Items.Armor.Seraphic
         }
         public override void ArmorSetShadows(Player player)
         {
-            player.armorEffectDrawOutlines = true;
             player.armorEffectDrawShadow = true;
+            player.armorEffectDrawShadowLokis = true;
         }
         public override void UpdateVanitySet(Player player)
         {
@@ -72,6 +72,7 @@ namespace MogMod.Items.Armor.Seraphic
             player.GetDamage<MeleeDamageClass>() += 0.3f;
             player.lifeRegen += 10;
         }
+        // recipe will be changed eventually
         public override void AddRecipes()
         {
             CreateRecipe().

@@ -29,7 +29,7 @@ namespace MogMod.Items.Armor.Spirited
         }
         public override void UpdateEquip(Player player)
         {
-            player.manaCost *= 0.84f;
+            player.manaCost *= 0.9f;
             player.manaRegenBonus += 2;
         }
         public override void AddRecipes()

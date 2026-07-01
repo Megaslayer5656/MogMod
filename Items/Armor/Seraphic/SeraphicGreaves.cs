@@ -16,7 +16,7 @@ namespace MogMod.Items.Armor.Seraphic
             Item.width = 22;
             Item.height = 16;
 
-            Item.defense = 20;
+            Item.defense = 22;
 
             Item.rare = ItemRarityID.Purple;
             Item.value = MogGlobalItem.RarityPurpleBuyPrice;
@@ -27,10 +27,18 @@ namespace MogMod.Items.Armor.Seraphic
             player.moveSpeed += .25f;
             player.whipRangeMultiplier += 0.2f;
         }
+        // recipe will be changed eventually
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient(ItemID.HallowedGreaves).
+                AddIngredient(ItemID.LunarBar, 12).
+                AddIngredient<SoulFragment>(3).
+                AddIngredient<SoulOfMogMod>(1).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.AncientHallowedGreaves).
                 AddIngredient(ItemID.LunarBar, 12).
                 AddIngredient<SoulFragment>(3).
                 AddIngredient<SoulOfMogMod>(1).

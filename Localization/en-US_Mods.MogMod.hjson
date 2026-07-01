@@ -1032,6 +1032,17 @@ Items: {
 					Movement speed is reduced while charging
 					'''
 			}
+
+			ElysianSeraph: {
+				DisplayName: Elysian Seraph
+				Tooltip:
+					'''
+					Fires out 3 homing bolts
+					True melee strikes increase the weapons charge by 10%
+					Critical strikes increase the gauge by 20%
+					When at 100% charge, right click to throw out a spinning dagger that repeatedly fires homing bolts
+					'''
+			}
 		}
 
 		Ranged: {
@@ -1462,7 +1473,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires five homing beams that each split into four homing orbs
-					Attacks also have a small chance to summon a portal, casting a homing laser at a nearby enemy
+					Every 10 hits, summon a portal that casts a laser that homes in on nearby enemies
 					Inflicts Aghanim's Hex on hit
 					'The scepter of a wizard with god-like powers.'
 					'''
@@ -1547,7 +1558,15 @@ Items: {
 			}
 		}
 
-		Summoner: {
+		Summon: {
+			StaffOfDivinity: {
+				DisplayName: Staff Of Divinity
+				Tooltip:
+					'''
+					Summons Divinitas to protect you
+					Repeated summons increase its power
+					'''
+			}
 		}
 
 		Staves: {
@@ -2548,7 +2567,7 @@ Items: {
 			Tooltip: +6% Melee and Magic Critical Strike Chance
 			SetBonus:
 				'''
-				+8% Melee and Magic Damage
+				+6% Melee and Magic Damage
 				Increases maximum mana by 80
 				Grants an extra jump and permanent slow fall
 				'''
@@ -2558,7 +2577,7 @@ Items: {
 			DisplayName: Spirited Breastplate
 			Tooltip:
 				'''
-				16% reduced mana cost
+				10% reduced mana cost
 				Increased Mana Regeneration by 2
 				'''
 		}
@@ -2567,8 +2586,8 @@ Items: {
 			DisplayName: Spirited Leggings
 			Tooltip:
 				'''
+				+8% Melee Speed
 				+10% Jump Speed and Movement Speed
-				+10% Melee Speed
 				'''
 		}
 
@@ -2582,7 +2601,7 @@ Items: {
 			SetBonus:
 				'''
 				Enemies are much more likely to target you
-				Taking fatal damage will revive you and make you unkillable for 5 seconds
+				Taking fatal damage will revive you and make you immortal for 5 seconds
 				Effect has a 5 minute cooldown
 				'''
 		}
@@ -2598,7 +2617,7 @@ Items: {
 				'''
 				Increases your max number of minions by 5
 				Increases your max number of sentries by 5
-				Taking fatal damage will revive you and make you unkillable for 5 seconds
+				Taking fatal damage will revive you and make you immortal for 5 seconds
 				Effect has a 5 minute cooldown
 				'''
 		}
@@ -2619,6 +2638,45 @@ Items: {
 				+25% Movement and Melee Speed
 				+20% Whip Range
 				'''
+		}
+
+		NihilumHeadgear: {
+			DisplayName: Nihilum Headgear
+			Tooltip:
+				'''
+				+30% Ranged Damage
+				30% Chance to not consume ammo
+				'''
+			SetBonus:
+				'''
+				Enemies are much less likely to target you
+				Attacks do something cool
+				'''
+		}
+
+		NihilumHelmet: {
+			DisplayName: Nihilum Helmet
+			Tooltip:
+				'''
+				+30% Magic Damage
+				Increases maximum mana by 100
+				'''
+			SetBonus:
+				'''
+				24% reduced mana cost
+				Increased Mana Regeneration by 14
+				Attacks do something cool
+				'''
+		}
+
+		NihilumChestplate: {
+			DisplayName: Nihilum Chestplate
+			Tooltip: +32% Ranged and Magic Critical Strike Chance
+		}
+
+		NihilumLeggings: {
+			DisplayName: Nihilum Leggings
+			Tooltip: +30% Jump Speed and Movement Speed
 		}
 	}
 

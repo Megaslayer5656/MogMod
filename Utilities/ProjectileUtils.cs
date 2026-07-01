@@ -515,6 +515,39 @@ namespace MogMod.Utilities
             {
             }
         }
+        /// <summary>
+        /// Calculates a velocity that approximately predicts where some target will be in the future based on Euler's Method. This takes into account the projectile's max updates.
+        /// </summary>
+        /// <param name="startingPosition">The starting position from where the movement is calculated.</param>
+        /// <param name="targetPosition">The position of the target to hit.</param>
+        /// <param name="targetVelocity">The velocity of the target to hit.</param>
+        /// <param name="shootSpeed">The speed of the predictive velocity.</param>
+        /// <param name="projMaxUpdates">How many extra updates the resulting projectile will have.</param>
+        /// <param name="iterations">The number of iterations to perform. The more iterations, the more precise the results are.</param>
+        public static Vector2 CalculatePredictiveAimToTargetMaxUpdates(Vector2 startingPosition, Vector2 targetPosition, Vector2 targetVelocity, float shootSpeed, int projMaxUpdates, int iterations = 4)
+        {
+            float previousTimeToReachDestination = 0f;
+            Vector2 currentTargetPosition = targetPosition;
+            for (int i = 0; i < iterations; i++)
+            {
+                float timeToReachDestination = Vector2.Distance(startingPosition, currentTargetPosition) / shootSpeed / projMaxUpdates;
+                currentTargetPosition += targetVelocity * (timeToReachDestination - previousTimeToReachDestination);
+                previousTimeToReachDestination = timeToReachDestination;
+            }
+            return (currentTargetPosition - startingPosition).SafeNormalize(Vector2.UnitY) * shootSpeed;
+        }
+        /// <summary>
+        /// Calculates a velocity that approximately predicts where some target will be in the future based on Euler's Method. This takes into account the projectile's max updates.
+        /// </summary>
+        /// <param name="startingPosition">The starting position from where the movement is calculated.</param>
+        /// <param name="target">The target to hit.</param>
+        /// <param name="shootSpeed">The speed of the predictive velocity.</param>
+        /// <param name="projMaxUpdates">How many extra updates the resulting projectile will have.</param>
+        /// <param name="iterations">The number of iterations to perform. The more iterations, the more precise the results are.</param>
+        public static Vector2 CalculatePredictiveAimToTargetMaxUpdates(Vector2 startingPosition, Entity target, float shootSpeed, int projMaxUpdates, int iterations = 4)
+        {
+            return CalculatePredictiveAimToTargetMaxUpdates(startingPosition, target.Center, target.velocity, shootSpeed, projMaxUpdates, iterations);
+        }
         public static Projectile FindProjectileByIdentity(int identity, int owner)
         {
             for (int i = 0; i < Main.maxProjectiles; i++)

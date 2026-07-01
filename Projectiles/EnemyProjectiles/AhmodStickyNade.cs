@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
 ﻿using System;
 using Terraria;

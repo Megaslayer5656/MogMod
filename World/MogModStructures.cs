@@ -25,13 +25,13 @@ namespace MogMod.World
 
             Point placementPoint = new Point(placementPositionX, placementPositionY);
             Point16 caveSize = StructureHelper.API.Generator.GetStructureDimensions("Structures/SmallCave", Mod);
-            for (int x = 0; x < (int)(placementPoint.X * .334f); x++)
+            for (int x = 0; x < (int)(placementPoint.X * .5f); x++)
             {
                 for (int y = 100; y < placementPoint.Y; y++)
                 {
                     Tile tile = Main.tile[x, y];
 
-                    if (tile.HasTile && tile.TileType == TileID.Grass && NonSolidScanUp(new Point16(x, y), 40))
+                    if (tile.HasTile && tile.TileType == TileID.Grass && NonSolidScanUp(new Point16(x, y), 20))
                     {
                         if (GetElevationDeviation(new Point16(x, y), caveSize.X, 20, 5, true) < 5)
                         {
@@ -44,6 +44,8 @@ namespace MogMod.World
 
                 if (generated)
                     break;
+                else
+                    placementPositionX = WorldGen.genRand.Next(0, Main.maxTilesX);
             }
         }
 
@@ -53,8 +55,9 @@ namespace MogMod.World
             Point16 griefSize = StructureHelper.API.Generator.GetStructureDimensions("Structures/Grief", Mod);
             bool generated = false;
             int xCheckArea = 20;
+            int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.15f), (int)(Main.maxTilesX * 0.85f));
 
-            for (int x = (int)(Main.maxTilesX * 0.15f); x < (int)(Main.maxTilesX * 0.85f) + xCheckArea + griefSize.X; x++)
+            for (int x = placementPositionX; x < placementPositionX + xCheckArea + griefSize.X; x++)
             {
                 int placementPositionY = WorldGen.genRand.Next(Main.UnderworldLayer - 550, Main.UnderworldLayer - 50);
                 for (int y = placementPositionY; y < placementPositionY + griefSize.Y; y++)

@@ -5,7 +5,7 @@ using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.Melee;
 using System;
 using Terraria;
 using Terraria.Audio;

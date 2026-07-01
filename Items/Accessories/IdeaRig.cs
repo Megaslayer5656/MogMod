@@ -1,8 +1,9 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
+﻿using MogMod.Common.Interfaces;
+using MogMod.Common.MogModPlayer;
 using MogMod.UI;
-using MogMod.Common.Interfaces;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
@@ -22,7 +23,8 @@ namespace MogMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.ammoCost75 = true;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.ammoCost *= 0.75f;
             player.lifeRegen = 1;
         }
     }

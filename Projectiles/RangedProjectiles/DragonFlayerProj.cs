@@ -1,11 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.Debuffs;
-using MogMod.Utilities;
 using System;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,7 +11,7 @@ namespace MogMod.Projectiles.RangedProjectiles
     public class DragonFlayerProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.RangedProjectiles";
-        public override string Texture => "MogMod/Projectiles/ClasslessProjectiles/FlamethrowerProj";
+        public override string Texture => "MogMod/Projectiles/Classless/FlamethrowerProj";
         public ref float Time => ref Projectile.ai[0];
         public ref float LightPower => ref Projectile.ai[1];
         public static int Lifetime => 80;

@@ -22,7 +22,7 @@ namespace MogMod.Items.Armor.Spirited
         {
             player.moveSpeed += 0.10f;
             player.jumpSpeedBoost += 0.10f;
-            player.GetAttackSpeed<MeleeDamageClass>() += 0.1f;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.08f;
         }
         public override void AddRecipes()
         {

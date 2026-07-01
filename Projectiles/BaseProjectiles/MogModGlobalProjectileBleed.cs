@@ -2,7 +2,7 @@
 using MogMod.Items.Weapons.Melee;
 using MogMod.NPCs.Global;
 using MogMod.Projectiles.MagicProjectiles;
-using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.Melee;
 using MogMod.Projectiles.RangedProjectiles;
 using System.IO;
 using Terraria;

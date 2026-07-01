@@ -37,9 +37,9 @@ namespace MogMod.Items.Armor.Seraphic
         public override void SetDefaults()
         {
             Item.width = 34;
-            Item.height = 24;
+            Item.height = 26;
 
-            Item.defense = 24;
+            Item.defense = 34;
 
             Item.rare = ItemRarityID.Purple;
             Item.value = MogGlobalItem.RarityPurpleBuyPrice;
@@ -49,10 +49,18 @@ namespace MogMod.Items.Armor.Seraphic
             player.GetCritChance<MeleeDamageClass>() += 0.32f;
             player.GetAttackSpeed<SummonMeleeSpeedDamageClass>() += 0.2f;
         }
+        // recipe will be changed eventually
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient(ItemID.HallowedPlateMail).
+                AddIngredient(ItemID.LunarBar, 16).
+                AddIngredient<SoulFragment>(3).
+                AddIngredient<SoulOfMogMod>(1).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.AncientHallowedPlateMail).
                 AddIngredient(ItemID.LunarBar, 16).
                 AddIngredient<SoulFragment>(3).
                 AddIngredient<SoulOfMogMod>(1).

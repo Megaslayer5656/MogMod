@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
-using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.Melee;
 using MogMod.Items.Other;
 
 namespace MogMod.Items.Weapons.Melee

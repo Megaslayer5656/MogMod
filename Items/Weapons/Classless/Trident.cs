@@ -1,13 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Global;
+﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Items.Weapons.Ranged;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Common.Classes;
-using MogMod.Projectiles.ClasslessProjectiles;
+using MogMod.Projectiles.Classless;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 

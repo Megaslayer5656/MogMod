@@ -1,11 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
 using MogMod.Items.Global;
-using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
 using System;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;

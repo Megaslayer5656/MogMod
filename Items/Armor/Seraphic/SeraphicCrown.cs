@@ -31,15 +31,15 @@ namespace MogMod.Items.Armor.Seraphic
         {
             Item.width = Item.height = 26;
 
-            Item.defense = 16; // idk yet, gonna make it post ML though
+            Item.defense = 10; // idk yet, gonna make it post ML though
 
             Item.rare = ItemRarityID.Purple;
             Item.value = MogGlobalItem.RarityPurpleBuyPrice;
         }
         public override void ArmorSetShadows(Player player)
         {
-            player.armorEffectDrawOutlines = true;
             player.armorEffectDrawShadow = true;
+            player.armorEffectDrawShadowLokis = true;
         }
         public override void UpdateVanitySet(Player player)
         {
@@ -74,6 +74,7 @@ namespace MogMod.Items.Armor.Seraphic
             player.whipRangeMultiplier += 0.2f;
             player.GetAttackSpeed<SummonMeleeSpeedDamageClass>() += 0.2f;
         }
+        // recipe will be changed eventually
         public override void AddRecipes()
         {
             CreateRecipe().

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
-using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.Melee;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;

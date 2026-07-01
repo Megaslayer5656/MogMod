@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Global;
+﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
@@ -28,7 +29,8 @@ namespace MogMod.Items.Armor.Tigla
         {
             player.GetDamage<RangedDamageClass>() += 0.16f;
             player.GetCritChance<RangedDamageClass>() += 16;
-            player.ammoCost80 = true;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.ammoCost *= 0.8f;
         }
 
         public override void AddRecipes()

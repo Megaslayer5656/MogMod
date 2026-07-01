@@ -1,4 +1,4 @@
-﻿using MogMod.Projectiles.SummonerProjectiles;
+﻿using MogMod.Projectiles.Summon;
 using Terraria.ModLoader;
 
 namespace MogMod.Buffs.Summons

@@ -8,7 +8,7 @@ using MogMod.Items.Weapons.Classless;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Items.Weapons.Ranged;
-using MogMod.Projectiles.ClasslessProjectiles;
+using MogMod.Projectiles.Classless;
 using MogMod.Rarities;
 using MogMod.Utilities;
 using System;
@@ -73,6 +73,7 @@ namespace MogMod.Items.Global
             if (mogPlayer.wearingDamascus1)
                 modifiers.CritDamage *= 1.1f;
         }
+        public override bool CanConsumeAmmo(Item weapon, Item ammo, Player player) => Main.rand.NextFloat() <= player.MogMod().ammoCost;
         public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();

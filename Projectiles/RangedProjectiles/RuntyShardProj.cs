@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Projectiles.ClasslessProjectiles;
 using MogMod.Utilities;
 using System;
 using Terraria;

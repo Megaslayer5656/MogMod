@@ -19,7 +19,7 @@ namespace MogMod.NPCs.Enemies
     internal class FreakyTienHead : WormHead
     {
         #region Setup
-        public const int TotalHealth = 220;
+        public const int TotalHealth = 180;
         public override int BodyType => ModContent.NPCType<FreakyTienBody>();
         public override int TailType => ModContent.NPCType<FreakyTienTail>();
         public override void SetStaticDefaults()
@@ -39,7 +39,7 @@ namespace MogMod.NPCs.Enemies
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.aiStyle = -1;
             NPC.lifeMax = TotalHealth;
-            NPC.damage = 42;
+            NPC.damage = 34;
 
             Banner = Type;
             // These lines are only needed in the main body part.

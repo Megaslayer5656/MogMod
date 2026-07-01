@@ -1,9 +1,7 @@
-﻿using Microsoft.Build.Execution;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Projectiles.MeleeProjectiles;
-using MogMod.Projectiles.RangedProjectiles;
+using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
 using System;
 using Terraria;

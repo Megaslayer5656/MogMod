@@ -46,8 +46,8 @@ namespace MogMod.Items.Armor.Spirited
             player.GetJumpState<SpiritJump>().Enable();
             player.setBonus = SetBonusText.Value;
             player.statManaMax2 += 80;
-            player.GetDamage<MeleeDamageClass>() += 0.08f;
-            player.GetDamage<MagicDamageClass>() += 0.08f;
+            player.GetDamage<MeleeDamageClass>() += 0.06f;
+            player.GetDamage<MagicDamageClass>() += 0.06f;
         }
         public override void UpdateVanitySet(Player player)
         {

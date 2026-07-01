@@ -17,6 +17,7 @@ namespace MogMod.Items.Weapons.Magic
     public class AghanimBlessing : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
+        public static int hitCount = 0;
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;

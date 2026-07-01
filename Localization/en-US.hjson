@@ -527,6 +527,16 @@ Mods: {
 				DisplayName: Frost Crystal
 				Description: The Frost Crystal will protect you
 			}
+
+			SeraphicReviveBuff: {
+				DisplayName: Seraphic Revive
+				Description: Seraphic's blessing makes you immortal!
+			}
+
+			DivinitasSummonBuff: {
+				DisplayName: Divinitas
+				Description: Divinitas will watch over you
+			}
 		}
 
 		NPCs: {
@@ -724,7 +734,7 @@ Mods: {
 				RuntyShardProj.DisplayName: Runty Shard
 			}
 
-			MeleeProjectiles: {
+			Melee: {
 				BattleFuryProjectile.DisplayName: Battle Fury
 				AnchorProj.DisplayName: Oversized Anchor
 				ChaosBladeProj.DisplayName: Chaos Blade
@@ -776,17 +786,20 @@ Mods: {
 				SandstormProj.DisplayName: Mini Sandstorm
 				BlackBladeHoldout.DisplayName: Black Blade
 				WyvernJawbladeHoldout.DisplayName: Wyvern Jawblade
+				ElysianSeraphProj.DisplayName: Elysian Seraph
+				ElysianSeraphBeamProj.DisplayName: Elysian Seraph
+				SelvesProj1.DisplayName: Selves Proj1
+				SelvesProj2.DisplayName: Selves Proj2
+				SelvesProj3.DisplayName: Selves Proj3
 			}
 
-			SummonerProjectiles: {
-				ProximityMinesSummon.DisplayName: Proximity Mines
-				ProximityMinesExplosion.DisplayName: Proximity Mines
+			Summon: {
 				JidiPollenExplosion.DisplayName: Jidi Pollen Bag
+				FrostCrystalSummon.DisplayName: Frost Crystal
+				DivinitasSummon.DisplayName: Divinitas
 			}
 
-			Summoner.FrostCrystalSummon.DisplayName: Frost Crystal Summon
-
-			ClasslessProjectiles: {
+			Classless: {
 				UndyingPortalProj.DisplayName: Undying Portal
 				UndyingHomingProj.DisplayName: Undying Spirit
 				ATGProjectile.DisplayName: ATG
@@ -803,7 +816,7 @@ Mods: {
 				DivineRapierThirdBeam.DisplayName: Divine Rapier
 				TridentSpear.DisplayName: Trident
 				TridentProj.DisplayName: Trident
-				TridentHomingProj.DisplayName: Trident Homing Proj
+				TridentHomingProj.DisplayName: Trident
 			}
 
 			BossProjectiles: {

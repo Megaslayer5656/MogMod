@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Global;
+﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Global;
 using MogMod.Items.Placeable.Bars;
 using Terraria;
 using Terraria.ID;
@@ -33,7 +34,8 @@ namespace MogMod.Items.Armor.Fae
         public override void UpdateEquip(Player player)
         {
             player.GetDamage(DamageClass.Generic) += 0.15f;
-            player.ammoCost80 = true;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.ammoCost *= 0.8f;
         }
         public override void AddRecipes()
         {

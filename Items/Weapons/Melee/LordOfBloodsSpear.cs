@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using MogMod.Items.Global;
-using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.Melee;
 using Terraria.Audio;
 using MogMod.Items.Other;
 using Terraria.DataStructures;

@@ -1,10 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
+using MogMod.Items.Weapons.Magic;
 using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,10 +17,6 @@ namespace MogMod.Projectiles.MagicProjectiles
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
-        Random random = new Random();
-        private bool initialized = false;
-        private bool orbSpawn = false;
-        private bool hitEnemy = false;
         public override void SetDefaults()
         {
             Projectile.width = 4;
@@ -31,29 +29,26 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.extraUpdates = 70;
             Projectile.timeLeft = 200;
         }
-
+        public override void OnSpawn(IEntitySource source)
+        {
+            SoundEngine.PlaySound(SoundID.Item105, Projectile.Center);
+            float dustAmt = 16f;
+            int d = 0;
+            while ((float)d < dustAmt)
+            {
+                Vector2 offset = Vector2.UnitX * 0f;
+                offset += -Vector2.UnitY.RotatedBy((double)((float)d * (MathHelper.TwoPi / dustAmt)), default) * new Vector2(1f, 4f);
+                offset = offset.RotatedBy((double)Projectile.velocity.ToRotation(), default);
+                int i = Dust.NewDust(Projectile.Center, 0, 0, DustID.RainbowMk2, 0f, 0f, 0, Color.BlueViolet, 1f);
+                Main.dust[i].scale = 1.5f;
+                Main.dust[i].noGravity = true;
+                Main.dust[i].position = Projectile.Center + offset;
+                Main.dust[i].velocity = Projectile.velocity * 0f + offset.SafeNormalize(Vector2.UnitY) * 1f;
+                d++;
+            }
+        }
         public override void AI()
         {
-            if (!initialized)
-            {
-                SoundEngine.PlaySound(SoundID.Item105, Projectile.Center);
-                initialized = true;
-                float dustAmt = 16f;
-                int d = 0;
-                while ((float)d < dustAmt)
-                {
-                    Vector2 offset = Vector2.UnitX * 0f;
-                    offset += -Vector2.UnitY.RotatedBy((double)((float)d * (MathHelper.TwoPi / dustAmt)), default) * new Vector2(1f, 4f);
-                    offset = offset.RotatedBy((double)Projectile.velocity.ToRotation(), default);
-                    int i = Dust.NewDust(Projectile.Center, 0, 0, DustID.RainbowMk2, 0f, 0f, 0, Color.BlueViolet, 1f);
-                    Main.dust[i].scale = 1.5f;
-                    Main.dust[i].noGravity = true;
-                    Main.dust[i].position = Projectile.Center + offset;
-                    Main.dust[i].velocity = Projectile.velocity * 0f + offset.SafeNormalize(Vector2.UnitY) * 1f;
-                    d++;
-                }
-            }
-
             float pi = MathHelper.Pi;
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] == 48f)
@@ -94,7 +89,11 @@ namespace MogMod.Projectiles.MagicProjectiles
             if (Projectile.owner == Main.myPlayer)
             {
                 SummonLasers();
-                hitEnemy = true;
+                if (AghanimBlessing.hitCount > 9)
+                {
+                    SummonOrb();
+                    AghanimBlessing.hitCount = 0;
+                }
             }
             target.AddBuff(ModContent.BuffType<AghanimHexDebuff>(), 600);
         }
@@ -104,7 +103,11 @@ namespace MogMod.Projectiles.MagicProjectiles
             if (Projectile.owner == Main.myPlayer)
             {
                 SummonLasers();
-                hitEnemy = true;
+                if (AghanimBlessing.hitCount > 9)
+                {
+                    SummonOrb();
+                    AghanimBlessing.hitCount = 0;
+                }
             }
             target.AddBuff(ModContent.BuffType<AghanimHexDebuff>(), 600);
         }
@@ -124,19 +127,12 @@ namespace MogMod.Projectiles.MagicProjectiles
                 dust.fadeIn = 2f;
                 dust.noGravity = true;
             }
-            if (Projectile.owner == Main.myPlayer && !orbSpawn)
-            {
-                if (Main.rand.NextBool(10) && hitEnemy)
-                {
-                    SummonOrb();
-                    orbSpawn = true;
-                }
-            }
         }
         private void SummonLasers()
         {
+            AghanimBlessing.hitCount++;
             var source = Projectile.GetSource_FromThis();
-            float rand = (float)random.Next(1,360);
+            float rand = Main.rand.Next(1,360);
             float spread = rand * 0.01f * MathHelper.PiOver2;
             double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
             double deltaAngle = spread / 8f;
@@ -152,12 +148,12 @@ namespace MogMod.Projectiles.MagicProjectiles
         private void SummonOrb()
         {
             var source = Projectile.GetSource_FromThis();
-            float rand = (float)random.Next(1,360);
+            float rand = Main.rand.Next(1,360);
             float spread = rand * 0.01f * MathHelper.PiOver2;
             double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
             double deltaAngle = spread / 8f;
             double offsetAngle;
-            float randNumb = random.Next(-15, 15);
+            float randNumb = Main.rand.Next(-15, 15);
             for (int i = 0; i < 1; i++)
             {
                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 8f * i;

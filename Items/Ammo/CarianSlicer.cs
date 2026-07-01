@@ -1,13 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Common.MogModPlayer;
-using MogMod.Items.Global;
+﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
-using MogMod.Projectiles.MeleeProjectiles;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 

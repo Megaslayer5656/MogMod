@@ -2,10 +2,9 @@
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
-using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.Classless;
 using System;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,7 +13,7 @@ namespace MogMod.Items.Weapons.Melee
 {
     public class GreatswordOfSouls : ModItem, ILocalizedModType
     {
-        public new string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Classless";
 
         public override void SetDefaults()
         {

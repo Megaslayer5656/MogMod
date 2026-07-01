@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
-using MogMod.Items.Placeable;
-using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.Melee;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;

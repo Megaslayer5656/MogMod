@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Projectiles.ClasslessProjectiles;
+using MogMod.Projectiles.Classless;
 using MogMod.Utilities;
 using System;
 using System.Collections.Generic;

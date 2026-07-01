@@ -14,9 +14,10 @@ using MogMod.Items.Weapons.Melee;
 using MogMod.Items.Weapons.Ranged;
 using MogMod.NPCs.Global;
 using MogMod.Projectiles.BaseProjectiles;
-using MogMod.Projectiles.ClasslessProjectiles;
-using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.Classless;
+using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
+using Mono.Cecil;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Intrinsics.Arm;
@@ -29,6 +30,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Default;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MogMod.Common.MogModPlayer
 {
@@ -195,6 +197,7 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingSeraphic;
         public int seraphicReviveCounter = 0;
         public bool canSeraphicRevive;
+        public bool wearingNihilum;
         #endregion
 
         #region Weapons
@@ -224,6 +227,8 @@ namespace MogMod.Common.MogModPlayer
         public bool markerProjOut = false;
         public bool moonveilProj = false;
 
+        public float ammoCost = 1f;
+
         /*
         public static List<int> PlayerHurtWeapons =
         [
@@ -236,6 +241,7 @@ namespace MogMod.Common.MogModPlayer
 
         #region Summons
         public bool fCrystal;
+        public bool divinitasMinion;
         #endregion
 
         #region Buffs
@@ -422,7 +428,8 @@ namespace MogMod.Common.MogModPlayer
         }
         public void doATG(int damageDone)
         {
-            Vector2 kirk = new Vector2(0, -5).RotatedByRandom(MathHelper.ToRadians(15));
+            float Spread = 0.3f;
+            Vector2 kirk = new Vector2(0, -7);
             Vector2 einstein = Main.MouseWorld - Player.Center;
             einstein.Normalize();
 
@@ -434,11 +441,8 @@ namespace MogMod.Common.MogModPlayer
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk, ModContent.ProjectileType<ATGProjectile>(), damageDone + 1, 3, Player.whoAmI);
                 if (icbmActive)
                 {
-                    for (int i = 0; i < 2; i++)
-                    {
-                        kirk = new Vector2(0, -5).RotatedByRandom(MathHelper.ToRadians(15));
-                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk, ModContent.ProjectileType<ATGProjectile>(), Convert.ToInt32(damageDone * .5f) + 1, 3, Player.whoAmI);
-                    }
+                    Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk.RotatedBy(Spread), ModContent.ProjectileType<ATGProjectile>(), Convert.ToInt32(damageDone * .5f) + 1, 3, Player.whoAmI);
+                    Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk.RotatedBy(-Spread), ModContent.ProjectileType<ATGProjectile>(), Convert.ToInt32(damageDone * .5f) + 1, 3, Player.whoAmI);
                 }
             }
             if (plasmaActive)
@@ -1358,17 +1362,20 @@ namespace MogMod.Common.MogModPlayer
             #endregion
 
             #region Revives
-            if (seraphicReviveCounter > 17700)
+            if (seraphicReviveCounter == 18000)
             {
-                Dust seraphic = Dust.NewDustDirect(Player.position, Player.width, Player.height, Main.rand.NextBool(3) ? DustID.HallowSpray : 133, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 2f);
-                seraphic.position.X += (float)Main.rand.Next(-20, 21);
-                seraphic.position.Y += (float)Main.rand.Next(-20, 21);
-                seraphic.velocity *= 0.9f;
-                seraphic.noGravity = true;
-                seraphic.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                seraphic.shader = GameShaders.Armor.GetSecondaryShader(Player.ArmorSetDye(), Player);
-                if (Main.rand.NextBool())
-                    seraphic.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                for (int i = 0; i < 80; i++)
+                {
+                    Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                    dustVelocity.Normalize();
+                    dustVelocity *= 3;
+
+                    int dustPos = 10;
+                    int seraphic = Dust.NewDust(Player.Center, dustPos, dustPos, Main.rand.NextBool(3) ? 180 : 178, dustVelocity.X * 2, dustVelocity.Y * 2, 0, Color.White, 9f);
+                    Main.dust[seraphic].noGravity = true;
+                    Main.dust[seraphic].fadeIn = 5f;
+                    Main.dust[seraphic].velocity *= 3f;
+                }
             }
             #endregion
         }
@@ -1617,12 +1624,21 @@ namespace MogMod.Common.MogModPlayer
         }
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
+            if (wearingRuntyHorseshoe && stopFallDamage)
+            {
+                SoundEngine.PlaySound(SoundID.Item37, Player.Center);
+                fallDamageTimer = 0;
+                if (Player.statLife < 1)
+                    Player.statLife = 1;
+                return false;
+            }
             if ((wearingSeraphic && seraphicReviveCounter <= 0) || Player.HasBuff(ModContent.BuffType<SeraphicReviveBuff>()))
             {
-                if (seraphicReviveCounter == 18000 && !canSeraphicRevive)
+                if (seraphicReviveCounter <= 0 && !canSeraphicRevive)
                 {
                     SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, Player.Center);
                     Player.AddBuff(ModContent.BuffType<SeraphicReviveBuff>(), SeraphicBreastplate.ReviveDuration);
+                    seraphicReviveCounter = 18000;
                 }
                 canSeraphicRevive = true;
                 if (Player.statLife < 1)
@@ -1637,13 +1653,6 @@ namespace MogMod.Common.MogModPlayer
             }
             if (Player.HasBuff(ModContent.BuffType<WraithBuff>()))
                 return false;
-            if (wearingRuntyHorseshoe && stopFallDamage)
-            {
-                fallDamageTimer = 0;
-                if (Player.statLife < 1)
-                    Player.statLife = 1;
-                return false;
-            }
             return true;
         }
         #endregion
@@ -2007,6 +2016,7 @@ namespace MogMod.Common.MogModPlayer
             wearingSpiritArmor = false;
             wearingSeraphic = false;
             canSeraphicRevive = false;
+            wearingNihilum = false;
 
             diademMinion = false;
             dominatorMinion = false;
@@ -2049,7 +2059,10 @@ namespace MogMod.Common.MogModPlayer
             holdingThrowingShade = false;
             holdingMeteoriteStaff = false;
 
+            ammoCost = 1f;
+
             fCrystal = false;
+            divinitasMinion = false;
 
             if (Player.controlDown)
                 forceDirection = DashDown;

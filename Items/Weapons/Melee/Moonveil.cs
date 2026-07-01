@@ -2,16 +2,10 @@
 using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
-using MogMod.Common.Classes;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
-using MogMod.Items.Other;
-using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.Melee;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;

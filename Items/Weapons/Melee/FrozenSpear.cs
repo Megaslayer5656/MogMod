@@ -1,6 +1,6 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Projectiles.MeleeProjectiles;
+using MogMod.Projectiles.Melee;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
