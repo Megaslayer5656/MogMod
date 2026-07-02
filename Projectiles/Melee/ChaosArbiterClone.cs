@@ -117,7 +117,7 @@ namespace MogMod.Projectiles.Melee
             // draw the sword
             if (Owner.ItemAnimationActive && Owner.altFunctionUse != 2)
             {
-                Texture2D Sword = ModContent.Request<Texture2D>("MogMod/Projectiles/MeleeProjectiles/ChaosArbiterCloneSword").Value;
+                Texture2D Sword = ModContent.Request<Texture2D>("MogMod/Projectiles/Melee/ChaosArbiterCloneSword").Value;
                 Vector2 distToPlayer = Projectile.position - Owner.position;
                 Main.EntitySpriteDraw(Sword, (Vector2)Owner.HandPosition + distToPlayer - Main.screenPosition, null, lightColor, Owner.direction == clone.direction ? Owner.itemRotation : -Owner.itemRotation, new Vector2(clone.direction == 1 ? 0 : Sword.Width, Sword.Height), 1.5f, clone.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally);
             }

@@ -58,6 +58,21 @@ namespace MogMod.Items.Global
             else
                 bloodDamage = 0;
         }
+        public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            if ((mogPlayer.wearingNihilumRanged && item.DamageType == DamageClass.Ranged) && mogPlayer.nulledDebuff)
+            {
+                Projectile nullEssence = Projectile.NewProjectileDirect(source, position, velocity, ModContent.ProjectileType<GreatswordOfSoulsProj>(), (int)(damage * 0.5), knockback, player.whoAmI);
+                nullEssence.DamageType = DamageClass.Ranged;
+            }
+            if ((mogPlayer.wearingNihilumMagic && item.DamageType == DamageClass.Magic) && mogPlayer.nulledDebuff)
+            {
+                Projectile nullEssence = Projectile.NewProjectileDirect(source, position, velocity, ModContent.ProjectileType<GreatswordOfSoulsProj>(), (int)(damage * 0.5), knockback, player.whoAmI);
+                nullEssence.DamageType = DamageClass.Magic;
+            }
+            return true;
+        }
         public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
         {
             // Check if the opened bag is the Eye of Cthulhu Treasure Bag

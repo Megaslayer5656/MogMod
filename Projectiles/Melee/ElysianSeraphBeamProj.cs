@@ -39,10 +39,12 @@ namespace MogMod.Projectiles.Melee
                 Projectile.ai[0] = 0f;
             else
             {
-                if (Projectile.ai[1] >= 5)
-                    if (Projectile.ai[1] == 5)
+                if (Projectile.ai[1] >= 5 || Projectile.ai[2] >= 1f)
+                    if (Projectile.ai[1] == 5 || Projectile.ai[2] == 1f)
                     {
-                        SoundEngine.PlaySound(SoundID.Item105, Projectile.Center);
+                        if (Projectile.ai[2] >= 1f)
+                            Projectile.ai[2]++;
+                        SoundEngine.PlaySound(SoundID.Item60, Projectile.Center);
                         float dustAmt = 8f;
                         int d = 0;
                         while (d < dustAmt)
@@ -68,7 +70,7 @@ namespace MogMod.Projectiles.Melee
                     dust.position = Projectile.Center + offset;
                     dust.velocity = Projectile.velocity;
                 }
-                if (Projectile.ai[1] >= 7)
+                if (Projectile.ai[1] >= 7 || Projectile.ai[2] >= 2f)
                 {
                     Projectile.localAI[0] += 1f;
                     if (Projectile.localAI[0] > 0f)
@@ -83,8 +85,8 @@ namespace MogMod.Projectiles.Melee
                     }
                 }
             }
-            if (!HitNPC && Projectile.ai[1] >= 30)
-                MogModUtils.HomeInOnNPC(Projectile, true, 250f, 10f, 35f);
+            if (!HitNPC && (Projectile.ai[1] >= 30 || Projectile.ai[2] >= 1f))
+                MogModUtils.HomeInOnNPC(Projectile, true, Projectile.ai[2] >= 1f ? 400f : 250f, 10f, 35f);
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {

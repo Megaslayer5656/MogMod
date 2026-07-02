@@ -19,6 +19,7 @@ namespace MogMod.Common.Systems
         public static ModKeybind ShivasKeybind {  get; private set; }
         public static ModKeybind DragonInstallKeybind {  get; private set; }
         public static ModKeybind TheGravityKeybind { get; private set; }
+        public static ModKeybind NulledKeybind { get; private set; }
         #endregion
         public override void Load()
         {
@@ -45,6 +46,7 @@ namespace MogMod.Common.Systems
             ShivasKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateShiva'sGuard", "C");
             BladeMailKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateBladeMail", "X");
             ArmletKeybind = KeybindLoader.RegisterKeybind(Mod, "ToggleArmletOfMordiggian", "T");
+            NulledKeybind = KeybindLoader.RegisterKeybind(Mod, "ToggleNulled", "T");
             TheGravityKeybind = KeybindLoader.RegisterKeybind(Mod, "TheGravityCardSwitch", "Mouse4");
             #endregion
         }
@@ -67,6 +69,7 @@ namespace MogMod.Common.Systems
             ShivasKeybind = null;
             DragonInstallKeybind = null;
             TheGravityKeybind = null;
+            NulledKeybind = null;
             #endregion
         }
     }

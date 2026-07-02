@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 
 namespace MogMod.Projectiles.Melee
 {
-    public class WarFuryProjectile : ModProjectile
+    public class WarFuryProjectile : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "MogMod/Items/Weapons/Melee/WarFury";

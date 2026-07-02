@@ -27,6 +27,7 @@ Mods: {
 			ActivateRefresherOrb.DisplayName: Activate Refresher Orb
 			DragonInstall.DisplayName: Dragon Install
 			TheGravityCardSwitch.DisplayName: The Gravity Card Switch
+			ToggleNulled.DisplayName: Toggle Nulled
 		}
 
 		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage
@@ -537,6 +538,11 @@ Mods: {
 				DisplayName: Divinitas
 				Description: Divinitas will watch over you
 			}
+
+			NulledDebuff: {
+				DisplayName: Nulled Debuff
+				Description: Both body and mind is being nullified out of reality!
+			}
 		}
 
 		NPCs: {
@@ -791,12 +797,16 @@ Mods: {
 				SelvesProj1.DisplayName: Selves Proj1
 				SelvesProj2.DisplayName: Selves Proj2
 				SelvesProj3.DisplayName: Selves Proj3
+				ElysianSeraphThrownProj.DisplayName: Elysian Seraph Thrown Proj
+				WarFuryProjectile.DisplayName: War Fury Projectile
 			}
 
 			Summon: {
 				JidiPollenExplosion.DisplayName: Jidi Pollen Bag
 				FrostCrystalSummon.DisplayName: Frost Crystal
 				DivinitasSummon.DisplayName: Divinitas
+				DivinitasBeamProj.DisplayName: Divinitas
+				DivinitasStarProj.DisplayName: Divinitas Star Proj
 			}
 
 			Classless: {

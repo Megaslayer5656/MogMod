@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Common.MogModPlayer;
+﻿using MogMod.Common.MogModPlayer;
+using MogMod.Common.Systems;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -14,6 +16,8 @@ namespace MogMod.Items.Armor.Nihilum
     {
         public new string LocalizationCategory => "Items.Armor";
         public static LocalizedText SetBonusText { get; private set; }
+        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.NulledKeybind);
+        ModKeybind keybindActive = null;
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)

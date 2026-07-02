@@ -643,7 +643,7 @@ Items: {
 			Tooltip:
 				'''
 				+5% Attack Speed
-				Attacks have a small chance to shoot a homing missile on hit
+				Attacks have a small chance to fire a homing missile on hit
 				'''
 		}
 
@@ -661,7 +661,7 @@ Items: {
 			Tooltip:
 				'''
 				+7.5% Attack Speed
-				Attacks have a small chance to shoot 3 homing missiles on hit
+				Attacks have a small chance to fire 3 homing missiles on hit
 				[c/87564D:'What's better than one missile...? MORE missiles.']
 				'''
 		}
@@ -695,6 +695,43 @@ Items: {
 				+10% Jump Height
 				Increases fall resistance
 				Fall damage cannot kill you
+				'''
+		}
+
+		LunarTreads: {
+			DisplayName: Lunar Treads
+			Tooltip:
+				'''
+				Run faster than the speed of light!
+				Allows flight and slow fall
+				Vastly increased movement speed
+				Press Down to toggle hover
+				'''
+		}
+
+		SacrosanctAegis: {
+			DisplayName: Sacrosanct Aegis
+			Tooltip:
+				'''
+				Grants an omni-directional dash with a 5 second cooldown
+				You are immune to damage during the dash
+				Increases Maximum Life by 200
+				Reduces the cooldown of healing potions by 45%
+				Does not stack with downgrades
+				Grants immunity to both knockback and debuffs
+				Vastly Increased Life Regeneration, increasing even more if standing still
+				Enemies are much more likely to target you
+				Absorbs 25% of damage done to players on your team when above 25% life
+				'''
+		}
+
+		WingsOfAllegiance: {
+			DisplayName: Wings Of Allegiance
+			Tooltip:
+				'''
+				Allows flight and slow fall
+				Increased movement speed
+				Damage is increased by amount of remaining wing time
 				'''
 		}
 	}
@@ -1473,7 +1510,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires five homing beams that each split into four homing orbs
-					Every 10 hits, summon a portal that casts a laser that homes in on nearby enemies
+					Every 20 hits, summon a portal that casts a laser that homes in on nearby enemies
 					Inflicts Aghanim's Hex on hit
 					'The scepter of a wizard with god-like powers.'
 					'''
@@ -1564,7 +1601,7 @@ Items: {
 				Tooltip:
 					'''
 					Summons Divinitas to protect you
-					Repeated summons increase its power
+					Repeated summons increase its power greatly
 					'''
 			}
 		}
@@ -1639,11 +1676,6 @@ Items: {
 					This weapon is boosted by melee, ranged, and magic damage
 					Critical strikes deal 20% extra damage
 					'''
-			}
-
-			GreatswordOfSouls: {
-				DisplayName: Greatsword Of Souls
-				Tooltip: ""
 			}
 		}
 	}
@@ -2655,7 +2687,9 @@ Items: {
 			SetBonus:
 				'''
 				Enemies are much less likely to target you
-				Attacks do something cool
+				Press [KEY] to nullify yourself
+				While nulled, life is rapidly drained and lifesteal has no effect
+				Null essence is fired along with your shots
 				'''
 		}
 
@@ -2670,7 +2704,9 @@ Items: {
 				'''
 				24% reduced mana cost
 				Increased Mana Regeneration by 14
-				Attacks do something cool
+				Press [KEY] to nullify yourself
+				While nulled, life is rapidly drained and lifesteal has no effect
+				Null essence is fired along with your shots
 				'''
 		}
 

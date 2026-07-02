@@ -11,14 +11,13 @@ namespace MogMod.NPCs.Bosses
     [AutoloadBossHead]
     public class DabDad : ModNPC
     {
-        
         public override void SetDefaults()
         {
             NPC.width = 198;
             NPC.height = 225;
             NPC.damage = 50;
             NPC.defense = 20;
-            NPC.lifeMax = Main.masterMode ? 1000000 : 100000;
+            NPC.lifeMax = Main.masterMode ? Main.bloodMoon ? 100000000 : 1000000 : 100000;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.value = Item.buyPrice(0, 60, 0, 0);

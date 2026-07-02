@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
-using MogMod.Buffs.PotionBuffs.TheGravityBuffs;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
 using MogMod.Items.Armor.Fae;
@@ -75,6 +74,8 @@ namespace MogMod.Common.MogModPlayer
         public bool plasmaVisual;
         public bool polyluteVisual;
         public bool wearingRuntyHorseshoe;
+        public bool wearingAllegianceWings;
+        public bool wearingSacrosanctAegis;
 
         public bool stopFallDamage;
         int fallDamageTimer = 0;
@@ -98,7 +99,6 @@ namespace MogMod.Common.MogModPlayer
 
         public int armletTimer = 0;
         public int armletTimerMax = 120;
-        public bool armletOn = false;
 
         public bool wearingHelmOfDominator;
         public bool wearingHelmOfOverlord;
@@ -128,13 +128,17 @@ namespace MogMod.Common.MogModPlayer
         public const int FaeDashCooldown = 50; // Time (frames) between starting dashes. If this is shorter than DashDuration you can start a new dash before an old one has finished
         public const int FaeDashDuration = 35; // Duration of the dash afterimage effect in frames
 
-        public int ForceDashTimer = 0;
+        public int AegisDashDelay = 0;
+        public int AegisDashTimer = 0;
 
+        public const int AegisDashCooldown = 200;
+        public const int AegisDashDuration = 40;
+
+        public int ForceDashTimer = 0;
         //public const int ForceDashCooldown = 60;
         public const int ForceDashDuration = 20;
 
         public int PikeDashTimer = 0;
-
         //public const int PikeDashCooldown = 60;
         public const int PikeDashDuration = 60;
 
@@ -146,6 +150,7 @@ namespace MogMod.Common.MogModPlayer
         public const int DashLeft = 3;
         
         public const float FaeDashVelocity = 22f;
+        public const float AegisDashVelocity = 30f;
         public const float ForceDashVelocity = 15f;
         public const float PikeDashVelocity = 25f;
 
@@ -200,7 +205,10 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingNihilum;
         public bool wearingNihilumRanged;
         public bool wearingNihilumMagic;
-        public int NihilumLifeCooldown = 0;
+        public int nihilumTimer = 0;
+        public int nihilumTimerMax = 120;
+
+        public int VoniumLifeCooldown = 0;
         #endregion
 
         #region Weapons
@@ -261,6 +269,8 @@ namespace MogMod.Common.MogModPlayer
         public bool jidiDebuff;
         public bool shivaDebuff;
         public bool infernoDebuff;
+        public bool armletDebuff;
+        public bool nulledDebuff;
 
         // auras
         public bool greavesAura = false;
@@ -358,28 +368,29 @@ namespace MogMod.Common.MogModPlayer
         #endregion
 
         #region Mod Buff ID/s
-        int glimmerBuff = ModContent.BuffType<Buffs.PotionBuffs.GlimmerCapeBuff>();
-        int satanicBuff = ModContent.BuffType<Buffs.PotionBuffs.SatanicBuff>();
-        int blademailBuff = ModContent.BuffType<Buffs.PotionBuffs.BladeMailBuff>();
+        int glimmerBuff = ModContent.BuffType<GlimmerCapeBuff>();
+        int satanicBuff = ModContent.BuffType<SatanicBuff>();
+        int blademailBuff = ModContent.BuffType<BladeMailBuff>();
 
         // cooldowns
-        int refresherCooldown = ModContent.BuffType<Buffs.Cooldowns.RefresherOrbDebuff>();
-        int glimmerCooldown = ModContent.BuffType<Buffs.Cooldowns.GlimmerCapeDebuff>();
-        int satanicCooldown = ModContent.BuffType<Buffs.Cooldowns.SatanicDebuff>();
-        int manabootsCooldown = ModContent.BuffType<Buffs.Cooldowns.ArcaneBootsDebuff>();
-        int guardianCooldown = ModContent.BuffType<Buffs.Cooldowns.GuardianGreavesDebuff>();
-        int mekansmCooldown = ModContent.BuffType<Buffs.Cooldowns.MekansmDebuff>();
-        int helmOfDominator = ModContent.BuffType<Buffs.Cooldowns.HelmOfDominatorDebuff>();
-        int forceStaffCooldown = ModContent.BuffType<Buffs.Cooldowns.ForceStaffDebuff>();
-        int blademailCooldown = ModContent.BuffType<Buffs.Cooldowns.BladeMailDebuff>();
+        int refresherCooldown = ModContent.BuffType<RefresherOrbDebuff>();
+        int glimmerCooldown = ModContent.BuffType<GlimmerCapeDebuff>();
+        int satanicCooldown = ModContent.BuffType<SatanicDebuff>();
+        int manabootsCooldown = ModContent.BuffType<ArcaneBootsDebuff>();
+        int guardianCooldown = ModContent.BuffType<GuardianGreavesDebuff>();
+        int mekansmCooldown = ModContent.BuffType<MekansmDebuff>();
+        int helmOfDominator = ModContent.BuffType<HelmOfDominatorDebuff>();
+        int forceStaffCooldown = ModContent.BuffType<ForceStaffDebuff>();
+        int blademailCooldown = ModContent.BuffType<BladeMailDebuff>();
         int ShivasCooldown = ModContent.BuffType<ShivasDebuff>();
 
         // armlet
-        int armletToggled = ModContent.BuffType<Buffs.PotionBuffs.ArmletOfMordiggianBuff>();
+        int armletToggled = ModContent.BuffType<ArmletOfMordiggianBuff>();
+        int nihilumToggled = ModContent.BuffType<NulledDebuff>();
 
         // dragon install
-        int dragonInstall = ModContent.BuffType<Buffs.PotionBuffs.DragonInstallBuff>();
-        int dragonInstallCooldown = ModContent.BuffType<Buffs.Cooldowns.DragonInstallCooldown>();
+        int dragonInstall = ModContent.BuffType<DragonInstallBuff>();
+        int dragonInstallCooldown = ModContent.BuffType<DragonInstallCooldown>();
         #endregion
 
         #endregion
@@ -549,266 +560,290 @@ namespace MogMod.Common.MogModPlayer
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
             #region Accessory Checks
-            // refresher orb
-            if (KeybindSystem.RefresherOrbKeybind.JustPressed && wearingRefresherOrb && !Player.HasBuff(refresherCooldown))
+            if (!Player.dead)
             {
-                // make it play a sound when activating (add any additional debuffs here)
-                Player.ClearBuff(glimmerCooldown);
-                Player.ClearBuff(satanicCooldown);
-                Player.ClearBuff(manabootsCooldown);
-                Player.ClearBuff(guardianCooldown);
-                Player.ClearBuff(mekansmCooldown);
-                Player.ClearBuff(helmOfDominator);
-                Player.ClearBuff(forceStaffCooldown);
-                Player.ClearBuff(blademailCooldown);
-                Player.ClearBuff(ShivasCooldown);
-                Player.ClearBuff(ModContent.BuffType<BlinkDebuff>());
-                Player.ClearBuff(ModContent.BuffType<ButterflyCooldown>());
-                Player.ClearBuff(ModContent.BuffType<LagunaBladeCooldown>());
-                Player.ClearBuff(ModContent.BuffType<ParryCooldown>());
-                //Don't add dragon install to this. It shouldn't be able to be refreshed by refresher as it is more of a different mechanic than a buff. Will if you see this stop playing Chen <-- Chen (pronounced "shen") has crazy micro and once i get good at him hes gonna be crazy. that one game was a loss no matter who i played. also it was mendez fault for picking IO
-
-                Player.AddBuff(refresherCooldown, 9000);
-                SoundEngine.PlaySound(RefresherActivateSound, Player.Center);
-            }
-
-            // glimmer cape
-            if (KeybindSystem.GlimmerCapeKeybind.JustPressed && isWearingGlimmerCape && !Player.HasBuff(glimmerCooldown))
-            {
-                // give buff, 600 = 10 seconds
-                Player.AddBuff(glimmerBuff, 1800);
-                // give debuff cd
-                Player.AddBuff(glimmerCooldown, 3600);
-                // play sfx
-                SoundEngine.PlaySound(GlimmerActivateSound, Player.Center);
-            }
-
-            // satanic
-            if (KeybindSystem.SatanicKeybind.JustPressed && wearingSatanic && !Player.HasBuff(satanicCooldown))
-            {
-                Player.AddBuff(satanicBuff, 480);
-                Player.AddBuff(satanicCooldown, 4800);
-                SoundEngine.PlaySound(SatanicActivateSound, Player.Center);
-            }
-
-            // blademail
-            if (KeybindSystem.BladeMailKeybind.JustPressed && wearingBladeMail && !Player.HasBuff(blademailCooldown))
-            {
-                Player.AddBuff(blademailBuff, 600);
-                Player.AddBuff(blademailCooldown, 3600);
-                SoundEngine.PlaySound(BladeMailActivateSound, Player.Center);
-            }
-
-            // arcane boots
-            if (KeybindSystem.ArcaneBootsKeybind.JustPressed && wearingManaBoots && !Player.HasBuff(manabootsCooldown))
-            {
-                //for (int i = 0; i < Main.maxPlayers; i++)
-                //{
-                //    Terraria.Player targetPlayer = Main.player[i];
-                //    if (targetPlayer.active && targetPlayer.team == targetPlayer.team && targetPlayer.team != 0)
-                //    {
-                //        targetPlayer.AddBuff(greavesHeal, 600);
-                //        //if (Main.netMode == NetmodeID.Server) // Check if the game is in multiplayer server mode
-                //        //{
-                //        //    NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, null, i, mekansmHeal, 600f, 0f, 0, 0, 0);
-                //        //}
-                //        for (int k = 0; k < 16; k++)
-                //        {
-                //            Dust dust2 = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.ManaRegeneration);
-                //            dust2.scale = Main.rand.NextFloat(0.6f, 0.8f);
-                //        }
-                //    }
-                //}
-                Player.statMana += 200;
-                Player.ManaEffect(200);
-                if (Player.statMana > Player.statManaMax2)
-                    Player.statMana = Player.statManaMax2;
-                Player.AddBuff(manabootsCooldown, 1800);
-                SoundEngine.PlaySound(ManaBootsActivateSound, Player.Center);
-            }
-
-            // guardian greaves
-            if (KeybindSystem.GuardianGreavesKeybind.JustPressed && wearingGigaManaBoots && !Player.HasBuff(guardianCooldown))
-            {
-                // make it play a sound when activating
-                Player.statLife += 140;
-                Player.HealEffect(140);
-                if (Player.statLife > Player.statLifeMax2)
-                    Player.statLife = Player.statLifeMax2;
-
-                Player.statMana += 300;
-                Player.ManaEffect(300);
-                if (Player.statMana > Player.statManaMax2)
-                    Player.statMana = Player.statManaMax2;
-
-                Player.AddBuff(guardianCooldown, 3600);
-                SoundEngine.PlaySound(GreavesActivateSound, Player.Center);
-            }
-
-            // mekansm
-            if (KeybindSystem.MekansmKeybind.JustPressed && wearingMekansm && !Player.HasBuff(mekansmCooldown))
-            {
-                // make it play a sound when activating
-                Player.statLife += 80;
-                Player.HealEffect(80);
-                if (Player.statLife > Player.statLifeMax2)
-                    Player.statLife = Player.statLifeMax2;
-                Player.AddBuff(mekansmCooldown, 3600);
-                SoundEngine.PlaySound(MekansmActivateSound, Player.Center);
-            }
-
-            // helm of dominator
-            if (KeybindSystem.HelmOfDominatorKeybind.JustPressed && wearingHelmOfDominator && !Player.HasBuff(helmOfDominator))
-            {
-                // for now it summons a mount (change to make it summon a friendly npc to damage enemies)
-                Player.AddBuff(BuffID.BasiliskMount, 1);
-                Player.AddBuff(helmOfDominator, 1800);
-            }
-
-            // helm of overlord
-            if (KeybindSystem.HelmOfDominatorKeybind.JustPressed && wearingHelmOfOverlord && !Player.HasBuff(helmOfDominator))
-            {
-                // for now it summons a mount (change to make it summon a friendly npc to damage enemies)
-                Player.AddBuff(BuffID.CuteFishronMount, 1);
-                Player.AddBuff(helmOfDominator, 600);
-            }
-
-            // holy locket
-            if (KeybindSystem.WandKeybind.JustPressed)
-            {
-                if (locketActive && locketCharges > 0)
+                // refresher orb
+                if (KeybindSystem.RefresherOrbKeybind.JustPressed && wearingRefresherOrb && !Player.HasBuff(refresherCooldown))
                 {
-                    int heal = 10 * locketCharges;
+                    // make it play a sound when activating (add any additional debuffs here)
+                    Player.ClearBuff(glimmerCooldown);
+                    Player.ClearBuff(satanicCooldown);
+                    Player.ClearBuff(manabootsCooldown);
+                    Player.ClearBuff(guardianCooldown);
+                    Player.ClearBuff(mekansmCooldown);
+                    Player.ClearBuff(helmOfDominator);
+                    Player.ClearBuff(forceStaffCooldown);
+                    Player.ClearBuff(blademailCooldown);
+                    Player.ClearBuff(ShivasCooldown);
+                    Player.ClearBuff(ModContent.BuffType<BlinkDebuff>());
+                    Player.ClearBuff(ModContent.BuffType<ButterflyCooldown>());
+                    Player.ClearBuff(ModContent.BuffType<LagunaBladeCooldown>());
+                    Player.ClearBuff(ModContent.BuffType<ParryCooldown>());
+                    //Don't add dragon install to this. It shouldn't be able to be refreshed by refresher as it is more of a different mechanic than a buff. Will if you see this stop playing Chen <-- Chen (pronounced "shen") has crazy micro and once i get good at him hes gonna be crazy. that one game was a loss no matter who i played. also it was mendez fault for picking IO
 
-                    Player.statLife += heal;
-                    Player.HealEffect(heal);
+                    Player.AddBuff(refresherCooldown, 9000);
+                    SoundEngine.PlaySound(RefresherActivateSound, Player.Center);
+                }
+
+                // glimmer cape
+                if (KeybindSystem.GlimmerCapeKeybind.JustPressed && isWearingGlimmerCape && !Player.HasBuff(glimmerCooldown))
+                {
+                    // give buff, 600 = 10 seconds
+                    Player.AddBuff(glimmerBuff, 1800);
+                    // give debuff cd
+                    Player.AddBuff(glimmerCooldown, 3600);
+                    // play sfx
+                    SoundEngine.PlaySound(GlimmerActivateSound, Player.Center);
+                }
+
+                // satanic
+                if (KeybindSystem.SatanicKeybind.JustPressed && wearingSatanic && !Player.HasBuff(satanicCooldown))
+                {
+                    Player.AddBuff(satanicBuff, 480);
+                    Player.AddBuff(satanicCooldown, 4800);
+                    SoundEngine.PlaySound(SatanicActivateSound, Player.Center);
+                }
+
+                // blademail
+                if (KeybindSystem.BladeMailKeybind.JustPressed && wearingBladeMail && !Player.HasBuff(blademailCooldown))
+                {
+                    Player.AddBuff(blademailBuff, 600);
+                    Player.AddBuff(blademailCooldown, 3600);
+                    SoundEngine.PlaySound(BladeMailActivateSound, Player.Center);
+                }
+
+                // arcane boots
+                if (KeybindSystem.ArcaneBootsKeybind.JustPressed && wearingManaBoots && !Player.HasBuff(manabootsCooldown))
+                {
+                    //for (int i = 0; i < Main.maxPlayers; i++)
+                    //{
+                    //    Terraria.Player targetPlayer = Main.player[i];
+                    //    if (targetPlayer.active && targetPlayer.team == targetPlayer.team && targetPlayer.team != 0)
+                    //    {
+                    //        targetPlayer.AddBuff(greavesHeal, 600);
+                    //        //if (Main.netMode == NetmodeID.Server) // Check if the game is in multiplayer server mode
+                    //        //{
+                    //        //    NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, null, i, mekansmHeal, 600f, 0f, 0, 0, 0);
+                    //        //}
+                    //        for (int k = 0; k < 16; k++)
+                    //        {
+                    //            Dust dust2 = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.ManaRegeneration);
+                    //            dust2.scale = Main.rand.NextFloat(0.6f, 0.8f);
+                    //        }
+                    //    }
+                    //}
+                    Player.statMana += 200;
+                    Player.ManaEffect(200);
+                    if (Player.statMana > Player.statManaMax2)
+                        Player.statMana = Player.statManaMax2;
+                    Player.AddBuff(manabootsCooldown, 1800);
+                    SoundEngine.PlaySound(ManaBootsActivateSound, Player.Center);
+                }
+
+                // guardian greaves
+                if (KeybindSystem.GuardianGreavesKeybind.JustPressed && wearingGigaManaBoots && !Player.HasBuff(guardianCooldown))
+                {
+                    // make it play a sound when activating
+                    Player.statLife += 140;
+                    Player.HealEffect(140);
                     if (Player.statLife > Player.statLifeMax2)
                         Player.statLife = Player.statLifeMax2;
 
-                    Player.statMana += heal;
-                    Player.ManaEffect(heal);
+                    Player.statMana += 300;
+                    Player.ManaEffect(300);
                     if (Player.statMana > Player.statManaMax2)
                         Player.statMana = Player.statManaMax2;
 
-                    locketCharges = 0;
-                    SoundEngine.PlaySound(WandUse, Player.Center);
+                    Player.AddBuff(guardianCooldown, 3600);
+                    SoundEngine.PlaySound(GreavesActivateSound, Player.Center);
                 }
-            }
 
-            //Wand
-            if (KeybindSystem.WandKeybind.JustPressed)
-            {
-                if (wandActive && wandCharges > 0)
+                // mekansm
+                if (KeybindSystem.MekansmKeybind.JustPressed && wearingMekansm && !Player.HasBuff(mekansmCooldown))
                 {
-                    int heal = 7 * wandCharges;
-
-                    Player.statLife += heal;
-                    Player.HealEffect(heal);
+                    // make it play a sound when activating
+                    Player.statLife += 80;
+                    Player.HealEffect(80);
                     if (Player.statLife > Player.statLifeMax2)
                         Player.statLife = Player.statLifeMax2;
-
-                    Player.statMana += heal;
-                    Player.ManaEffect(heal);
-                    if (Player.statMana > Player.statManaMax2)
-                        Player.statMana = Player.statManaMax2;
-
-                    wandCharges = 0;
-                    SoundEngine.PlaySound(WandUse, Player.Center);
+                    Player.AddBuff(mekansmCooldown, 3600);
+                    SoundEngine.PlaySound(MekansmActivateSound, Player.Center);
                 }
-            }
 
-            //Magic Stick
-            if (KeybindSystem.WandKeybind.JustPressed)
-            {
-                if (stickActive && stickCharges > 0)
+                // helm of dominator
+                if (KeybindSystem.HelmOfDominatorKeybind.JustPressed && wearingHelmOfDominator && !Player.HasBuff(helmOfDominator))
                 {
-                    int heal = 5 * stickCharges;
-
-                    Player.statLife += heal;
-                    Player.HealEffect(heal);
-                    if (Player.statLife > Player.statLifeMax2)
-                        Player.statLife = Player.statLifeMax2;
-
-                    Player.statMana += heal;
-                    Player.ManaEffect(heal);
-                    if (Player.statMana > Player.statManaMax2)
-                        Player.statMana = Player.statManaMax2;
-
-                    stickCharges = 0;
-                    SoundEngine.PlaySound(WandUse, Player.Center);
+                    // for now it summons a mount (change to make it summon a friendly npc to damage enemies)
+                    Player.AddBuff(BuffID.BasiliskMount, 1);
+                    Player.AddBuff(helmOfDominator, 1800);
                 }
-            }
 
-            //Shiva's Guard
-            if (KeybindSystem.ShivasKeybind.JustPressed && wearingShivasGuard && !Player.HasBuff(ShivasCooldown))
-            {
-                doShivas(Player, Player.Center); //Does the thing.
-                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+                // helm of overlord
+                if (KeybindSystem.HelmOfDominatorKeybind.JustPressed && wearingHelmOfOverlord && !Player.HasBuff(helmOfDominator))
                 {
-                    SyncShivas(false, Player.Center); //Netcode stuff, go to MogPlayerNetcode.cs to see what this does.
+                    // for now it summons a mount (change to make it summon a friendly npc to damage enemies)
+                    Player.AddBuff(BuffID.CuteFishronMount, 1);
+                    Player.AddBuff(helmOfDominator, 600);
                 }
-            }
 
-            // wings of light
-            if (wearingWingsOfLight)
-            {
-                doWingsOfLight(Player, Player.Center); //Does the thing.
-                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+                // holy locket
+                if (KeybindSystem.WandKeybind.JustPressed)
                 {
-                    SyncWingsOfLight(false, Player.Center); //Netcode stuff, go to MogPlayerNetcode.cs to see what this does.
+                    if (locketActive && locketCharges > 0)
+                    {
+                        int heal = 10 * locketCharges;
+
+                        Player.statLife += heal;
+                        Player.HealEffect(heal);
+                        if (Player.statLife > Player.statLifeMax2)
+                            Player.statLife = Player.statLifeMax2;
+
+                        Player.statMana += heal;
+                        Player.ManaEffect(heal);
+                        if (Player.statMana > Player.statManaMax2)
+                            Player.statMana = Player.statManaMax2;
+
+                        locketCharges = 0;
+                        SoundEngine.PlaySound(WandUse, Player.Center);
+                    }
                 }
-            }
 
-            //Dragon Install
-            if (wearingFlameOfCorruption && KeybindSystem.DragonInstallKeybind.JustPressed && !Player.HasBuff(dragonInstallCooldown))
-            {
-                Player.AddBuff(dragonInstall, 6000); //These values are temporary.
-                Player.AddBuff(dragonInstallCooldown, 12000);
-                for (int i = 0; i < 80; i++)
+                //Wand
+                if (KeybindSystem.WandKeybind.JustPressed)
                 {
-                    Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
-                    dustVelocity.Normalize();
-                    dustVelocity *= 2;
+                    if (wandActive && wandCharges > 0)
+                    {
+                        int heal = 7 * wandCharges;
 
-                    int dustPos = 20;
+                        Player.statLife += heal;
+                        Player.HealEffect(heal);
+                        if (Player.statLife > Player.statLifeMax2)
+                            Player.statLife = Player.statLifeMax2;
 
-                    int DI1 = Dust.NewDust(Player.Center, dustPos, dustPos, DustID.CrimsonTorch, dustVelocity.X * 3, dustVelocity.Y * 3, 0, default, 1f);
-                    Main.dust[DI1].noGravity = true;
-                    Main.dust[DI1].fadeIn = 2f;
-                    Main.dust[DI1].velocity *= 3f;
-                    int DI2 = Dust.NewDust(Player.Center, dustPos - 5, dustPos - 5, DustID.Blood, dustVelocity.X * 2, dustVelocity.Y * 2, 0, Color.Red, 2f);
-                    Main.dust[DI2].noGravity = true;
-                    Main.dust[DI2].fadeIn = 2f;
-                    Main.dust[DI2].velocity *= 3f;
+                        Player.statMana += heal;
+                        Player.ManaEffect(heal);
+                        if (Player.statMana > Player.statManaMax2)
+                            Player.statMana = Player.statManaMax2;
+
+                        wandCharges = 0;
+                        SoundEngine.PlaySound(WandUse, Player.Center);
+                    }
                 }
-            }
-            
-            // armlet timer
-            if (KeybindSystem.ArmletKeybind.JustPressed && armletActive)
-            {
-                if (armletTimer <= armletTimerMax)
+
+                //Magic Stick
+                if (KeybindSystem.WandKeybind.JustPressed)
                 {
-                    Player.AddBuff(armletToggled, 9999999);
-                    armletTimer += 1;
-                    armletOn = true;
-                    SoundEngine.PlaySound(ArmletOnSound, Player.Center);
-                } else if (armletTimer >= armletTimerMax)
+                    if (stickActive && stickCharges > 0)
+                    {
+                        int heal = 5 * stickCharges;
+
+                        Player.statLife += heal;
+                        Player.HealEffect(heal);
+                        if (Player.statLife > Player.statLifeMax2)
+                            Player.statLife = Player.statLifeMax2;
+
+                        Player.statMana += heal;
+                        Player.ManaEffect(heal);
+                        if (Player.statMana > Player.statManaMax2)
+                            Player.statMana = Player.statManaMax2;
+
+                        stickCharges = 0;
+                        SoundEngine.PlaySound(WandUse, Player.Center);
+                    }
+                }
+
+                //Shiva's Guard
+                if (KeybindSystem.ShivasKeybind.JustPressed && wearingShivasGuard && !Player.HasBuff(ShivasCooldown))
+                {
+                    doShivas(Player, Player.Center); //Does the thing.
+                    if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+                    {
+                        SyncShivas(false, Player.Center); //Netcode stuff, go to MogPlayerNetcode.cs to see what this does.
+                    }
+                }
+
+                // wings of light
+                if (wearingWingsOfLight)
+                {
+                    doWingsOfLight(Player, Player.Center); //Does the thing.
+                    if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+                    {
+                        SyncWingsOfLight(false, Player.Center); //Netcode stuff, go to MogPlayerNetcode.cs to see what this does.
+                    }
+                }
+
+                //Dragon Install
+                if (wearingFlameOfCorruption && KeybindSystem.DragonInstallKeybind.JustPressed && !Player.HasBuff(dragonInstallCooldown))
+                {
+                    Player.AddBuff(dragonInstall, 6000); //These values are temporary.
+                    Player.AddBuff(dragonInstallCooldown, 12000);
+                    for (int i = 0; i < 80; i++)
+                    {
+                        Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                        dustVelocity.Normalize();
+                        dustVelocity *= 2;
+
+                        int dustPos = 20;
+
+                        int DI1 = Dust.NewDust(Player.Center, dustPos, dustPos, DustID.CrimsonTorch, dustVelocity.X * 3, dustVelocity.Y * 3, 0, default, 1f);
+                        Main.dust[DI1].noGravity = true;
+                        Main.dust[DI1].fadeIn = 2f;
+                        Main.dust[DI1].velocity *= 3f;
+                        int DI2 = Dust.NewDust(Player.Center, dustPos - 5, dustPos - 5, DustID.Blood, dustVelocity.X * 2, dustVelocity.Y * 2, 0, Color.Red, 2f);
+                        Main.dust[DI2].noGravity = true;
+                        Main.dust[DI2].fadeIn = 2f;
+                        Main.dust[DI2].velocity *= 3f;
+                    }
+                }
+
+                // armlet timer
+                if (KeybindSystem.ArmletKeybind.JustPressed && armletActive)
+                {
+                    if (armletTimer <= armletTimerMax)
+                    {
+                        Player.AddBuff(armletToggled, 9999999);
+                        armletTimer += 1;
+                        SoundEngine.PlaySound(ArmletOnSound, Player.Center);
+                    } else if (armletTimer >= armletTimerMax)
+                    {
+                        Player.ClearBuff(armletToggled);
+                        armletTimer = 0;
+                        SoundEngine.PlaySound(ArmletOffSound, Player.Center);
+                    }
+                }
+
+                if (!armletActive)
                 {
                     Player.ClearBuff(armletToggled);
-                    armletOn = false;
                     armletTimer = 0;
-                    SoundEngine.PlaySound(ArmletOffSound, Player.Center);
                 }
-            }
+                while (armletTimer >= 1 && armletTimer <= armletTimerMax + 1)
+                    armletTimer += 1;
 
-            if (!armletActive)
-            {
-                Player.ClearBuff(armletToggled);
-            }
+                // null timer
+                if (KeybindSystem.NulledKeybind.JustPressed && wearingNihilum)
+                {
+                    if (nihilumTimer <= nihilumTimerMax)
+                    {
+                        Player.AddBuff(nihilumToggled, 9999999);
+                        nihilumTimer++;
+                        SoundEngine.PlaySound(ArmletOnSound with { Pitch = -0.15f }, Player.Center);
+                    }
+                    else if (nihilumTimer >= nihilumTimerMax)
+                    {
+                        Player.ClearBuff(nihilumToggled);
+                        nihilumTimer = 0;
+                        SoundEngine.PlaySound(ArmletOffSound with { Pitch = -0.15f }, Player.Center);
+                    }
+                }
 
-            while (armletTimer >= 1 && armletTimer <= armletTimerMax + 1)
-            {
-                armletTimer += 1;
+                if (!wearingNihilum)
+                {
+                    Player.ClearBuff(nihilumToggled);
+                    nihilumTimer = 0;
+                }
+                while (nihilumTimer >= 1 && nihilumTimer <= nihilumTimerMax + 1)
+                    nihilumTimer++;
             }
             #endregion
         }
@@ -905,6 +940,86 @@ namespace MogMod.Common.MogModPlayer
                         faeDust.velocity += new Vector2(0, -2.5f) * Main.rand.NextFloat(0.8f, 1.2f);
 
                         Dust dust = Dust.NewDustPerfect(Player.Center + Main.rand.NextVector2Circular(6, 6) - Player.velocity * 2, DustID.CrystalPulse2);
+                        dust.velocity = -Player.velocity * Main.rand.NextFloat(0.6f, 1.4f);
+                        dust.scale = Main.rand.NextFloat(0.9f, 1.4f);
+                        dust.noGravity = true;
+                    }
+                }
+            }
+            #endregion
+
+            #region Aegis Dash
+            if (wearingSacrosanctAegis)
+            {
+                if (CanUseDash() && DashDir != -1 && AegisDashDelay == 0)
+                {
+                    Vector2 newVelocity = Player.velocity;
+
+                    switch (DashDir)
+                    {
+                        case DashUp when Player.velocity.Y > -AegisDashVelocity && canDashUp:
+                        case DashDown when Player.velocity.Y < AegisDashVelocity:
+                            {
+                                canDashUp = false;
+                                float dashDirection = DashDir == DashDown ? 1 : -1f;
+                                newVelocity.Y = dashDirection * AegisDashVelocity;
+                                break;
+                            }
+                        case DashLeft when Player.velocity.X > -AegisDashVelocity:
+                        case DashRight when Player.velocity.X < AegisDashVelocity:
+                            {
+                                float dashDirection = DashDir == DashRight ? 1 : -1;
+                                newVelocity.X = dashDirection * AegisDashVelocity;
+                                break;
+                            }
+                        default:
+                            return;
+                    }
+
+                    AegisDashDelay = AegisDashCooldown;
+                    AegisDashTimer = AegisDashDuration;
+                    Player.velocity = newVelocity;
+
+                    // Here you'd be able to set an effect that happens when the dash first activates
+                    // Some examples include:  the larger smoke effect from the Master Ninja Gear and Tabi
+                    float dustLoopcheck = 16f;
+                    int dustIncr = 0;
+                    while (dustIncr < dustLoopcheck)
+                    {
+                        Vector2 dustRotate = Vector2.UnitX * 0f;
+                        dustRotate += -Vector2.UnitY.RotatedBy((double)((float)dustIncr * (6.28318548f / dustLoopcheck)), default) * new Vector2(1f, 4f);
+                        dustRotate = dustRotate.RotatedBy((double)Player.velocity.ToRotation(), default);
+                        int bedman = Dust.NewDust(Player.Center, 0, 0, DustID.GoldCoin, 0f, 0f, 0, default, 1f);
+                        Main.dust[bedman].scale = 1.5f;
+                        Main.dust[bedman].noGravity = true;
+                        Main.dust[bedman].position = Player.Center + dustRotate;
+                        Main.dust[bedman].velocity = Player.velocity * 0f + dustRotate.SafeNormalize(Vector2.UnitY) * 1f;
+                        dustIncr++;
+                    }
+                }
+
+                if (AegisDashDelay > 0)
+                    AegisDashDelay--;
+
+                if (AegisDashTimer > 0)
+                {
+                    Player.SetImmuneTimeForAllTypes(AegisDashTimer);
+                    Player.eocDash = AegisDashTimer;
+                    Player.armorEffectDrawShadowEOCShield = true;
+
+                    // count down frames remaining
+                    AegisDashTimer--;
+
+                    // dash dust effects
+                    for (int d = 0; d < 4; d++)
+                    {
+                        Dust faeDust = Dust.NewDustPerfect(Player.Center + new Vector2(Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-15f, 15f)) - (Player.velocity * 1.2f), DustID.HallowSpray, -Player.velocity.RotatedByRandom(MathHelper.ToRadians(10f)) * Main.rand.NextFloat(0.1f, 0.8f), 0, default, Main.rand.NextFloat(1.8f, 2.8f));
+                        faeDust.noGravity = faeDust.type == 222 ? false : true;
+                        faeDust.fadeIn = 0.5f;
+                        faeDust.scale = Main.rand.NextFloat(0.8f, 1.2f);
+                        faeDust.velocity += new Vector2(0, -2.5f) * Main.rand.NextFloat(0.8f, 1.2f);
+
+                        Dust dust = Dust.NewDustPerfect(Player.Center + Main.rand.NextVector2Circular(6, 6) - Player.velocity * 2, DustID.GoldCoin);
                         dust.velocity = -Player.velocity * Main.rand.NextFloat(0.6f, 1.4f);
                         dust.scale = Main.rand.NextFloat(0.9f, 1.4f);
                         dust.noGravity = true;
@@ -1176,9 +1291,8 @@ namespace MogMod.Common.MogModPlayer
         }
         private bool CanUseDash()
         {
-            return wearingFaeArmor
-                && !chargeShot
-                && !dpCharge
+            return (!chargeShot
+                || !dpCharge)
                 && !Player.mount.Active; // player isn't mounted, since dashes on a mount look weird
         }
         public void MiscEffects()
@@ -1617,8 +1731,9 @@ namespace MogMod.Common.MogModPlayer
         {
             if (wearingUndyingHelm)
                 doUndying();
-            if (seraphicReviveCounter > 0)
-                seraphicReviveCounter = 0;
+            seraphicReviveCounter = 0;
+            nihilumTimer = 0;
+            armletTimer = 0;
         }
         public void doUndying()
         {
@@ -1656,6 +1771,10 @@ namespace MogMod.Common.MogModPlayer
             }
             if (Player.HasBuff(ModContent.BuffType<WraithBuff>()))
                 return false;
+            if (armletDebuff)
+                damageSource = PlayerDeathReason.ByCustomReason($"{Player.name}'s life energy was consumed.");
+            if (nulledDebuff)
+                damageSource = PlayerDeathReason.ByCustomReason($"{Player.name} vanished out of reality.");
             return true;
         }
         #endregion
@@ -1679,6 +1798,11 @@ namespace MogMod.Common.MogModPlayer
                     zoom = Player.scope ? 0.8f : 0.6666667f;
                 }
             }
+        }
+        public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
+        {
+            if (wearingAllegianceWings)
+                damage *= ((Player.wingTimeMax - Player.wingTime) / 250) + 1;
         }
         public void enterDragonInstall(Terraria.Player player)
         {
@@ -1796,10 +1920,10 @@ namespace MogMod.Common.MogModPlayer
         // armlet negative hp regen is here instead of in buff for an unknown reason
         public override void UpdateBadLifeRegen()
         {
-            if (armletOn && Player.HasBuff<ArmletOfMordiggianBuff>())
+            if (armletActive && armletDebuff)
                 DamageOverTime(30);
-            if (wearingNihilum)
-                DamageOverTime(30);
+            if (wearingNihilum && nulledDebuff)
+                DamageOverTime(50);
         }
 
         // more regen taking place here
@@ -1906,6 +2030,13 @@ namespace MogMod.Common.MogModPlayer
             }
             if (wearingSpiritArmor)
                 Player.slowFall = true;
+            if (armletDebuff)
+            {
+                Player.GetAttackSpeed(DamageClass.Generic) += 0.15f;
+                Player.GetDamage(DamageClass.Generic) += .15f;
+            }
+            if (nulledDebuff)
+                Player.lifeSteal *= 0f;
 
             // cooldowns
             if (shivCooldown > 0)
@@ -1924,8 +2055,8 @@ namespace MogMod.Common.MogModPlayer
                 satanicAccCooldown--;
             if (seraphicReviveCounter > 0)
                 seraphicReviveCounter--;
-            if (NihilumLifeCooldown > 0)
-                NihilumLifeCooldown--;
+            if (VoniumLifeCooldown > 0)
+                VoniumLifeCooldown--;
         }
         
         // stops player from moving while charging bow
@@ -1969,7 +2100,7 @@ namespace MogMod.Common.MogModPlayer
             wandActive = false;
             stickActive = false;
             armletActive = false;
-            
+
             wearingHelmOfDominator = false;
             wearingHelmOfOverlord = false;
             wearingGigaManaBoots = false;
@@ -1999,6 +2130,8 @@ namespace MogMod.Common.MogModPlayer
             plasmaVisual = false;
             polyluteVisual = false;
             wearingRuntyHorseshoe = false;
+            wearingAllegianceWings = false;
+            wearingSacrosanctAegis = false;
             //stopFallDamage = false;
 
             wearingMendez = false;
@@ -2043,6 +2176,8 @@ namespace MogMod.Common.MogModPlayer
             jidiDebuff = false;
             shivaDebuff = false;
             infernoDebuff = false;
+            armletDebuff = false;
+            nulledDebuff = false;
 
             greavesAura = false;
             wraithAura = false;

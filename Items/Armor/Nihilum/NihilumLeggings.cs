@@ -1,6 +1,8 @@
-﻿using MogMod.Items.Global;
+﻿using MogMod.Common.Systems;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Items.Placeable.Bars;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,6 +13,8 @@ namespace MogMod.Items.Armor.Nihilum
     public class NihilumLeggings : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.NulledKeybind);
+        ModKeybind keybindActive = null;
         public override void SetDefaults()
         {
             Item.width = 26;

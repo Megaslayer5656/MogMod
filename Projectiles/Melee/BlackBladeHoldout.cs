@@ -139,7 +139,7 @@ namespace MogMod.Projectiles.Melee
             SetSwordPosition();
             if (CurrentStage != AttackStage.Prepare)
             {
-                if (!Owner.CantUseHoldout())
+                if (!Owner.CantUseHoldout() && Projectile.owner == Main.myPlayer)
                 {
                     Projectile.spriteDirection = Main.MouseWorld.X > Owner.MountedCenter.X ? 1 : -1;
                     float targetAngle = (Main.MouseWorld - Owner.MountedCenter).ToRotation();
@@ -151,11 +151,8 @@ namespace MogMod.Projectiles.Melee
                             targetAngle += 2 * (float)Math.PI;
                         targetAngle = MathHelper.Clamp(targetAngle, (float)Math.PI * 5 / 6, (float)Math.PI * 4 / 3);
                     }
-                    if (Projectile.owner == Main.myPlayer)
-                    {
-                        Projectile.direction = Main.MouseWorld.X > Owner.Center.X ? 1 : -1;
-                        Projectile.netUpdate = true;
-                    }
+                    Projectile.direction = Main.MouseWorld.X > Owner.Center.X ? 1 : -1;
+                    Projectile.netUpdate = true;
                     InitialAngle = targetAngle - firstHalfSwing * swingRange * Projectile.spriteDirection;
                     Owner.ChangeDir(Projectile.direction);
                     if (CurrentCharge <= BlackBlade.MaxCharge)

@@ -1,19 +1,19 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MogMod.Utilities;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Projectiles.MagicProjectiles
+namespace MogMod.Projectiles.Summon
 {
-    public class FoundingRainOfStarsStarProj : ModProjectile, ILocalizedModType
+    public class DivinitasStarProj : ModProjectile, ILocalizedModType
     {
-        // code taken from "universal genesis" from calamity mod;
-        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public override void SetStaticDefaults()
         {
+            ProjectileID.Sets.MinionShot[Type] = true;
             ProjectileID.Sets.CultistIsResistantTo[Type] = true;
             ProjectileID.Sets.TrailCacheLength[Type] = 6;
             ProjectileID.Sets.TrailingMode[Type] = 0;
@@ -23,17 +23,17 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.width = 22;
             Projectile.height = 20;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.DamageType = DamageClass.Summon;
             Projectile.alpha = 50;
             Projectile.tileCollide = false;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 180;
+            Projectile.timeLeft = 280;
             Projectile.extraUpdates = 1;
         }
         public override void AI()
         {
-            if (Projectile.timeLeft < 170)
-                MogModUtils.HomeInOnNPC(Projectile, true, 250f, 12f, 15f);
+            if (Projectile.timeLeft < 270)
+                MogModUtils.HomeInOnNPC(Projectile, true, 450f, 15f, 17f);
             if (Projectile.soundDelay == 0 && Projectile.ai[0] == 0f)
             {
                 Projectile.soundDelay = 20 + Main.rand.Next(40);
@@ -48,7 +48,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 Main.gore[idx].velocity += Projectile.velocity * 0.3f;
             }
             if (Main.rand.NextBool(10))
-                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.ShadowbeamStaff, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, default, 1.2f);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 156, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, default, 1.2f);
             if (Main.rand.NextBool(20) && !Main.dedServ)
                 Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.position, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
         }
@@ -56,8 +56,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         public override bool PreDraw(ref Color lightColor)
         {
             // calamity mod custom fallen star-like effect;
-            Projectile.DrawStarTrail(Color.Blue, Color.White);
-
+            Projectile.DrawStarTrail(Color.Yellow, Color.White);
             //Draw the actual projectile
             MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Type], lightColor, 1);
             return false;

@@ -18,7 +18,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.width = 80;
             Item.height = 88;
 
-            Item.damage = 44;
+            Item.damage = 24;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 100;
             Item.useStyle = ItemUseStyleID.Swing;

@@ -201,126 +201,131 @@ namespace MogMod.Projectiles.BaseProjectiles
             jidiProc = random.Next(4) == 0;
 
             // TODO: fix enemies proccing player accessories
-            if (radiantProc)
+            if (projectile.owner == player.whoAmI)
             {
-                if (projectile.owner == player.whoAmI && modPlayer.wearingRadiantArmor && projectile.type != ProjectileType<RadiantBeamProj>() && projectile.DamageType == DamageClass.Magic && modPlayer.radiantCooldown <= 0)
+                if (radiantProc)
                 {
-                    modPlayer.radiantCooldown = cooldownTimer;
-                    MogModUtils.ProjectileRain(source, target.Center, 100f, 50f, 1500f, 1500f, 10f, ModContent.ProjectileType<RadiantBeamProj>(), Convert.ToInt32(projectile.damage / .75f), projectile.knockBack, projectile.owner);
+                    if (modPlayer.wearingRadiantArmor && projectile.type != ProjectileType<RadiantBeamProj>() && projectile.DamageType == DamageClass.Magic && modPlayer.radiantCooldown <= 0)
+                    {
+                        modPlayer.radiantCooldown = cooldownTimer;
+                        MogModUtils.ProjectileRain(source, target.Center, 100f, 50f, 1500f, 1500f, 10f, ModContent.ProjectileType<RadiantBeamProj>(), Convert.ToInt32(projectile.damage / .75f), projectile.knockBack, projectile.owner);
+                    }
                 }
-            }
 
-            if (gunpowderProc)
-            {
-                if (projectile.owner == player.whoAmI && modPlayer.wearingGunpowderGauntlet && projectile.type != ProjectileType<GunpowderProj>() && projectile.DamageType == DamageClass.Magic && modPlayer.gunpowderCooldown <= 0)
+                if (gunpowderProc)
                 {
-                    modPlayer.gunpowderCooldown = cooldownTimer;
-                    int gunpowderProc = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ProjectileType<GunpowderProj>(), gunpowderDamage, 0f, projectile.owner);
+                    if (modPlayer.wearingGunpowderGauntlet && projectile.type != ProjectileType<GunpowderProj>() && projectile.DamageType == DamageClass.Magic && modPlayer.gunpowderCooldown <= 0)
+                    {
+                        modPlayer.gunpowderCooldown = cooldownTimer;
+                        int gunpowderProc = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ProjectileType<GunpowderProj>(), gunpowderDamage, 0f, projectile.owner);
+                    }
                 }
-            }
 
-            if (jidiProc)
-            {
-                if (projectile.owner == player.whoAmI && modPlayer.wearingJidiPollenBag && projectile.type != ProjectileType<JidiPollenExplosion>() && (projectile.DamageType == DamageClass.Summon || projectile.DamageType == DamageClass.SummonMeleeSpeed) && modPlayer.jidiPollenCooldown <= 0)
+                if (jidiProc)
                 {
-                    modPlayer.jidiPollenCooldown = cooldownTimer;
-                    int jidiProc = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ProjectileType<JidiPollenExplosion>(), 1, 0f, projectile.owner);
+                    if (modPlayer.wearingJidiPollenBag && projectile.type != ProjectileType<JidiPollenExplosion>() && (projectile.DamageType == DamageClass.Summon || projectile.DamageType == DamageClass.SummonMeleeSpeed) && modPlayer.jidiPollenCooldown <= 0)
+                    {
+                        modPlayer.jidiPollenCooldown = cooldownTimer;
+                        int jidiProc = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ProjectileType<JidiPollenExplosion>(), 1, 0f, projectile.owner);
+                    }
                 }
-            }
 
-            shivProc = random.Next(5) == 0;
-            if (projectile.owner == player.whoAmI && shivProc && modPlayer.wearingSerratedShiv && modPlayer.shivCooldown <= 0)
-            {
-                modPlayer.shivCooldown = cooldownTimer * 4;
-                hitInfo = new NPC.HitInfo
+                shivProc = random.Next(5) == 0;
+                if (shivProc && modPlayer.wearingSerratedShiv && modPlayer.shivCooldown <= 0)
                 {
-                    Damage = shivDamage,
-                    Knockback = 0,
-                    HitDirection = 0,
-                    Crit = false,
-                    DamageType = DamageClass.Default
-                };
-                target.StrikeNPC(hitInfo);
-                NetMessage.SendStrikeNPC(target, hitInfo);
-                Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
-                Color textColor = new Color(210, 180, 140);
-                CombatText.NewText(r, textColor, "Strike!", true);
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    ModPacket packet = Mod.GetPacket();
-                    packet.Write((byte)MogModMessageType.TrueStrikeProcTextSync);
-                    packet.Write(target.lastInteraction);
-                    packet.WriteVector2(r.Center.ToVector2());
-                    packet.Send();
+                    modPlayer.shivCooldown = cooldownTimer * 4;
+                    hitInfo = new NPC.HitInfo
+                    {
+                        Damage = shivDamage,
+                        Knockback = 0,
+                        HitDirection = 0,
+                        Crit = false,
+                        DamageType = DamageClass.Default
+                    };
+                    target.StrikeNPC(hitInfo);
+                    NetMessage.SendStrikeNPC(target, hitInfo);
+                    Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
+                    Color textColor = new Color(210, 180, 140);
+                    CombatText.NewText(r, textColor, "Strike!", true);
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        ModPacket packet = Mod.GetPacket();
+                        packet.Write((byte)MogModMessageType.TrueStrikeProcTextSync);
+                        packet.Write(target.lastInteraction);
+                        packet.WriteVector2(r.Center.ToVector2());
+                        packet.Send();
+                    }
+                    doTrueStrikeFX(target.Center);
                 }
-                doTrueStrikeFX(target.Center);
-            }
 
-            // skull basher (melee holdout projectiles only)
-            bashProc = Main.rand.Next(7) == 0;
-            if (projectile.owner == player.whoAmI && bashProc && modPlayer.wearingGiantsMaul && modPlayer.bashCooldown <= 0 && MeleeHoldouts.Contains(projectile.type))
-            {
-                modPlayer.bashCooldown = cooldownTimer;
-                int bash = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ModContent.ProjectileType<SkullBashProjectile>(), bashCap, 0f, player.whoAmI);
-                Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
-                Color textColor = new Color(255, 0, 100);
-                CombatText.NewText(r, textColor, "Bash!", true);
-                if (Main.netMode == NetmodeID.Server)
+                // skull basher (melee holdout projectiles only)
+                bashProc = Main.rand.Next(7) == 0;
+                if (bashProc && modPlayer.wearingGiantsMaul && modPlayer.bashCooldown <= 0 && MeleeHoldouts.Contains(projectile.type))
                 {
-                    ModPacket packet = Mod.GetPacket();
-                    packet.Write((byte)MogModMessageType.BashProcTextSync);
-                    packet.Write(target.lastInteraction);
-                    packet.WriteVector2(r.Center.ToVector2());
-                    packet.Send();
+                    modPlayer.bashCooldown = cooldownTimer;
+                    int bash = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ModContent.ProjectileType<SkullBashProjectile>(), bashCap, 0f, player.whoAmI);
+                    Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
+                    Color textColor = new Color(255, 0, 100);
+                    CombatText.NewText(r, textColor, "Bash!", true);
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        ModPacket packet = Mod.GetPacket();
+                        packet.Write((byte)MogModMessageType.BashProcTextSync);
+                        packet.Write(target.lastInteraction);
+                        packet.WriteVector2(r.Center.ToVector2());
+                        packet.Send();
+                    }
                 }
-            }
 
-            // atg and plasma shrimp
-            if (projectile.owner == player.whoAmI && (modPlayer.atgActive || modPlayer.plasmaActive) && !voidItems.Contains(projectile.type))
-            {
-                modPlayer.doATG(damageDone);
-            }
-
-            if (projectile.owner == player.whoAmI && modPlayer.polyluteActive && !voidItems.Contains(projectile.type))
-            {
-                Vector2 kirk = new Vector2(10, 10).RotatedByRandom(MathHelper.ToRadians(360));
-                int procChance = random.Next(1, 6);
-
-                if (procChance == 5)
-                    Projectile.NewProjectile(source, target.Center, kirk, ModContent.ProjectileType<PolyluteProj>(), Convert.ToInt32(damageDone * .3f) + 1, 3, player.whoAmI);
-            }
-
-            if (target.type != NPCID.TargetDummy)
-            {
-                if (modPlayer.wearingDamascus2 && hit.Crit)
+                // atg and plasma shrimp
+                if ((modPlayer.atgActive || modPlayer.plasmaActive) && !voidItems.Contains(projectile.type))
                 {
-                    int heal = 1;
-                    heal *= Convert.ToInt32(player.lifeSteal * 0.01);
-                    player.statLife += heal;
-                    player.HealEffect(heal);
-                    if (player.statLife > player.statLifeMax2)
-                        player.statLife = player.statLifeMax2;
+                    modPlayer.doATG(damageDone);
                 }
-                if (modPlayer.wearingSatanic && player.HasBuff(ModContent.BuffType<SatanicBuff>()) && modPlayer.satanicAccCooldown <= 0)
-                //if (modPlayer.wearingSatanic) // for testing
+
+                if (modPlayer.polyluteActive && !voidItems.Contains(projectile.type))
                 {
-                    modPlayer.satanicAccCooldown = cooldownTimer * 2;
-                    int heal = (int)(damageDone / 100) + 1;
-                    heal *= Convert.ToInt32(player.lifeSteal * 0.01);
-                    player.statLife += heal;
-                    player.HealEffect(heal);
-                    if (player.statLife > player.statLifeMax2)
-                        player.statLife = player.statLifeMax2;
+                    Vector2 kirk = new Vector2(10, 10).RotatedByRandom(MathHelper.ToRadians(360));
+                    int procChance = random.Next(1, 6);
+
+                    if (procChance == 5)
+                        Projectile.NewProjectile(source, target.Center, kirk, ModContent.ProjectileType<PolyluteProj>(), Convert.ToInt32(damageDone * .3f) + 1, 3, player.whoAmI);
                 }
-                if ((modPlayer.wearingNihilumRanged && projectile.CountsAsClass(DamageClass.Ranged)) || (modPlayer.wearingNihilumMagic && projectile.CountsAsClass(DamageClass.Magic)))
+
+                if (target.type != NPCID.TargetDummy)
                 {
-                    modPlayer.satanicAccCooldown = cooldownTimer * 3;
-                    int heal = (int)(damageDone / 100) + 1;
-                    heal *= Convert.ToInt32(player.lifeSteal * 0.01);
-                    player.statLife += heal;
-                    player.HealEffect(heal);
-                    if (player.statLife > player.statLifeMax2)
-                        player.statLife = player.statLifeMax2;
+                    if (modPlayer.wearingDamascus2 && hit.Crit)
+                    {
+                        int heal = 1;
+                        heal *= Convert.ToInt32(player.lifeSteal * 0.01);
+                        player.statLife += heal;
+                        player.HealEffect(heal);
+                        if (player.statLife > player.statLifeMax2)
+                            player.statLife = player.statLifeMax2;
+                    }
+                    if (modPlayer.wearingSatanic && player.HasBuff(ModContent.BuffType<SatanicBuff>()) && modPlayer.satanicAccCooldown <= 0)
+                    //if (modPlayer.wearingSatanic) // for testing
+                    {
+                        modPlayer.satanicAccCooldown = cooldownTimer * 2;
+                        int heal = (int)(damageDone / 100) + 1;
+                        heal *= Convert.ToInt32(player.lifeSteal * 0.01);
+                        player.statLife += heal;
+                        player.HealEffect(heal);
+                        if (player.statLife > player.statLifeMax2)
+                            player.statLife = player.statLifeMax2;
+                    }
+                    /*
+                    if (((modPlayer.wearingNihilumRanged && projectile.CountsAsClass(DamageClass.Ranged)) || (modPlayer.wearingNihilumMagic && projectile.CountsAsClass(DamageClass.Magic))) && modPlayer.VoniumLifeCooldown <= 0)
+                    {
+                        modPlayer.VoniumLifeCooldown = cooldownTimer * 4;
+                        int heal = (int)(damageDone / 100) + 1;
+                        heal *= Convert.ToInt32(player.lifeSteal * 0.01);
+                        player.statLife += heal;
+                        player.HealEffect(heal);
+                        if (player.statLife > player.statLifeMax2)
+                            player.statLife = player.statLifeMax2;
+                    }
+                    */
                 }
             }
 

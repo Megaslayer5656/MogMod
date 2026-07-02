@@ -3,9 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.Summons;
 using MogMod.Common.MogModPlayer;
-using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Utilities;
-using ReLogic.Content;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -22,7 +20,6 @@ namespace MogMod.Projectiles.Summon
             ProjectileID.Sets.MinionSacrificable[Type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Type] = true;
         }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 66;
@@ -40,7 +37,6 @@ namespace MogMod.Projectiles.Summon
             Projectile.penetrate = -1;
             Projectile.timeLeft *= 5;
         }
-
         public int MinionSlotsToAdd
         {
             get { return (int)Projectile.ai[0]; }
@@ -93,7 +89,7 @@ namespace MogMod.Projectiles.Summon
 
             NPC target = null;
             int targetID = -1;
-            Projectile.Minion_FindTargetInRange(1600, ref targetID, false);
+            Projectile.Minion_FindTargetInRange(2500, ref targetID, false);
             if (targetID < 0)
                 return;
 
@@ -106,12 +102,32 @@ namespace MogMod.Projectiles.Summon
                     Projectile.ai[1] -= 1f;
                     return;
                 }
+                int type = ModContent.ProjectileType<DivinitasBeamProj>();
+                int damage = (int)(Projectile.damage * (0.75f + Projectile.minionSlots * 0.25f));
                 float shootSpeed = 15f;
                 Vector2 source = Projectile.Center;
-                var velocity = MogModUtils.CalculatePredictiveAimToTargetMaxUpdates(Projectile.Center, target, shootSpeed, 2);
-                Projectile beam = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center - velocity, velocity, ModContent.ProjectileType<MichaelSwordBeam>(), (int)(Projectile.damage * (0.75f + Projectile.minionSlots * 0.25f)), Projectile.knockBack, Projectile.owner, ai1: (Projectile.minionSlots - 1) / 6f);
-                beam.DamageType = DamageClass.Summon;
+                var velocity = MogModUtils.CalculatePredictiveAimToTargetMaxUpdates(Projectile.Center, target, shootSpeed, 3);
+                float Spread = 0.15f;
+                switch (Projectile.ai[2])
+                {
+                    case 0f:
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - velocity, velocity, type, damage, Projectile.knockBack, Projectile.owner, ai2: (Projectile.minionSlots - 1) / 6f);
+                        break;
+                    case 1f:
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - velocity, velocity.RotatedBy(Spread * .5f), type, damage, Projectile.knockBack, Projectile.owner, ai2: (Projectile.minionSlots - 1) / 6f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - velocity, velocity.RotatedBy(-Spread * .5f), type, damage, Projectile.knockBack, Projectile.owner, ai2: (Projectile.minionSlots - 1) / 6f);
+                        break;
+                    case 2f:
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - velocity, velocity.RotatedBy(Spread), type, damage, Projectile.knockBack, Projectile.owner, ai2: (Projectile.minionSlots - 1) / 6f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - velocity, velocity, type, damage, Projectile.knockBack, Projectile.owner, ai2: (Projectile.minionSlots - 1) / 6f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - velocity, velocity.RotatedBy(-Spread), type, damage, Projectile.knockBack, Projectile.owner, ai2: (Projectile.minionSlots - 1) / 6f);
+                        break;
+                }
+                //Main.NewText($"ai 1 == {Projectile.ai[1]}", 200, 255, 200);
+                Projectile.ai[2]++;
                 Projectile.ai[1] += 60f / (0.75f + Projectile.minionSlots * 0.25f);
+                if (Projectile.ai[2] > 2f)
+                    Projectile.ai[2] = 0f;
             }
         }
         public override void SendExtraAI(BinaryWriter writer)
@@ -123,7 +139,6 @@ namespace MogMod.Projectiles.Summon
             Projectile.minionSlots = reader.ReadSingle();
         }
         public override bool? CanDamage() => false;
-
         private static Texture2D AllWhiteVersion = null;
         public static Texture2D GetWhiteTex()
         {

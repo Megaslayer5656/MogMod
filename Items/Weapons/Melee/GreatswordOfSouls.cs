@@ -11,10 +11,10 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
+    // TODO: give this a custom swing effect
     public class GreatswordOfSouls : ModItem, ILocalizedModType
     {
-        public new string LocalizationCategory => "Items.Weapons.Classless";
-
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
             Item.width = 86;
@@ -32,7 +32,6 @@ namespace MogMod.Items.Weapons.Melee
             Item.shoot = ModContent.ProjectileType<GreatswordOfSoulsProj>();
             Item.shootSpeed = 10f;
         }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float numberProjectiles = 3;
@@ -43,11 +42,11 @@ namespace MogMod.Items.Weapons.Melee
             for (int i = 0; i < numberProjectiles; i++)
             {
                 Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))) * .8f;
-                int proj2 = Projectile.NewProjectile(source, position, perturbedSpeed, type, Convert.ToInt32(damage * .625), knockback, player.whoAmI);
+                Projectile proj2 = Projectile.NewProjectileDirect(source, position, perturbedSpeed, type, Convert.ToInt32(damage * .625), knockback, player.whoAmI);
+                proj2.DamageType = DamageClass.Melee;
             }
             return false;
         }
-
         public override void AddRecipes()
         {
             CreateRecipe().

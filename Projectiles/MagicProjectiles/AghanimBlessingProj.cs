@@ -103,7 +103,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             if (Projectile.owner == Main.myPlayer)
             {
                 SummonLasers();
-                if (AghanimBlessing.hitCount > 9)
+                if (AghanimBlessing.hitCount > 19)
                 {
                     SummonOrb();
                     AghanimBlessing.hitCount = 0;
