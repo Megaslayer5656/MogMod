@@ -1,37 +1,38 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
-using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Accessories
+namespace MogMod.Items.Accessories.NeutralItems
 {
-    public class DuelistGloves : ModItem, ILocalizedModType
+    public class SerratedShiv : NeutralItem
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const int DamageCap = 400;
         public override void SetDefaults()
         {
-            Item.accessory = true;
+            base.SetDefaults();
             Item.width = 50;
             Item.height = 36;
-            Item.rare = ItemRarityID.Green;
-            Item.value = MogGlobalItem.RarityGreenBuyPrice;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.value = MogGlobalItem.RarityLightPurpleBuyPrice;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            mogPlayer.wearingDuelistGloves = true;
-
-            player.autoReuseGlove = true;
+            mogPlayer.wearingSerratedShiv = true;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.FeralClaws, 1).
-                AddIngredient(ItemID.Cactus, 75).
-                AddIngredient<RuntyBar>(8).
+                AddIngredient<BladesOfAttack>(1).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Emblem"}", 1).
+                AddRecipeGroup("AdamantiteBar", 18).
+                AddIngredient<FuciumBar>(12).
+                AddIngredient(ItemID.SoulofFright, 7).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

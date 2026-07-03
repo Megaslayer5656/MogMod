@@ -270,8 +270,8 @@ Items: {
 		}
 
 		IdeaRig: {
-			Tooltip: ""
 			DisplayName: Idea Rig
+			Tooltip: Allows you to equip a Neutral Item
 		}
 
 		HelmOfIronWill: {
@@ -450,15 +450,6 @@ Items: {
 				'''
 		}
 
-		DivineRapier: {
-			DisplayName: Divine Regalia
-			Tooltip:
-				'''
-				+35% Attack Damage when at full life
-				[c/E8E5C1:'So magnificent, it cannot abide failure.']
-				'''
-		}
-
 		EyeOfMendez: {
 			DisplayName: Eye Of Mendez
 			Tooltip:
@@ -516,65 +507,6 @@ Items: {
 				'''
 		}
 
-		GiantsMaul: {
-			DisplayName: Giant's Maul
-			Tooltip:
-				'''
-				+30% Melee Weapon Size
-				[c/BA2F2F:-20% Melee Speed]
-				True melee attacks have a small chance to bash enemies, dealing 2x the damage dealt, with a soft cap of 100
-				[c/A62450:'Crude but smashingly effective.']
-				'''
-		}
-
-		DuelistGloves: {
-			DisplayName: Duelist Gloves
-			Tooltip:
-				'''
-				Increases Melee Speed by 7% for each enemy around you, up to a max of 21% attack speed
-				Enables auto swing for melee weapons
-				'''
-		}
-
-		GunpowderGauntlet: {
-			DisplayName: Gunpowder Gauntlet
-			Tooltip:
-				'''
-				+5% Magic Attack Speed
-				Magic attacks have a small chance to explode, dealing 1.5x the damage dealt, with a soft cap of 50
-				[c/B87133:'A harmless prank that went entirely too far.']
-				'''
-		}
-
-		ChippedVest: {
-			DisplayName: Chipped Vest
-			Tooltip:
-				'''
-				Enemies take a small amount of damage when they hit you
-				[c/ABABAB:'It doesn't look like much, but it's oddly comfy.']
-				'''
-		}
-
-		WhisperOfTheDread: {
-			DisplayName: Whisper Of The Dread
-			Tooltip:
-				'''
-				+15% Magic Damage
-				+15% Summon Damage
-				[c/BA2F2F:+15% Damage Taken]
-				[c/C25B99:'The air that passes through this amulet makes a dreadful sound.']
-				'''
-		}
-
-		SerratedShiv: {
-			DisplayName: Serrated Shiv
-			Tooltip:
-				'''
-				Attacks have a chance to true strike enemies, dealing 0.5% of their maximum life as damage, with a hard cap of 400
-				[c/C25B5B:'Too dangerous for taskwork, this blade's only purpose is vile murder.']
-				'''
-		}
-
 		HelmOfTheUndying: {
 			DisplayName: Helm Of The Undying
 			Tooltip:
@@ -592,16 +524,6 @@ Items: {
 				Increases max mana by 40
 				[c/F2D69B:'Lost to time is the artificer's art of trapping light ]
 				[c/F2D69B:from a distant star in a ring of purest gold.']
-				'''
-		}
-
-		SearingSignet: {
-			DisplayName: Searing Signet
-			Tooltip:
-				'''
-				+7% Non-Melee Damage
-				Non-Melee attacks inflict shadowflame
-				[c/A6288D:'To torture a magic user, one must devise means far beyond the mundane.']
 				'''
 		}
 
@@ -625,16 +547,6 @@ Items: {
 				Provides you and nearby team members the 10 defense, +5 Flat Attack Damage, +10% Attack damage,
 				Increased Mana Regeneration by 10, and Greatly Increased lifesteal effectiveness
 				[c/528727:'A sentient amulet whose animus shakes the courage of even the strongest foes.']
-				'''
-		}
-
-		JidiPollenBag: {
-			DisplayName: Jidi Pollen Bag
-			Tooltip:
-				'''
-				+8% Summon Damage
-				Summon attacks have a chance to explode into pollen, reducing enemy armor by 10
-				[c/2BA63A:'Very dangerous. Very difficult to obtain more.']
 				'''
 		}
 
@@ -706,6 +618,7 @@ Items: {
 				Allows flight and slow fall
 				Vastly increased movement speed
 				Press Down to toggle hover
+				[c/51A68A:'Flying boots that grant ultra-omnipresence.']
 				'''
 		}
 
@@ -733,6 +646,96 @@ Items: {
 				Increased movement speed
 				Damage is increased by amount of remaining wing time
 				'''
+		}
+
+		NeutralItem: {
+			JidiPollenBag: {
+				DisplayName: Jidi Pollen Bag
+				Tooltip:
+					'''
+					+8% Summon Damage
+					Summon attacks have a chance to explode into pollen, reducing enemy armor by 10
+					[c/2BA63A:'Very dangerous. Very difficult to obtain more.']
+					'''
+			}
+
+			ChippedVest: {
+				DisplayName: Chipped Vest
+				Tooltip:
+					'''
+					Enemies take a small amount of damage when they hit you
+					[c/ABABAB:'It doesn't look like much, but it's oddly comfy.']
+					'''
+			}
+
+			DivineRapier: {
+				DisplayName: Divine Regalia
+				Tooltip:
+					'''
+					+35% Attack Damage when at full life
+					[c/E8E5C1:'So magnificent, it cannot abide failure.']
+					'''
+			}
+
+			SerratedShiv: {
+				DisplayName: Serrated Shiv
+				Tooltip:
+					'''
+					Attacks have a chance to true strike enemies, dealing 0.5% of their maximum life as damage, with a hard cap of 400
+					[c/C25B5B:'Too dangerous for taskwork, this blade's only purpose is vile murder.']
+					'''
+			}
+
+			SearingSignet: {
+				DisplayName: Searing Signet
+				Tooltip:
+					'''
+					+7% Non-Melee Damage
+					Non-Melee attacks inflict shadowflame
+					[c/A6288D:'To torture a magic user, one must devise means far beyond the mundane.']
+					'''
+			}
+
+			GiantsMaul: {
+				DisplayName: Giant's Maul
+				Tooltip:
+					'''
+					+30% Melee Weapon Size
+					[c/BA2F2F:-20% Melee Speed]
+					True melee attacks have a small chance to bash enemies, dealing 2x the damage dealt, with a soft cap of 100
+					[c/A62450:'Crude but smashingly effective.']
+					'''
+			}
+
+			WhisperOfTheDread: {
+				DisplayName: Whisper Of The Dread
+				Tooltip:
+					'''
+					+15% Magic Damage
+					+15% Summon Damage
+					[c/BA2F2F:+15% Damage Taken]
+					[c/C25B99:'The air that passes through this amulet makes a dreadful sound.']
+					'''
+			}
+
+			DuelistGloves: {
+				DisplayName: Duelist Gloves
+				Tooltip:
+					'''
+					Increases Melee Speed by 7% for each enemy around you, up to a max of 21% attack speed
+					Enables auto swing for melee weapons
+					'''
+			}
+
+			GunpowderGauntlet: {
+				DisplayName: Gunpowder Gauntlet
+				Tooltip:
+					'''
+					+5% Magic Attack Speed
+					Magic attacks have a small chance to explode, dealing 1.5x the damage dealt, with a soft cap of 50
+					[c/B87133:'A harmless prank that went entirely too far.']
+					'''
+			}
 		}
 	}
 
@@ -1609,19 +1612,18 @@ Items: {
 		Staves: {
 			GlintstoneStaff: {
 				DisplayName: Glintstone Staff
-				Tooltip: A catalyst used to cast sorceries
+				Tooltip: ""
 			}
 
 			AstrologersStaff: {
 				DisplayName: Astrologer's Staff
-				Tooltip: A catalyst used to cast sorceries
+				Tooltip: ""
 			}
 
 			LusatsGlintstoneStaff: {
 				DisplayName: Lusat's Glintstone Staff
 				Tooltip:
 					'''
-					A catalyst used to cast sorceries
 					[c/701228:Consumes 50% more mana per cast]
 					[c/1F2787:'Only those who have glimpsed what lies beyond the wisdom of stone may wield it.']
 					'''
@@ -1629,27 +1631,18 @@ Items: {
 
 			AzursGlintstoneStaff: {
 				DisplayName: Azur's Glintstone Staff
-				Tooltip:
-					'''
-					A catalyst used to cast sorceries
-					[c/34A884:Sorceries cast 20% faster]
-					'''
+				Tooltip: "[c/34A884:Sorceries cast 20% faster]"
 			}
 
 			CrystalStaff: {
 				DisplayName: Crystal Staff
-				Tooltip:
-					'''
-					A catalyst used to cast sorceries
-					[c/05C8FF:'The Crystalian's faint cognition is known as the "wisdom of stone."']
-					'''
+				Tooltip: '''[c/05C8FF:'The Crystalian's faint cognition is known as the "wisdom of stone."']'''
 			}
 
 			MeteoriteStaff: {
 				DisplayName: Meteorite Staff
 				Tooltip:
 					'''
-					A catalyst used to cast sorceries
 					[c/96FF96:Rock Sling] gains slight homing
 					[c/A364CC:'Staff embedded with a dark purple glintstone, said to be the fragment of a meteorite.']
 					'''
@@ -1902,64 +1895,9 @@ Items: {
 			Tooltip: Heavier and rolls on the ground
 		}
 
-		CannonOfHaima: {
-			DisplayName: Cannon Of Haima
-			Tooltip:
-				'''
-				Lobs an explosive glintstone rock in an arc
-				[c/118EAB:'Drawn from the conspectus of Haima, the adjudicator of the academy, this sorcery employs might as a means to quell conflict.']
-				'''
-		}
-
 		EvilAPLapuaAmmo: {
 			DisplayName: Evil AP Lapua Ammo
 			Tooltip: Zips to an enemy after a short time
-		}
-
-		ExplosiveGhostflame: {
-			DisplayName: Explosive Ghostflame
-			Tooltip:
-				'''
-				Violently explodes upon casting, firing vengeful spirits around the player
-				[c/839186:'In the time when there was no Erdtree, death was burned in ghostflame.']
-				'''
-		}
-
-		FoundingRainOfStars: {
-			DisplayName: Founding Rain Of Stars
-			Tooltip:
-				'''
-				Fires an orb that ascends upwards, raining down stars shortly after
-				[c/0FABA1:'The eldest primeval sorcery, said to have been discovered by an ancient astrologer.']
-				'''
-		}
-
-		GlintstoneArc: {
-			DisplayName: Glintstone Arc
-			Tooltip:
-				'''
-				Fires a widening magic arc
-				[c/2DABCC:'Granted to sorcererers who depart from the academy to embark on journeys, ]
-				[c/2DABCC:in order to fend off large groups of would-be adversaries. Fools often roam in packs.']
-				'''
-		}
-
-		GlintstonePebble: {
-			DisplayName: Glintstone Pebble
-			Tooltip:
-				'''
-				Fires a glintstone rock
-				[c/6ED9E0:'The most basic glintstone sorcery of the Academy of Raya Lucaria.']
-				'''
-		}
-
-		GlintstoneStars: {
-			DisplayName: Glintstone Stars
-			Tooltip:
-				'''
-				Fires an orb that splits into 3 homing orbs
-				[c/5BBCD9:'A sorcery of the Olivinus Conspectus, which attracts sorcerers from Sellia, Town of Sorcery.']
-				'''
 		}
 
 		GreenTracerAmmo: {
@@ -1970,24 +1908,6 @@ Items: {
 		MosinLPS: {
 			DisplayName: LPS Ammo
 			Tooltip: ""
-		}
-
-		RockSling: {
-			DisplayName: Rock Sling
-			Tooltip:
-				'''
-				Fires a small meteorite that accelerates after some time
-				[c/A364CC:'A gravitational technique studied by the young Radahn. His master was an Alabaster Lord with skin of stone.']
-				'''
-		}
-
-		ShardSpiral: {
-			DisplayName: Shard Spiral
-			Tooltip:
-				'''
-				Fires 2 orbiting glintstone shards that chase after enemies
-				[c/6FD6CC:'A sorcery of the Karolos Conspectus, the most venerable of the academy. This was the product of a failed attempt to create a new comet.']
-				'''
 		}
 
 		ShrapnalBullet: {
@@ -2004,36 +1924,9 @@ Items: {
 			Tooltip: Low bleed buildup
 		}
 
-		StarShower: {
-			DisplayName: Star Shower
-			Tooltip:
-				'''
-				Fires an orb that splits into 6 homing orbs
-				[c/49ACC9:'The most difficult to master of the Olivinus Conspectus sorceries.']
-				'''
-		}
-
-		StarsOfRuin: {
-			DisplayName: Stars Of Ruin
-			Tooltip:
-				'''
-				Fires an orb that spews out 12 homing stars
-				[c/2E6AB3:'When Lusat glimpsed into the primeval current, he beheld the final moments of a great star cluster, and upon seeing it, he too was broken.']
-				'''
-		}
-
 		EnergyBullet: {
 			DisplayName: Energy Bullet
 			Tooltip: ""
-		}
-
-		CarianSlicer: {
-			DisplayName: Carian Slicer
-			Tooltip:
-				'''
-				Swings a swift magic blade
-				[c/42BFC9:'Even among the Carian sword sorceries, this is a notably effective technique.']
-				'''
 		}
 
 		WaveBullet: {
@@ -2056,13 +1949,115 @@ Items: {
 		}
 
 		EndlessGreenTracerPouch: {
-			Tooltip: ""
 			DisplayName: Endless Green Tracer Pouch
+			Tooltip: ""
 		}
 
 		RuntyArrow: {
 			DisplayName: Runty Arrow
 			Tooltip: Splits into multiple shards
+		}
+
+		Spells: {
+			CannonOfHaima: {
+				DisplayName: Cannon Of Haima
+				Tooltip:
+					'''
+					Lobs an explosive glintstone rock in an arc
+					[c/118EAB:'Drawn from the conspectus of Haima, the adjudicator of the academy, this sorcery employs might as a means to quell conflict.']
+					'''
+			}
+
+			ExplosiveGhostflame: {
+				DisplayName: Explosive Ghostflame
+				Tooltip:
+					'''
+					Violently explodes upon casting, firing vengeful spirits around the player
+					[c/839186:'In the time when there was no Erdtree, death was burned in ghostflame.']
+					'''
+			}
+
+			FoundingRainOfStars: {
+				DisplayName: Founding Rain Of Stars
+				Tooltip:
+					'''
+					Fires an orb that ascends upwards, raining down stars shortly after
+					[c/0FABA1:'The eldest primeval sorcery, said to have been discovered by an ancient astrologer.']
+					'''
+			}
+
+			GlintstoneArc: {
+				DisplayName: Glintstone Arc
+				Tooltip:
+					'''
+					Fires a widening magic arc
+					[c/2DABCC:'Granted to sorcererers who depart from the academy to embark on journeys, ]
+					[c/2DABCC:in order to fend off large groups of would-be adversaries. Fools often roam in packs.']
+					'''
+			}
+
+			GlintstonePebble: {
+				DisplayName: Glintstone Pebble
+				Tooltip:
+					'''
+					Fires a glintstone rock
+					[c/6ED9E0:'The most basic glintstone sorcery of the Academy of Raya Lucaria.']
+					'''
+			}
+
+			GlintstoneStars: {
+				DisplayName: Glintstone Stars
+				Tooltip:
+					'''
+					Fires an orb that splits into 3 homing orbs
+					[c/5BBCD9:'A sorcery of the Olivinus Conspectus, which attracts sorcerers from Sellia, Town of Sorcery.']
+					'''
+			}
+
+			RockSling: {
+				DisplayName: Rock Sling
+				Tooltip:
+					'''
+					Fires a small meteorite that accelerates after some time
+					[c/A364CC:'A gravitational technique studied by the young Radahn. His master was an Alabaster Lord with skin of stone.']
+					'''
+			}
+
+			ShardSpiral: {
+				DisplayName: Shard Spiral
+				Tooltip:
+					'''
+					Fires 2 orbiting glintstone shards that chase after enemies
+					[c/6FD6CC:'A sorcery of the Karolos Conspectus, the most venerable of the academy. This was the product of a failed attempt to create a new comet.']
+					'''
+			}
+
+			StarShower: {
+				DisplayName: Star Shower
+				Tooltip:
+					'''
+					Fires an orb that splits into 6 homing orbs
+					[c/49ACC9:'The most difficult to master of the Olivinus Conspectus sorceries.']
+					'''
+			}
+
+			StarsOfRuin: {
+				DisplayName: Stars Of Ruin
+				Tooltip:
+					'''
+					Fires an orb that spews out 12 homing stars
+					[c/2E6AB3:'When Lusat glimpsed into the primeval current, he beheld the final moments of a great star cluster, and upon seeing it, he too was broken.']
+					'''
+			}
+
+			CarianSlicer: {
+				DisplayName: Carian Slicer
+				Tooltip:
+					'''
+					Swings a swift magic blade
+					[c/42BFC9:'Even among the Carian sword sorceries, this is a notably effective technique.']
+					'''
+			}
 		}
 	}
 

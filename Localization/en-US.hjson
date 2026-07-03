@@ -870,5 +870,10 @@ Mods: {
 		}
 
 		Condition.HasFoundGiantsMaul: Mods.MogMod.Condition.HasFoundGiantsMaul
+
+		NeutralItemSlot: {
+			Neutral: Neutral Item
+			NeutralDye: Neutral Item Dye
+		}
 	}
 }

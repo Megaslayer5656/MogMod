@@ -1,25 +1,22 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
-using System.Collections.Generic;
-using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Ammo
+namespace MogMod.Items.Ammo.SorcerySpells
 {
-    public class CarianSlicer : ModItem, ILocalizedModType
+    public class CarianSlicer : SorcerySpell
     {
-        public new string LocalizationCategory => "Items.Ammo";
-        public const int manaCost = 2;
-        public const int attackSpeed = 12;
-
+        public override int ManaCost => 2;
+        public override int AttackSpeed => 12;
+        public override SoundStyle UseSound => SoundID.Item9;
+        public override bool SwordStyle => true;
         public override void SetDefaults()
         {
-            // display purposes only;
-            Item.mana = manaCost;
-
+            base.SetDefaults();
             Item.damage = 40;
             Item.DamageType = DamageClass.Magic;
             Item.width = 50;
@@ -29,17 +26,6 @@ namespace MogMod.Items.Ammo
             Item.value = MogGlobalItem.RarityOrangeBuyPrice;
             Item.shoot = ModContent.ProjectileType<CarianSlicerProj>();
             Item.shootSpeed = 8f;
-            Item.ammo = ModContent.ItemType<GlintstonePebble>(); // so it can be used by the glintstone staff;
-        }
-
-        // replaces the "Ammo" description with "Sorcery";
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        {
-            var changedLine = tooltips.FirstOrDefault(x => x.Name == "Ammo" && x.Mod == "Terraria");
-            if (changedLine != null)
-            {
-                changedLine.Text = "Sorcery";
-            }
         }
         public override void AddRecipes()
         {

@@ -8,17 +8,13 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Accessories
+namespace MogMod.Items.Accessories.Wings
 {
     [AutoloadEquip(EquipType.Wings)]
     public class LunarTreads : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public override void SetStaticDefaults()
-        {
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(200, 11f, 2.8f, true, 13f, 13f);
-            
-        }
+        public override void SetStaticDefaults() => ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(200, 11f, 2.8f, true, 17f, 17f);
         public override void SetDefaults()
         {
             Item.width = 34;

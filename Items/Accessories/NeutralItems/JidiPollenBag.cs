@@ -4,14 +4,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Accessories
+namespace MogMod.Items.Accessories.NeutralItems
 {
-    public class JidiPollenBag : ModItem, ILocalizedModType
+    public class JidiPollenBag : NeutralItem
     {
-        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
-            Item.accessory = true;
+            base.SetDefaults();
             Item.width = 50;
             Item.height = 36;
             Item.rare = ItemRarityID.LightRed;

@@ -1,4 +1,5 @@
 ﻿using MogMod.Items.Accessories;
+using MogMod.Items.Accessories.Wings;
 using MogMod.Items.Other;
 using MogMod.NPCs.Bosses;
 using Terraria;

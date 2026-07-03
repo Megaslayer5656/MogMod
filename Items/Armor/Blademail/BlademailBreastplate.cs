@@ -1,5 +1,5 @@
 ﻿using MogMod.Common.Systems;
-using MogMod.Items.Accessories;
+using MogMod.Items.Accessories.NeutralItems;
 using MogMod.Items.Global;
 using MogMod.Utilities;
 using System.Collections.Generic;

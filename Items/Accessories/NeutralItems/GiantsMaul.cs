@@ -6,17 +6,16 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Accessories
+namespace MogMod.Items.Accessories.NeutralItems
 {
-    public class GiantsMaul : ModItem, ILocalizedModType
+    public class GiantsMaul : NeutralItem
     {
-        public new string LocalizationCategory => "Items.Accessories";
         public const float sizeMult = 1.3f;
         public static double DamageMult = 2D;
         public const int DamageCap = 100;
         public override void SetDefaults()
         {
-            Item.accessory = true;
+            base.SetDefaults();
             Item.width = 50;
             Item.height = 36;
             Item.rare = ItemRarityID.Orange;

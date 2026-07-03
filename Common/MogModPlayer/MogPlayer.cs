@@ -4,6 +4,7 @@ using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
+using MogMod.Items.Accessories.Wings;
 using MogMod.Items.Armor.Fae;
 using MogMod.Items.Armor.Seraphic;
 using MogMod.Items.Other;
@@ -46,6 +47,7 @@ namespace MogMod.Common.MogModPlayer
         public bool mouseWorldListener = false;
 
         #region Accessories
+        public bool wearingRigSlot;
         public bool isWearingGlimmerCape = false;
         public bool armletActive = false;
         public bool wearingManaBoots = false;
@@ -1802,7 +1804,7 @@ namespace MogMod.Common.MogModPlayer
         public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
         {
             if (wearingAllegianceWings)
-                damage *= ((Player.wingTimeMax - Player.wingTime) / 250) + 1;
+                damage *= ((Player.wingTimeMax - Player.wingTime) / (int)(WingsOfAllegiance.WingTime * 1.5)) + 1;
         }
         public void enterDragonInstall(Terraria.Player player)
         {
@@ -2091,6 +2093,7 @@ namespace MogMod.Common.MogModPlayer
         // resets stuff
         public override void ResetEffects()
         {
+            wearingRigSlot = false;
             isWearingGlimmerCape = false;
             wearingManaBoots = false;
             wearingSatanic = false;

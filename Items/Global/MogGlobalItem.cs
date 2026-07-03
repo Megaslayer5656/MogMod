@@ -2,7 +2,8 @@
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories;
-using MogMod.Items.Ammo;
+using MogMod.Items.Accessories.NeutralItems;
+using MogMod.Items.Ammo.SorcerySpells;
 using MogMod.Items.Other;
 using MogMod.Items.Weapons.Classless;
 using MogMod.Items.Weapons.Magic;

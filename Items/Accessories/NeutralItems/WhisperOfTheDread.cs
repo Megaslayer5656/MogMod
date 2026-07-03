@@ -5,20 +5,18 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Accessories
+namespace MogMod.Items.Accessories.NeutralItems
 {
-    public class WhisperOfTheDread : ModItem, ILocalizedModType
+    public class WhisperOfTheDread : NeutralItem
     {
-        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
-            Item.accessory = true;
+            base.SetDefaults();
             Item.width = 50;
             Item.height = 36;
             Item.rare = ItemRarityID.LightRed;
             Item.value = MogGlobalItem.RarityLightRedBuyPrice;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetDamage(DamageClass.Magic) += .15f;

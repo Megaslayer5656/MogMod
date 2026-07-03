@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Accessories;
+using MogMod.Items.Accessories.NeutralItems;
 using MogMod.Items.Consumables;
 using MogMod.Items.Global;
 using MogMod.Items.Other;

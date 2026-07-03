@@ -6,13 +6,14 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Accessories
+namespace MogMod.Items.Accessories.Wings
 {
     [AutoloadEquip(EquipType.Wings)]
     public class WingsOfAllegiance : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public override void SetStaticDefaults() => ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(360, 16f, 4f);
+        public const int WingTime = 360;
+        public override void SetStaticDefaults() => ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(WingTime, 16f, 4f);
         public override void SetDefaults()
         {
             Item.width = 30;

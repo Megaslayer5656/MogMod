@@ -3,6 +3,7 @@ using MogMod.Items.Other;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
+using Terraria.GameContent.Shaders;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -14,6 +15,7 @@ namespace MogMod.Items.Weapons.Melee
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         int shotCounter = 0;
+        
         public override void SetDefaults()
         {
             Item.width = 52;

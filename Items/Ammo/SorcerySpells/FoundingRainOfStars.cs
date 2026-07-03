@@ -1,30 +1,26 @@
-﻿using MogMod.Items.Consumables;
-using MogMod.Items.Global;
+﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.MagicProjectiles;
-using System.Collections.Generic;
-using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Ammo
+namespace MogMod.Items.Ammo.SorcerySpells
 {
-    public class FoundingRainOfStars : ModItem, ILocalizedModType
+    public class FoundingRainOfStars : SorcerySpell
     {
-        public new string LocalizationCategory => "Items.Ammo";
-        public const int manaCost = 45;
-        public const int attackSpeed = 64;
+        public override int ManaCost => 45;
+        public override int AttackSpeed => 64;
+        public override SoundStyle UseSound => SoundID.Item8;
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<StarsOfRuin>();
         }
         public override void SetDefaults()
         {
-            // display purposes only;
-            Item.mana = manaCost;
-
+            base.SetDefaults();
             Item.damage = 24;
             Item.DamageType = DamageClass.Magic;
             Item.width = 50;
@@ -34,17 +30,6 @@ namespace MogMod.Items.Ammo
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
             Item.shoot = ModContent.ProjectileType<FoundingRainOfStarsProj>();
             Item.shootSpeed = 6f;
-            Item.ammo = ModContent.ItemType<GlintstonePebble>(); // so it can be used by the glintstone staff;
-        }
-
-        // replaces the "Ammo" description with "Sorcery";
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        {
-            var changedLine = tooltips.FirstOrDefault(x => x.Name == "Ammo" && x.Mod == "Terraria");
-            if (changedLine != null)
-            {
-                changedLine.Text = "Sorcery";
-            }
         }
         public override void AddRecipes()
         {

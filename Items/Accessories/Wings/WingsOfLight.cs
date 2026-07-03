@@ -8,7 +8,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Accessories
+namespace MogMod.Items.Accessories.Wings
 {
     [AutoloadEquip(EquipType.Wings)]
     public class WingsOfLight : ModItem, ILocalizedModType

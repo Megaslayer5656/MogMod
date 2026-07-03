@@ -1,25 +1,22 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
-using System.Collections.Generic;
-using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Ammo
+namespace MogMod.Items.Ammo.SorcerySpells
 {
-    public class RockSling : ModItem, ILocalizedModType
+    public class RockSling : SorcerySpell
     {
-        public new string LocalizationCategory => "Items.Ammo";
-        public const int manaCost = 20;
-        public const int attackSpeed = 60;
+        public override int ManaCost => 20;
+        public override int AttackSpeed => 60;
+        public override SoundStyle UseSound => SoundID.Item20;
         public override void SetDefaults()
         {
-            // display purposes only;
-            Item.mana = manaCost;
-
+            base.SetDefaults();
             Item.damage = 54;
             Item.DamageType = DamageClass.Magic;
             Item.width = 50;
@@ -29,17 +26,6 @@ namespace MogMod.Items.Ammo
             Item.value = MogGlobalItem.RarityGreenBuyPrice;
             Item.shoot = ModContent.ProjectileType<RockSlingProj>();
             Item.shootSpeed = 1f;
-            Item.ammo = ModContent.ItemType<GlintstonePebble>(); // so it can be used by the glintstone staff;
-        }
-
-        // replaces the "Ammo" description with "Sorcery" since i dont think you can do it in localization;
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        {
-            var changedLine = tooltips.FirstOrDefault(x => x.Name == "Ammo" && x.Mod == "Terraria");
-            if (changedLine != null)
-            {
-                changedLine.Text = "Sorcery";
-            }
         }
         public override void AddRecipes()
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Items.Accessories;
+using MogMod.Items.Accessories.NeutralItems;
 using MogMod.Items.Consumables;
 using MogMod.Items.Other;
 using MogMod.Items.Weapons.Melee;

@@ -4,20 +4,18 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Accessories
+namespace MogMod.Items.Accessories.NeutralItems
 {
-    public class SearingSignet : ModItem, ILocalizedModType
+    public class SearingSignet : NeutralItem
     {
-        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
-            Item.accessory = true;
+            base.SetDefaults();
             Item.width = 50;
             Item.height = 36;
             Item.rare = ItemRarityID.Pink;
             Item.value = MogGlobalItem.RarityPinkBuyPrice;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();

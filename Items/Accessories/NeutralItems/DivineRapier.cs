@@ -4,27 +4,23 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Accessories
+namespace MogMod.Items.Accessories.NeutralItems
 {
-    public class DivineRapier : ModItem, ILocalizedModType
+    public class DivineRapier : NeutralItem
     {
-        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
-            Item.accessory = true;
+            base.SetDefaults();
             Item.width = 50;
             Item.height = 42;
             Item.rare = ItemRarityID.Expert;
             Item.value = MogGlobalItem.RarityRedBuyPrice;
             Item.expert = true;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             if (player.statLife >= (player.statLifeMax2 * 1))
-            {
                 player.GetDamage(DamageClass.Generic) += 0.35f;
-            }
         }
         public override void AddRecipes()
         {

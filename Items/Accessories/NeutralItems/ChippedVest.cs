@@ -1,23 +1,20 @@
 ﻿using MogMod.Items.Global;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
-namespace MogMod.Items.Accessories
+namespace MogMod.Items.Accessories.NeutralItems
 {
-    public class ChippedVest : ModItem, ILocalizedModType
+    public class ChippedVest : NeutralItem
     {
-        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
-            Item.accessory = true;
+            base.SetDefaults();
             Item.width = 50;
             Item.height = 36;
             Item.rare = ItemRarityID.Blue;
             Item.value = MogGlobalItem.RarityBlueBuyPrice;
-            Item.defense = 2; // defense is here instead of update accessory so that it displays the defense in the tooltip without having to do so in localization
+            Item.defense = 2;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.thorns += .8f;

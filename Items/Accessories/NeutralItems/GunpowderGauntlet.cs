@@ -5,16 +5,15 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Accessories
+namespace MogMod.Items.Accessories.NeutralItems
 {
-    public class GunpowderGauntlet : ModItem, ILocalizedModType
+    public class GunpowderGauntlet : NeutralItem
     {
-        public new string LocalizationCategory => "Items.Accessories";
         public static double DamageMult = 1.5D;
         public const int DamageCap = 50;
         public override void SetDefaults()
         {
-            Item.accessory = true;
+            base.SetDefaults();
             Item.width = 50;
             Item.height = 36;
             Item.rare = ItemRarityID.Green;

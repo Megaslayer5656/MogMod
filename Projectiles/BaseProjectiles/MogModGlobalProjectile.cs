@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
-using MogMod.Items.Accessories;
+using MogMod.Items.Accessories.NeutralItems;
 using MogMod.Items.Armor.FrostMaiden;
 using MogMod.Items.Armor.Hellfire;
 using MogMod.Items.Weapons.Melee;
