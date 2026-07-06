@@ -19,7 +19,7 @@ namespace MogMod.Items.Weapons.Magic.DeckCards
 
         public override void doEffect(Player player)
         {
-            float speed = 8f;
+            float speed = 12f;
             Vector2 velocity = Main.MouseWorld - player.Center; //Use this code for misc projectile stuff from these cards.
             velocity.Normalize();
             velocity *= speed;
