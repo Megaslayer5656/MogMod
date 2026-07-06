@@ -30,6 +30,8 @@ namespace MogMod.Items.Accessories
             player.statManaMax2 += 70;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.locketActive = true;
+            float dim = .02f;
+            Lighting.AddLight(player.Center, 75 * dim, 73 * dim, 61 * dim);
         }
 
         public override void AddRecipes()

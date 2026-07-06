@@ -22,7 +22,6 @@ namespace MogMod.Items.Accessories
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingRuntyHorseshoe = true;
-            player.jumpSpeedBoost += 0.10f;
             player.extraFall += 10;
         }
         public override void AddRecipes()

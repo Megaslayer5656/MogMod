@@ -80,6 +80,9 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingSacrosanctAegis;
         public bool wearingSigmaCharm;
         public bool sigmaCharmVisual;
+        public bool wearingAghGauntlet;
+        public bool aghGauntletVisual;
+        public int gloveLevel;
 
         public bool stopFallDamage;
         int fallDamageTimer = 0;
@@ -410,24 +413,26 @@ namespace MogMod.Common.MogModPlayer
         }
 
         #region On Hit Effects
-        public void NPCDebuffs(NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool whip, bool crit, bool proj = false, bool noFlask = false)
+        public void NPCDebuffs(NPC target, bool melee, bool ranged, bool magic, bool summon, bool whip, bool crit, bool proj = false, bool noFlask = false)
         {
             if (wearingEyeOfSkadi)
-                target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 300);
+                target.AddBuff(ModContent.BuffType<EyeOfSkadiDebuff>(), 180);
             if (wearingSearingSignet && !melee)
-                target.AddBuff(BuffID.ShadowFlame, 300);
+                target.AddBuff(BuffID.ShadowFlame, 180);
             if (Player.HasBuff<DragonInstallBuff>())
-                target.AddBuff(BuffID.Daybreak, 600);
+                target.AddBuff(ModContent.BuffType<InfernoDebuff>(), 600);
             if (wearingFrostArmor)
                 target.AddBuff(ModContent.BuffType<FreezingDebuff>(), 300);
             if (wearingHellfireArmor)
-                target.AddBuff(BuffID.OnFire3, 300);
+                target.AddBuff(BuffID.OnFire3, 180);
+            if (melee && wearingAghGauntlet)
+                target.AddBuff(ModContent.BuffType<AghanimHexDebuff>(), 180);
         }
         public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Player.whoAmI != Main.myPlayer)
                 return;
-            NPCDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.CountsAsClass<ThrowingDamageClass>(), item.CountsAsClass<SummonMeleeSpeedDamageClass>(), hit.Crit);
+            NPCDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.CountsAsClass<SummonMeleeSpeedDamageClass>(), hit.Crit);
         }
         public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -1348,7 +1353,7 @@ namespace MogMod.Common.MogModPlayer
                     {
                         essenceShiftLevel = essenceShiftLevelMax;
                     }
-                    Player.GetAttackSpeed(DamageClass.Melee) += .075f * essenceShiftLevel;
+                    Player.GetAttackSpeed<MeleeDamageClass>() += .075f * essenceShiftLevel;
                     Player.moveSpeed += .0125f * essenceShiftLevel;
                     Player.accRunSpeed += Player.accRunSpeed * .0125f * essenceShiftLevel;
                 }
@@ -1417,7 +1422,7 @@ namespace MogMod.Common.MogModPlayer
                 {
                     fierySoulLevel = fierySoulLevelMax;
                 }
-                Player.GetAttackSpeed(DamageClass.Magic) += .015f * fierySoulLevel;
+                Player.GetAttackSpeed<MagicDamageClass>() += .015f * fierySoulLevel;
                 Player.manaCost -= .015f * fierySoulLevel;
                 Player.moveSpeed += .0225f * fierySoulLevel;
                 Player.accRunSpeed += Player.accRunSpeed * .0225f * fierySoulLevel;
@@ -1736,6 +1741,21 @@ namespace MogMod.Common.MogModPlayer
             }
         }
 
+        public override void MeleeEffects(Item item, Rectangle hitbox)
+        {
+            if (item.CountsAsClass<MeleeDamageClass>())
+            {
+                if (wearingAghGauntlet && aghGauntletVisual)
+                {
+                    if (Main.rand.NextBool(3))
+                    {
+                        Dust aghs = Dust.NewDustDirect(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.RainbowMk2, Player.velocity.X * 0.2f + Player.direction * 3f, Player.velocity.Y * 0.2f, 100, Color.BlueViolet, 1.25f);
+                        aghs.noGravity = true;
+                    }
+                }
+            }
+        }
+
         // helm of undying
         public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
         {
@@ -1850,7 +1870,7 @@ namespace MogMod.Common.MogModPlayer
             }
 
             for (int i = 0; i < duelistStacks; i++)
-                player.GetAttackSpeed(DamageClass.Melee) += .07f;
+                player.GetAttackSpeed<MeleeDamageClass>() += .07f;
         }
         public void doParry(Terraria.Player player, Vector2 pos)
         {
@@ -1975,11 +1995,11 @@ namespace MogMod.Common.MogModPlayer
             }
             if (aghHexDebuff)
             {
-                Convert.ToInt32(Player.GetDamage(DamageClass.Generic) * .8f); // 20% damage reduction
+                Convert.ToInt32(Player.GetDamage<GenericDamageClass>() * .8f); // 20% damage reduction
             }
             if (wingsOfLightDebuff)
             {
-                Convert.ToInt32(Player.GetDamage(DamageClass.Generic) * .9f); // 10% damage reduction
+                Convert.ToInt32(Player.GetDamage<GenericDamageClass>() * .9f); // 10% damage reduction
             }
             if (jidiDebuff)
             {
@@ -1992,32 +2012,32 @@ namespace MogMod.Common.MogModPlayer
                 Player.statDefense += 4;
                 Player.statLifeMax2 += 20;
                 Player.statManaMax2 += 50;
-                Player.GetDamage(DamageClass.Magic) += .075f;
+                Player.GetDamage<MagicDamageClass>() += .075f;
             }
             if (vladsAura)
             {
                 Player.statDefense += 3;
-                Player.GetDamage(DamageClass.Generic).Flat += 2f;
+                Player.GetDamage<GenericDamageClass>().Flat += 2f;
                 Player.lifeSteal *= 1.2f;
                 Player.manaRegenBonus += 4;
             }
             if (wraithAura)
             {
                 Player.statDefense += 7;
-                Player.GetDamage(DamageClass.Generic) += .1f;
+                Player.GetDamage<GenericDamageClass>() += .1f;
                 Player.lifeSteal *= 1.8f;
                 Player.manaRegenBonus += 6;
             }
             if (drumsAura)
             {
-                Player.GetAttackSpeed(DamageClass.Melee) += .1f;
-                Player.GetAttackSpeed(DamageClass.SummonMeleeSpeed) += .1f;
+                Player.GetAttackSpeed<MeleeDamageClass>() += .1f;
+                Player.GetAttackSpeed<SummonMeleeSpeedDamageClass>() += .1f;
                 Player.moveSpeed += 0.30f;
             }
             if (shivasAura)
             {
                 Player.statDefense += 10;
-                Player.GetDamage(DamageClass.Ranged) += .10f;
+                Player.GetDamage<RangedDamageClass>() += .10f;
             }
 
             if (wraithActive)
@@ -2028,7 +2048,7 @@ namespace MogMod.Common.MogModPlayer
             if (inShadowRealm)
             {
                 Player.yoraiz0rDarkness = true;
-                Player.GetDamage(DamageClass.Magic) += (shadowRealmLevel / 30) + 1;
+                Player.GetDamage<MagicDamageClass>() += (shadowRealmLevel / 30) + 1;
                 Player.aggro -= 200;
             }
             if (krakenBuff)
@@ -2040,20 +2060,33 @@ namespace MogMod.Common.MogModPlayer
                 Player.slowFall = true;
             if (armletDebuff)
             {
-                Player.GetAttackSpeed(DamageClass.Generic) += 0.15f;
-                Player.GetDamage(DamageClass.Generic) += .15f;
+                Player.GetAttackSpeed<GenericDamageClass>() += 0.15f;
+                Player.GetDamage<GenericDamageClass>() += .15f;
             }
             if (nulledDebuff)
                 Player.lifeSteal *= 0f;
             if (wearingSigmaCharm)
             {
                 Player.wereWolf = sigmaCharmVisual;
-                Player.GetDamage(DamageClass.Generic) += 0.08f;
-                Player.GetCritChance(DamageClass.Generic) += 4;
-                Player.GetAttackSpeed(DamageClass.Melee) += 0.08f;
+                Player.GetDamage<GenericDamageClass>() += 0.08f;
+                Player.GetCritChance<GenericDamageClass>() += 4;
+                Player.GetAttackSpeed<MeleeDamageClass>() += 0.08f;
                 Player.statDefense += 4;
                 Player.moveSpeed += 0.1f;
                 Player.lifeSteal *= 1.1f;
+            }
+            if (wearingAghGauntlet)
+            {
+                Player.GetDamage<MeleeDamageClass>() += 0.15f;
+                Player.GetCritChance<MeleeDamageClass>() += 5;
+            }
+
+            // Gauntlet Melee Speed, prevents glove stacking for melee speed
+            if (gloveLevel > 0)
+            {
+                // Determine the glove the player benefits from in priority of latest in progression
+                float gloveAttackSpeed = (gloveLevel == 5 ? 0.15f : gloveLevel == 4 ? 0.14f : gloveLevel >= 2 ? 0.12f : gloveLevel == 1 ? 0.10f : 0);
+                Player.GetAttackSpeed<MeleeDamageClass>() += gloveAttackSpeed; // Give the player attack speed based on the glove they have
             }
 
             // cooldowns
@@ -2153,6 +2186,9 @@ namespace MogMod.Common.MogModPlayer
             wearingSacrosanctAegis = false;
             wearingSigmaCharm = false;
             sigmaCharmVisual = false;
+            wearingAghGauntlet = false;
+            aghGauntletVisual = false;
+            gloveLevel = 0;
             //stopFallDamage = false;
 
             wearingMendez = false;

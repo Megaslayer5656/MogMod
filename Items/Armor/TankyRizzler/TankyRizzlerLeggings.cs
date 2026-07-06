@@ -20,7 +20,7 @@ namespace MogMod.Items.Armor.TankyRizzler
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetAttackSpeed(DamageClass.Melee) += .10f;
+            player.GetAttackSpeed<MeleeDamageClass>() += .10f;
             player.moveSpeed += .1f;
         }
         public override void AddRecipes()

@@ -9,13 +9,14 @@ namespace MogMod.Items.Accessories.NeutralItems
 {
     public class WhisperOfTheDread : NeutralItem
     {
+        public override void SetStaticDefaults() => ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<PartisanBrand>();
         public override void SetDefaults()
         {
             base.SetDefaults();
             Item.width = 50;
             Item.height = 36;
-            Item.rare = ItemRarityID.LightRed;
-            Item.value = MogGlobalItem.RarityLightRedBuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.value = MogGlobalItem.RarityPinkBuyPrice;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -25,6 +26,7 @@ namespace MogMod.Items.Accessories.NeutralItems
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingWhisperDread = true;
         }
+        /* Changed to be shimmered from Partisan Brand
         public override void AddRecipes()
         {
             CreateRecipe().
@@ -34,5 +36,6 @@ namespace MogMod.Items.Accessories.NeutralItems
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }
+        */
     }
 }

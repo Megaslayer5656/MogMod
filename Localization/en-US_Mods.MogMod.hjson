@@ -418,6 +418,7 @@ Items: {
 				+7% Magic Damage
 				+7% Summon Damage
 				Increased Maximum Mana by 70
+				Provides light when worn
 				Taking damage adds a charge to the wand
 				Pressing [KEY] expends all charges and heals 10 Life and Mana for each charge
 				[c/AFC25B:'A prized relic long thought lost forever in a failed crusade.']
@@ -595,7 +596,6 @@ Items: {
 			DisplayName: Runty Horseshoe
 			Tooltip:
 				'''
-				+10% Jump Height
 				Increases fall resistance
 				Fall damage cannot kill you
 				'''
@@ -743,6 +743,16 @@ Items: {
 					Lifesteal Effectiveness, Movement and Melee Speed
 					'''
 			}
+
+			PartisanBrand: {
+				DisplayName: Partisan Brand
+				Tooltip: ""
+			}
+		}
+
+		GauntletOfAghanim: {
+			DisplayName: Gauntlet Of Aghanim
+			Tooltip: ""
 		}
 	}
 
@@ -2838,11 +2848,6 @@ Items: {
 
 	WanderingJellyfishBanner: {
 		DisplayName: Wandering Jellyfish Banner
-		Tooltip: ""
-	}
-
-	HealingHandsCard: {
-		DisplayName: Healing Hands Card
 		Tooltip: ""
 	}
 }

@@ -156,6 +156,14 @@ namespace MogMod.Projectiles.BaseProjectiles
                     }
                 }
             }
+            if (projectile.CountsAsClass<MeleeDamageClass>() && mogPlayer.wearingAghGauntlet && mogPlayer.aghGauntletVisual)
+            {
+                if (Main.rand.NextBool(3))
+                {
+                    int aghs = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.RainbowMk2, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 100, Color.BlueViolet, 1.25f);
+                    Main.dust[aghs].noGravity = true;
+                }
+            }
         }
         public override void ModifyHitPlayer(Projectile projectile, Player target, ref Player.HurtModifiers modifiers)
         {
