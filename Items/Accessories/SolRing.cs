@@ -19,8 +19,9 @@ namespace MogMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.statManaMax2 += 40;
+            float dim = .02f;
+            Lighting.AddLight(player.Center, 25 * dim, 23 * dim, 11 * dim);
         }
-
         public override void AddRecipes()
         {
             CreateRecipe().

@@ -59,6 +59,39 @@ namespace MogMod.Items.Global
             else
                 bloodDamage = 0;
         }
+        public override void UpdateAccessory(Item item, Player player, bool hideVisual)
+        {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+
+            // Feral Claws line melee speed adjustments and nonstacking
+            // First removes all their melee speed so it can be given based on which you wear without stacking
+            if (item.type == ItemID.FeralClaws)
+            {
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.12f; // Feral Claws 10%
+                if (mogPlayer.gloveLevel < 1)
+                    mogPlayer.gloveLevel = 1;
+            }
+            if (item.type == ItemID.PowerGlove || item.type == ItemID.BerserkerGlove)
+            {
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.12f; // Power/Berserker Glove 12%
+                if (mogPlayer.gloveLevel < 2)
+                    mogPlayer.gloveLevel = 2;
+            }
+            if (item.type == ItemID.MechanicalGlove)
+            {
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.12f; // Mechanical Glove 12%
+                if (mogPlayer.gloveLevel < 3)
+                    mogPlayer.gloveLevel = 3;
+            }
+            if (item.type == ItemID.FireGauntlet)
+            {
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.12f; // Fire Gauntlet 14%
+                if (mogPlayer.gloveLevel < 4)
+                    mogPlayer.gloveLevel = 4;
+            }
+            if (mogPlayer.wearingAghGauntlet && mogPlayer.gloveLevel < 5) // Agh Gauntlet 15%
+                mogPlayer.gloveLevel = 5;
+        }
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();

@@ -14,8 +14,8 @@ namespace MogMod.Buffs.PotionBuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetAttackSpeed(DamageClass.Melee) += .25f;
-            player.GetDamage(DamageClass.Melee) += .15f;
+            player.GetAttackSpeed<MeleeDamageClass>() += .25f;
+            player.GetDamage<MeleeDamageClass>() += .15f;
         }
     }
 }

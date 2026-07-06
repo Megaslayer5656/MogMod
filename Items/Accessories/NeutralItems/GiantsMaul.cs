@@ -27,7 +27,7 @@ namespace MogMod.Items.Accessories.NeutralItems
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingGiantsMaul = true;
 
-            player.GetAttackSpeed(DamageClass.Melee) -= .20f;
+            player.GetAttackSpeed<MeleeDamageClass>() -= .20f;
 
             if (Main.netMode != NetmodeID.MultiplayerClient && !MogModWorld.HasFoundGiantsMaul)
             {

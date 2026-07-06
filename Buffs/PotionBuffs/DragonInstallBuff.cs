@@ -19,7 +19,7 @@ namespace MogMod.Buffs.PotionBuffs
             player.statLifeMax2 += 100;
             player.lifeRegen += 5;
             player.statDefense += 20;
-            player.GetAttackSpeed(DamageClass.Melee) += .5f;
+            player.GetAttackSpeed<MeleeDamageClass>() += .5f;
             dragonInstallDusts(player);
         }
 
