@@ -570,16 +570,6 @@ Items: {
 				'''
 		}
 
-		Polylute: {
-			DisplayName: Polylute
-			Tooltip:
-				'''
-				+7% Critical Strike Chance
-				Attacks have a chance to summon homing orb on enemy
-				[c/D9A5D1:'polylute plasma shrimp']
-				'''
-		}
-
 		BladeOfMercy: {
 			DisplayName: Blade Of Mercy
 			Tooltip:
@@ -746,13 +736,61 @@ Items: {
 
 			PartisanBrand: {
 				DisplayName: Partisan Brand
-				Tooltip: ""
+				Tooltip:
+					'''
+					+7% Magic Damage
+					+7% Summon Damage
+					'''
+			}
+
+			FlayersBota: {
+				DisplayName: Flayer's Bota
+				Tooltip:
+					'''
+					+10% Attack Speed
+					Boosts bleed buildup by 20%
+					Blood procs heal you for a percentage of damage dealt
+					'''
+			}
+
+			Polylute: {
+				DisplayName: Polylute
+				Tooltip:
+					'''
+					+7% Critical Strike Chance
+					Attacks have a chance to summon homing orb on enemy
+					[c/D9A5D1:'polylute plasma shrimp']
+					'''
 			}
 		}
 
 		GauntletOfAghanim: {
-			DisplayName: Gauntlet Of Aghanim
-			Tooltip: ""
+			DisplayName: Aghanim's Gauntlet
+			Tooltip:
+				'''
+				Melee attacks and projectiles inflict Aghanim's Hex
+				15% increased melee damage and melee speed
+				5% increased melee critical strike chance
+				20% increased melee damage and increased melee knockback
+				Enables auto swing for melee weapons and increases their size
+				Does not stack with downgrades
+				'''
+		}
+
+		ElvenQuiver: {
+			DisplayName: Elven Quiver
+			Tooltip: Increases arrow damage by 3 and slightly increases arrow speed
+		}
+
+		EnchantedQuiver: {
+			DisplayName: Enchanted Quiver
+			Tooltip:
+				'''
+				+10% Ranged Critical Strike Chance and Attack Speed
+				Increases arrow damage by 15% and greatly increases arrow speed
+				Every 3rd bow shot, fire an enchanted arrow that splits into 3 as it travels
+				20% chance to not consume arrows
+				'''
 		}
 	}
 
@@ -1021,7 +1059,7 @@ Items: {
 			}
 
 			LordOfBloodsSpear: {
-				DisplayName: Lord Of Bloods Spear
+				DisplayName: Lord Of Blood's Spear
 				Tooltip:
 					'''
 					High bleed buildup
@@ -1284,7 +1322,7 @@ Items: {
 
 			SplinterLauncher: {
 				DisplayName: Splinter Launcher
-				Tooltip: ""
+				Tooltip: Fires 2 splinters at once
 			}
 
 			MysticSnake: {
@@ -1942,7 +1980,7 @@ Items: {
 		}
 
 		SplinterAmmo: {
-			DisplayName: Splinter Ammo
+			DisplayName: Splinter
 			Tooltip: Low bleed buildup
 		}
 
@@ -2083,8 +2121,13 @@ Items: {
 
 			EmptySpell: {
 				DisplayName: Empty Spell
-				Tooltip: ""
+				Tooltip: you should not have this
 			}
+		}
+
+		EnchantedArrow: {
+			DisplayName: Enchanted Arrow
+			Tooltip: Splits into 3 arrows as it travels
 		}
 	}
 

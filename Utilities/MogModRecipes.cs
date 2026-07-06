@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Consumables;
+﻿using MogMod.Items.Accessories;
+using MogMod.Items.Consumables;
 using MogMod.Items.Other;
 using MogMod.Items.Weapons.Melee;
 using Terraria;
@@ -115,6 +116,10 @@ namespace MogMod.Utilities
             RecipeGroup SquirrelRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Squirrel"}", ItemID.Squirrel, ItemID.SquirrelRed, ItemID.SquirrelGold, ItemID.GemSquirrelAmber, ItemID.GemSquirrelAmethyst, ItemID.GemSquirrelDiamond, ItemID.GemSquirrelEmerald, ItemID.GemSquirrelRuby, ItemID.GemSquirrelSapphire, ItemID.GemSquirrelTopaz);
             RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Squirrel"}", SquirrelRecipeGroup);
             // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Squirrel"}", 1).
+
+            RecipeGroup MagicQuiverRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Magic Quiver"}", ItemID.MagicQuiver, ItemID.MoltenQuiver, ItemID.StalkersQuiver);
+            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Magic Quiver"}", MagicQuiverRecipeGroup);
+            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Magic Quiver"}", 1).
             #endregion
         }
 
@@ -169,7 +174,7 @@ namespace MogMod.Utilities
             manaBandRecipe.AddIngredient(ItemID.Shackle, 1)
                 .AddIngredient<FrigidShard>(5)
                 .AddIngredient<ManaEssence>(1)
-                .AddTile(TileID.Anvils)
+                .AddTile(TileID.TinkerersWorkbench)
                 .Register();
             // north pole
             Recipe northPoleRecipe = Recipe.Create(ItemID.NorthPole, 1);
@@ -183,6 +188,19 @@ namespace MogMod.Utilities
             tntBarrel.AddIngredient(ItemID.ExplosivePowder, 3)
                 .AddIngredient(ItemID.Barrel, 3)
                 .DisableDecraft()
+                .Register();
+            // magic quiver
+            Recipe magicQuiver = Recipe.Create(ItemID.MagicQuiver);
+            magicQuiver.AddIngredient<ElvenQuiver>()
+                .AddIngredient(ItemID.PixieDust, 15)
+                .AddIngredient<PointBooster>()
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
+            // jester arrow
+            Recipe jesterArrow = Recipe.Create(ItemID.JestersArrow, 150);
+            jesterArrow.AddIngredient(ItemID.WoodenArrow, 150)
+                .AddIngredient<ManaEssence>()
+                .AddTile(TileID.Anvils)
                 .Register();
             #endregion
         }

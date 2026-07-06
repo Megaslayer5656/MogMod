@@ -83,6 +83,9 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingAghGauntlet;
         public bool aghGauntletVisual;
         public int gloveLevel;
+        public bool wearingElvenQuiver;
+        public bool wearingEnchantedQuiver;
+        public bool wearingFlayersBota;
 
         public bool stopFallDamage;
         int fallDamageTimer = 0;
@@ -288,6 +291,8 @@ namespace MogMod.Common.MogModPlayer
         public bool shivasAura = false;
 
         public float auraRange = 5000f;
+
+        public int praporCooldown = 0;
 
         // pets
         public bool ahmodPet = false;
@@ -569,291 +574,291 @@ namespace MogMod.Common.MogModPlayer
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
             #region Accessory Checks
-            if (!Player.dead)
+            // this works while dead for some reason
+            if (Player.dead)
+                return;
+            // refresher orb
+            if (KeybindSystem.RefresherOrbKeybind.JustPressed && wearingRefresherOrb && !Player.HasBuff(refresherCooldown))
             {
-                // refresher orb
-                if (KeybindSystem.RefresherOrbKeybind.JustPressed && wearingRefresherOrb && !Player.HasBuff(refresherCooldown))
-                {
-                    // make it play a sound when activating (add any additional debuffs here)
-                    Player.ClearBuff(glimmerCooldown);
-                    Player.ClearBuff(satanicCooldown);
-                    Player.ClearBuff(manabootsCooldown);
-                    Player.ClearBuff(guardianCooldown);
-                    Player.ClearBuff(mekansmCooldown);
-                    Player.ClearBuff(helmOfDominator);
-                    Player.ClearBuff(forceStaffCooldown);
-                    Player.ClearBuff(blademailCooldown);
-                    Player.ClearBuff(ShivasCooldown);
-                    Player.ClearBuff(ModContent.BuffType<BlinkDebuff>());
-                    Player.ClearBuff(ModContent.BuffType<ButterflyCooldown>());
-                    Player.ClearBuff(ModContent.BuffType<LagunaBladeCooldown>());
-                    Player.ClearBuff(ModContent.BuffType<ParryCooldown>());
-                    //Don't add dragon install to this. It shouldn't be able to be refreshed by refresher as it is more of a different mechanic than a buff. Will if you see this stop playing Chen <-- Chen (pronounced "shen") has crazy micro and once i get good at him hes gonna be crazy. that one game was a loss no matter who i played. also it was mendez fault for picking IO
+                // make it play a sound when activating (add any additional debuffs here)
+                Player.ClearBuff(glimmerCooldown);
+                Player.ClearBuff(satanicCooldown);
+                Player.ClearBuff(manabootsCooldown);
+                Player.ClearBuff(guardianCooldown);
+                Player.ClearBuff(mekansmCooldown);
+                Player.ClearBuff(helmOfDominator);
+                Player.ClearBuff(forceStaffCooldown);
+                Player.ClearBuff(blademailCooldown);
+                Player.ClearBuff(ShivasCooldown);
+                Player.ClearBuff(ModContent.BuffType<BlinkDebuff>());
+                Player.ClearBuff(ModContent.BuffType<ButterflyCooldown>());
+                Player.ClearBuff(ModContent.BuffType<LagunaBladeCooldown>());
+                Player.ClearBuff(ModContent.BuffType<ParryCooldown>());
+                //Don't add dragon install to this. It shouldn't be able to be refreshed by refresher as it is more of a different mechanic than a buff. Will if you see this stop playing Chen <-- Chen (pronounced "shen") has crazy micro and once i get good at him hes gonna be crazy. that one game was a loss no matter who i played. also it was mendez fault for picking IO
 
-                    Player.AddBuff(refresherCooldown, 9000);
-                    SoundEngine.PlaySound(RefresherActivateSound, Player.Center);
-                }
+                Player.AddBuff(refresherCooldown, 9000);
+                SoundEngine.PlaySound(RefresherActivateSound, Player.Center);
+            }
 
-                // glimmer cape
-                if (KeybindSystem.GlimmerCapeKeybind.JustPressed && isWearingGlimmerCape && !Player.HasBuff(glimmerCooldown))
-                {
-                    // give buff, 600 = 10 seconds
-                    Player.AddBuff(glimmerBuff, 1800);
-                    // give debuff cd
-                    Player.AddBuff(glimmerCooldown, 3600);
-                    // play sfx
-                    SoundEngine.PlaySound(GlimmerActivateSound, Player.Center);
-                }
+            // glimmer cape
+            if (KeybindSystem.GlimmerCapeKeybind.JustPressed && isWearingGlimmerCape && !Player.HasBuff(glimmerCooldown))
+            {
+                // give buff, 600 = 10 seconds
+                Player.AddBuff(glimmerBuff, 1800);
+                // give debuff cd
+                Player.AddBuff(glimmerCooldown, 3600);
+                // play sfx
+                SoundEngine.PlaySound(GlimmerActivateSound, Player.Center);
+            }
 
-                // satanic
-                if (KeybindSystem.SatanicKeybind.JustPressed && wearingSatanic && !Player.HasBuff(satanicCooldown))
-                {
-                    Player.AddBuff(satanicBuff, 480);
-                    Player.AddBuff(satanicCooldown, 4800);
-                    SoundEngine.PlaySound(SatanicActivateSound, Player.Center);
-                }
+            // satanic
+            if (KeybindSystem.SatanicKeybind.JustPressed && wearingSatanic && !Player.HasBuff(satanicCooldown))
+            {
+                Player.AddBuff(satanicBuff, 480);
+                Player.AddBuff(satanicCooldown, 4800);
+                SoundEngine.PlaySound(SatanicActivateSound, Player.Center);
+            }
 
-                // blademail
-                if (KeybindSystem.BladeMailKeybind.JustPressed && wearingBladeMail && !Player.HasBuff(blademailCooldown))
-                {
-                    Player.AddBuff(blademailBuff, 600);
-                    Player.AddBuff(blademailCooldown, 3600);
-                    SoundEngine.PlaySound(BladeMailActivateSound, Player.Center);
-                }
+            // blademail
+            if (KeybindSystem.BladeMailKeybind.JustPressed && wearingBladeMail && !Player.HasBuff(blademailCooldown))
+            {
+                Player.AddBuff(blademailBuff, 600);
+                Player.AddBuff(blademailCooldown, 3600);
+                SoundEngine.PlaySound(BladeMailActivateSound, Player.Center);
+            }
 
-                // arcane boots
-                if (KeybindSystem.ArcaneBootsKeybind.JustPressed && wearingManaBoots && !Player.HasBuff(manabootsCooldown))
-                {
-                    //for (int i = 0; i < Main.maxPlayers; i++)
-                    //{
-                    //    Terraria.Player targetPlayer = Main.player[i];
-                    //    if (targetPlayer.active && targetPlayer.team == targetPlayer.team && targetPlayer.team != 0)
-                    //    {
-                    //        targetPlayer.AddBuff(greavesHeal, 600);
-                    //        //if (Main.netMode == NetmodeID.Server) // Check if the game is in multiplayer server mode
-                    //        //{
-                    //        //    NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, null, i, mekansmHeal, 600f, 0f, 0, 0, 0);
-                    //        //}
-                    //        for (int k = 0; k < 16; k++)
-                    //        {
-                    //            Dust dust2 = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.ManaRegeneration);
-                    //            dust2.scale = Main.rand.NextFloat(0.6f, 0.8f);
-                    //        }
-                    //    }
-                    //}
-                    Player.statMana += 200;
-                    Player.ManaEffect(200);
-                    if (Player.statMana > Player.statManaMax2)
-                        Player.statMana = Player.statManaMax2;
-                    Player.AddBuff(manabootsCooldown, 1800);
-                    SoundEngine.PlaySound(ManaBootsActivateSound, Player.Center);
-                }
+            // arcane boots
+            if (KeybindSystem.ArcaneBootsKeybind.JustPressed && wearingManaBoots && !Player.HasBuff(manabootsCooldown))
+            {
+                //for (int i = 0; i < Main.maxPlayers; i++)
+                //{
+                //    Terraria.Player targetPlayer = Main.player[i];
+                //    if (targetPlayer.active && targetPlayer.team == targetPlayer.team && targetPlayer.team != 0)
+                //    {
+                //        targetPlayer.AddBuff(greavesHeal, 600);
+                //        //if (Main.netMode == NetmodeID.Server) // Check if the game is in multiplayer server mode
+                //        //{
+                //        //    NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, null, i, mekansmHeal, 600f, 0f, 0, 0, 0);
+                //        //}
+                //        for (int k = 0; k < 16; k++)
+                //        {
+                //            Dust dust2 = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.ManaRegeneration);
+                //            dust2.scale = Main.rand.NextFloat(0.6f, 0.8f);
+                //        }
+                //    }
+                //}
+                Player.statMana += 200;
+                Player.ManaEffect(200);
+                if (Player.statMana > Player.statManaMax2)
+                    Player.statMana = Player.statManaMax2;
+                Player.AddBuff(manabootsCooldown, 1800);
+                SoundEngine.PlaySound(ManaBootsActivateSound, Player.Center);
+            }
 
-                // guardian greaves
-                if (KeybindSystem.GuardianGreavesKeybind.JustPressed && wearingGigaManaBoots && !Player.HasBuff(guardianCooldown))
+            // guardian greaves
+            if (KeybindSystem.GuardianGreavesKeybind.JustPressed && wearingGigaManaBoots && !Player.HasBuff(guardianCooldown))
+            {
+                // make it play a sound when activating
+                Player.statLife += 140;
+                Player.HealEffect(140);
+                if (Player.statLife > Player.statLifeMax2)
+                    Player.statLife = Player.statLifeMax2;
+
+                Player.statMana += 300;
+                Player.ManaEffect(300);
+                if (Player.statMana > Player.statManaMax2)
+                    Player.statMana = Player.statManaMax2;
+
+                Player.AddBuff(guardianCooldown, 3600);
+                SoundEngine.PlaySound(GreavesActivateSound, Player.Center);
+            }
+
+            // mekansm
+            if (KeybindSystem.MekansmKeybind.JustPressed && wearingMekansm && !Player.HasBuff(mekansmCooldown))
+            {
+                // make it play a sound when activating
+                Player.statLife += 80;
+                Player.HealEffect(80);
+                if (Player.statLife > Player.statLifeMax2)
+                    Player.statLife = Player.statLifeMax2;
+                Player.AddBuff(mekansmCooldown, 3600);
+                SoundEngine.PlaySound(MekansmActivateSound, Player.Center);
+            }
+
+            // helm of dominator
+            if (KeybindSystem.HelmOfDominatorKeybind.JustPressed && wearingHelmOfDominator && !Player.HasBuff(helmOfDominator))
+            {
+                // for now it summons a mount (change to make it summon a friendly npc to damage enemies)
+                Player.AddBuff(BuffID.BasiliskMount, 1);
+                Player.AddBuff(helmOfDominator, 1800);
+            }
+
+            // helm of overlord
+            if (KeybindSystem.HelmOfDominatorKeybind.JustPressed && wearingHelmOfOverlord && !Player.HasBuff(helmOfDominator))
+            {
+                // for now it summons a mount (change to make it summon a friendly npc to damage enemies)
+                Player.AddBuff(BuffID.CuteFishronMount, 1);
+                Player.AddBuff(helmOfDominator, 600);
+            }
+
+            // holy locket
+            if (KeybindSystem.WandKeybind.JustPressed)
+            {
+                if (locketActive && locketCharges > 0)
                 {
-                    // make it play a sound when activating
-                    Player.statLife += 140;
-                    Player.HealEffect(140);
+                    int heal = 10 * locketCharges;
+
+                    Player.statLife += heal;
+                    Player.HealEffect(heal);
                     if (Player.statLife > Player.statLifeMax2)
                         Player.statLife = Player.statLifeMax2;
 
-                    Player.statMana += 300;
-                    Player.ManaEffect(300);
+                    Player.statMana += heal;
+                    Player.ManaEffect(heal);
                     if (Player.statMana > Player.statManaMax2)
                         Player.statMana = Player.statManaMax2;
 
-                    Player.AddBuff(guardianCooldown, 3600);
-                    SoundEngine.PlaySound(GreavesActivateSound, Player.Center);
+                    locketCharges = 0;
+                    SoundEngine.PlaySound(WandUse, Player.Center);
                 }
+            }
 
-                // mekansm
-                if (KeybindSystem.MekansmKeybind.JustPressed && wearingMekansm && !Player.HasBuff(mekansmCooldown))
+            //Wand
+            if (KeybindSystem.WandKeybind.JustPressed)
+            {
+                if (wandActive && wandCharges > 0)
                 {
-                    // make it play a sound when activating
-                    Player.statLife += 80;
-                    Player.HealEffect(80);
+                    int heal = 7 * wandCharges;
+
+                    Player.statLife += heal;
+                    Player.HealEffect(heal);
                     if (Player.statLife > Player.statLifeMax2)
                         Player.statLife = Player.statLifeMax2;
-                    Player.AddBuff(mekansmCooldown, 3600);
-                    SoundEngine.PlaySound(MekansmActivateSound, Player.Center);
-                }
 
-                // helm of dominator
-                if (KeybindSystem.HelmOfDominatorKeybind.JustPressed && wearingHelmOfDominator && !Player.HasBuff(helmOfDominator))
+                    Player.statMana += heal;
+                    Player.ManaEffect(heal);
+                    if (Player.statMana > Player.statManaMax2)
+                        Player.statMana = Player.statManaMax2;
+
+                    wandCharges = 0;
+                    SoundEngine.PlaySound(WandUse, Player.Center);
+                }
+            }
+
+            //Magic Stick
+            if (KeybindSystem.WandKeybind.JustPressed)
+            {
+                if (stickActive && stickCharges > 0)
                 {
-                    // for now it summons a mount (change to make it summon a friendly npc to damage enemies)
-                    Player.AddBuff(BuffID.BasiliskMount, 1);
-                    Player.AddBuff(helmOfDominator, 1800);
-                }
+                    int heal = 5 * stickCharges;
 
-                // helm of overlord
-                if (KeybindSystem.HelmOfDominatorKeybind.JustPressed && wearingHelmOfOverlord && !Player.HasBuff(helmOfDominator))
+                    Player.statLife += heal;
+                    Player.HealEffect(heal);
+                    if (Player.statLife > Player.statLifeMax2)
+                        Player.statLife = Player.statLifeMax2;
+
+                    Player.statMana += heal;
+                    Player.ManaEffect(heal);
+                    if (Player.statMana > Player.statManaMax2)
+                        Player.statMana = Player.statManaMax2;
+
+                    stickCharges = 0;
+                    SoundEngine.PlaySound(WandUse, Player.Center);
+                }
+            }
+
+            //Shiva's Guard
+            if (KeybindSystem.ShivasKeybind.JustPressed && wearingShivasGuard && !Player.HasBuff(ShivasCooldown))
+            {
+                doShivas(Player, Player.Center); //Does the thing.
+                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
                 {
-                    // for now it summons a mount (change to make it summon a friendly npc to damage enemies)
-                    Player.AddBuff(BuffID.CuteFishronMount, 1);
-                    Player.AddBuff(helmOfDominator, 600);
+                    SyncShivas(false, Player.Center); //Netcode stuff, go to MogPlayerNetcode.cs to see what this does.
                 }
+            }
 
-                // holy locket
-                if (KeybindSystem.WandKeybind.JustPressed)
+            // wings of light
+            if (wearingWingsOfLight)
+            {
+                doWingsOfLight(Player, Player.Center); //Does the thing.
+                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
                 {
-                    if (locketActive && locketCharges > 0)
-                    {
-                        int heal = 10 * locketCharges;
-
-                        Player.statLife += heal;
-                        Player.HealEffect(heal);
-                        if (Player.statLife > Player.statLifeMax2)
-                            Player.statLife = Player.statLifeMax2;
-
-                        Player.statMana += heal;
-                        Player.ManaEffect(heal);
-                        if (Player.statMana > Player.statManaMax2)
-                            Player.statMana = Player.statManaMax2;
-
-                        locketCharges = 0;
-                        SoundEngine.PlaySound(WandUse, Player.Center);
-                    }
+                    SyncWingsOfLight(false, Player.Center); //Netcode stuff, go to MogPlayerNetcode.cs to see what this does.
                 }
+            }
 
-                //Wand
-                if (KeybindSystem.WandKeybind.JustPressed)
+            //Dragon Install
+            if (wearingFlameOfCorruption && KeybindSystem.DragonInstallKeybind.JustPressed && !Player.HasBuff(dragonInstallCooldown))
+            {
+                Player.AddBuff(dragonInstall, 6000); //These values are temporary.
+                Player.AddBuff(dragonInstallCooldown, 12000);
+                for (int i = 0; i < 80; i++)
                 {
-                    if (wandActive && wandCharges > 0)
-                    {
-                        int heal = 7 * wandCharges;
+                    Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                    dustVelocity.Normalize();
+                    dustVelocity *= 2;
 
-                        Player.statLife += heal;
-                        Player.HealEffect(heal);
-                        if (Player.statLife > Player.statLifeMax2)
-                            Player.statLife = Player.statLifeMax2;
+                    int dustPos = 20;
 
-                        Player.statMana += heal;
-                        Player.ManaEffect(heal);
-                        if (Player.statMana > Player.statManaMax2)
-                            Player.statMana = Player.statManaMax2;
-
-                        wandCharges = 0;
-                        SoundEngine.PlaySound(WandUse, Player.Center);
-                    }
+                    int DI1 = Dust.NewDust(Player.Center, dustPos, dustPos, DustID.CrimsonTorch, dustVelocity.X * 3, dustVelocity.Y * 3, 0, default, 1f);
+                    Main.dust[DI1].noGravity = true;
+                    Main.dust[DI1].fadeIn = 2f;
+                    Main.dust[DI1].velocity *= 3f;
+                    int DI2 = Dust.NewDust(Player.Center, dustPos - 5, dustPos - 5, DustID.Blood, dustVelocity.X * 2, dustVelocity.Y * 2, 0, Color.Red, 2f);
+                    Main.dust[DI2].noGravity = true;
+                    Main.dust[DI2].fadeIn = 2f;
+                    Main.dust[DI2].velocity *= 3f;
                 }
+            }
 
-                //Magic Stick
-                if (KeybindSystem.WandKeybind.JustPressed)
+            // armlet timer
+            if (KeybindSystem.ArmletKeybind.JustPressed && armletActive)
+            {
+                if (armletTimer <= armletTimerMax)
                 {
-                    if (stickActive && stickCharges > 0)
-                    {
-                        int heal = 5 * stickCharges;
-
-                        Player.statLife += heal;
-                        Player.HealEffect(heal);
-                        if (Player.statLife > Player.statLifeMax2)
-                            Player.statLife = Player.statLifeMax2;
-
-                        Player.statMana += heal;
-                        Player.ManaEffect(heal);
-                        if (Player.statMana > Player.statManaMax2)
-                            Player.statMana = Player.statManaMax2;
-
-                        stickCharges = 0;
-                        SoundEngine.PlaySound(WandUse, Player.Center);
-                    }
-                }
-
-                //Shiva's Guard
-                if (KeybindSystem.ShivasKeybind.JustPressed && wearingShivasGuard && !Player.HasBuff(ShivasCooldown))
-                {
-                    doShivas(Player, Player.Center); //Does the thing.
-                    if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
-                    {
-                        SyncShivas(false, Player.Center); //Netcode stuff, go to MogPlayerNetcode.cs to see what this does.
-                    }
-                }
-
-                // wings of light
-                if (wearingWingsOfLight)
-                {
-                    doWingsOfLight(Player, Player.Center); //Does the thing.
-                    if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
-                    {
-                        SyncWingsOfLight(false, Player.Center); //Netcode stuff, go to MogPlayerNetcode.cs to see what this does.
-                    }
-                }
-
-                //Dragon Install
-                if (wearingFlameOfCorruption && KeybindSystem.DragonInstallKeybind.JustPressed && !Player.HasBuff(dragonInstallCooldown))
-                {
-                    Player.AddBuff(dragonInstall, 6000); //These values are temporary.
-                    Player.AddBuff(dragonInstallCooldown, 12000);
-                    for (int i = 0; i < 80; i++)
-                    {
-                        Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
-                        dustVelocity.Normalize();
-                        dustVelocity *= 2;
-
-                        int dustPos = 20;
-
-                        int DI1 = Dust.NewDust(Player.Center, dustPos, dustPos, DustID.CrimsonTorch, dustVelocity.X * 3, dustVelocity.Y * 3, 0, default, 1f);
-                        Main.dust[DI1].noGravity = true;
-                        Main.dust[DI1].fadeIn = 2f;
-                        Main.dust[DI1].velocity *= 3f;
-                        int DI2 = Dust.NewDust(Player.Center, dustPos - 5, dustPos - 5, DustID.Blood, dustVelocity.X * 2, dustVelocity.Y * 2, 0, Color.Red, 2f);
-                        Main.dust[DI2].noGravity = true;
-                        Main.dust[DI2].fadeIn = 2f;
-                        Main.dust[DI2].velocity *= 3f;
-                    }
-                }
-
-                // armlet timer
-                if (KeybindSystem.ArmletKeybind.JustPressed && armletActive)
-                {
-                    if (armletTimer <= armletTimerMax)
-                    {
-                        Player.AddBuff(armletToggled, 9999999);
-                        armletTimer += 1;
-                        SoundEngine.PlaySound(ArmletOnSound, Player.Center);
-                    } else if (armletTimer >= armletTimerMax)
-                    {
-                        Player.ClearBuff(armletToggled);
-                        armletTimer = 0;
-                        SoundEngine.PlaySound(ArmletOffSound, Player.Center);
-                    }
-                }
-
-                if (!armletActive)
+                    Player.AddBuff(armletToggled, 9999999);
+                    armletTimer += 1;
+                    SoundEngine.PlaySound(ArmletOnSound, Player.Center);
+                } else if (armletTimer >= armletTimerMax)
                 {
                     Player.ClearBuff(armletToggled);
                     armletTimer = 0;
+                    SoundEngine.PlaySound(ArmletOffSound, Player.Center);
                 }
-                while (armletTimer >= 1 && armletTimer <= armletTimerMax + 1)
-                    armletTimer += 1;
+            }
 
-                // null timer
-                if (KeybindSystem.NulledKeybind.JustPressed && wearingNihilum)
+            if (!armletActive)
+            {
+                Player.ClearBuff(armletToggled);
+                armletTimer = 0;
+            }
+            while (armletTimer >= 1 && armletTimer <= armletTimerMax + 1)
+                armletTimer += 1;
+
+            // null timer
+            if (KeybindSystem.NulledKeybind.JustPressed && wearingNihilum)
+            {
+                if (nihilumTimer <= nihilumTimerMax)
                 {
-                    if (nihilumTimer <= nihilumTimerMax)
-                    {
-                        Player.AddBuff(nihilumToggled, 9999999);
-                        nihilumTimer++;
-                        SoundEngine.PlaySound(ArmletOnSound with { Pitch = -0.15f }, Player.Center);
-                    }
-                    else if (nihilumTimer >= nihilumTimerMax)
-                    {
-                        Player.ClearBuff(nihilumToggled);
-                        nihilumTimer = 0;
-                        SoundEngine.PlaySound(ArmletOffSound with { Pitch = -0.15f }, Player.Center);
-                    }
+                    Player.AddBuff(nihilumToggled, 9999999);
+                    nihilumTimer++;
+                    SoundEngine.PlaySound(ArmletOnSound with { Pitch = -0.15f }, Player.Center);
                 }
-
-                if (!wearingNihilum)
+                else if (nihilumTimer >= nihilumTimerMax)
                 {
                     Player.ClearBuff(nihilumToggled);
                     nihilumTimer = 0;
+                    SoundEngine.PlaySound(ArmletOffSound with { Pitch = -0.15f }, Player.Center);
                 }
-                while (nihilumTimer >= 1 && nihilumTimer <= nihilumTimerMax + 1)
-                    nihilumTimer++;
             }
+
+            if (!wearingNihilum)
+            {
+                Player.ClearBuff(nihilumToggled);
+                nihilumTimer = 0;
+            }
+            while (nihilumTimer >= 1 && nihilumTimer <= nihilumTimerMax + 1)
+                nihilumTimer++;
             #endregion
         }
 
@@ -1300,8 +1305,8 @@ namespace MogMod.Common.MogModPlayer
         }
         private bool CanUseDash()
         {
-            return (!chargeShot
-                || !dpCharge)
+            return !chargeShot
+                && !dpCharge
                 && !Player.mount.Active; // player isn't mounted, since dashes on a mount look weird
         }
         public void MiscEffects()
@@ -1522,6 +1527,7 @@ namespace MogMod.Common.MogModPlayer
                 return i;
             }
 
+            // so you dont get these items on respawn in mediumcore
             if (!mediumCoreDeath)
             {
                 yield return createItem(ModContent.ItemType<VonWarning>());
@@ -1764,6 +1770,7 @@ namespace MogMod.Common.MogModPlayer
             seraphicReviveCounter = 0;
             nihilumTimer = 0;
             armletTimer = 0;
+            praporCooldown = 0;
         }
         public void doUndying()
         {
@@ -2108,6 +2115,8 @@ namespace MogMod.Common.MogModPlayer
                 seraphicReviveCounter--;
             if (VoniumLifeCooldown > 0)
                 VoniumLifeCooldown--;
+            if (praporCooldown > 0)
+                praporCooldown--;
         }
         
         // stops player from moving while charging bow
@@ -2189,6 +2198,9 @@ namespace MogMod.Common.MogModPlayer
             wearingAghGauntlet = false;
             aghGauntletVisual = false;
             gloveLevel = 0;
+            wearingElvenQuiver = false;
+            wearingEnchantedQuiver = false;
+            wearingFlayersBota = false;
             //stopFallDamage = false;
 
             wearingMendez = false;

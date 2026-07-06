@@ -1,17 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Common.Systems;
 using MogMod.Items.Ammo.SorcerySpells;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Magic.SorceryStaves
 {
-    // TODO: figure out how to make spell noita equal to nullscapes
     public abstract class SorceryStaff : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Staves";
@@ -22,13 +19,12 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
         {
             Item ammoItem = player.ChooseAmmo(Item);
 
-            if (ammoItem.ModItem is SorcerySpell spell)
+            if (player.HasAmmo(Item))
             {
-                Spell = spell;
-            }
-            else
-            {
-                Spell = ModContent.GetInstance<EmptySpell>();
+                if (ammoItem.ModItem is SorcerySpell spell)
+                    Spell = spell;
+                else
+                    Spell = ModContent.GetInstance<EmptySpell>();
             }
         }
         public override void SetDefaults()

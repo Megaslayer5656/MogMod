@@ -1,5 +1,4 @@
-﻿using MogMod.Common.MogModPlayer;
-using MogMod.Items.Global;
+﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
@@ -20,8 +19,8 @@ namespace MogMod.Items.Accessories.NeutralItems
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Magic) += .08f;
-            player.GetDamage(DamageClass.Summon) += .08f;
+            player.GetDamage(DamageClass.Magic) += .07f;
+            player.GetDamage(DamageClass.Summon) += .07f;
         }
         public override void AddRecipes()
         {

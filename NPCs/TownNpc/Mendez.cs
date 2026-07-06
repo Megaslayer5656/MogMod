@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MogMod.Buffs.PotionBuffs;
 using MogMod.Items.Accessories;
 using MogMod.Items.Armor.Other;
 using MogMod.Items.Other;
@@ -10,6 +11,7 @@ using MogMod.Utilities;
 using MogMod.World;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
@@ -140,6 +142,13 @@ namespace MogMod.NPCs.TownNpc
             {
                 shop = "Shop";
             }
+            else
+            {
+                Main.npcChatText = "may Tigz b with you";
+                Player player = Main.LocalPlayer;
+                player.AddBuff(ModContent.BuffType<GlueBuff>(), 60);
+                SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, player.Center);
+            }
         }
         public override void AddShops()
         {
@@ -153,7 +162,7 @@ namespace MogMod.NPCs.TownNpc
                 .Add<LedX>()
                 .Add(ItemID.ChlorophyteShotbow, Condition.DownedMechBossAll)
                 .Add<Phasma>()
-                .Add<PleaseStopMe>(Condition.DownedEyeOfCthulhu, Condition.EclipseOrBloodMoon)
+                .AddWithCustomValue<PleaseStopMe>(Item.buyPrice(gold: 17, silver: 50), Condition.DownedEyeOfCthulhu, Condition.EclipseOrBloodMoon)
                 .Add(ModContent.ItemType<EyeOfMendez>(), Condition.PlayerCarriesItem(ModContent.ItemType<RedX>()))
                 .Register();
         }

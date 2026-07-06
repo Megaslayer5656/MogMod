@@ -740,6 +740,8 @@ Mods: {
 				RuntyShardProj.DisplayName: Runty Shard
 			}
 
+			Ranged.EnchantedArrowProj.DisplayName: Enchanted Arrow Proj
+
 			Melee: {
 				BattleFuryProjectile.DisplayName: Battle Fury
 				AnchorProj.DisplayName: Oversized Anchor
@@ -827,6 +829,7 @@ Mods: {
 				TridentSpear.DisplayName: Trident
 				TridentProj.DisplayName: Trident
 				TridentHomingProj.DisplayName: Trident
+				BloodExplosion.DisplayName: Blood Explosion
 			}
 
 			BossProjectiles: {

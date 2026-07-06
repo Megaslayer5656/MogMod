@@ -124,7 +124,7 @@ namespace MogMod.NPCs.TownNpc
             new NPCShop(Type)
                 .Add<Glue>()
                 .Add<MewingGuide>()
-                .Add<GiantsMaul>(new Condition(MiscUtils.GetText("Condition.HasFoundGiantsMaul"), () => MogModWorld.HasFoundGiantsMaul))
+                .AddWithCustomValue<GiantsMaul>(Item.buyPrice(gold: 15), new Condition(MiscUtils.GetText("Condition.HasFoundGiantsMaul"), () => MogModWorld.HasFoundGiantsMaul))
                 .Add<SoulFragment>(Condition.DownedMoonLord)
                 .Add<AghanimShard>(Condition.DownedCultist)
                 .Register();

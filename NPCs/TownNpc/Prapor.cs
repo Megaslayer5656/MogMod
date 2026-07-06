@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MogMod.Buffs.PotionBuffs;
+using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories;
 using MogMod.Items.Ammo;
 using MogMod.Items.Consumables;
@@ -8,6 +10,7 @@ using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Utilities;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
@@ -97,21 +100,56 @@ namespace MogMod.NPCs.TownNpc
         public override void SetChatButtons(ref string button, ref string button2)
         {
             button = Language.GetTextValue("LegacyInterface.28");
+            button2 = "Supplies";
         }
         public override void OnChatButtonClicked(bool firstButton, ref string shop)
         {
+            Player player = Main.LocalPlayer;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             if (firstButton)
             {
                 shop = "Shop";
+            }
+            else
+            {
+                if (mogPlayer.praporCooldown <= 0)
+                {
+                    mogPlayer.praporCooldown = 36000;
+                    Main.npcChatText = "Todays your lucky day! Ammo, and lots of it! Here, take it.";
+                    player.AddBuff(BuffID.AmmoBox, 36000);
+                    player.AddBuff(BuffID.AmmoReservation, 36000);
+                    SoundEngine.PlaySound(SoundID.Item149, player.Center);
+                    return;
+                }
+                switch (Main.rand.Next(10))
+                {
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                        Main.npcChatText = "I got nothin.";
+                        return;
+                    case 7:
+                    case 8:
+                        Main.npcChatText = "My dogs ain't back yet. Buzz off.";
+                        return;
+                    case 9:
+                        Main.npcChatText = "I need to find a bottle of wine. I myself am more of a hard drinker, but I know a man who collects wine. And not just any kind, but the rarest kind! I want to give him a bottle as a gesture of goodwill. Nowadays in Tarkov, any connections with reputable people are worth their weight in gold, you know? There was a liquor store in the city center. They used to sell booze three times the price, for the elite folks. Go there and search the place and get me a good bottle of some French wine! And don't even try to slip me some fake shit.";
+                        return;
+                }
+                SoundEngine.PlaySound(SoundID.Item16, player.Center);
             }
         }
         public override void AddShops()
         {
             NPCShop shop = new(Type);
-            shop.Add<Mosin>()
+            shop.AddWithCustomValue<Mosin>(Item.buyPrice(gold: 30))
                 .Add<MosinLPS>()
                 .Add<Salewa>()
-                .Add<IdeaRig>()
+                .AddWithCustomValue<IdeaRig>(Item.buyPrice(gold: 7, silver: 50))
                 //.Add((ModContent.ItemType<Switch>()), Condition.DownedGolem) // post von
                 .Add(ModContent.ItemType<GreenTracerAmmo>(), Condition.DownedEowOrBoc)
                 .Register();

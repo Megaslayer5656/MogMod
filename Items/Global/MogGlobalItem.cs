@@ -10,6 +10,7 @@ using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Items.Weapons.Ranged;
 using MogMod.Projectiles.Classless;
+using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Rarities;
 using MogMod.Utilities;
 using System;
@@ -27,6 +28,7 @@ namespace MogMod.Items.Global
     {
         public int bloodDamage;
         public int cooldownTimer = 5;
+        public int shotCounter = 0;
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ShimmerTransformToItem[ItemID.SnowBlock] = ItemID.ShimmerBlock;
@@ -105,7 +107,22 @@ namespace MogMod.Items.Global
                 Projectile nullEssence = Projectile.NewProjectileDirect(source, position, velocity, ModContent.ProjectileType<GreatswordOfSoulsProj>(), (int)(damage * 0.5), knockback, player.whoAmI);
                 nullEssence.DamageType = DamageClass.Magic;
             }
+            if (mogPlayer.wearingEnchantedQuiver && item.useAmmo == AmmoID.Arrow && !item.channel)  
+            {
+                shotCounter++;
+                if (shotCounter >= 3)
+                {
+                    Projectile.NewProjectileDirect(source, position, velocity * 0.5f, ModContent.ProjectileType<EnchantedArrowProj>(), damage * 2, knockback, player.whoAmI);
+                    shotCounter = 0;
+                }
+            }
             return true;
+        }
+        public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            if ((mogPlayer.wearingElvenQuiver || mogPlayer.wearingEnchantedQuiver) && item.useAmmo == AmmoID.Arrow)
+                velocity *= mogPlayer.wearingEnchantedQuiver ? 1.3f : 1.2f;
         }
         public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
         {

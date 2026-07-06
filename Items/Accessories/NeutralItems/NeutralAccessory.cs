@@ -10,7 +10,6 @@ namespace MogMod.Items.Accessories.NeutralItems
     public abstract class NeutralItem : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories.NeutralItem";
-        public virtual bool EquipInNeutralSlot => true;
         public override void SetDefaults()
         {
             Item.accessory = true;

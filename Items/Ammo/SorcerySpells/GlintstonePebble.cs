@@ -16,10 +16,9 @@ namespace MogMod.Items.Ammo.SorcerySpells
         public override void SetDefaults()
         {
             base.SetDefaults();
+            Item.width = Item.height = 36;
             Item.damage = 22;
             Item.DamageType = DamageClass.Magic;
-            Item.width = 50;
-            Item.height = 52;
             Item.knockBack = 2f;
             Item.rare = ItemRarityID.Blue;
             Item.value = MogGlobalItem.RarityBlueBuyPrice;

@@ -15,8 +15,8 @@ namespace MogMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
-            Item.width = 84;
-            Item.height = 92;
+            Item.width = 40;
+            Item.height = 26;
 
             Item.damage = 14;
             Item.knockBack = 2f;
@@ -29,7 +29,6 @@ namespace MogMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Green;
             Item.value = MogGlobalItem.RarityGreenBuyPrice;
             
-            Item.scale = .275f; // holy slop - Will <-- (Megaslayer here, gotta fix this sprite lmao)
             Item.shootSpeed = 10f;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.useAmmo = AmmoID.NailFriendly;
@@ -43,7 +42,7 @@ namespace MogMod.Items.Weapons.Ranged
             {
                 float rotationAngle = MathHelper.PiOver4 * 0.3f * (Main.rand.NextFloat(3f, 5f) / Main.rand.NextFloat(3f, 5f));
                 Vector2 splinterVelocity = velocity.RotatedByRandom(MathHelper.PiOver4 * 0.3);
-                Projectile.NewProjectile(source, position, splinterVelocity, ModContent.ProjectileType<SplinterProjectile>(), damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position, splinterVelocity, type, damage, knockback, player.whoAmI);
             }
             return false;
         }
@@ -58,7 +57,7 @@ namespace MogMod.Items.Weapons.Ranged
 
             velocity = velocity.RotatedByRandom(MathHelper.ToRadians(3));
         }
-
+        public override Vector2? HoldoutOffset() => new Vector2(-4.8f, 1.75f);
         public override void AddRecipes()
         {
             CreateRecipe().

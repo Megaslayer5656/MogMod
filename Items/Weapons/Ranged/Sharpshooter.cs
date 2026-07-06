@@ -46,12 +46,14 @@ namespace MogMod.Items.Weapons.Ranged
             {
                 Item.UseSound = SoundID.Item20;
                 Item.noUseGraphic = true;
+                Item.channel = true;
                 return player.ownedProjectileCounts[Item.shoot] <= 0;
             }
             else
             {
                 Item.UseSound = SoundID.Item5;
                 Item.noUseGraphic = false;
+                Item.channel = false;
                 return true;
             }
         }

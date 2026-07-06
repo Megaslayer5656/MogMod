@@ -7,9 +7,11 @@ using MogMod.Items.Accessories;
 using MogMod.Items.Accessories.NeutralItems;
 using MogMod.Items.Ammo.SorcerySpells;
 using MogMod.Items.Armor.Hellfire;
+using MogMod.Items.Armor.WhiteMaskSet;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Ores;
+using MogMod.Items.Tools;
 using MogMod.Items.Weapons.Magic.SorceryStaves;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Items.Weapons.Ranged;
@@ -35,6 +37,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using static MogMod.Common.Systems.MogModNetcode;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MogMod.NPCs.Global
 {
@@ -333,7 +336,8 @@ namespace MogMod.NPCs.Global
         }
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
-            MogPlayer mogPlayer = Main.player[projectile.owner].GetModPlayer<MogPlayer>();
+            Player player = Main.player[projectile.owner];
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
 
             //if (projectile.type == ModContent.ProjectileType<FrozenSpearProjectile>() || projectile.type == ModContent.ProjectileType<DreadsProj>() || projectile.type == ModContent.ProjectileType<DrowRangerArrow>() || mogPlayer.wearingFrostArmor)
             //{
@@ -363,17 +367,16 @@ namespace MogMod.NPCs.Global
 
             // add another blood accessory
             if (mogPlayer.exultationEquipped)
-            {
-                bloodToAdd = (int)(bloodToAdd * 1.15f);
-            }
+                bloodToAdd = (int)(bloodToAdd * LordOfBloodsExultation.BloodMult);
 
             if (mogPlayer.mercyBladeEquipped)
-                bloodToAdd = (int)(bloodToAdd * 1.2f);
+                bloodToAdd = (int)(bloodToAdd * BladeOfMercy.BloodMult);
 
             if (mogPlayer.wearingWhiteArmor)
-            {
-                bloodToAdd = (int)(bloodToAdd * 1.2f);
-            }
+                bloodToAdd = (int)(bloodToAdd * WhiteMask.BloodMult);
+
+            if (mogPlayer.wearingFlayersBota)
+                bloodToAdd = (int)(bloodToAdd * FlayersBota.BloodMult);
 
             if (Main.netMode == NetmodeID.MultiplayerClient) //If you do anything else in this method do it before here bc this returns sometimes
             {
@@ -384,7 +387,7 @@ namespace MogMod.NPCs.Global
                 packet.Send();
                 return;
             }
-                AddProjectileBlood(npc, bloodToAdd);
+                AddProjectileBlood(npc, bloodToAdd, player);
             
         }
         public static void SpawnMarkerProjectile(NPC target, Player player, Item item, Vector2 velocity, float rotation)
@@ -430,34 +433,34 @@ namespace MogMod.NPCs.Global
             MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
 
-            maxBlood = Convert.ToInt32(npc.lifeMax * .05 + npc.defense);
+            maxBlood = (int)(npc.lifeMax * .05 + npc.defense);
 
             if (maxBlood < 150)
                 maxBlood = 150;
 
             int bloodToAdd = globalItem.bloodDamage;
 
+            // add another blood accessory
             if (mogPlayer.exultationEquipped)
-            {
-                bloodToAdd = (int)(bloodToAdd * 1.15f);
-            }
+                bloodToAdd = (int)(bloodToAdd * LordOfBloodsExultation.BloodMult);
 
             if (mogPlayer.mercyBladeEquipped)
-                bloodToAdd = (int)(bloodToAdd * 1.2f);
+                bloodToAdd = (int)(bloodToAdd * BladeOfMercy.BloodMult);
 
             if (mogPlayer.wearingWhiteArmor)
-            {
-                bloodToAdd = (int)(bloodToAdd * 1.2f);
-            }
+                bloodToAdd = (int)(bloodToAdd * WhiteMask.BloodMult);
+
+            if (mogPlayer.wearingFlayersBota)
+                bloodToAdd = (int)(bloodToAdd * FlayersBota.BloodMult);
 
             currentBlood += bloodToAdd;
 
             if (currentBlood >= maxBlood)
             {
-                ApplyBleedProc(npc);
+                ApplyBleedProc(npc, player);
             }
         }
-        public void AddProjectileBlood(NPC npc, int bloodToAdd)
+        public void AddProjectileBlood(NPC npc, int bloodToAdd, Player player)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
                 return;
@@ -466,11 +469,12 @@ namespace MogMod.NPCs.Global
 
             if (currentBlood >= maxBlood)
             {
-                ApplyBleedProc(npc);
+                ApplyBleedProc(npc, player);
             }
         }
-        public void ApplyBleedProc(NPC npc)
+        public void ApplyBleedProc(NPC npc, Player player)
         {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             NPC.HitInfo hitInfo = new NPC.HitInfo
             {
                 Damage = Convert.ToInt32(npc.lifeMax * 0.085f) + 50,
@@ -491,6 +495,20 @@ namespace MogMod.NPCs.Global
                 packet.Send(-1);
             }
             
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                if (mogPlayer.wearingFlayersBota && npc.type != NPCID.TargetDummy)
+                {
+                    mogPlayer.satanicAccCooldown = cooldownTimer * 2;
+                    int heal = (int)(hitInfo.Damage / 100) + 1;
+                    heal *= Convert.ToInt32(player.lifeSteal * 0.01);
+                    player.statLife += heal;
+                    player.HealEffect(heal);
+                    if (player.statLife > player.statLifeMax2)
+                        player.statLife = player.statLifeMax2;
+                }
+            }
+
             doBloodFX(npc.Center);
             
             currentBlood = 0;

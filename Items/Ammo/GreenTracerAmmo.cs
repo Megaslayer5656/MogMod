@@ -17,13 +17,12 @@ namespace MogMod.Items.Ammo
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
             Item.knockBack = 3.5f;
-            Item.value = Item.sellPrice(copper: 20);
+            Item.value = Item.sellPrice(copper: 4);
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<GreenTracerProj>();
             Item.shootSpeed = 4.5f;
             Item.ammo = AmmoID.Bullet;
         }
-
         public override void AddRecipes()
         {
             CreateRecipe(70).

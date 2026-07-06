@@ -2,6 +2,8 @@
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Utilities
 {
@@ -193,6 +195,19 @@ namespace MogMod.Utilities
             if (!isAPillar && !target.boss && target.IsAnEnemy(true, true, false) && (ignoreKBImmune || target.knockBackResist > 0))
                 return true;
             return false;
+        }
+
+        public static NPCShop AddWithCustomValue(this NPCShop shop, int itemType, int customValue, params Condition[] conditions)
+        {
+            var item = new Item(itemType)
+            {
+                shopCustomPrice = customValue
+            };
+            return shop.Add(item, conditions);
+        }
+        public static NPCShop AddWithCustomValue<T>(this NPCShop shop, int customValue, params Condition[] conditions) where T : ModItem
+        {
+            return shop.AddWithCustomValue(ItemType<T>(), customValue, conditions);
         }
     }
 }

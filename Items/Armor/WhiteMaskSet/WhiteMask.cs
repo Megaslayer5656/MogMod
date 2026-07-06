@@ -11,6 +11,7 @@ namespace MogMod.Items.Armor.WhiteMaskSet
     public class WhiteMask : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public const float BloodMult = 1.2f;
         public static LocalizedText SetBonusText { get; private set; }
         public override void SetStaticDefaults()
         {

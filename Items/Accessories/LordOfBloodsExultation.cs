@@ -10,6 +10,7 @@ namespace MogMod.Items.Accessories
     public class LordOfBloodsExultation : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const float BloodMult = 1.15f;
         public override void SetDefaults()
         {
             Item.accessory = true;

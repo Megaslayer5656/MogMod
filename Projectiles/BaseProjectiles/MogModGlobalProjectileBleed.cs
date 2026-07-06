@@ -1,6 +1,7 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Weapons.Melee;
 using MogMod.NPCs.Global;
+using MogMod.Projectiles.Classless;
 using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Projectiles.Melee;
 using MogMod.Projectiles.RangedProjectiles;
@@ -15,45 +16,28 @@ namespace MogMod.Projectiles.BaseProjectiles
     public partial class MogModGlobalProjectileBleed : GlobalProjectile
     {
         public int bloodDamage;
-
         public override void SetDefaults(Projectile entity)
         {
             if (entity.type == ModContent.ProjectileType<BloodMagicProjectile>())
-            {
                 bloodDamage = 17;
-            } 
             else if (entity.type == ModContent.ProjectileType<RiversOfBloodProj>())
-            {
                 bloodDamage = 300;
-            }
             else if (entity.type == ModContent.ProjectileType<SplinterProjectile>())
-            {
                 bloodDamage = 10;
-            }
             else if (entity.type == ModContent.ProjectileType<BloodGrenadeProjectile>())
-            {
                 bloodDamage = 14;
-            }
             else if (entity.type == ModContent.ProjectileType<APLapua>())
-            {
                 bloodDamage = 200;
-            }
             else if (entity.type == ModContent.ProjectileType<BloodthornBeam>())
-            {
                 bloodDamage = 20; //This one in particular might need some adjustings
-            }
             else if (entity.type == ModContent.ProjectileType<LordOfBloodsSpearProj>()) //The spear itself
-            {
                 bloodDamage = 120;
-            }
             else if (entity.type == ModContent.ProjectileType<LordOfBloodsSpearBloodProj>()) //The huge aoe one
-            {
                 bloodDamage = 250;
-            }
+            else if (entity.type == ModContent.ProjectileType<BloodExplosion>())
+                bloodDamage = 500;
             else
-            {
                 bloodDamage = 0;
-            }
         }
 
         public override void AI(Projectile projectile)

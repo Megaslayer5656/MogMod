@@ -81,13 +81,15 @@ namespace MogMod.Common.Systems
                         {
                             int npcID = reader.ReadInt32();
                             int bloodToAdd = reader.ReadInt32();
+                            int playerID = reader.ReadInt32();
+                            Terraria.Player player = Main.player[playerID];
 
                             NPC npc = Main.npc[npcID];
 
                             MogModGlobalNPC globalNPC = npc.GetGlobalNPC<MogModGlobalNPC>();
                             if (Main.netMode == NetmodeID.Server)
                             {
-                                globalNPC.AddProjectileBlood(npc, bloodToAdd);
+                                globalNPC.AddProjectileBlood(npc, bloodToAdd, player);
                             }
 
                             break;

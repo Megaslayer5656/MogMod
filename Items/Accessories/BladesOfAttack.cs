@@ -7,7 +7,6 @@ namespace MogMod.Items.Accessories
 {
     public class BladesOfAttack : ModItem, ILocalizedModType
     {
-        // MAKE OBTAINABLE FROM FISHING
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
@@ -20,8 +19,8 @@ namespace MogMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetCritChance(DamageClass.Generic) += 3f;
-            player.GetDamage(DamageClass.Generic).Flat += 2f;
+            player.GetCritChance<GenericDamageClass>() += 3f;
+            player.GetDamage<GenericDamageClass>().Flat += 2f;
         }
     }
 }

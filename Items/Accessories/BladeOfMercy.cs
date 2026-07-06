@@ -10,6 +10,7 @@ namespace MogMod.Items.Accessories
     public class BladeOfMercy : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const float BloodMult = 1.2f;
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -23,8 +24,8 @@ namespace MogMod.Items.Accessories
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.mercyBladeEquipped = true;
             mogPlayer.exultationEquipped = true;
-            player.GetAttackSpeed(DamageClass.Generic) += .1f;
-            player.GetDamage(DamageClass.Generic) -= .15f;
+            player.GetAttackSpeed<GenericDamageClass>() += .1f;
+            player.GetDamage<GenericDamageClass>() -= .15f;
         }
         public override void AddRecipes()
         {

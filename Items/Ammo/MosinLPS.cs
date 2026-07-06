@@ -17,7 +17,7 @@ namespace MogMod.Items.Ammo
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
             Item.knockBack = 1f;
-            Item.value = Item.buyPrice(0, 0, 1, 3);
+            Item.value = Item.sellPrice(copper: 3);
             Item.rare = ItemRarityID.White;
             Item.shoot = ModContent.ProjectileType<MosinLPSProj>();
             Item.shootSpeed = 15f;
