@@ -1,5 +1,6 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable.Bars;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,7 +32,7 @@ namespace MogMod.Items.Armor.Tigla
             CreateRecipe().
                 AddIngredient(ItemID.ShroomiteLeggings, 1).
                 AddIngredient(ItemID.Cog, 75).
-                AddIngredient<UltimateOrb>(3).
+                AddIngredient<DabDadBar>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

@@ -31,7 +31,7 @@ namespace MogMod.Items.Accessories.NeutralItems
                 AddIngredient(ItemID.SoulofNight, 12).
                 AddIngredient<FrigidCrystal>(3).
                 AddIngredient<PointBooster>(1).
-                AddTile(TileID.Anvils).
+                AddTile(TileID.MythrilAnvil).
                 Register();
         }
     }

@@ -78,6 +78,8 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingRuntyHorseshoe;
         public bool wearingAllegianceWings;
         public bool wearingSacrosanctAegis;
+        public bool wearingSigmaCharm;
+        public bool sigmaCharmVisual;
 
         public bool stopFallDamage;
         int fallDamageTimer = 0;
@@ -1937,13 +1939,11 @@ namespace MogMod.Common.MogModPlayer
                 Player.lifeRegen += Convert.ToInt32((1 / (percentLifeLeft + .065)));
             }
             if (headdressAura)
-            {
                 Player.lifeRegen += 4;
-            }
             if (greavesAura)
-            {
                 Player.lifeRegen += 8;
-            }
+            if (wearingSigmaCharm)
+                Player.lifeRegen += 6;
         }
 
         // buff effects
@@ -1977,7 +1977,7 @@ namespace MogMod.Common.MogModPlayer
             }
             if (jidiDebuff)
             {
-                Player.statDefense -= 10; // -10 flat defense
+                Player.statDefense -= 20; // -20 flat defense
             }
 
             // buffs
@@ -2039,6 +2039,16 @@ namespace MogMod.Common.MogModPlayer
             }
             if (nulledDebuff)
                 Player.lifeSteal *= 0f;
+            if (wearingSigmaCharm)
+            {
+                Player.wereWolf = sigmaCharmVisual;
+                Player.GetDamage(DamageClass.Generic) += 0.08f;
+                Player.GetCritChance(DamageClass.Generic) += 4;
+                Player.GetAttackSpeed(DamageClass.Melee) += 0.08f;
+                Player.statDefense += 4;
+                Player.moveSpeed += 0.1f;
+                Player.lifeSteal *= 1.1f;
+            }
 
             // cooldowns
             if (shivCooldown > 0)
@@ -2135,6 +2145,8 @@ namespace MogMod.Common.MogModPlayer
             wearingRuntyHorseshoe = false;
             wearingAllegianceWings = false;
             wearingSacrosanctAegis = false;
+            wearingSigmaCharm = false;
+            sigmaCharmVisual = false;
             //stopFallDamage = false;
 
             wearingMendez = false;

@@ -17,8 +17,8 @@ namespace MogMod.Items.Placeable.Ores
             Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.Ores.DabDadOre>());
             Item.width = 12;
             Item.height = 12;
-            Item.value = 3000;
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Lime;
+            Item.value = Item.sellPrice(silver: 24);
         }
     }
 }

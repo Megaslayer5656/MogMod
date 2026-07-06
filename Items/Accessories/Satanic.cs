@@ -25,7 +25,6 @@ namespace MogMod.Items.Accessories
             Item.rare = ItemRarityID.Red;
             Item.value = MogGlobalItem.RarityRedBuyPrice;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.statLifeMax2 += 50;
@@ -43,7 +42,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient<GriefBar>(10).
                 AddIngredient(ItemID.BeetleHusk, 7).
                 AddIngredient<VitalityBooster>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
     }

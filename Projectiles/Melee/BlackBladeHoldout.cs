@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using MogMod.Buffs.Debuffs;
-using MogMod.Items.Weapons.Melee;
 using MogMod.Utilities;
 using System;
 using System.IO;
@@ -12,6 +11,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using MogMod.Items.Weapons.Melee;
 
 namespace MogMod.Projectiles.Melee
 {

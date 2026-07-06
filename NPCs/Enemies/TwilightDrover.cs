@@ -1,6 +1,5 @@
 ﻿using MogMod.Items.Other;
 using MogMod.Items.Placeable.Banners;
-using MogMod.Items.Weapons.Magic.SorceryStaves;
 using MogMod.Projectiles.EnemyProjectiles;
 using System;
 using Microsoft.Xna.Framework;
@@ -12,6 +11,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using ReLogic.Text;
+using MogMod.Items.Weapons.Magic.SorceryStaves;
 
 namespace MogMod.NPCs.Enemies
 {

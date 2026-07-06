@@ -3,8 +3,8 @@ using System.IO;
 using System.Security.Cryptography.X509Certificates; // what could this possibly even do
 using Terraria.ModLoader;
 using MogMod.Common.Systems;
-using MogMod.Items.Weapons.Melee;
 using Terraria.ID;
+using MogMod.Items.Weapons.Melee;
 
 namespace MogMod
 {

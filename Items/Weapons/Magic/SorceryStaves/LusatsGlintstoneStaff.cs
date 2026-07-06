@@ -11,7 +11,6 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
 {
     public class LusatsGlintstoneStaff : SorceryStaff
     {
-        public override float ManaCostMult => 1.5f;
         public override void SetStaticDefaults() => Item.staff[Item.type] = true;
         public override void SetDefaults()
         {

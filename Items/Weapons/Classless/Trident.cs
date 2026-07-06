@@ -1,13 +1,13 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Items.Weapons.Melee;
-using MogMod.Items.Weapons.Ranged;
-using MogMod.Items.Weapons.Magic;
 using MogMod.Common.Classes;
 using MogMod.Projectiles.Classless;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using MogMod.Items.Weapons.Magic;
+using MogMod.Items.Weapons.Melee;
+using MogMod.Items.Weapons.Ranged;
 
 namespace MogMod.Items.Weapons.Classless
 {

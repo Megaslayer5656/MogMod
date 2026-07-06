@@ -32,7 +32,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.BandofRegeneration, 1).
                 AddIngredient(ItemID.HellstoneBar, 12).
                 AddIngredient<VitalityBooster>(1).
-                AddTile(TileID.Anvils).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
     }

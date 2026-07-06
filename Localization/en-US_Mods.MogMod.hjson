@@ -250,11 +250,6 @@ Items: {
 				'''
 		}
 
-		SigmaCharm: {
-			DisplayName: Sigma Charm
-			Tooltip: Turns the user into a lone wolf
-		}
-
 		ShadowAmulet: {
 			DisplayName: Shadow Amulet
 			Tooltip:
@@ -314,14 +309,9 @@ Items: {
 			Tooltip: Increases your max number of minions by 1
 		}
 
-		DesperationCharm: {
-			DisplayName: Desperation Charm
-			Tooltip: When there's no exit...
-		}
-
 		DabdadWings: {
-			Tooltip: ""
-			DisplayName: Dabdad Wings
+			DisplayName: Dabdad's Wings
+			Tooltip: Allows flight and slow fall
 		}
 
 		Crown: {
@@ -386,7 +376,7 @@ Items: {
 				'''
 				Increases your max number of minions by 1
 				+5% Summon Damage
-				Grants you and nearby team members 30% movement speed and 10% Melee and Summon Attack Speed
+				Grants you and nearby team members 30% movement speed and 10% Melee and Whip Speed
 				[c/40BD67:'A relic that enchants the bodies of those around it for swifter movement in times of crisis.']
 				'''
 		}
@@ -522,6 +512,7 @@ Items: {
 			Tooltip:
 				'''
 				Increases max mana by 40
+				Provides light when worn
 				[c/F2D69B:'Lost to time is the artificer's art of trapping light ]
 				[c/F2D69B:from a distant star in a ring of purest gold.']
 				'''
@@ -654,7 +645,7 @@ Items: {
 				Tooltip:
 					'''
 					+8% Summon Damage
-					Summon attacks have a chance to explode into pollen, reducing enemy armor by 10
+					Summon attacks have a chance to explode into pollen, reducing enemy armor by 20
 					[c/2BA63A:'Very dangerous. Very difficult to obtain more.']
 					'''
 			}
@@ -734,6 +725,22 @@ Items: {
 					+5% Magic Attack Speed
 					Magic attacks have a small chance to explode, dealing 1.5x the damage dealt, with a soft cap of 50
 					[c/B87133:'A harmless prank that went entirely too far.']
+					'''
+			}
+
+			DesperationCharm: {
+				DisplayName: Desperation Charm
+				Tooltip: When there's no exit...
+			}
+
+			SigmaCharm: {
+				DisplayName: Sigma Charm
+				Tooltip:
+					'''
+					Turns the user into a lone wolf
+					Minor Increase to Damage, Melee Speed,
+					Critical Strike Chance, Life Regeneration, Defense, 
+					Lifesteal Effectiveness, Movement and Melee Speed
 					'''
 			}
 		}
@@ -2276,11 +2283,7 @@ Items: {
 
 		TankyRizzlerLeggings: {
 			DisplayName: Berserker Leggings
-			Tooltip:
-				'''
-				+10% Melee Attack Speed
-				+10% Movement Speed
-				'''
+			Tooltip: +10% Movement and Melee Speed
 		}
 
 		TiglaHelmet: {
@@ -2343,11 +2346,7 @@ Items: {
 
 		BlademailLeggings: {
 			DisplayName: Blademail Leggings
-			Tooltip:
-				'''
-				+9% Melee Attack Speed
-				+10% Movement Speed
-				'''
+			Tooltip: +10% Movement and Melee Speed
 		}
 
 		UndyingHelm: {

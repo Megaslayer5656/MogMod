@@ -1,19 +1,21 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Common.Systems;
 using MogMod.Items.Ammo.SorcerySpells;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Magic.SorceryStaves
 {
-    // TODO: fix it not shooting anything
+    // TODO: figure out how to make spell noita equal to nullscapes
     public abstract class SorceryStaff : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Staves";
-        protected SorcerySpell Spell { get; }
+        protected SorcerySpell Spell { get; private set; } // wont change from null
         public virtual float ManaCostMult => 1f;
         public virtual float AttackSpeedMult => 1f;
         public override void SetDefaults()
@@ -25,24 +27,29 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
             Item.useAmmo = ModContent.ItemType<GlintstonePebble>(); // sorcery spell ammo types;
             Item.noMelee = true;
         }
-        // change stats depending on what spell was casted
         public override bool CanUseItem(Player player)
         {
-            Item.noUseGraphic = !Spell.SwordStyle;
-            Item.mana = (int)(Spell.ManaCost * ManaCostMult);
-            Item.useTime = Item.useAnimation = (int)(Spell.AttackSpeed * AttackSpeedMult);
             Item.UseSound = Spell.UseSound;
+            Item.noUseGraphic = Spell.SwordStyle;
             return base.CanUseItem(player);
         }
-        // custom swing style for sword spells
+        // change stats depending on what spell was casted
+        public override float UseSpeedMultiplier(Player player)
+        {
+            if (Spell != null)
+                return (float)(Spell.AttackSpeed * AttackSpeedMult);
+            return 1f;
+        }
+        public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+        {
+            if (Spell != null)
+                mult *= (int)(Spell.ManaCost * ManaCostMult);
+        }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (Spell.SwordStyle)
-            {
-                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, Main.myPlayer);
-                return false;
-            }
-            return base.Shoot(player, source, position, velocity, type, damage, knockback);
+            if (Spell != null)
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            return false;
         }
         // remove unnecessary tooltips && add a custom tooltip line
         public override void ModifyTooltips(List<TooltipLine> tooltips)

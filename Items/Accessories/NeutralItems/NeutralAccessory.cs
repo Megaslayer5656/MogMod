@@ -17,10 +17,8 @@ namespace MogMod.Items.Accessories.NeutralItems
         }
         public override bool CanEquipAccessory(Player player, int slot, bool modded)
         {
-            if (modded)
-            {
+            if (modded && slot == ModContent.GetInstance<NeutralItemSlot>().Type)
                 return true;
-            }
             return false;
         }
         // add a custom tooltip line

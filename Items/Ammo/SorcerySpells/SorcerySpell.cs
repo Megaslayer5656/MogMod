@@ -12,7 +12,7 @@ namespace MogMod.Items.Ammo.SorcerySpells
         public virtual int ManaCost => 1;
         public virtual int AttackSpeed => 10;
         public virtual SoundStyle UseSound => SoundID.Item8;
-        // for spells like carian slicer
+        // for spells that swing swords
         public virtual bool SwordStyle => false;
         public override void SetDefaults()
         {

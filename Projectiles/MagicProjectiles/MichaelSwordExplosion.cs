@@ -5,7 +5,7 @@ using MogMod.Items.Weapons.Magic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
-using Terraria.ID; 
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles

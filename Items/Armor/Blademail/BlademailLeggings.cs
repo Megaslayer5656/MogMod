@@ -24,7 +24,7 @@ namespace MogMod.Items.Armor.Blademail
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetAttackSpeed<MeleeDamageClass>() += 0.09f;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.1f;
             player.moveSpeed += .1f;
         }
 

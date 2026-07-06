@@ -1,5 +1,4 @@
-﻿using MogMod.Items.Accessories;
-using MogMod.Items.Global;
+﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.MagicProjectiles;

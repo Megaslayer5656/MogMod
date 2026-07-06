@@ -2,7 +2,6 @@
 using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Common.MogModPlayer;
-using MogMod.Items.Weapons.Magic;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;

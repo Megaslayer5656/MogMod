@@ -39,7 +39,7 @@ namespace MogMod.Items.Accessories
             AddIngredient<ATGMissile>(1).
             AddIngredient(ItemID.LunarBar, 15).
             AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Rocket"}", 50).
-            AddTile(TileID.MythrilAnvil).
+            AddTile(TileID.LunarCraftingStation).
             Register();
         }
     }

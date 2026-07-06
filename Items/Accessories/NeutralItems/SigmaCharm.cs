@@ -1,33 +1,34 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
 using Terraria;
 using Terraria.ID;
 
 namespace MogMod.Items.Accessories.NeutralItems
 {
-    public class DuelistGloves : NeutralItem
+    public class SigmaCharm : NeutralItem
     {
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.width = 50;
-            Item.height = 36;
-            Item.rare = ItemRarityID.Green;
-            Item.value = MogGlobalItem.RarityGreenBuyPrice;
+            Item.width = 22;
+            Item.height = 34;
+            Item.rare = ItemRarityID.Lime;
+            Item.value = MogGlobalItem.RarityLimeBuyPrice;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            mogPlayer.wearingDuelistGloves = true;
-            player.autoReuseGlove = true;
+            mogPlayer.wearingSigmaCharm = true;
+            mogPlayer.sigmaCharmVisual = !hideVisual;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.FeralClaws, 1).
-                AddIngredient(ItemID.Cactus, 75).
-                AddIngredient<RuntyBar>(8).
+                AddIngredient(ItemID.MoonCharm).
+                AddIngredient<DabDadBar>(10).
+                AddIngredient<UltimateOrb>().
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

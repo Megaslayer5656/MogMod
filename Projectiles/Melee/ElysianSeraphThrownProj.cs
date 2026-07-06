@@ -26,6 +26,8 @@ namespace MogMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.Melee;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 15;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
         }
         public override void AI()
         {

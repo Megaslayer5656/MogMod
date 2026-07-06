@@ -50,7 +50,7 @@ namespace MogMod.Items.Accessories
                 AddIngredient(ItemID.BlackLens, 1).
                 AddIngredient<SoulOfMogMod>(1).
                 AddIngredient<PointBooster>(1).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
     }

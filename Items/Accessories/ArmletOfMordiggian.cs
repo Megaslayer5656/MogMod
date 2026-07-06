@@ -24,7 +24,6 @@ namespace MogMod.Items.Accessories
             Item.value = MogGlobalItem.RarityPinkBuyPrice;
             Item.defense = 7;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetAttackSpeed(DamageClass.Generic) += .05f;

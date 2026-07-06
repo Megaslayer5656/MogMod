@@ -60,7 +60,7 @@ namespace MogMod.NPCs.Global
         // debuff stat changes
         public const int skadiNumb = 25;
         public static float skadiMult = 1 - skadiNumb / 100f;
-        public const int jidiNumb = 10;
+        public const int jidiNumb = 20;
         public const int shivaNumb = 15;
         public static float shivaMult = 1 - shivaNumb / 100f;
 

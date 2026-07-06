@@ -10,6 +10,7 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
         public override void SetStaticDefaults() => Item.staff[Item.type] = true;
         public override void SetDefaults()
         {
+            base.SetDefaults();
             Item.damage = 15;
             Item.width = Item.height = 58;
             Item.DamageType = DamageClass.Magic;

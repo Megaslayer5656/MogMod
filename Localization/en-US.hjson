@@ -241,7 +241,7 @@ Mods: {
 
 			DrumOfEnduranceBuff: {
 				DisplayName: Drum Of Endurance Aura
-				Description: +30% Movement Speed and +10% Melee and Summon Attack Speed
+				Description: +30% Movement Speed and +10% Melee and Whip Speed
 			}
 
 			EyeOfSkadiDebuff: {

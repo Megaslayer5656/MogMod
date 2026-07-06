@@ -1,10 +1,10 @@
-﻿using MogMod.Items.Weapons.Ranged;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using MogMod.Items.Weapons.Ranged;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
