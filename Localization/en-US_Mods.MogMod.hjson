@@ -1603,6 +1603,11 @@ Items: {
 				DisplayName: Vortex Of Conflagration
 				Tooltip: Casts two incinerating razorwheels
 			}
+
+			TheDeck: {
+				DisplayName: The Deck
+				Tooltip: ""
+			}
 		}
 
 		Summon: {
@@ -2828,6 +2833,11 @@ Items: {
 
 	WanderingJellyfishBanner: {
 		DisplayName: Wandering Jellyfish Banner
+		Tooltip: ""
+	}
+
+	HealingHandsCard: {
+		DisplayName: Healing Hands Card
 		Tooltip: ""
 	}
 }

@@ -12,6 +12,7 @@ using Terraria.ModLoader;
 namespace MogMod.Projectiles.Summon
 {
     // code copied from calamity mod vengeful sun summon
+    // Resprite this to be a biblically accurate angel
     public class DivinitasSummon : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";

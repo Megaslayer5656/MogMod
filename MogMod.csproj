@@ -72,6 +72,7 @@
     <None Remove="Items\Other\SpiritShard.png" />
     <None Remove="Items\Placeable\DabdadOreP.png" />
     <None Remove="Items\Weapons\Magic\BloodMagic.png" />
+    <None Remove="Items\Weapons\Magic\TheDeck.png" />
     <None Remove="Items\Weapons\Melee\BlackBlade.png" />
     <None Remove="Items\Weapons\Melee\BladeOfSelves.png" />
     <None Remove="Items\Weapons\Melee\Butterfly.png" />
