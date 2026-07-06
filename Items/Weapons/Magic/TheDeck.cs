@@ -59,6 +59,10 @@ namespace MogMod.Items.Weapons.Magic
             ModContent.GetInstance<SmotheringTitheCard>(),
             ModContent.GetInstance<TeferisProtectionCard>(),
             ModContent.GetInstance<WaveOfBloodCard>(),
+            ModContent.GetInstance<RuinousUltimatumCard>(),
+            ModContent.GetInstance<HealCard>(),
+            ModContent.GetInstance<BalrightHealCard>(),
+            ModContent.GetInstance<SeethingSongCard>(),
         ];
 
         public static List<DeckCard> currentCards = new List<DeckCard>();
