@@ -1508,6 +1508,8 @@ namespace MogMod.Common.MogModPlayer
         public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)
         {
             string targetName = "Joise Stain";
+            string targetName2 = "Balright Monster";
+            string targetName3 = "Balright";
             static Item createItem(int type)
             {
                 Item i = new Item();
@@ -1520,6 +1522,10 @@ namespace MogMod.Common.MogModPlayer
                 yield return createItem(ModContent.ItemType<VonWarning>());
                 if (Player.name.Equals(targetName, System.StringComparison.OrdinalIgnoreCase))
                     yield return createItem(ModContent.ItemType<Phasma>());
+                if (Player.name.Equals(targetName2, System.StringComparison.OrdinalIgnoreCase))
+                    yield return createItem(ModContent.ItemType<TheDeck>());
+                if (Player.name.Equals(targetName3, System.StringComparison.OrdinalIgnoreCase))
+                    yield return createItem(ModContent.ItemType<TheDeck>());
             }
         }
         public override void PostUpdate()

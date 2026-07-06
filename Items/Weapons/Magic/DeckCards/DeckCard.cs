@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using System.Collections.Generic;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Magic.DeckCards
@@ -8,6 +9,8 @@ namespace MogMod.Items.Weapons.Magic.DeckCards
         public static bool enabled = false;
         public string cardName = "";
         public string description = "";
+        public int cardMana = 20;
+        public bool unlocked = false;
         public string getCardName()
         {
             return cardName;

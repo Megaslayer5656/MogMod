@@ -49,10 +49,16 @@ namespace MogMod.Items.Weapons.Magic
             Item.value = MogGlobalItem.RarityPurpleBuyPrice;
         }
 
-        public static List<DeckCard> allDeckCards = //Might change this to just store the item ids if this causes issues
+        public static List<DeckCard> allDeckCards = //Add cards here to make them actually work
         [
             ModContent.GetInstance<HealingHandsCard>(),
             ModContent.GetInstance<DarkRitualCard>(),
+            ModContent.GetInstance<ShockCard>(),
+            ModContent.GetInstance<VandalblastCard>(),
+            ModContent.GetInstance<VandalblastOverloadCard>(),
+            ModContent.GetInstance<SmotheringTitheCard>(),
+            ModContent.GetInstance<TeferisProtectionCard>(),
+            ModContent.GetInstance<WaveOfBloodCard>(),
         ];
 
         public static List<DeckCard> currentCards = new List<DeckCard>();
@@ -119,7 +125,13 @@ namespace MogMod.Items.Weapons.Magic
             }
             else
             {
-                Item.mana = 20;
+                if (currentCards.Count > 0)
+                {
+                    Item.mana = currentCards[0].cardMana;
+                } else
+                {
+                    Item.mana = 0;
+                }
             }
             return true;
         }

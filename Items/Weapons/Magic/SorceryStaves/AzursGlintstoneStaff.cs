@@ -8,7 +8,7 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
 {
     public class AzursGlintstoneStaff : SorceryStaff
     {
-        public override float AttackSpeedMult => 0.8f;
+        public override float AttackSpeedMult => 1.2f;
         public override void SetStaticDefaults() => Item.staff[Item.type] = true;
         public override void SetDefaults()
         {

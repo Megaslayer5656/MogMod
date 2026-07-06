@@ -9,6 +9,7 @@ namespace MogMod.Items.Weapons.Magic.DeckCards
         {
             cardName = "Dark Ritual";
             description = "Damages the caster, but restores some mana.";
+            cardMana = 10;
             enabled = true; //Get rid of this when I add way to enable or disable cards in the future.
         }
 

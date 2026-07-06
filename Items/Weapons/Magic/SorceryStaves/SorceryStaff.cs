@@ -15,9 +15,22 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
     public abstract class SorceryStaff : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Staves";
-        protected SorcerySpell Spell { get; private set; } // wont change from null
         public virtual float ManaCostMult => 1f;
         public virtual float AttackSpeedMult => 1f;
+        public SorcerySpell Spell = ModContent.GetInstance<EmptySpell>();
+        public override void UpdateInventory(Player player)
+        {
+            Item ammoItem = player.ChooseAmmo(Item);
+
+            if (ammoItem.ModItem is SorcerySpell spell)
+            {
+                Spell = spell;
+            }
+            else
+            {
+                Spell = ModContent.GetInstance<EmptySpell>();
+            }
+        }
         public override void SetDefaults()
         {
             Item.useTime = Item.useAnimation = 30;
@@ -29,6 +42,7 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
         }
         public override bool CanUseItem(Player player)
         {
+            Item.useTime = Item.useAnimation = Spell.AttackSpeed;
             Item.UseSound = Spell.UseSound;
             Item.noUseGraphic = Spell.SwordStyle;
             return base.CanUseItem(player);
@@ -37,13 +51,13 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
         public override float UseSpeedMultiplier(Player player)
         {
             if (Spell != null)
-                return (float)(Spell.AttackSpeed * AttackSpeedMult);
+                return AttackSpeedMult;
             return 1f;
         }
         public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
         {
             if (Spell != null)
-                mult *= (int)(Spell.ManaCost * ManaCostMult);
+                mult = Spell.ManaCost * ManaCostMult;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

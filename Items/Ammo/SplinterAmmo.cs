@@ -13,8 +13,8 @@ namespace MogMod.Items.Ammo
         {
             Item.damage = 10;
             Item.DamageType = DamageClass.Ranged;
-            Item.width = 15;
-            Item.height = 187;
+            Item.width = 6;
+            Item.height = 20;
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
             Item.knockBack = 1f;
