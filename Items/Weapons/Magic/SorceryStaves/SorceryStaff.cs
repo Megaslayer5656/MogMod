@@ -41,6 +41,7 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
             Item.useTime = Item.useAnimation = Spell.AttackSpeed;
             Item.UseSound = Spell.UseSound;
             Item.noUseGraphic = Spell.SwordStyle;
+            Item.channel = Spell.Channeled;
             return base.CanUseItem(player);
         }
         // change stats depending on what spell was casted
@@ -59,6 +60,13 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
         {
             if (Spell != null)
                 Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            if (Spell.PlayerHurtDamage > 0)
+            {
+                player.Hurt(PlayerDeathReason.ByCustomReason(player.name + $" {Spell.PlayerDeathReason}"), Spell.PlayerHurtDamage, -player.direction, false, false, -1, false, 9999, 0, 0);
+                player.immune = false;
+                player.immuneTime = 0;
+            }
+            Spell.Shoot(player, source, position, velocity, type, damage, knockback);
             return false;
         }
         // remove unnecessary tooltips && add a custom tooltip line

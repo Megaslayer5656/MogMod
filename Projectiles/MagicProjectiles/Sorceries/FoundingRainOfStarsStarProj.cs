@@ -6,12 +6,12 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Projectiles.MagicProjectiles
+namespace MogMod.Projectiles.MagicProjectiles.Sorceries
 {
     public class FoundingRainOfStarsStarProj : ModProjectile, ILocalizedModType
     {
         // code taken from "universal genesis" from calamity mod;
-        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
+        public new string LocalizationCategory => "Projectiles.Magic.Sorceries";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.CultistIsResistantTo[Type] = true;

@@ -14,6 +14,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using MogMod.Common.Systems;
 using MogMod.Buffs.PotionBuffs.TheGravityBuffs;
+using MogMod.Projectiles.MagicProjectiles.Sorceries;
 
 namespace MogMod.Items.Weapons.Magic
 {

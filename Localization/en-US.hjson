@@ -657,23 +657,6 @@ Mods: {
 				MichaelSwordHoldout.DisplayName: Michael Sword
 				MichaelSwordBeam.DisplayName: Michael Sword
 				MichaelSwordExplosion.DisplayName: Michael Sword
-				GlintstonePebbleProj.DisplayName: Glintstone Pebble
-				RockSlingProj.DisplayName: Meteorite
-				GlintstoneStarsProj.DisplayName: Glintstone Stars
-				GlintstoneStarsHomingProj.DisplayName: Glintstone Orb
-				ShardSpiralProj.DisplayName: Shard Spiral
-				StarShowerHomingProj.DisplayName: Glintstone Orb
-				StarShowerProj.DisplayName: Star Shower
-				StarsOfRuinProj.DisplayName: Stars Of Ruin
-				StarsOfRuinHomingProj.DisplayName: Ruinous Star
-				CannonOfHaimaProj.DisplayName: Cannon Of Haima
-				CannonOfHaimaBoom.DisplayName: Glintstone Explosion
-				CarianSlicerProj.DisplayName: Carian Slicer
-				GlintstoneArcProj.DisplayName: Glintstone Arc
-				FoundingRainOfStarsProj.DisplayName: Founding Rain Of Stars
-				FoundingRainOfStarsStarProj.DisplayName: Falling Star
-				ExplosiveGhostflameProj.DisplayName: Ghostflame Explosion
-				GhostflameHomingProj.DisplayName: Vengeful Spirit
 				GunpowderProj.DisplayName: Gunpowder Gauntlet
 				RadiantBeamProj.DisplayName: Radiant Beam
 				ShadowRealmProj.DisplayName: Shadow Realm
@@ -685,6 +668,28 @@ Mods: {
 				InfernoMHoldout.DisplayName: Inferno Maelstrom
 				EmptySpellCard.DisplayName: Empty Spell
 				VoCProj.DisplayName: Vortex Of Conflagration
+			}
+
+			Magic: {
+				Sorceries: {
+					GlintstonePebbleProj.DisplayName: Glintstone Pebble
+					RockSlingProj.DisplayName: Meteorite
+					GlintstoneStarsProj.DisplayName: Glintstone Stars
+					GlintstoneStarsHomingProj.DisplayName: Glintstone Orb
+					ShardSpiralProj.DisplayName: Shard Spiral
+					StarShowerHomingProj.DisplayName: Glintstone Orb
+					StarShowerProj.DisplayName: Star Shower
+					StarsOfRuinProj.DisplayName: Stars Of Ruin
+					StarsOfRuinHomingProj.DisplayName: Ruinous Star
+					CannonOfHaimaProj.DisplayName: Cannon Of Haima
+					CannonOfHaimaBoom.DisplayName: Glintstone Explosion
+					CarianSlicerProj.DisplayName: Carian Slicer
+					GlintstoneArcProj.DisplayName: Glintstone Arc
+					FoundingRainOfStarsProj.DisplayName: Founding Rain Of Stars
+					FoundingRainOfStarsStarProj.DisplayName: Falling Star
+					ExplosiveGhostflameProj.DisplayName: Ghostflame Explosion
+					GhostflameHomingProj.DisplayName: Vengeful Spirit
+				}
 			}
 
 			RangedProjectiles: {
@@ -740,7 +745,7 @@ Mods: {
 				RuntyShardProj.DisplayName: Runty Shard
 			}
 
-			Ranged.EnchantedArrowProj.DisplayName: Enchanted Arrow Proj
+			Ranged.EnchantedArrowProj.DisplayName: Enchanted Arrow
 
 			Melee: {
 				BattleFuryProjectile.DisplayName: Battle Fury
@@ -796,11 +801,11 @@ Mods: {
 				WyvernJawbladeHoldout.DisplayName: Wyvern Jawblade
 				ElysianSeraphProj.DisplayName: Elysian Seraph
 				ElysianSeraphBeamProj.DisplayName: Elysian Seraph
-				SelvesProj1.DisplayName: Selves Proj1
-				SelvesProj2.DisplayName: Selves Proj2
-				SelvesProj3.DisplayName: Selves Proj3
-				ElysianSeraphThrownProj.DisplayName: Elysian Seraph Thrown Proj
-				WarFuryProjectile.DisplayName: War Fury Projectile
+				SelvesProj1.DisplayName: Blade of Selves
+				SelvesProj2.DisplayName: Blade of Selves
+				SelvesProj3.DisplayName: Blade of Selves
+				ElysianSeraphThrownProj.DisplayName: Elysian Seraph
+				WarFuryProjectile.DisplayName: War Fury
 			}
 
 			Summon: {
@@ -808,19 +813,19 @@ Mods: {
 				FrostCrystalSummon.DisplayName: Frost Crystal
 				DivinitasSummon.DisplayName: Divinitas
 				DivinitasBeamProj.DisplayName: Divinitas
-				DivinitasStarProj.DisplayName: Divinitas Star Proj
+				DivinitasStarProj.DisplayName: Divinitas
 			}
 
 			Classless: {
 				UndyingPortalProj.DisplayName: Undying Portal
 				UndyingHomingProj.DisplayName: Undying Spirit
-				ATGProjectile.DisplayName: ATG
+				ATGProjectile.DisplayName: AtG Missile Mk. 1
 				PolyluteProj.DisplayName: Polylute
 				PlasmaShrimpProj.DisplayName: Plasma Shrimp
 				PlayerUndyingPortalProj.DisplayName: Undying Portal
 				GreatswordOfSoulsProj.DisplayName: Greatsword Of Souls
 				HellfireExplosion.DisplayName: Hellfire Explosion
-				HellfireBoom.DisplayName: Hellfire Boom
+				HellfireBoom.DisplayName: Hellfire Explosion
 				DivineRapierProj.DisplayName: Divine Rapier
 				DivineRapierBeam.DisplayName: Divine Rapier
 				DivineRapierSecProj.DisplayName: Divine Rapier
@@ -841,10 +846,6 @@ Mods: {
 			}
 
 			MoonveilProj.DisplayName: Moonveil
-			SelvesProj1.DisplayName: Blade of Selves
-			SelvesProj2.DisplayName: Blade of Selves
-			SelvesProj3.DisplayName: Blade of Selves
-			WarFuryProjectile.DisplayName: War Fury
 			FireworkCrossbowProj.DisplayName: Firework Crossbow
 
 			EnemyProjectiles: {

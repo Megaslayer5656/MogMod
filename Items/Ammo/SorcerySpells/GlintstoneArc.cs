@@ -1,5 +1,5 @@
 ﻿using MogMod.Items.Global;
-using MogMod.Projectiles.MagicProjectiles;
+using MogMod.Projectiles.MagicProjectiles.Sorceries;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;

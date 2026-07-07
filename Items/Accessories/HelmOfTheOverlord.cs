@@ -44,7 +44,6 @@ namespace MogMod.Items.Accessories
                 AddIngredient<FaeBar>(7).
                 AddIngredient<FuciumBar>(7).
                 AddIngredient<ManaCore>(1).
-                AddIngredient<FrigidCrystal>(1).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

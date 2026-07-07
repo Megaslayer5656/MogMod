@@ -32,6 +32,8 @@ namespace MogMod.Items.Weapons.Magic.DeckCards
             player.Hurt(info);
             if (player.statLife > player.statLifeMax2)
                 player.statLife = player.statLifeMax2;
+            player.immune = false;
+            player.immuneTime = 0;
 
             player.statMana += 50;
             if (player.statMana > player.statManaMax2)

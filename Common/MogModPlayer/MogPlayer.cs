@@ -2032,7 +2032,7 @@ namespace MogMod.Common.MogModPlayer
             {
                 Player.statDefense += 7;
                 Player.GetDamage<GenericDamageClass>() += .1f;
-                Player.lifeSteal *= 1.8f;
+                Player.lifeSteal *= 1.5f;
                 Player.manaRegenBonus += 6;
             }
             if (drumsAura)

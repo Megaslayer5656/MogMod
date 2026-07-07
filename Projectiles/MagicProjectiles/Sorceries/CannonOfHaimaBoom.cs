@@ -4,11 +4,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Projectiles.MagicProjectiles
+namespace MogMod.Projectiles.MagicProjectiles.Sorceries
 {
     public class CannonOfHaimaBoom : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
+        public new string LocalizationCategory => "Projectiles.Magic.Sorceries";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
 
         private const float radius = 180f;

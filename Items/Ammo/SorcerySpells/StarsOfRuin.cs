@@ -1,7 +1,7 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
-using MogMod.Projectiles.MagicProjectiles;
+using MogMod.Projectiles.MagicProjectiles.Sorceries;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;

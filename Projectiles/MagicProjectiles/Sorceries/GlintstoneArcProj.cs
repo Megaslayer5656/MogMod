@@ -4,13 +4,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Projectiles.MagicProjectiles
+namespace MogMod.Projectiles.MagicProjectiles.Sorceries
 {
     public class GlintstoneArcProj : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
-
-
+        public new string LocalizationCategory => "Projectiles.Magic.Sorceries";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 10;

@@ -4,11 +4,11 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Projectiles.MagicProjectiles
+namespace MogMod.Projectiles.MagicProjectiles.Sorceries
 {
     public class StarShowerProj : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
+        public new string LocalizationCategory => "Projectiles.Magic.Sorceries";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         public override void SetDefaults()
         {

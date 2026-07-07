@@ -1,6 +1,5 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.MagicProjectiles.Sorceries;
 using Terraria;
 using Terraria.Audio;
@@ -9,33 +8,32 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo.SorcerySpells
 {
-    public class FoundingRainOfStars : SorcerySpell
+    public class BriarsOfPunishment : SorcerySpell
     {
-        public override int ManaCost => 45;
-        public override int AttackSpeed => 64;
-        public override SoundStyle UseSound => SoundID.Item8;
-        public override void SetStaticDefaults() => ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<StarsOfRuin>();
+        public override int ManaCost => 8;
+        public override int AttackSpeed => 40;
+        public override int PlayerHurtDamage => 4;
+        public override string PlayerDeathReason => "was violently pricked by thorns.";
+        public override SoundStyle UseSound => SoundID.Item9;
         public override void SetDefaults()
         {
             base.SetDefaults();
             Item.width = Item.height = 36;
-            Item.damage = 24;
+            Item.damage = 35;
             Item.DamageType = DamageClass.Magic;
-            Item.knockBack = 5f;
+            Item.knockBack = 3f;
             Item.rare = ItemRarityID.Yellow;
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
-            Item.shoot = ModContent.ProjectileType<FoundingRainOfStarsProj>();
-            Item.shootSpeed = 6f;
+            Item.shoot = ModContent.ProjectileType<ShardSpiralProj>();
+            Item.shootSpeed = 3f;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<StarShower>(1).
-                AddIngredient<FaeBar>(5).
-                AddIngredient<ManaCore>(1).
+                AddIngredient(ItemID.WoodenSpike, 25).
+                AddIngredient(ItemID.ChlorophyteBar, 8).
                 AddIngredient<Scroll>(1).
                 AddTile(TileID.Bookcases).
-                DisableDecraft().
                 Register();
         }
     }

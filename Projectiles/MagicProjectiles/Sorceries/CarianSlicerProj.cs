@@ -9,12 +9,12 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Projectiles.MagicProjectiles
+namespace MogMod.Projectiles.MagicProjectiles.Sorceries
 {
     public class CarianSlicerProj : ModProjectile, ILocalizedModType
     {
         // taken from example mod custom swing sword
-        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
+        public new string LocalizationCategory => "Projectiles.Magic.Sorceries";
 
         // We define some constants that determine the swing range of the sword
         // Not that we use multipliers here since that simplifies the amount of tweaks for these interactions

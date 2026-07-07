@@ -11,10 +11,7 @@ namespace MogMod.Items.Weapons.Magic
     public class Khanda : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
-        public override void SetStaticDefaults()
-        {
-            Item.staff[Item.type] = true; //so it doesn't look weird af when holding it
-        }
+        public override void SetStaticDefaults() => Item.staff[Item.type] = true;
         public override void SetDefaults()
         {
             Item.width = 48;

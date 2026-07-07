@@ -148,7 +148,7 @@ Items: {
 			DisplayName: Magic Wand
 			Tooltip:
 				'''
-				+3 Flat Magic Damage
+				+3 Magic Damage
 				Increased Maximum Mana by 30
 				Taking damage adds a charge to the wand
 				Pressing [KEY] expends all charges and heals 7 Life and Mana for each charge
@@ -354,7 +354,7 @@ Items: {
 			Tooltip:
 				'''
 				+3% Crit Chance
-				+2 Flat Attack Damage
+				+2 Attack Damage
 				[c/B8A7A7:'The damage of these small, concealable ]
 				[c/B8A7A7:blades should not be underestimated.']
 				'''
@@ -455,7 +455,7 @@ Items: {
 			Tooltip:
 				'''
 				Increases your max number of sentries by 2
-				Provides you and nearby team members 3 defense, +2 Flat Attack damage,
+				Provides you and nearby team members 3 defense, +2 Attack damage,
 				Increased Mana Regeneration by 4, and Increased lifesteal effectiveness
 				[c/24964A:'An eerie mask that is haunted with the malice of a fallen vampire.']
 				'''
@@ -536,14 +536,14 @@ Items: {
 				'''
 				Increases your max number of sentries by 5
 				Does not stack with downgrades
-				Provides you and nearby team members the 10 defense, +5 Flat Attack Damage, +10% Attack damage,
+				Provides you and nearby team members the 10 defense, +10% Attack damage,
 				Increased Mana Regeneration by 10, and Greatly Increased lifesteal effectiveness
 				[c/528727:'A sentient amulet whose animus shakes the courage of even the strongest foes.']
 				'''
 		}
 
 		ATGMissile: {
-			DisplayName: ATG Missile
+			DisplayName: AtG Missile Mk. 1
 			Tooltip:
 				'''
 				+5% Attack Speed
@@ -1703,7 +1703,7 @@ Items: {
 				DisplayName: Meteorite Staff
 				Tooltip:
 					'''
-					[c/96FF96:Rock Sling] gains slight homing
+					[c/853E9C:Gravity Sorceries gain enhanced properties]
 					[c/A364CC:'Staff embedded with a dark purple glintstone, said to be the fragment of a meteorite.']
 					'''
 			}
@@ -2042,7 +2042,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires an orb that ascends upwards, raining down stars shortly after
-					[c/0FABA1:'The eldest primeval sorcery, said to have been discovered by an ancient astrologer.']
+					[c/2D668A:'The eldest primeval sorcery, said to have been discovered by an ancient astrologer.']
 					'''
 			}
 
@@ -2106,7 +2106,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires an orb that spews out 12 homing stars
-					[c/2E6AB3:'When Lusat glimpsed into the primeval current, he beheld the final moments of a great star cluster, and upon seeing it, he too was broken.']
+					[c/512D8A:'When Lusat glimpsed into the primeval current, he beheld the final moments of a great star cluster, and upon seeing it, he too was broken.']
 					'''
 			}
 
@@ -2122,6 +2122,62 @@ Items: {
 			EmptySpell: {
 				DisplayName: Empty Spell
 				Tooltip: you should not have this
+			}
+
+			BladesOfStone: {
+				DisplayName: Blades Of Stone
+				Tooltip:
+					'''
+					Summons rock spikes from below
+					[c/853E9C:'Gaius and Radahn were good rivals in their youth, and this sorcery is a product of their friendly competition.']
+					'''
+			}
+
+			BriarsOfPunishment: {
+				DisplayName: Briars Of Punishment
+				Tooltip:
+					'''
+					Sprouts deadly thorns around you
+					[c/852834:'The guilty, their eyes gouged by thorns, lived in eternal darkness. There, they discovered the blood star.']
+					'''
+			}
+
+			CometAzur: {
+				DisplayName: Comet Azur
+				Tooltip:
+					'''
+					Charges a powerful laser capable of passing through tiles
+					[c/2E2D8A:'When Azur glimpsed into the primeval current, he saw darkness. He was left both bewitched and fearful of the abyss.']
+					'''
+			}
+
+			RancorCall: {
+				DisplayName: Rancor Call
+				Tooltip:
+					'''
+					Fires a burst of homing vengeful spirits
+					[c/839186:'They are cinders of the ancient death hex, raked from the fires of ghostflame by Deathbirds.']
+					'''
+			}
+
+			RoilingMagma: {
+				DisplayName: Roiling Magma
+				Tooltip:
+					'''
+					Lobs a ball of magma that explodes into magma shards after a short delay
+					[c/B86942:'After discovering the ancient hexes of Gelmir, Rykard, son of Queen Rennala,]
+					[c/B86942:brought them back into practical use as new forms of sorcery.']
+					'''
+			}
+
+			Starlight: {
+				DisplayName: Starlight
+				Tooltip:
+					'''
+					Summons a ball of light that floats above your head
+					[c/6ED9E0:'Even during the blackest nights, sojourns underground, ]
+					[c/6ED9E0:or imprisonment in gaol, the stars are never far from a sorcerer's side.']
+					'''
 			}
 		}
 
@@ -2628,11 +2684,11 @@ Items: {
 
 		RuntyHelmet: {
 			DisplayName: Runty Helmet
-			Tooltip: +1 Flat Attack Damage
+			Tooltip: +1 Attack Damage
 			SetBonus:
 				'''
 				+2 Defense
-				+2 Flat Attack Damage
+				+2 Attack Damage
 				'''
 		}
 

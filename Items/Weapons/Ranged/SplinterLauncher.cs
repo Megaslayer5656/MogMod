@@ -40,7 +40,6 @@ namespace MogMod.Items.Weapons.Ranged
         {
             for (int i = 0; i < 2; i++)
             {
-                float rotationAngle = MathHelper.PiOver4 * 0.3f * (Main.rand.NextFloat(3f, 5f) / Main.rand.NextFloat(3f, 5f));
                 Vector2 splinterVelocity = velocity.RotatedByRandom(MathHelper.PiOver4 * 0.3);
                 Projectile.NewProjectile(source, position, splinterVelocity, type, damage, knockback, player.whoAmI);
             }

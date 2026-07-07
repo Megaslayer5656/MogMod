@@ -15,7 +15,6 @@ namespace MogMod.Items.Weapons.Ranged
     public class BerserkersSpear : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
-
         // lets you repeatedly right click
         public override void SetStaticDefaults() => ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         public override void SetDefaults()
@@ -40,34 +39,32 @@ namespace MogMod.Items.Weapons.Ranged
         }
         public override bool CanUseItem(Player player)
         {
-            float percentLifeLeft = (float)player.statLife / player.statLifeMax2;
             if (player.altFunctionUse == 2)
             {
-                Item.shoot = ModContent.ProjectileType<BerserkersFireSpearProj>();
+                float percentLifeLeft = (float)player.statLife / player.statLifeMax2;
                 Item.useTime = Convert.ToInt32(50 * (percentLifeLeft + .1));
                 Item.useAnimation = Convert.ToInt32(50 * (percentLifeLeft + .1));
+                return true;
             }
-            else
-            {
-                Item.shoot = ModContent.ProjectileType<BerserkersSpearProj>();
-                Item.useTime = 45;
-                Item.useAnimation = 45;
-            }
+            Item.useTime = 45;
+            Item.useAnimation = 45;
             return true;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float percentLifeLeft = (float)player.statLife / player.statLifeMax2; 
             if (player.altFunctionUse == 2)
             {
-                player.Hurt(PlayerDeathReason.ByCustomReason($"{player.name} sacrificed their lifeblood to the Berserker's Spear"), Convert.ToInt32(player.statLifeMax2 * .04), 0, false, true, 1, false, 1000, 100, 0f);
-                type = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<BerserkersFireSpearProj>(), Convert.ToInt32(Item.damage / (percentLifeLeft + .3f)), 2f, player.whoAmI); //To adjust right click damage, change the float after percentLifeLeft in the damage field of this
+                float percentLifeLeft = (float)player.statLife / player.statLifeMax2;
+                // hurts the player and ignores i-frames
+                player.Hurt(PlayerDeathReason.ByCustomReason($"{player.name} sacrificed their lifeblood to the Berserker's Spear"), Convert.ToInt32(player.statLifeMax2 * .04), -player.direction, false, false, -1, false, 1000, 0, 0);
+                player.immune = false;
+                player.immuneTime = 0;
+                damage = (int)(Item.damage / (percentLifeLeft + .3f));
+                type = ModContent.ProjectileType<BerserkersFireSpearProj>();
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback * 2f, player.whoAmI);
                 return false;
             }
-            else
-            {
-                return true;
-            }
+            return true;
         }
         public override bool AltFunctionUse(Player player) => true;
         public override void AddRecipes()

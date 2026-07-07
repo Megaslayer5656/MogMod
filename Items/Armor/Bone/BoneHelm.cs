@@ -52,7 +52,7 @@ namespace MogMod.Items.Armor.Bone
             CreateRecipe().
                 AddIngredient(ItemID.Silk, 10).
                 AddIngredient(ItemID.FossilOre, 10).
-                AddTile(TileID.Anvils).
+                AddTile(TileID.Loom).
                 Register();
         }
     }

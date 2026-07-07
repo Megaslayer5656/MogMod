@@ -26,7 +26,7 @@ namespace MogMod.Items.Armor.Bone
             CreateRecipe().
                 AddIngredient(ItemID.Silk, 15).
                 AddIngredient(ItemID.FossilOre, 15).
-                AddTile(TileID.Anvils).
+                AddTile(TileID.Loom).
                 Register();
         }
     }

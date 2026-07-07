@@ -25,9 +25,9 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.DiamondStaff, 1).
-                AddIngredient<ManaEssence>(1).
-                AddIngredient<FrigidShard>(1).
+                AddRecipeGroup(RecipeGroupID.Wood, 12).
+                AddIngredient<ManaEssence>().
+                AddIngredient<FrigidShard>().
                 AddTile(TileID.Anvils).
                 Register();
         }

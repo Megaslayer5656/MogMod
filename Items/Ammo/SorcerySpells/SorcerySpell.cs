@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using System.Linq;
+using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,9 +14,12 @@ namespace MogMod.Items.Ammo.SorcerySpells
         public new string LocalizationCategory => "Items.Ammo.Spells";
         public virtual int ManaCost => 1;
         public virtual int AttackSpeed => 10;
+        public virtual int PlayerHurtDamage => 0;
+        public virtual string PlayerDeathReason => " poured too much of their life into a sorcery.";
         public virtual SoundStyle UseSound => SoundID.Item8;
         // for spells that swing swords
         public virtual bool SwordStyle => false;
+        public virtual bool Channeled => false;
         public override void SetDefaults()
         {
             // display purposes only;

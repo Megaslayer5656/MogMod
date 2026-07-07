@@ -37,6 +37,8 @@ namespace MogMod.Items.Weapons.Ranged
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, System.Int32 type, System.Int32 damage, System.Single knockback)
         {
             player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " poured their lifeforce into a blood grenade."), 5, -player.direction, false, false, -1, false, 9999, 0, 0);
+            player.immune = false;
+            player.immuneTime = 0;
             return true;
         }
         public override void AddRecipes()
