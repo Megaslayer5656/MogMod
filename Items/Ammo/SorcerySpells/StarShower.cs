@@ -18,18 +18,18 @@ namespace MogMod.Items.Ammo.SorcerySpells
             base.SetDefaults();
             Item.width = Item.height = 36;
             Item.damage = 20;
-            Item.DamageType = DamageClass.Magic;
             Item.knockBack = 5f;
             Item.rare = ItemRarityID.Pink;
             Item.value = MogGlobalItem.RarityPinkBuyPrice;
             Item.shoot = ModContent.ProjectileType<StarShowerProj>();
             Item.shootSpeed = 6f;
+            SorceryClass = SorceryID.Glintstone;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient<GlintstoneStars>(1).
-                AddRecipeGroup("CobaltBar", 14).
+                AddRecipeGroup("CobaltBar", 6).
                 AddIngredient(ItemID.SoulofSight, 7).
                 AddIngredient<Scroll>(1).
                 AddTile(TileID.Bookcases).

@@ -69,7 +69,6 @@ namespace MogMod.Projectiles.MagicProjectiles
             if ((Projectile.timeLeft == 10) && target != null) //  || Projectile.timeLeft == 10) for extra beam hits
                 MogModUtils.MagnetSphereHitscan(Projectile, Vector2.Distance(Projectile.Center, target.Center), 8f, 0, 1, ModContent.ProjectileType<OrchidBeam>(), 1D, true);
         }
-
         public override Color? GetAlpha(Color lightColor)
         {
             if (Projectile.timeLeft < 10)
@@ -79,7 +78,6 @@ namespace MogMod.Projectiles.MagicProjectiles
             }
             return new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 0);
         }
-
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture2D13 = Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value;

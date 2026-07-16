@@ -3,6 +3,7 @@ using MogMod.Items.Weapons.Melee;
 using MogMod.NPCs.Global;
 using MogMod.Projectiles.Classless;
 using MogMod.Projectiles.MagicProjectiles;
+using MogMod.Projectiles.MagicProjectiles.Sorceries;
 using MogMod.Projectiles.Melee;
 using MogMod.Projectiles.RangedProjectiles;
 using System.IO;
@@ -19,7 +20,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         public override void SetDefaults(Projectile entity)
         {
             if (entity.type == ModContent.ProjectileType<BloodMagicProjectile>())
-                bloodDamage = 17;
+                bloodDamage = BloodMagicProjectile.BloodDamage; // 17
             else if (entity.type == ModContent.ProjectileType<RiversOfBloodProj>())
                 bloodDamage = 300;
             else if (entity.type == ModContent.ProjectileType<SplinterProjectile>())
@@ -36,6 +37,10 @@ namespace MogMod.Projectiles.BaseProjectiles
                 bloodDamage = 250;
             else if (entity.type == ModContent.ProjectileType<BloodExplosion>())
                 bloodDamage = 500;
+            else if (entity.type == ModContent.ProjectileType<BriarsOfPunishmentProj>())
+                bloodDamage = BriarsOfPunishmentProj.BloodDamage; // 24
+            else if (entity.type == ModContent.ProjectileType<ImpenetrableThornsProj>())
+                bloodDamage = ImpenetrableThornsProj.BloodDamage; // 12
             else
                 bloodDamage = 0;
         }

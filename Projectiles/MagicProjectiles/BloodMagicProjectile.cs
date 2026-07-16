@@ -11,6 +11,7 @@ namespace MogMod.Projectiles.MagicProjectiles
     public class BloodMagicProjectile : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
+        public const int BloodDamage = 17;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 4;

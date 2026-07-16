@@ -10,6 +10,7 @@ namespace MogMod.Projectiles.Classless
     public class UndyingHomingProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Classless";
+        public Player Owner => Main.player[Projectile.owner];
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.CultistIsResistantTo[Type] = true;
@@ -28,11 +29,13 @@ namespace MogMod.Projectiles.Classless
             Projectile.DamageType = DamageClass.Generic;
             Projectile.ArmorPenetration = 50;
         }
-
         public override void AI()
         {
-            if (Projectile.timeLeft < 570)
-                MogModUtils.HomeInOnNPC(Projectile, true, 550f, 5f, 25f);
+            // slowly follow the cursor
+            if (Projectile.velocity.Length() < 4)
+                Projectile.velocity += (Owner.MogMod().mouseWorld - Projectile.Center).SafeNormalize(Vector2.UnitX) * 0.3f;
+            else
+                Projectile.velocity *= 0.3f;
 
             int undyingDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.RainbowTorch, 0f, 0f, 100, Utils.SelectRandom(Main.rand, new Color[] { Color.ForestGreen, Color.LightGreen }), 1f);
             Main.dust[undyingDust].velocity *= 0.5f;

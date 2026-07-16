@@ -18,19 +18,19 @@ namespace MogMod.Items.Ammo.SorcerySpells
             base.SetDefaults();
             Item.width = Item.height = 36;
             Item.damage = 300;
-            Item.DamageType = DamageClass.Magic;
             Item.knockBack = 12f;
             Item.rare = ItemRarityID.Lime;
             Item.value = MogGlobalItem.RarityLimeBuyPrice;
             Item.shoot = ModContent.ProjectileType<CannonOfHaimaProj>();
             Item.shootSpeed = 6f;
+            SorceryClass = SorceryID.Glintstone;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient(ItemID.SoulofMight, 7).
-                AddIngredient<UltimateOrb>(3).
-                AddIngredient<Scroll>(1).
+                AddIngredient<UltimateOrb>().
+                AddIngredient<Scroll>().
                 AddTile(TileID.Bookcases).
                 Register();
         }

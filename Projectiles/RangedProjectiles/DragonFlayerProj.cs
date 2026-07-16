@@ -11,15 +11,18 @@ namespace MogMod.Projectiles.RangedProjectiles
     public class DragonFlayerProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.RangedProjectiles";
-        public override string Texture => "MogMod/Projectiles/Classless/FlamethrowerProj";
+        public override string Texture => "MogMod/Projectiles/BaseProjectiles/FlameProj";
         public ref float Time => ref Projectile.ai[0];
         public ref float LightPower => ref Projectile.ai[1];
-        public static int Lifetime => 80;
-        public static int Fadetime => 70;
+        public static int Lifetime => 70;
+        public static int Fadetime => 60;
+        public int NumAnimationFrames = 7;
+        public int AnimationFrameTime = 7;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            Main.projFrames[Projectile.type] = NumAnimationFrames;
         }
         public override void SetDefaults()
         {
@@ -61,6 +64,15 @@ namespace MogMod.Projectiles.RangedProjectiles
                 dust.noGravity = true;
                 dust.velocity *= 3f;
             }
+
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > AnimationFrameTime)
+            {
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
+            }
+            if (Projectile.frame >= NumAnimationFrames)
+                Projectile.Kill();
 
             // Calculate light power. This checks below the position of the fog to check if this fog is underground.
             // Without this, it may render over the fullblack that the game renders for obscured tiles.
@@ -114,16 +126,18 @@ namespace MogMod.Projectiles.RangedProjectiles
                 Color innerColor = Color.Lerp(fireColor, Color.Black, 0.3f);
 
                 // pos && rot
+                Rectangle sourceRectangle = fire.Frame(1, Main.projFrames[Type], frameY: Projectile.frame);
                 Vector2 firePos = Projectile.Center - Main.screenPosition - Projectile.velocity * vOffset * j;
                 float mainRot = -j * MathHelper.PiOver2 - Main.GlobalTimeWrappedHourly * (j + 1f) * 2f / length;
                 float trailRot = MathHelper.PiOver4 - mainRot;
+                Vector2 origin = sourceRectangle.Size() / 2f;
 
                 // backtrail
                 Vector2 trailOffset = Projectile.velocity * vOffset * length * 0.5f;
-                Main.EntitySpriteDraw(fire, firePos - trailOffset, null, innerColor * 0.25f, trailRot, fire.Size() * 0.5f, fireSize, SpriteEffects.None);
+                Main.EntitySpriteDraw(fire, firePos - trailOffset, sourceRectangle, innerColor * 0.25f, trailRot, origin, fireSize, SpriteEffects.None);
 
                 // draw og proj
-                Main.EntitySpriteDraw(fire, firePos, null, innerColor, mainRot, fire.Size() * 0.5f, fireSize, SpriteEffects.None);
+                Main.EntitySpriteDraw(fire, firePos, sourceRectangle, innerColor, mainRot, origin, fireSize, SpriteEffects.None);
             }
             return false;
         }

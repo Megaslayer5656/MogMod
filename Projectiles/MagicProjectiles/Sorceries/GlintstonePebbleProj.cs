@@ -1,4 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MogMod.Common.Classes;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -9,28 +12,34 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
     public class GlintstonePebbleProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Magic.Sorceries";
-        public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
+        public static Color Colour => new(171, 237, 255);
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 4;
+            ProjectileID.Sets.TrailingMode[Type] = 0;
+        }
         public override void SetDefaults()
         {
-            Projectile.width = 16;
-            Projectile.height = 12;
-            Projectile.aiStyle = ProjAIStyleID.Beam;
+            Projectile.width = 30;
+            Projectile.height = 14;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.DamageType = SorceryDamageClass.Instance;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
-            AIType = ProjectileID.LightBeam;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
             Projectile.extraUpdates = 1;
         }
         public override void AI()
         {
-            int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Terragrim, Projectile.velocity.X * 1.5f, Projectile.velocity.Y * 1.5f);
-            Main.dust[dust].scale = 1.5f;
-            Main.dust[dust].noGravity = true;
-
             Projectile.rotation = Projectile.velocity.ToRotation();
+            float dim = .005f;
+            Lighting.AddLight(Projectile.Center, Colour.R * dim, Colour.G * dim, Colour.B * dim);
+
+            if (Main.rand.NextBool(3))
+            {
+                Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(10, 10), Main.rand.NextBool(3) ? 16 : 20);
+                dust.scale = Main.rand.NextFloat(0.3f, 0.7f);
+                dust.velocity = -Projectile.velocity * 0.7f;
+            }
         }
         public override void OnKill(int timeLeft)
         {
@@ -48,6 +57,16 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                 dust3.velocity *= 1.2f;
                 dust3.velocity -= Projectile.oldVelocity * 0.3f;
             }
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Type], lightColor, 1);
+            Main.spriteBatch.SetBlendState(BlendState.Additive);
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Texture2D bloomTex = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/CircleGradient").Value;
+            Main.EntitySpriteDraw(bloomTex, drawPosition, null, Colour * 0.5f, Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * 0.35f, SpriteEffects.None);
+            Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
+            return false;
         }
     }
 }

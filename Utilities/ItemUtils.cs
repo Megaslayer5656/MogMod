@@ -17,7 +17,7 @@ namespace MogMod.Utilities
 
             List<string> keys = mhk.GetAssignedKeys();
             if (keys.Count == 0)
-                return "[NONE]";
+                return "NONE";
             else
             {
                 StringBuilder sb = new StringBuilder(16);
@@ -29,10 +29,29 @@ namespace MogMod.Utilities
                 return sb.ToString();
             }
         }
+        /// <summary>
+        /// Shortcut for finding a specific string in the tooltip and replacing it with a new string<br/>
+        /// Typically used for dynamic tooltip updating. Consider overriding Tooltip or using String.Format for applying constants.
+        /// </summary>
+        /// <param name="tooltips">The tooltip list provided to a <b>ModifyTooltips</b> TML hook.</param>
+        /// <param name="replacedKey">The key to be replaced.</param>
+        /// <param name="replacedKey">The new key.</param>
         public static void FindAndReplace(this List<TooltipLine> tooltips, string replacedKey, string newKey)
         {
             TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Text.Contains(replacedKey));
             if (line != null)
+                line.Text = line.Text.Replace(replacedKey, newKey);
+        }
+        /// <summary>
+        /// Shortcut for finding all of a specific string in the tooltip and replacing it with a new string<br/>
+        /// Typically used for dynamic tooltip updating. Consider overriding Tooltip or using String.Format for applying constants.
+        /// </summary>
+        /// <param name="tooltips">The tooltip list provided to a <b>ModifyTooltips</b> TML hook.</param>
+        /// <param name="replacedKey">The key to be replaced.</param>
+        /// <param name="replacedKey">The new key.</param>
+        public static void FindAndReplaceAll(this List<TooltipLine> tooltips, string replacedKey, string newKey)
+        {
+            foreach (TooltipLine line in tooltips)
                 line.Text = line.Text.Replace(replacedKey, newKey);
         }
         public static void IntegrateHotkey(this List<TooltipLine> tooltips, ModKeybind mhk)

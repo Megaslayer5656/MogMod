@@ -5,9 +5,11 @@ using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
 using MogMod.Items.Accessories.Wings;
+using MogMod.Items.Ammo.SorcerySpells;
 using MogMod.Items.Armor.Fae;
 using MogMod.Items.Armor.Seraphic;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable.MusicBoxes;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Magic.SorceryStaves;
 using MogMod.Items.Weapons.Melee;
@@ -30,6 +32,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Default;
+using static AssGen.Assets;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace MogMod.Common.MogModPlayer
@@ -42,9 +45,36 @@ namespace MogMod.Common.MogModPlayer
         public float mewingguide = 0;
 
         Random rand = new Random();
+        public bool mouseRight = false;
+        private bool oldMouseRight = false;
         public Vector2 mouseWorld => Player.MountedCenter + mouseWorldDeltaFromPlayer;
+        public Vector2 mouseNormalFromPlayer => mouseRotationFromPlayer.ToRotationVector2();
         public Vector2 mouseWorldDeltaFromPlayer;
+        public float mouseRotationFromPlayer;
+        private Vector2 oldMouseWorldDeltaFromPlayer;
+        private int mouseWorldPacketTimer = 0;
+        private const int MouseWorldPacketInterval = 2;
+        /// <summary>
+        /// Set this to true if you need to receive updates on right clicks from players and sync them in multiplayer.<br/>
+        /// Automatically resets itself after sending an update.
+        /// </summary>
+        public bool rightClickListener = false;
+        /// <summary>
+        /// Set this to true if you need to receive updates on the position of the player's mouse and sync them in multiplayer.<br/>
+        /// Automatically resets itself after sending an update.<br/>
+        /// This also update the rotation.
+        /// </summary>
         public bool mouseWorldListener = false;
+        /// <summary>
+        /// Set this to true if you need to receive updates on the rotation of the mouse to the player. This sends updates less frequently the tighter the tolerance of mouseWorldListener.<br/>
+        /// Automatically resets itself after sending an update.<br/>
+        /// This does NOT update the position.
+        /// </summary>
+        public bool mouseRotationListener = false;
+        public bool syncMousePosition = false;
+        public bool syncMouseRotation = false;
+        public bool syncMouseRightClick = false;
+
 
         #region Accessories
         public bool wearingRigSlot;
@@ -86,6 +116,15 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingElvenQuiver;
         public bool wearingEnchantedQuiver;
         public bool wearingFlayersBota;
+        public bool wearingScavVest;
+        public bool wearingTriton;
+        public bool wearingTritonLife;
+        public bool wearingTritonDamage;
+        public bool wearingTritonMovement;
+        public bool wearingZhuk;
+        public bool wearingZhukLife;
+        public bool wearingZhukDamage;
+        public bool wearingZhukMovement;
 
         public bool stopFallDamage;
         int fallDamageTimer = 0;
@@ -214,7 +253,6 @@ namespace MogMod.Common.MogModPlayer
         public bool canSeraphicRevive;
         public bool wearingNihilum;
         public bool wearingNihilumRanged;
-        public bool wearingNihilumMagic;
         public int nihilumTimer = 0;
         public int nihilumTimerMax = 120;
 
@@ -232,8 +270,9 @@ namespace MogMod.Common.MogModPlayer
         public int shadowRealmLevel = 0;
         public static int shadowRealmLevelMax = 150;
 
-        public bool holdingMeteoriteStaff;
-
+        public int eSeraphCharge = 0;
+        public int eSeraphMax = 100;
+        public bool eSeraphSound;
 
         public bool chargeShot = false;
         public bool dpCharge = false;
@@ -291,6 +330,8 @@ namespace MogMod.Common.MogModPlayer
         public bool shivasAura = false;
 
         public float auraRange = 5000f;
+
+        public bool satanicBuff;
 
         public int praporCooldown = 0;
 
@@ -381,7 +422,7 @@ namespace MogMod.Common.MogModPlayer
 
         #region Mod Buff ID/s
         int glimmerBuff = ModContent.BuffType<GlimmerCapeBuff>();
-        int satanicBuff = ModContent.BuffType<SatanicBuff>();
+        int satanicBuffID = ModContent.BuffType<SatanicBuff>();
         int blademailBuff = ModContent.BuffType<BladeMailBuff>();
 
         // cooldowns
@@ -391,7 +432,6 @@ namespace MogMod.Common.MogModPlayer
         int manabootsCooldown = ModContent.BuffType<ArcaneBootsDebuff>();
         int guardianCooldown = ModContent.BuffType<GuardianGreavesDebuff>();
         int mekansmCooldown = ModContent.BuffType<MekansmDebuff>();
-        int helmOfDominator = ModContent.BuffType<HelmOfDominatorDebuff>();
         int forceStaffCooldown = ModContent.BuffType<ForceStaffDebuff>();
         int blademailCooldown = ModContent.BuffType<BladeMailDebuff>();
         int ShivasCooldown = ModContent.BuffType<ShivasDebuff>();
@@ -452,12 +492,14 @@ namespace MogMod.Common.MogModPlayer
                 target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), 180);
             if (mogProj.daybreakBullet)
                 target.AddBuff(BuffID.Daybreak, 180);
+            if (mogProj.gelmirSpell)
+                target.AddBuff(BuffID.OnFire3, 180);
             NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), proj.CountsAsClass<SummonMeleeSpeedDamageClass>(), hit.Crit);
         }
         public void doATG(int damageDone)
         {
             float Spread = 0.3f;
-            Vector2 kirk = new Vector2(0, -7);
+            Vector2 kirk = new Vector2(0, Main.zenithWorld ? -1 : -7);
             Vector2 einstein = Main.MouseWorld - Player.Center;
             einstein.Normalize();
 
@@ -471,6 +513,16 @@ namespace MogMod.Common.MogModPlayer
                 {
                     Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk.RotatedBy(Spread), ModContent.ProjectileType<ATGProjectile>(), Convert.ToInt32(damageDone * .5f) + 1, 3, Player.whoAmI);
                     Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk.RotatedBy(-Spread), ModContent.ProjectileType<ATGProjectile>(), Convert.ToInt32(damageDone * .5f) + 1, 3, Player.whoAmI);
+                    if (Main.zenithWorld)
+                    {
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk.RotatedBy(Spread * 3), ModContent.ProjectileType<ATGProjectile>(), damageDone, 3, Player.whoAmI);
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk.RotatedBy(-Spread * 3), ModContent.ProjectileType<ATGProjectile>(), damageDone, 3, Player.whoAmI);
+                    }
+                }
+                if (Main.zenithWorld)
+                {
+                    Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk.RotatedBy(Spread * 2), ModContent.ProjectileType<ATGProjectile>(), damageDone, 3, Player.whoAmI);
+                    Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, kirk.RotatedBy(-Spread * 2), ModContent.ProjectileType<ATGProjectile>(), damageDone, 3, Player.whoAmI);
                 }
             }
             if (plasmaActive)
@@ -586,7 +638,6 @@ namespace MogMod.Common.MogModPlayer
                 Player.ClearBuff(manabootsCooldown);
                 Player.ClearBuff(guardianCooldown);
                 Player.ClearBuff(mekansmCooldown);
-                Player.ClearBuff(helmOfDominator);
                 Player.ClearBuff(forceStaffCooldown);
                 Player.ClearBuff(blademailCooldown);
                 Player.ClearBuff(ShivasCooldown);
@@ -614,7 +665,7 @@ namespace MogMod.Common.MogModPlayer
             // satanic
             if (KeybindSystem.SatanicKeybind.JustPressed && wearingSatanic && !Player.HasBuff(satanicCooldown))
             {
-                Player.AddBuff(satanicBuff, 480);
+                Player.AddBuff(satanicBuffID, 480);
                 Player.AddBuff(satanicCooldown, 4800);
                 SoundEngine.PlaySound(SatanicActivateSound, Player.Center);
             }
@@ -683,22 +734,6 @@ namespace MogMod.Common.MogModPlayer
                     Player.statLife = Player.statLifeMax2;
                 Player.AddBuff(mekansmCooldown, 3600);
                 SoundEngine.PlaySound(MekansmActivateSound, Player.Center);
-            }
-
-            // helm of dominator
-            if (KeybindSystem.HelmOfDominatorKeybind.JustPressed && wearingHelmOfDominator && !Player.HasBuff(helmOfDominator))
-            {
-                // for now it summons a mount (change to make it summon a friendly npc to damage enemies)
-                Player.AddBuff(BuffID.BasiliskMount, 1);
-                Player.AddBuff(helmOfDominator, 1800);
-            }
-
-            // helm of overlord
-            if (KeybindSystem.HelmOfDominatorKeybind.JustPressed && wearingHelmOfOverlord && !Player.HasBuff(helmOfDominator))
-            {
-                // for now it summons a mount (change to make it summon a friendly npc to damage enemies)
-                Player.AddBuff(BuffID.CuteFishronMount, 1);
-                Player.AddBuff(helmOfDominator, 600);
             }
 
             // holy locket
@@ -868,6 +903,36 @@ namespace MogMod.Common.MogModPlayer
         {
             if (infiniteFlight)
                 Player.wingTime = Player.wingTimeMax;
+            // Syncing mouse controls
+            if (Main.myPlayer == Player.whoAmI)
+            {
+                mouseRight = PlayerInput.Triggers.Current.MouseRight;
+                var worldPos = LockOnHelper.Enabled ? LockOnHelper.PredictedPosition : Main.MouseWorld;
+                mouseWorldDeltaFromPlayer = worldPos - Player.MountedCenter;
+                mouseRotationFromPlayer = mouseWorldDeltaFromPlayer.ToRotation();
+
+                if (rightClickListener && mouseRight != oldMouseRight)
+                {
+                    oldMouseRight = mouseRight;
+                    syncMouseRightClick = true;
+                    rightClickListener = false;
+                }
+
+                if (mouseWorldListener && Vector2.Distance(mouseWorldDeltaFromPlayer, oldMouseWorldDeltaFromPlayer) > 5f)
+                {
+                    oldMouseWorldDeltaFromPlayer = mouseWorldDeltaFromPlayer;
+                    syncMousePosition = true;
+                    mouseWorldListener = false;
+                }
+
+                if (mouseRotationListener && Math.Abs(mouseWorldDeltaFromPlayer.ToRotation() - (oldMouseWorldDeltaFromPlayer).ToRotation()) > 0.15f)
+                {
+                    oldMouseWorldDeltaFromPlayer = mouseWorldDeltaFromPlayer;
+                    syncMouseRotation = true;
+                    mouseRotationListener = false;
+                }
+            }
+
         }
         // force staff movement
         public override void PreUpdateMovement()
@@ -907,7 +972,7 @@ namespace MogMod.Common.MogModPlayer
                     }
 
                     // start our dash
-                    FaeDashDelay = FaeDashCooldown;
+                    FaeDashDelay = Main.zenithWorld ? 0 : FaeDashCooldown;
                     FaeDashTimer = FaeDashDuration;
                     Player.velocity = newVelocity;
 
@@ -990,7 +1055,7 @@ namespace MogMod.Common.MogModPlayer
                             return;
                     }
 
-                    AegisDashDelay = AegisDashCooldown;
+                    AegisDashDelay = Main.zenithWorld ? 0 : AegisDashCooldown;
                     AegisDashTimer = AegisDashDuration;
                     Player.velocity = newVelocity;
 
@@ -1017,7 +1082,7 @@ namespace MogMod.Common.MogModPlayer
 
                 if (AegisDashTimer > 0)
                 {
-                    Player.SetImmuneTimeForAllTypes(AegisDashTimer);
+                    Player.SetImmuneTimeForAllTypes(AegisDashTimer / 2);
                     Player.eocDash = AegisDashTimer;
                     Player.armorEffectDrawShadowEOCShield = true;
 
@@ -1074,8 +1139,9 @@ namespace MogMod.Common.MogModPlayer
                     default:
                         return; // not moving fast enough, so don't start our dash
                 }
+                int bufftime = Main.zenithWorld ? 0 : 180;
                 Player.velocity = newVelocity;
-                Player.AddBuff(forceStaffCooldown, 180);
+                Player.AddBuff(forceStaffCooldown, bufftime);
                 Player.statMana -= 50;
                 Player.ManaEffect(-50);
 
@@ -1206,8 +1272,9 @@ namespace MogMod.Common.MogModPlayer
                     default:
                         return;
                 }
+                int bufftime = Main.zenithWorld ? 0 : 180;
                 Player.velocity = newVelocity;
-                Player.AddBuff(forceStaffCooldown, 180);
+                Player.AddBuff(forceStaffCooldown, bufftime);
                 Player.statMana -= 50;
                 Player.ManaEffect(-50);
 
@@ -1326,63 +1393,48 @@ namespace MogMod.Common.MogModPlayer
                     Player.maxTurrets += 2;
                 }
                 else
-                {
                     if (diademMinion)
-                    {
                         Player.maxMinions++;
-                    }
-                }
             }
             if (locketActive)
-            {
                 Player.maxMinions += 2;
-            }
             if (wearingWraithPact)
-            {
                 Player.maxTurrets += 5;
-            }
             else
                 if (wearingVladimirs)
-                {
                     Player.maxTurrets += 2;
-                }
             #endregion
 
             #region Weapon Buffs
             // essence shift stacking buff
             if (Player.HasBuff<EssenceShift>() && (Player.HeldItem.type == ModContent.ItemType<HydrakanLatch>() || Player.HeldItem.type == ModContent.ItemType<GoldenHydrakanLatch>() || Player.HeldItem.type == ModContent.ItemType<Megaslark>() || Player.HeldItem.type == ModContent.ItemType<Minislark>()))
             {
+                float GFBMult = Main.zenithWorld ? 2f : 1f;
                 if (Player.HeldItem.type == ModContent.ItemType<HydrakanLatch>() || Player.HeldItem.type == ModContent.ItemType<GoldenHydrakanLatch>())
                 {
                     if (essenceShiftLevel > essenceShiftLevelMax)
-                    {
                         essenceShiftLevel = essenceShiftLevelMax;
-                    }
-                    Player.GetAttackSpeed<MeleeDamageClass>() += .075f * essenceShiftLevel;
-                    Player.moveSpeed += .0125f * essenceShiftLevel;
-                    Player.accRunSpeed += Player.accRunSpeed * .0125f * essenceShiftLevel;
+                    Player.GetAttackSpeed<MeleeDamageClass>() += (0.075f * GFBMult) * essenceShiftLevel;
+                    Player.moveSpeed += (0.0125f * GFBMult) * essenceShiftLevel;
+                    Player.accRunSpeed += Player.accRunSpeed * (0.0125f * GFBMult) * essenceShiftLevel;
                 }
                 if (Player.HeldItem.type == ModContent.ItemType<Megaslark>())
                 {
                     if (essenceShiftLevel > essenceShiftLevelMax)
-                    {
                         essenceShiftLevel = essenceShiftLevelMax;
-                    }
-                    Player.GetAttackSpeed(DamageClass.Ranged) += .1f * essenceShiftLevel;
+                    Player.GetAttackSpeed(DamageClass.Ranged) += (0.1f * GFBMult) * essenceShiftLevel;
                     Player.GetArmorPenetration(DamageClass.Ranged) += essenceShiftLevel;
-                    Player.moveSpeed += .025f * essenceShiftLevel;
-                    Player.accRunSpeed += Player.accRunSpeed * .025f * essenceShiftLevel;
+                    Player.moveSpeed += (0.025f * GFBMult) * essenceShiftLevel;
+                    Player.accRunSpeed += Player.accRunSpeed * (0.025f * GFBMult) * essenceShiftLevel;
                 }
                 if (Player.HeldItem.type == ModContent.ItemType<Minislark>())
                 {
                     if (essenceShiftLevel > essenceShiftLevelMax)
-                    {
                         essenceShiftLevel = essenceShiftLevelMax;
-                    }
-                    Player.GetAttackSpeed(DamageClass.Ranged) += .05f * essenceShiftLevel;
+                    Player.GetAttackSpeed(DamageClass.Ranged) += (0.05f * GFBMult) * essenceShiftLevel;
                     Player.GetArmorPenetration(DamageClass.Ranged) += (float)essenceShiftLevel / 3;
-                    Player.moveSpeed += .015f * essenceShiftLevel;
-                    Player.accRunSpeed += Player.accRunSpeed * .015f * essenceShiftLevel;
+                    Player.moveSpeed += (0.015f * GFBMult) * essenceShiftLevel;
+                    Player.accRunSpeed += Player.accRunSpeed * (0.015f * GFBMult) * essenceShiftLevel;
                 }
             }
             else
@@ -1390,23 +1442,22 @@ namespace MogMod.Common.MogModPlayer
                 essenceShiftLevel = 0;
                 Player.ClearBuff(ModContent.BuffType<EssenceShift>());
                 if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
-                {
                     SyncEssenceShift(false);
-                }
             }
             if (Player.HeldItem.type == ModContent.ItemType<ThrowingShade>() || Player.HeldItem.type == ModContent.ItemType<ShadowRealm>())
             {
+                float GFBMult = Main.zenithWorld ? 5f : 1f;
                 if (Player.HeldItem.type == ModContent.ItemType<ThrowingShade>())
                     holdingThrowingShade = true;
-                if ((shadowRealmLevel < shadowRealmLevelMax) && Player.HasBuff<ShadowRealmBuff>())
+                if ((shadowRealmLevel < (int)(shadowRealmLevelMax * GFBMult)) && Player.HasBuff<ShadowRealmBuff>())
                 {
                     shadowRealmLevel++;
                     if (holdingThrowingShade)
                         shadowRealmLevel++;
                 }
-                if (shadowRealmLevel == shadowRealmLevelMax)
+                if (shadowRealmLevel == (int)(shadowRealmLevelMax * GFBMult))
                 {
-                    shadowRealmLevel = 151;
+                    shadowRealmLevel = (int)(shadowRealmLevelMax * GFBMult) + 1;
                     SoundEngine.PlaySound(SoundID.Item104, Player.Center); // might change to something else
                 }
                 if (!Player.HasBuff<ShadowRealmBuff>())
@@ -1417,8 +1468,6 @@ namespace MogMod.Common.MogModPlayer
                 shadowRealmLevel = 0;
                 Player.ClearBuff(ModContent.BuffType<ShadowRealmBuff>());
             }
-            if (Player.HeldItem.type == ModContent.ItemType<MeteoriteStaff>())
-                holdingMeteoriteStaff = true;
 
             // fiery soul stacking buff
             if (Player.HasBuff<FierySoulStack>())
@@ -1449,14 +1498,17 @@ namespace MogMod.Common.MogModPlayer
             if (Player.HeldItem.type == ModContent.ItemType<MG43MachineGun>())
                 if (MG43MachineGun.rpm <= 2)
                 {
-                    Player.GetAttackSpeed(DamageClass.Ranged) += .2f;
+                    if (Main.zenithWorld && MG43MachineGun.rpm > 1)
+                        Player.GetAttackSpeed(DamageClass.Ranged) *= 0.05f;
+                    else
+                        Player.GetAttackSpeed(DamageClass.Ranged) += 0.2f;
                     if (MG43MachineGun.rpm <= 1)
-                        Player.GetAttackSpeed(DamageClass.Ranged) += .2f;
+                        Player.GetAttackSpeed(DamageClass.Ranged) += Main.zenithWorld ? 4f : 0.2f;
                 }
 
             // more mines if holding techies mines
             if (Player.HeldItem.type == ModContent.ItemType<ProximityMines>() || Player.HeldItem.type == ModContent.ItemType<MADMine>())
-                Player.maxTurrets += 2;
+                Player.maxTurrets += Main.zenithWorld ? 27: 2;
 
             // duelist gloves
             if (wearingDuelistGloves)
@@ -1486,14 +1538,15 @@ namespace MogMod.Common.MogModPlayer
             #region Wing Time Buffs
             // Flight time boosts
             double flightTimeMult = 1D +
-                (wearingFaeArmor ? FaeMask.FlightTimeBoost : 0D);
+                (wearingFaeArmor ? FaeMask.FlightTimeBoost : 
+                wearingZhukMovement ? AzimutSSZhuk.FlightTimeBoost : 0D);
 
             if (Player.wingTimeMax > 0)
                 Player.wingTimeMax = (int)(Player.wingTimeMax * flightTimeMult);
             #endregion
 
             #region Revives
-            if (seraphicReviveCounter == 18000)
+            if (seraphicReviveCounter == SeraphicBreastplate.ReviveCooldown)
             {
                 for (int i = 0; i < 80; i++)
                 {
@@ -1520,6 +1573,8 @@ namespace MogMod.Common.MogModPlayer
             string targetName = "Joise Stain";
             string targetName2 = "Balright Monster";
             string targetName3 = "Balright";
+            string targetName4 = "Jpoel";
+            string targetName5 = "SenorDragon";
             static Item createItem(int type)
             {
                 Item i = new Item();
@@ -1531,12 +1586,43 @@ namespace MogMod.Common.MogModPlayer
             if (!mediumCoreDeath)
             {
                 yield return createItem(ModContent.ItemType<VonWarning>());
-                if (Player.name.Equals(targetName, System.StringComparison.OrdinalIgnoreCase))
+                if (Main.zenithWorld)
+                {
+                    yield return createItem(ModContent.ItemType<BizarreMusicBox>());
+                    yield return createItem(ModContent.ItemType<VonEvilIncarnateMusicBox>());
+                    yield return createItem(ModContent.ItemType<KingVonMusicBox>());
+                }
+                if (Player.name.Equals(targetName, StringComparison.OrdinalIgnoreCase))
+                {
                     yield return createItem(ModContent.ItemType<Phasma>());
-                if (Player.name.Equals(targetName2, System.StringComparison.OrdinalIgnoreCase))
+                    yield return createItem(ModContent.ItemType<BizarreMusicBox>());
+                }
+                if (Player.name.Equals(targetName2, StringComparison.OrdinalIgnoreCase))
+                {
                     yield return createItem(ModContent.ItemType<TheDeck>());
-                if (Player.name.Equals(targetName3, System.StringComparison.OrdinalIgnoreCase))
+                    yield return createItem(ModContent.ItemType<VonEvilIncarnateMusicBox>());
+                }
+                if (Player.name.Equals(targetName3, StringComparison.OrdinalIgnoreCase))
+                {
                     yield return createItem(ModContent.ItemType<TheDeck>());
+                    yield return createItem(ModContent.ItemType<KingVonMusicBox>());
+                }
+                if (Player.name.Equals(targetName4, StringComparison.OrdinalIgnoreCase))
+                {
+                    //if (Main.zenithWorld)
+                    yield return createItem(ModContent.ItemType<ProximityMines>());
+                    if (Main.zenithWorld)
+                        yield return createItem(ModContent.ItemType<EmptySpell>());
+                    yield return createItem(ItemID.GenderChangePotion);
+                }
+                if (Player.name.Equals(targetName5, StringComparison.OrdinalIgnoreCase))
+                {
+                    //if (Main.zenithWorld)
+                    yield return createItem(ModContent.ItemType<ProximityMines>());
+                    if (Main.zenithWorld)
+                        yield return createItem(ModContent.ItemType<EmptySpell>());
+                    yield return createItem(ItemID.GenderChangePotion);
+                }
             }
         }
         public override void PostUpdate()
@@ -1645,6 +1731,29 @@ namespace MogMod.Common.MogModPlayer
                     stopFallDamage = true;
                 }
             }
+            if (eSeraphCharge >= eSeraphMax)
+            {
+                if (!eSeraphSound)
+                {
+                    SoundEngine.PlaySound(SoundID.Item109, Player.Center);
+                    eSeraphSound = true;
+                }
+                eSeraphCharge++;
+                for (int n = 0; n < 2; n++)
+                {
+                    int dust = Dust.NewDust(Player.position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(3) ? DustID.HallowSpray : DustID.YellowStarDust, Player.velocity.X * 0.04f, Player.velocity.Y * 0.04f, 100, default, 1.3f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 0.65f;
+                    Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.03f;
+                    if (Main.rand.NextBool(4))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.3f;
+                    }
+                }
+            }
+            else
+                eSeraphSound = false;
         }
 
         // shivas effect and dust;
@@ -1774,7 +1883,8 @@ namespace MogMod.Common.MogModPlayer
         }
         public void doUndying()
         {
-            Player.respawnTimer = Convert.ToInt32(Player.respawnTimer * .8f);
+            float respawnTime = Main.zenithWorld ? 5f : 0.8f;
+            Player.respawnTimer = Convert.ToInt32(Player.respawnTimer * respawnTime);
             Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<UndyingPortalProj>(), wraithDamage, 1, Player.whoAmI);
         }
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
@@ -1793,7 +1903,7 @@ namespace MogMod.Common.MogModPlayer
                 {
                     SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, Player.Center);
                     Player.AddBuff(ModContent.BuffType<SeraphicReviveBuff>(), SeraphicBreastplate.ReviveDuration);
-                    seraphicReviveCounter = 18000;
+                    seraphicReviveCounter = SeraphicBreastplate.ReviveCooldown;
                 }
                 canSeraphicRevive = true;
                 if (Player.statLife < 1)
@@ -1808,10 +1918,12 @@ namespace MogMod.Common.MogModPlayer
             }
             if (Player.HasBuff(ModContent.BuffType<WraithBuff>()))
                 return false;
+            if (wearingSatanic && Main.zenithWorld)
+                damageSource = PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Satanic").ToNetworkText(Player.name));
             if (armletDebuff)
-                damageSource = PlayerDeathReason.ByCustomReason($"{Player.name}'s life energy was consumed.");
+                damageSource = PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Armlet").ToNetworkText(Player.name));
             if (nulledDebuff)
-                damageSource = PlayerDeathReason.ByCustomReason($"{Player.name} vanished out of reality.");
+                damageSource = PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Nulled").ToNetworkText(Player.name));
             return true;
         }
         #endregion
@@ -1822,8 +1934,19 @@ namespace MogMod.Common.MogModPlayer
             double damageMult = 1D;
             if (wearingWhisperDread) // increases damage taken
                 damageMult += 0.15;
-
+            if (wearingZhukDamage)
+                damageMult += AzimutSSZhuk.SelfDamageMult;
             modifiers.SourceDamage *= (float)damageMult;
+        }
+        public override void PostHurt(Player.HurtInfo hurtinfo)
+        {
+            if (wearingRefresherOrb && Main.zenithWorld)
+            {
+                if (hurtinfo.CooldownCounter != -1)
+                    Player.hurtCooldowns[hurtinfo.CooldownCounter] = 0;
+                Player.immuneTime = 0;
+                Player.immune = false;
+            }
         }
         // sniper offlane scope effect
         public override void ModifyZoom(ref float zoom)
@@ -1838,7 +1961,7 @@ namespace MogMod.Common.MogModPlayer
         }
         public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
         {
-            if (wearingAllegianceWings)
+            if (wearingAllegianceWings && !Player.mount.Active)
                 damage *= ((Player.wingTimeMax - Player.wingTime) / (int)(WingsOfAllegiance.WingTime * 1.5)) + 1;
         }
         public void enterDragonInstall(Terraria.Player player)
@@ -1961,6 +2084,29 @@ namespace MogMod.Common.MogModPlayer
                 DamageOverTime(30);
             if (wearingNihilum && nulledDebuff)
                 DamageOverTime(50);
+            if (wearingSatanic && Main.zenithWorld)
+                DamageOverTime(50);
+
+            if (aghHexDebuff)
+                DamageOverTime(50);
+            if (divineDebuff)
+                DamageOverTime(100);
+            if (ghostflameDebuff)
+                DamageOverTime(15);
+            if (infernoDebuff)
+                DamageOverTime(40);
+            if (wingsOfLightDebuff)
+                DamageOverTime(25);
+
+            if (Player.lifeRegen < 0)
+            {
+                if (wearingTritonLife)
+                    Player.lifeRegen += TritonM43A.ReducedDoTAmount;
+                if (wearingZhukLife)
+                    Player.lifeRegen += AzimutSSZhuk.ReducedDoTAmount;
+                if (Player.lifeRegen > 0)
+                    Player.lifeRegen = 0;
+            }
         }
 
         // more regen taking place here
@@ -1977,6 +2123,10 @@ namespace MogMod.Common.MogModPlayer
                 Player.lifeRegen += 8;
             if (wearingSigmaCharm)
                 Player.lifeRegen += 6;
+            if (wearingTritonLife)
+                Player.lifeRegen += TritonM43A.LifeRegen;
+            if (wearingZhukLife)
+                Player.lifeRegen += AzimutSSZhuk.LifeRegen;
         }
 
         // buff effects
@@ -1993,12 +2143,12 @@ namespace MogMod.Common.MogModPlayer
             }
             if (skadiDebuff)
             {
-                Player.velocity *= 0.988f;
+                Player.velocity *= 0.3f;
                 Player.statDefense -= 25; // -25 flat defense
             }
             if (freezingDebuff)
             {
-                Player.velocity *= 0.985f;
+                Player.moveSpeed *= 0.25f;
             }
             if (aghHexDebuff)
             {
@@ -2046,22 +2196,33 @@ namespace MogMod.Common.MogModPlayer
                 Player.statDefense += 10;
                 Player.GetDamage<RangedDamageClass>() += .10f;
             }
-
             if (wraithActive)
             {
                 Player.aggro += 1000;
                 Player.lifeSteal *= 0f;
+            }
+            if (satanicBuff)
+            {
+                Player.lifeSteal *= 4;
+                Player.blind = true;
+                Player.blackout = true; // greatly reduced light effect
+                Player.headcovered = true; // nebula headcrab effect
             }
             if (inShadowRealm)
             {
                 Player.yoraiz0rDarkness = true;
                 Player.GetDamage<MagicDamageClass>() += (shadowRealmLevel / 30) + 1;
                 Player.aggro -= 200;
+                Player.blind = true;
+                Player.blackout = true; // greatly reduced light effect
+                if (Main.zenithWorld)
+                    Player.headcovered = true;
+                Player.detectCreature = true;
             }
             if (krakenBuff)
             {
-                Player.endurance += .10f;
-                Player.velocity.X *= 0.9f;
+                Player.endurance += 0.10f;
+                Player.moveSpeed *= 0.5f;
             }
             if (wearingSpiritArmor)
                 Player.slowFall = true;
@@ -2087,6 +2248,76 @@ namespace MogMod.Common.MogModPlayer
                 Player.GetDamage<MeleeDamageClass>() += 0.15f;
                 Player.GetCritChance<MeleeDamageClass>() += 5;
             }
+            if (wearingRefresherOrb)
+            {
+                Player.statManaMax2 += 50;
+                Player.GetDamage(DamageClass.Magic) += .10f;
+                Player.GetDamage(DamageClass.Summon) += .10f;
+                if (Main.zenithWorld)
+                {
+                    Player.immune = false;
+                    Player.immuneTime = 0;
+                }
+            }
+
+            if (wearingTriton)
+            {
+                if (Main.zenithWorld)
+                {
+                    Player.velocity.X = Player.velocity.X;
+                    if (Player.velocity.Y == 0f)
+                    {
+                        Player.velocity.Y -= Player.jumpHeight * (Player.jumpSpeedBoost + 1);
+                        SoundEngine.PlaySound(SoundID.Item150, Player.Center);
+                    }
+                }
+                else if (wearingTritonLife)
+                {
+                    Player.statLifeMax2 += TritonM43A.LifeAndManaBoost;
+                    Player.statManaMax2 += TritonM43A.LifeAndManaBoost;
+                    Player.manaRegenBonus += TritonM43A.ManaRegen;
+                }
+                else if (wearingTritonDamage)
+                    Player.GetCritChance<GenericDamageClass>() += TritonM43A.CritBoost;
+                else if (wearingTritonMovement)
+                {
+                    Player.moveSpeed += TritonM43A.MovementSpeed;
+                    Player.jumpSpeedBoost += TritonM43A.JumpBoost;
+                    Player.pickSpeed -= TritonM43A.MiningSpeed;
+                    Player.GetJumpState<TritonJump>().Enable();
+                }
+            }
+            if (wearingZhuk)
+            {
+                if (Main.zenithWorld)
+                {
+                    Player.velocity.X = Player.velocity.X;
+                    if (Player.velocity.Y == 0f)
+                    {
+                        Player.velocity.Y -= Player.jumpHeight * (Player.jumpSpeedBoost + 1);
+                        SoundEngine.PlaySound(SoundID.Item150, Player.Center);
+                    }
+                }
+                else if (wearingZhukLife)
+                {
+                    Player.statManaMax2 += AzimutSSZhuk.ManaBoost;
+                    Player.manaRegenBonus += AzimutSSZhuk.ManaRegen;
+                }
+                else if (wearingZhukDamage)
+                    Player.GetCritChance<GenericDamageClass>() += AzimutSSZhuk.CritBoost;
+                else if (wearingZhukMovement)
+                {
+                    Player.moveSpeed += AzimutSSZhuk.MovementSpeed;
+                    Player.jumpSpeedBoost += AzimutSSZhuk.JumpBoost;
+                    Player.pickSpeed -= AzimutSSZhuk.MiningSpeed;
+                }
+            }
+
+            int percentMaxLifeIncrease = 0;
+            if (wearingZhukLife)
+                percentMaxLifeIncrease += AzimutSSZhuk.LifeMult;
+
+            Player.statLifeMax2 += Player.statLifeMax / 5 / 20 * percentMaxLifeIncrease;
 
             // Gauntlet Melee Speed, prevents glove stacking for melee speed
             if (gloveLevel > 0)
@@ -2151,6 +2382,9 @@ namespace MogMod.Common.MogModPlayer
         // resets stuff
         public override void ResetEffects()
         {
+            mouseWorldListener = false;
+            mouseRotationListener = false;
+
             wearingRigSlot = false;
             isWearingGlimmerCape = false;
             wearingManaBoots = false;
@@ -2201,6 +2435,15 @@ namespace MogMod.Common.MogModPlayer
             wearingElvenQuiver = false;
             wearingEnchantedQuiver = false;
             wearingFlayersBota = false;
+            wearingScavVest = false;
+            wearingTriton = false;
+            wearingTritonLife = false;
+            wearingTritonDamage = false;
+            wearingTritonMovement = false;
+            wearingZhuk = false;
+            wearingZhukLife = false;
+            wearingZhukDamage = false;
+            wearingZhukMovement = false;
             //stopFallDamage = false;
 
             wearingMendez = false;
@@ -2225,7 +2468,6 @@ namespace MogMod.Common.MogModPlayer
             canSeraphicRevive = false;
             wearingNihilum = false;
             wearingNihilumRanged = false;
-            wearingNihilumMagic = false;
 
             diademMinion = false;
             dominatorMinion = false;
@@ -2255,10 +2497,13 @@ namespace MogMod.Common.MogModPlayer
             drumsAura = false;
             shivasAura = false;
 
+            satanicBuff = false;
+
             ahmodPet = false;
 
             inShadowRealm = false;
             krakenBuff = false;
+            //eSeraphSound = false;
 
             atgActive = false;
             plasmaActive = false;
@@ -2268,7 +2513,6 @@ namespace MogMod.Common.MogModPlayer
             duelistStacks = 0;
 
             holdingThrowingShade = false;
-            holdingMeteoriteStaff = false;
 
             ammoCost = 1f;
 

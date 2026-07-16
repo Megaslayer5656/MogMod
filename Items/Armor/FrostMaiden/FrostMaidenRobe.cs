@@ -1,9 +1,13 @@
 ﻿using MogMod.Items.Accessories;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Items.Armor.FrostMaiden
 {
@@ -12,6 +16,9 @@ namespace MogMod.Items.Armor.FrostMaiden
     public class FrostMaidenRobe : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public const int ManaBoost = 80;
+        public const float ManaReduction = 0.8f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ManaBoost, ManaReduction.ToReversedPercent());
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -31,8 +38,15 @@ namespace MogMod.Items.Armor.FrostMaiden
         }
         public override void UpdateEquip(Player player)
         {
-            player.statManaMax2 += 80;
-            player.manaCost *= 0.8f;
+            player.statManaMax2 += ManaBoost;
+            player.manaCost *= ManaReduction;
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (Main.LocalPlayer.armor[0].type == ItemType<FrostMaidenMagic>())
+                FrostMaidenMagic.ModifySetTooltips(this, tooltips);
+            else if (Main.LocalPlayer.armor[0].type == ItemType<FrostMaidenSummon>())
+                FrostMaidenSummon.ModifySetTooltips(this, tooltips);
         }
         public override void AddRecipes()
         {

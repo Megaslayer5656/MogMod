@@ -1,6 +1,9 @@
-﻿using MogMod.Items.Global;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Projectiles.MagicProjectiles;
+using MogMod.Utilities;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -17,8 +20,7 @@ namespace MogMod.Items.Weapons.Magic //Very important note: All of the blood stu
             Item.damage = 50;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 15;
-            Item.useTime = 50;
-            Item.useAnimation = 50;
+            Item.useTime = Item.useAnimation = 46;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 5f;
@@ -29,7 +31,13 @@ namespace MogMod.Items.Weapons.Magic //Very important note: All of the blood stu
             Item.shoot = ModContent.ProjectileType<BloodMagicProjectile>();
             Item.shootSpeed = 10f;
         }
-
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            player.Hurt(PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.BloodMagic").ToNetworkText(player.name)), 3, -player.direction, false, false, -1, false, 9999, 0, 0);
+            player.immune = false;
+            player.immuneTime = 0;
+            return true;
+        }
         public override void AddRecipes()
         {
             CreateRecipe().

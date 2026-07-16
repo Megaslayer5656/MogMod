@@ -49,7 +49,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<VladmirsOffering>().
                 AddIngredient(ItemID.AvengerEmblem).
-                AddIngredient<GriefBar>(12).
+                AddIngredient<SpookyEssence>(8).
                 AddIngredient<PointBooster>().
                 AddIngredient<SoulOfMogMod>().
                 AddTile(TileID.TinkerersWorkbench).

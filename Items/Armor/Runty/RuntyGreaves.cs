@@ -1,8 +1,11 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.Runty
@@ -11,6 +14,9 @@ namespace MogMod.Items.Armor.Runty
     public class RuntyGreaves : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public const float MovementSpeedBoost = 0.08f;
+        public const float JumpSpeedBoost = 0.4f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MovementSpeedBoost.ToPercent());
         public override void SetDefaults()
         {
             Item.width = 30;
@@ -23,9 +29,10 @@ namespace MogMod.Items.Armor.Runty
         }
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += .08f;
-            player.jumpSpeedBoost += 0.08f;
+            player.moveSpeed += MovementSpeedBoost;
+            player.jumpSpeedBoost += JumpSpeedBoost;
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => RuntyHelmet.ModifySetTooltips(this, tooltips);
         public override void AddRecipes()
         {
             CreateRecipe().

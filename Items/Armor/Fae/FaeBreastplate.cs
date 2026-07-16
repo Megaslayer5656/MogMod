@@ -1,8 +1,11 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Placeable.Bars;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.Fae
@@ -11,6 +14,9 @@ namespace MogMod.Items.Armor.Fae
     public class FaeBreastplate : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public const float DamageBoost = 0.15f;
+        public const float AmmoReduction = 0.8f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DamageBoost.ToPercent(), AmmoReduction.ToReversedPercent());
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -33,10 +39,11 @@ namespace MogMod.Items.Armor.Fae
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Generic) += 0.15f;
+            player.GetDamage(DamageClass.Generic) += DamageBoost;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            mogPlayer.ammoCost *= 0.8f;
+            mogPlayer.ammoCost *= AmmoReduction;
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => FaeMask.ModifySetTooltips(this, tooltips);
         public override void AddRecipes()
         {
             CreateRecipe().

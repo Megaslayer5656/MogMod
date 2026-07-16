@@ -5,6 +5,7 @@ using MogMod.Utilities;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.Blademail
@@ -14,8 +15,10 @@ namespace MogMod.Items.Armor.Blademail
     public class BlademailBreastplate : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
-        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.BladeMailKeybind);
-        ModKeybind keybindActive = null;
+        public const int MeleeCritBoost = 8;
+        public const float MeleeDamageBoost = 0.08f;
+        public const float ThornBoost = 0.3f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MeleeCritBoost);
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -39,6 +42,12 @@ namespace MogMod.Items.Armor.Blademail
             player.GetCritChance<MeleeDamageClass>() += 8;
             player.thorns += .3f;
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            BlademailMask.ModifySetTooltips(this, tooltips);
+            tooltips.IntegrateHotkey(KeybindSystem.BladeMailKeybind);
+        }
+        ModKeybind keybindActive = null;
         public override void AddRecipes()
         {
             CreateRecipe().

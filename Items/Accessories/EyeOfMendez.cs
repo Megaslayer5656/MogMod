@@ -21,7 +21,6 @@ namespace MogMod.Items.Accessories
             Item.rare = ItemRarityID.Master;
             Item.value = Item.buyPrice(1000, 0, 0, 67);
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
@@ -84,7 +83,6 @@ namespace MogMod.Items.Accessories
                 mogPlayer.canSeraphicRevive = true;
                 mogPlayer.wearingNihilum = true;
                 mogPlayer.wearingNihilumRanged = true;
-                mogPlayer.wearingNihilumMagic = true;
                 mogPlayer.diademMinion = true;
                 mogPlayer.dominatorMinion = true;
                 mogPlayer.overlordMinion = true;
@@ -102,12 +100,10 @@ namespace MogMod.Items.Accessories
                 mogPlayer.icbmActive = true;
                 mogPlayer.polyluteActive = true;
                 mogPlayer.holdingThrowingShade = true;
-                mogPlayer.holdingMeteoriteStaff = true;
                 mogPlayer.ammoCost *= 0f;
                 mogPlayer.fCrystal = true;
                 mogPlayer.divinitasMinion = true;
             }
-
             player.pickSpeed *= 0f;
             player.tileSpeed *= 100f;
             player.blockRange += 300;
@@ -123,30 +119,9 @@ namespace MogMod.Items.Accessories
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            List<Color> colorList = new List<Color>()
-            {
-                new Color(255, 0, 0),
-                new Color(255, 128, 0),
-                new Color(255, 255, 0),
-                new Color(128, 255, 0),
-                new Color(0, 255, 0),
-                new Color(0, 255, 128),
-                new Color(0, 255, 255),
-                new Color(0, 128, 255),
-                new Color(0, 0, 255),
-                new Color(128, 0, 255),
-                new Color(255, 0, 255),
-                new Color(255, 0, 128)
-            };
-
-            int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % colorList.Count);
-            Color currentColor = colorList[colorIndex];
-            Color nextColor = colorList[(colorIndex + 1) % colorList.Count];
-            Color tooltipColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
-
             TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
             if (line != null)
-                line.OverrideColor = Color.Lerp(tooltipColor, Color.White, 0.5f);
+                line.OverrideColor = Main.DiscoColor;
         }
     }
 }

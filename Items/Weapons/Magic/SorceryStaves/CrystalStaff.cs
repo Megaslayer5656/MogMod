@@ -14,15 +14,12 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
             base.SetDefaults();
             Item.damage = 32;
             Item.width = Item.height = 66;
-            Item.DamageType = DamageClass.Magic;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.knockBack = 1.1f;
             Item.rare = ItemRarityID.LightRed;
             Item.value = MogGlobalItem.RarityLightRedBuyPrice;
             Item.autoReuse = true;
         }
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 36;
-        public override bool MagicPrefix() => true;
         public override void AddRecipes()
         {
             CreateRecipe().

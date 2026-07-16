@@ -2,8 +2,11 @@
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.Tigla
@@ -12,6 +15,10 @@ namespace MogMod.Items.Armor.Tigla
     public class TiglaVest : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public const float RangedDamageBoost = 0.16f;
+        public const int RangedCritBoost = 16;
+        public const float AmmoReduction = 0.8f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(RangedCritBoost, AmmoReduction.ToReversedPercent());
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -25,15 +32,14 @@ namespace MogMod.Items.Armor.Tigla
             Item.rare = ItemRarityID.Yellow;
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
         }
-
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage<RangedDamageClass>() += 0.16f;
-            player.GetCritChance<RangedDamageClass>() += 16;
+            player.GetDamage<RangedDamageClass>() += RangedDamageBoost;
+            player.GetCritChance<RangedDamageClass>() += RangedCritBoost;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            mogPlayer.ammoCost *= 0.8f;
+            mogPlayer.ammoCost *= AmmoReduction;
         }
-
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => TiglaHelmet.ModifySetTooltips(this, tooltips);
         public override void AddRecipes()
         {
             CreateRecipe().

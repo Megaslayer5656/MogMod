@@ -1,6 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Common.Classes;
 using MogMod.Utilities;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -23,7 +24,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             Projectile.width = 22;
             Projectile.height = 20;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.DamageType = SorceryDamageClass.Instance;
             Projectile.alpha = 50;
             Projectile.tileCollide = false;
             Projectile.penetrate = 1;

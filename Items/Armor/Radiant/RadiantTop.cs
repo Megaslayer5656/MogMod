@@ -1,8 +1,11 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.Radiant
@@ -11,6 +14,9 @@ namespace MogMod.Items.Armor.Radiant
     public class RadiantTop : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public const float MagicDamageBoost = 0.09f;
+        public const int MagicCritBoost = 9;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MagicCritBoost);
         public override void SetStaticDefaults()
         {
 
@@ -33,10 +39,10 @@ namespace MogMod.Items.Armor.Radiant
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage<MagicDamageClass>() += 0.09f;
-            player.GetCritChance<MagicDamageClass>() += 9;
+            player.GetDamage<MagicDamageClass>() += MagicDamageBoost;
+            player.GetCritChance<MagicDamageClass>() += MagicCritBoost;
         }
-
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => RadiantFlower.ModifySetTooltips(this, tooltips);
         public override void AddRecipes()
         {
             CreateRecipe().

@@ -1,0 +1,8 @@
+// New modifier effects (plus sign added in-code)
+Weapon: {
+	SorcerySelfDamageTooltip: "{0} self damage"
+	SorceryUseTimeTooltip: "{0}% attack speed"
+	SorceryManaTooltip: "{0}% mana cost"
+	SorceryVelocityTooltip: "{0}% spell velocity"
+	SorceryKnockbackTooltip: "{0}% spell knockback"
+}

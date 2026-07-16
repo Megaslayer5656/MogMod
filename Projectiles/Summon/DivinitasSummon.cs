@@ -16,6 +16,8 @@ namespace MogMod.Projectiles.Summon
     public class DivinitasSummon : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
+        public static Color Colour => new(207, 239, 255);
+        public int dust = 3;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.MinionSacrificable[Type] = true;
@@ -82,9 +84,23 @@ namespace MogMod.Projectiles.Summon
             }
             #endregion
 
-            #region Positioning && Lighting
+            #region Positioning, Lighting, && Dust
             Projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY + player.gravDir * -80f);
-            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.25f / 255f, (255 - Projectile.alpha) * 0.25f / 255f, (255 - Projectile.alpha) * 0f / 255f);
+            Lighting.AddLight(Projectile.Center, Colour.ToVector3() * (Projectile.scale * 0.5f));
+
+
+            // onspawn dust effect
+            dust--;
+            if (dust >= 0)
+            {
+                for (int i = 0; i < 30; i++)
+                {
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, DustID.AncientLight, Main.rand.NextVector2Circular(Projectile.width * 0.1f, Projectile.height * 0.1f), 100, Colour, 1f);
+                    dust.noGravity = true;
+                    dust.velocity *= 2f;
+                    dust.scale *= 1.15f;
+                }
+            }
             #endregion
 
 
@@ -158,6 +174,22 @@ namespace MogMod.Projectiles.Summon
                 AllWhiteVersion.SetData(ColorArray);
             }
             return AllWhiteVersion;
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture = Terraria.GameContent.TextureAssets.Projectile[Type].Value;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Main.EntitySpriteDraw(texture, drawPosition, null, Colour, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
+            // draw glow effect
+            Main.spriteBatch.SetBlendState(BlendState.Additive);
+            Texture2D bloomTex = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/CircleGradient").Value;
+            for (int i = 0; i < 2; i++)
+            {
+                Main.EntitySpriteDraw(bloomTex, drawPosition, null, Colour * 0.85f, Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * 0.4f, SpriteEffects.None);
+                Main.EntitySpriteDraw(bloomTex, drawPosition, null, Colour * 0.1f, Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * 0.6f, SpriteEffects.None);
+            }
+            Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
+            return false;
         }
     }
 }

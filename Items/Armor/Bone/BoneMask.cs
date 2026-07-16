@@ -1,17 +1,26 @@
-﻿using MogMod.Common.MogModPlayer;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Items.Armor.Bone
 {
     [AutoloadEquip(EquipType.Head)]
     public class BoneMask : ModItem, ILocalizedModType
     {
+        #region Setup
         public new string LocalizationCategory => "Items.Armor";
-        public static LocalizedText SetBonusText { get; private set; }
+        public const int BlockRangeBoost = 3;
+        public const float MiningSpeedBoost = 0.15f;
+        public const float PlacementSpeedBoost = 0.4f;
+        public static Color AbilityBriefColor = new(255, 206, 133);
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MiningSpeedBoost.ToPercent(), PlacementSpeedBoost.ToPercent());
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -19,9 +28,6 @@ namespace MogMod.Items.Armor.Bone
 
             // worn on head
             int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
-
-            // set bonus text
-            SetBonusText = this.GetLocalization("SetBonus");
         }
         public override void SetDefaults()
         {
@@ -33,22 +39,56 @@ namespace MogMod.Items.Armor.Bone
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<BoneMail>() && legs.type == ModContent.ItemType<BoneGreaves>();
+            return body.type == ModContent.ItemType<BoneMail>() && 
+                legs.type == ModContent.ItemType<BoneGreaves>();
         }
+        #endregion
+        #region Armor Stat Changes
         public override void UpdateArmorSet(Player player)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            player.setBonus = SetBonusText.Value;
             mogPlayer.wearingBoneArmor = true;
             player.findTreasure = true;
-            player.blockRange += 3;
+            player.blockRange += BlockRangeBoost;
+
+            player.setBonus = this.GetLocalization("AbilityBrief").Format(AbilityBriefColor.Hex3());
         }
         public override void UpdateEquip(Player player)
         {
-            player.pickSpeed -= .15f;
-            player.tileSpeed += 0.4f;
-            player.wallSpeed += 0.4f;
+            player.pickSpeed -= MiningSpeedBoost;
+            player.tileSpeed += PlacementSpeedBoost;
+            player.wallSpeed += PlacementSpeedBoost;
         }
+        #endregion
+        #region Tooltips
+        public static bool HasArmorSet(Player player) => player.armor[0].type == ItemType<BoneMask>() && player.armor[1].type == ItemType<BoneMail>() && player.armor[2].type == ItemType<BoneGreaves>();
+        public static void ModifySetTooltips(ModItem item, List<TooltipLine> tooltips)
+        {
+            if (HasArmorSet(Main.LocalPlayer))
+            {
+                int setBonusIndex = tooltips.FindIndex(x => x.Name == "SetBonus" && x.Mod == "Terraria");
+
+                if (setBonusIndex != -1)
+                {
+                    if (Main.keyState.PressingShift())
+                    {
+                        setBonusIndex++;
+                        TooltipLine briefDescription = new(item.Mod, "MogMod:SetBonus1", MiscUtils.GetTextFromModItem<BoneMask>("SetBonusNormal").Format(AbilityBriefColor.Hex3(), BlockRangeBoost));
+                        tooltips.Insert(setBonusIndex, briefDescription);
+                    }
+                    else
+                    {
+                        setBonusIndex++;
+                        TooltipLine holdShiftIndicator = new(item.Mod, IHoldShiftTooltipItem.ExtensionIndicatorTooltipID, MiscUtils.GetTextValue("UI.ShiftToExpand"));
+                        holdShiftIndicator.OverrideColor = IHoldShiftTooltipItem.DefaultExtensionIndicatorColor;
+                        tooltips.Insert(setBonusIndex, holdShiftIndicator);
+                    }
+                }
+            }
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => ModifySetTooltips(this, tooltips);
+        #endregion
+        #region Recipe(s)
         public override void AddRecipes()
         {
             CreateRecipe().
@@ -57,5 +97,6 @@ namespace MogMod.Items.Armor.Bone
                 AddTile(TileID.Loom).
                 Register();
         }
+        #endregion
     }
 }

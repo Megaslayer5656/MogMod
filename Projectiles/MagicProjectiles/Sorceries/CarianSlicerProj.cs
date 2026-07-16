@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MogMod.Common.Classes;
 using System;
 using System.IO;
 using Terraria;
@@ -69,7 +70,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             Projectile.usesLocalNPCImmunity = true; // Uses local immunity frames
             Projectile.localNPCHitCooldown = -1; // We set this to -1 to make sure the projectile doesn't hit twice
             Projectile.ownerHitCheck = true; // Make sure the owner of the projectile has line of sight to the target (aka can't hit things through tile).
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.DamageType = SorceryDamageClass.Instance;
         }
         public override void OnSpawn(IEntitySource source)
         {

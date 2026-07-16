@@ -10,11 +10,10 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
+    // TODO: make this item ignore i-frames when equipped in GFB worlds
     public class RefresherOrb : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.RefresherOrbKeybind);
-        ModKeybind keybindActive = null;
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -23,22 +22,27 @@ namespace MogMod.Items.Accessories
             Item.rare = ItemRarityID.Lime;
             Item.value = MogGlobalItem.RarityLimeBuyPrice;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statManaMax2 += 50;
-            player.GetDamage(DamageClass.Magic) += .10f;
-            player.GetDamage(DamageClass.Summon) += .10f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingRefresherOrb = true;
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (Main.LocalPlayer != null)
+            {
+                tooltips.FindAndReplace("[GFB]", this.GetLocalizedValue(Main.zenithWorld ? "TooltipGFB" : "TooltipDefault"));
+                tooltips.IntegrateHotkey(KeybindSystem.RefresherOrbKeybind);
+            }
+        }
+        ModKeybind keybindActive = null;
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient(ItemID.JungleSpores, 8).
                 AddIngredient(ItemID.ChlorophyteBar, 5).
                 AddIngredient<FrigidCrystal>(3).
-                AddIngredient<ManaCore>(1).
+                AddIngredient<ManaCore>().
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

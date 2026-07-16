@@ -5,6 +5,7 @@ using MogMod.Utilities;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.Nihilum
@@ -13,8 +14,8 @@ namespace MogMod.Items.Armor.Nihilum
     public class NihilumChestplate : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
-        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.NulledKeybind);
-        ModKeybind keybindActive = null;
+        public const int RangedCritBoost = 32;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(RangedCritBoost);
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -35,10 +36,15 @@ namespace MogMod.Items.Armor.Nihilum
             Item.rare = ItemRarityID.Purple;
             Item.value = MogGlobalItem.RarityPurpleBuyPrice;
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            NihilumHeadgear.ModifySetTooltips(this, tooltips);
+            tooltips.IntegrateHotkey(KeybindSystem.NulledKeybind);
+        }
+        ModKeybind keybindActive = null;
         public override void UpdateEquip(Player player)
         {
-            player.GetCritChance<RangedDamageClass>() += 0.32f;
-            player.GetCritChance<MagicDamageClass>() += 0.32f;
+            player.GetCritChance<RangedDamageClass>() += RangedCritBoost;
         }
         // recipe will be changed eventually
         public override void AddRecipes()

@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.PotionBuffs;
+using MogMod.Common.Classes;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories;
 using MogMod.Items.Accessories.NeutralItems;
 using MogMod.Items.Ammo.SorcerySpells;
+using MogMod.Items.Armor.Damascus;
 using MogMod.Items.Other;
 using MogMod.Items.Weapons.Classless;
 using MogMod.Items.Weapons.Magic;
@@ -13,6 +15,8 @@ using MogMod.Projectiles.Classless;
 using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Rarities;
 using MogMod.Utilities;
+using Mono.Cecil;
+using StructureHelper.Content.GUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +24,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Global
@@ -29,6 +34,13 @@ namespace MogMod.Items.Global
         public int bloodDamage;
         public int cooldownTimer = 5;
         public int shotCounter = 0;
+        public static List<int> EnableNeutralItemSlots =
+        [
+            ModContent.ItemType<IdeaRig>(),
+            ModContent.ItemType<TritonM43A>(),
+            ModContent.ItemType<AzimutSSZhuk>(),
+            ModContent.ItemType<OspreyMK4A>(),
+        ];
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ShimmerTransformToItem[ItemID.SnowBlock] = ItemID.ShimmerBlock;
@@ -102,11 +114,6 @@ namespace MogMod.Items.Global
                 Projectile nullEssence = Projectile.NewProjectileDirect(source, position, velocity, ModContent.ProjectileType<GreatswordOfSoulsProj>(), (int)(damage * 0.5), knockback, player.whoAmI);
                 nullEssence.DamageType = DamageClass.Ranged;
             }
-            if ((mogPlayer.wearingNihilumMagic && item.DamageType == DamageClass.Magic) && mogPlayer.nulledDebuff)
-            {
-                Projectile nullEssence = Projectile.NewProjectileDirect(source, position, velocity, ModContent.ProjectileType<GreatswordOfSoulsProj>(), (int)(damage * 0.5), knockback, player.whoAmI);
-                nullEssence.DamageType = DamageClass.Magic;
-            }
             if (mogPlayer.wearingEnchantedQuiver && item.useAmmo == AmmoID.Arrow && !item.channel)  
             {
                 shotCounter++;
@@ -122,7 +129,9 @@ namespace MogMod.Items.Global
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             if ((mogPlayer.wearingElvenQuiver || mogPlayer.wearingEnchantedQuiver) && item.useAmmo == AmmoID.Arrow)
-                velocity *= mogPlayer.wearingEnchantedQuiver ? 1.3f : 1.2f;
+                velocity *= mogPlayer.wearingEnchantedQuiver ? EnchantedQuiver.VelocityMult : ElvenQuiver.VelocityMult;
+            if (mogPlayer.wearingTritonDamage || mogPlayer.wearingZhukDamage)
+                velocity *= (mogPlayer.wearingZhukDamage ? AzimutSSZhuk.VelocityMult : TritonM43A.VelocityMult) + 1;
         }
         public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
         {
@@ -136,8 +145,10 @@ namespace MogMod.Items.Global
         public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            if (mogPlayer.wearingDamascus1)
-                modifiers.CritDamage *= 1.1f;
+            if (mogPlayer.wearingDamascus1 && Main.zenithWorld)
+                modifiers.CritDamage *= DamascusHelm.GFBCritMult;
+            else if (mogPlayer.wearingDamascus1)
+                modifiers.CritDamage *= DamascusHelm.CritMult + 1;
         }
         public override bool CanConsumeAmmo(Item weapon, Item ammo, Player player) => Main.rand.NextFloat() <= player.MogMod().ammoCost;
         public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
@@ -145,7 +156,13 @@ namespace MogMod.Items.Global
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             if (target.type != NPCID.TargetDummy)
             {
-                if (mogPlayer.wearingDamascus2 && hit.Crit)
+                if (mogPlayer.wearingDamascus2 && hit.Crit && Main.zenithWorld)
+                {
+                    player.Hurt(PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Damascus").ToNetworkText(player.name)), 5, -player.direction, false, false, -1, false, 9999, 0, 0);
+                    player.immune = false;
+                    player.immuneTime = 0;
+                }
+                else if (mogPlayer.wearingDamascus2 && hit.Crit)
                 {
                     int heal = 1;
                     heal *= Convert.ToInt32(player.lifeSteal * 0.02);
@@ -192,7 +209,11 @@ namespace MogMod.Items.Global
             if (!item.IsAir && !item.noMelee || MeleeSizeAlwaysAffects.Contains(item.type))
             {
                 if (modPlayer.wearingGiantsMaul)
-                    scale *= GiantsMaul.GiantsMaulWeaponSize(modPlayer);
+                    scale *= GiantsMaul.SizeMult + (Main.zenithWorld ? -0.1f : 1);
+                if (modPlayer.wearingTritonDamage)
+                    scale *= TritonM43A.SizeMult + 1;
+                if (modPlayer.wearingZhukDamage)
+                    scale *= AzimutSSZhuk.SizeMult + 1;
             }
         }
 
@@ -264,9 +285,42 @@ namespace MogMod.Items.Global
         public static int GetBuyPrice(Item item) => GetBuyPrice(item.rare);
         #endregion
 
-        #region Custom Rarity Colors
+        #region Custom Rarity Colors && Tooltips
+        /// <summary>
+        /// This array contains (almost) every single vanilla tooltip in reverse order starting at "Tooltip0".<br />
+        /// Because "Tooltip0" is the first typical tooltip line, this is where MogMod tends to insert its tooltips.<br />
+        /// When this line is not present, MogMod needs to insert tooltips in an <i>equivalent</i> position.<br />
+        /// The best way to do this is to iterate backwards through all possible vanilla tooltip lines and pick the first one that is present.
+        /// </summary>
+        public static string[] MainTooltipBackupInsertionPositions =
+        {
+            "Material",
+            "Consumable",
+            "Ammo",
+            "Placeable",
+            "UseMana",
+            "HealMana",
+            "HealLife",
+            "TileBoost",
+            "HammerPower",
+            "AxePower",
+            "PickPower",
+            "Defense",
+            "Vanity",
+            "Quest",
+            "WandConsumes",
+            "Equipable",
+            "BaitPower",
+            "NeedsBait",
+            "FishingPower",
+            "Knockback",
+            "NoTransfer",
+            "FavoriteDesc",
+            "ItemName",
+        };
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
+            #region Colors
             // Apply rarity coloration to the item's name.
             TooltipLine nameLine = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.Mod == "Terraria");
             if (nameLine != null)
@@ -277,6 +331,103 @@ namespace MogMod.Items.Global
                 tooltips.Add(new TooltipLine(Mod, "CustomTooltip", "Low Bleed Buildup"));
             if (item.type == ItemID.PsychoKnife)
                 tooltips.Add(new TooltipLine(Mod, "CustomTooltip", "High Bleed Buildup"));
+            #endregion
+
+            #region Hold Shift Tooltips
+            // Get the first index, last index and total count of standard vanilla tooltip lines.
+            // The first index and count are used to delete all vanilla tooltips when holding SHIFT, if requested.
+            // The last index is used to insert various extra tooltip lines in the right position.
+            //
+            // This code used to be in the HoldShiftTooltip utility, but is needed to correctly place other tooltips.
+            int firstTooltipIndex = -1;
+            int lastTooltipIndex = -1;
+            int standardTooltipCount = 0;
+            for (int i = 0; i < tooltips.Count; i++)
+            {
+                if (tooltips[i]?.Name?.StartsWith("Tooltip") == true)
+                {
+                    if (firstTooltipIndex == -1)
+                        firstTooltipIndex = i;
+                    lastTooltipIndex = i;
+                    standardTooltipCount++;
+                }
+            }
+
+            // If there are no standard vanilla tooltip lines (e.g. Flintlock Pistol, which has no tooltip)
+            // then a different position needs to be selected for typical insertion.
+            bool noStandardTooltips = false;
+            if (firstTooltipIndex == -1)
+            {
+                noStandardTooltips = true;
+                foreach (string lineName in MainTooltipBackupInsertionPositions)
+                {
+                    int idx = tooltips.FindIndex((line) => line.Name == lineName);
+                    if (idx != -1)
+                    {
+                        firstTooltipIndex = lastTooltipIndex = idx;
+                        break;
+                    }
+                }
+            }
+            // Everything below this line can only apply to modded items. If the item is vanilla, stop here for efficiency.
+            if (item.type < ItemID.Count)
+                return;
+            // Generic mechanical implementation of any and all Hold SHIFT tooltips.
+            // For more information, see IHoldShiftTooltipItem.
+            // Code taken from Calamity Mod, which was lifted from Iban's extended armor tooltips.
+            if (item.ModItem is IHoldShiftTooltipItem holdShiftItem)
+            {
+                bool holdingShift = Main.keyState.PressingShift();
+
+                // If holding SHIFT, actually display the extended tooltip.
+                if (holdingShift && firstTooltipIndex != -1)
+                {
+                    string holdShiftText = holdShiftItem.TooltipExtensionText == LocalizedText.Empty ? item.ModItem.GetLocalizedValue(holdShiftItem.TooltipExtensionKey) : holdShiftItem.TooltipExtensionText.ToString();
+                    TooltipLine holdShiftLine = new TooltipLine(Mod, IHoldShiftTooltipItem.ExtensionTooltipID, holdShiftText);
+                    if (holdShiftItem.TooltipExtensionColor is not null)
+                        holdShiftLine.OverrideColor = holdShiftItem.TooltipExtensionColor;
+
+                    // If asked to, remove all standard tooltip lines. This moves the last tooltip index.
+                    // This only occurs if the standard tooltip lines are ACTUALLY standard tooltips. Otherwise, don't remove anything!
+                    if (holdShiftItem.HidesNormalTooltip && !noStandardTooltips)
+                    {
+                        tooltips.RemoveRange(firstTooltipIndex, standardTooltipCount);
+                        lastTooltipIndex -= standardTooltipCount;
+                    }
+
+                    // Append the "Hold SHIFT" tooltip at the end of standard tooltips.
+                    tooltips.Insert(++lastTooltipIndex, holdShiftLine);
+                }
+
+                // If not holding SHIFT, display the extension indicator if appropriate.
+                if (!holdingShift && holdShiftItem.ShowExtensionIndicator)
+                {
+                    LocalizedText indicatorText = MiscUtils.GetText(holdShiftItem.ExtensionIndicatorKey);
+                    TooltipLine indicator = new TooltipLine(Mod, IHoldShiftTooltipItem.ExtensionIndicatorTooltipID, indicatorText.Value);
+                    if (holdShiftItem.ExtensionIndicatorColor is not null)
+                        indicator.OverrideColor = holdShiftItem.ExtensionIndicatorColor;
+
+                    // Append the extension indicator tooltip at the end of standard tooltips.
+                    tooltips.Insert(++lastTooltipIndex, indicator);
+                }
+
+                // Generic support for flavor tooltips.
+                // This is only necessary on items with Hold SHIFT tooltips.
+                // The extended tooltip and tooltip extension indicator are placed above flavor tooltips for vanilla consistency.
+                //
+                // Flavor tooltips display unconditionally if defined. They are visible both when holding SHIFT and when not.
+                if (holdShiftItem.HasFlavorTooltip && holdShiftItem.FlavorTooltipKey is not null)
+                {
+                    string flavorText = item.ModItem.GetLocalizedValue(holdShiftItem.FlavorTooltipKey);
+                    TooltipLine flavorLine = new TooltipLine(Mod, IHoldShiftTooltipItem.FlavorTooltipID, flavorText);
+                    if (holdShiftItem.FlavorTooltipColor is not null)
+                        flavorLine.OverrideColor = holdShiftItem.FlavorTooltipColor;
+
+                    // Append the flavor tooltip at the end of standard tooltips, after all Hold SHIFT tooltips and reminders.
+                    tooltips.Insert(++lastTooltipIndex, flavorLine);
+                }
+            }
+            #endregion
         }
         private void ApplyRarityColor(Item item, TooltipLine nameLine)
         {

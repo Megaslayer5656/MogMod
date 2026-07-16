@@ -13,6 +13,7 @@ namespace MogMod.Items.Accessories
     public class EnchantedQuiver : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const float VelocityMult = 1.3f;
         public override void SetDefaults()
         {
             Item.width = Item.height = 30;

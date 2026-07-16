@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.Melee;
@@ -45,8 +46,10 @@ namespace MogMod.Items.Weapons.Melee
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             if (player.altFunctionUse == 2)
             {
+                mogPlayer.eSeraphCharge = 0;
                 Item.useStyle = ItemUseStyleID.Swing;
                 SoundEngine.PlaySound(SoundID.Item1 with { Pitch = 0.4f }, player.Center);
                 Projectile.NewProjectile(source, position, velocity * 3, ModContent.ProjectileType<ElysianSeraphThrownProj>(), damage, knockback, player.whoAmI);
@@ -60,7 +63,13 @@ namespace MogMod.Items.Weapons.Melee
             return false;
         }
         public override bool MeleePrefix() => true;
-        public override bool AltFunctionUse(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<ElysianSeraphThrownProj>()] == 0;
+        public override bool AltFunctionUse(Player player)
+        {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            bool noActiveProj = player.ownedProjectileCounts[ModContent.ProjectileType<ElysianSeraphThrownProj>()] == 0;
+            bool maxCharge = mogPlayer.eSeraphCharge >= mogPlayer.eSeraphMax;
+            return noActiveProj && maxCharge;
+        }
         public override void AddRecipes()
         {
             CreateRecipe().

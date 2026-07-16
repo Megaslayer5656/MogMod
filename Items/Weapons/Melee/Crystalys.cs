@@ -31,7 +31,7 @@ namespace MogMod.Items.Weapons.Melee
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 26;
-        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers) => modifiers.CritDamage *= 1.6f;
+        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers) => modifiers.CritDamage *= 1.2f;
         public override void AddRecipes()
         {
             CreateRecipe().

@@ -1,5 +1,5 @@
-﻿using MogMod.Items.Global;
-using MogMod.Items.Other;
+﻿using MogMod.Common.Classes;
+using MogMod.Items.Global;
 using MogMod.Items.Placeable.Bars;
 using Terraria;
 using Terraria.ID;
@@ -19,12 +19,11 @@ namespace MogMod.Items.Accessories
             Item.value = MogGlobalItem.RarityOrangeBuyPrice;
             Item.defense = 2;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Magic) += .05f;
-            player.GetDamage(DamageClass.Generic) += .05f;
-            player.GetAttackSpeed(DamageClass.Generic) += .05f;
+            player.GetDamage<SorceryDamageClass>() += 0.07f;
+            player.GetDamage<GenericDamageClass>() += 0.05f;
+            player.GetAttackSpeed<GenericDamageClass>() += 0.05f;
             player.lifeRegen += 2;
             player.statManaMax2 += 20;
             player.statLifeMax2 += 20;

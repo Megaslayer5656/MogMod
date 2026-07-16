@@ -38,12 +38,11 @@ namespace MogMod.Items.Weapons.Magic
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            float GFBMult = Main.zenithWorld ? 5f : 1f;
             if (player.altFunctionUse == 2)
             {
                 if (!player.HasBuff(ModContent.BuffType<ShadowRealmBuff>()))
-                {
-                    player.AddBuff(ModContent.BuffType<ShadowRealmBuff>(), 300);
-                }
+                    player.AddBuff(ModContent.BuffType<ShadowRealmBuff>(), (int)(300 * GFBMult));
                 return false;
             }
             else if (player.altFunctionUse != 2 && player.HasBuff(ModContent.BuffType<ShadowRealmBuff>()))

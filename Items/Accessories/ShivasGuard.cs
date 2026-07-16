@@ -1,4 +1,5 @@
-﻿using MogMod.Common.MogModPlayer;
+﻿using MogMod.Common.Classes;
+using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
@@ -27,14 +28,13 @@ namespace MogMod.Items.Accessories
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
             Item.defense = 10;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingShivasGuard = true;
-            player.GetDamage(DamageClass.Magic) += .10f;
-            player.GetDamage(DamageClass.Generic) += .10f;
-            player.GetAttackSpeed(DamageClass.Generic) += .10f;
+            player.GetDamage<SorceryDamageClass>() += 0.12f;
+            player.GetDamage<GenericDamageClass>() += 0.10f;
+            player.GetAttackSpeed<GenericDamageClass>() += 0.10f;
             player.lifeRegen += 4;
             player.statManaMax2 += 50;
             player.statLifeMax2 += 50;
@@ -56,11 +56,11 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VeilOfDiscord>(1).
+                AddIngredient<VeilOfDiscord>().
                 AddIngredient(ItemID.SpectreBar, 18).
-                AddIngredient<FrigidCrystal>(3).
-                AddIngredient<ManaCore>(1).
-                AddIngredient(ItemID.FrostCore, 1).
+                AddIngredient<FrostEssence>(8).
+                AddIngredient<ManaCore>().
+                AddIngredient(ItemID.FrostCore).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

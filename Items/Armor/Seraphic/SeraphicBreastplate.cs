@@ -1,8 +1,12 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Items.Armor.Seraphic
 {
@@ -11,6 +15,10 @@ namespace MogMod.Items.Armor.Seraphic
     {
         public new string LocalizationCategory => "Items.Armor";
         public const int ReviveDuration = 300;
+        public const int ReviveCooldown = 18000;
+        public const int MeleeCritBoost = 32;
+        public const float WhipSpeedBoost = 0.2f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MeleeCritBoost, WhipSpeedBoost.ToPercent());
         public int equipBack = -1;
         public override void Load()
         {
@@ -46,8 +54,15 @@ namespace MogMod.Items.Armor.Seraphic
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetCritChance<MeleeDamageClass>() += 0.32f;
-            player.GetAttackSpeed<SummonMeleeSpeedDamageClass>() += 0.2f;
+            player.GetCritChance<MeleeDamageClass>() += MeleeCritBoost;
+            player.GetAttackSpeed<SummonMeleeSpeedDamageClass>() += WhipSpeedBoost;
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (Main.LocalPlayer.armor[0].type == ItemType<SeraphicHelm>())
+                SeraphicHelm.ModifySetTooltips(this, tooltips);
+            else if (Main.LocalPlayer.armor[0].type == ItemType<SeraphicCrown>())
+                SeraphicCrown.ModifySetTooltips(this, tooltips);
         }
         // recipe will be changed eventually
         public override void AddRecipes()

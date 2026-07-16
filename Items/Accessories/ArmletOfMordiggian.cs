@@ -1,4 +1,5 @@
-﻿using MogMod.Common.MogModPlayer;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
 using MogMod.Items.Global;
 using MogMod.Utilities;
@@ -13,8 +14,6 @@ namespace MogMod.Items.Accessories
     public class ArmletOfMordiggian : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.ArmletKeybind);
-        ModKeybind keybindActive = null;
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -30,7 +29,18 @@ namespace MogMod.Items.Accessories
             player.GetDamage(DamageClass.Generic) += .05f;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.armletActive = true;
+            if (Main.zenithWorld)
+                mogPlayer.armletDebuff = true;
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (Main.LocalPlayer != null)
+            {
+                tooltips.FindAndReplace("[GFB]", this.GetLocalizedValue(Main.zenithWorld ? "TooltipGFB" : "TooltipDefault"));
+                tooltips.IntegrateHotkey(KeybindSystem.ArmletKeybind);
+            }
+        }
+        ModKeybind keybindActive = null;
         public override void AddRecipes()
         {
             CreateRecipe().

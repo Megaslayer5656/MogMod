@@ -1,7 +1,10 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.TankyRizzler
@@ -10,6 +13,9 @@ namespace MogMod.Items.Armor.TankyRizzler
     public class TankyRizzlerLeggings : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public const float MeleeSpeedBoost = 0.10f;
+        public const float MovementSpeedBoost = 0.10f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MeleeSpeedBoost.ToPercent());
         public override void SetDefaults()
         {
             Item.width = 22;
@@ -20,9 +26,10 @@ namespace MogMod.Items.Armor.TankyRizzler
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetAttackSpeed<MeleeDamageClass>() += .10f;
-            player.moveSpeed += .1f;
+            player.GetAttackSpeed<MeleeDamageClass>() += MeleeSpeedBoost;
+            player.moveSpeed += MovementSpeedBoost;
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => TankyRizzlerHelmet.ModifySetTooltips(this, tooltips);
         public override void AddRecipes()
         {
             CreateRecipe().

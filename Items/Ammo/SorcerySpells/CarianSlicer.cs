@@ -19,12 +19,12 @@ namespace MogMod.Items.Ammo.SorcerySpells
             base.SetDefaults();
             Item.width = Item.height = 36;
             Item.damage = 40;
-            Item.DamageType = DamageClass.Magic;
             Item.knockBack = 3f;
             Item.rare = ItemRarityID.Orange;
             Item.value = MogGlobalItem.RarityOrangeBuyPrice;
             Item.shoot = ModContent.ProjectileType<CarianSlicerProj>();
             Item.shootSpeed = 8f;
+            SorceryClass = SorceryID.Carian;
         }
         public override void AddRecipes()
         {

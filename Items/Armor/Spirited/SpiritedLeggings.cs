@@ -1,7 +1,10 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.Spirited
@@ -10,6 +13,10 @@ namespace MogMod.Items.Armor.Spirited
     public class SpiritedLeggings : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public const float MeleeSpeedBoost = 0.08f;
+        public const float MovementSpeedBoost = 0.10f;
+        public const float JumpSpeedBoost = 0.5f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MeleeSpeedBoost.ToPercent(), MovementSpeedBoost.ToPercent());
         public override void SetDefaults()
         {
             Item.width = 22;
@@ -20,10 +27,11 @@ namespace MogMod.Items.Armor.Spirited
         }
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += 0.10f;
-            player.jumpSpeedBoost += 0.10f;
-            player.GetAttackSpeed<MeleeDamageClass>() += 0.08f;
+            player.GetAttackSpeed<MeleeDamageClass>() += MeleeSpeedBoost;
+            player.moveSpeed += MovementSpeedBoost;
+            player.jumpSpeedBoost += JumpSpeedBoost;
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => SpiritedHelmet.ModifySetTooltips(this, tooltips);
         public override void AddRecipes()
         {
             CreateRecipe().

@@ -17,7 +17,7 @@ namespace MogMod.Buffs.PotionBuffs.TheGravityBuffs
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             player.moveSpeed += 0.25f;
-            player.jumpSpeedBoost += 0.25f;
+            player.jumpSpeedBoost += 1.25f;
             mogPlayer.infiniteFlight = true;
             if (Main.rand.NextBool(3))
             {

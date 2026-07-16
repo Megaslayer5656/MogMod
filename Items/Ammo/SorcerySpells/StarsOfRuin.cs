@@ -20,20 +20,20 @@ namespace MogMod.Items.Ammo.SorcerySpells
             base.SetDefaults();
             Item.width = Item.height = 36;
             Item.damage = 20;
-            Item.DamageType = DamageClass.Magic;
             Item.knockBack = 6f;
             Item.rare = ItemRarityID.Yellow;
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
             Item.shoot = ModContent.ProjectileType<StarsOfRuinProj>();
             Item.shootSpeed = 6f;
+            SorceryClass = SorceryID.Legendary;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<StarShower>(1).
-                AddIngredient<FaeBar>(5).
-                AddIngredient<ManaCore>(1).
-                AddIngredient<Scroll>(1).
+                AddIngredient<StarShower>().
+                AddIngredient<SpookyEssence>(8).
+                AddIngredient<ManaCore>().
+                AddIngredient<Scroll>().
                 AddTile(TileID.Bookcases).
                 DisableDecraft().
                 Register();

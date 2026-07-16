@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MogMod.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Terraria.DataStructures;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 
 namespace MogMod.Items.Weapons.Magic.DeckCards
@@ -27,7 +28,7 @@ namespace MogMod.Items.Weapons.Magic.DeckCards
             info.Damage = 20;
             info.Knockback = 0f;
             info.HitDirection = player.direction;
-            info.DamageSource = PlayerDeathReason.ByCustomReason(player.name + " was burned by Seething Song.");
+            info.DamageSource = PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.SeethingSong").ToNetworkText(player.name));
 
             player.Hurt(info);
             if (player.statLife > player.statLifeMax2)

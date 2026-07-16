@@ -1,10 +1,7 @@
 ﻿using MogMod.Common.MogModPlayer;
-using MogMod.Common.Systems;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
-using MogMod.Utilities;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,8 +11,6 @@ namespace MogMod.Items.Accessories
     public class HelmOfTheOverlord : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.HelmOfDominatorKeybind);
-        ModKeybind keybindActive = null;
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -24,7 +19,6 @@ namespace MogMod.Items.Accessories
             Item.rare = ItemRarityID.Yellow;
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetDamage(DamageClass.Magic) += .15f;
@@ -35,6 +29,8 @@ namespace MogMod.Items.Accessories
             mogPlayer.dominatorMinion = true;
             mogPlayer.diademMinion = true;
             mogPlayer.wearingHelmOfOverlord = true;
+            player.UFOMinion = true; // temp slop
+            player.spiderMinion = true; // temp slop
         }
         public override void AddRecipes()
         {

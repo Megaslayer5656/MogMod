@@ -1,13 +1,5 @@
 ﻿using MogMod.Common.MogModPlayer;
-using MogMod.Common.Systems;
 using MogMod.Items.Global;
-using MogMod.Items.Other;
-using MogMod.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -18,8 +10,6 @@ namespace MogMod.Items.Accessories
     public class HelmOfTheDominator : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.HelmOfDominatorKeybind);
-        ModKeybind keybindActive = null;
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -28,7 +18,6 @@ namespace MogMod.Items.Accessories
             Item.rare = ItemRarityID.LightRed;
             Item.value = MogGlobalItem.RarityLightRedBuyPrice;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetDamage(DamageClass.Magic) += .10f;
@@ -38,6 +27,7 @@ namespace MogMod.Items.Accessories
             mogPlayer.dominatorMinion = true;
             mogPlayer.diademMinion = true;
             mogPlayer.wearingHelmOfDominator = true;
+            player.spiderMinion = true; // temp slop
         }
         public override void AddRecipes()
         {

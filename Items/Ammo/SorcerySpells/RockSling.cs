@@ -19,19 +19,19 @@ namespace MogMod.Items.Ammo.SorcerySpells
             base.SetDefaults();
             Item.width = Item.height = 36;
             Item.damage = 54;
-            Item.DamageType = DamageClass.Magic;
             Item.knockBack = 7f;
             Item.rare = ItemRarityID.Green;
             Item.value = MogGlobalItem.RarityGreenBuyPrice;
             Item.shoot = ModContent.ProjectileType<RockSlingProj>();
             Item.shootSpeed = 1f;
+            SorceryClass = SorceryID.Gravity;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 18).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 8).
                 AddIngredient(ItemID.Amethyst, 4).
-                AddIngredient<Scroll>(1).
+                AddIngredient<Scroll>().
                 AddTile(TileID.Bookcases).
                 Register();
         }

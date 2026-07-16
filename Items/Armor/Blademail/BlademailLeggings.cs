@@ -4,6 +4,7 @@ using MogMod.Utilities;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.Blademail
@@ -12,8 +13,9 @@ namespace MogMod.Items.Armor.Blademail
     public class BlademailLeggings : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
-        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.BladeMailKeybind);
-        ModKeybind keybindActive = null;
+        public const float MeleeSpeedBoost = 0.1f;
+        public const float MovementSpeedBoost = 0.1f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MeleeSpeedBoost.ToPercent());
         public override void SetDefaults()
         {
             Item.width = 22;
@@ -24,10 +26,15 @@ namespace MogMod.Items.Armor.Blademail
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetAttackSpeed<MeleeDamageClass>() += 0.1f;
-            player.moveSpeed += .1f;
+            player.GetAttackSpeed<MeleeDamageClass>() += MeleeSpeedBoost;
+            player.moveSpeed += MovementSpeedBoost;
         }
-
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            BlademailMask.ModifySetTooltips(this, tooltips);
+            tooltips.IntegrateHotkey(KeybindSystem.BladeMailKeybind);
+        }
+        ModKeybind keybindActive = null;
         public override void AddRecipes()
         {
             CreateRecipe().

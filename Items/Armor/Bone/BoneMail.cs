@@ -1,7 +1,11 @@
 ﻿using MogMod.Items.Global;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Items.Armor.Bone
 {
@@ -9,6 +13,9 @@ namespace MogMod.Items.Armor.Bone
     public class BoneMail : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public const int CritBoost = 4;
+        public const float DamageBoost = 0.05f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(CritBoost, DamageBoost.ToPercent());
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -26,8 +33,15 @@ namespace MogMod.Items.Armor.Bone
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetCritChance<GenericDamageClass>() += 4;
-            player.GetDamage<GenericDamageClass>() += .05f;
+            player.GetCritChance<GenericDamageClass>() += CritBoost;
+            player.GetDamage<GenericDamageClass>() += DamageBoost;
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (Main.LocalPlayer.armor[0].type == ItemType<BoneHelm>())
+                BoneHelm.ModifySetTooltips(this, tooltips);
+            else if (Main.LocalPlayer.armor[0].type == ItemType<BoneMask>())
+                BoneMask.ModifySetTooltips(this, tooltips);
         }
         public override void AddRecipes()
         {

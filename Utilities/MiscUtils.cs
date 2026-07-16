@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Chat;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -20,6 +21,15 @@ namespace MogMod.Utilities
         {
             return Language.GetOrRegister("Mods.MogMod." + key);
         }
+        /// <param name="key">The language key. This will have "Mods.MogMod." appended behind it.</param>
+        /// <returns>
+        /// A <see cref="string"/> instance found using the provided key with "Mods.MogMod." appended behind it.
+        /// <para>NOTE: Modded translations are not loaded until after PostSetupContent.</para>Caching the result is suggested.
+        /// </returns>
+        public static string GetTextValue(string key)
+        {
+            return Language.GetTextValue("Mods.MogMod." + key);
+        }
         /// <param name="itemID">The item's ID.</param>
         /// <returns>
         /// A <see cref="LocalizedText"/> instance for an item's name. 
@@ -33,6 +43,12 @@ namespace MogMod.Utilities
             }
             return GetTextFromModItem(itemID, "DisplayName");
         }
+
+        /// <returns>
+        /// A <see cref="LocalizedText"/> instance which will have the item's translated name.
+        /// <para>NOTE: Modded translations are not loaded until after PostSetupContent.</para>Caching the result is suggested.
+        /// </returns>
+        public static LocalizedText GetItemName<T>() where T : ModItem => GetTextFromModItem(ModContent.ItemType<T>(), "DisplayName");
         /// <param name="itemID">The item's ID.</param>
         /// <param name="suffix">The desired suffix.</param>
         /// <returns>
@@ -50,11 +66,63 @@ namespace MogMod.Utilities
         /// <para>NOTE: Modded translations are not loaded until after PostSetupContent.</para>Caching the result is suggested.
         /// </returns>
         public static LocalizedText GetTextFromModItem<T>(string suffix) where T : ModItem => GetTextFromModItem(ModContent.ItemType<T>(), suffix);
+
+        /// <param name="itemID">The item's ID.</param>
+        /// <param name="suffix">The desired suffix.</param>
         /// <returns>
-        /// A <see cref="LocalizedText"/> instance which will have the item's translated name.
+        /// A <see cref="string"/> instance for the given item and suffix
         /// <para>NOTE: Modded translations are not loaded until after PostSetupContent.</para>Caching the result is suggested.
         /// </returns>
-        public static LocalizedText GetItemName<T>() where T : ModItem => GetTextFromModItem(ModContent.ItemType<T>(), "DisplayName");
+        public static string GetTextValueFromModItem(int itemID, string suffix) => GetTextFromModItem(itemID, suffix).ToString();
+
+        /// <param name="suffix">The desired suffix.</param>
+        /// <returns>
+        /// A <see cref="string"/> instance for the given item and suffix
+        /// <para>NOTE: Modded translations are not loaded until after PostSetupContent.</para>Caching the result is suggested.
+        /// </returns>
+        public static string GetTextValueFromModItem<T>(string suffix) where T : ModItem => GetTextFromModItem(ModContent.ItemType<T>(), suffix).ToString();
+        /// <summary>
+        /// Broadcast a LocalizedText. This only should be run on Singleplayer or Server.
+        /// Multiplayer Clients Do NOT ask Server to Broadcast nor the print message locally.
+        /// </summary>
+        /// <param name="key">LocalizedText key</param>
+        /// <param name="textColor">Text Color to use</param>
+        public static void BroadcastLocalizedText(string key, Color? textColor = null)
+        {
+            // An attempt to bypass the need for a separate method and runtime/compile-time parameter
+            // constraints by using nulls for defaults.
+            if (!textColor.HasValue)
+                textColor = Color.White;
+
+            if (Main.netMode == NetmodeID.SinglePlayer)
+                Main.NewText(Language.GetTextValue(key), textColor.Value);
+            else if (Main.dedServ)
+                ChatHelper.BroadcastChatMessage(NetworkText.FromKey(key), textColor.Value);
+        }
+
+        #region Tooltip Format Helper
+        public static string EmbedItemIcon(this int itemID) => $"[i:{itemID}] " + GetItemName(itemID);
+
+        public static string FramesToSeconds(this int frame) => Round(frame / 60f, "N2");
+        public static string FramesToMinutes(this int frame) => Round(frame / 60f / 60f, "N2");
+        public static string ToMph(this float velocity) => Round(velocity * 216000f / 42240f, "N0");
+        public static string ToMphps(this float velocity) => Round(velocity * 60f * 216000f / 42240f, "N2");
+        public static string ToTiles(this float pixel) => Round(pixel / 16f);
+        public static string ToReversedPercent(this float percent) => Round((1 - percent) * 100);
+        public static string ToRegenPerSecond(this float partialRegen) => Round(partialRegen * 0.5f, "N2");
+        public static string ToRegenPerSecond(this int regen, float partialRegen = 0f) => Round((regen + partialRegen) * 0.5f, "N2");
+        public static string ToJumpSpeedPercent(this float boost) => Round(boost * 20f, "N2");
+        public static string ToStealth(this float stealth) => Round(stealth * 100f, "N0");
+
+        public static string GetChanceFromDenominator(this int denominator) => ToPercent(1 / (float)denominator);
+
+        public static string ToPercent(this int percent) => (percent * 100).ToString();
+        public static string ToPercent(this float percent, string precision = "N1") => Round(percent * 100f, precision);
+        public static string ToPercent(this double percent, string precision = "N1") => Round(percent * 100D, precision);
+        // Double-rounded for proper digit cutoffs
+        public static string Round(this float number, string precision = "N4") => float.Parse((number).ToString(precision)).ToString();
+        public static string Round(this double number, string precision = "N4") => float.Parse((number).ToString(precision)).ToString();
+        #endregion
         public static void AddWithCondition<T>(this List<T> list, T type, bool condition)
         {
             if (condition)
@@ -98,6 +166,18 @@ namespace MogMod.Utilities
             return (destination - entity.Center).SafeNormalize(fallback.Value);
         }
         public static Tile TileRetrieval(int x, int y)
+        {
+            if (!WorldGen.InWorld(x, y))
+                return new Tile();
+
+            return Main.tile[x, y];
+        }
+        /// <summary>
+        /// Determines if a tile is solid ground based on whether it's active and not actuated or if the tile is solid in any way, including just the top.
+        /// </summary>
+        /// <param name="tile">The tile to check.</param>
+        public static bool IsTileSolidGround(this Tile tile) => tile != null && tile.HasUnactuatedTile && (Main.tileSolid[tile.TileType] || Main.tileSolidTop[tile.TileType]);
+        public static Tile ParanoidTileRetrieval(int x, int y)
         {
             if (!WorldGen.InWorld(x, y))
                 return new Tile();

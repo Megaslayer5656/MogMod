@@ -1,7 +1,10 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.TankyRizzler
@@ -10,6 +13,9 @@ namespace MogMod.Items.Armor.TankyRizzler
     public class TankyRizzlerChestplate : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public const float MeleeDamageBoost = 0.08f;
+        public const int MeleeCritBoost = 8;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MeleeDamageBoost.ToPercent(), MeleeCritBoost);
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -26,9 +32,10 @@ namespace MogMod.Items.Armor.TankyRizzler
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage<MeleeDamageClass>() += 0.12f;
-            player.GetCritChance<MeleeDamageClass>() += 8;
+            player.GetDamage<MeleeDamageClass>() += MeleeDamageBoost;
+            player.GetCritChance<MeleeDamageClass>() += MeleeCritBoost;
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => TankyRizzlerHelmet.ModifySetTooltips(this, tooltips);
         public override void AddRecipes()
         {
             CreateRecipe().

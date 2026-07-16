@@ -76,7 +76,7 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.MedusaHead).
                 AddIngredient<BrinyRind>(16).
                 AddIngredient(ItemID.BeetleHusk, 8).
-                AddIngredient<ManaCore>(1).
+                AddIngredient<ManaCore>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

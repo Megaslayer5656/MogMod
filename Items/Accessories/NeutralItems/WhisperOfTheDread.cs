@@ -20,8 +20,8 @@ namespace MogMod.Items.Accessories.NeutralItems
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Magic) += .15f;
-            player.GetDamage(DamageClass.Summon) += .15f;
+            player.GetDamage<MagicDamageClass>() += .12f;
+            player.GetDamage<SummonDamageClass>() += .12f;
 
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingWhisperDread = true;

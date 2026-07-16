@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,8 +15,8 @@ namespace MogMod.Buffs.PotionBuffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            // find a way to give life steal to everything using global.item
-            player.lifeSteal *= 4;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.satanicBuff = true;
             if (Main.rand.NextBool(3))
             {
                 Vector2 dustCorner = player.position - 2f * Vector2.One;

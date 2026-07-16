@@ -18,7 +18,6 @@ namespace MogMod.Projectiles.RangedProjectiles
             ProjectileID.Sets.CultistIsResistantTo[Type] = true;
             Main.projFrames[Type] = 8;
         }
-
         public override void SetDefaults()
         {
             Projectile.width = 18;
@@ -29,7 +28,6 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.timeLeft = 600;
         }
-
         public override void AI()
         {
             //Briefly invisible then quickly fades in after 4 frames so it doesn't appear out of your back
@@ -37,16 +35,11 @@ namespace MogMod.Projectiles.RangedProjectiles
             if (invistimer > 4)
             {
                 if (Projectile.alpha > 0)
-                {
                     Projectile.alpha -= 50;
-                }
                 MogModUtils.HomeInOnNPC(Projectile, true, 500f, 12f, 15f);
             }
             if (Projectile.alpha < 0)
-            {
                 Projectile.alpha = 0;
-            }
-
             Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 6)
@@ -55,18 +48,11 @@ namespace MogMod.Projectiles.RangedProjectiles
                 Projectile.frameCounter = 0;
             }
             if (Projectile.frame >= Main.projFrames[Type] / 2)
-            {
                 Projectile.frame = 0;
-            }
-            //The snake dies sooner without any food (very sad)
             if (Projectile.timeLeft <= 420)
-            {
                 Projectile.velocity *= 0.98f;
-            }
             if (Projectile.timeLeft <= 390)
-            {
                 Projectile.Kill();
-            }
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {

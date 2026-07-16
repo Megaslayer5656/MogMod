@@ -1,8 +1,11 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.Hellfire
@@ -11,6 +14,8 @@ namespace MogMod.Items.Armor.Hellfire
     public class HellfireBreastplate : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public const float DamageBoost = 0.1f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DamageBoost.ToPercent());
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -31,9 +36,10 @@ namespace MogMod.Items.Armor.Hellfire
             Item.rare = ItemRarityID.Lime;
             Item.value = MogGlobalItem.RarityLimeBuyPrice;
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => HellfireMask.ModifySetTooltips(this, tooltips);
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Generic) += 0.10f;
+            player.GetDamage(DamageClass.Generic) += DamageBoost;
             player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[BuffID.OnFire3] = true;
             player.buffImmune[BuffID.Burning] = true;

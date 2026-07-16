@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Common.Classes;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -16,7 +17,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.DamageType = SorceryDamageClass.Instance;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.usesLocalNPCImmunity = true;

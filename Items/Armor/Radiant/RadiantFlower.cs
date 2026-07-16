@@ -1,19 +1,30 @@
-﻿using MogMod.Common.MogModPlayer;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Items.Armor.Radiant
 {
     [AutoloadEquip(EquipType.Head)]
     public class RadiantFlower : ModItem, ILocalizedModType
     {
+        #region Setup
         public new string LocalizationCategory => "Items.Armor";
-        public static LocalizedText SetBonusText { get; private set; }
+        public const int ManaRegenBonus = 16;
+        public const int ManaBoost = 100;
+        public const float ManaReduction = 0.83f;
+        public const float MagicDamageBoost = 0.13f;
+        public const int MagicCritBoost = 13;
+        public static Color AbilityBriefColor = Color.LightSkyBlue;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ManaBoost, ManaReduction.ToReversedPercent(), MagicDamageBoost.ToPercent(), MagicCritBoost);
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -24,9 +35,6 @@ namespace MogMod.Items.Armor.Radiant
 
             // so the players hair can be seen with the armor equipped
             ArmorIDs.Head.Sets.DrawFullHair[equipSlot] = true;
-
-            // set bonus text
-            SetBonusText = this.GetLocalization("SetBonus");
         }
         public override void SetDefaults()
         {
@@ -36,13 +44,61 @@ namespace MogMod.Items.Armor.Radiant
             Item.rare = ItemRarityID.Cyan;
             Item.value = MogGlobalItem.RarityCyanBuyPrice;
         }
-
         // what armor is needed for a set bonus
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<RadiantTop>() && legs.type == ModContent.ItemType<RadiantBottom>();
+            return body.type == ModContent.ItemType<RadiantTop>() && 
+                legs.type == ModContent.ItemType<RadiantBottom>();
         }
+        #endregion
+        #region Armor Stat Changes
+        // set bonus
+        public override void UpdateArmorSet(Player player)
+        {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.wearingRadiantArmor = true;
+            player.manaRegenBonus += ManaRegenBonus;
 
+            player.setBonus = this.GetLocalization("AbilityBrief").Format(AbilityBriefColor.Hex3());
+        }
+        // armor stat buffs
+        public override void UpdateEquip(Player player)
+        {
+            player.statManaMax2 += ManaBoost;
+            player.manaCost *= ManaReduction;
+            player.GetDamage<MagicDamageClass>() += MagicDamageBoost;
+            player.GetCritChance<MagicDamageClass>() += MagicCritBoost;
+        }
+        #endregion
+        #region Tooltips
+        public static bool HasArmorSet(Player player) => player.armor[0].type == ItemType<RadiantFlower>() && player.armor[1].type == ItemType<RadiantTop>() && player.armor[2].type == ItemType<RadiantBottom>();
+        public static void ModifySetTooltips(ModItem item, List<TooltipLine> tooltips)
+        {
+            if (HasArmorSet(Main.LocalPlayer))
+            {
+                int setBonusIndex = tooltips.FindIndex(x => x.Name == "SetBonus" && x.Mod == "Terraria");
+
+                if (setBonusIndex != -1)
+                {
+                    if (Main.keyState.PressingShift())
+                    {
+                        setBonusIndex++;
+                        TooltipLine briefDescription = new(item.Mod, "MogMod:SetBonus1", MiscUtils.GetTextFromModItem<RadiantFlower>("SetBonusNormal").Format(AbilityBriefColor.Hex3(), ManaRegenBonus.ToRegenPerSecond()));
+                        tooltips.Insert(setBonusIndex, briefDescription);
+                    }
+                    else
+                    {
+                        setBonusIndex++;
+                        TooltipLine holdShiftIndicator = new(item.Mod, IHoldShiftTooltipItem.ExtensionIndicatorTooltipID, MiscUtils.GetTextValue("UI.ShiftToExpand"));
+                        holdShiftIndicator.OverrideColor = IHoldShiftTooltipItem.DefaultExtensionIndicatorColor;
+                        tooltips.Insert(setBonusIndex, holdShiftIndicator);
+                    }
+                }
+            }
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => ModifySetTooltips(this, tooltips);
+        #endregion
+        #region Visuals
         // visual effects
         public override void ArmorSetShadows(Player player)
         {
@@ -50,24 +106,8 @@ namespace MogMod.Items.Armor.Radiant
             player.armorEffectDrawOutlines = true;
             player.armorEffectDrawShadow = true;
         }
-
-        // set bonus
-        public override void UpdateArmorSet(Player player)
-        {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            mogPlayer.wearingRadiantArmor = true;
-            player.setBonus = SetBonusText.Value;
-            player.manaRegenBonus += 8;
-        }
-
-        // armor stat buffs
-        public override void UpdateEquip(Player player)
-        {
-            player.statManaMax2 += 100;
-            player.manaCost *= 0.83f;
-            player.GetDamage<MagicDamageClass>() += 0.13f;
-            player.GetCritChance<MagicDamageClass>() += 13;
-        }
+        #endregion
+        #region Recipe(s)
         public override void AddRecipes()
         {
             CreateRecipe().
@@ -85,5 +125,6 @@ namespace MogMod.Items.Armor.Radiant
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }
+        #endregion
     }
 }

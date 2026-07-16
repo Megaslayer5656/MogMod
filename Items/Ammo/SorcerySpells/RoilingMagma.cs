@@ -10,31 +10,29 @@ namespace MogMod.Items.Ammo.SorcerySpells
 {
     public class RoilingMagma : SorcerySpell
     {
-        public override int ManaCost => 10;
+        public override int ManaCost => 16;
         public override int AttackSpeed => 38;
         public override SoundStyle UseSound => SoundID.Item9;
         public override void SetDefaults()
         {
             base.SetDefaults();
             Item.width = Item.height = 36;
-            Item.damage = 35;
-            Item.DamageType = DamageClass.Magic;
-            Item.knockBack = 3f;
-            Item.rare = ItemRarityID.Yellow;
-            Item.value = MogGlobalItem.RarityYellowBuyPrice;
-            Item.shoot = ModContent.ProjectileType<ShardSpiralProj>();
-            Item.shootSpeed = 3f;
+            Item.damage = 42;
+            Item.knockBack = 8f;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
+            Item.shoot = ModContent.ProjectileType<RoilingMagmaProj>();
+            Item.shootSpeed = 12f;
+            SorceryClass = SorceryID.Magma;
         }
-        /* Not finished yet
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.WoodenSpike, 25).
-                AddRecipeGroup("MythrilBar", 15).
+                AddIngredient(ItemID.HellstoneBar, 8).
+                AddIngredient(ItemID.Dynamite, 5).
                 AddIngredient<Scroll>(1).
                 AddTile(TileID.Bookcases).
                 Register();
         }
-        */
     }
 }

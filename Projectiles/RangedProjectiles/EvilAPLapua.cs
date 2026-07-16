@@ -1,14 +1,17 @@
-﻿using MogMod.Utilities;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Ammo;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
     public class EvilAPLapua : ModProjectile, ILocalizedModType
     {
+        public override LocalizedText DisplayName => MiscUtils.GetItemName<EvilAPLapuaAmmo>();
         public new string LocalizationCategory => "Projectiles.RangedProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         public override void SetStaticDefaults()
@@ -40,34 +43,26 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.localAI[1] += 1f;
             if (Projectile.timeLeft < 240)
                 Projectile.velocity *= 0.932f;
-
             if (Projectile.timeLeft < 200)
                 Projectile.ai[0] = 1f;
-
             if (Projectile.ai[0] >= 1f)
             {
                 MogModUtils.HomeInOnNPC(Projectile, true, 1500f, 15f, 15f);
                 Projectile.extraUpdates = 70;
             }
-
             if (Projectile.localAI[1] > 4f)
-            {
                 for (int k = 0; k < 1; k++)
                 {
-                    Dust dust = Dust.NewDustPerfect(Projectile.position, DustID.RainbowMk2, Projectile.velocity, 100, Color.BlueViolet, 1f);
+                    Dust dust = Dust.NewDustPerfect(Projectile.position, DustID.RainbowMk2, Projectile.velocity, 100, Main.zenithWorld ? Color.BlueViolet : Color.SkyBlue, 1f);
                     dust.noGravity = true;
                 }
-            }
         }
         public override bool? CanHitNPC(NPC target)
         {
             if (Projectile.ai[0] < 1f)
-            {
                 return false;
-            }
             return null;
         }
-
         public override bool CanHitPvp(Player target) => Projectile.ai[0] < 1f;
         public override void OnKill(int timeLeft)
         {

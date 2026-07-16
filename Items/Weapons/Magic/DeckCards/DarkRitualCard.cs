@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using MogMod.Utilities;
+using Terraria;
 using Terraria.DataStructures;
 
 namespace MogMod.Items.Weapons.Magic.DeckCards
@@ -19,7 +20,7 @@ namespace MogMod.Items.Weapons.Magic.DeckCards
             info.Damage = 20;
             info.Knockback = 0f;
             info.HitDirection = player.direction;
-            info.DamageSource = PlayerDeathReason.ByCustomReason(player.name + " gave their life to the dark ritual.");
+            info.DamageSource = PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.DarkRitual").ToNetworkText(player.name));
 
             player.Hurt(info);
             if (player.statLife > player.statLifeMax2)

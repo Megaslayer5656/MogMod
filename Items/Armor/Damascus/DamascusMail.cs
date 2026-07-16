@@ -1,8 +1,12 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Placeable.Bars;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Items.Armor.Damascus
 {
@@ -11,15 +15,9 @@ namespace MogMod.Items.Armor.Damascus
     public class DamascusMail : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
-        public override void Load()
-        {
-            // cape doesnt work for some unknown reason
-            if (Main.netMode != NetmodeID.Server)
-            {
-                // Add equip textures
-                EquipLoader.AddEquipTexture(Mod, "MogMod/Items/Armor/Damascus/DamascusMail_Body", EquipType.Back, this);
-            }
-        }
+        public const int CritBoost = 6;
+        public const float MeleeSpeedBoost = 0.06f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(CritBoost, MeleeSpeedBoost.ToPercent());
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -37,10 +35,17 @@ namespace MogMod.Items.Armor.Damascus
             Item.rare = ItemRarityID.LightRed;
             Item.value = MogGlobalItem.RarityLightRedBuyPrice;
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (Main.LocalPlayer.armor[0].type == ItemType<DamascusHelm>())
+                DamascusHelm.ModifySetTooltips(this, tooltips);
+            else if (Main.LocalPlayer.armor[0].type == ItemType<DamascusMask>())
+                DamascusMask.ModifySetTooltips(this, tooltips);
+        }
         public override void UpdateEquip(Player player)
         {
-            player.GetCritChance<GenericDamageClass>() += 6;
-            player.GetAttackSpeed<MeleeDamageClass>() += .06f;
+            player.GetCritChance<GenericDamageClass>() += CritBoost;
+            player.GetAttackSpeed<MeleeDamageClass>() += MeleeSpeedBoost;
         }
         public override void AddRecipes()
         {

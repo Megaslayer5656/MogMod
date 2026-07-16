@@ -1,9 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.PotionBuffs;
+using MogMod.Common.MogModPlayer;
 using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Projectiles.MagicProjectiles;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.WorldBuilding;
 
 namespace MogMod.Projectiles.Melee
 {
@@ -61,9 +66,18 @@ namespace MogMod.Projectiles.Melee
                 dust.velocity = -Projectile.velocity * 0.5f;
             }
         }
-        // TODO: make it fill a gradiant ui
-        // increase charge by 10, 15 on crit
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Poisoned, 180);
-        public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(BuffID.Poisoned, 180);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            Player player = Main.player[Projectile.owner];
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            if (target.type != NPCID.TargetDummy)
+                mogPlayer.eSeraphCharge += hit.Crit ? 10 : 5;
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            Player player = Main.player[Projectile.owner];
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.eSeraphCharge += 10;
+        }
     }
 }

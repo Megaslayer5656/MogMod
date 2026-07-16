@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Common.Classes;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
@@ -22,7 +23,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             Projectile.penetrate = 10;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 15;
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.DamageType = SorceryDamageClass.Instance;
         }
 
         public override void AI()

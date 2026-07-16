@@ -76,12 +76,18 @@ Items: {
 
 		ArmletOfMordiggian: {
 			DisplayName: Armlet Of Mordiggian
-			Tooltip:
+			Tooltip: "[GFB]"
+			TooltipDefault:
 				'''
 				+5% Attack Damage
 				+5% Attack Speed
 				Pressing [KEY] will rapidly drain life, but increase attack damage and speed by 15%
 				[c/A62D24:'Weapon of choice among brutes, the bearer sacrifices their life energy to gain immense strength and power.']
+				'''
+			TooltipGFB:
+				'''
+				[c/E3596A:wont turn off for some reason...]
+				[c/E3596A:still evil though]
 				'''
 		}
 
@@ -122,25 +128,41 @@ Items: {
 
 		Satanic: {
 			DisplayName: Satanic
-			Tooltip:
+			Tooltip: "[GFB]"
+			TooltipDefault:
 				'''
 				+50 Max Life
 				+10% Attack Damage
 				Vastly Increases Lifesteal
-				Press [KEY] to imbue weapons with Lifesteal and increase Lifesteal effectiveness
+				Press [KEY] go into a frenzy, blinding yourself while also imbuing weapons with Lifesteal
+				Greatly increased Lifesteal effectiveness while frenzied
 				[c/872727:'Immense power at the cost of your soul.']
+				'''
+			TooltipGFB:
+				'''
+				[c/D11324:BLOOD!.. BLOOOD!!...]
+				[c/D11324:Blood is red as sunset,]
+				[c/D11324:Blood is warmer than wine...]
+				[c/D11324:Warmer than wine.]
+				[c/D11324:The taste of salty, summer brine...]
 				'''
 		}
 
 		RefresherOrb: {
 			DisplayName: Refresher Orb
-			Tooltip:
+			Tooltip: "[GFB]"
+			TooltipDefault:
 				'''
 				+10% Magic Damage
 				+10% Summon Damage
 				Increases Maximum Mana by 50
 				Pressing [KEY] will refresh the cooldowns of all items
 				[c/27873F:'A powerful artifact created for wizards.']
+				'''
+			TooltipGFB:
+				'''
+				does a whole lot a stuff like removing [c/F2B8F0:i] [c/5E9BBF:f][c/668726:r][c/000000:a][c/FF7700:m][c/382B5E:e][c/FF0000:s] sometinmes
+				[c/5C13D1:'tigz be tigaaz be']
 				'''
 		}
 
@@ -178,7 +200,7 @@ Items: {
 				+5% Magic Damage
 				+5% Summon Damage
 				Increased Maximum Mana by 50
-				Press [KEY] to summon a mighty beast!
+				Summons a mighty beast to protect you
 				[c/A68351:'The powerful headpiece of a dead necromancer.']
 				'''
 		}
@@ -220,7 +242,7 @@ Items: {
 			DisplayName: Veil Of Discord
 			Tooltip:
 				'''
-				+5% Magic Damage
+				+7% Sorcery Damage
 				+5% Attack Damage
 				+5% Attack Speed
 				Increased Maximum Life and Mana by 20
@@ -262,11 +284,6 @@ Items: {
 		MewingGuide: {
 			DisplayName: Mewing Guide
 			Tooltip: Teaches the sacred art of Mewing
-		}
-
-		IdeaRig: {
-			DisplayName: Idea Rig
-			Tooltip: Allows you to equip a Neutral Item
 		}
 
 		HelmOfIronWill: {
@@ -391,7 +408,7 @@ Items: {
 				+15% Magic Damage
 				+15% Summon Damage
 				Increased Maximum Mana by 100
-				Press [KEY] to summon a flying beast!
+				Summons an almighty beast to protect you
 				[c/AB4920:'The powerful headpiece of a dead overlord.']
 				'''
 		}
@@ -429,7 +446,7 @@ Items: {
 			DisplayName: Shivas Guard
 			Tooltip:
 				'''
-				+10% Magic Damage
+				+12% Sorcery Damage
 				+10% Attack Damage
 				+10% Attack Speed
 				Increases Life Regeneration
@@ -500,11 +517,17 @@ Items: {
 
 		HelmOfTheUndying: {
 			DisplayName: Helm Of The Undying
-			Tooltip:
+			Tooltip: "[GFB]"
+			TooltipDefault:
 				'''
 				Reduces the respawn timer by 20%
-				Dying summons vengeful ghosts that chase after your enemy
+				Dying summons vengeful ghosts that chase after your cursor
 				[c/78C25B:'The price for wearing it is paid in the afterlife.']
+				'''
+			TooltipGFB:
+				'''
+				[c/00FF2B:5x respawn time]
+				[i:MogMod/EyeOfMendez] [c/F0ADEE:"D star at 8:10.."]
 				'''
 		}
 
@@ -679,12 +702,18 @@ Items: {
 
 			GiantsMaul: {
 				DisplayName: Giant's Maul
-				Tooltip:
+				Tooltip: ""
+				TooltipNormal:
 					'''
-					+30% Melee Weapon Size
-					[c/BA2F2F:-20% Melee Speed]
-					True melee attacks have a small chance to bash enemies, dealing 2x the damage dealt, with a soft cap of 100
+					+{0}% Melee Weapon Size
+					[c/BA2F2F:-{1}% Melee Speed]
+					True melee attacks have a small chance to bash enemies, dealing {2}x the damage dealt, with a soft cap of {3}
 					[c/A62450:'Crude but smashingly effective.']
+					'''
+				TooltipGFB:
+					'''
+					tiny but super fast melees
+					values are {1}% something, {0}% something else
 					'''
 			}
 
@@ -692,8 +721,8 @@ Items: {
 				DisplayName: Whisper Of The Dread
 				Tooltip:
 					'''
-					+15% Magic Damage
-					+15% Summon Damage
+					+12% Magic Damage
+					+12% Summon Damage
 					[c/BA2F2F:+15% Damage Taken]
 					[c/C25B99:'The air that passes through this amulet makes a dreadful sound.']
 					'''
@@ -738,7 +767,7 @@ Items: {
 				DisplayName: Partisan Brand
 				Tooltip:
 					'''
-					+7% Magic Damage
+					+7% Sorcery Damage
 					+7% Summon Damage
 					'''
 			}
@@ -792,6 +821,114 @@ Items: {
 				20% chance to not consume arrows
 				'''
 		}
+
+		IdeaRig: {
+			DisplayName: Idea Rig
+			Tooltip: Allows you to equip a Neutral Item
+		}
+
+		ScavVest: {
+			DisplayName: Scav Vest
+			NameNormal: Scav Vest
+			NameGFB: Scat Vest
+			Tooltip:
+				'''
+				+8% Movement Speed
+				6% Chance to not consume ammo
+				Increases fishing power by 5
+				Fishing rods shoot 2 extra lures
+				[c/5FA656:'tigz tigz and matthias's head explodes']
+				'''
+		}
+
+		TritonM43A: {
+			DisplayName: Triton M43-A
+			Tooltip: "[DESC]"
+			TooltipGFB: tigla toejob
+			HoldShiftTooltip: ""
+			HoldShiftExtensionIndicator: ""
+			TooltipNormal:
+				'''
+				Allows you to equip a Neutral Item
+				[c/aaaaaa:Shift Right Click to toggle between different stat bonuses]
+				[c/B29FC9:'Manufactured by Dynaforce.']
+				'''
+			TritonLife:
+				'''
+				[c/aaaaaa:Current Stats:]
+				Increases Maximum Life and Mana by {0}
+				+{1} HP/s life regen 
+				+{2} MP/s mana regen
+				Reduces damage over time taken by {3} HP/s
+				'''
+			TritonDamage:
+				'''
+				[c/aaaaaa:Current Stats:]
+				+{0}% Critical Strike Chance
+				{1}% Increased Projectile Velocity
+				+{2}% Melee Weapon Size
+				'''
+			TritonMovement:
+				'''
+				[c/aaaaaa:Current Stats:]
+				+{0}% Movement Speed
+				+{1}% Jump Speed
+				+{2}% Mining Speed
+				Grants an extra jump
+				'''
+		}
+
+		AzimutSSZhuk: {
+			DisplayName: Azimut SS Zhuk
+			Tooltip: "[DESC]"
+			TooltipGFB: sounding w/ tigz
+			HoldShiftTooltip: ""
+			HoldShiftExtensionIndicator: ""
+			TooltipNormal:
+				'''
+				Allows you to equip a Neutral Item
+				[c/aaaaaa:Shift Right Click to toggle between different stat bonuses]
+				[c/5BA689:'RAgmuddy_reaper']
+				'''
+			ZhukLife:
+				'''
+				[c/aaaaaa:Current Stats:]
+				Increases Maximum Life by {0}%
+				Increases Maximum Mana by {1}
+				+{2} HP/s life regen 
+				+{3} MP/s mana regen
+				Reduces damage over time taken by {4} HP/s
+				'''
+			ZhukDamage:
+				'''
+				[c/aaaaaa:Current Stats:]
+				+{0}% Critical Strike Chance
+				{1}% Increased Projectile Velocity
+				+{2}% Melee Weapon Size
+				[c/BA2F2F:+{3}% Damage Taken]
+				'''
+			ZhukMovement:
+				'''
+				[c/aaaaaa:Current Stats:]
+				+{0}% Movement Speed
+				+{1}% Jump Speed
+				+{2}% Mining Speed
+				Increases flight time by {3}%
+				'''
+		}
+
+		OspreyMK4A: {
+			DisplayName: Osprey MK4A
+			Tooltip:
+				'''
+				[c/C73650:-15% Movement Speed]
+				+5% Damage Reduction
+				+12% Ranged Critical Strike Chance
+				15% Chance to not consume ammo
+				Allows you to equip a Neutral Item
+				[c/4C703A:'Actively used by the British army and specialists.']
+				'''
+		}
 	}
 
 	Weapons: {
@@ -808,10 +945,18 @@ Items: {
 
 			BlinkDagger: {
 				DisplayName: Blink Dagger
-				Tooltip:
+				Tooltip: "[GFB]"
+				TooltipNormal:
 					'''
 					Right click to teleport to your cursor
+					Getting hit restarts the blink cooldown
 					[c/6BB1CF:'Refresher Blink']
+					'''
+				TooltipGFB:
+					'''
+					Left click while influenced by chaos state to teleport to your cursor
+					Blink may or may not get refreshed on use
+					[c/6BB1CF:'REFRESHER BLINK']
 					'''
 			}
 
@@ -1133,9 +1278,9 @@ Items: {
 				Tooltip:
 					'''
 					Fires out 3 homing bolts
-					True melee strikes increase the weapons charge by 10%
-					Critical strikes increase the gauge by 20%
-					When at 100% charge, right click to throw out a spinning dagger that repeatedly fires homing bolts
+					Hitting an enemy charges the blade
+					Critical strikes greatly charge the blade
+					When fully charged, right click to throw out a spinning dagger that repeatedly fires homing bolts
 					'''
 			}
 		}
@@ -1143,10 +1288,18 @@ Items: {
 		Ranged: {
 			BerserkersSpear: {
 				DisplayName: Berserker's Spear
-				Tooltip:
+				Tooltip: "[GFB]"
+				TooltipNormal:
 					'''
 					Right click to throw a flaming spear at the cost of your life
 					When at low life the spear gains a huge stat boost
+					[c/913E24:'Huskar!']
+					'''
+				TooltipGFB:
+					'''
+					Left click to throw a barrage of spears
+					Right click to throw a flaming spear at the cost of your life
+					When at low life the spear gains a huge stat nerf
 					[c/913E24:'Huskar!']
 					'''
 			}
@@ -1322,7 +1475,13 @@ Items: {
 
 			SplinterLauncher: {
 				DisplayName: Splinter Launcher
-				Tooltip: Fires 2 splinters at once
+				Tooltip: "[GFB]"
+				TooltipNormal: Fires 2 splinters at once
+				TooltipGFB:
+					'''
+					Fires 50 splinters at once
+					'You can were the Tigua and the new helmet at the same time'
+					'''
 			}
 
 			MysticSnake: {
@@ -1358,6 +1517,7 @@ Items: {
 					Current firerate: [RPM] RPM
 					[c/D1BB28:'Say hello to Democracy!']
 					'''
+				GFBRPM: tigz
 			}
 
 			RuntyFlamethrower: {
@@ -1589,6 +1749,7 @@ Items: {
 					'''
 					Right click to consume 60 mana and disappear into the shadows
 					Damage is increased in correlation to the amount of time spent in the shadows
+					[c/C73650:Visibility of non-enemies is reduced while in the shadows]
 					[c/723680:'What you can't see will most definitely hurt you.']
 					'''
 			}
@@ -1599,6 +1760,7 @@ Items: {
 					'''
 					Right click to consume 40 mana and disappear into the shadows
 					Damage is increased in correlation to the amount of time spent in the shadows
+					[c/C73650:Visibility of non-enemies is reduced while in the shadows]
 					[c/BA0740:Attacking will reveal you from the shadows]
 					'''
 			}
@@ -1642,7 +1804,7 @@ Items: {
 					[c/AE6CD4:A powerful spell tome containing multiple different spells]
 					[c/6C86D4:Right click to bookmark a card]
 					[c/D46C89:Left click a bookmarked card to cast it]
-					[c/6CD46F:Press] [KEY] [c/6CD46F:to switch the selected card]
+					[c/6CD46F:Press [KEY] to switch the selected card]
 					'Does meaning have a meaning'
 					'''
 			}
@@ -1667,6 +1829,15 @@ Items: {
 					Repeated summons increase its power greatly
 					'''
 			}
+
+			GLORY: {
+				DisplayName: GLORY
+				Tooltip:
+					'''
+					Summons knights to fight for you (doesnt work for now since i dont want to sprite)
+					[c/DE1414:'BLOOD!] [c/CEDBE0:STEEL!] [c/E09A31:WAR!']
+					'''
+			}
 		}
 
 		Staves: {
@@ -1684,6 +1855,7 @@ Items: {
 				DisplayName: Lusat's Glintstone Staff
 				Tooltip:
 					'''
+					[c/8162DE:Sorcery knockback is increased by 50%]
 					[c/701228:Consumes 50% more mana per cast]
 					[c/1F2787:'Only those who have glimpsed what lies beyond the wisdom of stone may wield it.']
 					'''
@@ -1691,20 +1863,74 @@ Items: {
 
 			AzursGlintstoneStaff: {
 				DisplayName: Azur's Glintstone Staff
-				Tooltip: "[c/34A884:Sorceries cast 20% faster]"
+				Tooltip: "[c/34A884:Sorceries cast 40% faster]"
 			}
 
 			CrystalStaff: {
 				DisplayName: Crystal Staff
-				Tooltip: '''[c/05C8FF:'The Crystalian's faint cognition is known as the "wisdom of stone."']'''
+				Tooltip:
+					'''
+					[c/DC62DE:Sorceries deal 20% more critical strike damage]
+					[c/05C8FF:'The Crystalian's faint cognition is known as the "wisdom of stone."']
+					'''
 			}
 
 			MeteoriteStaff: {
 				DisplayName: Meteorite Staff
 				Tooltip:
 					'''
+					[c/8162DE:Sorcery knockback is increased by 30%]
 					[c/853E9C:Gravity Sorceries gain enhanced properties]
 					[c/A364CC:'Staff embedded with a dark purple glintstone, said to be the fragment of a meteorite.']
+					'''
+			}
+
+			AlbinauricStaff: {
+				DisplayName: Albinauric Staff
+				Tooltip:
+					'''
+					[c/701228:Consumes 10% more mana per cast]
+					[c/9ADE62:Sorcery velocity is increased by 20%]
+					[c/839186:'The Albinaurics harbor a secret; they cast sorcery using their innate arcaneness.']
+					'''
+			}
+
+			CarianRegalScepter: {
+				DisplayName: Carian Regal Scepter
+				Tooltip:
+					'''
+					[c/62B6DE:Consumes 50% less mana per cast]
+					[c/4A97C7:'Only those of the highest intelligence may wield this, the finest of all glintstone staves.']
+					'''
+			}
+
+			PrinceOfDeathsStaff: {
+				DisplayName: Prince Of Deaths Staff
+				Tooltip:
+					'''
+					[c/34A884:Sorceries cast 20% faster]
+					[c/62DEAE:Death sorceries move 100% faster]
+					[c/839190:'Staff embedded with sullied amber, said to be a very part of the Prince of Death.']
+					'''
+			}
+
+			StaffOfTheGuilty: {
+				DisplayName: Staff Of The Guilty
+				Tooltip:
+					'''
+					[c/701228:Costs 4 hp to cast]
+					[c/62B6DE:Consumes 20% less mana per cast]
+					[c/962938:'A heretical staff fashioned from a smoldering, withered sapling that turns the blood of sacrifices pierced by it into glintstone.']
+					'''
+			}
+
+			GelmirGlintstoneStaff: {
+				DisplayName: Gelmir Glintstone Staff
+				Tooltip:
+					'''
+					[c/701228:Sorceries cast 20% slower]
+					[c/DE8F62:Sorceries inflict hellfire]
+					[c/C46B27:'Staff with a forked tip, embedded with red glintstones.']
 					'''
 			}
 		}
@@ -1940,7 +2166,7 @@ Items: {
 			DisplayName: Aghanim's Bullet
 			Tooltip:
 				'''
-				Repeatedly homes in on enemies
+				Follows your cursor
 				Inflicts Aghanim's Hex on hit
 				'''
 		}
@@ -1956,8 +2182,16 @@ Items: {
 		}
 
 		EvilAPLapuaAmmo: {
-			DisplayName: Evil AP Lapua Ammo
-			Tooltip: Zips to an enemy after a short time
+			DisplayName: Storm Shot
+			NameNormal: Storm Shot
+			NameGFB: Evil AP Lapua
+			Tooltip: "[GFB]"
+			TooltipNormal:
+				'''
+				Zips to an enemy after a short time
+				[c/54FFFF:'Who's that handsome devil?']
+				'''
+			TooltipGFB: tigsplint
 		}
 
 		GreenTracerAmmo: {
@@ -2065,6 +2299,16 @@ Items: {
 					'''
 			}
 
+			GlintstoneShard: {
+				DisplayName: Glintstone Shard
+				Tooltip:
+					'''
+					Swiftly fires a glintstone shard
+					Ignores 5 points of enemy Defense
+					[c/91E0E6:'Those unworthy of the stone crown typically end their brief journey into sorcery here.']
+					'''
+			}
+
 			GlintstoneStars: {
 				DisplayName: Glintstone Stars
 				Tooltip:
@@ -2121,7 +2365,7 @@ Items: {
 
 			EmptySpell: {
 				DisplayName: Empty Spell
-				Tooltip: you should not have this
+				Tooltip: fires [c/000000:???]
 			}
 
 			BladesOfStone: {
@@ -2130,15 +2374,6 @@ Items: {
 					'''
 					Summons rock spikes from below
 					[c/853E9C:'Gaius and Radahn were good rivals in their youth, and this sorcery is a product of their friendly competition.']
-					'''
-			}
-
-			BriarsOfPunishment: {
-				DisplayName: Briars Of Punishment
-				Tooltip:
-					'''
-					Sprouts deadly thorns around you
-					[c/852834:'The guilty, their eyes gouged by thorns, lived in eternal darkness. There, they discovered the blood star.']
 					'''
 			}
 
@@ -2151,8 +2386,8 @@ Items: {
 					'''
 			}
 
-			RancorCall: {
-				DisplayName: Rancor Call
+			Rancorcall: {
+				DisplayName: Rancorcall
 				Tooltip:
 					'''
 					Fires a burst of homing vengeful spirits
@@ -2175,8 +2410,76 @@ Items: {
 				Tooltip:
 					'''
 					Summons a ball of light that floats above your head
+					Only one light ball may exist at a time
 					[c/6ED9E0:'Even during the blackest nights, sojourns underground, ]
 					[c/6ED9E0:or imprisonment in gaol, the stars are never far from a sorcerer's side.']
+					'''
+			}
+
+			BriarsOfPunishment: {
+				DisplayName: Briars Of Punishment
+				Tooltip:
+					'''
+					Medium bleed buildup
+					Sprouts deadly thorns around you
+					[c/852834:'The guilty, their eyes gouged by thorns, lived in eternal darkness. There, they discovered the blood star.']
+					'''
+			}
+
+			ImpenetrableThorns: {
+				DisplayName: Impenetrable Thorns
+				Tooltip:
+					'''
+					Low bleed buildup
+					Summons 3 thorns that twist and turn as they travel
+					Ignores 10 points of enemy Defense
+					[c/706949:'The image of the twisted Scadutree is an edict: Denounce their ways. Do them harm. For they have abandoned us.']
+					'''
+			}
+
+			GravityWell: {
+				DisplayName: Gravity Well
+				Tooltip:
+					'''
+					Fires a missile with inverted knockback that gains velocity over time
+					[c/A364CC:'A gravitational technique studied by the young Radahn. His master was an Alabaster Lord with skin of stone.']
+					'''
+			}
+
+			FiasMist: {
+				DisplayName: Fia's Mist
+				Tooltip:
+					'''
+					Casts a mist of ghostflame that rapidly hits enemies
+					Only one mist may exist at a time
+					[c/6E7042:'Death by a woman's embrace']
+					'''
+			}
+
+			RykardsRancor: {
+				DisplayName: Rykard's Rancor
+				Tooltip:
+					'''
+					Fires a searing spirit that repeatedly explodes
+					[c/F0421F:'These spirits manifest from the rancor of heroes who met a violent end.']
+					'''
+			}
+
+			GravitationalMissile: {
+				DisplayName: Gravitational Missile
+				Tooltip:
+					'''
+					Fires a bolt of gravity that repeatedly pulls in enemies
+					[c/853E9C:'Said to have originated in the lightless dark far beyond—the home of the fallingstar beasts.']
+					'''
+			}
+
+			RingsOfSpectralLight: {
+				DisplayName: Rings Of Spectral Light
+				Tooltip:
+					'''
+					Summons 6 rings around the player that fly towards your cursor at once
+					[c/839186:'Sorcery practiced by the keepers of the spiritgraves, where all death ultimately drifts.']
 					'''
 			}
 		}
@@ -2332,6 +2635,16 @@ Items: {
 			DisplayName: Soul Of Mog Mod
 			Tooltip: This... Is Mog Mod.
 		}
+
+		FrostEssence: {
+			DisplayName: Frost Essence
+			Tooltip: frost cold christmas
+		}
+
+		SpookyEssence: {
+			DisplayName: Spooky Essence
+			Tooltip: spooky hot halloween
+		}
 	}
 
 	Fishing: {
@@ -2349,7 +2662,7 @@ Items: {
 	Armor: {
 		RadiantTop: {
 			DisplayName: Radiant Shirt
-			Tooltip: +9% Magic Damage and Critical Strike Chance
+			Tooltip: +{0}% Magic Damage and Critical Strike Chance
 		}
 
 		RadiantFlower: {
@@ -2360,10 +2673,11 @@ Items: {
 				+13% Magic Damage and Critical Strike Chance
 				[c/76BACF:'A bolt of lightning shows me where to fly']
 				'''
-			SetBonus:
+			AbilityBrief: "[c/{0}:Radiant Benediction]"
+			SetBonusNormal:
 				'''
-				Hitting an enemy with a magic weapon summons radiant beams from the sky
-				Increased Mana Regeneration by 8
+				[c/{0}:Hitting an enemy with a magic weapon summons radiant beams from the sky]
+				[c/{0}:Increased Mana Regeneration by {1}]
 				'''
 		}
 
@@ -2371,8 +2685,8 @@ Items: {
 			DisplayName: Radiant Skirt
 			Tooltip:
 				'''
-				+13% Magic Damage
-				+12% Jump Speed and Movement Speed
+				+{0}% Magic Damage
+				+{1}% Jump Speed and Movement Speed
 				'''
 		}
 
@@ -2380,8 +2694,8 @@ Items: {
 			DisplayName: Berserker Chestplate
 			Tooltip:
 				'''
-				+12% Melee Damage
-				+8% Melee Critical Strike Chance
+				+{0}% Melee Damage
+				+{1}% Melee Critical Strike Chance
 				'''
 		}
 
@@ -2389,35 +2703,37 @@ Items: {
 			DisplayName: Berserker Helmet
 			Tooltip:
 				'''
-				+8% Melee Damage
+				+{0}% Melee Damage
 				Grants immunity to knockback
-				Increases life regeneration by 10
+				Increases life regeneration by {1}
 				'''
-			SetBonus:
+			AbilityBrief: "[c/{0}:Counter Helix]"
+			SetBonusNormal:
 				'''
-				+1300 Aggro, +10% Damage Reduction, and Increases maximum life by 100
-				Getting hit twice causes you to spin an axe around yourself, dealing melee damage
+				[c/{0}:+{1} Aggro, +{2}% Damage Reduction, and Increases maximum life by {3}]
+				[c/{0}:Getting hit twice causes you to spin an axe around yourself, dealing melee damage]
 				'''
 		}
 
 		TankyRizzlerLeggings: {
 			DisplayName: Berserker Leggings
-			Tooltip: +10% Movement and Melee Speed
+			Tooltip: +{0}% Movement and Melee Speed
 		}
 
 		TiglaHelmet: {
 			DisplayName: Tigla Helmet
 			Tooltip:
 				'''
-				+20% Ranged Damage
-				+8% Ranged Critical Strike Chance
+				+{0}% Ranged Damage
+				+{1}% Ranged Critical Strike Chance
 				'zombie tigla is on labs now'
 				'''
-			SetBonus:
+			AbilityBrief: "[c/{0}:King of Factory]"
+			SetBonusNormal:
 				'''
-				Grants the effects of Hunter and Ammo Reservation potions
-				Grants immunity to knockback
-				Right click to zoom out
+				[c/{0}:Grants the effects of Hunter and Ammo Reservation potions]
+				[c/{0}:Grants immunity to knockback]
+				[c/{0}:Right click to zoom out]
 				'''
 		}
 
@@ -2425,8 +2741,8 @@ Items: {
 			DisplayName: Tigla Pants
 			Tooltip:
 				'''
-				+9% Ranged Critical Strike Chance
-				+15% Jump Speed and Movement Speed
+				+{0}% Ranged Critical Strike Chance
+				+{1}% Jump Speed and Movement Speed
 				'''
 		}
 
@@ -2434,8 +2750,8 @@ Items: {
 			DisplayName: Tigla Vest
 			Tooltip:
 				'''
-				+16% Ranged Damage and Critical Strike Chance
-				20% Chance to not consume ammo
+				+{0}% Ranged Damage and Critical Strike Chance
+				{1}% Chance to not consume ammo
 				'''
 		}
 
@@ -2443,7 +2759,7 @@ Items: {
 			DisplayName: Blademail Breastplate
 			Tooltip:
 				'''
-				+8% Melee Damage and Critical Strike Chance
+				+{0}% Melee Damage and Critical Strike Chance
 				Enemies take damage when they hit you
 				'A razor-sharp coat of mail, it is the choice of selfless martyrs in combat.'
 				'''
@@ -2453,33 +2769,43 @@ Items: {
 			DisplayName: Blademail Mask
 			Tooltip:
 				'''
-				+7% Melee Damage and Critical Strike Chance
+				+{0}% Melee Damage and Critical Strike Chance
 				Enemies take damage when they hit you
 				'''
-			SetBonus:
+			AbilityBrief: "[c/{0}:Razor Sharp]"
+			SetBonusNormal:
 				'''
-				Increases amount of thorns damage
-				Pressing [KEY] will 7x thorns damage
+				[c/{0}:Increases amount of thorns damage]
+				[c/{0}:Pressing {2} will {1}x thorns damage]
 				'''
 		}
 
 		BlademailLeggings: {
 			DisplayName: Blademail Leggings
-			Tooltip: +10% Movement and Melee Speed
+			Tooltip: +{0}% Movement and Melee Speed
 		}
 
 		UndyingHelm: {
 			DisplayName: Wraith King's Helm
 			Tooltip:
 				'''
-				+12% Attack Damage 
-				+18% Critical Strike Chance
+				+{0}% Attack Damage 
+				+{1}% Critical Strike Chance
 				'''
-			SetBonus:
+			AbilityBrief: "[c/{0}:Wraith Spirit]"
+			SetBonusNormal:
 				'''
-				Enemies are much more likely to target you
-				If you are reduced to 1 HP you will turn into a wraith, delaying your death by 5 seconds.
-				Undying ghosts shoot out of your body while under the effects of wraith form
+				[c/{0}:Enemies are much more likely to target you]
+				[c/{0}:If you are reduced to 1 HP you will turn into a wraith, delaying your death by 5 seconds.]
+				[c/{0}:Undying ghosts shoot out of your body while under the effects of wraith form]
+				'''
+			SetBonusGFB:
+				'''
+				[c/{0}:mendez wraith king] 6 [i:MogMod/DivineRapierWeapon]
+				[c/7DD48C:kill yourself to not die for a couple sevconds]
+				[c/908AF9:you shoot sppooky ghosts]
+				[c/E36E34:they follow your cursor]
+				[c/F98ABC:buuuuuuuuut when you die its for like a minute cuase of] [c/FE4C99:helm] of [c/A6922E:undying] [i:MogMod/HelmOfTheUndying]
 				'''
 		}
 
@@ -2487,8 +2813,8 @@ Items: {
 			DisplayName: Wraith King's Breastplate
 			Tooltip:
 				'''
-				+10% Attack Damage
-				+12% Critical Strike Chance
+				+{0}% Attack Damage
+				+{1}% Critical Strike Chance
 				'''
 		}
 
@@ -2496,61 +2822,67 @@ Items: {
 			DisplayName: Wraith King's Greaves
 			Tooltip:
 				'''
-				+20% Movement Speed
-				+12% Critical Strike Chance
+				+{0}% Movement Speed
+				+{1}% Critical Strike Chance
 				'''
 		}
 
 		FrostMaidenMagic: {
 			DisplayName: Frost Maiden Mask
-			Tooltip: +10% Magic Critical Strike Chance
-			SetBonus:
+			Tooltip: +{0}% Sorcery Critical Strike Chance
+			AbilityBrief: "[c/{0}:Winter's Erudition]"
+			SetBonusNormal:
 				'''
-				+12% Magic Attack Damage
-				Attacks inflict freezing and summon ice shards as they travel
-				Increased Mana Regeneration by 4
+				[c/{0}:+{1}% Sorcery Attack Damage]
+				[c/{0}:Attacks inflict freezing and summon ice shards as they travel]
+				[c/{0}:Increased Mana Regeneration by {2}]
 				'''
 		}
 
 		FrostMaidenSummon: {
 			DisplayName: Frost Maiden Hood
-			Tooltip: +10% Summon Attack Damage
-			SetBonus:
+			Tooltip: +{0}% Summon Attack Damage
+			AbilityBrief: "[c/{0}:Winter's Ruling]"
+			SetBonusNormal:
 				'''
-				Attacks inflict freezing
-				Increases your max number of minions by 1
-				Summons a frost crystal to shoot at nearby enemies
+				[c/{0}:Attacks inflict freezing]
+				[c/{0}:Increases your max number of minions by {1}]
+				[c/{0}:Summons a frost crystal to shoot at nearby enemies]
 				'''
 		}
 
 		FrostMaidenPants: {
 			DisplayName: Frost Maiden Pants
-			Tooltip: Increases your max number of minions by 2
+			Tooltip: Increases your max number of minions by {0}
 		}
 
 		FrostMaidenRobe: {
 			DisplayName: Frost Maiden Robe
-			Tooltip: Increases maximum mana by 80 and 20% reduced mana cost
+			Tooltip: Increases maximum mana by {0} and {1}% reduced mana cost
 		}
 
 		DamascusHelm: {
 			DisplayName: Damascus Helm
-			Tooltip: +6% Critical Strike Chance
-			SetBonus: Critical Strikes deal 10% more damage
+			Tooltip: +{0}% Critical Strike Chance
+			AbilityBrief: "[c/{0}:Royal Strength]"
+			SetBonusNormal: "[c/{0}:Critical Strikes deal {1}% more damage]"
+			SetBonusGFB: "[c/{0}:Critical Strikes deal {1}% less damage]"
 		}
 
 		DamascusMask: {
 			DisplayName: Damascus Mask
-			Tooltip: +4% Critical Strike Chance
-			SetBonus: Critical Strikes heal you
+			Tooltip: +{0}% Critical Strike Chance
+			AbilityBrief: "[c/{0}:Royal Blessing]"
+			SetBonusNormal: "[c/{0}:Critical Strikes heal you]"
+			SetBonusGFB: "[c/{0}:Critical Strikes hurt you]"
 		}
 
 		DamascusGreaves: {
 			DisplayName: Damascus Greaves
 			Tooltip:
 				'''
-				+10% Movement Speed
-				+4% Critical Strike Chance
+				+{0}% Movement Speed
+				+{1}% Critical Strike Chance
 				'''
 		}
 
@@ -2558,39 +2890,41 @@ Items: {
 			DisplayName: Damascus Mail
 			Tooltip:
 				'''
-				+6% Critical Strike Chance
-				+6% Melee Attack Speed
+				+{0}% Critical Strike Chance
+				+{1}% Melee Attack Speed
 				'''
 		}
 
 		BoneGreaves: {
 			DisplayName: Bone Greaves
-			Tooltip: +12% Movement Speed
+			Tooltip: +{0}% Movement Speed
 		}
 
 		BoneMask: {
 			DisplayName: Bone Mask
 			Tooltip:
 				'''
-				+15% Mining Speed
-				+40% Block and Wall Placement Speed
+				+{0}% Mining Speed
+				+{1}% Block and Wall Placement Speed
 				'''
-			SetBonus:
+			AbilityBrief: "[c/{0}:Predator Eyes]"
+			SetBonusNormal:
 				'''
-				Shows the location of treasure and ore
-				Increases block placement range by 3
-				Grappling hooks shoot 2x as fast and retract 3x as fast
+				[c/{0}:Shows the location of treasure and ore]
+				[c/{0}:Increases block placement range by {1}]
+				[c/{0}:Grappling hooks shoot 2x as fast and retract 3x as fast]
 				'''
 		}
 
 		BoneHelm: {
 			DisplayName: Bone Helm
-			Tooltip: Increases maximum life by 20
-			SetBonus:
+			Tooltip: Increases maximum life by {0}
+			AbilityBrief: "[c/{0}:Predator Agility]"
+			SetBonusNormal:
 				'''
-				+8% Attack Speed
-				Grants the effects of Hunter potion
-				Grappling hooks shoot 2x as fast and retract 3x as fast
+				[c/{0}:+{1}% Attack Speed]
+				[c/{0}:Grants the effects of Hunter potion]
+				[c/{0}:Grappling hooks shoot 2x as fast and retract 3x as fast]
 				'''
 		}
 
@@ -2598,8 +2932,8 @@ Items: {
 			DisplayName: Bone Mail
 			Tooltip:
 				'''
-				+4% Critical Strike Chance
-				+5% Attack Damage
+				+{0}% Critical Strike Chance
+				+{1}% Attack Damage
 				'''
 		}
 
@@ -2607,23 +2941,24 @@ Items: {
 			DisplayName: White Mask
 			Tooltip:
 				'''
-				+10% Attack Speed
-				+8% Critical Strike Chance
+				+{0}% Attack Speed
+				+{1}% Critical Strike Chance
 				'''
-			SetBonus: +20% Blood Damage
+			AbilityBrief: "[c/{0}:Lord Of Blood's Thirst]"
+			SetBonusNormal: "[c/{0}:+{1}% Bleed Buildup]"
 		}
 
 		WhiteCloak: {
 			DisplayName: White Cloak
-			Tooltip: +12% Attack Speed
+			Tooltip: +{0}% Attack Speed
 		}
 
 		FaeBreastplate: {
 			DisplayName: Fae Breastplate
 			Tooltip:
 				'''
-				+15% Attack Damage
-				20% chance to save ammo
+				+{0}% Attack Damage
+				{1}% chance to save ammo
 				'''
 		}
 
@@ -2631,13 +2966,14 @@ Items: {
 			DisplayName: Fae Mask
 			Tooltip:
 				'''
-				+12% Attack Damage and +12% Critical Strike Chance
-				Increases maximum mana by 60 and 12% reduced mana cost
+				+{0}% Attack Damage and +{1}% Critical Strike Chance
+				Increases maximum mana by {2} and {3}% reduced mana cost
 				'''
-			SetBonus:
+			AbilityBrief: "[c/{0}:Blessing of the Empress]"
+			SetBonusNormal:
 				'''
-				Increases flight time by 50%
-				Double tap any direction to dash
+				[c/{0}:Increases flight time by {1}%]
+				[c/{0}:Double tap any direction to dash]
 				'''
 		}
 
@@ -2645,22 +2981,42 @@ Items: {
 			DisplayName: Fae Greaves
 			Tooltip:
 				'''
-				+24% Movement Speed
-				+12% Attack Speed
-				Increases your max number of minions by 2
-				Increases your max number of sentries by 2
+				+{0}% Movement Speed
+				+{1}% Attack Speed
+				Increases your max number of minions by {2}
+				Increases your max number of sentries by {3}
 				'''
 		}
 
 		HellfireMask: {
 			DisplayName: Hellfire Mask
-			Tooltip: +8% Attack Damage
-			SetBonus:
+			Tooltip: +{0}% Attack Damage
+			AbilityBrief: "[c/{0}:Hellfire Spirit]"
+			SetBonusNormal:
 				'''
-				Immunity to lava
-				Attacks inflict hellfire
-				When dealing over 100 damage in a single attack, create a hellfire explosion dealing 4x the damage dealt, with a soft cap of 1000
-				Effect has a 6 second cooldown
+				[c/{0}:Immunity to lava]
+				[c/{0}:Attacks inflict hellfire]
+				[c/{0}:When dealing over {2} damage in a single attack, create a hellfire explosion dealing 4x the damage dealt, with a soft cap of {1}]
+				[c/{0}:Effect has a {3} second cooldown]
+				'''
+			SetBonusGFB:
+				'''
+				[c/CC3712:'That was hot!'] - Lina dota2 midlane 1/48/2 triple [i:MogMod/DivineRapierWeapon]
+				[c/{0}:uhhh attacks make explosions when uunder ~ {1} dmage its kinda bad and it has a really long cooldown like {2} minutes- no seconds]
+				[c/{0}:it kinda needs a buff but i dont want to buff it because i think buffing it would be a...]
+				IO mid
+				[c/{0}:i ran out of things to say]
+				[c/12CC41:wPopOff]
+				[c/45F8FF:zoink]
+				[c/FF45FC:doggie]
+				z
+				44
+				8
+				[i:4956] [i:MogMod/HellfireMask] [i:MogMod/ScavVest] 6 7/8
+				dumb
+				dumb
+				dumb
+				sahur
 				'''
 		}
 
@@ -2668,7 +3024,7 @@ Items: {
 			DisplayName: Hellfire Breastplate
 			Tooltip:
 				'''
-				+10% Attack Damage
+				+{0}% Attack Damage
 				Cannot be set on fire
 				'''
 		}
@@ -2677,29 +3033,30 @@ Items: {
 			DisplayName: Hellfire Greaves
 			Tooltip:
 				'''
-				+10% Critical Strike Chance
-				+12% Movement Speed
+				+{0}% Critical Strike Chance
+				+{1}% Movement Speed
 				'''
 		}
 
 		RuntyHelmet: {
 			DisplayName: Runty Helmet
-			Tooltip: +1 Attack Damage
-			SetBonus:
+			Tooltip: +{0} Attack Damage
+			AbilityBrief: "[c/{0}:Covered in Scrap]"
+			SetBonusNormal:
 				'''
-				+2 Defense
-				+2 Attack Damage
+				[c/{0}:+{1} Defense]
+				[c/{0}:+{2} Attack Damage]
 				'''
 		}
 
 		RuntyBreastplate: {
 			DisplayName: Runty Breastplate
-			Tooltip: +3% Critical Strike Chance
+			Tooltip: +{0}% Critical Strike Chance
 		}
 
 		RuntyGreaves: {
 			DisplayName: Runty Greaves
-			Tooltip: +8% Jump Speed and Movement Speed
+			Tooltip: +{0}% Jump Speed and Movement Speed
 		}
 
 		PleaseStopMe: {
@@ -2714,12 +3071,13 @@ Items: {
 
 		SpiritedHelmet: {
 			DisplayName: Spirited Helmet
-			Tooltip: +6% Melee and Magic Critical Strike Chance
-			SetBonus:
+			Tooltip: +{0}% Melee and Magic Critical Strike Chance
+			AbilityBrief: "[c/{0}:Enchanted Soul]"
+			SetBonusNormal:
 				'''
-				+6% Melee and Magic Damage
-				Increases maximum mana by 80
-				Grants an extra jump and permanent slow fall
+				[c/{0}:+1% Melee and Magic Damage]
+				[c/{0}:Increases maximum mana by {2}]
+				[c/{0}:Grants an extra jump and permanent slow fall]
 				'''
 		}
 
@@ -2727,8 +3085,8 @@ Items: {
 			DisplayName: Spirited Breastplate
 			Tooltip:
 				'''
-				10% reduced mana cost
-				Increased Mana Regeneration by 2
+				{0}% reduced mana cost
+				Increased Mana Regeneration by {1}
 				'''
 		}
 
@@ -2736,8 +3094,8 @@ Items: {
 			DisplayName: Spirited Leggings
 			Tooltip:
 				'''
-				+8% Melee Speed
-				+10% Jump Speed and Movement Speed
+				+{0}% Melee Speed
+				+{1}% Jump Speed and Movement Speed
 				'''
 		}
 
@@ -2745,14 +3103,15 @@ Items: {
 			DisplayName: Seraphic Helm
 			Tooltip:
 				'''
-				+30% Melee Damage
-				Increases life regeneration by 10
+				+{0}% Melee Damage
+				Increases life regeneration by {1}
 				'''
-			SetBonus:
+			AbilityBrief: "[c/{0}:Seraphic Blessing]"
+			SetBonusNormal:
 				'''
-				Enemies are much more likely to target you
-				Taking fatal damage will revive you and make you immortal for 5 seconds
-				Effect has a 5 minute cooldown
+				[c/{0}:Enemies are much more likely to target you]
+				[c/{0}:Taking fatal damage will revive you and make you immortal for {1} seconds]
+				[c/{0}:Effect has a {2} minute cooldown]
 				'''
 		}
 
@@ -2760,15 +3119,16 @@ Items: {
 			DisplayName: Seraphic Crown
 			Tooltip:
 				'''
-				+30% Summon Damage
-				+20% Whip Range and Whip Speed
+				+{0}% Summon Damage
+				+{1}% Whip Range and Whip Speed
 				'''
-			SetBonus:
+			AbilityBrief: "[c/{0}:Seraphic Purification]"
+			SetBonusNormal:
 				'''
-				Increases your max number of minions by 5
-				Increases your max number of sentries by 5
-				Taking fatal damage will revive you and make you immortal for 5 seconds
-				Effect has a 5 minute cooldown
+				[c/{0}:Increases your max number of minions by {1}]
+				[c/{0}:Increases your max number of sentries by {2}]
+				[c/{0}:Taking fatal damage will revive you and make you immortal for {3} seconds]
+				[c/{0}:Effect has a {4} minute cooldown]
 				'''
 		}
 
@@ -2776,8 +3136,8 @@ Items: {
 			DisplayName: Seraphic Breastplate
 			Tooltip:
 				'''
-				+32% Melee Critical Strike Chance
-				+20% Whip Speed
+				+{0}% Melee Critical Strike Chance
+				+{1}% Whip Speed
 				'''
 		}
 
@@ -2785,8 +3145,8 @@ Items: {
 			DisplayName: Seraphic Greaves
 			Tooltip:
 				'''
-				+25% Movement and Melee Speed
-				+20% Whip Range
+				+{0}% Movement and Melee Speed
+				+{1}% Whip Range
 				'''
 		}
 
@@ -2794,43 +3154,37 @@ Items: {
 			DisplayName: Nihilum Headgear
 			Tooltip:
 				'''
-				+30% Ranged Damage
-				30% Chance to not consume ammo
+				+{0}% Ranged Damage
+				{1}% Chance to not consume ammo
 				'''
-			SetBonus:
+			AbilityBrief: "[c/{0}:Nullscaped]"
+			SetBonusNormal:
 				'''
-				Enemies are much less likely to target you
-				Press [KEY] to nullify yourself
-				While nulled, life is rapidly drained and lifesteal has no effect
-				Null essence is fired along with your shots
+				[c/{0}:Enemies are much less likely to target you]
+				[c/{0}:Press {1} to nullify yourself]
+				[c/{0}:While nulled, life is rapidly drained and lifesteal has no effect]
+				[c/{0}:Null essence is fired along with your shots]
 				'''
-		}
-
-		NihilumHelmet: {
-			DisplayName: Nihilum Helmet
-			Tooltip:
+			SetBonusGFB:
 				'''
-				+30% Magic Damage
-				Increases maximum mana by 100
-				'''
-			SetBonus:
-				'''
-				24% reduced mana cost
-				Increased Mana Regeneration by 14
-				Press [KEY] to nullify yourself
-				While nulled, life is rapidly drained and lifesteal has no effect
-				Null essence is fired along with your shots
+				[c/{0}:nullscapes gd]
+				|             
+				⬜             
+				            ▲        
+				⬜⬜        ⬜        ▲
+				|            |         ⬜
+				[c/E3DCE8:also your like perma nulled]
 				'''
 		}
 
 		NihilumChestplate: {
 			DisplayName: Nihilum Chestplate
-			Tooltip: +32% Ranged and Magic Critical Strike Chance
+			Tooltip: +{0}% Ranged Critical Strike Chance
 		}
 
 		NihilumLeggings: {
 			DisplayName: Nihilum Leggings
-			Tooltip: +30% Jump Speed and Movement Speed
+			Tooltip: +{0}% Jump Speed and Movement Speed
 		}
 	}
 

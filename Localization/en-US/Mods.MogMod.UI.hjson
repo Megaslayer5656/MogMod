@@ -1,0 +1,4 @@
+// Hold Shift tooltip default
+HoldShiftTooltipExtensionIndicator: Hold Shift for more
+HoldShiftTooltipReplacementIndicator: Hold Shift for details
+ShiftToExpand: Hold Shift to see an expanded description

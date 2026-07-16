@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.Cooldowns;
 using MogMod.Items.Global;
+using System.Linq;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -31,13 +33,17 @@ namespace MogMod.Items.Weapons.Melee
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.altFunctionUse == 2)
+            if (Main.zenithWorld && !player.HasBuff(BuffID.ChaosState))
+                return false;
+            if ((player.altFunctionUse == 2 || Main.zenithWorld) && !player.HasBuff<BlinkDebuff>())
                 DustEffects(player);
             return false;
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.altFunctionUse == 2)
+            if (Main.zenithWorld && !player.HasBuff(BuffID.ChaosState))
+                return false;
+            if ((player.altFunctionUse == 2 || Main.zenithWorld) && !player.HasBuff<BlinkDebuff>())
             {
                 Item.useTime = 10;
                 Item.useAnimation = 10;
@@ -51,6 +57,8 @@ namespace MogMod.Items.Weapons.Melee
                 player.Teleport(Main.MouseWorld, TeleportationStyleID.DebugTeleport);
                 if (Main.netMode == NetmodeID.MultiplayerClient)
                     NetMessage.SendData(65, -1, -1, null, 0, player.whoAmI, Main.MouseWorld.X, Main.MouseWorld.Y, TeleportationStyleID.DebugTeleport); //Needed for multiplayer
+                if (Main.zenithWorld && !Main.rand.NextBool(10))
+                    return true;
                 player.AddBuff(ModContent.BuffType<BlinkDebuff>(), 600);
             }
             else
@@ -64,9 +72,7 @@ namespace MogMod.Items.Weapons.Melee
         public override bool AltFunctionUse(Player player)
         {
             if (!player.HasBuff<BlinkDebuff>())
-            {
                 return true;
-            }
             return false;
         }
         public void DustEffects(Player player)
@@ -86,6 +92,13 @@ namespace MogMod.Items.Weapons.Melee
                     Main.dust[dust].scale *= 0.2f;
                 }
             }
+        }
+        // change the tooltip when in get fixed boi worlds
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            var line = tooltips.FirstOrDefault(x => x.Text.Contains("[GFB]") && x.Mod == "Terraria");
+            if (line != null)
+                line.Text = Lang.SupportGlyphs(this.GetLocalizedValue(Main.zenithWorld ? "TooltipGFB" : "TooltipNormal"));
         }
     }
 }

@@ -1,23 +1,30 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Common.MogModPlayer;
-using MogMod.Items.Accessories;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Items.Armor.Hellfire
 {
     [AutoloadEquip(EquipType.Head)]
     public class HellfireMask : ModItem, ILocalizedModType
     {
+        #region Setup
         public new string LocalizationCategory => "Items.Armor";
         public static double DamageMult = 4D;
+        public const float DamageBoost = 0.08f;
         public const int DamageCap = 1000;
-        public static LocalizedText SetBonusText { get; private set; }
+        public const int DamageCheck = 100;
+        public const int BoomCooldown = 360;
+        public static Color AbilityBriefColor = Color.OrangeRed;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DamageBoost.ToPercent(), DamageCap);
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -25,9 +32,6 @@ namespace MogMod.Items.Armor.Hellfire
 
             // worn on head
             int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
-
-            // set bonus text
-            SetBonusText = this.GetLocalization("SetBonus");
         }
         public override void SetDefaults()
         {
@@ -39,20 +43,67 @@ namespace MogMod.Items.Armor.Hellfire
             Item.rare = ItemRarityID.Lime;
             Item.value = MogGlobalItem.RarityLimeBuyPrice;
         }
-        public override void ArmorSetShadows(Player player)
-        {
-            player.armorEffectDrawOutlinesForbidden = true;
-        }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<HellfireBreastplate>() && legs.type == ModContent.ItemType<HellfireGreaves>();
+            return body.type == ModContent.ItemType<HellfireBreastplate>() && 
+                legs.type == ModContent.ItemType<HellfireGreaves>();
         }
+        #endregion
+        #region Armor Stat Changes
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = SetBonusText.Value;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingHellfireArmor = true;
             player.lavaImmune = true;
+
+            player.setBonus = this.GetLocalization("AbilityBrief").Format(AbilityBriefColor.Hex3());
+        }
+        public override void UpdateEquip(Player player)
+        {
+            player.GetDamage<GenericDamageClass>() += DamageBoost;
+        }
+        #endregion
+        #region Tooltips
+        public static bool HasArmorSet(Player player) => player.armor[0].type == ItemType<HellfireMask>() && player.armor[1].type == ItemType<HellfireBreastplate>() && player.armor[2].type == ItemType<HellfireGreaves>();
+        public static void ModifySetTooltips(ModItem item, List<TooltipLine> tooltips)
+        {
+            if (HasArmorSet(Main.LocalPlayer))
+            {
+                int setBonusIndex = tooltips.FindIndex(x => x.Name == "SetBonus" && x.Mod == "Terraria");
+
+                if (setBonusIndex != -1)
+                {
+                    if (Main.keyState.PressingShift())
+                    {
+                        if (Main.zenithWorld)
+                        {
+                            setBonusIndex++;
+                            TooltipLine briefDescription = new(item.Mod, "MogMod:SetBonus1", MiscUtils.GetTextFromModItem<HellfireMask>("SetBonusGFB").Format(AbilityBriefColor.Hex3(), DamageCheck, BoomCooldown.FramesToSeconds()));
+                            tooltips.Insert(setBonusIndex, briefDescription);
+                        }
+                        else
+                        {
+                            setBonusIndex++;
+                            TooltipLine briefDescription = new(item.Mod, "MogMod:SetBonus1", MiscUtils.GetTextFromModItem<HellfireMask>("SetBonusNormal").Format(AbilityBriefColor.Hex3(), DamageCap, DamageCheck, BoomCooldown.FramesToSeconds()));
+                            tooltips.Insert(setBonusIndex, briefDescription);
+                        }
+                    }
+                    else
+                    {
+                        setBonusIndex++;
+                        TooltipLine holdShiftIndicator = new(item.Mod, IHoldShiftTooltipItem.ExtensionIndicatorTooltipID, MiscUtils.GetTextValue("UI.ShiftToExpand"));
+                        holdShiftIndicator.OverrideColor = IHoldShiftTooltipItem.DefaultExtensionIndicatorColor;
+                        tooltips.Insert(setBonusIndex, holdShiftIndicator);
+                    }
+                }
+            }
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => ModifySetTooltips(this, tooltips);
+        #endregion
+        #region Visuals
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawOutlinesForbidden = true;
         }
         public override void UpdateVanitySet(Player player)
         {
@@ -69,10 +120,8 @@ namespace MogMod.Items.Armor.Hellfire
                 }
             }
         }
-        public override void UpdateEquip(Player player)
-        {
-            player.GetDamage<GenericDamageClass>() += 0.08f;
-        }
+        #endregion
+        #region Recipe(s)
         public override void AddRecipes()
         {
             CreateRecipe().
@@ -82,5 +131,6 @@ namespace MogMod.Items.Armor.Hellfire
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }
+        #endregion
     }
 }

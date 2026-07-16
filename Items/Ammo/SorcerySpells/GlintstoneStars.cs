@@ -19,19 +19,19 @@ namespace MogMod.Items.Ammo.SorcerySpells
             base.SetDefaults();
             Item.width = Item.height = 36;
             Item.damage = 20;
-            Item.DamageType = DamageClass.Magic;
             Item.knockBack = 4f;
             Item.rare = ItemRarityID.Orange;
             Item.value = MogGlobalItem.RarityOrangeBuyPrice;
             Item.shoot = ModContent.ProjectileType<GlintstoneStarsProj>();
             Item.shootSpeed = 6f;
+            SorceryClass = SorceryID.Glintstone;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.MeteoriteBar, 16).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 9).
-                AddIngredient<Scroll>(1).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 10).
+                AddIngredient(ItemID.MeteoriteBar, 8).
+                AddIngredient<Scroll>().
                 AddTile(TileID.Bookcases).
                 Register();
         }

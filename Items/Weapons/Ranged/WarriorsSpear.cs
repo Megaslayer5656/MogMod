@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
 using MogMod.Projectiles.RangedProjectiles;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.DataStructures;
@@ -50,7 +51,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                player.Hurt(PlayerDeathReason.ByCustomReason($"{player.name} sacrificed their lifeblood to the Warrior's Spear"), Convert.ToInt32(player.statLifeMax2 * .04), -player.direction, false, false, -1, false, 1000, 0, 0);
+                player.Hurt(PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.WarriorsSpear").ToNetworkText(player.name)), Convert.ToInt32(player.statLifeMax2 * .04), -player.direction, false, false, -1, false, 1000, 0, 0);
                 player.immune = false;
                 player.immuneTime = 0;
                 type = ModContent.ProjectileType<WarriorsFireSpearProj>();

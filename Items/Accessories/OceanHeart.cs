@@ -33,9 +33,9 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.LavaproofTackleBag, 1).
-                AddIngredient(ItemID.WoodFishingPole, 1).
-                AddIngredient(ItemID.ReinforcedFishingPole, 1).
+                AddIngredient(ItemID.LavaproofTackleBag).
+                AddIngredient(ItemID.WoodFishingPole).
+                AddIngredient(ItemID.ReinforcedFishingPole).
                 AddIngredient(ItemID.BottledWater, 50).
                 AddIngredient<FrigidShard>(5).
                 AddTile(TileID.TinkerersWorkbench).

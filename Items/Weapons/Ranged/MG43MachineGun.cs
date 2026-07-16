@@ -64,11 +64,11 @@ namespace MogMod.Items.Weapons.Ranged
             // different spread for each rpm
             int fireRate = rpm;
             if (rpm == 3)
-                fireRate = 0;
+                fireRate = Main.zenithWorld ? 0: 0;
             else if (rpm == 2)
-                fireRate = 25;
+                fireRate = Main.zenithWorld ? 0 : 25;
             else
-                fireRate = 50;
+                fireRate = Main.zenithWorld ? 500 : 50;
 
             // spread
             float SpeedX = velocity.X + Main.rand.Next(-fireRate, fireRate + 1) * 0.05f;
@@ -84,12 +84,13 @@ namespace MogMod.Items.Weapons.Ranged
             var effectDescTooltip = tooltips.FirstOrDefault(x => x.Text.Contains("[RPM]") && x.Mod == "Terraria");
             int fireRate = (rpm * 2) + 10;
 
-            effectDescTooltip.Text = effectDescTooltip.Text.Replace("[RPM]", $"{60 / fireRate * 175}"); // I have no idea if this is accurate
+            if (effectDescTooltip != null)
+                effectDescTooltip.Text = Main.zenithWorld ? effectDescTooltip.Text = effectDescTooltip.Text.Replace("[RPM]", this.GetLocalizedValue("GFBRPM")) : effectDescTooltip.Text = effectDescTooltip.Text.Replace("[RPM]", $"{60 / fireRate * 175}");
         }
         public override void AddRecipes() // adamantite tier, pre-mech
         {
             CreateRecipe().
-               AddIngredient<R8Revolver>(1).
+               AddIngredient<R8Revolver>().
                AddRecipeGroup("AdamantiteBar", 16).
                AddIngredient<FuciumBar>(10).
                AddTile(TileID.MythrilAnvil).

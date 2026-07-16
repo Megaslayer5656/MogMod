@@ -1,9 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.PotionBuffs;
+using MogMod.Common.Classes;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories.NeutralItems;
+using MogMod.Items.Armor.Damascus;
 using MogMod.Items.Armor.FrostMaiden;
 using MogMod.Items.Armor.Hellfire;
+using MogMod.Items.Weapons.Magic.SorceryStaves;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.Classless;
 using MogMod.Projectiles.MagicProjectiles;
@@ -37,6 +41,14 @@ namespace MogMod.Projectiles.BaseProjectiles
         public bool iceBullet = false;
         public bool deathBullet = false;
         public bool daybreakBullet = false;
+
+        public bool gelmirSpell = false;
+        public bool meteoriteSpell = false;
+        public bool crystalSpell = false;
+        public bool deathSpell = false;
+
+        public bool lusatSpell = false;
+        public bool azurSpell = false;
 
         public int Time = 0;
         private bool doubleDamage = false;
@@ -133,6 +145,49 @@ namespace MogMod.Projectiles.BaseProjectiles
                         dust.scale = Main.rand.NextFloat(0.4f, 0.8f);
                     }
                 }
+            Vector2 dustNumb = new(1.6f, 2f);
+            if (gelmirSpell)
+            {
+                Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, Main.rand.NextBool(3) ? DustID.Lava : DustID.Flare, projectile.velocity.X, projectile.velocity.Y, 100, default, 1.5f);
+                dust.noGravity = true;
+                dust.scale = Main.rand.NextFloat(dustNumb.X, dustNumb.Y);
+                dust.velocity *= 0.1f;
+            }
+            if (meteoriteSpell)
+            {
+                Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.PurpleCrystalShard, projectile.velocity.X, projectile.velocity.Y, 100, default, 1.5f);
+                dust.noGravity = true;
+                dust.scale = Main.rand.NextFloat(dustNumb.X, dustNumb.Y);
+                dust.velocity *= 0.1f;
+            }
+            if (crystalSpell)
+            {
+                Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, Main.rand.NextBool(3) ? 67 : DustID.BlueCrystalShard, projectile.velocity.X, projectile.velocity.Y, 100, default, 1.5f);
+                dust.noGravity = true;
+                dust.scale = Main.rand.NextFloat(dustNumb.X, dustNumb.Y);
+                dust.velocity *= 0.1f;
+            }
+            if (deathSpell)
+            {
+                Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, Main.rand.NextBool() ? DustID.Asphalt : DustID.MothronEgg, projectile.velocity.X, projectile.velocity.Y, 100, default, 1.5f);
+                dust.noGravity = true;
+                dust.scale = Main.rand.NextFloat(dustNumb.X, dustNumb.Y);
+                dust.velocity *= 0.1f;
+            }
+            if (lusatSpell)
+            {
+                Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, Main.rand.NextBool(3) ? DustID.Shadowflame : DustID.HallowedPlants, projectile.velocity.X, projectile.velocity.Y, 100, default, 1.5f);
+                dust.noGravity = true;
+                dust.scale = Main.rand.NextFloat(dustNumb.X, dustNumb.Y);
+                dust.velocity *= 0.1f;
+            }
+            if (azurSpell)
+            {
+                Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, Main.rand.NextBool(3) ? DustID.MagnetSphere : DustID.ApprenticeStorm, projectile.velocity.X, projectile.velocity.Y, 100, default, 1.5f);
+                dust.noGravity = true;
+                dust.scale = Main.rand.NextFloat(dustNumb.X, dustNumb.Y);
+                dust.velocity *= 0.1f;
+            }
             /* doubles damage if channeled for 3 seconds (idk what to use this for)
             if (player.channel && Time >= 180 && !doubleDamage)
             {
@@ -183,6 +238,17 @@ namespace MogMod.Projectiles.BaseProjectiles
                 ParryProjectile(projectile, target.whoAmI);
             }
         }
+        public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
+        {
+            Player player = Main.player[projectile.owner];
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            if (mogPlayer.wearingDamascus1 && Main.zenithWorld)
+                modifiers.CritDamage *= DamascusHelm.GFBCritMult;
+            else if (mogPlayer.wearingDamascus1)
+                modifiers.CritDamage *= DamascusHelm.CritMult + 1;
+            if (crystalSpell)
+                modifiers.CritDamage *= 1.2f;
+        }
         public static void ParryProjectile(Projectile projectile, int newOwner)
         {
             projectile.velocity *= -1f;
@@ -193,7 +259,6 @@ namespace MogMod.Projectiles.BaseProjectiles
             projectile.netUpdate = true;
             projectile.netUpdate2 = true;
         }
-
         public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[projectile.owner];
@@ -213,7 +278,7 @@ namespace MogMod.Projectiles.BaseProjectiles
             {
                 if (radiantProc)
                 {
-                    if (modPlayer.wearingRadiantArmor && projectile.type != ProjectileType<RadiantBeamProj>() && projectile.DamageType == DamageClass.Magic && modPlayer.radiantCooldown <= 0)
+                    if (modPlayer.wearingRadiantArmor && projectile.type != ProjectileType<RadiantBeamProj>() && (projectile.DamageType == DamageClass.Magic || projectile.DamageType == SorceryDamageClass.Instance) && modPlayer.radiantCooldown <= 0)
                     {
                         modPlayer.radiantCooldown = cooldownTimer;
                         MogModUtils.ProjectileRain(source, target.Center, 100f, 50f, 1500f, 1500f, 10f, ModContent.ProjectileType<RadiantBeamProj>(), Convert.ToInt32(projectile.damage / .75f), projectile.knockBack, projectile.owner);
@@ -222,7 +287,7 @@ namespace MogMod.Projectiles.BaseProjectiles
 
                 if (gunpowderProc)
                 {
-                    if (modPlayer.wearingGunpowderGauntlet && projectile.type != ProjectileType<GunpowderProj>() && projectile.DamageType == DamageClass.Magic && modPlayer.gunpowderCooldown <= 0)
+                    if (modPlayer.wearingGunpowderGauntlet && projectile.type != ProjectileType<GunpowderProj>() && (projectile.DamageType == DamageClass.Magic || projectile.DamageType == SorceryDamageClass.Instance) && modPlayer.gunpowderCooldown <= 0)
                     {
                         modPlayer.gunpowderCooldown = cooldownTimer;
                         int gunpowderProc = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ProjectileType<GunpowderProj>(), gunpowderDamage, 0f, projectile.owner);
@@ -286,9 +351,12 @@ namespace MogMod.Projectiles.BaseProjectiles
                 }
 
                 // atg and plasma shrimp
-                if ((modPlayer.atgActive || modPlayer.plasmaActive) && !voidItems.Contains(projectile.type))
+                if (modPlayer.atgActive || modPlayer.plasmaActive)
                 {
-                    modPlayer.doATG(damageDone);
+                    if (Main.zenithWorld)
+                        modPlayer.doATG(damageDone);
+                    else if (!voidItems.Contains(projectile.type))
+                        modPlayer.doATG(damageDone);
                 }
 
                 if (modPlayer.polyluteActive && !voidItems.Contains(projectile.type))
@@ -300,9 +368,33 @@ namespace MogMod.Projectiles.BaseProjectiles
                         Projectile.NewProjectile(source, target.Center, kirk, ModContent.ProjectileType<PolyluteProj>(), Convert.ToInt32(damageDone * .3f) + 1, 3, player.whoAmI);
                 }
 
+                // hellfire armor
+                if (modPlayer.wearingHellfireArmor && modPlayer.hellfireCooldown <= 0)
+                {
+                    if (Main.zenithWorld)
+                    {
+                        if (damageDone <= HellfireMask.DamageCheck)
+                        {
+                            modPlayer.hellfireCooldown = cooldownTimer * (HellfireMask.BoomCooldown / 5);
+                            int hellfire = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), (int)(hellfireDamage * 0.1f), 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                        }
+                    }
+                    else if (damageDone >= HellfireMask.DamageCheck)
+                    {
+                        modPlayer.hellfireCooldown = cooldownTimer * (HellfireMask.BoomCooldown / 5);
+                        int hellfire = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), hellfireDamage, 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                    }
+                }
+
                 if (target.type != NPCID.TargetDummy)
                 {
-                    if (modPlayer.wearingDamascus2 && hit.Crit)
+                    if (modPlayer.wearingDamascus2 && hit.Crit && Main.zenithWorld)
+                    {
+                        player.Hurt(PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Damascus").ToNetworkText(player.name)), 5, -player.direction, false, false, -1, false, 9999, 0, 0);
+                        player.immune = false;
+                        player.immuneTime = 0;
+                    }
+                    else if (modPlayer.wearingDamascus2 && hit.Crit)
                     {
                         int heal = 1;
                         heal *= Convert.ToInt32(player.lifeSteal * 0.01);
@@ -336,29 +428,54 @@ namespace MogMod.Projectiles.BaseProjectiles
                     */
                 }
             }
-
-            // hellfire armor
-            if (modPlayer.wearingHellfireArmor && modPlayer.hellfireCooldown <= 0)
-            {
-                if (damageDone >= 100)
-                {
-                    modPlayer.hellfireCooldown = cooldownTimer * 72;
-                    int hellfire = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), hellfireDamage, 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-                }
-            }
         }
-
-        // stolen STRAIGHT from fargos souls mod
-        // makes fishing rods spawn more bobbers when wearing certain accessories
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
             Player player = Main.player[projectile.owner];
             MogPlayer modPlayer = player.MogMod();
+            
+            bool CheckWeapon(int item)
+            {
+                if (player.HeldItem.type == item && source is EntitySource_ItemUse)
+                    return true;
+                return false;
+            }
 
+            if (CheckWeapon(ModContent.ItemType<GelmirGlintstoneStaff>()))
+                gelmirSpell = true;
+            if (CheckWeapon(ModContent.ItemType<MeteoriteStaff>()))
+                meteoriteSpell = true;
+            if (CheckWeapon(ModContent.ItemType<CrystalStaff>()))
+                crystalSpell = true;
+            if (CheckWeapon(ModContent.ItemType<PrinceOfDeathsStaff>()))
+                deathSpell = true;
+            if (CheckWeapon(ModContent.ItemType<LusatsGlintstoneStaff>()))
+                lusatSpell = true;
+            if (CheckWeapon(ModContent.ItemType<AzursGlintstoneStaff>()))
+                azurSpell = true;
+            if (source is EntitySource_Parent { Entity: Projectile Owner })
+            {
+                if (Owner.MogMod().gelmirSpell)
+                    gelmirSpell = true;
+                if (Owner.MogMod().meteoriteSpell)
+                    meteoriteSpell = true;
+                if (Owner.MogMod().crystalSpell)
+                    crystalSpell = true;
+                if (Owner.MogMod().deathSpell)
+                    deathSpell = true;
+                if (Owner.MogMod().lusatSpell)
+                    lusatSpell = true;
+                if (Owner.MogMod().azurSpell)
+                    azurSpell = true;
+            }
 
+            // stolen STRAIGHT from fargos souls mod
+            // makes fishing rods spawn more bobbers when wearing certain accessories
             if (projectile.bobber && CanSplit && source is EntitySource_ItemUse)
             {
                 int splitCount = 0;
+                if (modPlayer.wearingScavVest)
+                    splitCount += 2;
                 if (modPlayer.wearingFishSlop1)
                     splitCount += 5;
                 if (modPlayer.wearingFishSlop2)

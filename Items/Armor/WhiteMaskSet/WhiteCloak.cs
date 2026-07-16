@@ -1,6 +1,9 @@
 ﻿using MogMod.Items.Global;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.WhiteMaskSet
@@ -9,6 +12,8 @@ namespace MogMod.Items.Armor.WhiteMaskSet
     public class WhiteCloak : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public const float AttackSpeedBoost = 0.12f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(AttackSpeedBoost.ToPercent());
         public override void Load()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -39,8 +44,9 @@ namespace MogMod.Items.Armor.WhiteMaskSet
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetAttackSpeed(DamageClass.Generic) += .12f; // i think it would be cooler if it gave attack speed instead of damage because of bleed buildup
+            player.GetAttackSpeed(DamageClass.Generic) += AttackSpeedBoost;
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => WhiteMask.ModifySetTooltips(this, tooltips);
         public override void AddRecipes()
         {
             CreateRecipe().

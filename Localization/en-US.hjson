@@ -116,6 +116,7 @@ Mods: {
 			BoulderClass.DisplayName: Boulder Class
 			MeleeRangedMagicDamageClass.DisplayName: Melee/Ranged/Magic Damage
 			MeleeMagicDamageClass.DisplayName: Melee/Magic Damage
+			SorceryDamageClass.DisplayName: Sorcery Damage
 		}
 
 		Tiles: {
@@ -668,6 +669,7 @@ Mods: {
 				InfernoMHoldout.DisplayName: Inferno Maelstrom
 				EmptySpellCard.DisplayName: Empty Spell
 				VoCProj.DisplayName: Vortex Of Conflagration
+				GravitationalMissileBoom.DisplayName: Gravitational Missile
 			}
 
 			Magic: {
@@ -689,6 +691,24 @@ Mods: {
 					FoundingRainOfStarsStarProj.DisplayName: Falling Star
 					ExplosiveGhostflameProj.DisplayName: Ghostflame Explosion
 					GhostflameHomingProj.DisplayName: Vengeful Spirit
+					StarlightProj.DisplayName: Starlight
+					GlintstoneShardProj.DisplayName: Glintstone Shard
+					CometAzurLaser.DisplayName: Comet Azur
+					CometAzurHoldout.DisplayName: Comet Azur
+					CometAzurProj.DisplayName: Comet Azur
+					BriarsOfPunishmentProj.DisplayName: Briars Of Punishment
+					RoilingMagmaProj.DisplayName: Roiling Magma
+					ImpenetrableThornsProj.DisplayName: Impenetrable Thorns
+					RoilingMagmaShard.DisplayName: Roiling Magma Shard
+					GravityMissileProj.DisplayName: Gravity Missile
+					GravityOrbProj.DisplayName: Gravity Orb
+					BladesOfStoneProj.DisplayName: Blades Of Stone
+					FiasMistProj.DisplayName: Pudge Aura
+					RykardsRancorProj.DisplayName: Rykard's Rancor
+					RykardsRancorBoom.DisplayName: Rykard's Rancor
+					GravityWellProj.DisplayName: Gravity Well
+					GravitationalMissileProj.DisplayName: Gravitational Missile
+					SpectralLightProj.DisplayName: Spectral Light
 				}
 			}
 
@@ -814,6 +834,7 @@ Mods: {
 				DivinitasSummon.DisplayName: Divinitas
 				DivinitasBeamProj.DisplayName: Divinitas
 				DivinitasStarProj.DisplayName: Divinitas
+				GLORYSummon.DisplayName: Knight
 			}
 
 			Classless: {
@@ -878,6 +899,23 @@ Mods: {
 		NeutralItemSlot: {
 			Neutral: Neutral Item
 			NeutralDye: Neutral Item Dye
+		}
+
+		Prefixes: {
+			Weapon: {
+				Arcane.DisplayName: Arcane
+				Dense.DisplayName: Dense
+				Jagged.DisplayName: Jagged
+				Smooth.DisplayName: Smooth
+				Spiked.DisplayName: Spiked
+				Balrighted.DisplayName: Balrighted
+				Dumb.DisplayName: Dumb
+				Demanding.DisplayName: Demanding
+				Kinetic.DisplayName: Kinetic
+				Latent.DisplayName: Latent
+				Prestigious.DisplayName: Prestigious
+				Savage.DisplayName: Savage
+			}
 		}
 	}
 }

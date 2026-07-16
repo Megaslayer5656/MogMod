@@ -17,12 +17,12 @@ namespace MogMod.Items.Ammo.SorcerySpells
             base.SetDefaults();
             Item.width = Item.height = 36;
             Item.damage = 88;
-            Item.DamageType = DamageClass.Magic;
             Item.knockBack = 7f;
             Item.rare = ItemRarityID.LightPurple;
             Item.value = MogGlobalItem.RarityLightPurpleBuyPrice;
             Item.shoot = ModContent.ProjectileType<ExplosiveGhostflameProj>();
             Item.shootSpeed = 7f;
+            SorceryClass = SorceryID.Death;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MogMod.Projectiles.Classless;
 using MogMod.Utilities;
 using System;
@@ -15,10 +16,11 @@ namespace MogMod.Projectiles.MagicProjectiles
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
         public Player Owner => Main.player[Projectile.owner];
+        public static Color Colour => new(255, 107, 28);
         public bool CanExplode = true;
+        public bool DoubleDamage = false;
         public bool Released = false;
         public const int AttackSpeed = 15;
-        public const float FizzleOutTime = 40f;
         public const float StartScale = 0.0004f;
         public const float EndScale = 10.25f;
         public const float ChargeTime = 180f;
@@ -46,7 +48,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         public override void AI()
         {
             Timer++;
-            Lighting.AddLight(Projectile.Center, Color.OrangeRed.ToVector3() * (Projectile.scale * 0.5f));
+            Lighting.AddLight(Projectile.Center, Colour.ToVector3() * (Projectile.scale * 0.5f));
             bool canUseMana = Owner.CheckMana(Owner.HeldItem);
             float dustTimer = 0f;
             if (Timer <= ChargeTime)
@@ -54,9 +56,21 @@ namespace MogMod.Projectiles.MagicProjectiles
             if (Owner.CantUseHoldout() || !canUseMana)
             {
                 Released = true;
-                if (Projectile.timeLeft > FizzleOutTime)
-                    Projectile.timeLeft = (int)MathHelper.Clamp(MathHelper.Lerp(0f, FizzleOutTime, Timer / ChargeTime), 0f, FizzleOutTime);
-
+                Projectile.scale -= 0.2f;
+                Projectile.ExpandHitboxBy((int)(Projectile.scale * 50f));
+                // swirling dust effect
+                for (int i = 0; i < 10; i++)
+                {
+                    float randomAngle = Main.rand.NextFloat() * MathHelper.TwoPi;
+                    float outwardnessFactor = Main.rand.NextFloat();
+                    Vector2 spawnPosition = Projectile.Center + randomAngle.ToRotationVector2() / (Utils.Remap(Timer, 0f, ChargeTime, StartScale, EndScale) * 50f);
+                    Vector2 velocity = (randomAngle - 3f * MathHelper.Pi / 8f).ToRotationVector2() * (10f + 9f * Main.rand.NextFloat() + 4f * outwardnessFactor);
+                    Dust swirlingDust = Dust.NewDustPerfect(spawnPosition, DustID.Flare, new Vector2?(velocity), 0, default, 1.4f);
+                    swirlingDust.fadeIn = 0.25f + outwardnessFactor * 0.2f;
+                    swirlingDust.noGravity = true;
+                }
+                if (Projectile.scale <= 0)
+                    Projectile.Kill();
             }
             else if (!Released)
             {
@@ -104,6 +118,7 @@ namespace MogMod.Projectiles.MagicProjectiles
 
                 if (Timer > ChargeTime)
                 {
+                    DoubleDamage = true;
                     // 6 tiny dusts swirling when fully charged
                     for (int n = 0; n < 6; n++)
                     {
@@ -128,12 +143,19 @@ namespace MogMod.Projectiles.MagicProjectiles
             }
             AdjustPlayerValues();
         }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.SourceDamage *= Released && DoubleDamage ? 2f : 1f;
+        }
         public void AdjustPlayerValues()
         {
-            Projectile.spriteDirection = Projectile.direction = Owner.direction;
-            Owner.heldProj = Projectile.whoAmI;
-            Owner.itemTime = 2;
-            Owner.itemAnimation = 2;
+            if (!Released)
+            {
+                Projectile.spriteDirection = Projectile.direction = Owner.direction;
+                Owner.heldProj = Projectile.whoAmI;
+                Owner.itemTime = 2;
+                Owner.itemAnimation = 2;
+            }
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -164,5 +186,19 @@ namespace MogMod.Projectiles.MagicProjectiles
             }
         }
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindProjectiles.Add(index);
+        public override bool PreDraw(ref Color lightColor)
+        {
+            // glow effect
+            Main.spriteBatch.SetBlendState(BlendState.Additive);
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Texture2D bloomTex = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/CircleGradient").Value;
+            for (int i = 0; i < 2; i++)
+            {
+                Main.EntitySpriteDraw(bloomTex, drawPosition, null, Colour * 0.85f, Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * 0.3f, SpriteEffects.None);
+                Main.EntitySpriteDraw(bloomTex, drawPosition, null, Colour * 0.1f, Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * 0.5f, SpriteEffects.None);
+            }
+            Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
+            return false;
+        }
     }
 }

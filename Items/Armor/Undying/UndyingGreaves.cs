@@ -1,7 +1,10 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.Undying
@@ -10,6 +13,9 @@ namespace MogMod.Items.Armor.Undying
     public class UndyingGreaves : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public const float MovementBoost = 0.2f;
+        public const int CritBoost = 12;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MovementBoost.ToPercent(), CritBoost);
         public override void SetDefaults()
         {
             Item.width = 22;
@@ -20,13 +26,12 @@ namespace MogMod.Items.Armor.Undying
             Item.rare = ItemRarityID.Lime;
             Item.value = MogGlobalItem.RarityLimeBuyPrice;
         }
-
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => UndyingHelm.ModifySetTooltips(this, tooltips);
         public override void UpdateEquip(Player player)
         {
-            player.GetCritChance<GenericDamageClass>() += 12;
-            player.moveSpeed += .20f;
+            player.GetCritChance<GenericDamageClass>() += CritBoost;
+            player.moveSpeed += MovementBoost;
         }
-
         public override void AddRecipes()
         {
             CreateRecipe().

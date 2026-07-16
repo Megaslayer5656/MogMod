@@ -11,7 +11,6 @@ namespace MogMod.Common.Systems
         public static ModKeybind ArcaneBootsKeybind { get; private set; }
         public static ModKeybind RefresherOrbKeybind { get; private set; }
         public static ModKeybind WandKeybind { get; private set; }
-        public static ModKeybind HelmOfDominatorKeybind { get; private set; }
         public static ModKeybind GuardianGreavesKeybind { get; private set; }
         public static ModKeybind MekansmKeybind { get; private set; }
         public static ModKeybind ForceStaffKeybind { get; private set; }
@@ -38,7 +37,6 @@ namespace MogMod.Common.Systems
             GlimmerCapeKeybind = KeybindLoader.RegisterKeybind(Mod, "GlimmerCape", "X");
             SatanicKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateSatanic", "X");
             ForceStaffKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateForceStaff", "F");
-            HelmOfDominatorKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateHelmOfTheDominator", "G");
             DragonInstallKeybind = KeybindLoader.RegisterKeybind(Mod, "DragonInstall", "F");
             #endregion
 
@@ -61,7 +59,6 @@ namespace MogMod.Common.Systems
             ArcaneBootsKeybind = null;
             RefresherOrbKeybind = null;
             WandKeybind = null;
-            HelmOfDominatorKeybind = null;
             GuardianGreavesKeybind = null;
             MekansmKeybind = null;
             ForceStaffKeybind = null;

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Buffs.Debuffs;
+using Microsoft.Xna.Framework.Graphics;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
@@ -12,10 +12,12 @@ namespace MogMod.Projectiles.RangedProjectiles
     public class WaveProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.RangedProjectiles";
+        public float MiniWave = 126.86f; // gd miniwave degrees
+        public float Wave = 63.43f; // gd wave degrees
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 12;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
         public override void SetDefaults()
         {
@@ -31,28 +33,44 @@ namespace MogMod.Projectiles.RangedProjectiles
             AIType = ProjectileID.Bullet;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
         }
+        public override void OnSpawn(IEntitySource source)
+        {
+            Projectile.scale = Main.zenithWorld ? 1.25f : 2f;
+            if (Main.rand.NextBool(2))
+                Projectile.ai[1] = 6;
+            float rotation = MathHelper.ToRadians(Main.zenithWorld ? MiniWave : Wave);
+            Vector2 velocity = Projectile.velocity;
+            Projectile.velocity = velocity.RotatedBy(Projectile.ai[1] == 5 ? -rotation * 0.5f : rotation * 0.5f);
+        }
         public override void AI()
         {
             Projectile.ai[1]++;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            if (Projectile.ai[1] <= 5)
-                Projectile.velocity.Y = -6f;
-            if (Projectile.ai[1] >= 6)
-                Projectile.velocity.Y = 6f;
+            /* star of david
+            float rotation = MathHelper.ToRadians(63.43f);
+            Vector2 velocity = Projectile.velocity;
+            if (Projectile.ai[1] == 1)
+                Projectile.velocity = velocity.RotatedBy(-rotation);
+            */
+
+            float rotation = MathHelper.ToRadians(Main.zenithWorld ? MiniWave : Wave);
+            Vector2 velocity = Projectile.velocity;
+            if (Projectile.ai[1] == 1)
+                Projectile.velocity = velocity.RotatedBy(-rotation);
+            if (Projectile.ai[1] == 6)
+                Projectile.velocity = velocity.RotatedBy(rotation);
             if (Projectile.ai[1] >= 10)
                 Projectile.ai[1] = 0;
 
-            Dust dust = Dust.NewDustPerfect(Projectile.Center, 264, -Projectile.velocity * 0.05f);
-            dust.noGravity = true;
-            dust.scale = 1.2f;
-            dust.color = Color.LightBlue;
-            dust.fadeIn = 1.8f;
-        }
-        public override void OnSpawn(IEntitySource source)
-        {
-            if (Main.rand.NextBool(2))
-                Projectile.ai[1] = 5;
+            for (int i = 0; i < 2; i++)
+            {
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, 264, -Projectile.velocity * 0.05f, 100);
+                dust.noGravity = true;
+                dust.scale = 0.7f;
+                dust.color = Color.LightBlue;
+                dust.fadeIn = 1.8f;
+            }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -62,7 +80,15 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            Texture2D texture = Terraria.GameContent.TextureAssets.Projectile[Type].Value;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Main.EntitySpriteDraw(texture, drawPosition, null, Color.White, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.SetBlendState(BlendState.Additive);
+            Texture2D bloomTex = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/StarProj").Value;
+            Main.EntitySpriteDraw(bloomTex, drawPosition, null, Color.LightBlue, Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * 0.35f, SpriteEffects.None);
+            Main.EntitySpriteDraw(bloomTex, drawPosition, null, Color.LightBlue * 0.1f, Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * 0.9f, SpriteEffects.None);
+
+            Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;
         }
     }

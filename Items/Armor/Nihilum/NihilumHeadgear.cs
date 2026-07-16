@@ -1,5 +1,7 @@
-﻿using MogMod.Common.MogModPlayer;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
+using MogMod.Items.Armor.Hellfire;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Utilities;
@@ -8,16 +10,19 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Items.Armor.Nihilum
 {
     [AutoloadEquip(EquipType.Head)]
     public class NihilumHeadgear : ModItem, ILocalizedModType
     {
+        #region Setup
         public new string LocalizationCategory => "Items.Armor";
-        public static LocalizedText SetBonusText { get; private set; }
-        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.NulledKeybind);
-        ModKeybind keybindActive = null;
+        public const float RangedDamageBoost = 0.3f;
+        public const float AmmoReduction = 0.7f;
+        public static Color AbilityBriefColor = Color.Orchid;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(RangedDamageBoost.ToPercent(), AmmoReduction.ToReversedPercent());
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -25,9 +30,6 @@ namespace MogMod.Items.Armor.Nihilum
 
             // worn on head
             int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
-
-            // set bonus text
-            SetBonusText = this.GetLocalization("SetBonus");
         }
         public override void SetDefaults()
         {
@@ -39,29 +41,78 @@ namespace MogMod.Items.Armor.Nihilum
             Item.rare = ItemRarityID.Purple;
             Item.value = MogGlobalItem.RarityPurpleBuyPrice;
         }
+        public override bool IsArmorSet(Item head, Item body, Item legs)
+        {
+            return body.type == ModContent.ItemType<NihilumChestplate>() && 
+                legs.type == ModContent.ItemType<NihilumLeggings>();
+        }
+        #endregion
+        #region Armor Stat Changes
+        public override void UpdateArmorSet(Player player)
+        {
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.wearingNihilum = true;
+            mogPlayer.wearingNihilumRanged = true;
+            player.aggro -= 1000;
+            if (Main.zenithWorld)
+                mogPlayer.nulledDebuff = true;
+
+            player.setBonus = this.GetLocalization("AbilityBrief").Format(AbilityBriefColor.Hex3());
+        }
+        public override void UpdateEquip(Player player)
+        {
+            player.GetDamage<RangedDamageClass>() += RangedDamageBoost;
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.ammoCost *= AmmoReduction;
+        }
+        #endregion
+        #region Tooltips
+        public static bool HasArmorSet(Player player) => player.armor[0].type == ItemType<NihilumHeadgear>() && player.armor[1].type == ItemType<NihilumChestplate>() && player.armor[2].type == ItemType<NihilumLeggings>();
+        public static void ModifySetTooltips(ModItem item, List<TooltipLine> tooltips)
+        {
+            var Hotkey = KeybindSystem.NulledKeybind.TooltipHotkeyString();
+            if (HasArmorSet(Main.LocalPlayer))
+            {
+                int setBonusIndex = tooltips.FindIndex(x => x.Name == "SetBonus" && x.Mod == "Terraria");
+
+                if (setBonusIndex != -1)
+                {
+                    if (Main.keyState.PressingShift())
+                    {
+                        if (Main.zenithWorld)
+                        {
+                            setBonusIndex++;
+                            TooltipLine briefDescription = new(item.Mod, "MogMod:SetBonus1", MiscUtils.GetTextFromModItem<NihilumHeadgear>("SetBonusGFB").Format(AbilityBriefColor.Hex3()));
+                            tooltips.Insert(setBonusIndex, briefDescription);
+                        }
+                        else
+                        {
+                            setBonusIndex++;
+                            TooltipLine briefDescription = new(item.Mod, "MogMod:SetBonus1", MiscUtils.GetTextFromModItem<NihilumHeadgear>("SetBonusNormal").Format(AbilityBriefColor.Hex3(), Hotkey));
+                            tooltips.Insert(setBonusIndex, briefDescription);
+                        }
+                    }
+                    else
+                    {
+                        setBonusIndex++;
+                        TooltipLine holdShiftIndicator = new(item.Mod, IHoldShiftTooltipItem.ExtensionIndicatorTooltipID, MiscUtils.GetTextValue("UI.ShiftToExpand"));
+                        holdShiftIndicator.OverrideColor = IHoldShiftTooltipItem.DefaultExtensionIndicatorColor;
+                        tooltips.Insert(setBonusIndex, holdShiftIndicator);
+                    }
+                }
+            }
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => ModifySetTooltips(this, tooltips);
+        ModKeybind keybindActive = null;
+        #endregion
+        #region Visuals
         public override void ArmorSetShadows(Player player)
         {
             player.armorEffectDrawOutlines = true;
             player.armorEffectDrawOutlinesForbidden = true;
         }
-        public override bool IsArmorSet(Item head, Item body, Item legs)
-        {
-            return body.type == ModContent.ItemType<NihilumChestplate>() && legs.type == ModContent.ItemType<NihilumLeggings>();
-        }
-        public override void UpdateArmorSet(Player player)
-        {
-            player.setBonus = SetBonusText.Value;
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            mogPlayer.wearingNihilum = true;
-            mogPlayer.wearingNihilumRanged = true;
-            player.aggro -= 1000;
-        }
-        public override void UpdateEquip(Player player)
-        {
-            player.GetDamage<RangedDamageClass>() += 0.3f;
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            mogPlayer.ammoCost *= 0.7f;
-        }
+        #endregion
+        #region Recipe(s)
         // recipe will be changed eventually
         public override void AddRecipes()
         {
@@ -73,5 +124,6 @@ namespace MogMod.Items.Armor.Nihilum
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }
+        #endregion
     }
 }

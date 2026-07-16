@@ -4,19 +4,26 @@ using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.Summon;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Items.Armor.FrostMaiden
 {
     [AutoloadEquip(EquipType.Head)]
     public class FrostMaidenSummon : ModItem, ILocalizedModType
     {
+        #region Setup
         public new string LocalizationCategory => "Items.Armor";
         public static int CrystalDamage = 20;
-        public static LocalizedText SetBonusText { get; private set; }
+        public const int MaxMinions = 1;
+        public const float SummonDamageBoost = 0.1f;
+        public static Color AbilityBriefColor = Color.LightSkyBlue;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(SummonDamageBoost.ToPercent());
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -24,9 +31,6 @@ namespace MogMod.Items.Armor.FrostMaiden
 
             // worn on head
             int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
-
-            // set bonus text
-            SetBonusText = this.GetLocalization("SetBonus");
         }
         public override void SetDefaults()
         {
@@ -36,11 +40,13 @@ namespace MogMod.Items.Armor.FrostMaiden
             Item.rare = ItemRarityID.Orange;
             Item.value = MogGlobalItem.RarityOrangeBuyPrice;
         }
-
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<FrostMaidenRobe>() && legs.type == ModContent.ItemType<FrostMaidenPants>();
+            return body.type == ModContent.ItemType<FrostMaidenRobe>() && 
+                legs.type == ModContent.ItemType<FrostMaidenPants>();
         }
+        #endregion
+        #region Armor Stat Changes
         public override void UpdateArmorSet(Player player)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
@@ -58,13 +64,44 @@ namespace MogMod.Items.Armor.FrostMaiden
                     p.originalDamage = CrystalDamage;
                 }
             }
-            player.setBonus = SetBonusText.Value;
-            player.maxMinions += 1;
+            player.maxMinions += MaxMinions;
+
+            player.setBonus = this.GetLocalization("AbilityBrief").Format(AbilityBriefColor.Hex3());
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage<SummonDamageClass>() += 0.10f;
+            player.GetDamage<SummonDamageClass>() += SummonDamageBoost;
         }
+        #endregion
+        #region Tooltips
+        public static bool HasArmorSet(Player player) => player.armor[0].type == ItemType<FrostMaidenSummon>() && player.armor[1].type == ItemType<FrostMaidenRobe>() && player.armor[2].type == ItemType<FrostMaidenPants>();
+        public static void ModifySetTooltips(ModItem item, List<TooltipLine> tooltips)
+        {
+            if (HasArmorSet(Main.LocalPlayer))
+            {
+                int setBonusIndex = tooltips.FindIndex(x => x.Name == "SetBonus" && x.Mod == "Terraria");
+
+                if (setBonusIndex != -1)
+                {
+                    if (Main.keyState.PressingShift())
+                    {
+                        setBonusIndex++;
+                        TooltipLine briefDescription = new(item.Mod, "MogMod:SetBonus1", MiscUtils.GetTextFromModItem<FrostMaidenSummon>("SetBonusNormal").Format(AbilityBriefColor.Hex3(), MaxMinions));
+                        tooltips.Insert(setBonusIndex, briefDescription);
+                    }
+                    else
+                    {
+                        setBonusIndex++;
+                        TooltipLine holdShiftIndicator = new(item.Mod, IHoldShiftTooltipItem.ExtensionIndicatorTooltipID, MiscUtils.GetTextValue("UI.ShiftToExpand"));
+                        holdShiftIndicator.OverrideColor = IHoldShiftTooltipItem.DefaultExtensionIndicatorColor;
+                        tooltips.Insert(setBonusIndex, holdShiftIndicator);
+                    }
+                }
+            }
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => ModifySetTooltips(this, tooltips);
+        #endregion
+        #region Recipe(s)
         public override void AddRecipes()
         {
             CreateRecipe().
@@ -74,5 +111,6 @@ namespace MogMod.Items.Armor.FrostMaiden
                 AddTile(TileID.Anvils).
                 Register();
         }
+        #endregion
     }
 }

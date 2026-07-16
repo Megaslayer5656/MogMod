@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
@@ -90,14 +91,24 @@ namespace MogMod.Projectiles.Melee
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            // increase charge by 1, 3 on crit
             if (Projectile.owner == Main.myPlayer)
                 HitNPC = true;
+            if (Projectile.ai[2] >= 2f)
+                return;
+            Player player = Main.player[Projectile.owner];
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            if (target.type != NPCID.TargetDummy)
+                mogPlayer.eSeraphCharge += hit.Crit ? 5 : 3;
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Projectile.owner == Main.myPlayer)
                 HitNPC = true;
+            if (Projectile.ai[2] >= 2f)
+                return;
+            Player player = Main.player[Projectile.owner];
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.eSeraphCharge += 5;
         }
         public override void OnKill(int timeLeft)
         {

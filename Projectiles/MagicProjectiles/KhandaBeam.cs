@@ -16,9 +16,8 @@ namespace MogMod.Projectiles.MagicProjectiles
     {
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
         public override string Texture => "MogMod/Projectiles/MagicProjectiles/KhandaBeam";
-
-        public static readonly Color[] Colors = new Color[]
-        {
+        public static readonly Color[] Colors =
+        [
             //new Color(255, 0, 0, 50), //Red
             //new Color(255, 128, 0, 50), //Orange
             //new Color(255, 255, 0, 50), //Yellow
@@ -32,16 +31,14 @@ namespace MogMod.Projectiles.MagicProjectiles
             new Color(255, 0, 255, 50), //Fuschia
             new Color(128, 0, 255, 50), //Purple
             //new Color(255, 0, 128, 50) //Hot Pink
-        };
-        public static readonly Color[] ColorSet = new Color[]
-        {
+        ];
+        public static readonly Color[] ColorSet =
+        [
             new Color(128, 0, 255, 50), //Purple
             new Color(255, 0, 255, 50), //Fuschia
             new Color(128, 0, 255, 50), //Purple
-        };
-
+        ];
         public bool PlayedSound = false;
-
         public const int ChargeupTime = 30;
         public Player Owner => Main.player[Projectile.owner];
         public override Color LaserOverlayColor => MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / ColorSet.Length % 1f, ColorSet); // determines color from ColorSet array
@@ -53,7 +50,6 @@ namespace MogMod.Projectiles.MagicProjectiles
         public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryMid", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryEnd", AssetRequestMode.ImmediateLoad).Value;
         private const float AimResponsiveness = 0.88f; // Last Prism is 0.92f. Lower makes the laser turn faster. if above 1.0 it turns the beam backwards
-
         public override void SetDefaults()
         {
             Projectile.width = 7;
@@ -73,7 +69,6 @@ namespace MogMod.Projectiles.MagicProjectiles
         {
             Projectile.scale = Time < ChargeupTime ? 0f : Utils.GetLerpValue(0f, 40f, Projectile.timeLeft, true) * MaxScale;
         }
-
         public override float DetermineLaserLength()
         {
             return DetermineLaserLength_CollideWithTiles(5);
@@ -139,7 +134,6 @@ namespace MogMod.Projectiles.MagicProjectiles
             }
             return true;
         }
-
         // Gently adjusts the aim vector of the laser to point towards the mouse. if AimResponsiveness is above 1, the beam is backwards
         private void UpdateAim(Vector2 source)
         {
@@ -152,9 +146,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 Projectile.netUpdate = true;
             Projectile.velocity = aimVector;
         }
-
         public override bool ShouldUpdatePosition() => false;
-
         // Update CutTiles so the laser will cut tiles (like grass).
         public override void CutTiles()
         {

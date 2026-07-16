@@ -18,12 +18,12 @@ namespace MogMod.Items.Ammo.SorcerySpells
             base.SetDefaults();
             Item.width = Item.height = 36;
             Item.damage = 25;
-            Item.DamageType = DamageClass.Magic;
             Item.knockBack = 8f;
             Item.rare = ItemRarityID.Green;
             Item.value = MogGlobalItem.RarityGreenBuyPrice;
             Item.shoot = ModContent.ProjectileType<GlintstoneArcProj>();
             Item.shootSpeed = 7f;
+            SorceryClass = SorceryID.Glintstone;
         }
     }
 }

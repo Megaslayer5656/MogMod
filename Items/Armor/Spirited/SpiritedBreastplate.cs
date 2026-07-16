@@ -1,8 +1,11 @@
 ﻿using MogMod.Items.Accessories;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Armor.Spirited
@@ -12,6 +15,9 @@ namespace MogMod.Items.Armor.Spirited
     public class SpiritedBreastplate : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public const float ManaReduction = 0.9f;
+        public const int ManaRegenBonus = 2;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ManaReduction.ToReversedPercent(), ManaRegenBonus.ToRegenPerSecond());
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -29,9 +35,10 @@ namespace MogMod.Items.Armor.Spirited
         }
         public override void UpdateEquip(Player player)
         {
-            player.manaCost *= 0.9f;
-            player.manaRegenBonus += 2;
+            player.manaCost *= ManaReduction;
+            player.manaRegenBonus += ManaRegenBonus;
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => SpiritedHelmet.ModifySetTooltips(this, tooltips);
         public override void AddRecipes()
         {
             CreateRecipe().

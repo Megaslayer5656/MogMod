@@ -1,4 +1,4 @@
-displayName = Mog Mod
-author = Megaslayer_;PokemonTrainer
-version = 0.1
+displayName = [c/96FF0A:Mog Mod]
+author = Megaslayer_, [c/5BCEFA:Pok][c/F5A9B8:emo]nt[c/F5A9B8:rai][c/5BCEFA:ner], [c/853E9C:SenorDragon]
+version = 0.6.7.8
 modReferences = StructureHelper

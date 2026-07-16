@@ -2,6 +2,7 @@
 using MogMod.Items.Global;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -23,11 +24,18 @@ namespace MogMod.Items.Accessories
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingRigSlot = true;
         }
+        public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
+        {
+            var rigs = MogGlobalItem.EnableNeutralItemSlots;
+            if (rigs.Contains(incomingItem.type) && rigs.Contains(equippedItem.type))
+                return false;
+            return true;
+        }
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient(ItemID.Silk, 25).
-                AddIngredient(ItemID.Chest, 1).
+                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Chest"}").
                 AddTile(TileID.Loom).
                 Register();
         }

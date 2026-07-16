@@ -2,18 +2,27 @@
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Items.Armor.Spirited
 {
     [AutoloadEquip(EquipType.Head)]
     public class SpiritedHelmet : ModItem, ILocalizedModType
     {
+        #region Setup
         public new string LocalizationCategory => "Items.Armor";
-        public static LocalizedText SetBonusText { get; private set; }
+        public const int ManaBoost = 80;
+        public const float DamageReduction = 0.1f;
+        public const float MeleeAndMagicDamageBoost = 0.08f;
+        public const int MeleeAndMagicCritBoost = 6;
+        public static Color AbilityBriefColor = Color.GhostWhite;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MeleeAndMagicCritBoost);
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -21,9 +30,6 @@ namespace MogMod.Items.Armor.Spirited
 
             // worn on head
             int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
-
-            // set bonus text
-            SetBonusText = this.GetLocalization("SetBonus");
         }
         public override void SetDefaults()
         {
@@ -33,22 +39,59 @@ namespace MogMod.Items.Armor.Spirited
             Item.rare = ItemRarityID.Green;
             Item.value = MogGlobalItem.RarityGreenBuyPrice;
         }
-
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<SpiritedBreastplate>() && legs.type == ModContent.ItemType<SpiritedLeggings>();
+            return body.type == ModContent.ItemType<SpiritedBreastplate>() && 
+                legs.type == ModContent.ItemType<SpiritedLeggings>();
         }
+        #endregion
+        #region Armor Stat Changes
         public override void UpdateArmorSet(Player player)
         {
-            // set bonus will be a custom double jump + slowfall
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingSpiritArmor = true;
             player.GetJumpState<SpiritJump>().Enable();
-            player.setBonus = SetBonusText.Value;
-            player.statManaMax2 += 80;
-            player.GetDamage<MeleeDamageClass>() += 0.06f;
-            player.GetDamage<MagicDamageClass>() += 0.06f;
+            player.statManaMax2 += ManaBoost;
+            player.GetDamage<MeleeDamageClass>() += MeleeAndMagicDamageBoost;
+            player.GetDamage<MagicDamageClass>() += MeleeAndMagicDamageBoost;
+
+            player.setBonus = this.GetLocalization("AbilityBrief").Format(AbilityBriefColor.Hex3());
         }
+        public override void UpdateEquip(Player player)
+        {
+            player.GetCritChance<MeleeDamageClass>() += MeleeAndMagicCritBoost;
+            player.GetCritChance<MagicDamageClass>() += MeleeAndMagicCritBoost;
+        }
+        #endregion
+        #region Tooltips
+        public static bool HasArmorSet(Player player) => player.armor[0].type == ItemType<SpiritedHelmet>() && player.armor[1].type == ItemType<SpiritedBreastplate>() && player.armor[2].type == ItemType<SpiritedLeggings>();
+        public static void ModifySetTooltips(ModItem item, List<TooltipLine> tooltips)
+        {
+            if (HasArmorSet(Main.LocalPlayer))
+            {
+                int setBonusIndex = tooltips.FindIndex(x => x.Name == "SetBonus" && x.Mod == "Terraria");
+
+                if (setBonusIndex != -1)
+                {
+                    if (Main.keyState.PressingShift())
+                    {
+                        setBonusIndex++;
+                        TooltipLine briefDescription = new(item.Mod, "MogMod:SetBonus1", MiscUtils.GetTextFromModItem<SpiritedHelmet>("SetBonusNormal").Format(AbilityBriefColor.Hex3(), MeleeAndMagicDamageBoost.ToPercent(), ManaBoost));
+                        tooltips.Insert(setBonusIndex, briefDescription);
+                    }
+                    else
+                    {
+                        setBonusIndex++;
+                        TooltipLine holdShiftIndicator = new(item.Mod, IHoldShiftTooltipItem.ExtensionIndicatorTooltipID, MiscUtils.GetTextValue("UI.ShiftToExpand"));
+                        holdShiftIndicator.OverrideColor = IHoldShiftTooltipItem.DefaultExtensionIndicatorColor;
+                        tooltips.Insert(setBonusIndex, holdShiftIndicator);
+                    }
+                }
+            }
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => ModifySetTooltips(this, tooltips);
+        #endregion
+        #region Visuals
         public override void UpdateVanitySet(Player player)
         {
             if (Main.rand.NextBool(2))
@@ -64,11 +107,8 @@ namespace MogMod.Items.Armor.Spirited
                 }
             }
         }
-        public override void UpdateEquip(Player player)
-        {
-            player.GetCritChance<MeleeDamageClass>() += 6;
-            player.GetCritChance<MagicDamageClass>() += 6;
-        }
+        #endregion
+        #region Recipe(s)
         public override void AddRecipes()
         {
             CreateRecipe().
@@ -77,5 +117,6 @@ namespace MogMod.Items.Armor.Spirited
                 AddTile(TileID.Anvils).
                 Register();
         }
+        #endregion
     }
 }

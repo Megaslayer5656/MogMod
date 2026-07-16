@@ -126,13 +126,27 @@ namespace MogMod.NPCs.Global
         }
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
+            #region Setup
             LeadingConditionRule postEye = npcLoot.DefineConditionalDropSet(DropHelper.PostEye());
-            LeadingConditionRule postFish = npcLoot.DefineConditionalDropSet(DropHelper.PostFish());
-            LeadingConditionRule postEoL = npcLoot.DefineConditionalDropSet(DropHelper.PostEoL());
+            LeadingConditionRule postSkele = npcLoot.DefineConditionalDropSet(DropHelper.PostSkele());
             LeadingConditionRule postOneMech = npcLoot.DefineConditionalDropSet(DropHelper.PostOneMech());
             LeadingConditionRule postAllMech = npcLoot.DefineConditionalDropSet(DropHelper.PostAllMech());
+            LeadingConditionRule postPlant = npcLoot.DefineConditionalDropSet(DropHelper.PostPlant());
+            LeadingConditionRule postFish = npcLoot.DefineConditionalDropSet(DropHelper.PostFish());
+            LeadingConditionRule postEoL = npcLoot.DefineConditionalDropSet(DropHelper.PostEoL());
+            #endregion
             switch (npc.type)
             {
+                #region Surface
+                case NPCID.Ghost:
+                    postEye.Add(ModContent.ItemType<SpiritShard>(), 3, 1, 3);
+                    break;
+                case NPCID.RainbowSlime:
+                case NPCID.LightMummy:
+                    postEoL.Add(ModContent.ItemType<FaeOre>(), 2, 12, 20);
+                    break;
+                #endregion
+                #region Underground
                 case NPCID.Tim:
                 case NPCID.RuneWizard:
                     npcLoot.RemoveWhere(rule => true, false);
@@ -141,35 +155,6 @@ namespace MogMod.NPCs.Global
                 case NPCID.CrimsonAxe:
                 case NPCID.CursedHammer:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ExplosiveGhostflame>(), 15, 1, 1));
-                    break;
-                case NPCID.Golem:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LizhardBloodVial>(), 1, 1, 2));
-                    break;
-                case NPCID.Shark:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 8, 1, 1));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<OceanHeart>(), 100, 1, 1));
-                    postFish.Add(ModContent.ItemType<BrinyRind>(), 4, 3, 5);
-                    break;
-                case NPCID.PigronCorruption:
-                case NPCID.PigronCrimson:
-                case NPCID.PigronHallow:
-                    postFish.Add(ModContent.ItemType<BrinyRind>(), 4, 3, 5);
-                    break;
-                case NPCID.DukeFishron:
-                    npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<BrinyRind>(), 1, 7, 14));
-                    break;
-                case NPCID.DarkCaster:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BlinkDagger>(), 10, 1, 1));
-                    break;
-                case NPCID.GoblinSorcerer:
-                    npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 20, 1, 1));
-                    break;
-                case NPCID.GoblinSummoner:
-                    npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 5, 1, 1));
-                    break;
-                case NPCID.RainbowSlime:
-                case NPCID.LightMummy:
-                    postEoL.Add(ModContent.ItemType<FaeOre>(), 2, 12, 20);
                     break;
                 case NPCID.Salamander:
                 case NPCID.Salamander2:
@@ -186,9 +171,106 @@ namespace MogMod.NPCs.Global
                 case NPCID.GiantShelly2:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LabGerminator>(), 50, 1, 1));
                     break;
-                case NPCID.Ghost:
-                    postEye.Add(ModContent.ItemType<SpiritShard>(), 5, 1, 3);
+                case NPCID.PigronCorruption:
+                case NPCID.PigronCrimson:
+                case NPCID.PigronHallow:
+                    postFish.Add(ModContent.ItemType<BrinyRind>(), 4, 3, 5);
                     break;
+                #endregion
+                #region Ocean
+                case NPCID.Shark:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HydrakanLatch>(), 8, 1, 1));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<OceanHeart>(), 100, 1, 1));
+                    postFish.Add(ModContent.ItemType<BrinyRind>(), 4, 3, 5);
+                    break;
+                #endregion
+                #region Dungeon Enemies
+                case NPCID.CursedSkull:
+                case NPCID.GiantCursedSkull:
+                    postSkele.Add(ModContent.ItemType<FiasMist>(), 20, 1, 1);
+                    break;
+                case NPCID.DarkCaster:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BlinkDagger>(), 20, 1, 1));
+                    postPlant.Add(ModContent.ItemType<RingsOfSpectralLight>(), 20, 1, 1);
+                    break;
+                case NPCID.Necromancer:
+                case NPCID.NecromancerArmored:
+                case NPCID.RaggedCaster:
+                case NPCID.RaggedCasterOpenCoat:
+                case NPCID.DiabolistRed:
+                case NPCID.DiabolistWhite:
+                    postPlant.Add(ModContent.ItemType<RingsOfSpectralLight>(), 20, 1, 1);
+                    break;
+                #endregion
+                #region Goblins
+                case NPCID.GoblinSorcerer:
+                    npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 20, 1, 1));
+                    break;
+                case NPCID.GoblinSummoner:
+                    npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 5, 1, 1));
+                    break;
+                #endregion
+                #region Frost Moon
+                // low level goons
+                case NPCID.PresentMimic:
+                case NPCID.Flocko:
+                case NPCID.GingerbreadMan:
+                case NPCID.ZombieElf:
+                case NPCID.ZombieElfBeard:
+                case NPCID.ZombieElfGirl:
+                case NPCID.ElfArcher:
+                case NPCID.Nutcracker:
+                case NPCID.NutcrackerSpinning:
+                case NPCID.ElfCopter:
+                    postPlant.Add(ModContent.ItemType<FrostEssence>(), 5, 1, 3);
+                    break;
+                // high level goons
+                case NPCID.Yeti:
+                case NPCID.Krampus:
+                    postPlant.Add(ModContent.ItemType<FrostEssence>(), 3, 2, 4);
+                    break;
+                // bosses
+                case NPCID.Everscream:
+                case NPCID.SantaNK1:
+                case NPCID.IceQueen:
+                    postPlant.Add(ModContent.ItemType<FrostEssence>(), 1, 3, 5);
+                    break;
+                #endregion
+                #region Pumpkin Moon
+                // low level goons
+                case NPCID.Scarecrow1:
+                case NPCID.Scarecrow2:
+                case NPCID.Scarecrow3:
+                case NPCID.Scarecrow4:
+                case NPCID.Scarecrow5:
+                case NPCID.Scarecrow6:
+                case NPCID.Scarecrow7:
+                case NPCID.Scarecrow8:
+                case NPCID.Scarecrow9:
+                case NPCID.Scarecrow10:
+                case NPCID.Splinterling:
+                case NPCID.Hellhound:
+                case NPCID.Poltergeist:
+                    postPlant.Add(ModContent.ItemType<SpookyEssence>(), 1, 3, 5);
+                    break;
+                // high level goons
+                case NPCID.HeadlessHorseman:
+                    postPlant.Add(ModContent.ItemType<SpookyEssence>(), 1, 3, 5);
+                    break;
+                // bosses
+                case NPCID.MourningWood:
+                case NPCID.Pumpking:
+                    postPlant.Add(ModContent.ItemType<SpookyEssence>(), 1, 3, 5);
+                    break;
+                #endregion
+                #region Bosses
+                case NPCID.Golem:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LizhardBloodVial>(), 1, 1, 2));
+                    break;
+                case NPCID.DukeFishron:
+                    npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<BrinyRind>(), 1, 7, 14));
+                    break;
+                #endregion
             }
         }
         #endregion
@@ -217,9 +299,9 @@ namespace MogMod.NPCs.Global
         }
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
+            #region Setup
             MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 // Tell server that this NPC was hit with this item
@@ -235,7 +317,17 @@ namespace MogMod.NPCs.Global
                 // Server or singleplayer
                 AddItemBlood(npc, player, item);
             }
+            int itemDamage = player.HeldItem.damage;
+            int enemyMaxHP = npc.lifeMax;
+            int shivDamage = MogModUtils.DamageHardCap(Convert.ToInt32(enemyMaxHP * 0.005) + 50, shivCap);
+            int hellfireDamage = MogModUtils.DamageSoftCap(damageDone * HellfireMask.DamageMult, hellfireCap);
+            int bashDamage = MogModUtils.DamageSoftCap(damageDone * GiantsMaul.DamageMult, bashCap);
+            var source = player.GetSource_OnHit(npc);
+            bashProc = rand.Next(7) == 0;
+            shivProc = rand.Next(5) == 0;
+            #endregion
 
+            #region Weapon Effects
             if (item.type == ModContent.ItemType<TheMarker>())
             {
                 Vector2 velocity = new Vector2(20f, 20f).RotatedByRandom(MathHelper.ToRadians(360));
@@ -252,16 +344,10 @@ namespace MogMod.NPCs.Global
                     mogPlayer.SyncMarkerProj(false, npc, player, item, velocity, rotation);
                 }
             }
+            #endregion
 
-            int itemDamage = player.HeldItem.damage;
-            int enemyMaxHP = npc.lifeMax;
-            int shivDamage = MogModUtils.DamageHardCap(Convert.ToInt32(enemyMaxHP * 0.005) + 50, shivCap);
-            int hellfireDamage = MogModUtils.DamageSoftCap(damageDone * HellfireMask.DamageMult, hellfireCap);
-            int bashDamage = MogModUtils.DamageSoftCap(damageDone * GiantsMaul.DamageMult, bashCap);
-
+            #region Accessory Effects
             // skull basher
-            var source = player.GetSource_OnHit(npc);
-            bashProc = rand.Next(7) == 0;
             if (bashProc && mogPlayer.wearingGiantsMaul && mogPlayer.bashCooldown <= 0)
             {
                 mogPlayer.bashCooldown = cooldownTimer;
@@ -280,7 +366,6 @@ namespace MogMod.NPCs.Global
             }
 
             // serrated shiv
-            shivProc = rand.Next(5) == 0;
             if (shivProc && mogPlayer.wearingSerratedShiv && mogPlayer.shivCooldown <= 0)
             {
                 mogPlayer.shivCooldown = cooldownTimer;
@@ -323,48 +408,34 @@ namespace MogMod.NPCs.Global
                 if (procChance == 5)
                     Projectile.NewProjectile(source, npc.Center, kirk, ModContent.ProjectileType<PolyluteProj>(), Convert.ToInt32(damageDone * .3f) + 1, 3, player.whoAmI);
             }
+            #endregion
 
+            #region Armor Effects
             // hellfire armor
             if (mogPlayer.wearingHellfireArmor && mogPlayer.hellfireCooldown <= 0)
             {
+                if (Main.zenithWorld)
+                {
+                    if (damageDone <= 100)
+                    {
+                        mogPlayer.hellfireCooldown = cooldownTimer * 72;
+                        int hellfire = Projectile.NewProjectile(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), (int)(hellfireDamage * 0.1f), 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                    }
+                }
                 if (damageDone >= 100)
                 {
                     mogPlayer.hellfireCooldown = cooldownTimer * 72;
                     int hellfire = Projectile.NewProjectile(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), hellfireDamage, 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 }
             }
+            #endregion
         }
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
+            #region Setup
             Player player = Main.player[projectile.owner];
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-
-            //if (projectile.type == ModContent.ProjectileType<FrozenSpearProjectile>() || projectile.type == ModContent.ProjectileType<DreadsProj>() || projectile.type == ModContent.ProjectileType<DrowRangerArrow>() || mogPlayer.wearingFrostArmor)
-            //{
-            //   if (npc.life < 1)
-            //    {
-            //        if (npc.HasBuff(ModContent.BuffType<FreezingDebuff>())) //This gives errors sometimes but still works. I'll look into it later. Also this whole thing is needed bc of some funky stuff going on with when the npc's debuffs get removed when they die.
-            //        {
-            //            if (Main.netMode != NetmodeID.MultiplayerClient)
-            //            {
-            //                npc.DelBuff(ModContent.BuffType<FreezingDebuff>());
-            //            }
-            //        }
-            //        int numSplits = 6;
-            //        float angleVariance = MathHelper.TwoPi / numSplits;
-            //        Vector2 projVec = new Vector2(4.5f, 0f).RotatedByRandom(MathHelper.ToRadians(45));
-            //
-            //       for (int i = 0; i < numSplits; ++i)
-            //        {
-            //            projVec = projVec.RotatedBy(angleVariance);
-            //            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, projVec, ProjectileID.Blizzard, 50, 1f, Main.myPlayer);
-            //        }
-            //    }
-            //}
-
             int bloodToAdd = projectile.GetGlobalProjectile<MogModGlobalProjectileBleed>().bloodDamage;
-            
-
             // add another blood accessory
             if (mogPlayer.exultationEquipped)
                 bloodToAdd = (int)(bloodToAdd * LordOfBloodsExultation.BloodMult);
@@ -373,7 +444,7 @@ namespace MogMod.NPCs.Global
                 bloodToAdd = (int)(bloodToAdd * BladeOfMercy.BloodMult);
 
             if (mogPlayer.wearingWhiteArmor)
-                bloodToAdd = (int)(bloodToAdd * WhiteMask.BloodMult);
+                bloodToAdd = (int)(bloodToAdd * (WhiteMask.BloodMult + 1));
 
             if (mogPlayer.wearingFlayersBota)
                 bloodToAdd = (int)(bloodToAdd * FlayersBota.BloodMult);
@@ -387,8 +458,8 @@ namespace MogMod.NPCs.Global
                 packet.Send();
                 return;
             }
-                AddProjectileBlood(npc, bloodToAdd, player);
-            
+            AddProjectileBlood(npc, bloodToAdd, player);
+            #endregion
         }
         public static void SpawnMarkerProjectile(NPC target, Player player, Item item, Vector2 velocity, float rotation)
         {
@@ -448,7 +519,7 @@ namespace MogMod.NPCs.Global
                 bloodToAdd = (int)(bloodToAdd * BladeOfMercy.BloodMult);
 
             if (mogPlayer.wearingWhiteArmor)
-                bloodToAdd = (int)(bloodToAdd * WhiteMask.BloodMult);
+                bloodToAdd = (int)(bloodToAdd * (WhiteMask.BloodMult + 1));
 
             if (mogPlayer.wearingFlayersBota)
                 bloodToAdd = (int)(bloodToAdd * FlayersBota.BloodMult);
@@ -553,10 +624,13 @@ namespace MogMod.NPCs.Global
                 }
             if (npc.type == NPCID.SkeletronPrime || npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism || npc.type == NPCID.TheDestroyer)
             {
-                if (!Condition.DownedMechBossAll.IsMet())
+                if (Condition.DownedMechBossAll.IsMet() && !MogModWorld.UnderworldIsFreaky)
                 {
                     HellfireEssenceText = Mod.GetLocalization($"WorldGen.{nameof(HellfireEssenceText)}");
                     WorldGeneration.BroadcastLocalizedText(HellfireEssenceText.Value, Color.Orange);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                        MogModWorld.UnderworldIsFreaky = true;
+
                     SyncWorld();
                 }
             }
@@ -626,10 +700,6 @@ namespace MogMod.NPCs.Global
             if (divineDebuff)
             {
                 ApplyDPSDebuff(600, 100, ref npc.lifeRegen, ref damage);
-            }
-            if (skadiDebuff)
-            {
-                ApplyDPSDebuff(200, 40, ref npc.lifeRegen, ref damage);
             }
             if (aghDebuff)
             {
@@ -703,9 +773,7 @@ namespace MogMod.NPCs.Global
             }
 
             if (wingsOfLightDebuff)
-            {
                 npc.damage = (int)(npc.defDamage * .9f);
-            }
             else
                 npc.damage = npc.defDamage;
         }
@@ -734,25 +802,15 @@ namespace MogMod.NPCs.Global
         public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers)
         {
             if (skadiDebuff)
-            {
                 modifiers.Defense *= skadiMult;
-            }
             if (jidiDebuff)
-            {
                 modifiers.Defense.Flat -= jidiNumb;
-            }
             if (shivasDebuff)
-            {
                 modifiers.Defense *= shivaMult;
-            }
             if (wingsOfLightDebuff)
-            {
                 modifiers.CritDamage *= 1.1f;
-            }
             if (aghDebuff)
-            {
                 modifiers.CritDamage *= 1.2f;
-            }
         }
 
         // debuff visual effects

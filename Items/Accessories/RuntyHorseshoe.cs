@@ -22,7 +22,7 @@ namespace MogMod.Items.Accessories
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingRuntyHorseshoe = true;
-            player.extraFall += 10;
+            player.extraFall += Main.zenithWorld ? -20 : 10;
         }
         public override void AddRecipes()
         {

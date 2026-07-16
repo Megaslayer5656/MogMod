@@ -1,7 +1,10 @@
 ﻿using MogMod.Items.Global;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Items.Armor.Bone
 {
@@ -9,6 +12,8 @@ namespace MogMod.Items.Armor.Bone
     public class BoneGreaves : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor";
+        public const float MovementSpeedBoost = 0.12f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MovementSpeedBoost);
         public override void SetDefaults()
         {
             Item.width = 22;
@@ -19,7 +24,14 @@ namespace MogMod.Items.Armor.Bone
         }
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += .12f;
+            player.moveSpeed += MovementSpeedBoost;
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (Main.LocalPlayer.armor[0].type == ItemType<BoneHelm>())
+                BoneHelm.ModifySetTooltips(this, tooltips);
+            else if (Main.LocalPlayer.armor[0].type == ItemType<BoneMask>())
+                BoneMask.ModifySetTooltips(this, tooltips);
         }
         public override void AddRecipes()
         {

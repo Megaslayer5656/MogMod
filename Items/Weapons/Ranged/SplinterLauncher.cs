@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
-using MogMod.Projectiles.RangedProjectiles;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -38,7 +39,8 @@ namespace MogMod.Items.Weapons.Ranged
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            for (int i = 0; i < 2; i++)
+            int projNum = Main.zenithWorld ? 50 : 2;
+            for (int i = 0; i < projNum; i++)
             {
                 Vector2 splinterVelocity = velocity.RotatedByRandom(MathHelper.PiOver4 * 0.3);
                 Projectile.NewProjectile(source, position, splinterVelocity, type, damage, knockback, player.whoAmI);
@@ -56,7 +58,19 @@ namespace MogMod.Items.Weapons.Ranged
 
             velocity = velocity.RotatedByRandom(MathHelper.ToRadians(3));
         }
+        public override float UseSpeedMultiplier(Player player) => Main.zenithWorld ? 0.2f : 1f;
         public override Vector2? HoldoutOffset() => new Vector2(-4.8f, 1.75f);
+        // change the tooltip when in get fixed boi worlds
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            var line = tooltips.FirstOrDefault(x => x.Text.Contains("[GFB]") && x.Mod == "Terraria");
+            if (line != null)
+            {
+                line.Text = Lang.SupportGlyphs(this.GetLocalizedValue(Main.zenithWorld ? "TooltipGFB" : "TooltipNormal"));
+                if (Main.zenithWorld)
+                    line.OverrideColor = new Color(Main.DiscoR, Main.DiscoR * 2, (int)(Main.DiscoR * 0.5f));
+            }
+        }
         public override void AddRecipes()
         {
             CreateRecipe().

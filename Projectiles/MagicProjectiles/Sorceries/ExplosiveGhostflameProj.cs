@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
-using MogMod.Buffs.PotionBuffs;
-using MogMod.Common.MogModPlayer;
+using MogMod.Common.Classes;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -14,6 +14,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
     {
         public new string LocalizationCategory => "Projectiles.Magic.Sorceries";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
+        public static Color Colour => new(227, 255, 253);
         public override void SetDefaults()
         {
             Projectile.width = 400;
@@ -23,7 +24,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             Projectile.penetrate = -1;
             Projectile.timeLeft = 1;
             Projectile.tileCollide = false;
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.DamageType = SorceryDamageClass.Instance;
             Projectile.extraUpdates = 1;
         }
         public override void OnKill(int timeLeft)
@@ -47,22 +48,16 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             for (int i = 0; i < choice; i++)
             {
                 Vector2 velocity = ((MathHelper.TwoPi * i / choice) - offset).ToRotationVector2() * (choice/2);
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<GhostflameHomingProj>(), Convert.ToInt32(Projectile.damage / 2), Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<GhostflameHomingProj>(), (int)(Projectile.damage / 2), Projectile.knockBack, Projectile.owner);
             }
             for (int n = 0; n < 80; n++)
             {
-                int ghostflame = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.RainbowTorch, 0f, 0f, 100, Utils.SelectRandom(Main.rand, new Color[]{Color.Black,Color.White}), 1f);
+                int ghostflame = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.RainbowTorch, 0f, 0f, 100, Utils.SelectRandom(Main.rand, new Color[]{Color.Black, Colour}), 1f);
                 Main.dust[ghostflame].noGravity = true;
                 Main.dust[ghostflame].velocity *= 0f;
             }
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.AddBuff(ModContent.BuffType<GhostflameDebuff>(), 420);
-        }
-        public override void OnHitPlayer(Player target, Player.HurtInfo info)
-        {
-            target.AddBuff(ModContent.BuffType<GhostflameDebuff>(), 420);
-        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<GhostflameDebuff>(), 420);
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<GhostflameDebuff>(), 420);
     }
 }

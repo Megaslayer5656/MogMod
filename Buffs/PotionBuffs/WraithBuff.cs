@@ -1,4 +1,5 @@
 ﻿using MogMod.Common.MogModPlayer;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.DataStructures;
@@ -24,7 +25,7 @@ namespace MogMod.Buffs.PotionBuffs
             if (player.buffTime[buffIndex] < 1)
             {
                 player.statLife = 0;
-                player.Hurt(PlayerDeathReason.ByCustomReason($"{player.name} soul faded away..."), player.statLifeMax2, 0);
+                player.Hurt(PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Wraith").ToNetworkText(player.name)), player.statLifeMax2, 0);
                 mogPlayer.doUndying();
             }
 

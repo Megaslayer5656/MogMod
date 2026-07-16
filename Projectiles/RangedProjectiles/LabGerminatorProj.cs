@@ -33,6 +33,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override void AI()
         {
+            Projectile.extraUpdates = Main.zenithWorld ? 30 : 0;
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
             if (Main.rand.NextBool(3))

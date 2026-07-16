@@ -18,18 +18,18 @@ namespace MogMod.Items.Ammo.SorcerySpells
             base.SetDefaults();
             Item.width = Item.height = 36;
             Item.damage = 17;
-            Item.DamageType = DamageClass.Magic;
             Item.knockBack = 3f;
             Item.rare = ItemRarityID.LightRed;
             Item.value = MogGlobalItem.RarityLightRedBuyPrice;
             Item.shoot = ModContent.ProjectileType<ShardSpiralProj>();
             Item.shootSpeed = 3f;
+            SorceryClass = SorceryID.Glintstone;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.PixieDust, 25).
-                AddRecipeGroup("MythrilBar", 15).
+                AddIngredient(ItemID.PixieDust, 15).
+                AddRecipeGroup("MythrilBar", 6).
                 AddIngredient<Scroll>(1).
                 AddTile(TileID.Bookcases).
                 Register();

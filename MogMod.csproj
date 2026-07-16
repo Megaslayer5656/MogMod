@@ -14,6 +14,7 @@
 	</ItemGroup>
 	<PropertyGroup>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<DocumentationFile>$StructureHelper.pdb</DocumentationFile>
 		<DocumentationFile>$StructureHelper.xml</DocumentationFile>
 	</PropertyGroup>
   <ItemGroup>

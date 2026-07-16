@@ -1,4 +1,5 @@
-﻿using MogMod.Common.MogModPlayer;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
@@ -15,8 +16,6 @@ namespace MogMod.Items.Accessories
     public class Satanic : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.SatanicKeybind);
-        ModKeybind keybindActive = null;
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -34,6 +33,15 @@ namespace MogMod.Items.Accessories
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingSatanic = true;
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (Main.LocalPlayer != null)
+            {
+                tooltips.FindAndReplace("[GFB]", this.GetLocalizedValue(Main.zenithWorld ? "TooltipGFB" : "TooltipDefault"));
+                tooltips.IntegrateHotkey(KeybindSystem.SatanicKeybind);
+            }
+        }
+        ModKeybind keybindActive = null;
         public override void AddRecipes()
         {
             CreateRecipe().

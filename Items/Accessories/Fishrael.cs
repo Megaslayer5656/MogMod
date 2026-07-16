@@ -38,13 +38,14 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<OceanHeart>(1).
-                AddIngredient(ItemID.GoldenFishingRod, 1).
+                AddIngredient<OceanHeart>().
+                AddIngredient<ScavVest>().
+                AddIngredient(ItemID.GoldenFishingRod).
                 AddIngredient(ItemID.FishingPotion, 15).
                 AddIngredient(ItemID.CratePotion, 15).
                 AddIngredient(ItemID.SonarPotion, 15).
                 AddIngredient<CraftingRecipe>(3).
-                AddIngredient(ItemID.PlatinumCoin, 1).
+                AddIngredient(ItemID.PlatinumCoin).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

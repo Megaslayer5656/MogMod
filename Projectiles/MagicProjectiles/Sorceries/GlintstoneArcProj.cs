@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Common.Classes;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
@@ -21,7 +22,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             Projectile.height = 80;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.DamageType = SorceryDamageClass.Instance;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 200;
             Projectile.tileCollide = false;

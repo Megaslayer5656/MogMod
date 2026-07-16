@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Accessories;
 using MogMod.Items.Ammo;
 using MogMod.Items.Armor.Other;
 using MogMod.Items.Placeable.Banners;
@@ -73,6 +74,7 @@ namespace MogMod.NPCs.Enemies
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MosinLPS>(), 1, 4, 12));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Mosin>(), 20, 1, 1));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PleaseStopMe>(), 20, 1, 1));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ScavVest>(), 20, 1, 1));
         }
         #endregion
 

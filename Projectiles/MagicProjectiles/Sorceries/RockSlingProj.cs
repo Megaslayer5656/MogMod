@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Common.Classes;
 using MogMod.Common.MogModPlayer;
 using MogMod.Utilities;
 using Terraria;
@@ -23,9 +24,8 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.DamageType = SorceryDamageClass.Instance;
         }
-
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
@@ -33,7 +33,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             float maxSpeed = 25;
             float currentSpeed = Projectile.velocity.X * Projectile.velocity.X + Projectile.velocity.Y * Projectile.velocity.Y;
 
-            if (mogPlayer.holdingMeteoriteStaff)
+            if (Projectile.MogMod().meteoriteSpell)
                 MogModUtils.HomeInOnNPC(Projectile, false, 400, currentSpeed / 40f, 10f);
             Projectile.rotation += currentSpeed * 0.15f;
             Projectile.localAI[1] += 1f;
@@ -43,9 +43,8 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             if (Projectile.ai[0] >= 1f)
             {
                 if (currentSpeed < maxSpeed * maxSpeed)
-                {
                     Projectile.velocity *= 1.17f;
-                }
+                Projectile.extraUpdates = 1;
                 Projectile.ai[0] = 0f;
                 Projectile.tileCollide = true;
             }

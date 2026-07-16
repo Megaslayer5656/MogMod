@@ -35,8 +35,9 @@ namespace MogMod.Projectiles.Classless
             Vector2 spawn = Projectile.Center - Projectile.velocity / 2f;
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+            float velocity = Main.zenithWorld ? 2f : 10f;
             if (Projectile.timeLeft < 570)
-                MogModUtils.HomeInOnNPC(Projectile, true, 1500f, 10f, 25f);
+                MogModUtils.HomeInOnNPC(Projectile, true, 1500f, velocity, 25f);
             if (Main.rand.NextBool(2))
             {
                 Dust d = Dust.NewDustPerfect(spawn, DustID.Smoke);
