@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
-using MogMod.Items.Other;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
@@ -13,6 +13,8 @@ namespace MogMod.Items.Weapons.Ranged
     public class Minislark : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
+        public const int EssenceMax = 60;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(EssenceMax);
         public override void SetDefaults()
         {
             Item.width = 92;

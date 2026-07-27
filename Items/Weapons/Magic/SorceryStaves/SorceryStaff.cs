@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Common.Classes;
 using MogMod.Items.Ammo.SorcerySpells;
+using MogMod.Items.Ammo.SorcerySpells.Glintstone;
 using MogMod.Items.Global;
 using MogMod.Utilities;
 using System.Collections.Generic;

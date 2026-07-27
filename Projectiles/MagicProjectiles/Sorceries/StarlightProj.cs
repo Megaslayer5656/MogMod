@@ -120,6 +120,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
 
                 Main.EntitySpriteDraw(texture, trailPos, null, trailColor, 0f, texture.Size() * 0.5f, Projectile.scale * trailScale, SpriteEffects.None, 0);
             } */
+            MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Type], Colour * 0.5f, 1, bloomTex, scale: Projectile.scale * 0.5f);
             Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;
         }

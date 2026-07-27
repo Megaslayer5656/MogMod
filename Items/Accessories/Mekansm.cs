@@ -12,6 +12,7 @@ namespace MogMod.Items.Accessories
 {
     public class Mekansm : ModItem, ILocalizedModType
     {
+        public const int LifeHeal = 80;
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.MekansmKeybind);
         ModKeybind keybindActive = null;
         public new string LocalizationCategory => "Items.Accessories";

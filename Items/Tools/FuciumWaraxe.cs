@@ -40,7 +40,7 @@ namespace MogMod.Items.Tools
         public override void AddRecipes() // hellstone tier
         {
             CreateRecipe().
-               AddIngredient<FuciumBar>(18).
+               AddIngredient<FuciumBar>(10).
                AddTile(TileID.Anvils).
                Register();
         }

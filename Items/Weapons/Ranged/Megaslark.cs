@@ -9,6 +9,7 @@ using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
@@ -16,6 +17,8 @@ namespace MogMod.Items.Weapons.Ranged
     public class Megaslark : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
+        public const int EssenceMax = 60;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(EssenceMax);
         public override void SetDefaults()
         {
             Item.width = 92;

@@ -1,9 +1,10 @@
-﻿using MogMod.Items.Global;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Items.Weapons.Magic;
 using MogMod.Projectiles.MagicProjectiles;
+using MogMod.Utilities;
 using Terraria;
-using Terraria.GameContent.Shaders;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -33,6 +34,15 @@ namespace MogMod.Items.Weapons.Melee
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<BloodMagicProjectile>();
             Item.shootSpeed = 10f;
+
+            MogGlobalItem mogItem = Item.MogMod();
+            mogItem.bloodDamage = 33;
+        }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Projectile blood = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI);
+            blood.DamageType = DamageClass.Melee;
+            return false;
         }
         public override bool CanShoot(Player player) => shotCounter == 2;
         public override bool? UseItem(Player player)

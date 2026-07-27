@@ -1,14 +1,17 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MogMod.Common.MogModPlayer;
+using MogMod.Items.Weapons.Magic;
+using MogMod.Utilities;
+using System;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Buffs.PotionBuffs.TheGravityBuffs
 {
     public class TheGravityMovementBuff : ModBuff
     {
-        public static double FlightTimeBoost = 0.5D;
+        public override LocalizedText Description => base.Description.WithFormatArgs(TheGravity.MovementSpeedBoost.ToPercent());
         public override void SetStaticDefaults()
         {
             Main.debuff[Type] = false;
@@ -16,8 +19,8 @@ namespace MogMod.Buffs.PotionBuffs.TheGravityBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            player.moveSpeed += 0.25f;
-            player.jumpSpeedBoost += 1.25f;
+            player.moveSpeed += TheGravity.MovementSpeedBoost;
+            player.jumpSpeedBoost += TheGravity.JumpSpeedBoost;
             mogPlayer.infiniteFlight = true;
             if (Main.rand.NextBool(3))
             {

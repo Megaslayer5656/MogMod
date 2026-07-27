@@ -2,18 +2,21 @@
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.Melee;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    // needs a bigger sprite
-    // right click will give kraken shell (10% damage reduction buff that lasts 3 seconds)
     public class OversizedAnchor : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
+        public const int BuffTime = 180;
+        public const float DefenseReductionBoost = 0.10f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(BuffTime.FramesToSeconds(), DefenseReductionBoost.ToPercent());
         public int attackType = 0; // keeps track of which attack it is
         public int comboExpireTimer = 0; // we want the attack pattern to reset if the weapon is not used for certain period of time
         public override void SetStaticDefaults() => ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;

@@ -6,7 +6,6 @@ using MogMod.Utilities;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
@@ -14,12 +13,13 @@ namespace MogMod.Items.Weapons.Ranged
     public class BloodGrenade : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
+        public const int BloodDamage = 14;
         public override void SetStaticDefaults() => Item.ResearchUnlockCount = 99;
         public override void SetDefaults()
         {
             Item.width = 14;
             Item.height = 20;
-            Item.damage = 80;
+            Item.damage = 60;
             Item.DamageType = DamageClass.Ranged;
             Item.useTime = Item.useAnimation = 80;
             Item.knockBack = 8f;
@@ -31,9 +31,12 @@ namespace MogMod.Items.Weapons.Ranged
             Item.autoReuse = true;
             Item.consumable = true;
             Item.noUseGraphic = true;
-            Item.rare = ItemRarityID.Green;
-            Item.value = MogGlobalItem.RarityGreenBuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.value = Item.sellPrice(copper: 30);
             Item.shoot = ModContent.ProjectileType<BloodGrenadeProjectile>();
+
+            MogGlobalItem mogItem = Item.MogMod();
+            mogItem.visualBloodDamage = BloodDamage;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, System.Int32 type, System.Int32 damage, System.Single knockback)
         {
@@ -44,10 +47,10 @@ namespace MogMod.Items.Weapons.Ranged
         }
         public override void AddRecipes()
         {
-            CreateRecipe(50).
-                AddIngredient(ItemID.Grenade, 50).
+            CreateRecipe(15).
+                AddIngredient(ItemID.Grenade, 15).
                 AddIngredient<CreepBlood>(1).
-                AddTile(TileID.Anvils).
+                AddTile(TileID.DemonAltar).
                 Register();
         }
     }

@@ -1,5 +1,5 @@
 ﻿using MogMod.Items.Accessories;
-using MogMod.Items.Ammo;
+using MogMod.Items.Ammo.Bullets;
 using MogMod.Items.Other;
 using MogMod.Items.Weapons.Ranged;
 using MogMod.NPCs.Bosses;

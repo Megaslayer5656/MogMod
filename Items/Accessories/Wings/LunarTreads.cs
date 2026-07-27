@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Common.MogModPlayer;
+using MogMod.Items.Accessories.Boots;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using Terraria;
@@ -13,7 +14,7 @@ namespace MogMod.Items.Accessories.Wings
     [AutoloadEquip(EquipType.Wings)]
     public class LunarTreads : ModItem, ILocalizedModType
     {
-        public new string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories.Wings";
         public override void SetStaticDefaults() => ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(200, 11f, 2.8f, true, 17f, 17f);
         public override void SetDefaults()
         {

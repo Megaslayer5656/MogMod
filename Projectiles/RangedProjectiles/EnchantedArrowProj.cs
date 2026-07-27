@@ -10,7 +10,7 @@ namespace MogMod.Projectiles.RangedProjectiles
     public class EnchantedArrowProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
-        public override string Texture => "MogMod/Items/Ammo/EnchantedArrow";
+        public override string Texture => "MogMod/Items/Ammo/Arrows/EnchantedArrow";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;

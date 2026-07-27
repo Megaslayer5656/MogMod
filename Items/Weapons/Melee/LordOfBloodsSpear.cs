@@ -1,30 +1,29 @@
 ﻿using Microsoft.Xna.Framework;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
 using MogMod.Items.Global;
-using MogMod.Projectiles.Melee;
-using Terraria.Audio;
 using MogMod.Items.Other;
-using Terraria.DataStructures;
-using System;
 using MogMod.Items.Placeable.Bars;
+using MogMod.Projectiles.Melee;
+using MogMod.Utilities;
+using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
     public class LordOfBloodsSpear : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
+        public const int BloodDamage = 120;
+        public const int BloodExplosionDamage = 250;
+        public override bool AltFunctionUse(Player player) => true;
         public override void SetStaticDefaults()
         {
             ItemID.Sets.SkipsInitialUseSound[Type] = true;
             ItemID.Sets.Spears[Type] = true;
         }
-
         public override void SetDefaults()
         {
             // Common Properties
@@ -42,8 +41,10 @@ namespace MogMod.Items.Weapons.Melee
             Item.noMelee = true;
             Item.shootSpeed = 3.7f;
             Item.shoot = ModContent.ProjectileType<LordOfBloodsSpearProj>();
-        }
 
+            MogGlobalItem mogItem = Item.MogMod();
+            mogItem.visualBloodDamage = BloodDamage;
+        }
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2)
@@ -58,7 +59,6 @@ namespace MogMod.Items.Weapons.Melee
             }
             return player.ownedProjectileCounts[Item.shoot] < 1;
         }
-
         public override bool? UseItem(Player player)
         {
             if (!Main.dedServ && Item.UseSound.HasValue)
@@ -68,7 +68,6 @@ namespace MogMod.Items.Weapons.Melee
 
             return null;
         }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
@@ -78,7 +77,6 @@ namespace MogMod.Items.Weapons.Melee
             }
             return true;
         }
-
         public override void AddRecipes()
         {
             CreateRecipe().

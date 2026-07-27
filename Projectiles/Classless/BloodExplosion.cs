@@ -1,9 +1,10 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using MogMod.Utilities;
 
 namespace MogMod.Projectiles.Classless
 {
@@ -22,6 +23,9 @@ namespace MogMod.Projectiles.Classless
             Projectile.timeLeft = 30;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
+
+            MogModGlobalProjectile mogProj = Projectile.MogMod();
+            mogProj.bloodDamage = 500;
         }
         public override void AI()
         {

@@ -13,6 +13,10 @@ WarriorsSpear: "{0} sacrificed their lifeblood to the Warrior's Spear."
 BloodGrenade: "{0} poured their lifeforce into a blood grenade."
 LordOfBloodsSpear: "{0} sacrificed their life to the Lord of Blood."
 BriarsOfPunishment: "{0} was violently pricked by bloodthorns."
+Toxic1: "{0} succumbed to a lethal illness."
+Toxic2: "{0} developed stage 5 cancer."
 // GFB deaths
 Satanic: "{0}'s dumbass ran out of blood."
-Damascus: '''{0}'s got a "lucky" shot.'''
+Damascus: '''{0} got a "lucky" crit.'''
+ToxicGFB: "{0} got frame-mogged by a 6'4 looksmaxxing millionare."
+MendingGFB: "{0} tried to ego the hard support that was carrying the game."

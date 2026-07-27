@@ -1,0 +1,434 @@
+ETGCbuff: {
+	Description: Empowered by the ETG-C!
+	DisplayName: ETG-C Regen
+}
+
+GlueBuff: {
+	DisplayName: Glue Buff
+	Description: POTEMKIN BUSTER
+}
+
+GlueDebuff: {
+	DisplayName: Glue Debuff
+	Description: Potemkin Withdrawls
+}
+
+VonDebuff: {
+	Description: Cursed and Von'd
+	DisplayName: Von's Curse
+}
+
+GlimmerCapeBuff: {
+	DisplayName: Glimmer Cape
+	Description: Invisibility, +{0}% Movement Speed, +{1} MP/s Mana Regen, -{2} Aggro
+}
+
+GlimmerCapeDebuff: {
+	DisplayName: Glimmer Cape Cooldown
+	Description: Teamfight ult failed...
+}
+
+ArmletOfMordiggianBuff: {
+	DisplayName: Armlet Of Mordiggian
+	Description: You feel a searing, yet bolstering pain...
+}
+
+ArcaneBootsDebuff: {
+	DisplayName: Used Arcane Boots
+	Description: Out of Mana...
+}
+
+SatanicBuff: {
+	DisplayName: Satanic
+	Description: You thirst for their blood...
+}
+
+SatanicDebuff: {
+	DisplayName: Satanic Cooldown
+	Description: Satanic is out of power...
+}
+
+RefresherOrbDebuff: {
+	DisplayName: Refresher Orb Cooldown
+	Description: Refresher orb needs to recharge!
+}
+
+HelmOfDominatorDebuff: {
+	DisplayName: Helm Of The Dominator Cooldown
+	Description: The Helm is out of power...
+}
+
+GuardianGreavesAura: {
+	DisplayName: Guardian Greaves
+	Description: +{0} HP/s Life Regen, +{1} Defense, +{2} Maximum Life, +{3} Maximum Mana, +{4}% Magic Damage
+}
+
+GuardianGreavesBuff: {
+	DisplayName: Guardian Greaves Heal
+	Description: +100 Life and +300 Mana!
+}
+
+GuardianGreavesDebuff: {
+	DisplayName: Guardian Greaves Cooldown
+	Description: Out of Mana...
+}
+
+HeaddressBuff: {
+	DisplayName: Headdress
+	Description: +{0} HP/s Life Regeneration
+}
+
+MekansmBuff: {
+	DisplayName: Mekansm Heal
+	Description: Healed by a team member!
+}
+
+MekansmDebuff: {
+	DisplayName: Mekansm Cooldown
+	Description: Mekansm needs to recharge!
+}
+
+ForceStaffDebuff: {
+	DisplayName: Force Staff Cooldown
+	Description: Force staff is out of power...
+}
+
+BladeMailBuff: {
+	DisplayName: Blade Mail
+	Description: Covered in spikes!
+}
+
+BladeMailDebuff: {
+	DisplayName: Blade Mail Cooldown
+	Description: Out of spikes...
+}
+
+DrumOfEnduranceBuff: {
+	DisplayName: Drum Of Endurance
+	Description: +{0}% Movement Speed and +{1}% Melee and Whip Speed
+}
+
+EyeOfSkadiDebuff: {
+	DisplayName: Cold Attack
+	Description: Rapidly losing Life!
+}
+
+HolyLocketBuff: {
+	DisplayName: Holy Locket Heal
+	Description: You've been healed!
+}
+
+MagicStickBuff: {
+	DisplayName: Magic Stick Heal
+	Description: You've been healed!
+}
+
+WandBuff: {
+	DisplayName: Magic Wand Heal
+	Description: You've been healed!
+}
+
+ShivasGuardBuff: {
+	DisplayName: Shiva's Guard
+	Description: +{0} Defense and +{1}% Ranged Damage
+}
+
+ShivasDebuff: {
+	DisplayName: Shiva's Guard Cooldown
+	Description: Recharging...
+}
+
+BlinkDebuff: {
+	DisplayName: Blink Cooldown
+	Description: Blink Dagger is on cooldown!
+}
+
+EssenceShift: {
+	DisplayName: Essence Shift
+	Description: Attack speed and movement speed increased. Current Stacks: {0}
+}
+
+LagunaBladeCooldown: {
+	DisplayName: Laguna Blade Cooldown
+	Description: Recharging...
+}
+
+FierySoulStack: {
+	DisplayName: Fiery Soul
+	Description: Magic attack speed and movement speed increased, Mana cost decreased. Current Stacks: {0}
+}
+
+CheeseBuff: {
+	DisplayName: Delicious Cheese
+	Description: Scrumptious!
+}
+
+HeavyBleed: {
+	DisplayName: Heavy Bleed
+	Description: Salewa!
+}
+
+VladmirsBuff: {
+	DisplayName: Vladmir's Offering
+	Description: +{0} Defense, +{1} Flat Attack Damage, +{2} MP/s Mana Regen, and +{3}% Increased Lifesteal
+}
+
+ShockState: {
+	DisplayName: Shock State
+	Description: Bzzzrrrttt!
+}
+
+AghanimShardBuff: {
+	DisplayName: Aghanim's Shard
+	Description: +{0} Maximum Mana, +{1}% Magic Attack Damage, +{2} MP/s Mana Regen
+}
+
+ClarityBuff: {
+	DisplayName: Clarity
+	Description: +{0} MP/s Mana Regeneration
+}
+
+HealingSalveBuff: {
+	DisplayName: Healing Salve
+	Description: +{0} HP/s Life Regeneration
+}
+
+MoonShardBuff: {
+	DisplayName: Moon Shard
+	Description: +{0}% Attack Speed
+}
+
+ChargingShot: {
+	DisplayName: Charging Shot
+	Description: You must focus!
+}
+
+DragonPiercerShot: {
+	DisplayName: Charging Shot
+	Description: You must focus!
+}
+
+DragonInstallBuff: {
+	DisplayName: Dragon Install Buff
+	Description: Mods.MogMod.Buffs.DragonInstallBuff.Description
+}
+
+DragonInstallCooldown: {
+	DisplayName: Dragon Install Cooldown
+	Description: Mods.MogMod.Buffs.DragonInstallCooldown.Description
+}
+
+GreenTracerDebuff: {
+	DisplayName: Green Tracer Light
+	Description: Glowing like a beacon
+}
+
+ShivasEnemyDebuff: {
+	DisplayName: Shivas Enemy Debuff
+	Description: Mods.MogMod.Buffs.ShivasEnemyDebuff.Description
+}
+
+ButterflyCooldown: {
+	DisplayName: Butterfly Cooldown
+	Description: Recharging...
+}
+
+ButterflyBuff: {
+	DisplayName: Butterfly Buff
+	Description: You will dodge the next attack
+}
+
+ParryCooldown: {
+	DisplayName: Parry Cooldown
+	Description: end
+}
+
+ParrySlow: {
+	DisplayName: Parry Slow
+	Description: Focus
+}
+
+ParryBuff1: {
+	DisplayName: Successful Parry
+	Description: +{0}% Melee Speed, +{1}% Melee Damage
+}
+
+Parrying: {
+	DisplayName: Parrying
+	Description: Impossible timing
+}
+
+ParryDebuffRemover: {
+	DisplayName: No-Mo Parry
+	Description: vass??
+}
+
+DivineMightDebuff: {
+	DisplayName: Divine Might
+	Description: God's wrath is upon you
+}
+
+FreezingDebuff: {
+	DisplayName: Freezing
+	Description: Is it chilly in here?
+}
+
+AghanimHexDebuff: {
+	DisplayName: Aghanim's Hex
+	Description: Aghanim himself spites your very soul
+}
+
+WingsOfLightDebuff: {
+	DisplayName: Holy Flames
+	Description: Incinerated by a heavenly aura
+}
+
+Bleed1: {
+	DisplayName: Bleed1
+	Description: You might want to see a doctor...
+}
+
+BlackBladeDebuff: {
+	DisplayName: Destined Death
+	Description: You are Doomed!
+}
+
+GhostflameDebuff: {
+	DisplayName: Ghostflame Debuff
+	Description: Your very soul is burning!
+}
+
+WraithPactAura: {
+	DisplayName: Wraith Pact
+	Description: +{0} Defense, +{1}% Attack Damage, +{2} MP/s Mana Regen, and +{3}% Increased Lifesteal
+}
+
+JidiPollenBagDebuff: {
+	DisplayName: Jidi Pollen Bag
+	Description: Your defense is being torn apart!
+}
+
+SerratedShivCooldown: {
+	DisplayName: Serrated Shiv Cooldown
+	Description: Recharging...
+}
+
+GiantsMaulCooldown: {
+	DisplayName: Giants Maul Cooldown
+	Description: Recharging...
+}
+
+GunpowderGauntletCooldown: {
+	DisplayName: Gunpowder Gauntlet Cooldown
+	Description: Recharging...
+}
+
+JidiPollenBagCooldown: {
+	DisplayName: Jidi Pollen Bag Cooldown
+	Description: Recharging...
+}
+
+RadiantCooldown: {
+	DisplayName: Radiant Beam Cooldown
+	Description: Recharging...
+}
+
+ShadowAmuletBuff: {
+	DisplayName: Shadow Amulet
+	Description: Don't move...
+}
+
+WraithBuff: {
+	DisplayName: Wraith Form
+	Description: You've turned into a wraith!
+}
+
+ShadowRealmBuff: {
+	DisplayName: Shadow Realm
+	Description: something something mireska jex
+}
+
+InfernoDebuff: {
+	DisplayName: Inferno
+	Description: Your atoms are being incinerated!
+}
+
+AhmodInABottleBuff: {
+	DisplayName: Ahmod In A Bottle
+	Description: Ragebaited
+}
+
+KrakenShellDebuff: {
+	DisplayName: Kraken Shell
+	Description: +{0}% Damage Reduction, Greatly reduced movement
+}
+
+TheGravityAutoBuff: {
+	DisplayName: Auto Bookmark
+	Description: Your spells automatically bookmark!
+}
+
+TheGravityDefenseBuff: {
+	DisplayName: Stalwart Defense
+	Description: +{0} Defense, +{1}% Damage Reduction
+}
+
+TheGravityHealthBuff: {
+	DisplayName: Vigorous Health
+	Description: +{0} HP/s Life Regeneration
+}
+
+TheGravityManaBuff: {
+	DisplayName: Nebulous Mana
+	Description: +{0} MP/s Mana Regeneration
+}
+
+TheGravityMovementBuff: {
+	DisplayName: Boundless Movement
+	Description: +{0}% Jump Speed and Movement Speed, Infinite Flight Time
+}
+
+FrostCrystalSummonBuff: {
+	DisplayName: Frost Crystal
+	Description: The Frost Crystal will protect you
+}
+
+SeraphicReviveBuff: {
+	DisplayName: Seraphic Revive
+	Description: Seraphic's blessing makes you immortal!
+}
+
+DivinitasSummonBuff: {
+	DisplayName: Divinitas
+	Description: Divinitas will watch over you
+}
+
+NulledDebuff: {
+	DisplayName: Nulled Debuff
+	Description: Both body and mind is being nullified out of reality!
+}
+
+MendingRegenerationAura: {
+	DisplayName: Mending Regeneration
+	Description: Your body is being mended back together
+}
+
+BlazingDebuff: {
+	DisplayName: Blazing
+	Description: That is bullshit blazing! Still my heart is blazing!
+}
+
+ToxicDebuff: {
+	DisplayName: Toxic
+	Description: About to take {0} damage
+}
+
+GingyBuff: {
+	DisplayName: Gingy
+	Description: gingy
+}
+
+HealingDisabledDebuff: {
+	DisplayName: Healing Disabled Debuff
+	Description: All forms of healing are negated!
+}

@@ -1,11 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Common.MogModPlayer;
+using MogMod.Items.Weapons.Melee;
+using MogMod.Utilities;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
+
 namespace MogMod.Buffs.Debuffs
 {
     public class KrakenShellDebuff : ModBuff
     {
+        public override LocalizedText Description => base.Description.WithFormatArgs(OversizedAnchor.DefenseReductionBoost.ToPercent());
         public override void SetStaticDefaults()
         {
             Main.debuff[Type] = true;

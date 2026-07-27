@@ -95,6 +95,15 @@ namespace MogMod.Items.Weapons.Magic
             ModContent.ProjectileType<EmptySpellCard>(), // auto cast
             ModContent.ProjectileType<EmptySpellCard>(), // teleport
         ];
+        // buff stat changes
+        public const int LifeRegenBoost = 16;
+        public const int ManaRegenBoost = 20;
+        public const float MovementSpeedBoost = 0.25f;
+        public const float JumpSpeedBoost = 1.25f;
+        public const int DefenseBoost = 20;
+        public const float DamageReductionBoost = 0.10f;
+        public const int LifeHeal = 50;
+        public const int ManaHeal = 150;
         public override void SetStaticDefaults() => ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         public override void SetDefaults()
         {
@@ -379,16 +388,10 @@ namespace MogMod.Items.Weapons.Magic
             switch (card)
             {
                 case 5: // instant health
-                    player.statLife += 50;
-                    player.HealEffect(50);
-                    if (player.statLife > player.statLifeMax2)
-                        player.statLife = player.statLifeMax2;
+                    player.HealLifeMult(LifeHeal);
                     break;
                 case 6: // instant mana
-                    player.statMana += 150;
-                    player.ManaEffect(150);
-                    if (player.statMana > player.statManaMax2)
-                        player.statMana = player.statManaMax2;
+                    player.HealManaMult(ManaHeal);
                     break;
                 case 7: // overtime health
                     player.AddBuff(ModContent.BuffType<TheGravityHealthBuff>(), bufftime);

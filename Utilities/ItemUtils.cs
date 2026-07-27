@@ -1,4 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.Debuffs;
+using MogMod.Common.MogModPlayer;
+using MogMod.Items.Accessories.Boots;
+using MogMod.Items.Accessories.NeutralItems.Aspects;
+using MogMod.Items.Armor.Radiant;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Terraria;
@@ -75,6 +82,93 @@ namespace MogMod.Utilities
             if (player.bank4.item.Any(item => items.Contains(item.type)))
                 hasItem = true;
             return hasItem;
+        }
+        /// <summary>
+        /// Heals the player while accounting for modded life multipliers.
+        /// Does not work with other mods.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="life">The amount of life healed.</param>
+        public static void HealLifeMult(this Player player, int life)
+        {
+            MogPlayer mogPlayer = player.MogMod();
+            double lifeMult = 1 +
+            (mogPlayer.wearingMending ? MendingAspect.LifeMult : 0D);
+            if (mogPlayer.healingDisabledDebuff)
+                lifeMult = 0D;
+            life = (int)(life * lifeMult);
+            player.statLife += life;
+            player.HealEffect(life);
+            if (player.statLife > player.statLifeMax2)
+                player.statLife = player.statLifeMax2;
+        }
+        /// <summary>
+        /// Heals the player's mana while accounting for modded mana multipliers.
+        /// Does not work with other mods.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="mana">The amount of mana healed.</param>
+        public static void HealManaMult(this Player player, int mana)
+        {
+            MogPlayer mogPlayer = player.MogMod();
+            if (mogPlayer.wearingRadiantArmor)
+                mana = (int)(mana * (RadiantFlower.ManaMult + 1));
+            player.statMana += mana;
+            player.ManaEffect(mana);
+            if (player.statMana > player.statManaMax2)
+                player.statMana = player.statManaMax2;
+        }
+        public static Color BuffColor => new(255, 105, 237);
+        public static Color TypelessDebuffColor => new(230, 202, 250);
+        public static Color FreezingColor => new(143, 242, 255);
+        public static Color ToxicColor => new(193, 134, 219);
+        public static Color BlazingColor => new(232, 117, 39);
+        public static Color GhostflameColor => new(204, 224, 221);
+        public static Color DeathColor => new(94, 24, 24);
+        public static Color WingsOfLightColor => new(255, 232, 163);
+        public static Color SkadiColor => new(92, 87, 235);
+        public static Color BleedColor => new(176, 5, 29);
+        public static Color InfernoDebuffColor => new(245, 44, 44);
+        public static Color InfernoDebuffColor2 => new(247, 194, 47);
+        public static Color AghHexColor => new(34, 27, 194);
+        public static Color AghHexColor2 => new(194, 27, 83);
+        public static Color DivineDebuffColor => new(250, 231, 200);
+        public static Color DivineDebuffColor2 => new(243, 200, 250);
+
+        private static readonly Dictionary<int, List<(Color, float)>> debuffColorWeightsCache = [];
+
+        public static Color GetDebuffTooltipNameColor(int debuffId)
+        {
+            var color = TypelessDebuffColor;
+
+            if (debuffId == ModContent.BuffType<InfernoDebuff>())
+                color = Color.Lerp(InfernoDebuffColor, InfernoDebuffColor2, (MathF.Sin(Main.GlobalTimeWrappedHourly * 2) + 1) / 4f);
+            else if (debuffId == ModContent.BuffType<DivineMightDebuff>())
+                color = Color.Lerp(DivineDebuffColor, DivineDebuffColor2, (MathF.Sin(Main.GlobalTimeWrappedHourly * 2) + 1) / 4f);
+            else if (debuffId == ModContent.BuffType<AghanimHexDebuff>())
+                color = Color.Lerp(AghHexColor, AghHexColor2, (MathF.Sin(Main.GlobalTimeWrappedHourly * 2) + 1) / 4f);
+            else if (debuffId == ModContent.BuffType<FreezingDebuff>())
+                color = FreezingColor;
+            else if (debuffId == ModContent.BuffType<ToxicDebuff>())
+                color = ToxicColor;
+            else if (debuffId == ModContent.BuffType<BlazingDebuff>())
+                color = BlazingColor;
+            else if (debuffId == ModContent.BuffType<GhostflameDebuff>())
+                color = GhostflameColor;
+            else if (debuffId == ModContent.BuffType<WingsOfLightDebuff>())
+                color = WingsOfLightColor;
+            else if (debuffId == ModContent.BuffType<EyeOfSkadiDebuff>())
+                color = SkadiColor;
+            else if (debuffId == ModContent.BuffType<HeavyBleed>())
+                color = BleedColor;
+            else if (debuffId == ModContent.BuffType<BlackBladeDebuff>())
+                color = DeathColor;
+
+            // If this is actually a beneficial buff, color it as so
+            else if (!Main.debuff[debuffId])
+                color = BuffColor;
+
+            return color;
         }
     }
 }

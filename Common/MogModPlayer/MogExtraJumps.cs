@@ -91,7 +91,7 @@ namespace MogMod.Common.MogModPlayer
             dust.noLight = true;
         }
     }
-    public class TritonJump : ExtraJump
+    public class TreadsJump : ExtraJump
     {
         public override Position GetDefaultPosition() => new After(BlizzardInABottle);
         public override IEnumerable<Position> GetModdedConstraints()
@@ -153,20 +153,20 @@ namespace MogMod.Common.MogModPlayer
 
             for (int i = 0; i < 2; i++)
             {
-                SpawnTritonDust(player, spawnPos, 0.1f, i == 0 ? -0.07f : -0.13f);
+                SpawnTreadsDust(player, spawnPos, 0.1f, i == 0 ? -0.07f : -0.13f);
             }
 
             for (int i = 0; i < 3; i++)
             {
-                SpawnTritonDust(player, spawnPos, 0.6f, 0.8f);
+                SpawnTreadsDust(player, spawnPos, 0.6f, 0.8f);
             }
 
             for (int i = 0; i < 3; i++)
             {
-                SpawnTritonDust(player, spawnPos, 0.6f, -0.8f);
+                SpawnTreadsDust(player, spawnPos, 0.6f, -0.8f);
             }
         }
-        private static void SpawnTritonDust(Player player, Vector2 spawnPos, float dustVelocityMultiplier, float playerVelocityMultiplier)
+        private static void SpawnTreadsDust(Player player, Vector2 spawnPos, float dustVelocityMultiplier, float playerVelocityMultiplier)
         {
             Dust dust = Dust.NewDustDirect(spawnPos, player.width, 12, DustID.SilverCoin, player.velocity.X * 0.3f, player.velocity.Y * 0.3f, newColor: Color.Gray);
             dust.fadeIn = 1.5f;

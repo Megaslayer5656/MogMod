@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Ammo;
+using MogMod.Items.Ammo.Bullets;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;

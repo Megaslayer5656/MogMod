@@ -7,7 +7,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Utilities
 {
-    public static partial class NPCUtils
+    public static partial class MogModUtils
     {
         #region Minion Homing
         // copied from calamity mod
@@ -149,16 +149,6 @@ namespace MogMod.Utilities
         internal const int TinyHealthThreshold = 5;
         internal const int TinyDamageThreshold = 5;
         internal const int NoContactDamageHealthThreshold = 3000;
-        // This function controls the behavior of Proximity Rage.
-        //
-        // TODO -- In multiplayer, with more than one player, all enemies are listed as statue spawned.
-        // This sounds like packet corruption or something, but it's impossible to know.
-        // Even stranger, this bug only affects players who aren't player slot 0.
-        // As such, statue enemies are currently allowed by default for Proximity Rage.
-        // This is not the intent. Ideally, they would not count.
-        //
-        // TODO -- Use this function EVERYWHERE that target validity is checked, not just for Proximity Rage.
-        // The easiest way to find locations this should be used is checks for whether something is statue spawned.
         public static bool IsAnEnemy(this NPC npc, bool allowStatues = true, bool checkDead = true, bool checkDamage = true)
         {
             // Null, inactive, town NPCs, and friendlies are right out.
@@ -184,6 +174,18 @@ namespace MogMod.Utilities
             return true;
         }
         /// <summary>
+        /// Spawns a <see cref="CombatText"/> indicating the amount of damage manually dealt to the NPC, such as from self-damage. Automatically syncs it in multiplayer.
+        /// </summary>
+        public static void DamageEffect(this NPC npc, int damageAmount, Color color)
+        {
+            Rectangle r = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
+            Color textColor = color;
+            if (Main.dedServ)
+                NetMessage.SendData(MessageID.CombatTextInt, -1, -1, null, (int)textColor.PackedValue, r.Center.X, r.Center.Y, damageAmount);
+            else
+                CombatText.NewText(r, textColor, damageAmount);
+        }
+        /// <summary>
         /// Check if an NPC can be moved
         /// </summary>
         /// <param name="target">The NPC attacked.</param>
@@ -196,7 +198,22 @@ namespace MogMod.Utilities
                 return true;
             return false;
         }
-
+        /// <summary>
+        /// Moves an NPC, usually used as custom knockback
+        /// </summary>
+        /// <param name="target">The NPC being moved.</param>
+        /// <param name="ignoreKBImmune">Whether or not NPC's that normally have knockback immunity can be moved around.</param>
+        public static void MoveNPC(this NPC target, Vector2 direction, float strength, bool heavyKnockback = false, Player attacker = null)
+        {
+            if (target.CanBeMoved())
+            {
+                Vector2 launchVel = direction.SafeNormalize(Vector2.UnitX) * strength;
+                float playerKnockbackMult = 1;
+                float knockbackMult = playerKnockbackMult * (heavyKnockback ? Math.Max(target.knockBackResist, 1) : target.knockBackResist); // Heavy knockback ignores knockback resist (but not knockback weakness)
+                target.velocity = launchVel * knockbackMult;
+                target.netUpdate = true; // may or may not work
+            }
+        }
         public static NPCShop AddWithCustomValue(this NPCShop shop, int itemType, int customValue, params Condition[] conditions)
         {
             var item = new Item(itemType)

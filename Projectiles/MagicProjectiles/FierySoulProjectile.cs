@@ -16,8 +16,8 @@ namespace MogMod.Projectiles.MagicProjectiles
         public static Color Colour => new(255, 179, 87);
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
         public override void SetDefaults()
         {
@@ -68,13 +68,9 @@ namespace MogMod.Projectiles.MagicProjectiles
             else
             {
                 if (Projectile.velocity.X != oldVelocity.X)
-                {
                     Projectile.velocity.X = -oldVelocity.X;
-                }
                 if (Projectile.velocity.Y != oldVelocity.Y)
-                {
                     Projectile.velocity.Y = -oldVelocity.Y;
-                }
                 SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
             }
             return false;
@@ -82,7 +78,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
-            for (int k = 0; k < 5; k++)
+            for (int k = 0; k < 15; k++)
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.InfernoFork, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -116,6 +112,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 Main.EntitySpriteDraw(bloomTex, drawPosition, null, Colour * 0.85f, Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * 0.3f, SpriteEffects.None);
                 Main.EntitySpriteDraw(bloomTex, drawPosition, null, Colour * 0.1f, Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * 0.5f, SpriteEffects.None);
             }
+            MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Type], Colour * 0.7f, 1, bloomTex, scale: Projectile.scale * 0.3f);
             Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;
         }

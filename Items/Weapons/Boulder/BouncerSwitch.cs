@@ -10,7 +10,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
-using MogMod.Items.Ammo;
+using MogMod.Items.Ammo.Other;
 
 namespace MogMod.Items.Weapons.Boulder
 {

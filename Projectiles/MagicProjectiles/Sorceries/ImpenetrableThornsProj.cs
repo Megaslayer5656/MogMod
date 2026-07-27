@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Classes;
+using MogMod.Items.Ammo.SorcerySpells.Thorn;
+using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +14,6 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
     public class ImpenetrableThornsProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Magic.Sorceries";
-        public const int BloodDamage = 12;
         public int TotalSegments = 66;
         public override void SetDefaults()
         {
@@ -27,6 +29,9 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             Projectile.localNPCHitCooldown = 16;
             Projectile.extraUpdates = 1;
             Projectile.ArmorPenetration = 10;
+
+            MogModGlobalProjectile mogProj = Projectile.MogMod();
+            mogProj.bloodDamage = ImpenetrableThorns.BloodDamage;
         }
         public override void AI()
         {

@@ -13,6 +13,8 @@ namespace MogMod.Items.Weapons.Melee
     public class GoldenHydrakanLatch : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
+        public const int EssenceMax = 60;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(EssenceMax);
         public override void SetDefaults() //TODO: Test and balance, make better sprite
         {
             Item.width = 68;

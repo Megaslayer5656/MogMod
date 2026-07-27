@@ -2,14 +2,19 @@
 using Microsoft.Xna.Framework;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
+using MogMod.Common.Config;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories;
 using MogMod.Items.Accessories.NeutralItems;
-using MogMod.Items.Ammo.SorcerySpells;
+using MogMod.Items.Accessories.NeutralItems.Aspects;
+using MogMod.Items.Ammo.SorcerySpells.Carian;
+using MogMod.Items.Ammo.SorcerySpells.Death;
+using MogMod.Items.Ammo.SorcerySpells.Glintstone;
 using MogMod.Items.Armor.Hellfire;
 using MogMod.Items.Armor.WhiteMaskSet;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Items.Pets;
 using MogMod.Items.Placeable.Ores;
 using MogMod.Items.Tools;
 using MogMod.Items.Weapons.Magic.SorceryStaves;
@@ -19,6 +24,7 @@ using MogMod.NPCs.Enemies;
 using MogMod.NPCs.ProjectileEnemies;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.Classless;
+using MogMod.Projectiles.EnemyProjectiles;
 using MogMod.Projectiles.Melee;
 using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Tiles.Ores;
@@ -55,6 +61,8 @@ namespace MogMod.NPCs.Global
         public bool blackBladeDebuff;
         public bool shivasDebuff;
         public bool infernoDebuff;
+        public bool blazingDebuff;
+        public bool toxicDebuff;
 
         public NPC.HitInfo hitInfo;
         public int maxBlood = 150;
@@ -81,6 +89,11 @@ namespace MogMod.NPCs.Global
         Random rand = new Random();
 
         public int cooldownTimer = 5;
+        public int toxicDamage = 0;
+        public int currentCoins = 0;
+        public int maxCoins = 5;
+
+        public int overloadingRegenCooldown = OverloadingAspect.EnemyRegenWaitTime;
         public override bool InstancePerEntity => true;
 
         public static readonly SoundStyle BloodCrit = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/BloodCrit")
@@ -89,8 +102,14 @@ namespace MogMod.NPCs.Global
             PitchVariance = .2f,
         };
 
-        // 
+        // elites
         public bool hellEpstein = false;
+        public bool overloadingElite = false;
+        public static int overloadingOwner = -1;
+        public bool fireElite = false;
+        public bool goldElite = false;
+        public bool healingElite = false;
+        public bool toxicElite = false;
         public static LocalizedText FaeOreText { get; private set; }
         public static LocalizedText HellfireEssenceText { get; private set; }
         public override void SetStaticDefaults()
@@ -99,6 +118,8 @@ namespace MogMod.NPCs.Global
             HellfireEssenceText = Mod.GetLocalization($"WorldGen.{nameof(HellfireEssenceText)}");
         }
         #endregion
+
+        #region Shops
         // modifies vanilla npc shop
         public override void ModifyShop(NPCShop shop)
         {
@@ -114,15 +135,44 @@ namespace MogMod.NPCs.Global
                 case NPCID.Dryad:
                     shop.InsertAfter(ItemID.DirtRod, ModContent.ItemType<ForceStaff>(), Condition.HappyEnoughToSellPylons);
                     break;
+                case NPCID.Demolitionist:
+                    shop.InsertAfter(ItemID.Grenade, ModContent.ItemType<GasGrenade>(), Condition.HappyEnoughToSellPylons);
+                    break;
             }
         }
+        public override void SetupTravelShop(int[] shop, ref int nextSlot)
+        {
+            shop[nextSlot++] = ModContent.ItemType<CarianSlicer>();
+            //if (Main.hardMode)
+            //    shop[nextSlot++] = ModContent.ItemType<CarianSlicer>();
+        }
+        #endregion
 
         #region NPC Drops
         // LEDX and REDX chance to drop
         public override void ModifyGlobalLoot(GlobalLoot globalLoot)
         {
+            int aspectChance = 1000;
+            LeadingConditionRule overloadingDrop = new(DropHelper.OverloadingEliteCondition);
+            LeadingConditionRule blazingDrop = new(DropHelper.BlazingEliteCondition);
+            LeadingConditionRule gildedDrop = new(DropHelper.GildedEliteCondition);
+            LeadingConditionRule mendingDrop = new(DropHelper.MendingEliteCondition);
+            LeadingConditionRule toxicDrop = new(DropHelper.ToxicEliteCondition);
+
+            overloadingDrop.Add(ModContent.ItemType<OverloadingAspect>(), aspectChance);
+            blazingDrop.Add(ModContent.ItemType<BlazingAspect>(), aspectChance);
+            gildedDrop.Add(ModContent.ItemType<GildedAspect>(), aspectChance);
+            mendingDrop.Add(ModContent.ItemType<MendingAspect>(), aspectChance);
+            toxicDrop.Add(ModContent.ItemType<NoxiousAspect>(), aspectChance);
+
+            globalLoot.Add(overloadingDrop);
+            globalLoot.Add(blazingDrop);
+            globalLoot.Add(gildedDrop);
+            globalLoot.Add(mendingDrop);
+            globalLoot.Add(toxicDrop);
             globalLoot.Add(new CommonDrop(ModContent.ItemType<LedX>(), 10000, 1, 1, 1));
             globalLoot.Add(new CommonDrop(ModContent.ItemType<RedX>(), 100000, 1, 1, 1));
+
         }
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
@@ -148,9 +198,8 @@ namespace MogMod.NPCs.Global
                 #endregion
                 #region Underground
                 case NPCID.Tim:
-                case NPCID.RuneWizard:
                     npcLoot.RemoveWhere(rule => true, false);
-                    ItemDropRule.OneFromOptions(1, ItemID.WizardHat, ModContent.ItemType<GlintstoneArc>());
+                    npcLoot.Add(ItemDropRule.OneFromOptions(1, ItemID.WizardHat, ModContent.ItemType<GlintstoneArc>()));
                     break;
                 case NPCID.CrimsonAxe:
                 case NPCID.CursedHammer:
@@ -212,9 +261,12 @@ namespace MogMod.NPCs.Global
                 #endregion
                 #region Frost Moon
                 // low level goons
+                case NPCID.GingerbreadMan:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Gingy>(), 50, 1, 1));
+                    postPlant.Add(ModContent.ItemType<FrostEssence>(), 5, 1, 3);
+                    break;
                 case NPCID.PresentMimic:
                 case NPCID.Flocko:
-                case NPCID.GingerbreadMan:
                 case NPCID.ZombieElf:
                 case NPCID.ZombieElfBeard:
                 case NPCID.ZombieElfGirl:
@@ -295,7 +347,30 @@ namespace MogMod.NPCs.Global
                     swirlDust.noGravity = true;
                 }
             }
-
+            Vector2 dustNumb = new(1.6f, 2f);
+            if (overloadingElite)
+            {
+                if (Main.rand.NextBool(10))
+                {
+                    Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, Main.rand.NextBool(5) ? DustID.GemSapphire : DustID.MagnetSphere, npc.velocity.X, npc.velocity.Y, 100, default, 1f);
+                    dust.noGravity = true;
+                    dust.scale = Main.rand.NextFloat(dustNumb.X, dustNumb.Y);
+                    dust.velocity *= 1.1f;
+                }
+                overloadingRegenCooldown--;
+            }
+            if (goldElite)
+                npc.MaxFallSpeedMultiplier *= 2f;
+            if (toxicElite)
+            {
+                if (Main.rand.NextBool(10))
+                {
+                    Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, Main.rand.NextBool(5) ? DustID.Venom : DustID.Poisoned, npc.velocity.X, npc.velocity.Y, 100, default, 1f);
+                    dust.noGravity = true;
+                    dust.scale = Main.rand.NextFloat(dustNumb.X, dustNumb.Y);
+                    dust.velocity *= 1.1f;
+                }
+            }
         }
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
@@ -322,9 +397,12 @@ namespace MogMod.NPCs.Global
             int shivDamage = MogModUtils.DamageHardCap(Convert.ToInt32(enemyMaxHP * 0.005) + 50, shivCap);
             int hellfireDamage = MogModUtils.DamageSoftCap(damageDone * HellfireMask.DamageMult, hellfireCap);
             int bashDamage = MogModUtils.DamageSoftCap(damageDone * GiantsMaul.DamageMult, bashCap);
+            int overloadingDamage = (int)(damageDone * OverloadingAspect.DamageMult);
             var source = player.GetSource_OnHit(npc);
             bashProc = rand.Next(7) == 0;
             shivProc = rand.Next(5) == 0;
+
+            overloadingRegenCooldown = OverloadingAspect.EnemyRegenWaitTime;
             #endregion
 
             #region Weapon Effects
@@ -382,6 +460,7 @@ namespace MogMod.NPCs.Global
                 Rectangle r = new Rectangle((int)npc.position.X, (int)npc.position.Y - 50, npc.width, npc.height);
                 Color textColor = new Color(210, 180, 140);
                 CombatText.NewText(r, textColor, "Strike!", true);
+                //MessageID.CombatTextInt
                 if (Main.netMode == NetmodeID.Server)
                 {
                     ModPacket packet = Mod.GetPacket();
@@ -407,6 +486,44 @@ namespace MogMod.NPCs.Global
 
                 if (procChance == 5)
                     Projectile.NewProjectile(source, npc.Center, kirk, ModContent.ProjectileType<PolyluteProj>(), Convert.ToInt32(damageDone * .3f) + 1, 3, player.whoAmI);
+            }
+
+            if (mogPlayer.wearingToxic && mogPlayer.toxicCooldown <= 0)
+            {
+                mogPlayer.toxicCooldown = 2;
+                toxicDamage += Main.rand.Next(NoxiousAspect.DamageMin - 6, NoxiousAspect.DamageMax - 20);
+                if (Main.hardMode)
+                    toxicDamage += Main.rand.Next(NoxiousAspect.DamageMin, NoxiousAspect.DamageMax);
+                //Main.NewText($"sd phonk damage is: {toxicDamage}");
+            }
+            if (mogPlayer.wearingOverloading && mogPlayer.overloadingCooldown <= 0)
+            {
+                mogPlayer.overloadingCooldown = cooldownTimer;
+                Projectile orb = Projectile.NewProjectileDirect(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<OverloadingOrbProj>(), overloadingDamage, 0f, player.whoAmI, ai2: 1f);
+                orb.DamageType = player.HeldItem.DamageType;
+            }
+            if (Main.rand.NextBool(3) && mogPlayer.wearingGilded && mogPlayer.gildedCoinDropCooldown <= 0 && !npc.SpawnedFromStatue && npc.type != NPCID.TargetDummy && currentCoins <= maxCoins)
+            {
+                mogPlayer.gildedCoinDropCooldown = cooldownTimer;
+                currentCoins++;
+                Rectangle npcBox = new((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
+                int coinChance = Main.rand.Next(0, 101);
+                int coin = ItemID.CopperCoin;
+                switch (coinChance)
+                {
+                    case < 60:
+                        break;
+                    case < 90:
+                        coin = ItemID.SilverCoin;
+                        break;
+                    case < 100:
+                        coin = ItemID.GoldCoin;
+                        break;
+                    case >= 100:
+                        coin = ItemID.PlatinumCoin;
+                        break;
+                }
+                Item.NewItem(source, npcBox, coin);
             }
             #endregion
 
@@ -435,7 +552,8 @@ namespace MogMod.NPCs.Global
             #region Setup
             Player player = Main.player[projectile.owner];
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            int bloodToAdd = projectile.GetGlobalProjectile<MogModGlobalProjectileBleed>().bloodDamage;
+            var source = player.GetSource_OnHit(npc);
+            int bloodToAdd = projectile.GetGlobalProjectile<MogModGlobalProjectile>().bloodDamage;
             // add another blood accessory
             if (mogPlayer.exultationEquipped)
                 bloodToAdd = (int)(bloodToAdd * LordOfBloodsExultation.BloodMult);
@@ -448,6 +566,31 @@ namespace MogMod.NPCs.Global
 
             if (mogPlayer.wearingFlayersBota)
                 bloodToAdd = (int)(bloodToAdd * FlayersBota.BloodMult);
+
+            overloadingRegenCooldown = OverloadingAspect.EnemyRegenWaitTime;
+            if (Main.rand.NextBool(3) && mogPlayer.wearingGilded && mogPlayer.gildedCoinDropCooldown <= 0 && !npc.SpawnedFromStatue && npc.type != NPCID.TargetDummy && currentCoins <= maxCoins)
+            {
+                mogPlayer.gildedCoinDropCooldown = cooldownTimer;
+                currentCoins++;
+                Rectangle npcBox = new((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
+                int coinChance = Main.rand.Next(0, 101);
+                int coin = ItemID.CopperCoin;
+                switch (coinChance)
+                {
+                    case < 60:
+                        break;
+                    case < 90:
+                        coin = ItemID.SilverCoin;
+                        break;
+                    case < 100:
+                        coin = ItemID.GoldCoin;
+                        break;
+                    case >= 100:
+                        coin = ItemID.PlatinumCoin;
+                        break;
+                }
+                Item.NewItem(source, npcBox, coin);
+            }
 
             if (Main.netMode == NetmodeID.MultiplayerClient) //If you do anything else in this method do it before here bc this returns sometimes
             {
@@ -502,7 +645,7 @@ namespace MogMod.NPCs.Global
         public void AddItemBlood(NPC npc, Player player, Item item)
         {
             MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
 
             maxBlood = (int)(npc.lifeMax * .05 + npc.defense);
 
@@ -545,7 +688,7 @@ namespace MogMod.NPCs.Global
         }
         public void ApplyBleedProc(NPC npc, Player player)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             NPC.HitInfo hitInfo = new NPC.HitInfo
             {
                 Damage = Convert.ToInt32(npc.lifeMax * 0.085f) + 50,
@@ -613,66 +756,98 @@ namespace MogMod.NPCs.Global
         {
             Player player = Main.LocalPlayer;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            if (npc.type == NPCID.HallowBoss)
-                if (!NPC.downedEmpressOfLight)
-                {
-                    FaeOreText = Mod.GetLocalization($"WorldGen.{nameof(FaeOreText)}");
-                    WorldGeneration.SpawnOre(ModContent.TileType<FaeOreT>(), 16E-05, 0.35f, .8f, 7, 12, TileID.Pearlstone, TileID.HallowedIce, TileID.HallowSandstone, TileID.HallowHardenedSand);
-
-                    WorldGeneration.BroadcastLocalizedText(FaeOreText.Value, Color.HotPink);
-                    SyncWorld();
-                }
-            if (npc.type == NPCID.SkeletronPrime || npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism || npc.type == NPCID.TheDestroyer)
+            switch (npc.type)
             {
-                if (Condition.DownedMechBossAll.IsMet() && !MogModWorld.UnderworldIsFreaky)
-                {
-                    HellfireEssenceText = Mod.GetLocalization($"WorldGen.{nameof(HellfireEssenceText)}");
-                    WorldGeneration.BroadcastLocalizedText(HellfireEssenceText.Value, Color.Orange);
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                        MogModWorld.UnderworldIsFreaky = true;
+                #region Bosses
+                case NPCID.HallowBoss:
+                    if (!NPC.downedEmpressOfLight)
+                    {
+                        FaeOreText = Mod.GetLocalization($"WorldGen.{nameof(FaeOreText)}");
+                        WorldGeneration.SpawnOre(ModContent.TileType<FaeOreT>(), 16E-05, 0.35f, .8f, 7, 12, TileID.Pearlstone, TileID.HallowedIce, TileID.HallowSandstone, TileID.HallowHardenedSand);
 
-                    SyncWorld();
-                }
+                        WorldGeneration.BroadcastLocalizedText(FaeOreText.Value, Color.HotPink);
+                        SyncWorld();
+                    }
+                    break;
+                case NPCID.TheDestroyer:
+                case NPCID.Retinazer:
+                case NPCID.Spazmatism:
+                case NPCID.SkeletronPrime:
+                    if (!Condition.DownedMechBossAll.IsMet() && (!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
+                    {
+                        HellfireEssenceText = Mod.GetLocalization($"WorldGen.{nameof(HellfireEssenceText)}");
+                        WorldGeneration.BroadcastLocalizedText(HellfireEssenceText.Value, Color.Orange);
+
+                        SyncWorld();
+                    }
+                    break;
+                #endregion
+
+                #region Enemies
+                case NPCID.Hellbat:
+                case NPCID.LavaSlime:
+                case NPCID.FireImp:
+                case NPCID.Demon:
+                case NPCID.VoodooDemon:
+                case NPCID.DemonTaxCollector:
+                case NPCID.Lavabat:
+                case NPCID.RedDevil:
+                    if (!hellEpstein || !Condition.DownedMechBossAll.IsMet())
+                        break;
+                    var entitySource = npc.GetSource_FromAI();
+                    NPC fireball = NPC.NewNPCDirect(entitySource, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HellfireSpirit>(), npc.whoAmI);
+                    if (Main.netMode == NetmodeID.Server)
+                        NetMessage.SendData(MessageID.SyncNPC, number: fireball.whoAmI);
+                    break;
+                #endregion
             }
             // if an enemy is killed in one shot from a freezing weapon it doesnt shoot out the projectiles
             // i think this is because it doesnt apply the buff before killing them, so it cant run this line <--- Hey Will it's me (Megaslayer), I think we could do this in onhitbyitem, check if the npc's health is below zero (or if damagedealt was greater than the npc's current health) and if they were hit by frozen spear, and if those conditions are true, spawn the projectiles
             if (npc.HasBuff<FreezingDebuff>() || mogPlayer.wearingFrostArmor)
             {
-                int numSplits = 6;
+                int numSplits = Main.hardMode ? 10 : 6; // might cause lag
+                //int rotation = Main.hardMode ? 27 : 45;
+                int damage = Main.hardMode ? 150 : 50;
                 float angleVariance = MathHelper.TwoPi / numSplits;
                 Vector2 projVec = new Vector2(4.5f, 0f).RotatedByRandom(MathHelper.ToRadians(45));
 
                 for (int i = 0; i < numSplits; ++i)
                 {
                     projVec = projVec.RotatedBy(angleVariance);
-                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, projVec, ProjectileID.Blizzard, 50, 1f, Main.myPlayer);
+                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, projVec, ProjectileID.Blizzard, damage, 1f, Main.myPlayer);
                 }
             }
-            if (Condition.DownedMechBossAll.IsMet())
+            if (fireElite)
             {
-                if (hellEpstein)
-                    switch (npc.type)
-                    {
-                        case NPCID.Hellbat:
-                        case NPCID.LavaSlime:
-                        case NPCID.FireImp:
-                        case NPCID.Demon:
-                        case NPCID.VoodooDemon:
-                        case NPCID.DemonTaxCollector:
-                        case NPCID.Lavabat:
-                        case NPCID.RedDevil:
-                                var entitySource = npc.GetSource_FromAI();
-                                NPC fireball = NPC.NewNPCDirect(entitySource, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HellfireSpirit>(), npc.whoAmI);
-                                if (Main.netMode == NetmodeID.Server)
-                                    NetMessage.SendData(MessageID.SyncNPC, number: fireball.whoAmI);
-                            break;
-                    }
+                if (NPCID.Sets.ProjectileNPC[npc.type] == true)
+                    return;
+                int damage = (int)(Main.masterMode ? npc.damage * 0.03f : Main.expertMode ? npc.damage * 0.03f : npc.damage * 0.04f);
+                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, Vector2.Zero, ModContent.ProjectileType<BlazingExplosion>(), damage, 1f, Main.myPlayer);
+            }
+            if (goldElite && Main.rand.NextBool(4))
+            {
+                if (NPCID.Sets.ProjectileNPC[npc.type] == true)
+                    return;
+                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, Vector2.Zero, ProjectileID.CoinPortal, 0, 1f, Main.myPlayer);
+            }
+            int mendingOrb = ModContent.NPCType<HealingOrb>();
+            if (healingElite)
+            {
+                if (NPCID.Sets.ProjectileNPC[npc.type] == true)
+                    return;
+                var entitySource = npc.GetSource_FromAI();
+                NPC healingOrb = NPC.NewNPCDirect(entitySource, (int)npc.Center.X, (int)npc.Center.Y, mendingOrb, npc.whoAmI);
+                if (Main.netMode == NetmodeID.Server)
+                    NetMessage.SendData(MessageID.SyncNPC, number: healingOrb.whoAmI);
             }
         }
         public override void OnSpawn(NPC npc, IEntitySource source)
         {
-            if (Condition.DownedMechBossAll.IsMet())
-                if (Main.rand.Next(0, 4) == 0)
+            // hellfire enemy spawning
+            if (Main.rand.NextBool(4))
+            {
+                if (Condition.DownedMechBossAll.IsMet())
+                {
                     switch (npc.type)
                     {
                         case NPCID.Hellbat:
@@ -688,8 +863,101 @@ namespace MogMod.NPCs.Global
                             npc.life = npc.lifeMax;
                             npc.defDamage = (int)(npc.damage * 1.5f);
                             npc.knockBackResist *= 0.2f;
-                            break;
+                            return;
                     }
+                }
+            }
+            // elite enemy spawning
+            if (source is EntitySource_Parent { Entity: NPC parent })
+            {
+                if (parent.MogMod().overloadingElite)
+                {
+                    overloadingElite = true;
+                    return;
+                }
+                if (parent.MogMod().fireElite)
+                {
+                    fireElite = true;
+                    return;
+                }
+                if (parent.MogMod().goldElite)
+                {
+                    goldElite = true;
+                    return;
+                }
+                if (parent.MogMod().healingElite && npc.type != ModContent.NPCType<HealingOrb>())
+                {
+                    healingElite = true;
+                    return;
+                }
+                if (parent.MogMod().toxicElite)
+                {
+                    toxicElite = true;
+                    return;
+                }
+            }
+            int chance = Main.zenithWorld ? 3 : 10;
+            if (Main.rand.NextBool(chance) && MogServerConfig.Instance.EliteEnemySpawning)
+            {
+                if (npc.friendly || npc.boss || npc.dontCountMe || NPCID.Sets.ProjectileNPC[npc.type] || NPCID.Sets.ShouldBeCountedAsBoss[npc.type] || npc.type == NPCID.TargetDummy)
+                    return;
+                npc.value *= 1.5f; // all elites drop extra money
+                switch (Main.rand.Next(0, 5))
+                {
+                    // overloading (spawn sticky orb, double health)
+                    case 0:
+                        overloadingElite = true;
+                        npc.lifeMax = (int)(npc.lifeMax * Main.rand.NextFloat(Main.zenithWorld ? 3f : 1.5f, Main.zenithWorld ? 5f : 3f));
+                        npc.life = npc.lifeMax;
+                        npc.defDamage = (int)(npc.damage * 1.3f);
+                        npc.scale *= Main.rand.NextFloat(1.2f, 1.5f);
+                        npc.knockBackResist *= 0.2f;
+                        return;
+                    // fire (ignite, explode on kill)
+                    case 1:
+                        fireElite = true;
+                        npc.lifeMax = (int)(npc.lifeMax * Main.rand.NextFloat(1.2f, 2f));
+                        npc.life = npc.lifeMax;
+                        npc.defDamage = (int)(npc.damage * (Main.zenithWorld ? 3f : 1.8f));
+                        return;
+                    // gold (reflect proj, drop more gold)
+                    case 2:
+                        goldElite = true;
+                        npc.lifeMax = (int)(npc.lifeMax * Main.rand.NextFloat(1.6f, 2.2f));
+                        npc.life = npc.lifeMax;
+                        npc.reflectsProjectiles = true;
+                        npc.value *= Main.zenithWorld ? 15f : 5f;
+                        return;
+                    // mending (heal other enemies, health regen)
+                    case 3:
+                        healingElite = true;
+                        npc.lifeMax = (int)(npc.lifeMax * Main.rand.NextFloat(Main.zenithWorld ? 0.2f : 0.5f, Main.zenithWorld ? 0.5f : 0.8f));
+                        npc.life = npc.lifeMax;
+                        npc.scale *= Main.rand.NextFloat(Main.zenithWorld ? 0.2f : 0.6f, Main.zenithWorld ? 0.5f : 0.9f);
+                        npc.knockBackResist *= 1.5f;
+                        return;
+                    // poison (stacking poison debuff that kirks you when it ends (think SD kid phonk))
+                    case 4:
+                        toxicElite = true;
+                        npc.defDamage = (int)(npc.damage * 0.7f);
+                        break;
+                }
+            }
+        }
+        public override void ModifyTypeName(NPC npc, ref string typeName)
+        {
+            if (overloadingElite)
+                typeName = MiscUtils.GetText("Prefixes.NPC.Overloading").Format(typeName);
+            if (fireElite)
+                typeName = MiscUtils.GetText("Prefixes.NPC.Blazing").Format(typeName);
+            if (goldElite)
+                typeName = MiscUtils.GetText("Prefixes.NPC.Gilded").Format(typeName);
+            if (healingElite)
+                typeName = MiscUtils.GetText("Prefixes.NPC.Mending").Format(typeName);
+            if (toxicElite)
+                typeName = MiscUtils.GetText("Prefixes.NPC.Toxic").Format(typeName);
+            if (hellEpstein)
+                typeName = MiscUtils.GetText("Prefixes.NPC.Hellfire").Format(typeName);
         }
         #endregion
 
@@ -697,30 +965,40 @@ namespace MogMod.NPCs.Global
         // actual debuff effect
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
+            if (healingElite)
+            {
+                npc.lifeRegen += Main.zenithWorld ? MendingAspect.LifeRegen * 21 : Main.hardMode ? MendingAspect.LifeRegen * 3 : MendingAspect.LifeRegen;
+                foreach (NPC target in Main.ActiveNPCs)
+                {
+                    int size = 10;
+                    Rectangle healingBox = new((int)(npc.Center.X - npc.width * size / 2), (int)(npc.Center.Y - npc.height * size / 2), npc.Hitbox.Width * size, npc.Hitbox.Height * size);
+                    if (!target.active || target.friendly || !healingBox.Intersects(target.Hitbox) || 
+                        npc.dontCountMe || NPCID.Sets.ProjectileNPC[npc.type] || NPCID.Sets.ShouldBeCountedAsBoss[npc.type] || 
+                        npc.type == NPCID.TargetDummy || target.MogMod().healingElite || target.life >= target.lifeMax)
+                        continue;
+                    int heal = Main.zenithWorld ? 3 : 1;
+                    target.life += heal;
+                    target.HealEffect(heal);
+                    if (target.life > target.lifeMax)
+                        target.life = target.lifeMax;
+                }
+            }
+            if (overloadingRegenCooldown <= 0)
+                npc.lifeRegen += Main.zenithWorld ? OverloadingAspect.EnemyLifeRegenBoost * 9 : Main.hardMode ? OverloadingAspect.EnemyLifeRegenBoost * 3 : OverloadingAspect.EnemyLifeRegenBoost;
             if (divineDebuff)
-            {
                 ApplyDPSDebuff(600, 100, ref npc.lifeRegen, ref damage);
-            }
             if (aghDebuff)
-            {
                 ApplyDPSDebuff(480, 80, ref npc.lifeRegen, ref damage);
-            }
             if (wingsOfLightDebuff)
-            {
                 ApplyDPSDebuff(300, 15, ref npc.lifeRegen, ref damage);
-            }
             if (blackBladeDebuff)
-            {
                 ApplyDPSDebuff(200, 20, ref npc.lifeRegen, ref damage);
-            }
             if (ghostflameDebuff)
-            {
                 ApplyDPSDebuff(170, 7, ref npc.lifeRegen, ref damage);
-            }
             if (infernoDebuff)
-            {
                 ApplyDPSDebuff(500, 50, ref npc.lifeRegen, ref damage);
-            }
+            if (blazingDebuff)
+                ApplyDPSDebuff(255, 15, ref npc.lifeRegen, ref damage);
             //if (jidiDebuff)
             //{
             //    ApplyDPSDebuff(180, 8, ref npc.lifeRegen, ref damage);
@@ -730,6 +1008,7 @@ namespace MogMod.NPCs.Global
         // movement changes
         public override void PostAI(NPC npc)
         {
+            // debuffs
             if (skadiDebuff)
             {
                 npc.velocity.X *= 0.98f;
@@ -737,18 +1016,36 @@ namespace MogMod.NPCs.Global
             }
             if (freezingDebuff)
             {
-                npc.velocity.X *= 0.97f;
-                npc.velocity.Y *= 0.97f;
+                float reduction = Main.hardMode ? 0.96f : 0.97f;
+                npc.velocity.X *= reduction;
+                npc.velocity.Y *= reduction;
             }
             if (shivasDebuff)
             {
                 npc.velocity.X *= 0.97f;
                 npc.velocity.Y *= 0.97f;
             }
+
+            // elites
+            if (overloadingElite)
+            {
+                if (NPCID.Sets.ProjectileNPC[npc.type] == true)
+                    return;
+                npc.velocity.X *= 0.985f;
+                npc.velocity.Y *= 0.985f;
+            }
+            if (goldElite)
+            {
+                if (NPCID.Sets.ProjectileNPC[npc.type] == true)
+                    return;
+                npc.velocity.X *= 0.975f;
+                npc.velocity.Y *= 0.975f;
+            }
         }
 
         public override void OnHitPlayer(NPC npc, Player target, Player.HurtInfo hurtInfo)
         {
+            MogPlayer mogPlayer = target.MogMod();
             if (target.HasBuff(ModContent.BuffType<Parrying>()))
             {
                 hurtInfo = new Player.HurtInfo
@@ -776,6 +1073,31 @@ namespace MogMod.NPCs.Global
                 npc.damage = (int)(npc.defDamage * .9f);
             else
                 npc.damage = npc.defDamage;
+            if (overloadingElite)
+            {
+                int overloadingType = ModContent.ProjectileType<HostileOverloadingOrbProj>();
+                int damage = (int)(Main.masterMode ? npc.damage * 0.05f : Main.expertMode ? npc.damage * 0.05f : npc.damage * 0.05f);
+                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, Vector2.Zero, overloadingType, damage, 2f, Main.myPlayer, ai1: 1f);
+            }
+            if (fireElite)
+            {
+                int buffType = Main.hardMode ? ModContent.BuffType<BlazingDebuff>() : BuffID.OnFire;
+                int duration = Main.hardMode ? 240 : 180;
+                target.AddBuff(buffType, duration);
+            }
+            if (toxicElite)
+            {
+                if (!target.HasBuff<ToxicDebuff>())
+                    target.AddBuff(ModContent.BuffType<ToxicDebuff>(), 360);
+                mogPlayer.toxicDamage += Main.rand.Next(ToxicDebuff.DamageMin, ToxicDebuff.DamageMax);
+                if (Main.hardMode)
+                    mogPlayer.toxicDamage += Main.rand.Next(ToxicDebuff.DamageMin + 20, ToxicDebuff.DamageMax + 20);
+            }
+            if (healingElite)
+            {
+                int duration = Main.hardMode ? 1080 : 720;
+                target.AddBuff(ModContent.BuffType<HealingDisabledDebuff>(), duration);
+            }
         }
         public override void ModifyHitPlayer(NPC npc, Player target, ref Player.HurtModifiers modifiers)
         {
@@ -811,6 +1133,8 @@ namespace MogMod.NPCs.Global
                 modifiers.CritDamage *= 1.1f;
             if (aghDebuff)
                 modifiers.CritDamage *= 1.2f;
+            if (blazingDebuff)
+                modifiers.FinalDamage *= BlazingAspect.DamageMult + 1;
         }
 
         // debuff visual effects
@@ -871,6 +1195,56 @@ namespace MogMod.NPCs.Global
                 InfernoDebuff.DrawEffects(npc, ref drawColor);
                 drawColor = Color.OrangeRed;
             }
+            if (blazingDebuff)
+            {
+                BlazingDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.OrangeRed;
+            }
+            if (toxicDebuff)
+            {
+                ToxicDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.Magenta;
+            }
+            static void DrawDust(NPC npc, int rareDust, int commonDust, float size)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f), npc.width + 4, npc.height + 4, Main.rand.NextBool(3) ? rareDust : commonDust, npc.velocity.X * 0.04f, npc.velocity.Y * 0.04f, 100, default, size);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 0.65f;
+                    Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.03f;
+                    if (Main.rand.NextBool(4))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.3f;
+                    }
+                }
+            }
+            if (overloadingElite)
+            {
+                DrawDust(npc, 161, DustID.MagnetSphere, 2.2f);
+                drawColor = Color.AliceBlue;
+            }
+            if (fireElite)
+            {
+                DrawDust(npc, DustID.Lava, DustID.Flare, 2.2f);
+                drawColor = Color.Orange;
+            }
+            if (goldElite)
+            {
+                DrawDust(npc, DustID.GoldCoin, DustID.Enchanted_Gold, 2.2f);
+                drawColor = Color.Goldenrod;
+            }
+            if (healingElite)
+            {
+                DrawDust(npc, DustID.Terra, DustID.PoisonStaff, 2.2f);
+                drawColor = Color.LimeGreen;
+            }
+            if (toxicElite)
+            {
+                DrawDust(npc, DustID.Venom, DustID.Poisoned, 2.2f);
+                drawColor = Color.MediumPurple;
+            }
         }
 
         // debuff damage (how often it applies damage and how much damage is dealt)
@@ -896,6 +1270,9 @@ namespace MogMod.NPCs.Global
             blackBladeDebuff = false;
             shivasDebuff = false;
             infernoDebuff = false;
+            blazingDebuff = false;
+            toxicDebuff = false;
+            overloadingOwner = npc.whoAmI;
         }
         #endregion
     }

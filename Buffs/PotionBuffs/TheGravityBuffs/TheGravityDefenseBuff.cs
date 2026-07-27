@@ -1,21 +1,25 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Weapons.Magic;
+using MogMod.Utilities;
+using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Buffs.PotionBuffs.TheGravityBuffs
 {
     public class TheGravityDefenseBuff : ModBuff
     {
+        public override LocalizedText Description => base.Description.WithFormatArgs(TheGravity.DefenseBoost, TheGravity.DamageReductionBoost.ToPercent());
         public override void SetStaticDefaults()
         {
             Main.debuff[Type] = false;
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.statDefense += 20;
-            player.endurance += .10f;
+            player.statDefense += TheGravity.DefenseBoost;
+            player.endurance += TheGravity.DamageReductionBoost;
             if (Main.rand.NextBool(3))
             {
                 Vector2 dustCorner = player.position - 2f * Vector2.One;

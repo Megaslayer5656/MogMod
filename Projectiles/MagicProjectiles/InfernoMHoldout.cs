@@ -188,6 +188,13 @@ namespace MogMod.Projectiles.MagicProjectiles
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindProjectiles.Add(index);
         public override bool PreDraw(ref Color lightColor)
         {
+            if (Main.zenithWorld)
+            {
+                Vector2 truthPosition = Projectile.Center - Main.screenPosition;
+                Texture2D truthNova = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/true").Value;
+                Main.EntitySpriteDraw(truthNova, truthPosition, null, Colour * 0.85f, Projectile.rotation, truthNova.Size() * 0.5f, Projectile.scale * 0.3f, SpriteEffects.None);
+                return false;
+            }
             // glow effect
             Main.spriteBatch.SetBlendState(BlendState.Additive);
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;

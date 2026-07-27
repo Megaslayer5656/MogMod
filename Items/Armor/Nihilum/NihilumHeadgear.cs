@@ -50,7 +50,7 @@ namespace MogMod.Items.Armor.Nihilum
         #region Armor Stat Changes
         public override void UpdateArmorSet(Player player)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             mogPlayer.wearingNihilum = true;
             mogPlayer.wearingNihilumRanged = true;
             player.aggro -= 1000;

@@ -4,9 +4,14 @@ using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
+using MogMod.Items.Accessories.Boots;
+using MogMod.Items.Accessories.NeutralItems;
+using MogMod.Items.Accessories.NeutralItems.Aspects;
+using MogMod.Items.Accessories.Rigs;
 using MogMod.Items.Accessories.Wings;
 using MogMod.Items.Ammo.SorcerySpells;
 using MogMod.Items.Armor.Fae;
+using MogMod.Items.Armor.Radiant;
 using MogMod.Items.Armor.Seraphic;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.MusicBoxes;
@@ -15,10 +20,14 @@ using MogMod.Items.Weapons.Magic.SorceryStaves;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Items.Weapons.Ranged;
 using MogMod.NPCs.Global;
+using MogMod.NPCs.ProjectileEnemies;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.Classless;
+using MogMod.Projectiles.EnemyProjectiles;
 using MogMod.Projectiles.Melee;
+using MogMod.Projectiles.Pets;
 using MogMod.Utilities;
+using MogMod.World;
 using Mono.Cecil;
 using System;
 using System.Collections.Generic;
@@ -26,12 +35,15 @@ using System.Runtime.Intrinsics.Arm;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent.Creative;
 using Terraria.GameInput;
+using Terraria.Graphics;
 using Terraria.Graphics.Renderers;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Default;
+using Terraria.WorldBuilding;
 using static AssGen.Assets;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -118,13 +130,25 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingFlayersBota;
         public bool wearingScavVest;
         public bool wearingTriton;
-        public bool wearingTritonLife;
-        public bool wearingTritonDamage;
-        public bool wearingTritonMovement;
+        public bool tritonActive;
         public bool wearingZhuk;
-        public bool wearingZhukLife;
-        public bool wearingZhukDamage;
-        public bool wearingZhukMovement;
+        public bool zhukActive;
+        public bool wearingPowerTreads;
+        public bool wearingTreadsLife;
+        public bool wearingTreadsDamage;
+        public bool wearingTreadsBuilding;
+        public bool wearingOverloading;
+        public bool overloadingVisual;
+        public bool wearingBlazing;
+        public bool blazingVisual;
+        public bool wearingGilded;
+        public bool gildedVisual;
+        public bool wearingMending;
+        public bool mendingVisual;
+        public bool wearingToxic;
+        public bool toxicVisual;
+
+        public float ammoCost = 1f;
 
         public bool stopFallDamage;
         int fallDamageTimer = 0;
@@ -215,7 +239,11 @@ namespace MogMod.Common.MogModPlayer
         public int radiantCooldown = 0;
         public int jidiPollenCooldown = 0;
         public int satanicAccCooldown = 0;
-
+        public int toxicCooldown = 0;
+        public int overloadingCooldown = 0;
+        public int gildedReflectCooldown = 0;
+        public int gildedCoinDropCooldown = 0;
+        public int overloadingRegenCooldown = OverloadingAspect.RegenWaitTime;
 
         // dragon install
         public bool wearingFlameOfCorruption = false;
@@ -261,7 +289,7 @@ namespace MogMod.Common.MogModPlayer
 
         #region Weapons
         public int essenceShiftLevel = 0;
-        public static int essenceShiftLevelMax = 60;
+        public static int essenceShiftLevelMax = HydrakanLatch.EssenceMax;
 
         public int fierySoulLevel = 0;
         public static int fierySoulLevelMax = 30;
@@ -287,7 +315,8 @@ namespace MogMod.Common.MogModPlayer
         public bool markerProjOut = false;
         public bool moonveilProj = false;
 
-        public float ammoCost = 1f;
+        public int maxShots = 0;
+        public int reloadTime = 0;
 
         /*
         public static List<int> PlayerHurtWeapons =
@@ -320,6 +349,12 @@ namespace MogMod.Common.MogModPlayer
         public bool infernoDebuff;
         public bool armletDebuff;
         public bool nulledDebuff;
+        public bool blazingDebuff;
+        public bool toxicDebuff;
+        public bool deathDebuff;
+        public bool healingDisabledDebuff;
+
+        public int toxicDamage = 0;
 
         // auras
         public bool greavesAura = false;
@@ -328,6 +363,7 @@ namespace MogMod.Common.MogModPlayer
         public bool headdressAura = false;
         public bool drumsAura = false;
         public bool shivasAura = false;
+        public bool mendingAura = false;
 
         public float auraRange = 5000f;
 
@@ -337,6 +373,8 @@ namespace MogMod.Common.MogModPlayer
 
         // pets
         public bool ahmodPet = false;
+        public bool gingyPet = false;
+
         #endregion
 
         #region Sound Effects
@@ -472,6 +510,12 @@ namespace MogMod.Common.MogModPlayer
                 target.AddBuff(BuffID.OnFire3, 180);
             if (melee && wearingAghGauntlet)
                 target.AddBuff(ModContent.BuffType<AghanimHexDebuff>(), 180);
+            if (wearingBlazing)
+                target.AddBuff(ModContent.BuffType<BlazingDebuff>(), 300);
+            if (wearingGilded)
+                target.AddBuff(BuffID.Midas, 180);
+            if (wearingToxic && !target.HasBuff<ToxicDebuff>())
+                target.AddBuff(ModContent.BuffType<ToxicDebuff>(), 600);
         }
         public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -491,7 +535,7 @@ namespace MogMod.Common.MogModPlayer
             if (mogProj.deathBullet)
                 target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), 180);
             if (mogProj.daybreakBullet)
-                target.AddBuff(BuffID.Daybreak, 180);
+                target.AddBuff(ModContent.BuffType<BlazingDebuff>(), 180);
             if (mogProj.gelmirSpell)
                 target.AddBuff(BuffID.OnFire3, 180);
             NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), proj.CountsAsClass<SummonMeleeSpeedDamageClass>(), hit.Crit);
@@ -530,8 +574,7 @@ namespace MogMod.Common.MogModPlayer
         }
         public override void OnHitByNPC(NPC npc, Terraria.Player.HurtInfo hurtInfo)
         {
-            Player.ClearBuff(ModContent.BuffType<ClarityBuff>());
-            Player.ClearBuff(ModContent.BuffType<HealingSalveBuff>());
+            MogModGlobalNPC mogNPC = npc.MogMod();
             if (Player.HasItemInAnyInventory(ModContent.ItemType<HolyLocket>()))
             {
                 locketCharges += 1;
@@ -574,10 +617,8 @@ namespace MogMod.Common.MogModPlayer
                 }
             }
         }
-        public override void OnHitByProjectile(Projectile proj, Terraria.Player.HurtInfo hurtInfo)
+        public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
         {
-            Player.ClearBuff(ModContent.BuffType<ClarityBuff>());
-            Player.ClearBuff(ModContent.BuffType<HealingSalveBuff>());
             if (Player.HasItemInAnyInventory(ModContent.ItemType<HolyLocket>()))
             {
                 locketCharges += 1;
@@ -617,6 +658,46 @@ namespace MogMod.Common.MogModPlayer
                 {
                     Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<CounterHelixProj>(), counterHelixDmg, 1, Player.whoAmI, 0);
                     tankyRizzlerHits = 0;
+                }
+            }
+        }
+        public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
+        {
+            int actualProjDamage = proj.damage;
+            double dodgeDamageGateValuePercent = 0.05;
+            int dodgeDamageGateValue = (int)Math.Round(Player.statLifeMax2 * dodgeDamageGateValuePercent);
+            if (!proj.reflected && !ProjectileID.Sets.PlayerHurtDamageIgnoresDifficultyScaling[proj.type])
+            {
+                float damageMult = Main.GameModeInfo.EnemyDamageMultiplier;
+                if (Main.GameModeInfo.IsJourneyMode)
+                {
+                    var power = CreativePowerManager.Instance.GetPower<CreativePowers.DifficultySliderPower>();
+                    if (power.GetIsUnlocked())
+                        damageMult = power.StrengthMultiplierToGiveNPCs;
+                }
+
+                // in real tML, the factor 2 is applied in Projectile.Damage()
+                actualProjDamage = (int)Math.Floor(2 * damageMult * (float)actualProjDamage);
+            }
+            //Main.NewText($"damage done was {actualProjDamage}, damage needed is {dodgeDamageGateValue}");
+            if (proj.active && proj.hostile && modifiers.Dodgeable && proj.damage > 0)
+            {
+                if (actualProjDamage >= dodgeDamageGateValue)
+                {
+                    if (wearingGilded && !MogModProjectileSets.ShouldNotBeReflected[proj.type] && !modifiers.PvP && !proj.friendly && gildedReflectCooldown <= 0)
+                    {
+                        proj.hostile = false;
+                        proj.friendly = true;
+                        proj.damage = actualProjDamage;
+                        proj.velocity *= -1f;
+                        proj.penetrate = 1;
+
+                        SoundEngine.PlaySound(SoundID.Item150, Player.Center);
+                        int daedalusReflectIFrames = Player.ComputeReflectIFrames();
+                        Player.GiveUniversalIFrames(daedalusReflectIFrames, true);
+                        modifiers.Cancel();
+                        gildedReflectCooldown = GildedAspect.ReflectCooldown;
+                    }
                 }
             }
         }
@@ -679,7 +760,7 @@ namespace MogMod.Common.MogModPlayer
             }
 
             // arcane boots
-            if (KeybindSystem.ArcaneBootsKeybind.JustPressed && wearingManaBoots && !Player.HasBuff(manabootsCooldown))
+            if (KeybindSystem.BootsKeybind.JustPressed && wearingManaBoots && !Player.HasBuff(manabootsCooldown))
             {
                 //for (int i = 0; i < Main.maxPlayers; i++)
                 //{
@@ -698,28 +779,16 @@ namespace MogMod.Common.MogModPlayer
                 //        }
                 //    }
                 //}
-                Player.statMana += 200;
-                Player.ManaEffect(200);
-                if (Player.statMana > Player.statManaMax2)
-                    Player.statMana = Player.statManaMax2;
+                Player.HealManaMult(ArcaneBoots.ManaHeal);
                 Player.AddBuff(manabootsCooldown, 1800);
                 SoundEngine.PlaySound(ManaBootsActivateSound, Player.Center);
             }
 
             // guardian greaves
-            if (KeybindSystem.GuardianGreavesKeybind.JustPressed && wearingGigaManaBoots && !Player.HasBuff(guardianCooldown))
+            if (KeybindSystem.BootsKeybind.JustPressed && wearingGigaManaBoots && !Player.HasBuff(guardianCooldown))
             {
-                // make it play a sound when activating
-                Player.statLife += 140;
-                Player.HealEffect(140);
-                if (Player.statLife > Player.statLifeMax2)
-                    Player.statLife = Player.statLifeMax2;
-
-                Player.statMana += 300;
-                Player.ManaEffect(300);
-                if (Player.statMana > Player.statManaMax2)
-                    Player.statMana = Player.statManaMax2;
-
+                Player.HealLifeMult(GuardianGreaves.LifeHeal);
+                Player.HealManaMult(GuardianGreaves.ManaHeal);
                 Player.AddBuff(guardianCooldown, 3600);
                 SoundEngine.PlaySound(GreavesActivateSound, Player.Center);
             }
@@ -728,10 +797,7 @@ namespace MogMod.Common.MogModPlayer
             if (KeybindSystem.MekansmKeybind.JustPressed && wearingMekansm && !Player.HasBuff(mekansmCooldown))
             {
                 // make it play a sound when activating
-                Player.statLife += 80;
-                Player.HealEffect(80);
-                if (Player.statLife > Player.statLifeMax2)
-                    Player.statLife = Player.statLifeMax2;
+                Player.HealLifeMult(Mekansm.LifeHeal);
                 Player.AddBuff(mekansmCooldown, 3600);
                 SoundEngine.PlaySound(MekansmActivateSound, Player.Center);
             }
@@ -741,17 +807,11 @@ namespace MogMod.Common.MogModPlayer
             {
                 if (locketActive && locketCharges > 0)
                 {
-                    int heal = 10 * locketCharges;
+                    int heal = HolyLocket.LifeHeal * locketCharges;
+                    int mana = HolyLocket.ManaHeal * locketCharges;
 
-                    Player.statLife += heal;
-                    Player.HealEffect(heal);
-                    if (Player.statLife > Player.statLifeMax2)
-                        Player.statLife = Player.statLifeMax2;
-
-                    Player.statMana += heal;
-                    Player.ManaEffect(heal);
-                    if (Player.statMana > Player.statManaMax2)
-                        Player.statMana = Player.statManaMax2;
+                    Player.HealLifeMult(heal);
+                    Player.HealManaMult(mana);
 
                     locketCharges = 0;
                     SoundEngine.PlaySound(WandUse, Player.Center);
@@ -763,17 +823,11 @@ namespace MogMod.Common.MogModPlayer
             {
                 if (wandActive && wandCharges > 0)
                 {
-                    int heal = 7 * wandCharges;
+                    int heal = MagicWand.LifeHeal * wandCharges;
+                    int mana = MagicWand.ManaHeal * locketCharges;
 
-                    Player.statLife += heal;
-                    Player.HealEffect(heal);
-                    if (Player.statLife > Player.statLifeMax2)
-                        Player.statLife = Player.statLifeMax2;
-
-                    Player.statMana += heal;
-                    Player.ManaEffect(heal);
-                    if (Player.statMana > Player.statManaMax2)
-                        Player.statMana = Player.statManaMax2;
+                    Player.HealLifeMult(heal);
+                    Player.HealManaMult(mana);
 
                     wandCharges = 0;
                     SoundEngine.PlaySound(WandUse, Player.Center);
@@ -785,17 +839,11 @@ namespace MogMod.Common.MogModPlayer
             {
                 if (stickActive && stickCharges > 0)
                 {
-                    int heal = 5 * stickCharges;
+                    int heal = MagicStick.LifeHeal * wandCharges;
+                    int mana = MagicStick.ManaHeal * locketCharges;
 
-                    Player.statLife += heal;
-                    Player.HealEffect(heal);
-                    if (Player.statLife > Player.statLifeMax2)
-                        Player.statLife = Player.statLifeMax2;
-
-                    Player.statMana += heal;
-                    Player.ManaEffect(heal);
-                    if (Player.statMana > Player.statManaMax2)
-                        Player.statMana = Player.statManaMax2;
+                    Player.HealLifeMult(heal);
+                    Player.HealManaMult(mana);
 
                     stickCharges = 0;
                     SoundEngine.PlaySound(WandUse, Player.Center);
@@ -894,6 +942,30 @@ namespace MogMod.Common.MogModPlayer
             }
             while (nihilumTimer >= 1 && nihilumTimer <= nihilumTimerMax + 1)
                 nihilumTimer++;
+
+            // power treads
+            if (KeybindSystem.BootsKeybind.JustPressed && wearingPowerTreads)
+            {
+                PowerTreads.CurrentStats++;
+                if (PowerTreads.CurrentStats > 2)
+                    PowerTreads.CurrentStats = 0;
+                SoundEngine.PlaySound(SoundID.Item45, Player.Center);
+                //Item.NetStateChanged();
+            }
+
+            // triton
+            if (KeybindSystem.RigKeybind.JustPressed && wearingTriton)
+            {
+                Main.playerInventory = true;
+                tritonActive = !tritonActive;
+            }
+
+            // zhuk
+            if (KeybindSystem.RigKeybind.JustPressed && wearingZhuk)
+            {
+                Main.playerInventory = true;
+                zhukActive = !zhukActive;
+            }
             #endregion
         }
 
@@ -932,7 +1004,6 @@ namespace MogMod.Common.MogModPlayer
                     mouseRotationListener = false;
                 }
             }
-
         }
         // force staff movement
         public override void PreUpdateMovement()
@@ -1082,7 +1153,7 @@ namespace MogMod.Common.MogModPlayer
 
                 if (AegisDashTimer > 0)
                 {
-                    Player.SetImmuneTimeForAllTypes(AegisDashTimer / 2);
+                    Player.SetImmuneTimeForAllTypes(AegisDashTimer);
                     Player.eocDash = AegisDashTimer;
                     Player.armorEffectDrawShadowEOCShield = true;
 
@@ -1399,10 +1470,10 @@ namespace MogMod.Common.MogModPlayer
             if (locketActive)
                 Player.maxMinions += 2;
             if (wearingWraithPact)
-                Player.maxTurrets += 5;
+                Player.maxTurrets += WraithPact.MaxSentries;
             else
                 if (wearingVladimirs)
-                    Player.maxTurrets += 2;
+                    Player.maxTurrets += VladmirsOffering.MaxSentries;
             #endregion
 
             #region Weapon Buffs
@@ -1539,7 +1610,7 @@ namespace MogMod.Common.MogModPlayer
             // Flight time boosts
             double flightTimeMult = 1D +
                 (wearingFaeArmor ? FaeMask.FlightTimeBoost : 
-                wearingZhukMovement ? AzimutSSZhuk.FlightTimeBoost : 0D);
+                wearingTreadsBuilding ? PowerTreads.FlightTimeBoost : 0D);
 
             if (Player.wingTimeMax > 0)
                 Player.wingTimeMax = (int)(Player.wingTimeMax * flightTimeMult);
@@ -1567,6 +1638,28 @@ namespace MogMod.Common.MogModPlayer
         {
             MiscEffects();
             OtherBuffEffects();
+            CheckIfMouseItemIsSchematic();
+        }
+        public void CheckIfMouseItemIsSchematic()
+        {
+            if (Main.myPlayer != Player.whoAmI)
+                return;
+
+            bool shouldSync = false;
+
+            // ActiveItem doesn't need to be checked as the other possibility involves
+            // the item in question already being in the inventory.
+            if (Main.mouseItem != null && !Main.mouseItem.IsAir)
+            {
+                if (Main.mouseItem.type == ModContent.ItemType<GiantsMaul>() && !MogModWorld.HasFoundGiantsMaul)
+                {
+                    MogModWorld.HasFoundGiantsMaul = true;
+                    shouldSync = true;
+                }
+            }
+
+            if (shouldSync)
+                MogModNetcode.SyncWorld();
         }
         public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)
         {
@@ -1755,9 +1848,121 @@ namespace MogMod.Common.MogModPlayer
             else
                 eSeraphSound = false;
         }
+        public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
+        {
+            if (drawInfo.shadow != 0f || Player.dead)
+                return;
+            if (divineDebuff)
+                DivineMightDebuff.DrawEffects(drawInfo);
+            if (skadiDebuff)
+                EyeOfSkadiDebuff.DrawEffects(drawInfo);
+            if (freezingDebuff)
+                FreezingDebuff.DrawEffects(drawInfo);
+            if (aghHexDebuff)
+                AghanimHexDebuff.DrawEffects(drawInfo);
+            if (wingsOfLightDebuff)
+                WingsOfLightDebuff.DrawEffects(drawInfo);
+            if (ghostflameDebuff)
+                GhostflameDebuff.DrawEffects(drawInfo);
+            if (jidiDebuff)
+                JidiPollenBagDebuff.DrawEffects(drawInfo);
+            if (shivaDebuff)
+                ShivasEnemyDebuff.DrawEffects(drawInfo);
+            if (infernoDebuff)
+                InfernoDebuff.DrawEffects(drawInfo);
+            if (blazingDebuff)
+                BlazingDebuff.DrawEffects(drawInfo);
+            if (toxicDebuff)
+                ToxicDebuff.DrawEffects(drawInfo);
+            if (deathDebuff)
+                BlackBladeDebuff.DrawEffects(drawInfo);
+            if (healingDisabledDebuff)
+                HealingDisabledDebuff.DrawEffects(drawInfo);
 
+            float dim = .01f;
+            if (wearingOverloading && overloadingVisual)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    int dust = Dust.NewDust(Player.position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(3) ? 161 : DustID.MagnetSphere, Player.velocity.X * 0.04f, Player.velocity.Y * 0.04f, 100, default, 2.2f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 0.65f;
+                    Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.03f;
+                    if (Main.rand.NextBool(4))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.3f;
+                    }
+                }
+                Lighting.AddLight(Player.Center, 49f * dim, 174f * dim, 230f * dim);
+            }
+            if (wearingBlazing && blazingVisual)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    int dust = Dust.NewDust(Player.position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(3) ? DustID.Lava : DustID.Flare, Player.velocity.X * 0.04f, Player.velocity.Y * 0.04f, 100, default, 2.2f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 0.65f;
+                    Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.03f;
+                    if (Main.rand.NextBool(4))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.3f;
+                    }
+                }
+                Lighting.AddLight(Player.Center, 255f * dim, 84f * dim, 24f * dim);
+            }
+            if (wearingGilded && gildedVisual)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    int dust = Dust.NewDust(Player.position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(3) ? DustID.GoldCoin : DustID.Enchanted_Gold, Player.velocity.X * 0.04f, Player.velocity.Y * 0.04f, 100, default, 2.2f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 0.65f;
+                    Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.03f;
+                    if (Main.rand.NextBool(4))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.3f;
+                    }
+                }
+                Lighting.AddLight(Player.Center, 255f * dim, 234f * dim, 29f * dim);
+            }
+            if (wearingMending && mendingVisual)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    int dust = Dust.NewDust(Player.position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(3) ? DustID.Terra : DustID.PoisonStaff, Player.velocity.X * 0.04f, Player.velocity.Y * 0.04f, 100, default, 2.2f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 0.65f;
+                    Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.03f;
+                    if (Main.rand.NextBool(4))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.3f;
+                    }
+                }
+                Lighting.AddLight(Player.Center, 114f * dim, 230f * dim, 49f * dim);
+            }
+            if (wearingToxic && toxicVisual)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    int dust = Dust.NewDust(Player.position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(3) ? DustID.Venom : DustID.Poisoned, Player.velocity.X * 0.04f, Player.velocity.Y * 0.04f, 100, default, 2.2f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 0.65f;
+                    Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.03f;
+                    if (Main.rand.NextBool(4))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.3f;
+                    }
+                }
+                Lighting.AddLight(Player.Center, 219f * dim, 47f * dim, 237f * dim);
+            }
+        }
         // shivas effect and dust;
-        public void doShivas(Terraria.Player player, Vector2 center) //This needs to be its own method for netcode to work. See how I did it in MogModNetcode.cs and MogPlayerNetcode.cs
+        public void doShivas(Player player, Vector2 center) //This needs to be its own method for netcode to work. See how I did it in MogModNetcode.cs and MogPlayerNetcode.cs
         {
             for (int i = 0; i < Main.maxNPCs; i++) //Every npc is in an index, this goes through all of them
             {
@@ -1804,7 +2009,7 @@ namespace MogMod.Common.MogModPlayer
         }
 
         // wings of light effect and dust;
-        public void doWingsOfLight(Terraria.Player player, Vector2 center) // refer to shivas for how this works
+        public void doWingsOfLight(Player player, Vector2 center) // refer to shivas for how this works
         {
             for (int n = 0; n < Main.maxNPCs; n++)
             {
@@ -1876,10 +2081,19 @@ namespace MogMod.Common.MogModPlayer
         {
             if (wearingUndyingHelm)
                 doUndying();
+            if (wearingBlazing)
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingExplosion>(), 500, 1f, Main.myPlayer, ai2: 1f);
+            if (wearingMending)
+            {
+                NPC healingOrb = NPC.NewNPCDirect(Player.GetSource_FromThis(), (int)Player.Center.X, (int)Player.Center.Y, ModContent.NPCType<HealingOrb>(), Player.whoAmI);
+                if (Main.netMode == NetmodeID.Server)
+                    NetMessage.SendData(MessageID.SyncNPC, number: healingOrb.whoAmI);
+            }
             seraphicReviveCounter = 0;
             nihilumTimer = 0;
             armletTimer = 0;
             praporCooldown = 0;
+            toxicDamage = 0;
         }
         public void doUndying()
         {
@@ -1929,17 +2143,25 @@ namespace MogMod.Common.MogModPlayer
         #endregion
 
         #region Player Buffs / Debuffs
-        public override void ModifyHurt(ref Terraria.Player.HurtModifiers modifiers)
+        public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
             double damageMult = 1D;
             if (wearingWhisperDread) // increases damage taken
                 damageMult += 0.15;
-            if (wearingZhukDamage)
-                damageMult += AzimutSSZhuk.SelfDamageMult;
+            if (blazingDebuff)
+                damageMult += BlazingAspect.DamageMult;
+            if (aghHexDebuff)
+                damageMult += 0.2;
+            if (wingsOfLightDebuff)
+                damageMult += 0.1;
             modifiers.SourceDamage *= (float)damageMult;
         }
         public override void PostHurt(Player.HurtInfo hurtinfo)
         {
+            Player.ClearBuff(ModContent.BuffType<ClarityBuff>());
+            Player.ClearBuff(ModContent.BuffType<HealingSalveBuff>());
+            if (wearingOverloading)
+                overloadingRegenCooldown = OverloadingAspect.RegenWaitTime;
             if (wearingRefresherOrb && Main.zenithWorld)
             {
                 if (hurtinfo.CooldownCounter != -1)
@@ -1948,12 +2170,24 @@ namespace MogMod.Common.MogModPlayer
                 Player.immune = false;
             }
         }
+        public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
+        {
+            double healingMult = 1D +
+                (wearingMending ? MendingAspect.LifeMult : 0D);
+            healValue = (int)(healValue * healingMult);
+        }
+        public override void GetHealMana(Item item, bool quickHeal, ref int healValue)
+        {
+            double healingMult = 1D +
+                (wearingRadiantArmor ? RadiantFlower.ManaMult : 0D);
+            healValue = (int)(healValue * healingMult);
+        }
         // sniper offlane scope effect
         public override void ModifyZoom(ref float zoom)
         {
-            if (Player.HeldItem.type == ModContent.ItemType<AXMC>())
+            if (Main.mouseRight)
             {
-                if (Main.mouseRight == true)
+                if (Player.HeldItem.type == ModContent.ItemType<AXMC>())
                 {
                     zoom = Player.scope ? 0.8f : 0.6666667f;
                 }
@@ -2077,9 +2311,50 @@ namespace MogMod.Common.MogModPlayer
             }
         }
 
+        // more regen taking place here
+        public override void UpdateLifeRegen()
+        {
+            if (Player.HeldItem.type == ModContent.ItemType<BerserkersSpear>())
+            {
+                float percentLifeLeft = (float)Player.statLife / Player.statLifeMax2;
+                Player.lifeRegen += Convert.ToInt32(1 / (percentLifeLeft + .065));
+            }
+            if (headdressAura)
+                Player.lifeRegen += Headdress.LifeRegenBoost;
+            if (greavesAura)
+                Player.lifeRegen += GuardianGreaves.LifeRegenBoost;
+            if (wearingSigmaCharm)
+                Player.lifeRegen += 6;
+            if (wearingTreadsLife)
+                Player.lifeRegen += PowerTreads.LifeRegen;
+            if (mendingAura)
+                Player.lifeRegen += MendingAspect.LifeRegen;
+            if (wearingShivasGuard)
+                Player.lifeRegen += ShivasGuard.LifeRegenBoost;
+            if (wearingOverloading && overloadingRegenCooldown <= 0)
+                Player.lifeRegen += OverloadingAspect.LifeRegenBoost;
+
+            double totalLifeMult = 1D +
+            (wearingMending ? MendingAspect.LifeMult : 0D);
+            Player.lifeRegen = (int)(Player.lifeRegen * totalLifeMult);
+        }
+
         // armlet negative hp regen is here instead of in buff for an unknown reason
         public override void UpdateBadLifeRegen()
         {
+            if (healingDisabledDebuff)
+            {
+                Player.nebulaLevelLife = 0;
+
+                if (Player.lifeRegen > 0)
+                    Player.lifeRegen = 0;
+
+                Player.lifeRegenTime = 0;
+
+                if (Player.lifeRegenCount > 0)
+                    Player.lifeRegenCount = 0;
+            }
+
             if (armletActive && armletDebuff)
                 DamageOverTime(30);
             if (wearingNihilum && nulledDebuff)
@@ -2097,36 +2372,18 @@ namespace MogMod.Common.MogModPlayer
                 DamageOverTime(40);
             if (wingsOfLightDebuff)
                 DamageOverTime(25);
+            if (blazingDebuff)
+                DamageOverTime(30);
+            if (deathDebuff)
+                DamageOverTime(30);
 
             if (Player.lifeRegen < 0)
             {
-                if (wearingTritonLife)
-                    Player.lifeRegen += TritonM43A.ReducedDoTAmount;
-                if (wearingZhukLife)
-                    Player.lifeRegen += AzimutSSZhuk.ReducedDoTAmount;
+                if (wearingTreadsLife)
+                    Player.lifeRegen += PowerTreads.ReducedDoTAmount;
                 if (Player.lifeRegen > 0)
                     Player.lifeRegen = 0;
             }
-        }
-
-        // more regen taking place here
-        public override void UpdateLifeRegen()
-        {
-            if (Player.HeldItem.type == ModContent.ItemType<BerserkersSpear>())
-            {
-                float percentLifeLeft = (float)Player.statLife / Player.statLifeMax2;
-                Player.lifeRegen += Convert.ToInt32((1 / (percentLifeLeft + .065)));
-            }
-            if (headdressAura)
-                Player.lifeRegen += 4;
-            if (greavesAura)
-                Player.lifeRegen += 8;
-            if (wearingSigmaCharm)
-                Player.lifeRegen += 6;
-            if (wearingTritonLife)
-                Player.lifeRegen += TritonM43A.LifeRegen;
-            if (wearingZhukLife)
-                Player.lifeRegen += AzimutSSZhuk.LifeRegen;
         }
 
         // buff effects
@@ -2150,51 +2407,59 @@ namespace MogMod.Common.MogModPlayer
             {
                 Player.moveSpeed *= 0.25f;
             }
-            if (aghHexDebuff)
-            {
-                Convert.ToInt32(Player.GetDamage<GenericDamageClass>() * .8f); // 20% damage reduction
-            }
-            if (wingsOfLightDebuff)
-            {
-                Convert.ToInt32(Player.GetDamage<GenericDamageClass>() * .9f); // 10% damage reduction
-            }
             if (jidiDebuff)
             {
                 Player.statDefense -= 20; // -20 flat defense
+            }
+            if (healingDisabledDebuff)
+            {
+                Player.lifeSteal *= 0f;
+                if (Player.potionDelay < 2)
+                    Player.potionDelay = 2;
+                if (Player.HasBuff(BuffID.PotionSickness))
+                {
+                    for (var i = 0; i < Player.buffType.Length; i++)
+                    {
+                        if (Player.buffType[i] == BuffID.PotionSickness)
+                        {
+                            Player.buffTime[i] = Player.potionDelay;
+                        }
+                    }
+                }
             }
 
             // buffs
             if (greavesAura)
             {
-                Player.statDefense += 4;
-                Player.statLifeMax2 += 20;
-                Player.statManaMax2 += 50;
-                Player.GetDamage<MagicDamageClass>() += .075f;
+                Player.statDefense += GuardianGreaves.DefenseBoost;
+                Player.statLifeMax2 += GuardianGreaves.LifeBoost;
+                Player.statManaMax2 += GuardianGreaves.AuraManaBoost;
+                Player.GetDamage<MagicDamageClass>() += GuardianGreaves.MagicDamageBoost;
             }
             if (vladsAura)
             {
-                Player.statDefense += 3;
-                Player.GetDamage<GenericDamageClass>().Flat += 2f;
-                Player.lifeSteal *= 1.2f;
-                Player.manaRegenBonus += 4;
+                Player.statDefense += VladmirsOffering.DefenseBoost;
+                Player.GetDamage<GenericDamageClass>().Flat += VladmirsOffering.FlatDamageBoost;
+                Player.manaRegenBonus += VladmirsOffering.ManaRegenBoost;
+                Player.lifeSteal *= VladmirsOffering.LifeStealBoost + 1;
             }
             if (wraithAura)
             {
-                Player.statDefense += 7;
-                Player.GetDamage<GenericDamageClass>() += .1f;
-                Player.lifeSteal *= 1.5f;
-                Player.manaRegenBonus += 6;
+                Player.statDefense += WraithPact.DefenseBoost;
+                Player.GetDamage<GenericDamageClass>() += WraithPact.AttackDamageBoost;
+                Player.manaRegenBonus += WraithPact.ManaRegenBoost;
+                Player.lifeSteal *= WraithPact.LifeStealBoost + 1;
             }
             if (drumsAura)
             {
-                Player.GetAttackSpeed<MeleeDamageClass>() += .1f;
-                Player.GetAttackSpeed<SummonMeleeSpeedDamageClass>() += .1f;
-                Player.moveSpeed += 0.30f;
+                Player.moveSpeed += DrumOfEndurance.MovementSpeedBoost;
+                Player.GetAttackSpeed<MeleeDamageClass>() += DrumOfEndurance.MeleeSpeedBoost;
+                Player.GetAttackSpeed<SummonMeleeSpeedDamageClass>() += DrumOfEndurance.WhipSpeedBoost;
             }
             if (shivasAura)
             {
-                Player.statDefense += 10;
-                Player.GetDamage<RangedDamageClass>() += .10f;
+                Player.statDefense += ShivasGuard.DefenseBoost;
+                Player.GetDamage<RangedDamageClass>() += ShivasGuard.RangedDamageBoost;
             }
             if (wraithActive)
             {
@@ -2221,7 +2486,7 @@ namespace MogMod.Common.MogModPlayer
             }
             if (krakenBuff)
             {
-                Player.endurance += 0.10f;
+                Player.endurance += OversizedAnchor.DefenseReductionBoost;
                 Player.moveSpeed *= 0.5f;
             }
             if (wearingSpiritArmor)
@@ -2260,62 +2525,39 @@ namespace MogMod.Common.MogModPlayer
                 }
             }
 
-            if (wearingTriton)
+            if (wearingPowerTreads)
             {
                 if (Main.zenithWorld)
                 {
-                    Player.velocity.X = Player.velocity.X;
+                    Player.moveSpeed *= 50f;
                     if (Player.velocity.Y == 0f)
                     {
-                        Player.velocity.Y -= Player.jumpHeight * (Player.jumpSpeedBoost + 1);
+                        Player.velocity.Y -= Player.jumpHeight * (Player.jumpSpeedBoost + 5);
                         SoundEngine.PlaySound(SoundID.Item150, Player.Center);
                     }
                 }
-                else if (wearingTritonLife)
+                else if (wearingTreadsLife)
                 {
-                    Player.statLifeMax2 += TritonM43A.LifeAndManaBoost;
-                    Player.statManaMax2 += TritonM43A.LifeAndManaBoost;
-                    Player.manaRegenBonus += TritonM43A.ManaRegen;
+                    Player.statLifeMax2 += PowerTreads.LifeBoost;
                 }
-                else if (wearingTritonDamage)
-                    Player.GetCritChance<GenericDamageClass>() += TritonM43A.CritBoost;
-                else if (wearingTritonMovement)
+                else if (wearingTreadsDamage)
+                    Player.GetCritChance<GenericDamageClass>() += PowerTreads.CritBoost;
+                else if (wearingTreadsBuilding)
                 {
-                    Player.moveSpeed += TritonM43A.MovementSpeed;
-                    Player.jumpSpeedBoost += TritonM43A.JumpBoost;
-                    Player.pickSpeed -= TritonM43A.MiningSpeed;
-                    Player.GetJumpState<TritonJump>().Enable();
-                }
-            }
-            if (wearingZhuk)
-            {
-                if (Main.zenithWorld)
-                {
-                    Player.velocity.X = Player.velocity.X;
-                    if (Player.velocity.Y == 0f)
-                    {
-                        Player.velocity.Y -= Player.jumpHeight * (Player.jumpSpeedBoost + 1);
-                        SoundEngine.PlaySound(SoundID.Item150, Player.Center);
-                    }
-                }
-                else if (wearingZhukLife)
-                {
-                    Player.statManaMax2 += AzimutSSZhuk.ManaBoost;
-                    Player.manaRegenBonus += AzimutSSZhuk.ManaRegen;
-                }
-                else if (wearingZhukDamage)
-                    Player.GetCritChance<GenericDamageClass>() += AzimutSSZhuk.CritBoost;
-                else if (wearingZhukMovement)
-                {
-                    Player.moveSpeed += AzimutSSZhuk.MovementSpeed;
-                    Player.jumpSpeedBoost += AzimutSSZhuk.JumpBoost;
-                    Player.pickSpeed -= AzimutSSZhuk.MiningSpeed;
+                    Player.pickSpeed -= PowerTreads.MiningSpeed;
+                    Player.tileSpeed += PowerTreads.PlacementSpeed;
+                    Player.wallSpeed += PowerTreads.PlacementSpeed;
+                    Player.GetJumpState<TreadsJump>().Enable();
                 }
             }
 
+            double totalManaMult = 1D +
+            (wearingRadiantArmor ? RadiantFlower.ManaMult : 0D);
+            Player.manaRegenBonus = (int)(Player.manaRegenBonus * totalManaMult);
+
             int percentMaxLifeIncrease = 0;
-            if (wearingZhukLife)
-                percentMaxLifeIncrease += AzimutSSZhuk.LifeMult;
+            //if (wearingLife)
+            //    percentMaxLifeIncrease += LifeItem.LifeMult;
 
             Player.statLifeMax2 += Player.statLifeMax / 5 / 20 * percentMaxLifeIncrease;
 
@@ -2338,16 +2580,26 @@ namespace MogMod.Common.MogModPlayer
                 jidiPollenCooldown--;
             if (gunpowderCooldown > 0)
                 gunpowderCooldown--;
-            if (hellfireCooldown > 0)
+            if (hellfireCooldown > 0 && wearingHellfireArmor)
                 hellfireCooldown--;
             if (satanicAccCooldown > 0)
                 satanicAccCooldown--;
-            if (seraphicReviveCounter > 0)
+            if (seraphicReviveCounter > 0 && wearingSeraphic)
                 seraphicReviveCounter--;
             if (VoniumLifeCooldown > 0)
                 VoniumLifeCooldown--;
             if (praporCooldown > 0)
                 praporCooldown--;
+            if (toxicCooldown > 0)
+                toxicCooldown--;
+            if (overloadingCooldown > 0)
+                overloadingCooldown--;
+            if (gildedReflectCooldown > 0 && wearingGilded)
+                gildedReflectCooldown--;
+            if (gildedCoinDropCooldown > 0 && wearingGilded)
+                gildedCoinDropCooldown--;
+            if (overloadingRegenCooldown > 0 && wearingOverloading)
+                overloadingRegenCooldown--;
         }
         
         // stops player from moving while charging bow
@@ -2437,14 +2689,23 @@ namespace MogMod.Common.MogModPlayer
             wearingFlayersBota = false;
             wearingScavVest = false;
             wearingTriton = false;
-            wearingTritonLife = false;
-            wearingTritonDamage = false;
-            wearingTritonMovement = false;
             wearingZhuk = false;
-            wearingZhukLife = false;
-            wearingZhukDamage = false;
-            wearingZhukMovement = false;
+            wearingPowerTreads = false;
+            wearingTreadsLife = false;
+            wearingTreadsDamage = false;
+            wearingTreadsBuilding = false;
+            wearingOverloading = false;
+            wearingBlazing = false;
+            wearingGilded = false;
+            wearingMending = false;
+            wearingToxic = false;
             //stopFallDamage = false;
+
+            if (!Main.playerInventory || Main.LocalPlayer.chest >= 0 || Main.LocalPlayer.channel)
+            {
+                tritonActive = false;
+                zhukActive = false;
+            }
 
             wearingMendez = false;
 
@@ -2489,6 +2750,10 @@ namespace MogMod.Common.MogModPlayer
             infernoDebuff = false;
             armletDebuff = false;
             nulledDebuff = false;
+            blazingDebuff = false;
+            toxicDebuff = false;
+            deathDebuff = false;
+            healingDisabledDebuff = false;
 
             greavesAura = false;
             wraithAura = false;
@@ -2496,10 +2761,12 @@ namespace MogMod.Common.MogModPlayer
             headdressAura = false;
             drumsAura = false;
             shivasAura = false;
+            mendingAura = false;
 
             satanicBuff = false;
 
             ahmodPet = false;
+            gingyPet = false;
 
             inShadowRealm = false;
             krakenBuff = false;
@@ -2515,6 +2782,8 @@ namespace MogMod.Common.MogModPlayer
             holdingThrowingShade = false;
 
             ammoCost = 1f;
+            maxShots = 0;
+            reloadTime = 0;
 
             fCrystal = false;
             divinitasMinion = false;

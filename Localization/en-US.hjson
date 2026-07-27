@@ -28,89 +28,11 @@ Mods: {
 			DragonInstall.DisplayName: Dragon Install
 			TheGravityCardSwitch.DisplayName: The Gravity Card Switch
 			ToggleNulled.DisplayName: Toggle Nulled
+			ActivateBootEffects.DisplayName: Activate Boot Effects
+			ActivateRigEffect.DisplayName: Activate Rig Effect
 		}
 
 		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage
-
-		Configs: {
-			RigSlotConfig: {
-				ShowCustomLocationPanel: {
-					Label: Show Custom Location Panel
-					Tooltip: ""
-				}
-
-				DisplayName: Rig Slot Config
-				Headers.SlotLocation: Slot Location Header
-
-				SlotLocation: {
-					Label: Slot Location
-					Tooltip: ""
-				}
-
-				ResetCustomSlotLocation: {
-					Label: Reset Custom Slot Location
-					Tooltip: ""
-				}
-			}
-
-			MogClientConfig: {
-				DisplayName: Mog Client Config
-
-				Headers: {
-					Graphics: Graphics Header
-					UI: UI Header
-				}
-
-				Afterimages: {
-					Label: Afterimages
-					Tooltip: ""
-				}
-
-				GunlanceAmmo: {
-					Label: Gunlance Ammo UI
-					Tooltip: ""
-				}
-
-				GunlanceAmmoPosX: {
-					Label: Gunlance Ammo UI Position X
-					Tooltip: ""
-				}
-
-				GunlanceAmmoPosY: {
-					Label: Gunlance Ammo UI Position Y
-					Tooltip: ""
-				}
-
-				TheGravitySpells: {
-					Label: The Gravity Spell UI
-					Tooltip: ""
-				}
-
-				TheGravityPosX: {
-					Label: The Gravity Spell UI Position X
-					Tooltip: ""
-				}
-
-				TheGravityPosY: {
-					Label: The Gravity Spell UI Position Y
-					Tooltip: ""
-				}
-			}
-
-			Location: {
-				Tooltip: ""
-
-				Default: {
-					Label: Default
-					Tooltip: ""
-				}
-
-				Custom: {
-					Label: Custom
-					Tooltip: ""
-				}
-			}
-		}
 
 		DamageClasses: {
 			BoulderClass.DisplayName: Boulder Class
@@ -132,418 +54,6 @@ Mods: {
 			FaeOreText: The underground hallow is sparkling with blessed light.
 			FuciumOrePassMessage: Generating Ores...
 			HellfireEssenceText: The Underworld's wicked depravity grows ever stronger...
-		}
-
-		Buffs: {
-			ETGCbuff: {
-				Description: Empowered by the ETG-C!
-				DisplayName: ETG-C Regen
-			}
-
-			GlueBuff: {
-				DisplayName: Glue Buff
-				Description: POTEMKIN BUSTER
-			}
-
-			GlueDebuff: {
-				DisplayName: Glue Debuff
-				Description: Potemkin Withdrawls
-			}
-
-			VonDebuff: {
-				Description: Cursed and Von'd
-				DisplayName: Von's Curse
-			}
-
-			GlimmerCapeBuff: {
-				DisplayName: Glimmer Cape
-				Description: You're invisible, regen mana much quicker and move faster!
-			}
-
-			GlimmerCapeDebuff: {
-				DisplayName: Glimmer Cape Cooldown
-				Description: Teamfight ult failed...
-			}
-
-			ArmletOfMordiggianBuff: {
-				DisplayName: Armlet Of Mordiggian
-				Description: You feel a searing, yet bolstering pain...
-			}
-
-			ArcaneBootsDebuff: {
-				DisplayName: Used Arcane Boots
-				Description: Out of Mana...
-			}
-
-			SatanicBuff: {
-				DisplayName: Satanic
-				Description: You thirst for their blood...
-			}
-
-			SatanicDebuff: {
-				DisplayName: Satanic Cooldown
-				Description: Satanic is out of power...
-			}
-
-			RefresherOrbDebuff: {
-				DisplayName: Refresher Orb Cooldown
-				Description: Refresher orb needs to recharge!
-			}
-
-			HelmOfDominatorDebuff: {
-				DisplayName: Helm Of The Dominator Cooldown
-				Description: The Helm is out of power...
-			}
-
-			GuardianGreavesAura: {
-				DisplayName: Guardian Greaves Aura
-				Description: +4 HP/s, +4 Defense, +20 Max HP, +50 Max Mana, +7.5% Magic damage
-			}
-
-			GuardianGreavesBuff: {
-				DisplayName: Guardian Greaves Heal
-				Description: +100 Life and +300 Mana!
-			}
-
-			GuardianGreavesDebuff: {
-				DisplayName: Guardian Greaves Cooldown
-				Description: Out of Mana...
-			}
-
-			HeaddressBuff: {
-				DisplayName: Headdress Aura
-				Description: Increased Life Regeneration
-			}
-
-			MekansmBuff: {
-				DisplayName: Mekansm Heal
-				Description: Healed by a team member!
-			}
-
-			MekansmDebuff: {
-				DisplayName: Mekansm Cooldown
-				Description: Mekansm needs to recharge!
-			}
-
-			ForceStaffDebuff: {
-				DisplayName: Force Staff Cooldown
-				Description: Force staff is out of power...
-			}
-
-			BladeMailBuff: {
-				DisplayName: Blade Mail
-				Description: Covered in spikes!
-			}
-
-			BladeMailDebuff: {
-				DisplayName: Blade Mail Cooldown
-				Description: Out of spikes...
-			}
-
-			DrumOfEnduranceBuff: {
-				DisplayName: Drum Of Endurance Aura
-				Description: +30% Movement Speed and +10% Melee and Whip Speed
-			}
-
-			EyeOfSkadiDebuff: {
-				DisplayName: Cold Attack
-				Description: Rapidly losing Life!
-			}
-
-			HolyLocketBuff: {
-				DisplayName: Holy Locket Heal
-				Description: You've been healed!
-			}
-
-			MagicStickBuff: {
-				DisplayName: Magic Stick Heal
-				Description: You've been healed!
-			}
-
-			WandBuff: {
-				DisplayName: Magic Wand Heal
-				Description: You've been healed!
-			}
-
-			ShivasGuardBuff: {
-				DisplayName: Shivas Guard Aura
-				Description: +10 Defense and +10% Ranged Damage
-			}
-
-			ShivasDebuff: {
-				DisplayName: Shiva's Guard Cooldown
-				Description: Recharging...
-			}
-
-			BlinkDebuff: {
-				DisplayName: Blink Cooldown
-				Description: Blink Dagger is on cooldown!
-			}
-
-			EssenceShift: {
-				DisplayName: Essence Shift
-				Description: Attack speed and movement speed increased
-			}
-
-			LagunaBladeCooldown: {
-				DisplayName: Laguna Blade Cooldown
-				Description: Recharging...
-			}
-
-			FierySoulStack: {
-				DisplayName: Fiery Soul
-				Description: Magic attack speed and movement speed increased, Mana cost decreased
-			}
-
-			CheeseBuff: {
-				DisplayName: Delicious Cheese
-				Description: Scrumptious!
-			}
-
-			HeavyBleed: {
-				DisplayName: Heavy Bleed
-				Description: Salewa!
-			}
-
-			VladmirsBuff: {
-				DisplayName: Vladmir's Aura
-				Description: +3 Defense, +2 Flat Attack Damage, Increased Mana Regeneration by 4 and Increased Lifesteal Effectiveness
-			}
-
-			ShockState: {
-				DisplayName: Shock State
-				Description: Bzzzrrrttt!
-			}
-
-			AghanimShardBuff: {
-				DisplayName: Aghanim Shard
-				Description: +100 Maximum Mana, +20% Magic Attack Damage, Greatly Increased Mana Regeneration
-			}
-
-			ClarityBuff: {
-				DisplayName: Clarity
-				Description: Greatly Increased Mana Regeneration
-			}
-
-			HealingSalveBuff: {
-				DisplayName: Healing Salve
-				Description: Greatly Increased Life Regeneration
-			}
-
-			MoonShardBuff: {
-				DisplayName: Moon Shard
-				Description: +10% Attack Speed
-			}
-
-			ChargingShot: {
-				DisplayName: Charging Shot
-				Description: You must focus!
-			}
-
-			DragonPiercerShot: {
-				DisplayName: Charging Shot
-				Description: You must focus!
-			}
-
-			DragonInstallBuff: {
-				DisplayName: Dragon Install Buff
-				Description: Mods.MogMod.Buffs.DragonInstallBuff.Description
-			}
-
-			DragonInstallCooldown: {
-				DisplayName: Dragon Install Cooldown
-				Description: Mods.MogMod.Buffs.DragonInstallCooldown.Description
-			}
-
-			GreenTracerDebuff: {
-				DisplayName: Green Tracer Light
-				Description: Glowing like a beacon
-			}
-
-			ShivasEnemyDebuff: {
-				DisplayName: Shivas Enemy Debuff
-				Description: Mods.MogMod.Buffs.ShivasEnemyDebuff.Description
-			}
-
-			ButterflyCooldown: {
-				DisplayName: Butterfly Cooldown
-				Description: Recharging...
-			}
-
-			ButterflyBuff: {
-				DisplayName: Butterfly Buff
-				Description: You will dodge the next attack
-			}
-
-			ParryCooldown: {
-				DisplayName: Parry Cooldown
-				Description: end
-			}
-
-			ParrySlow: {
-				DisplayName: Parry Slow
-				Description: Focus
-			}
-
-			ParryBuff1: {
-				DisplayName: Successful Parry
-				Description: +25% Melee Speed, +15% Melee Damage
-			}
-
-			Parrying: {
-				DisplayName: Parrying
-				Description: Impossible timing
-			}
-
-			ParryDebuffRemover: {
-				DisplayName: No-Mo Parry
-				Description: vass??
-			}
-
-			DivineMightDebuff: {
-				DisplayName: Divine Might
-				Description: God's wrath is upon you
-			}
-
-			FreezingDebuff: {
-				DisplayName: Freezing
-				Description: Is it chilly in here?
-			}
-
-			AghanimHexDebuff: {
-				DisplayName: Aghanim Hex Debuff
-				Description: Aghanim himself spites your very soul
-			}
-
-			WingsOfLightDebuff: {
-				DisplayName: Wings Of Light
-				Description: Incinerated by a heavenly aura
-			}
-
-			Bleed1: {
-				DisplayName: Bleed1
-				Description: You might want to see a doctor...
-			}
-
-			BlackBladeDebuff: {
-				DisplayName: Black Blade Debuff
-				Description: You can feel yourself disintegrate...
-			}
-
-			GhostflameDebuff: {
-				DisplayName: Ghostflame Debuff
-				Description: Your very soul is burning!
-			}
-
-			WraithPactAura: {
-				DisplayName: Wraith Pact Aura
-				Description: +10 Defense, +5 Flat Attack Damage, +10% Attack Damage, Increased Mana Regeneration by 10 and Increased Lifesteal Effectiveness
-			}
-
-			JidiPollenBagDebuff: {
-				DisplayName: Jidi Pollen Bag
-				Description: Your defense is being torn apart!
-			}
-
-			SerratedShivCooldown: {
-				DisplayName: Serrated Shiv Cooldown
-				Description: Recharging...
-			}
-
-			GiantsMaulCooldown: {
-				DisplayName: Giants Maul Cooldown
-				Description: Recharging...
-			}
-
-			GunpowderGauntletCooldown: {
-				DisplayName: Gunpowder Gauntlet Cooldown
-				Description: Recharging...
-			}
-
-			JidiPollenBagCooldown: {
-				DisplayName: Jidi Pollen Bag Cooldown
-				Description: Recharging...
-			}
-
-			RadiantCooldown: {
-				DisplayName: Radiant Beam Cooldown
-				Description: Recharging...
-			}
-
-			ShadowAmuletBuff: {
-				DisplayName: Shadow Amulet
-				Description: Don't move...
-			}
-
-			WraithBuff: {
-				DisplayName: Wraith Form
-				Description: You've turned into a wraith!
-			}
-
-			ShadowRealmBuff: {
-				DisplayName: Shadow Realm
-				Description: something something mireska jex
-			}
-
-			InfernoDebuff: {
-				DisplayName: Inferno
-				Description: Your atoms are being incinerated!
-			}
-
-			AhmodInABottleBuff: {
-				DisplayName: Ahmod In A Bottle
-				Description: Ragebaited
-			}
-
-			KrakenShellDebuff: {
-				DisplayName: Kraken Shell
-				Description: +10% Damage Reduction, Greatly reduced movement
-			}
-
-			TheGravityAutoBuff: {
-				DisplayName: Auto Bookmark
-				Description: Your spells automatically bookmark!
-			}
-
-			TheGravityDefenseBuff: {
-				DisplayName: Stalwart Defense
-				Description: +20 Defense, +10% Damage Reduction
-			}
-
-			TheGravityHealthBuff: {
-				DisplayName: Vigorous Health
-				Description: Greatly Increased Life Regeneration
-			}
-
-			TheGravityManaBuff: {
-				DisplayName: Nebulous Mana
-				Description: Greatly Increased Mana Regeneration
-			}
-
-			TheGravityMovementBuff: {
-				DisplayName: Boundless Movement
-				Description: +25% Jump Speed and Movement Speed, Infinite Flight Time
-			}
-
-			FrostCrystalSummonBuff: {
-				DisplayName: Frost Crystal
-				Description: The Frost Crystal will protect you
-			}
-
-			SeraphicReviveBuff: {
-				DisplayName: Seraphic Revive
-				Description: Seraphic's blessing makes you immortal!
-			}
-
-			DivinitasSummonBuff: {
-				DisplayName: Divinitas
-				Description: Divinitas will watch over you
-			}
-
-			NulledDebuff: {
-				DisplayName: Nulled Debuff
-				Description: Both body and mind is being nullified out of reality!
-			}
 		}
 
 		NPCs: {
@@ -624,6 +134,7 @@ Mods: {
 			TwilightDrover.DisplayName: Twilight Drover
 			Scav.DisplayName: Scav
 			WanderingJellyfish.DisplayName: Wandering Jellyfish
+			HealingOrb.DisplayName: Healing Orb
 		}
 
 		Projectiles: {
@@ -685,7 +196,6 @@ Mods: {
 					StarsOfRuinHomingProj.DisplayName: Ruinous Star
 					CannonOfHaimaProj.DisplayName: Cannon Of Haima
 					CannonOfHaimaBoom.DisplayName: Glintstone Explosion
-					CarianSlicerProj.DisplayName: Carian Slicer
 					GlintstoneArcProj.DisplayName: Glintstone Arc
 					FoundingRainOfStarsProj.DisplayName: Founding Rain Of Stars
 					FoundingRainOfStarsStarProj.DisplayName: Falling Star
@@ -709,11 +219,12 @@ Mods: {
 					GravityWellProj.DisplayName: Gravity Well
 					GravitationalMissileProj.DisplayName: Gravitational Missile
 					SpectralLightProj.DisplayName: Spectral Light
+					CarianSlicerHoldout.DisplayName: Carian Slicer
 				}
 			}
 
 			RangedProjectiles: {
-				APLapua.DisplayName: AP Lapua
+				APLapuaProj.DisplayName: AP Lapua
 				ArchbeastArrow.DisplayName: Dragon Piercer
 				ArchbeastHoldout.DisplayName: Archbeast Holdout
 				BerserkersFireSpearProj.DisplayName: Blazing Spear
@@ -765,7 +276,11 @@ Mods: {
 				RuntyShardProj.DisplayName: Runty Shard
 			}
 
-			Ranged.EnchantedArrowProj.DisplayName: Enchanted Arrow
+			Ranged: {
+				EnchantedArrowProj.DisplayName: Enchanted Arrow
+				GasGrenadeProj.DisplayName: Gas Grenade Proj
+				GasExplosion.DisplayName: Gas Explosion
+			}
 
 			Melee: {
 				BattleFuryProjectile.DisplayName: Battle Fury
@@ -856,6 +371,7 @@ Mods: {
 				TridentProj.DisplayName: Trident
 				TridentHomingProj.DisplayName: Trident
 				BloodExplosion.DisplayName: Blood Explosion
+				OverloadingOrbProj.DisplayName: Overloading Orb Proj
 			}
 
 			BossProjectiles: {
@@ -873,9 +389,16 @@ Mods: {
 				AhmodStickyNade.DisplayName: Gel Trap
 				WarlockBoom.DisplayName: Hellfire Explosion
 				RadiantRangedCreepProj.DisplayName: Magic Bolt
+				OverloadingOrbProj.DisplayName: Overloading Orb Proj
+				HostileOverloadingOrbProj.DisplayName: Hostile Overloading Orb Proj
+				BlazingExplosion.DisplayName: Blazing Explosion
 			}
 
-			Pets.AhmodInABottlePet.DisplayName: Ahmod
+			Pets: {
+				AhmodInABottlePet.DisplayName: Ahmod
+				GingyPet.DisplayName: Gingy
+			}
+
 			Tools.RuntyDrillProj.DisplayName: Runty Drill
 		}
 

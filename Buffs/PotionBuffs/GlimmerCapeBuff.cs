@@ -1,10 +1,14 @@
-﻿using System;
+﻿using MogMod.Items.Accessories;
+using MogMod.Utilities;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
+
 namespace MogMod.Buffs.PotionBuffs
 {
     public class GlimmerCapeBuff : ModBuff
     {
+        public override LocalizedText Description => base.Description.WithFormatArgs(GlimmerCape.MovementSpeedBoost.ToPercent(), GlimmerCape.ManaRegenBoost.ToRegenPerSecond(), GlimmerCape.BuffAggroBoost);
         public override void SetStaticDefaults()
         {
             Main.debuff[Type] = false;
@@ -12,10 +16,10 @@ namespace MogMod.Buffs.PotionBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             player.invis = true;
-            player.moveSpeed += 0.25f;
-            player.manaRegen += (int)Math.Round(player.manaRegen * .3f);
+            player.moveSpeed += GlimmerCape.MovementSpeedBoost;
+            player.manaRegenBonus += GlimmerCape.ManaRegenBoost;
             player.manaRegenDelay -= 4f;
-            player.aggro -= 750;
+            player.aggro -= GlimmerCape.BuffAggroBoost;
         }
     }
 }

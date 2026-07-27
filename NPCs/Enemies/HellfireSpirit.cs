@@ -30,7 +30,7 @@ namespace MogMod.NPCs.Enemies
 
             NPC.damage = 50;
             NPC.defense = 10;
-            NPC.lifeMax = 120;
+            NPC.lifeMax = 105;
             NPC.knockBackResist = .8f;
 
             NPC.noGravity = true;

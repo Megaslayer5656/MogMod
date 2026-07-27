@@ -11,6 +11,8 @@ namespace MogMod.Items.Accessories
 {
     public class HolyLocket : ModItem, ILocalizedModType
     {
+        public const int LifeHeal = 10;
+        public const int ManaHeal = 10;
         public new string LocalizationCategory => "Items.Accessories";
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.WandKeybind);
         ModKeybind keybindActive = null;

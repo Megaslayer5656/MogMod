@@ -6,3 +6,12 @@ Weapon: {
 	SorceryVelocityTooltip: "{0}% spell velocity"
 	SorceryKnockbackTooltip: "{0}% spell knockback"
 }
+
+NPC: {
+	Hellfire: Hellfire {0}
+	Overloading: Overloading {0}
+	Blazing: Blazing {0}
+	Gilded: Gilded {0}
+	Mending: Mending {0}
+	Toxic: Toxic {0}
+}

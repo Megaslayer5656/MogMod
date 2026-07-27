@@ -8,7 +8,7 @@ namespace MogMod.Items.Accessories.Wings
     [AutoloadEquip(EquipType.Wings)]
     public class DabdadWings : ModItem, ILocalizedModType //Me when I'm dabdadding it
     {
-        public new string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories.Wings";
 
         public override void SetStaticDefaults()
         {

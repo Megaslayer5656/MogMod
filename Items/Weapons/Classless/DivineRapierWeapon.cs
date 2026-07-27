@@ -43,6 +43,11 @@ namespace MogMod.Items.Weapons.Classless
         public override bool MeleePrefix() => true;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            if (Main.zenithWorld)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ProjectileID.ConfettiMelee, 1, 0f, player.whoAmI, 0, 0);
+                return false;
+            }
             // only fire beams at max health
             if (player.statLife >= (player.statLifeMax2 * 1f))
             {
@@ -71,7 +76,7 @@ namespace MogMod.Items.Weapons.Classless
             Color nextColor = colorList[(colorIndex + 1) % colorList.Count];
             Color tooltipColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
 
-            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
             if (line != null)
                 line.OverrideColor = Color.Lerp(tooltipColor, Color.White, 0.5f);
         }

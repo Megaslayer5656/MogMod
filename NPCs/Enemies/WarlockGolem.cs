@@ -18,6 +18,12 @@ namespace MogMod.NPCs.Enemies
     public class WarlockGolem : ModNPC
     {
         #region Setup
+        public static readonly SoundStyle boom = new("Terraria/Sounds/Zombie_91")
+        {
+            Volume = 0.7f,
+            PitchVariance = 0.2f,
+            MaxInstances = 15
+        };
         public float size = 0f;
         public bool canExplode = false;
         public bool exploding = false;
@@ -175,7 +181,7 @@ namespace MogMod.NPCs.Enemies
             {
                 NPC.velocity.X = 0f;
                 if (NPC.ai[1] == 0f)
-                    SoundEngine.PlaySound(SoundID.Zombie91, NPC.Center);
+                    SoundEngine.PlaySound(boom, NPC.Center);
                 size = (NPC.ai[1] * 5f) + 100f;
                 for (int i = 0; i < 50; i++)
                 {

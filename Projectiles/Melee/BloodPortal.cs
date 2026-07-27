@@ -25,12 +25,6 @@ namespace MogMod.Projectiles.Melee
             Projectile.scale = 1f;
             Projectile.alpha = 120;
         }
-
-        public override bool? CanCutTiles()
-        {
-            return false;
-        }
-
         public override void AI()
         {
             Projectile.scale += .2f;
@@ -55,17 +49,9 @@ namespace MogMod.Projectiles.Melee
 
             Lighting.AddLight(Projectile.Center, Projectile.scale, .1f, .1f);
         }
-
-        public override bool? CanHitNPC(NPC target)
-        {
-            return false;
-        }
-
-        public override bool CanHitPlayer(Player target)
-        {
-            return false;
-        }
-
+        public override bool? CanCutTiles() => false;
+        public override bool? CanHitNPC(NPC target) => false;
+        public override bool CanHitPlayer(Player target) => false;
         public override void OnKill(int timeLeft)
         {
             int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<LordOfBloodsSpearBloodProj>(), Projectile.damage, 0, Projectile.owner);

@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
-using MogMod.Items.Accessories;
-using MogMod.Items.Ammo;
+using MogMod.Items.Accessories.Rigs;
+using MogMod.Items.Ammo.Bullets;
 using MogMod.Items.Consumables;
 using MogMod.Items.Weapons.Ranged;
 using MogMod.Projectiles.RangedProjectiles;
@@ -147,7 +147,9 @@ namespace MogMod.NPCs.TownNpc
         {
             NPCShop shop = new(Type);
             shop.AddWithCustomValue<Mosin>(Item.buyPrice(gold: 30))
-                .Add<MosinLPS>()
+                //.Add<MosinLPS>()
+                .AddWithCustomValue(ItemID.SilverBullet, Item.buyPrice(copper: 18))
+                .AddWithCustomValue(ItemID.TungstenBullet, Item.buyPrice(copper: 22))
                 .Add<Salewa>()
                 .AddWithCustomValue<IdeaRig>(Item.buyPrice(gold: 7, silver: 50))
                 //.Add((ModContent.ItemType<Switch>()), Condition.DownedGolem) // post von

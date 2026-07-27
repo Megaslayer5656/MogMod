@@ -16,7 +16,7 @@ namespace MogMod.Items.Armor.Spirited
     {
         public new string LocalizationCategory => "Items.Armor";
         public const float ManaReduction = 0.9f;
-        public const int ManaRegenBonus = 2;
+        public const int ManaRegenBonus = 4;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ManaReduction.ToReversedPercent(), ManaRegenBonus.ToRegenPerSecond());
         public override void SetStaticDefaults()
         {

@@ -5,8 +5,6 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories.NeutralItems
 {
-    // TODO: fix CanEquipAccessory to only allow neutral items in the neutral item slot-
-    // -and not in any modded slot
     public abstract class NeutralItem : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories.NeutralItem";
@@ -16,7 +14,10 @@ namespace MogMod.Items.Accessories.NeutralItems
         }
         public override bool CanEquipAccessory(Player player, int slot, bool modded)
         {
-            if (modded && slot == ModContent.GetInstance<NeutralItemSlot>().Type)
+            if (!modded)
+                return false;
+            var neutralSlot = ModContent.GetInstance<NeutralItemSlot>();
+            if (slot == neutralSlot.Type) // TODO: allow this to be equipped into vanity slot without having to right click switch from the functional slot
                 return true;
             return false;
         }

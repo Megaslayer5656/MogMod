@@ -66,19 +66,17 @@ namespace MogMod.Projectiles.EnemyProjectiles
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (!exploding)
-                target.AddBuff(BuffID.OgreSpit, 60);
-            else
+            if (exploding)
                 target.AddBuff(BuffID.OnFire, 120);
-            if (Projectile.timeLeft > 60)
-                Projectile.timeLeft = 60;
         }
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             if (!exploding)
             {
-                modifiers.FinalDamage *= 0f;
-                modifiers.Knockback *= 0f;
+                if (Projectile.timeLeft > 60)
+                    Projectile.timeLeft = 60;
+                target.AddBuff(BuffID.OgreSpit, 60);
+                modifiers.Cancel();
             }
         }
         public override bool? CanDamage()

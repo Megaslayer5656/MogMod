@@ -1,4 +1,7 @@
-﻿using Terraria;
+﻿using MogMod.Items.Weapons.Melee;
+using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Utilities;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -24,6 +27,9 @@ namespace MogMod.Projectiles.Melee
             Projectile.netUpdate = true;
 
             AIType = ProjectileID.Bullet;
+
+            MogModGlobalProjectile mogProj = Projectile.MogMod();
+            mogProj.bloodDamage = RiversOfBlood.ProjectileBloodDamage;
         }
 
         public override void AI()

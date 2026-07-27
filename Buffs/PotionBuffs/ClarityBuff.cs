@@ -1,18 +1,22 @@
-﻿using System;
+﻿using MogMod.Items.Consumables;
+using MogMod.Utilities;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 namespace MogMod.Buffs.PotionBuffs
 {
     public class ClarityBuff : ModBuff
     {
+        public override LocalizedText Description => base.Description.WithFormatArgs(Clarity.ManaRegenBoost.ToRegenPerSecond());
         public override void SetStaticDefaults()
         {
             Main.debuff[Type] = false;
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.manaRegen += (int)Math.Round(player.manaRegen * .3f);
-            player.manaRegenDelay -= 5f;
+            player.manaRegenBuff = true;
+            player.manaRegenBonus += Clarity.ManaRegenBoost;
+            player.manaRegenDelay -= 6f;
         }
     }
 }

@@ -28,11 +28,11 @@ namespace MogMod.Items.Other
         {
             CreateRecipe().
                 DisableDecraft().
+                AddIngredient<FrostEssence>(3).
+                AddIngredient<SpookyEssence>(3).
                 AddIngredient<ManaCore>().
                 AddIngredient<ScorchedCore>().
                 AddIngredient(ItemID.FrostCore).
-                AddIngredient<FrostEssence>().
-                AddIngredient<SpookyEssence>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

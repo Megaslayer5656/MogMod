@@ -1,10 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Classes;
+using MogMod.Common.Config;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories;
+using MogMod.Items.Accessories.Boots;
 using MogMod.Items.Accessories.NeutralItems;
-using MogMod.Items.Ammo.SorcerySpells;
+using MogMod.Items.Accessories.NeutralItems.Aspects;
+using MogMod.Items.Accessories.Rigs;
+using MogMod.Items.Ammo.SorcerySpells.Glintstone;
 using MogMod.Items.Armor.Damascus;
 using MogMod.Items.Other;
 using MogMod.Items.Weapons.Classless;
@@ -21,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -29,12 +34,11 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Global
 {
-    public class MogGlobalItem : GlobalItem
+    public partial class MogGlobalItem : GlobalItem
     {
-        public int bloodDamage;
         public int cooldownTimer = 5;
         public int shotCounter = 0;
-        public static List<int> EnableNeutralItemSlots =
+        public static List<int> ChestRigAccessories =
         [
             ModContent.ItemType<IdeaRig>(),
             ModContent.ItemType<TritonM43A>(),
@@ -53,25 +57,7 @@ namespace MogMod.Items.Global
         }
         public override void SetDefaults(Item entity)
         {
-            // pre-hardmode
-            if (entity.type == ModContent.ItemType<Reduvia>())
-                bloodDamage = 33;
-            else if (entity.type == ModContent.ItemType<Bloodletter>())
-                bloodDamage = 15;
-            else if (entity.type == ItemID.BloodButcherer)
-                bloodDamage = 16;
-
-            // hardmode
-            else if (entity.type == ModContent.ItemType<Sange>())
-                bloodDamage = 110;
-            else if (entity.type == ModContent.ItemType<RiversOfBlood>())
-                bloodDamage = 135;
-            else if (entity.type == ItemID.PsychoKnife)
-                bloodDamage = 95;
-
-            // non-bleed slop
-            else
-                bloodDamage = 0;
+            BloodDefaults(entity);
         }
         public override void UpdateAccessory(Item item, Player player, bool hideVisual)
         {
@@ -108,7 +94,52 @@ namespace MogMod.Items.Global
         }
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
+            if (mogPlayer.wearingRigSlot && item.useAmmo == AmmoID.Bullet && !item.channel)
+            {
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    shotCounter++;
+                    //Main.NewText($"bullet counter is {shotCounter}, max shots is {mogPlayer.maxShots}, reuse delay is {item.reuseDelay}");
+                    // the ammo remaining in the mag
+                    if (shotCounter < mogPlayer.maxShots)
+                    {
+                        item.reuseDelay = 0;
+                        if (MogClientConfig.Instance.AmmoEjection)
+                        {
+                            string goreType = "RigGunCasing";
+                            Gore.NewGore(source, position, -velocity * 0.8f, Mod.Find<ModGore>(goreType).Type);
+                        }
+                    }
+                    else
+                    {
+                        // the last bullet in the mag
+                        if (shotCounter == mogPlayer.maxShots)
+                        {
+                            item.reuseDelay = mogPlayer.reloadTime;
+                            if (MogClientConfig.Instance.AmmoEjection)
+                            {
+                                string goreType = "RigGunCasing";
+                                Gore.NewGore(source, position, -velocity * 0.8f, Mod.Find<ModGore>(goreType).Type);
+                            }
+                        }
+                        // reloading
+                        else if (shotCounter > mogPlayer.maxShots)
+                        {
+                            shotCounter = 0;
+                            item.reuseDelay = 0;
+                            if (MogClientConfig.Instance.AmmoEjection)
+                            {
+                                string goreMag = "RigGunMag";
+                                Gore.NewGore(source, position, velocity.RotatedBy(2f * -player.direction) * Main.rand.NextFloat(0.45f, 0.55f), Mod.Find<ModGore>(goreMag).Type);
+                            }
+                            SoundEngine.PlaySound(SoundID.Item149 with { Pitch = -0.1f }, player.Center);
+                            SoundEngine.PlaySound(SoundID.Item108 with { Pitch = -0.2f }, player.Center);
+                            return false; // its important to return here so that nothing interesting happens when we reload
+                        }
+                    }
+                }
+            }
             if ((mogPlayer.wearingNihilumRanged && item.DamageType == DamageClass.Ranged) && mogPlayer.nulledDebuff)
             {
                 Projectile nullEssence = Projectile.NewProjectileDirect(source, position, velocity, ModContent.ProjectileType<GreatswordOfSoulsProj>(), (int)(damage * 0.5), knockback, player.whoAmI);
@@ -130,8 +161,8 @@ namespace MogMod.Items.Global
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             if ((mogPlayer.wearingElvenQuiver || mogPlayer.wearingEnchantedQuiver) && item.useAmmo == AmmoID.Arrow)
                 velocity *= mogPlayer.wearingEnchantedQuiver ? EnchantedQuiver.VelocityMult : ElvenQuiver.VelocityMult;
-            if (mogPlayer.wearingTritonDamage || mogPlayer.wearingZhukDamage)
-                velocity *= (mogPlayer.wearingZhukDamage ? AzimutSSZhuk.VelocityMult : TritonM43A.VelocityMult) + 1;
+            if (mogPlayer.wearingTreadsDamage)
+                velocity *= PowerTreads.VelocityMult + 1;
         }
         public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
         {
@@ -210,10 +241,8 @@ namespace MogMod.Items.Global
             {
                 if (modPlayer.wearingGiantsMaul)
                     scale *= GiantsMaul.SizeMult + (Main.zenithWorld ? -0.1f : 1);
-                if (modPlayer.wearingTritonDamage)
-                    scale *= TritonM43A.SizeMult + 1;
-                if (modPlayer.wearingZhukDamage)
-                    scale *= AzimutSSZhuk.SizeMult + 1;
+                if (modPlayer.wearingTreadsDamage)
+                    scale *= PowerTreads.SizeMult + 1;
             }
         }
 
@@ -325,13 +354,9 @@ namespace MogMod.Items.Global
             TooltipLine nameLine = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.Mod == "Terraria");
             if (nameLine != null)
                 ApplyRarityColor(item, nameLine);
-            
-            // apply bleed buildup text in tooltip
-            if (item.type == ItemID.BloodButcherer)
-                tooltips.Add(new TooltipLine(Mod, "CustomTooltip", "Low Bleed Buildup"));
-            if (item.type == ItemID.PsychoKnife)
-                tooltips.Add(new TooltipLine(Mod, "CustomTooltip", "High Bleed Buildup"));
             #endregion
+
+            ApplyBleedTooltips(item, tooltips);
 
             #region Hold Shift Tooltips
             // Get the first index, last index and total count of standard vanilla tooltip lines.
@@ -431,6 +456,7 @@ namespace MogMod.Items.Global
         }
         private void ApplyRarityColor(Item item, TooltipLine nameLine)
         {
+            #region Endgame Weapons
             if (item.type == ModContent.ItemType<AghanimBlessing>())
             {
                 nameLine.OverrideColor = MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / 2f % 1f, new Color[]
@@ -467,6 +493,8 @@ namespace MogMod.Items.Global
                     new Color(247, 194, 47),
                 });
             }
+            #endregion
+            #region Special Weapons
             if (item.type == ModContent.ItemType<TheGravity>())
             {
                 nameLine.OverrideColor = MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / 2f % 1f, new Color[]
@@ -476,6 +504,54 @@ namespace MogMod.Items.Global
                     new Color(38, 69, 222)
                 });
             }
+            #endregion
+            #region Elite Aspects
+            if (item.type == ModContent.ItemType<OverloadingAspect>())
+            {
+                nameLine.OverrideColor = MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / 2f % 1f, new Color[]
+                {
+                    new Color(49, 230, 203),
+                    new Color(49, 174, 230),
+                    new Color(49, 94, 230)
+                });
+            }
+            if (item.type == ModContent.ItemType<BlazingAspect>())
+            {
+                nameLine.OverrideColor = MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / 2f % 1f, new Color[]
+                {
+                    new Color(255, 24, 59),
+                    new Color(255, 84, 24),
+                    new Color(255, 151, 24)
+                });
+            }
+            if (item.type == ModContent.ItemType<GildedAspect>())
+            {
+                nameLine.OverrideColor = MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / 2f % 1f, new Color[]
+                {
+                    new Color(255, 187, 29),
+                    new Color(255, 234, 29),
+                    new Color(229, 255, 29)
+                });
+            }
+            if (item.type == ModContent.ItemType<MendingAspect>())
+            {
+                nameLine.OverrideColor = MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / 2f % 1f, new Color[]
+                {
+                    new Color(176, 230, 49),
+                    new Color(114, 230, 49),
+                    new Color(49, 230, 115)
+                });
+            }
+            if (item.type == ModContent.ItemType<NoxiousAspect>())
+            {
+                nameLine.OverrideColor = MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / 2f % 1f, new Color[]
+                {
+                    new Color(145, 47, 237),
+                    new Color(219, 47, 237),
+                    new Color(237, 47, 145)
+                });
+            }
+            #endregion
         }
         #endregion
     }

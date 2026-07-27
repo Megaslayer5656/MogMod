@@ -1,20 +1,24 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Weapons.Magic;
+using MogMod.Utilities;
+using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Buffs.PotionBuffs.TheGravityBuffs
 {
     public class TheGravityHealthBuff : ModBuff
     {
+        public override LocalizedText Description => base.Description.WithFormatArgs(TheGravity.LifeRegenBoost.ToRegenPerSecond());
         public override void SetStaticDefaults()
         {
             Main.debuff[Type] = false;
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.lifeRegen += 10;
+            player.lifeRegen += TheGravity.LifeRegenBoost;
             if (Main.rand.NextBool(3))
             {
                 Vector2 dustCorner = player.position - 2f * Vector2.One;

@@ -1,18 +1,19 @@
-﻿using MogMod.Common.MogModPlayer;
-using MogMod.Common.Systems;
+﻿using MogMod.Buffs.AccessoryAuras;
+using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
-using MogMod.Items.Other;
 using MogMod.Utilities;
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 namespace MogMod.Items.Accessories
 {
     public class Headdress : ModItem, ILocalizedModType
     {
-        int teamBuff = ModContent.BuffType<Buffs.AccessoryAuras.HeaddressBuff>();
+        public const int LifeRegenBoost = 4;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(LifeRegenBoost.ToRegenPerSecond());
+        int teamBuff = ModContent.BuffType<HeaddressBuff>();
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {

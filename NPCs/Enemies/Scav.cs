@@ -71,7 +71,14 @@ namespace MogMod.NPCs.Enemies
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ItemID.IllegalGunParts, 10, 1, 1));
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MosinLPS>(), 1, 4, 12));
+            //npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MosinLPS>(), 1, 4, 12));
+            npcLoot.Add(new OneFromRulesRule(1, new IItemDropRule[4]
+            {
+                ItemDropRule.NotScalingWithLuck(ItemID.MusketBall, 1, 4, 12),
+                ItemDropRule.NotScalingWithLuck(ItemID.SilverBullet, 1, 4, 12),
+                ItemDropRule.NotScalingWithLuck(ItemID.TungstenBullet, 1, 4, 12),
+                ItemDropRule.NotScalingWithLuck(ItemID.PartyBullet, 5, 4, 12)
+            }));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Mosin>(), 20, 1, 1));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PleaseStopMe>(), 20, 1, 1));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ScavVest>(), 20, 1, 1));

@@ -1,8 +1,9 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MogMod.Utilities;
+using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Buffs.Debuffs
 {
@@ -15,12 +16,30 @@ namespace MogMod.Buffs.Debuffs
             Main.buffNoSave[Type] = false;
             Main.buffNoTimeDisplay[Type] = false;
         }
-
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.MogMod().deathDebuff = true;
+        }
         public override void Update(NPC npc, ref int buffIndex)
         {
             npc.MogMod().blackBladeDebuff = true;
         }
-
+        internal static void DrawEffects(PlayerDrawSet drawInfo)
+        {
+            Player player = drawInfo.drawPlayer;
+            if (Main.rand.NextBool(2))
+            {
+                int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), player.width, player.height, DustID.DesertTorch, player.velocity.X * 0.04f, player.velocity.Y * 0.04f, 100, default, 2f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity *= 0.05f;
+                Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.03f;
+                if (Main.rand.NextBool(4))
+                {
+                    Main.dust[dust].noGravity = false;
+                    Main.dust[dust].scale *= 0.3f;
+                }
+            }
+        }
         internal static void DrawEffects(NPC npc, ref Color drawColor)
         {
             if (Main.rand.NextBool(2))

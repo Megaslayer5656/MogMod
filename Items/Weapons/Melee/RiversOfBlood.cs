@@ -5,7 +5,9 @@ using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.Melee;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -24,6 +26,8 @@ namespace MogMod.Items.Weapons.Melee
             PitchVariance = .2f,
             MaxInstances = 1,
         };
+        public const int ItemBloodDamage = 135;
+        public const int ProjectileBloodDamage = 300;
         public override void SetStaticDefaults()
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 9));
@@ -50,6 +54,9 @@ namespace MogMod.Items.Weapons.Melee
             Item.shootSpeed = 4.5f;
 
             Item.autoReuse = true;
+
+            MogGlobalItem mogItem = Item.MogMod();
+            mogItem.bloodDamage = ItemBloodDamage;
         }
         public override bool CanUseItem(Player player)
         {
@@ -59,13 +66,8 @@ namespace MogMod.Items.Weapons.Melee
                 return false;
             }
             else if (player.HasBuff(ModContent.BuffType<ParrySlow>()))
-            {
                 return false;
-            }
-            else
-            {
-                return true;
-            }
+            return true;
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -78,14 +80,13 @@ namespace MogMod.Items.Weapons.Melee
             }
             return false;
         }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             if (mogPlayer.riversOfBloodProj)
             {
-                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<RiversOfBloodProj>(), Convert.ToInt32(Item.damage * 5f), knockback, player.whoAmI, 0f, 0f);
-
+                type = ModContent.ProjectileType<RiversOfBloodProj>();
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
                 mogPlayer.riversOfBloodProj = false;
             }
             return false;

@@ -141,6 +141,7 @@ namespace MogMod.NPCs.Enemies
             NPC.aiStyle = -1;
             NPC.lifeMax = FreakyTienHead.TotalHealth;
             NPC.damage = 38;
+            NPC.dontCountMe = true;
 
             // Extra body parts should use the same Banner value as the main ModNPC.
             Banner = ModContent.NPCType<FreakyTienHead>();
@@ -171,6 +172,7 @@ namespace MogMod.NPCs.Enemies
             NPC.aiStyle = -1;
             NPC.lifeMax = FreakyTienHead.TotalHealth;
             NPC.damage = 34;
+            NPC.dontCountMe = true;
 
             // Extra body parts should use the same Banner value as the main ModNPC.
             Banner = ModContent.NPCType<FreakyTienHead>();

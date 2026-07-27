@@ -62,18 +62,6 @@ Items: {
 	}
 
 	Accessories: {
-		ArcaneBoots: {
-			DisplayName: Arcane Boots
-			Tooltip:
-				'''
-				Increases movement speed
-				Increased Maximum Mana by 50
-				Slightly Increased Mana Regeneration
-				Pressing [KEY] will restore 200 Mana
-				[c/2481A6:'Magi equipped with these boots are valued in battle.']
-				'''
-		}
-
 		ArmletOfMordiggian: {
 			DisplayName: Armlet Of Mordiggian
 			Tooltip: "[GFB]"
@@ -91,26 +79,11 @@ Items: {
 				'''
 		}
 
-		GuardianGreaves: {
-			DisplayName: Guardian Greaves
-			Tooltip:
-				'''
-				Greatly Increases placement speed and range
-				Increased Maximum Mana by 50
-				Enemies are less likely to target you
-				Greatly Increased Mana regeneration
-				Provides you and nearby team members +20 Maximum Life, +50 Maximum Mana, 
-				+6 HP/s Life regen, 4 Defense and +7.5% Increased Attack Damage
-				Pressing [KEY] will restore 140 Life and 300 Mana
-				[c/1CA396:'One of many holy instruments constructed to honor the Omniscience.']
-				'''
-		}
-
 		Headdress: {
 			DisplayName: Headdress
 			Tooltip:
 				'''
-				Provides you and nearby team members +4 HP/s Life regen
+				Provides you and nearby team members +{0} HP/s Life regen
 				[c/51A68A:'Creates a soothing aura that restores allies in battle.']
 				'''
 		}
@@ -209,8 +182,8 @@ Items: {
 			DisplayName: Glimmer Cape
 			Tooltip:
 				'''
-				Increased Maximum Mana by 50
-				Enemies are less likely to target you
+				Increased Maximum Mana by {0}
+				Decreased Aggro by {1}
 				Pressing [KEY] will turn you invisible and increase movement speed
 				[c/515BA6:'The stolen cape of a master illusionist.']
 				'''
@@ -260,15 +233,6 @@ Items: {
 				Grants immunity to knockback
 				[c/85483D:'A powerful shield that defends its wielder ]
 				[c/85483D:from even the most vicious of attacks.']
-				'''
-		}
-
-		UltraBootsOfTravel: {
-			DisplayName: Ultra Boots Of Travel
-			Tooltip:
-				'''
-				Run like the wind!
-				[c/C98E3C:'Winged boots that grant ultra-omnipresence.']
 				'''
 		}
 
@@ -326,11 +290,6 @@ Items: {
 			Tooltip: Increases your max number of minions by 1
 		}
 
-		DabdadWings: {
-			DisplayName: Dabdad's Wings
-			Tooltip: Allows flight and slow fall
-		}
-
 		Crown: {
 			DisplayName: Crown
 			Tooltip:
@@ -353,16 +312,6 @@ Items: {
 				Grants immunity to knockback
 				Absorbs 25% of damage done to players on your team when above 25% life
 				[c/7D411A:'A cuirass originally built to protect against the dreaded Year Beast.']
-				'''
-		}
-
-		BootsOfTravel: {
-			DisplayName: Boots Of Travel
-			Tooltip:
-				'''
-				Vastly Increased movement speed
-				Negates fall damage
-				[c/E3B8A1:'Winged boots that grant omnipresence.']
 				'''
 		}
 
@@ -391,9 +340,9 @@ Items: {
 			DisplayName: Drum Of Endurance
 			Tooltip:
 				'''
-				Increases your max number of minions by 1
-				+5% Summon Damage
-				Grants you and nearby team members 30% movement speed and 10% Melee and Whip Speed
+				Increases your max number of minions by {0}
+				+{1}% Summon Damage
+				Grants you and nearby team members {2}% movement speed and {3}% Melee and Whip Speed
 				[c/40BD67:'A relic that enchants the bodies of those around it for swifter movement in times of crisis.']
 				'''
 		}
@@ -421,7 +370,7 @@ Items: {
 				+10% Critical Strike Chance
 				+25 Armor Penetration
 				Grants immunity to some debuffs
-				Attacks inflict Cold Attack
+				Attacks inflict [mogbuff:MogMod/EyeOfSkadiDebuff]
 				[c/2F4BB5:'Extremely rare artifact, guarded by the azure dragons.']
 				'''
 		}
@@ -443,17 +392,15 @@ Items: {
 		}
 
 		ShivasGuard: {
-			DisplayName: Shivas Guard
+			DisplayName: Shiva's Guard
 			Tooltip:
 				'''
-				+12% Sorcery Damage
-				+10% Attack Damage
-				+10% Attack Speed
-				Increases Life Regeneration
-				Increases Maximum Life by 50
-				Increases Maximum Mana by 50
-				Pressing [KEY] damages nearby enemies and lowers their armor by 15%
-				Provides nearby team members 10 defense and +10% ranged damage
+				+{0}% Sorcery Damage
+				+{1}% Attack Damage and Speed
+				+{2} HP/s Life Regen
+				Increases Maximum Life and Mana by {3}
+				Pressing [KEY] damages nearby enemies and afflicts them with [mogbuff:MogMod/ShivasEnemyDebuff]
+				Provides nearby team members {4} defense and +{5}% ranged damage
 				[c/278187:'Said to have belonged to a goddess, today it retains much of its former power.']
 				'''
 		}
@@ -471,9 +418,9 @@ Items: {
 			DisplayName: Vladmir's Offering
 			Tooltip:
 				'''
-				Increases your max number of sentries by 2
-				Provides you and nearby team members 3 defense, +2 Attack damage,
-				Increased Mana Regeneration by 4, and Increased lifesteal effectiveness
+				Increases your max number of sentries by {0}
+				Provides you and nearby team members {1} defense, +{2} Attack damage,
+				Increased Mana Regeneration by {3}, and +{4}% Increased Lifesteal
 				[c/24964A:'An eerie mask that is haunted with the malice of a fallen vampire.']
 				'''
 		}
@@ -481,17 +428,6 @@ Items: {
 		FlameOfCorruption: {
 			DisplayName: Flame Of Corruption
 			Tooltip: READY OR NOT!!
-		}
-
-		WingsOfLight: {
-			DisplayName: Wings Of Light
-			Tooltip:
-				'''
-				Allows flight and slow fall
-				Increased movement speed
-				Radiates a heavenly aura that damages nearby enemies over time
-				[c/C4BB74:'Was ablaze with gold embers']
-				'''
 		}
 
 		LordOfBloodsExultation: {
@@ -512,22 +448,6 @@ Items: {
 				Permanent Sonar and Crate Buffs
 				Grants the effects of Lavaproof Tackle Bag
 				[c/08F8FF:'Glory to Fishrael']
-				'''
-		}
-
-		HelmOfTheUndying: {
-			DisplayName: Helm Of The Undying
-			Tooltip: "[GFB]"
-			TooltipDefault:
-				'''
-				Reduces the respawn timer by 20%
-				Dying summons vengeful ghosts that chase after your cursor
-				[c/78C25B:'The price for wearing it is paid in the afterlife.']
-				'''
-			TooltipGFB:
-				'''
-				[c/00FF2B:5x respawn time]
-				[i:MogMod/EyeOfMendez] [c/F0ADEE:"D star at 8:10.."]
 				'''
 		}
 
@@ -557,10 +477,10 @@ Items: {
 			DisplayName: Wraith Pact
 			Tooltip:
 				'''
-				Increases your max number of sentries by 5
+				Increases your max number of sentries by {0}
 				Does not stack with downgrades
-				Provides you and nearby team members the 10 defense, +10% Attack damage,
-				Increased Mana Regeneration by 10, and Greatly Increased lifesteal effectiveness
+				Provides you and nearby team members the {1} defense, +{2}% Attack damage,
+				Increased Mana Regeneration by {3}, and +{4}% Increased Lifesteal
 				[c/528727:'A sentient amulet whose animus shakes the courage of even the strongest foes.']
 				'''
 		}
@@ -614,18 +534,6 @@ Items: {
 				'''
 		}
 
-		LunarTreads: {
-			DisplayName: Lunar Treads
-			Tooltip:
-				'''
-				Run faster than the speed of light!
-				Allows flight and slow fall
-				Vastly increased movement speed
-				Press Down to toggle hover
-				[c/51A68A:'Flying boots that grant ultra-omnipresence.']
-				'''
-		}
-
 		SacrosanctAegis: {
 			DisplayName: Sacrosanct Aegis
 			Tooltip:
@@ -642,14 +550,185 @@ Items: {
 				'''
 		}
 
-		WingsOfAllegiance: {
-			DisplayName: Wings Of Allegiance
-			Tooltip:
-				'''
-				Allows flight and slow fall
-				Increased movement speed
-				Damage is increased by amount of remaining wing time
-				'''
+		Boots: {
+			ArcaneBoots: {
+				DisplayName: Arcane Boots
+				Tooltip:
+					'''
+					Increases movement speed
+					Increased Maximum Mana by 50
+					Slightly Increased Mana Regeneration
+					Pressing [KEY] will restore 200 Mana
+					[c/2481A6:'Magi equipped with these boots are valued in battle.']
+					'''
+			}
+
+			GuardianGreaves: {
+				DisplayName: Guardian Greaves
+				Tooltip:
+					'''
+					Greatly Increases placement speed and range
+					Increased Maximum Mana by {0}
+					Enemies are less likely to target you
+					Greatly Increased Mana regeneration
+					Provides you and nearby team members +{1} Maximum Life, +{2} Maximum Mana, 
+					+{3} HP/s Life regen, {4} Defense and +{5}% Increased Attack Damage
+					Pressing [KEY] will restore {6} Life and {7} Mana
+					[c/1CA396:'One of many holy instruments constructed to honor the Omniscience.']
+					'''
+			}
+
+			BootsOfTravel: {
+				DisplayName: Boots Of Travel
+				Tooltip:
+					'''
+					Vastly Increased movement speed
+					Negates fall damage
+					[c/E3B8A1:'Winged boots that grant omnipresence.']
+					'''
+			}
+
+			UltraBootsOfTravel: {
+				DisplayName: Ultra Boots Of Travel
+				Tooltip:
+					'''
+					Run like the wind!
+					[c/C98E3C:'Winged boots that grant ultra-omnipresence.']
+					'''
+			}
+
+			PowerTreads: {
+				DisplayName: Power Treads
+				Tooltip: ""
+				TooltipGFB: tigla toejob
+				HoldShiftTooltip: ""
+				HoldShiftExtensionIndicator: ""
+				TooltipNormal:
+					'''
+					Allows flight and Greatly Increased Movement Speed
+					[c/aaaaaa:Press {0} while equipped to toggle between different stat bonuses]
+					[c/B29FC9:'A pair of tough-skinned boots that change to meet the demands of the wearer.']
+					'''
+				TreadsLife:
+					'''
+					[c/aaaaaa:Current Stats:]
+					Increases Maximum Life {0}
+					+{1} HP/s life regen 
+					Reduces damage over time taken by {2} HP/s
+					'''
+				TreadsDamage:
+					'''
+					[c/aaaaaa:Current Stats:]
+					+{0}% Critical Strike Chance
+					{1}% Increased Projectile Velocity
+					+{2}% Melee Weapon Size
+					'''
+				TreadsBuilding:
+					'''
+					[c/aaaaaa:Current Stats:]
+					+{0}% Mining Speed
+					+{1}% Block and Wall Placement Speed
+					Increases flight time by {2}%
+					Grants an extra jump
+					'''
+			}
+		}
+
+		Rigs: {
+			IdeaRig: {
+				DisplayName: Idea Rig
+				Tooltip: "{$Common.RigInformation}"
+			}
+
+			TritonM43A: {
+				DisplayName: Triton M43-A
+				Tooltip: ""
+				TooltipGFB:
+					'''
+					-{0}% Mining Speed
+					Press {1} to open your Piggy Bank
+					[c/B29FC9:'Broken and curbstomped by Dynaforce.']
+					'''
+				TooltipNormal:
+					'''
+					+{0}% Mining Speed
+					Press {1} to open your Safe
+					[c/B29FC9:'Manufactured by Dynaforce.']
+					'''
+				HoldShiftTooltip: "{$Common.RigInformation}"
+			}
+
+			AzimutSSZhuk: {
+				DisplayName: Azimut SS Zhuk
+				Tooltip: ""
+				TooltipGFB:
+					'''
+					tigs
+					-{0}% Mining Speed
+					Press {1} to open your Defender's Forge
+					[c/5BA689:'RAgmuddy_reaper']
+					'''
+				TooltipNormal:
+					'''
+					+{0}% Mining Speed
+					Press {1} to open your Safe
+					[c/5BA689:'RAgmuddy_reaper']
+					'''
+				HoldShiftTooltip: "{$Common.RigInformation}"
+			}
+
+			OspreyMK4A: {
+				DisplayName: Osprey MK4A
+				Tooltip:
+					'''
+					[c/C73650:-{0}% Movement Speed]
+					+{1}% Damage Reduction
+					+{2}% Ranged Critical Strike Chance
+					{3}% Chance to not consume ammo
+					[c/4C703A:'Actively used by the British army and specialists.']
+					'''
+				HoldShiftTooltip: "{$Common.RigInformation}"
+			}
+		}
+
+		Wings: {
+			DabdadWings: {
+				DisplayName: Dabdad's Wings
+				Tooltip: "{$CommonItemTooltip.FlightAndSlowfall}"
+			}
+
+			WingsOfLight: {
+				DisplayName: Wings Of Light
+				Tooltip:
+					'''
+					{$CommonItemTooltip.FlightAndSlowfall}
+					Increased movement speed
+					Nearby enemies are afflicted with [mogbuff:MogMod/WingsOfLightDebuff]
+					[c/C4BB74:'Was ablaze with gold embers']
+					'''
+			}
+
+			WingsOfAllegiance: {
+				DisplayName: Wings Of Allegiance
+				Tooltip:
+					'''
+					{$CommonItemTooltip.FlightAndSlowfall}
+					Increased movement speed
+					Damage is increased by amount of remaining wing time
+					'''
+			}
+
+			LunarTreads: {
+				DisplayName: Lunar Treads
+				Tooltip:
+					'''
+					Run faster than the speed of light!
+					{$CommonItemTooltip.FlightAndSlowfall}
+					{$CommonItemTooltip.PressDownToHover}
+					Vastly increased movement speed
+					[c/51A68A:'Flying boots that grant ultra-omnipresence.']
+					'''
+			}
 		}
 
 		NeutralItem: {
@@ -741,8 +820,8 @@ Items: {
 				DisplayName: Gunpowder Gauntlet
 				Tooltip:
 					'''
-					+5% Magic Attack Speed
-					Magic attacks have a small chance to explode, dealing 1.5x the damage dealt, with a soft cap of 50
+					+{0}% Magic Attack Speed
+					Magic attacks have a small chance to explode, dealing {1}x the damage dealt, with a soft cap of {2}
 					[c/B87133:'A harmless prank that went entirely too far.']
 					'''
 			}
@@ -791,13 +870,89 @@ Items: {
 					[c/D9A5D1:'polylute plasma shrimp']
 					'''
 			}
+
+			HelmOfTheUndying: {
+				DisplayName: Helm Of The Undying
+				Tooltip: ""
+				TooltipNormal:
+					'''
+					Reduces the respawn timer by {0}%
+					Dying summons vengeful ghosts that chase after your cursor
+					[c/78C25B:'The price for wearing it is paid in the afterlife.']
+					'''
+				TooltipGFB:
+					'''
+					[c/00FF2B:{0}x respawn time]
+					[i:MogMod/EyeOfMendez] [c/F0ADEE:"D star at 8:10.."]
+					'''
+			}
+
+			BlazingAspect: {
+				DisplayName: Blazing Aspect
+				Tooltip: ""
+				AspectType: "[c/FFAC8C:Become an aspect of fire]"
+				HoldShiftExtensionIndicator: ""
+				Description:
+					'''
+					Attacks inflict [mogbuff:MogMod/BlazingDebuff]
+					Enemies afflicted with [mogbuff:MogMod/BlazingDebuff] take {0}% increased damage
+					'''
+			}
+
+			GildedAspect: {
+				DisplayName: Gilded Aspect
+				Tooltip: ""
+				AspectType: "[c/FFF791:Become an aspect of radiance]"
+				HoldShiftExtensionIndicator: ""
+				Description:
+					'''
+					Attacks inflict Midas and enemies have a chance to drop coins on hit
+					You reflect projectiles back at enemies, negating their damage
+					Projectiles that deal less than 5% of your max life in damage will not be reflected
+					The reflect has a cooldown of {0} seconds
+					'''
+			}
+
+			MendingAspect: {
+				DisplayName: Mending Aspect
+				Tooltip: ""
+				AspectType: "[c/ABF086:Become an aspect of earth]"
+				HoldShiftExtensionIndicator: ""
+				Description:
+					'''
+					Provides you and nearby teammates +{0} HP/s life regen
+					Multiplies all forms of healing by {1}%
+					'''
+			}
+
+			NoxiousAspect: {
+				DisplayName: Noxious Aspect
+				Tooltip: "[c/E686F0:Become an aspect of corruption]"
+				HoldShiftTooltip:
+					'''
+					Attacks buildup [mogbuff:MogMod/ToxicDebuff] damage
+					Upon [mogbuff:MogMod/ToxicDebuff] expiration, deal a burst of damage dependant on [mogbuff:MogMod/ToxicDebuff] buildup
+					'''
+			}
+
+			OverloadingAspect: {
+				DisplayName: Overloading Aspect
+				Tooltip: ""
+				AspectType: "[c/89D4F5:Become an aspect of lightning]"
+				HoldShiftExtensionIndicator: ""
+				Description:
+					'''
+					Attacks summon an orb that explodes after a short delay, dealing {0}x of the attacks damage
+					Gain +{2} HP/s life regen after {1} seconds of not receiving damage
+					'''
+			}
 		}
 
 		GauntletOfAghanim: {
 			DisplayName: Aghanim's Gauntlet
 			Tooltip:
 				'''
-				Melee attacks and projectiles inflict Aghanim's Hex
+				Melee attacks and projectiles inflict [mogbuff:MogMod/AghanimHexDebuff]
 				15% increased melee damage and melee speed
 				5% increased melee critical strike chance
 				20% increased melee damage and increased melee knockback
@@ -822,11 +977,6 @@ Items: {
 				'''
 		}
 
-		IdeaRig: {
-			DisplayName: Idea Rig
-			Tooltip: Allows you to equip a Neutral Item
-		}
-
 		ScavVest: {
 			DisplayName: Scav Vest
 			NameNormal: Scav Vest
@@ -838,95 +988,6 @@ Items: {
 				Increases fishing power by 5
 				Fishing rods shoot 2 extra lures
 				[c/5FA656:'tigz tigz and matthias's head explodes']
-				'''
-		}
-
-		TritonM43A: {
-			DisplayName: Triton M43-A
-			Tooltip: "[DESC]"
-			TooltipGFB: tigla toejob
-			HoldShiftTooltip: ""
-			HoldShiftExtensionIndicator: ""
-			TooltipNormal:
-				'''
-				Allows you to equip a Neutral Item
-				[c/aaaaaa:Shift Right Click to toggle between different stat bonuses]
-				[c/B29FC9:'Manufactured by Dynaforce.']
-				'''
-			TritonLife:
-				'''
-				[c/aaaaaa:Current Stats:]
-				Increases Maximum Life and Mana by {0}
-				+{1} HP/s life regen 
-				+{2} MP/s mana regen
-				Reduces damage over time taken by {3} HP/s
-				'''
-			TritonDamage:
-				'''
-				[c/aaaaaa:Current Stats:]
-				+{0}% Critical Strike Chance
-				{1}% Increased Projectile Velocity
-				+{2}% Melee Weapon Size
-				'''
-			TritonMovement:
-				'''
-				[c/aaaaaa:Current Stats:]
-				+{0}% Movement Speed
-				+{1}% Jump Speed
-				+{2}% Mining Speed
-				Grants an extra jump
-				'''
-		}
-
-		AzimutSSZhuk: {
-			DisplayName: Azimut SS Zhuk
-			Tooltip: "[DESC]"
-			TooltipGFB: sounding w/ tigz
-			HoldShiftTooltip: ""
-			HoldShiftExtensionIndicator: ""
-			TooltipNormal:
-				'''
-				Allows you to equip a Neutral Item
-				[c/aaaaaa:Shift Right Click to toggle between different stat bonuses]
-				[c/5BA689:'RAgmuddy_reaper']
-				'''
-			ZhukLife:
-				'''
-				[c/aaaaaa:Current Stats:]
-				Increases Maximum Life by {0}%
-				Increases Maximum Mana by {1}
-				+{2} HP/s life regen 
-				+{3} MP/s mana regen
-				Reduces damage over time taken by {4} HP/s
-				'''
-			ZhukDamage:
-				'''
-				[c/aaaaaa:Current Stats:]
-				+{0}% Critical Strike Chance
-				{1}% Increased Projectile Velocity
-				+{2}% Melee Weapon Size
-				[c/BA2F2F:+{3}% Damage Taken]
-				'''
-			ZhukMovement:
-				'''
-				[c/aaaaaa:Current Stats:]
-				+{0}% Movement Speed
-				+{1}% Jump Speed
-				+{2}% Mining Speed
-				Increases flight time by {3}%
-				'''
-		}
-
-		OspreyMK4A: {
-			DisplayName: Osprey MK4A
-			Tooltip:
-				'''
-				[c/C73650:-15% Movement Speed]
-				+5% Damage Reduction
-				+12% Ranged Critical Strike Chance
-				15% Chance to not consume ammo
-				Allows you to equip a Neutral Item
-				[c/4C703A:'Actively used by the British army and specialists.']
 				'''
 		}
 	}
@@ -978,7 +1039,8 @@ Items: {
 				DisplayName: Golden Hydrakan Latch
 				Tooltip:
 					'''
-					Increases your attack speed and movement speed on hit
+					Hitting an enemy grants a stack of [mogbuff:MogMod/EssenceShift], up to a max of {0}
+					Each stack of [mogbuff:MogMod/EssenceShift] increases attack and movement speed
 					[c/C2A80A:'The golden shiv of an escapee of dark reef.']
 					'''
 			}
@@ -987,7 +1049,8 @@ Items: {
 				DisplayName: Hydrakan Latch
 				Tooltip:
 					'''
-					Increases your attack speed and movement speed on hit
+					Hitting an enemy grants a stack of [mogbuff:MogMod/EssenceShift], up to a max of {0}
+					Each stack of [mogbuff:MogMod/EssenceShift] increases attack and movement speed
 					[c/52A3AB:'The shiv of an escapee of dark reef.']
 					'''
 			}
@@ -1051,7 +1114,7 @@ Items: {
 				Tooltip:
 					'''
 					Right click to fire a stun edge
-					Enemies hit by stun edge gain shock state
+					Enemies hit by stun edge gain [mogbuff:MogMod/ShockState]
 					Hitting an enemy afflicted with shock state deals extra damage
 					[c/6AAABA:'A king's blade is not just for show.']
 					'''
@@ -1064,8 +1127,8 @@ Items: {
 					Shoots out a homing dolphin
 					Hitting enemies spawn more dolphins
 					Right click to swing the anchor around you, creating an explosion of water
-					Hitting an enemy surrounds yourself in a kraken shell for 3 seconds
-					The kraken shell increases damage reduction by 10%, but greatly reduces movement speed
+					Hitting an enemy when right clicked surrounds yourself in a kraken shell for {0} seconds
+					The kraken shell increases damage reduction by {1}%, but greatly reduces movement speed
 					[c/47A2A8:'Women and Children and ][c/DBAE70:Totsugeki!][c/47A2A8: first!']
 					'''
 			}
@@ -1076,7 +1139,7 @@ Items: {
 					'''
 					Shoots a deathly sickle that bursts into 4 smaller homing sickles
 					Deals more damage the lower life you have
-					Attacks lower defense and inflict Destined Death on enemies
+					Attacks lower defense and inflict [mogbuff:MogMod/BlackBladeDebuff]
 					[c/912049:'A wicked weapon, used in torturing political criminals.']
 					'''
 			}
@@ -1110,14 +1173,14 @@ Items: {
 
 			Reduvia: {
 				DisplayName: Bloody Sickle
-				Tooltip: Medium Bleed Buildup
+				Tooltip: Every 3rd swing fire a blood orb
 			}
 
 			BlackBlade: {
 				DisplayName: Black Blade
 				Tooltip:
 					'''
-					Inflicts Destined Death on hit
+					Inflicts [mogbuff:MogMod/BlackBladeDebuff] on hit
 					Can be charged for up to 4.8x increased damage
 					Deals more damage to unhurt enemies
 					'''
@@ -1125,25 +1188,20 @@ Items: {
 
 			FrozenSpear: {
 				DisplayName: Frozen Spear
-				Tooltip: Freezes enemies on hit
+				Tooltip: Inflicts [mogbuff:MogMod/FreezingDebuff] on hit
 			}
 
 			Bloodletter: {
 				DisplayName: Bloodletter
-				Tooltip:
-					'''
-					Low bleed buildup
-					Right click to parry
-					'''
+				Tooltip: Right click to parry
 			}
 
 			RiversOfBlood: {
 				DisplayName: Rivers Of Blood
 				Tooltip:
 					'''
-					High bleed buildup
 					Right click to parry
-					After a successful parry, shoots a projectile
+					After a successful parry, swing again to fire a blood wave
 					'''
 			}
 
@@ -1207,7 +1265,6 @@ Items: {
 				DisplayName: Lord Of Blood's Spear
 				Tooltip:
 					'''
-					High bleed buildup
 					Right click to create a delayed explosion of blood, damaging everything including yourself
 					[c/660514:'The mother of truth desires a wound.']
 					'''
@@ -1231,6 +1288,7 @@ Items: {
 					Rains down flaming meteors from the sky
 					Striking an enemy causes a fire tornado to appear
 					True melee critical strikes deal 50% extra damage
+					Inflicts [mogbuff:MogMod/InfernoDebuff] on hit
 					'The ultimate endurance test.'
 					'''
 			}
@@ -1306,11 +1364,7 @@ Items: {
 
 			BloodGrenade: {
 				DisplayName: Blood Grenade
-				Tooltip:
-					'''
-					Low bleed buildup
-					Damages the player on use
-					'''
+				Tooltip: Damages the player on use
 			}
 
 			HeavensHalberd: {
@@ -1325,7 +1379,12 @@ Items: {
 
 			Mosin: {
 				DisplayName: Mosin
-				Tooltip: The great equalizer
+				Tooltip:
+					'''
+					A strong rifle with heavy recoil
+					Converts musket balls into high damage, piercing LPS ammo
+					[c/FFC896:'The great equalizer']
+					'''
 			}
 
 			R8Revolver: {
@@ -1364,7 +1423,8 @@ Items: {
 				DisplayName: AXMC
 				Tooltip:
 					'''
-					Shoots AP Lapua rounds
+					A powerful sniper rifle with extraordinary recoil
+					Converts musket balls into piercing AP Lapua rounds that build up bleed damage
 					Right click to scope in
 					[c/1E6329:'Time for some area brainrot.']
 					'''
@@ -1426,8 +1486,8 @@ Items: {
 				DisplayName: Megaslark
 				Tooltip:
 					'''
-					Occasionally fire a homing water rocket, granting a stack of essence shift upon hitting an enemy
-					Essence shift increases your attack speed, movement speed, and armor penetration per stack
+					Occasionally fire a homing water rocket, granting a stack of [mogbuff:MogMod/EssenceShift] upon hitting an enemy, up to a max of {0}
+					[mogbuff:MogMod/EssenceShift] increases your attack speed, movement speed, and armor penetration per stack
 					80% chance to save ammo
 					'If I'd known I'd end up here, I'd have stayed in Dark Reef Prison.'
 					'''
@@ -1437,8 +1497,8 @@ Items: {
 				DisplayName: Minislark
 				Tooltip:
 					'''
-					Occasionally fire a water bolt, granting a stack of essence shift upon hitting an enemy
-					Essence shift increases your attack speed, movement speed, and armor penetration per stack
+					Occasionally fire a water bolt, granting a stack of [mogbuff:MogMod/EssenceShift] upon hitting an enemy, up to a max of {0}
+					[mogbuff:MogMod/EssenceShift] increases your attack speed, movement speed, and armor penetration per stack
 					35% chance to save ammo
 					[c/48C7C1:'You think you caught me? Ha ha ha ha ha!']
 					'''
@@ -1490,7 +1550,7 @@ Items: {
 					'''
 					Converts arrows to homing venomous snakes
 					For each enemy nearby, fire up to 6 additional snakes
-					With Eye of Skadi equipped, always fire 6 additional snakes
+					With [i:MogMod/EyeOfSkadi] [c/2F4BB5:Eye Of Skadi] equipped, always fire 6 additional snakes
 					'''
 			}
 
@@ -1538,7 +1598,7 @@ Items: {
 				DisplayName: Dragon Flayer
 				Tooltip:
 					'''
-					Unleashes a barrage of flames that can pass through tiles
+					Unleashes a barrage of flames that inflict [mogbuff:MogMod/InfernoDebuff] and can pass through tiles
 					Uses gel for ammo
 					[c/E39127:'here be dragons']
 					'''
@@ -1569,7 +1629,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires a four round burst in a shotgun-like spread
-					Imbues your bullets with Daybreak and Destined Death, alternating every shot
+					Imbues your bullets with [mogbuff:MogMod/BlazingDebuff] and [mogbuff:MogMod/BlackBladeDebuff], alternating every shot
 					[c/660514:'get back on grief']
 					'''
 			}
@@ -1587,6 +1647,11 @@ Items: {
 					[c/4F8F2F:'junkmunt-baby junkmunt']
 					'''
 			}
+
+			GasGrenade: {
+				DisplayName: Gas Grenade
+				Tooltip: Explodes into a mist of disorienting poison gas
+			}
 		}
 
 		Magic: {
@@ -1603,7 +1668,6 @@ Items: {
 				DisplayName: Blood Magic
 				Tooltip:
 					'''
-					Low bleed buildup
 					Heals the player on hit
 					[c/FF9696:'Created by the famous sorcerer Vlad']
 					'''
@@ -1622,7 +1686,7 @@ Items: {
 				DisplayName: Fiery Soul
 				Tooltip:
 					'''
-					Hitting enemies grants a stack of Fiery Soul,
+					Hitting enemies grants a stack of [mogbuff:MogMod/FierySoulStack],
 					increasing magic attack speed and movement speed per stack.
 					'''
 			}
@@ -1645,9 +1709,9 @@ Items: {
 				DisplayName: Laguna Blade
 				Tooltip:
 					'''
-					Hitting enemies grants a stack of Fiery Soul, 
+					Hitting enemies grants a stack of [mogbuff:MogMod/FierySoulStack], 
 					increasing magic attack speed and movement speed per stack.
-					Right click to fire a bolt of lightning, granting max stacks of Fiery Soul
+					Right click to fire a bolt of lightning, granting max stacks of [mogbuff:MogMod/FierySoulStack]
 					[c/18A9C9:'Words hurt more than Laguna Blade']
 					'''
 			}
@@ -1717,7 +1781,6 @@ Items: {
 				DisplayName: Bloodthorn
 				Tooltip:
 					'''
-					High bleed buildup
 					Launches 3 orbs that fire homing lifestealing beams
 					[c/B04C89:'A reviled blade that bites deeper with each wriggle of its victim's final throes.']
 					'''
@@ -1729,7 +1792,7 @@ Items: {
 					'''
 					Fires five homing beams that each split into four homing orbs
 					Every 20 hits, summon a portal that casts a laser that homes in on nearby enemies
-					Inflicts Aghanim's Hex on hit
+					Inflicts [mogbuff:MogMod/AghanimHexDebuff] on hit
 					'The scepter of a wizard with god-like powers.'
 					'''
 			}
@@ -1835,7 +1898,7 @@ Items: {
 				Tooltip:
 					'''
 					Summons knights to fight for you (doesnt work for now since i dont want to sprite)
-					[c/DE1414:'BLOOD!] [c/CEDBE0:STEEL!] [c/E09A31:WAR!']
+					[c/DE1414:'Battles, barbarous and bloody...']
 					'''
 			}
 		}
@@ -1942,6 +2005,7 @@ Items: {
 					'''
 					Fires a divine sword of light that gains additional properties at max life
 					Additional critical strike chance increases critical strike damage
+					Inflicts enemies with [mogbuff:MogMod/DivineMightDebuff]
 					'So powerful, it cannot have a single owner.'
 					'''
 			}
@@ -2027,9 +2091,9 @@ Items: {
 		DisplayName: Aghanim's Shard
 		Tooltip:
 			'''
-			20% Increased magic damage
-			100 additional Maximum Mana
-			Greatly Increased Mana Regeneration
+			{0}% Increased magic damage
+			{1} additional Maximum Mana
+			+{2} MP/s Mana Regen
 			[c/3583CC:'With origins known only to a single wizard, fragments of this impossible crystal are nearly as coveted as the renowned scepter itself].'
 			'''
 	}
@@ -2167,7 +2231,7 @@ Items: {
 			Tooltip:
 				'''
 				Follows your cursor
-				Inflicts Aghanim's Hex on hit
+				Inflicts [mogbuff:MogMod/AghanimHexDebuff] on hit
 				'''
 		}
 
@@ -2201,7 +2265,7 @@ Items: {
 
 		MosinLPS: {
 			DisplayName: LPS Ammo
-			Tooltip: ""
+			Tooltip: Fires high velocity bullets that can pierce once
 		}
 
 		ShrapnalBullet: {
@@ -2215,7 +2279,7 @@ Items: {
 
 		SplinterAmmo: {
 			DisplayName: Splinter
-			Tooltip: Low bleed buildup
+			Tooltip: ""
 		}
 
 		EnergyBullet: {
@@ -2420,7 +2484,6 @@ Items: {
 				DisplayName: Briars Of Punishment
 				Tooltip:
 					'''
-					Medium bleed buildup
 					Sprouts deadly thorns around you
 					[c/852834:'The guilty, their eyes gouged by thorns, lived in eternal darkness. There, they discovered the blood star.']
 					'''
@@ -2430,7 +2493,6 @@ Items: {
 				DisplayName: Impenetrable Thorns
 				Tooltip:
 					'''
-					Low bleed buildup
 					Summons 3 thorns that twist and turn as they travel
 					Ignores 10 points of enemy Defense
 					[c/706949:'The image of the twisted Scadutree is an edict: Denounce their ways. Do them harm. For they have abandoned us.']
@@ -2481,6 +2543,16 @@ Items: {
 					Summons 6 rings around the player that fly towards your cursor at once
 					[c/839186:'Sorcery practiced by the keepers of the spiritgraves, where all death ultimately drifts.']
 					'''
+			}
+
+			AdulasMoonblade: {
+				DisplayName: Adulas Moonblade
+				Tooltip: ""
+			}
+
+			CarianGreatsword: {
+				DisplayName: Carian Greatsword
+				Tooltip: ""
 			}
 		}
 
@@ -2678,6 +2750,7 @@ Items: {
 				'''
 				[c/{0}:Hitting an enemy with a magic weapon summons radiant beams from the sky]
 				[c/{0}:Increased Mana Regeneration by {1}]
+				[c/{0}:Multiplies all forms of mana regeneration by {2}%]
 				'''
 		}
 
@@ -2834,7 +2907,7 @@ Items: {
 			SetBonusNormal:
 				'''
 				[c/{0}:+{1}% Sorcery Attack Damage]
-				[c/{0}:Attacks inflict freezing and summon ice shards as they travel]
+				[c/{0}:Attacks inflict [mogbuff:MogMod/FreezingDebuff] and summon ice shards as they travel]
 				[c/{0}:Increased Mana Regeneration by {2}]
 				'''
 		}
@@ -2845,7 +2918,7 @@ Items: {
 			AbilityBrief: "[c/{0}:Winter's Ruling]"
 			SetBonusNormal:
 				'''
-				[c/{0}:Attacks inflict freezing]
+				[c/{0}:Attacks inflict [mogbuff:MogMod/FreezingDebuff]]
 				[c/{0}:Increases your max number of minions by {1}]
 				[c/{0}:Summons a frost crystal to shoot at nearby enemies]
 				'''
@@ -3075,7 +3148,7 @@ Items: {
 			AbilityBrief: "[c/{0}:Enchanted Soul]"
 			SetBonusNormal:
 				'''
-				[c/{0}:+1% Melee and Magic Damage]
+				[c/{0}:+{1}% Melee and Magic Damage]
 				[c/{0}:Increases maximum mana by {2}]
 				[c/{0}:Grants an extra jump and permanent slow fall]
 				'''
@@ -3261,6 +3334,11 @@ Items: {
 		AhmodInABottle: {
 			DisplayName: Ahmod In A Bottle
 			Tooltip: Summons an Ahmod
+		}
+
+		Gingy: {
+			DisplayName: Gingy
+			Tooltip: Made by Josie
 		}
 	}
 

@@ -1,7 +1,9 @@
 ﻿using MogMod.Rarities;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace MogMod.Items.Other
 {
     public class RedX : ModItem, ILocalizedModType
@@ -10,6 +12,7 @@ namespace MogMod.Items.Other
         public override void SetStaticDefaults()
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 7));
+            ItemID.Sets.AnimatesAsSoul[Item.type] = true;
         }
         public override void SetDefaults()
         {

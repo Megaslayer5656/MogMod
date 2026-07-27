@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Common.MogModPlayer;
-using MogMod.Items.Accessories.NeutralItems;
+﻿using MogMod.Items.Accessories.NeutralItems;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -19,23 +17,16 @@ namespace MogMod.Common.Systems
         }
         public override bool CanAcceptItem(Item checkItem, AccessorySlotType context)
         {
-            if (checkItem.ModItem is NeutralItem) // if is a NeutralItem, then can go in slot
-                return true;
-            return false; // Otherwise nothing in slot
+            return checkItem.ModItem is NeutralItem; // if is a NeutralItem, then can go in slot
         }
-        // Designates our slot to be a priority for putting wings in to. NOTE: use ItemLoader.CanEquipAccessory if aiming for restricting other slots from having wings!
+        // Designates our slot to be a priority for putting neutral items in to. NOTE: use ItemLoader.CanEquipAccessory if aiming for restricting other slots from having neutral items!
         public override bool ModifyDefaultSwapSlot(Item item, int accSlotToSwapTo)
         {
-            if (item.ModItem is NeutralItem) // If is Wing, then we want to prioritize it to go in to our slot.
-                return true;
-            return false;
+            return item.ModItem is NeutralItem; // If is neutral item, then we want to prioritize it to go in to our slot.
         }
         public override bool IsEnabled()
         {
-            MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
-            if (mogPlayer.wearingRigSlot)
-                return true;
-            return false;
+            return true;
         }
         // Overrides the default behavior where a disabled accessory slot will allow retrieve items if it contains items
         public override bool IsVisibleWhenNotEnabled()
@@ -48,7 +39,7 @@ namespace MogMod.Common.Systems
         // Can be used to modify stuff while the Mouse is hovering over the slot.
         public override void OnMouseHover(AccessorySlotType context)
         {
-            // We will modify the hover text while an item is not in the slot, so that it says "Wings".
+            // We will modify the hover text while an item is not in the slot, so that it says "neutral items".
             switch (context)
             {
                 case AccessorySlotType.FunctionalSlot:

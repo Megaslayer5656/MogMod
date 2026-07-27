@@ -1,20 +1,25 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Classes;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories.NeutralItems;
+using MogMod.Items.Accessories.NeutralItems.Aspects;
 using MogMod.Items.Armor.Damascus;
 using MogMod.Items.Armor.FrostMaiden;
 using MogMod.Items.Armor.Hellfire;
 using MogMod.Items.Weapons.Magic.SorceryStaves;
 using MogMod.Items.Weapons.Melee;
+using MogMod.NPCs.Global;
 using MogMod.Projectiles.Classless;
+using MogMod.Projectiles.EnemyProjectiles;
 using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Projectiles.Melee;
 using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Projectiles.Summon;
 using MogMod.Utilities;
+using Mono.Cecil;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -46,6 +51,11 @@ namespace MogMod.Projectiles.BaseProjectiles
         public bool meteoriteSpell = false;
         public bool crystalSpell = false;
         public bool deathSpell = false;
+
+        public bool overloadingProj = false;
+        public bool fireProj = false;
+        public bool toxicProj = false;
+        public bool mendingProj = false;
 
         public bool lusatSpell = false;
         public bool azurSpell = false;
@@ -103,6 +113,8 @@ namespace MogMod.Projectiles.BaseProjectiles
             Player player = Main.player[projectile.owner];
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             Time++;
+
+            BloodAI(projectile);
             if (fireBullet)
                 if (projectile.timeLeft > 200)
                     for (int i = 0; i < 2; ++i)
@@ -263,169 +275,261 @@ namespace MogMod.Projectiles.BaseProjectiles
         {
             Player player = Main.player[projectile.owner];
             MogPlayer modPlayer = player.MogMod();
+            MogModGlobalNPC mogNPC = target.MogMod();
             var source = player.GetSource_OnHit(target);
             int enemyMaxHP = target.lifeMax;
             int shivDamage = MogModUtils.DamageHardCap(Convert.ToInt32(enemyMaxHP * 0.005) + 50, shivCap);
             int hellfireDamage = MogModUtils.DamageSoftCap(damageDone * HellfireMask.DamageMult, hellfireCap);
             int gunpowderDamage = MogModUtils.DamageSoftCap(damageDone * GunpowderGauntlet.DamageMult, gunpowderCap);
+            int overloadingDamage = (int)(damageDone * OverloadingAspect.DamageMult);
 
             radiantProc = random.Next(2) == 0;
             gunpowderProc = random.Next(5) == 0;
             jidiProc = random.Next(4) == 0;
 
-            // TODO: fix enemies proccing player accessories
+            if (hit.Damage <= 0)
+                return;
             if (projectile.owner == player.whoAmI)
             {
-                if (radiantProc)
+                if (!projectile.npcProj && !projectile.trap && !projectile.hostile)
                 {
-                    if (modPlayer.wearingRadiantArmor && projectile.type != ProjectileType<RadiantBeamProj>() && (projectile.DamageType == DamageClass.Magic || projectile.DamageType == SorceryDamageClass.Instance) && modPlayer.radiantCooldown <= 0)
+                    if (radiantProc)
                     {
-                        modPlayer.radiantCooldown = cooldownTimer;
-                        MogModUtils.ProjectileRain(source, target.Center, 100f, 50f, 1500f, 1500f, 10f, ModContent.ProjectileType<RadiantBeamProj>(), Convert.ToInt32(projectile.damage / .75f), projectile.knockBack, projectile.owner);
-                    }
-                }
-
-                if (gunpowderProc)
-                {
-                    if (modPlayer.wearingGunpowderGauntlet && projectile.type != ProjectileType<GunpowderProj>() && (projectile.DamageType == DamageClass.Magic || projectile.DamageType == SorceryDamageClass.Instance) && modPlayer.gunpowderCooldown <= 0)
-                    {
-                        modPlayer.gunpowderCooldown = cooldownTimer;
-                        int gunpowderProc = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ProjectileType<GunpowderProj>(), gunpowderDamage, 0f, projectile.owner);
-                    }
-                }
-
-                if (jidiProc)
-                {
-                    if (modPlayer.wearingJidiPollenBag && projectile.type != ProjectileType<JidiPollenExplosion>() && (projectile.DamageType == DamageClass.Summon || projectile.DamageType == DamageClass.SummonMeleeSpeed) && modPlayer.jidiPollenCooldown <= 0)
-                    {
-                        modPlayer.jidiPollenCooldown = cooldownTimer;
-                        int jidiProc = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ProjectileType<JidiPollenExplosion>(), 1, 0f, projectile.owner);
-                    }
-                }
-
-                shivProc = random.Next(5) == 0;
-                if (shivProc && modPlayer.wearingSerratedShiv && modPlayer.shivCooldown <= 0)
-                {
-                    modPlayer.shivCooldown = cooldownTimer * 4;
-                    hitInfo = new NPC.HitInfo
-                    {
-                        Damage = shivDamage,
-                        Knockback = 0,
-                        HitDirection = 0,
-                        Crit = false,
-                        DamageType = DamageClass.Default
-                    };
-                    target.StrikeNPC(hitInfo);
-                    NetMessage.SendStrikeNPC(target, hitInfo);
-                    Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
-                    Color textColor = new Color(210, 180, 140);
-                    CombatText.NewText(r, textColor, "Strike!", true);
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        ModPacket packet = Mod.GetPacket();
-                        packet.Write((byte)MogModMessageType.TrueStrikeProcTextSync);
-                        packet.Write(target.lastInteraction);
-                        packet.WriteVector2(r.Center.ToVector2());
-                        packet.Send();
-                    }
-                    doTrueStrikeFX(target.Center);
-                }
-
-                // skull basher (melee holdout projectiles only)
-                bashProc = Main.rand.Next(7) == 0;
-                if (bashProc && modPlayer.wearingGiantsMaul && modPlayer.bashCooldown <= 0 && MeleeHoldouts.Contains(projectile.type))
-                {
-                    modPlayer.bashCooldown = cooldownTimer;
-                    int bash = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ModContent.ProjectileType<SkullBashProjectile>(), bashCap, 0f, player.whoAmI);
-                    Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
-                    Color textColor = new Color(255, 0, 100);
-                    CombatText.NewText(r, textColor, "Bash!", true);
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        ModPacket packet = Mod.GetPacket();
-                        packet.Write((byte)MogModMessageType.BashProcTextSync);
-                        packet.Write(target.lastInteraction);
-                        packet.WriteVector2(r.Center.ToVector2());
-                        packet.Send();
-                    }
-                }
-
-                // atg and plasma shrimp
-                if (modPlayer.atgActive || modPlayer.plasmaActive)
-                {
-                    if (Main.zenithWorld)
-                        modPlayer.doATG(damageDone);
-                    else if (!voidItems.Contains(projectile.type))
-                        modPlayer.doATG(damageDone);
-                }
-
-                if (modPlayer.polyluteActive && !voidItems.Contains(projectile.type))
-                {
-                    Vector2 kirk = new Vector2(10, 10).RotatedByRandom(MathHelper.ToRadians(360));
-                    int procChance = random.Next(1, 6);
-
-                    if (procChance == 5)
-                        Projectile.NewProjectile(source, target.Center, kirk, ModContent.ProjectileType<PolyluteProj>(), Convert.ToInt32(damageDone * .3f) + 1, 3, player.whoAmI);
-                }
-
-                // hellfire armor
-                if (modPlayer.wearingHellfireArmor && modPlayer.hellfireCooldown <= 0)
-                {
-                    if (Main.zenithWorld)
-                    {
-                        if (damageDone <= HellfireMask.DamageCheck)
+                        if (modPlayer.wearingRadiantArmor && projectile.type != ProjectileType<RadiantBeamProj>() && (projectile.DamageType == DamageClass.Magic || projectile.DamageType == SorceryDamageClass.Instance) && modPlayer.radiantCooldown <= 0)
                         {
-                            modPlayer.hellfireCooldown = cooldownTimer * (HellfireMask.BoomCooldown / 5);
-                            int hellfire = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), (int)(hellfireDamage * 0.1f), 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                            modPlayer.radiantCooldown = cooldownTimer;
+                            MogModUtils.ProjectileRain(source, target.Center, 100f, 50f, 1500f, 1500f, 10f, ModContent.ProjectileType<RadiantBeamProj>(), Convert.ToInt32(projectile.damage / .75f), projectile.knockBack, projectile.owner);
                         }
                     }
-                    else if (damageDone >= HellfireMask.DamageCheck)
+
+                    if (gunpowderProc)
                     {
-                        modPlayer.hellfireCooldown = cooldownTimer * (HellfireMask.BoomCooldown / 5);
-                        int hellfire = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), hellfireDamage, 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                        if (modPlayer.wearingGunpowderGauntlet && projectile.type != ProjectileType<GunpowderProj>() && (projectile.DamageType == DamageClass.Magic || projectile.DamageType == SorceryDamageClass.Instance) && modPlayer.gunpowderCooldown <= 0)
+                        {
+                            modPlayer.gunpowderCooldown = cooldownTimer;
+                            int gunpowderProc = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ProjectileType<GunpowderProj>(), gunpowderDamage, 0f, projectile.owner);
+                        }
+                    }
+
+                    if (jidiProc)
+                    {
+                        if (modPlayer.wearingJidiPollenBag && projectile.type != ProjectileType<JidiPollenExplosion>() && (projectile.DamageType == DamageClass.Summon || projectile.DamageType == DamageClass.SummonMeleeSpeed) && modPlayer.jidiPollenCooldown <= 0)
+                        {
+                            modPlayer.jidiPollenCooldown = cooldownTimer;
+                            int jidiProc = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ProjectileType<JidiPollenExplosion>(), 1, 0f, projectile.owner);
+                        }
+                    }
+
+                    shivProc = random.Next(5) == 0;
+                    if (shivProc && modPlayer.wearingSerratedShiv && modPlayer.shivCooldown <= 0)
+                    {
+                        modPlayer.shivCooldown = cooldownTimer * 4;
+                        hitInfo = new NPC.HitInfo
+                        {
+                            Damage = shivDamage,
+                            Knockback = 0,
+                            HitDirection = 0,
+                            Crit = false,
+                            DamageType = DamageClass.Default
+                        };
+                        target.StrikeNPC(hitInfo);
+                        NetMessage.SendStrikeNPC(target, hitInfo);
+                        Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
+                        Color textColor = new Color(210, 180, 140);
+                        CombatText.NewText(r, textColor, "Strike!", true);
+                        if (Main.netMode == NetmodeID.Server)
+                        {
+                            ModPacket packet = Mod.GetPacket();
+                            packet.Write((byte)MogModMessageType.TrueStrikeProcTextSync);
+                            packet.Write(target.lastInteraction);
+                            packet.WriteVector2(r.Center.ToVector2());
+                            packet.Send();
+                        }
+                        doTrueStrikeFX(target.Center);
+                    }
+
+                    // skull basher (melee holdout projectiles only)
+                    bashProc = Main.rand.Next(7) == 0;
+                    if (bashProc && modPlayer.wearingGiantsMaul && modPlayer.bashCooldown <= 0 && MeleeHoldouts.Contains(projectile.type))
+                    {
+                        modPlayer.bashCooldown = cooldownTimer;
+                        int bash = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ModContent.ProjectileType<SkullBashProjectile>(), bashCap, 0f, player.whoAmI);
+                        Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
+                        Color textColor = new Color(255, 0, 100);
+                        CombatText.NewText(r, textColor, "Bash!", true);
+                        if (Main.netMode == NetmodeID.Server)
+                        {
+                            ModPacket packet = Mod.GetPacket();
+                            packet.Write((byte)MogModMessageType.BashProcTextSync);
+                            packet.Write(target.lastInteraction);
+                            packet.WriteVector2(r.Center.ToVector2());
+                            packet.Send();
+                        }
+                    }
+
+                    // atg and plasma shrimp
+                    if (modPlayer.atgActive || modPlayer.plasmaActive)
+                    {
+                        if (Main.zenithWorld)
+                            modPlayer.doATG(damageDone);
+                        else if (!voidItems.Contains(projectile.type))
+                            modPlayer.doATG(damageDone);
+                    }
+
+                    if (modPlayer.polyluteActive && !voidItems.Contains(projectile.type))
+                    {
+                        Vector2 kirk = new Vector2(10, 10).RotatedByRandom(MathHelper.ToRadians(360));
+                        int procChance = random.Next(1, 6);
+
+                        if (procChance == 5)
+                            Projectile.NewProjectile(source, target.Center, kirk, ModContent.ProjectileType<PolyluteProj>(), Convert.ToInt32(damageDone * .3f) + 1, 3, player.whoAmI);
+                    }
+
+                    // hellfire armor
+                    if (modPlayer.wearingHellfireArmor && modPlayer.hellfireCooldown <= 0)
+                    {
+                        if (Main.zenithWorld)
+                        {
+                            if (damageDone <= HellfireMask.DamageCheck)
+                            {
+                                modPlayer.hellfireCooldown = cooldownTimer * (HellfireMask.BoomCooldown / 5);
+                                int hellfire = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), (int)(hellfireDamage * 0.1f), 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                            }
+                        }
+                        else if (damageDone >= HellfireMask.DamageCheck)
+                        {
+                            modPlayer.hellfireCooldown = cooldownTimer * (HellfireMask.BoomCooldown / 5);
+                            int hellfire = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), hellfireDamage, 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                        }
+                    }
+
+                    if (modPlayer.wearingToxic && modPlayer.toxicCooldown <= 0)
+                    {
+                        modPlayer.toxicCooldown = 2;
+                        mogNPC.toxicDamage += Main.rand.Next(NoxiousAspect.DamageMin - 6, NoxiousAspect.DamageMax - 20);
+                        if (Main.hardMode)
+                            mogNPC.toxicDamage += Main.rand.Next(NoxiousAspect.DamageMin, NoxiousAspect.DamageMax);
+                        //Main.NewText($"sd phonk damage is: {mogNPC.toxicDamage}");
+                    }
+                    int overloadingType = ModContent.ProjectileType<OverloadingOrbProj>();
+                    if (modPlayer.wearingOverloading && modPlayer.overloadingCooldown <= 0 && projectile.type != overloadingType)
+                    {
+                        modPlayer.overloadingCooldown = cooldownTimer;
+                        int overloading = Projectile.NewProjectile(source, target.Center, Vector2.Zero, overloadingType, overloadingDamage, 0f, player.whoAmI, ai2: 1f);
+                    }
+
+                    if (target.type != NPCID.TargetDummy)
+                    {
+                        if (modPlayer.wearingDamascus2 && hit.Crit && Main.zenithWorld)
+                        {
+                            player.Hurt(PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Damascus").ToNetworkText(player.name)), 5, -player.direction, false, false, -1, false, 9999, 0, 0);
+                            player.immune = false;
+                            player.immuneTime = 0;
+                        }
+                        else if (modPlayer.wearingDamascus2 && hit.Crit)
+                        {
+                            int heal = 1;
+                            heal *= Convert.ToInt32(player.lifeSteal * 0.01);
+                            player.statLife += heal;
+                            player.HealEffect(heal);
+                            if (player.statLife > player.statLifeMax2)
+                                player.statLife = player.statLifeMax2;
+                        }
+                        if (modPlayer.wearingSatanic && player.HasBuff(ModContent.BuffType<SatanicBuff>()) && modPlayer.satanicAccCooldown <= 0)
+                        //if (modPlayer.wearingSatanic) // for testing
+                        {
+                            modPlayer.satanicAccCooldown = cooldownTimer * 2;
+                            int heal = (int)(damageDone / 100) + 1;
+                            heal *= Convert.ToInt32(player.lifeSteal * 0.01);
+                            player.statLife += heal;
+                            player.HealEffect(heal);
+                            if (player.statLife > player.statLifeMax2)
+                                player.statLife = player.statLifeMax2;
+                        }
+                        /*
+                        if (((modPlayer.wearingNihilumRanged && projectile.CountsAsClass(DamageClass.Ranged)) || (modPlayer.wearingNihilumMagic && projectile.CountsAsClass(DamageClass.Magic))) && modPlayer.VoniumLifeCooldown <= 0)
+                        {
+                            modPlayer.VoniumLifeCooldown = cooldownTimer * 4;
+                            int heal = (int)(damageDone / 100) + 1;
+                            heal *= Convert.ToInt32(player.lifeSteal * 0.01);
+                            player.statLife += heal;
+                            player.HealEffect(heal);
+                            if (player.statLife > player.statLifeMax2)
+                                player.statLife = player.statLifeMax2;
+                        }
+                        */
                     }
                 }
-
-                if (target.type != NPCID.TargetDummy)
+            }
+        }
+        public override void OnHitPlayer(Projectile projectile, Player target, Player.HurtInfo info)
+        {
+            MogPlayer mogPlayer = target.MogMod();
+            MogModGlobalProjectile mogProj = projectile.MogMod();
+            if (info.Damage <= 0)
+                return;
+            
+            if (projectile.owner == Main.myPlayer)
+            {
+                int overloadingType = ModContent.ProjectileType<HostileOverloadingOrbProj>();
+                if (overloadingProj && projectile.type != overloadingType)
                 {
-                    if (modPlayer.wearingDamascus2 && hit.Crit && Main.zenithWorld)
+                    int damage = (int)(Main.masterMode ? projectile.damage * 0.3f : Main.expertMode ? projectile.damage * 0.2f : projectile.damage * 0.1f);
+                    Projectile.NewProjectile(projectile.GetSource_FromThis(), target.Center, Vector2.Zero, overloadingType, damage, 2f, Main.myPlayer, ai1: 1f);
+                }
+                if (fireProj)
+                {
+                    int buffType = Main.hardMode ? ModContent.BuffType<BlazingDebuff>() : BuffID.OnFire;
+                    int duration = Main.hardMode ? 240 : 180;
+                    target.AddBuff(buffType, duration);
+                }
+                if (toxicProj)
+                {
+                    if (!target.HasBuff<ToxicDebuff>())
+                        target.AddBuff(ModContent.BuffType<ToxicDebuff>(), 360);
+                    mogPlayer.toxicDamage += Main.rand.Next(ToxicDebuff.DamageMin, ToxicDebuff.DamageMax);
+                    if (Main.hardMode)
+                        mogPlayer.toxicDamage += Main.rand.Next(ToxicDebuff.DamageMin + 20, ToxicDebuff.DamageMax + 20);
+                }
+                if (mendingProj)
+                {
+                    int duration = Main.hardMode ? 1080 : 720;
+                    target.AddBuff(ModContent.BuffType<HealingDisabledDebuff>(), duration);
+                }
+                if (mogProj.fireBullet)
+                    target.AddBuff(BuffID.OnFire3, 180);
+                if (mogProj.iceBullet)
+                    target.AddBuff(BuffID.Frostburn2, 180);
+                if (mogProj.deathBullet)
+                    target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), 180);
+                if (mogProj.daybreakBullet)
+                    target.AddBuff(ModContent.BuffType<BlazingDebuff>(), 180);
+                if (mogProj.gelmirSpell)
+                    target.AddBuff(BuffID.OnFire3, 180);
+            }
+        }
+        public override void OnKill(Projectile projectile, int timeLeft)
+        {
+            Player player = Main.player[projectile.owner];
+            MogPlayer modPlayer = player.MogMod();
+            int overloadingDamage = (int)(player.HeldItem.damage * OverloadingAspect.DamageMult);
+
+            if (projectile.owner == Main.myPlayer)
+            {
+                int friendlyOverloadingType = ModContent.ProjectileType<OverloadingOrbProj>();
+                int hostileOverloadingType = ModContent.ProjectileType<HostileOverloadingOrbProj>();
+                if (!projectile.npcProj && !projectile.trap && !projectile.hostile)
+                {
+                    if (modPlayer.wearingOverloading && modPlayer.overloadingCooldown <= 0 && projectile.type != friendlyOverloadingType)
                     {
-                        player.Hurt(PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Damascus").ToNetworkText(player.name)), 5, -player.direction, false, false, -1, false, 9999, 0, 0);
-                        player.immune = false;
-                        player.immuneTime = 0;
+                        modPlayer.overloadingCooldown = cooldownTimer;
+                        int overloading = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, friendlyOverloadingType, overloadingDamage, 0f, player.whoAmI);
                     }
-                    else if (modPlayer.wearingDamascus2 && hit.Crit)
-                    {
-                        int heal = 1;
-                        heal *= Convert.ToInt32(player.lifeSteal * 0.01);
-                        player.statLife += heal;
-                        player.HealEffect(heal);
-                        if (player.statLife > player.statLifeMax2)
-                            player.statLife = player.statLifeMax2;
-                    }
-                    if (modPlayer.wearingSatanic && player.HasBuff(ModContent.BuffType<SatanicBuff>()) && modPlayer.satanicAccCooldown <= 0)
-                    //if (modPlayer.wearingSatanic) // for testing
-                    {
-                        modPlayer.satanicAccCooldown = cooldownTimer * 2;
-                        int heal = (int)(damageDone / 100) + 1;
-                        heal *= Convert.ToInt32(player.lifeSteal * 0.01);
-                        player.statLife += heal;
-                        player.HealEffect(heal);
-                        if (player.statLife > player.statLifeMax2)
-                            player.statLife = player.statLifeMax2;
-                    }
-                    /*
-                    if (((modPlayer.wearingNihilumRanged && projectile.CountsAsClass(DamageClass.Ranged)) || (modPlayer.wearingNihilumMagic && projectile.CountsAsClass(DamageClass.Magic))) && modPlayer.VoniumLifeCooldown <= 0)
-                    {
-                        modPlayer.VoniumLifeCooldown = cooldownTimer * 4;
-                        int heal = (int)(damageDone / 100) + 1;
-                        heal *= Convert.ToInt32(player.lifeSteal * 0.01);
-                        player.statLife += heal;
-                        player.HealEffect(heal);
-                        if (player.statLife > player.statLifeMax2)
-                            player.statLife = player.statLifeMax2;
-                    }
-                    */
+                }
+                if (overloadingProj && projectile.type != hostileOverloadingType)
+                {
+                    int damage = (int)(Main.masterMode ? projectile.damage * 0.3f : Main.expertMode ? projectile.damage * 0.2f : projectile.damage * 0.1f);
+                    Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, hostileOverloadingType, damage, 2f, Main.myPlayer);
                 }
             }
         }
@@ -441,17 +545,17 @@ namespace MogMod.Projectiles.BaseProjectiles
                 return false;
             }
 
-            if (CheckWeapon(ModContent.ItemType<GelmirGlintstoneStaff>()))
+            if (CheckWeapon(ModContent.ItemType<GelmirGlintstoneStaff>()) && projectile.DamageType == SorceryDamageClass.Instance)
                 gelmirSpell = true;
-            if (CheckWeapon(ModContent.ItemType<MeteoriteStaff>()))
+            if (CheckWeapon(ModContent.ItemType<MeteoriteStaff>()) && projectile.DamageType == SorceryDamageClass.Instance)
                 meteoriteSpell = true;
-            if (CheckWeapon(ModContent.ItemType<CrystalStaff>()))
+            if (CheckWeapon(ModContent.ItemType<CrystalStaff>()) && projectile.DamageType == SorceryDamageClass.Instance)
                 crystalSpell = true;
-            if (CheckWeapon(ModContent.ItemType<PrinceOfDeathsStaff>()))
+            if (CheckWeapon(ModContent.ItemType<PrinceOfDeathsStaff>()) && projectile.DamageType == SorceryDamageClass.Instance)
                 deathSpell = true;
-            if (CheckWeapon(ModContent.ItemType<LusatsGlintstoneStaff>()))
+            if (CheckWeapon(ModContent.ItemType<LusatsGlintstoneStaff>()) && projectile.DamageType == SorceryDamageClass.Instance)
                 lusatSpell = true;
-            if (CheckWeapon(ModContent.ItemType<AzursGlintstoneStaff>()))
+            if (CheckWeapon(ModContent.ItemType<AzursGlintstoneStaff>()) && projectile.DamageType == SorceryDamageClass.Instance)
                 azurSpell = true;
             if (source is EntitySource_Parent { Entity: Projectile Owner })
             {
@@ -467,6 +571,26 @@ namespace MogMod.Projectiles.BaseProjectiles
                     lusatSpell = true;
                 if (Owner.MogMod().azurSpell)
                     azurSpell = true;
+                if (Owner.MogMod().overloadingProj)
+                    overloadingProj = true;
+                if (Owner.MogMod().fireProj)
+                    fireProj = true;
+                if (Owner.MogMod().toxicProj)
+                    toxicProj = true;
+                if (Owner.MogMod().mendingProj)
+                    mendingProj = true;
+            }
+            if (source is EntitySource_Parent { Entity: NPC npc })
+            {
+                MogModGlobalNPC mogNPC = npc.MogMod();
+                if (!npc.friendly && mogNPC.overloadingElite)
+                    overloadingProj = true;
+                if (!npc.friendly && mogNPC.fireElite)
+                    fireProj = true;
+                if (!npc.friendly && mogNPC.toxicElite)
+                    toxicProj = true;
+                if (!npc.friendly && mogNPC.healingElite)
+                    mendingProj = true;
             }
 
             // stolen STRAIGHT from fargos souls mod

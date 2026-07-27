@@ -17,7 +17,6 @@ namespace MogMod.Items.Accessories.NeutralItems
         public static double DamageMult = 2D;
         public const int DamageCap = 100;
         public const float MeleeSpeedBoost = 0.2f;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(SizeMult.ToPercent(), MeleeSpeedBoost.ToPercent(), DamageMult, DamageCap);
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -44,6 +43,8 @@ namespace MogMod.Items.Accessories.NeutralItems
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
+            var neutralLine = new TooltipLine(Mod, "NeutralItem", "Neutral Item"); // must manually be added for some slop reason
+            tooltips.Insert(1, neutralLine);
             int index = tooltips.FindIndex(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (index != -1)
             {

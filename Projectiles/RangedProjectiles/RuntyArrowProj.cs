@@ -13,7 +13,7 @@ namespace MogMod.Projectiles.RangedProjectiles
     public class RuntyArrowProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.RangedProjectiles";
-        public override string Texture => "MogMod/Items/Ammo/RuntyArrow";
+        public override string Texture => "MogMod/Items/Ammo/Arrows/RuntyArrow";
         public override void SetDefaults()
         {
             Projectile.width = 16;

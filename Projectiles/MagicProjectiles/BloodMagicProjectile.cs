@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Weapons.Magic;
+using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
 using System;
 using Terraria;
@@ -11,7 +13,6 @@ namespace MogMod.Projectiles.MagicProjectiles
     public class BloodMagicProjectile : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
-        public const int BloodDamage = 17;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 4;
@@ -32,6 +33,9 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.scale = .5f;
             AIType = ProjectileID.Bullet;
+
+            MogModGlobalProjectile mogProj = Projectile.MogMod();
+            mogProj.bloodDamage = BloodMagic.BloodDamage;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

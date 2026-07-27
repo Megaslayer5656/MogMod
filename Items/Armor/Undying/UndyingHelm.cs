@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Common.MogModPlayer;
-using MogMod.Items.Accessories;
+using MogMod.Items.Accessories.NeutralItems;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Utilities;

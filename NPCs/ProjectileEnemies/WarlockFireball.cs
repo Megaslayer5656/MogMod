@@ -12,6 +12,12 @@ namespace MogMod.NPCs.ProjectileEnemies
     public class WarlockFireball : ModNPC
     {
         #region Setup
+        public static readonly SoundStyle boom = new("Terraria/Sounds/Zombie_91")
+        {
+            Volume = 0.7f,
+            PitchVariance = 0.2f,
+            MaxInstances = 15
+        };
         public Player player => Main.player[NPC.target];
         public ref float AITimer => ref NPC.ai[1];
         public float explodeTimer = 300f;
@@ -93,7 +99,7 @@ namespace MogMod.NPCs.ProjectileEnemies
             NPC.velocity *= 0.9f;
             NPC.dontTakeDamage = true;
             if (AITimer == (explodeTimer + 1f))
-                SoundEngine.PlaySound(SoundID.Zombie91, NPC.Center);
+                SoundEngine.PlaySound(boom, NPC.Center);
             NPC.TargetClosest(true);
 
             int size = (int)((NPC.ai[1] * .75f) + 30f);

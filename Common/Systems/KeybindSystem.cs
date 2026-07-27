@@ -8,10 +8,9 @@ namespace MogMod.Common.Systems
         public static ModKeybind GlimmerCapeKeybind { get; private set; }
         public static ModKeybind ArmletKeybind { get; private set; }
         public static ModKeybind SatanicKeybind { get; private set; }
-        public static ModKeybind ArcaneBootsKeybind { get; private set; }
+        public static ModKeybind BootsKeybind { get; private set; }
         public static ModKeybind RefresherOrbKeybind { get; private set; }
         public static ModKeybind WandKeybind { get; private set; }
-        public static ModKeybind GuardianGreavesKeybind { get; private set; }
         public static ModKeybind MekansmKeybind { get; private set; }
         public static ModKeybind ForceStaffKeybind { get; private set; }
         public static ModKeybind BladeMailKeybind { get; private set; }
@@ -19,6 +18,7 @@ namespace MogMod.Common.Systems
         public static ModKeybind DragonInstallKeybind {  get; private set; }
         public static ModKeybind TheGravityKeybind { get; private set; }
         public static ModKeybind NulledKeybind { get; private set; }
+        public static ModKeybind RigKeybind { get; private set; }
         #endregion
         public override void Load()
         {
@@ -27,8 +27,7 @@ namespace MogMod.Common.Systems
 
             #region Healing/Mana
             RefresherOrbKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateRefresherOrb", "V");
-            ArcaneBootsKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateManaBoots", "C");
-            GuardianGreavesKeybind = ArcaneBootsKeybind;
+            BootsKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateBootEffects", "C");
             WandKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateMagicWand", "Z");
             MekansmKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateMekansm", "C");
             #endregion
@@ -47,6 +46,10 @@ namespace MogMod.Common.Systems
             NulledKeybind = KeybindLoader.RegisterKeybind(Mod, "ToggleNulled", "T");
             TheGravityKeybind = KeybindLoader.RegisterKeybind(Mod, "TheGravityCardSwitch", "Mouse4");
             #endregion
+
+            #region Other
+            RigKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateRigEffect", "G");
+            #endregion
         }
 
         public override void Unload()
@@ -56,10 +59,9 @@ namespace MogMod.Common.Systems
             GlimmerCapeKeybind = null;
             ArmletKeybind = null;
             SatanicKeybind = null;
-            ArcaneBootsKeybind = null;
+            BootsKeybind = null;
             RefresherOrbKeybind = null;
             WandKeybind = null;
-            GuardianGreavesKeybind = null;
             MekansmKeybind = null;
             ForceStaffKeybind = null;
             BladeMailKeybind = null;
@@ -67,6 +69,7 @@ namespace MogMod.Common.Systems
             DragonInstallKeybind = null;
             TheGravityKeybind = null;
             NulledKeybind = null;
+            RigKeybind = null;
             #endregion
         }
     }

@@ -5,6 +5,7 @@ using MogMod.Items.Global;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
@@ -12,6 +13,8 @@ namespace MogMod.Items.Weapons.Melee
     public class HydrakanLatch : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
+        public const int EssenceMax = 60;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(EssenceMax);
         public override void SetDefaults()
         {
             Item.width = 68;

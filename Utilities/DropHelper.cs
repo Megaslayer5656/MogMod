@@ -1,6 +1,8 @@
-﻿using Terraria.GameContent.ItemDropRules;
-using Terraria.ModLoader;
+﻿using MogMod.NPCs.Global;
+using System;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ModLoader;
 
 namespace MogMod.Utilities
 {
@@ -19,6 +21,127 @@ namespace MogMod.Utilities
     }
     public static class DropHelper
     {
+
+        #region Lambda Drop Rule Condition
+        // This class serves as a vanilla drop rule condition that is based on completely arbitrary code.
+        // Create these using the function DropHelper.If as needed.
+        internal class LambdaDropRuleCondition : IItemDropRuleCondition
+        {
+            private readonly Func<DropAttemptInfo, bool> conditionLambda;
+            private readonly bool visibleInUI;
+            private readonly string description;
+
+            internal LambdaDropRuleCondition(Func<DropAttemptInfo, bool> lambda, bool ui = true, string desc = null)
+            {
+                conditionLambda = lambda;
+                visibleInUI = ui;
+                description = desc;
+            }
+
+            public bool CanDrop(DropAttemptInfo info) => conditionLambda(info);
+            public bool CanShowItemDropInUI() => visibleInUI;
+            public string GetConditionDescription() => description;
+        }
+
+        internal class LambdaDropRuleCondition2 : IItemDropRuleCondition
+        {
+            private readonly Func<DropAttemptInfo, bool> conditionLambda;
+            private readonly Func<bool> visibleInUI;
+            private readonly string description;
+
+            internal LambdaDropRuleCondition2(Func<DropAttemptInfo, bool> lambda, Func<bool> ui, string desc = null)
+            {
+                conditionLambda = lambda;
+                visibleInUI = ui;
+                description = desc;
+            }
+
+            public bool CanDrop(DropAttemptInfo info) => conditionLambda(info);
+            public bool CanShowItemDropInUI() => visibleInUI();
+            public string GetConditionDescription() => description;
+        }
+
+        internal class LambdaDropRuleCondition3 : IItemDropRuleCondition
+        {
+            private readonly Func<DropAttemptInfo, bool> conditionLambda;
+            private readonly Func<bool> visibleInUI;
+            private readonly Func<string> description;
+
+            internal LambdaDropRuleCondition3(Func<DropAttemptInfo, bool> lambda, Func<bool> ui, Func<string> desc)
+            {
+                conditionLambda = lambda;
+                visibleInUI = ui;
+                description = desc;
+            }
+
+            public bool CanDrop(DropAttemptInfo info) => conditionLambda(info);
+            public bool CanShowItemDropInUI() => visibleInUI();
+            public string GetConditionDescription() => description();
+        }
+
+        /// <summary>
+        /// Creates a new LambdaDropRuleCondition which executes the code of your choosing to decide whether this item drop should occur.<br />
+        /// This version of "If" does <b>NOT</b> use the DropAttemptInfo struct that is available.<br />
+        /// This lets you write simpler lambdas that do not need the context, e.g. just checking if a boss is dead.
+        /// </summary>
+        /// <param name="lambda">Lambda function which evaluates to true or false, deciding whether the item should drop. <code>() => {CodeHere}</code></param>
+        /// <returns>The LambdaDropRuleCondition produced.</returns>
+        public static IItemDropRuleCondition If(Func<bool> lambda) => new LambdaDropRuleCondition((_) => lambda());
+
+        /// <summary>
+        /// Creates a new LambdaDropRuleCondition which executes the code of your choosing to decide whether this item drop should occur.<br />
+        /// This version of "If" does <b>NOT</b> use the DropAttemptInfo struct that is available.<br />
+        /// This lets you write simpler lambdas that do not need the context, e.g. just checking if a boss is dead.
+        /// </summary>
+        /// <param name="lambda">Lambda function which evaluates to true or false, deciding whether the item should drop. <code>() => {CodeHere}</code></param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>The LambdaDropRuleCondition produced.</returns>
+        public static IItemDropRuleCondition If(Func<bool> lambda, bool ui = true, string desc = null)
+        {
+            bool LambdaInfoWrapper(DropAttemptInfo _) => lambda();
+            return new LambdaDropRuleCondition(LambdaInfoWrapper, ui, desc);
+        }
+        public static IItemDropRuleCondition If(Func<bool> lambda, Func<bool> ui, string desc = null)
+        {
+            bool LambdaInfoWrapper(DropAttemptInfo _) => lambda();
+            return new LambdaDropRuleCondition2(LambdaInfoWrapper, ui, desc);
+        }
+        public static IItemDropRuleCondition If(Func<bool> lambda, Func<bool> ui, Func<string> desc)
+        {
+            bool LambdaInfoWrapper(DropAttemptInfo _) => lambda();
+            return new LambdaDropRuleCondition3(LambdaInfoWrapper, ui, desc);
+        }
+
+        /// <summary>
+        /// Creates a new LambdaDropRuleCondition which executes the code of your choosing to decide whether this item drop should occur.<br />
+        /// This version of "If" <b>DOES</b> use the DropAttemptInfo struct, and thus the provided lambda requires 1 argument.
+        /// </summary>
+        /// <param name="lambda">Lambda function which evaluates to true or false, deciding whether the item should drop. <code>(info) => {CodeHere}</code></param>
+        /// <returns>The LambdaDropRuleCondition produced.</returns>
+        public static IItemDropRuleCondition If(Func<DropAttemptInfo, bool> lambda) => new LambdaDropRuleCondition(lambda);
+
+        /// <summary>
+        /// Creates a new LambdaDropRuleCondition which executes the code of your choosing to decide whether this item drop should occur.<br />
+        /// This version of "If" <b>DOES</b> use the DropAttemptInfo struct, and thus the provided lambda requires 1 argument.
+        /// </summary>
+        /// <param name="lambda">Lambda function which evaluates to true or false, deciding whether the item should drop. <code>(info) => {CodeHere}</code></param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>The LambdaDropRuleCondition produced.</returns>
+        public static IItemDropRuleCondition If(Func<DropAttemptInfo, bool> lambda, bool ui = true, string desc = null)
+        {
+            return new LambdaDropRuleCondition(lambda, ui, desc);
+        }
+        public static IItemDropRuleCondition If(Func<DropAttemptInfo, bool> lambda, Func<bool> ui, string desc = null)
+        {
+            return new LambdaDropRuleCondition2(lambda, ui, desc);
+        }
+        public static IItemDropRuleCondition If(Func<DropAttemptInfo, bool> lambda, Func<bool> ui, Func<string> desc)
+        {
+            return new LambdaDropRuleCondition3(lambda, ui, desc);
+        }
+        #endregion
         public static IItemDropRuleCondition PostEye(bool ui = true) => Condition.DownedEyeOfCthulhu.ToDropCondition(ui ? ShowItemDropInUI.Always : ShowItemDropInUI.Never);
         public static IItemDropRuleCondition PostEvil(bool ui = true) => Condition.DownedEowOrBoc.ToDropCondition(ui ? ShowItemDropInUI.Always : ShowItemDropInUI.Never);
         public static IItemDropRuleCondition PostSkele(bool ui = true) => Condition.DownedSkeletron.ToDropCondition(ui ? ShowItemDropInUI.Always : ShowItemDropInUI.Never);
@@ -27,6 +150,34 @@ namespace MogMod.Utilities
         public static IItemDropRuleCondition PostPlant(bool ui = true) => Condition.DownedPlantera.ToDropCondition(ui ? ShowItemDropInUI.Always : ShowItemDropInUI.Never);
         public static IItemDropRuleCondition PostFish(bool ui = true) => Condition.DownedDukeFishron.ToDropCondition(ui ? ShowItemDropInUI.Always : ShowItemDropInUI.Never);
         public static IItemDropRuleCondition PostEoL(bool ui = true) => Condition.DownedEmpressOfLight.ToDropCondition(ui ? ShowItemDropInUI.Always : ShowItemDropInUI.Never);
+
+
+        public static IItemDropRuleCondition OverloadingEliteCondition = If((info) =>
+        {
+            NPC npc = info.npc;
+            return npc.MogMod().overloadingElite;
+        });
+        public static IItemDropRuleCondition BlazingEliteCondition = If((info) =>
+        {
+            NPC npc = info.npc;
+            return npc.MogMod().fireElite;
+        });
+        public static IItemDropRuleCondition GildedEliteCondition = If((info) =>
+        {
+            NPC npc = info.npc;
+            return npc.MogMod().goldElite;
+        });
+        public static IItemDropRuleCondition MendingEliteCondition = If((info) =>
+        {
+            NPC npc = info.npc;
+            return npc.MogMod().healingElite;
+        });
+        public static IItemDropRuleCondition ToxicEliteCondition = If((info) =>
+        {
+            NPC npc = info.npc;
+            return npc.MogMod().toxicElite;
+        });
+
         public static IItemDropRule Add(this LeadingConditionRule mainRule, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
         {
             return mainRule.OnSuccess(ItemDropRule.Common(itemID, dropRateInt, minQuantity, maxQuantity), hideLootReport);

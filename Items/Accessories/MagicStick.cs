@@ -1,13 +1,8 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
 using MogMod.Items.Global;
-using MogMod.Items.Other;
 using MogMod.Utilities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,6 +11,8 @@ namespace MogMod.Items.Accessories
 {
     public class MagicStick : ModItem, ILocalizedModType
     {
+        public const int LifeHeal = 7;
+        public const int ManaHeal = 7;
         public new string LocalizationCategory => "Items.Accessories";
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.WandKeybind);
         ModKeybind keybindActive = null;

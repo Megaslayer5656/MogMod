@@ -1,8 +1,11 @@
-﻿using Terraria.Audio;
-using Terraria.ID;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Ammo.Other;
+using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Utilities;
 using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
@@ -25,31 +28,26 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.scale = .2f;
 
             AIType = ProjectileID.WoodenArrowFriendly;
-        }
 
+            MogModGlobalProjectile mogProj = Projectile.MogMod();
+            mogProj.bloodDamage = SplinterAmmo.BloodDamage;
+        }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Projectile.Kill();
             return false;
         }
-
         public override void OnKill(int timeLeft)
         {
             Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
         }
-
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (int i = 0; i < 10; i++)
             {
                 int blood = Dust.NewDust(Projectile.position, 8, 8, DustID.Blood, 0, 0, 0, default, 1f);
             }
-        }
-
-        public override void AI()
-        {
-            Projectile.netUpdate = true;
         }
     }
 }

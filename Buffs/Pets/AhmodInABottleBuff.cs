@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Buffs.Pets
 {
-    internal class AhmodInABottleBuff : ModBuff
+    public class AhmodInABottleBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {

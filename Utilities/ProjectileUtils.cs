@@ -1,8 +1,11 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Config;
+using MogMod.Common.MogModPlayer;
+using MogMod.Items.Accessories.Rigs;
 using MogMod.NPCs.Global;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -314,7 +317,7 @@ namespace MogMod.Utilities
         /// </summary>
         /// <param name="projectile">The projectile you're adding sticky behaviour to</param>
         /// <param name="timeLeft">Number of seconds you want a projectile to cling to an NPC</param>
-        public static void StickyProjAI(this Projectile projectile, int timeLeft, bool findNewNPC = false)
+        public static void StickyNPCProjAI(this Projectile projectile, int timeLeft, bool findNewNPC = false)
         {
             if (projectile.ai[0] == 1f)
             {
@@ -374,7 +377,7 @@ namespace MogMod.Utilities
             }
         }
         /// <summary>
-        /// Call this function in ModifyHitNPC to make your projectiles stick to enemies, needs StickyProjAI to be called in the AI of the projectile
+        /// Call this function in ModifyHitNPC to make your projectiles stick to enemies, needs StickyNPCProjAI to be called in the AI of the projectile
         /// </summary>
         /// <param name="projectile">The projectile you're giving sticky behaviour to</param>
         /// <param name="maxStick">How many projectiles of this type can stick to one enemy</param>
@@ -624,14 +627,14 @@ namespace MogMod.Utilities
         /// <param name="typeOneIncrement">If mode 1 is used, this controls the loop increment. Set it to more than 1 to skip afterimages.</param>
         /// <param name="texture">The texture to draw. Set to <b>null</b> to draw the projectile's own loaded texture.</param>
         /// <param name="drawCentered">If <b>false</b>, the afterimages will be centered on the projectile's position instead of its own center.</param>
-        public static void DrawAfterimagesCentered(Projectile proj, int mode, Color lightColor, int typeOneIncrement = 1, Texture2D texture = null, bool drawCentered = true)
+        public static void DrawAfterimagesCentered(Projectile proj, int mode, Color lightColor, int typeOneIncrement = 1, Texture2D texture = null, bool drawCentered = true, float scale = 1f)
         {
             if (texture is null)
                 texture = TextureAssets.Projectile[proj.type].Value;
 
             int frameHeight = texture.Height / Main.projFrames[proj.type];
             int frameY = frameHeight * proj.frame;
-            float scale = proj.scale;
+            float drawScale = proj.scale * scale;
             float rotation = proj.rotation;
 
             Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
@@ -658,7 +661,7 @@ namespace MogMod.Utilities
                             Vector2 drawPos = proj.oldPos[i] + centerOffset - Main.screenPosition + new Vector2(0f, proj.gfxOffY);
                             // DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS. THIS WILL BREAK THE AFTERIMAGES.
                             Color color = alphaColor * ((float)(proj.oldPos.Length - i) / (float)proj.oldPos.Length);
-                            Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), color, rotation, origin, scale, spriteEffects, 0f);
+                            Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), color, rotation, origin, drawScale, spriteEffects, 0f);
                         }
                         break;
 
@@ -680,7 +683,7 @@ namespace MogMod.Utilities
                                 float colorMult = (float)(afterimageCount - k);
                                 drawColor *= colorMult / afterimageColorCount;
                             }
-                            Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), drawColor, rotation, origin, scale, spriteEffects, 0f);
+                            Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), drawColor, rotation, origin, drawScale, spriteEffects, 0f);
                             k += increment;
                         }
                         break;
@@ -696,7 +699,7 @@ namespace MogMod.Utilities
                             Vector2 drawPos = proj.oldPos[i] + centerOffset - Main.screenPosition + new Vector2(0f, proj.gfxOffY);
                             // DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS. THIS WILL BREAK THE AFTERIMAGES.
                             Color color = alphaColor * ((float)(proj.oldPos.Length - i) / (float)proj.oldPos.Length);
-                            Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), color, afterimageRot, origin, scale, sfxForThisAfterimage, 0f);
+                            Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), color, afterimageRot, origin, drawScale, sfxForThisAfterimage, 0f);
                         }
                         break;
 
@@ -704,6 +707,58 @@ namespace MogMod.Utilities
                         failedToDrawAfterimages = true;
                         break;
                 }
+            }
+        }        // Used for bullets. This lets you draw afterimages while keeping the hitbox at the front of the projectile.
+        // This supports type 0 and type 2 afterimages. Vanilla bullets never have type 2 afterimages.
+        public static void DrawAfterimagesFromEdge(Projectile proj, int mode, Color lightColor, Texture2D texture = null)
+        {
+            if (texture is null)
+                texture = TextureAssets.Projectile[proj.type].Value;
+
+            int frameHeight = texture.Height / Main.projFrames[proj.type];
+            int frameY = frameHeight * proj.frame;
+            float scale = proj.scale;
+            float rotation = proj.rotation;
+
+            Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
+
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (proj.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
+            Vector2 drawOrigin = new Vector2(texture.Width * 0.5f, proj.height * 0.5f);
+
+            switch (mode)
+            {
+                default: // If you specify an afterimage mode other than 0 or 2, you get nothing.
+                    return;
+
+                // Standard afterimages. No customizable features other than total afterimage count.
+                // Type 0 afterimages linearly scale down from 100% to 0% opacity. Their color and lighting is equal to the main projectile's.
+                case 0:
+                    for (int i = 0; i < proj.oldPos.Length; ++i)
+                    {
+                        Vector2 drawPos = proj.oldPos[i] + drawOrigin - Main.screenPosition + new Vector2(0f, proj.gfxOffY);
+                        // DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS. THIS WILL BREAK THE AFTERIMAGES.
+                        Color color = proj.GetAlpha(lightColor) * ((float)(proj.oldPos.Length - i) / (float)proj.oldPos.Length);
+                        Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), color, rotation, drawOrigin, scale, spriteEffects, 0f);
+                    }
+                    return;
+
+                // Standard afterimages with rotation. No customizable features other than total afterimage count.
+                // Type 2 afterimages linearly scale down from 100% to 0% opacity. Their color and lighting is equal to the main projectile's.
+                case 2:
+                    for (int i = 0; i < proj.oldPos.Length; ++i)
+                    {
+                        float afterimageRot = proj.oldRot[i];
+                        SpriteEffects sfxForThisAfterimage = proj.oldSpriteDirection[i] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+                        Vector2 drawPos = proj.oldPos[i] + drawOrigin - Main.screenPosition + new Vector2(0f, proj.gfxOffY);
+                        // DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS. THIS WILL BREAK THE AFTERIMAGES.
+                        Color color = proj.GetAlpha(lightColor) * ((float)(proj.oldPos.Length - i) / (float)proj.oldPos.Length);
+                        Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), color, afterimageRot, drawOrigin, scale, sfxForThisAfterimage, 0f);
+                    }
+                    return;
             }
         }
         public static void DrawStarTrail(this Projectile projectile, Color outer, Color inner, float auraHeight = 10f)

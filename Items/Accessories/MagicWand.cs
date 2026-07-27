@@ -12,6 +12,8 @@ namespace MogMod.Items.Accessories
 {
     public class MagicWand : ModItem, ILocalizedModType
     {
+        public const int LifeHeal = 7;
+        public const int ManaHeal = 7;
         public new string LocalizationCategory => "Items.Accessories";
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.WandKeybind);
         ModKeybind keybindActive = null;

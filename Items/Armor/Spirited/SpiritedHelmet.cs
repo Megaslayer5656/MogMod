@@ -17,9 +17,8 @@ namespace MogMod.Items.Armor.Spirited
     {
         #region Setup
         public new string LocalizationCategory => "Items.Armor";
-        public const int ManaBoost = 80;
-        public const float DamageReduction = 0.1f;
         public const float MeleeAndMagicDamageBoost = 0.08f;
+        public const int ManaBoost = 80;
         public const int MeleeAndMagicCritBoost = 6;
         public static Color AbilityBriefColor = Color.GhostWhite;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MeleeAndMagicCritBoost);

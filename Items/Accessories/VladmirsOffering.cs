@@ -1,6 +1,8 @@
-﻿using MogMod.Common.MogModPlayer;
+﻿using MogMod.Buffs.AccessoryAuras;
+using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -12,7 +14,14 @@ namespace MogMod.Items.Accessories
     public class VladmirsOffering : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        int teamBuff = ModContent.BuffType<Buffs.AccessoryAuras.VladmirsBuff>();
+        public const int MaxSentries = 2;
+        // auras
+        public const int DefenseBoost = 4;
+        public const float FlatDamageBoost = 3f;
+        public const int ManaRegenBoost = 4;
+        public const float LifeStealBoost = 0.20f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MaxSentries, DefenseBoost, FlatDamageBoost, ManaRegenBoost.ToRegenPerSecond(), LifeStealBoost.ToPercent());
+        int teamBuff = ModContent.BuffType<VladmirsBuff>();
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -21,12 +30,10 @@ namespace MogMod.Items.Accessories
             Item.rare = ItemRarityID.Orange;
             Item.value = MogGlobalItem.RarityOrangeBuyPrice;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingVladimirs = true;
-            player.lifeSteal *= 1.2f;
             if (player.miscCounter % 10 == 0)
             {
                 int myPlayer = Main.myPlayer;

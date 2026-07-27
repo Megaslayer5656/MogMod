@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Classes;
+using MogMod.Items.Ammo.SorcerySpells.Thorn;
+using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -12,7 +15,6 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
     public class BriarsOfPunishmentProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Magic.Sorceries";
-        public const int BloodDamage = 32;
         public int TotalSegments = 16;
         public override void SetDefaults()
         {
@@ -26,6 +28,9 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             Projectile.penetrate = -1;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 8;
+
+            MogModGlobalProjectile mogProj = Projectile.MogMod();
+            mogProj.bloodDamage = BriarsOfPunishment.BloodDamage;
         }
         public override void AI()
         {

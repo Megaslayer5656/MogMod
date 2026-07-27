@@ -1,0 +1,79 @@
+MogClientConfig: {
+	DisplayName: Mog Client Config
+
+	Headers: {
+		Graphics: Graphics Header
+		UI: UI Header
+		WeaponVisuals: Weapon Visuals Header
+	}
+
+	Afterimages: {
+		Label: Afterimages
+		Tooltip: ""
+	}
+
+	GunlanceAmmo: {
+		Label: Gunlance Ammo UI
+		Tooltip: ""
+	}
+
+	GunlanceAmmoPosX: {
+		Label: Gunlance Ammo UI Position X
+		Tooltip: ""
+	}
+
+	GunlanceAmmoPosY: {
+		Label: Gunlance Ammo UI Position Y
+		Tooltip: ""
+	}
+
+	TheGravitySpells: {
+		Label: The Gravity Spell UI
+		Tooltip: ""
+	}
+
+	TheGravityPosX: {
+		Label: The Gravity Spell UI Position X
+		Tooltip: ""
+	}
+
+	TheGravityPosY: {
+		Label: The Gravity Spell UI Position Y
+		Tooltip: ""
+	}
+
+	GunRecoil: {
+		Label: Recoil Visual
+		Tooltip: With this enabled, guns will have a custom recoil effect
+	}
+
+	AmmoEjection: {
+		Label: Eject Ammo Visual
+		Tooltip: With this enabled, guns will fire empty casings and magazines when firing
+	}
+}
+
+Location: {
+	Tooltip: ""
+
+	Default: {
+		Label: Default
+		Tooltip: ""
+	}
+
+	Custom: {
+		Label: Custom
+		Tooltip: ""
+	}
+}
+
+MogServerConfig: {
+	DisplayName: Server Config
+	Denied: You have no permission to change this config
+	Headers.Gameplay: Gameplay Header
+
+	EliteEnemySpawning: {
+		Label: Elite Enemy Spawning
+		Tooltip: Allows Elite modifiers to be applied to enemies
+	}
+}

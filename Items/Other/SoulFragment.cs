@@ -1,12 +1,4 @@
-﻿using MogMod.Items.Placeable;
-using MogMod.Items.Weapons.Melee;
-using MogMod.Tiles.Bars;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
@@ -23,7 +15,6 @@ namespace MogMod.Items.Other
             ItemID.Sets.AnimatesAsSoul[Item.type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
-
         public override void SetDefaults()
         {
             Item.width = 8;
@@ -32,7 +23,6 @@ namespace MogMod.Items.Other
             Item.rare = ItemRarityID.Cyan;
             Item.value = Item.sellPrice(gold: 3);
         }
-
         public override void AddRecipes()
         {
             CreateRecipe().

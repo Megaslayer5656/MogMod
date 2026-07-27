@@ -1,7 +1,10 @@
-﻿using Terraria.ID;
-using Terraria.ModLoader;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Weapons.Melee;
+using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Utilities;
 using Terraria;
-using Microsoft.Xna.Framework;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.Melee
 {
@@ -15,6 +18,9 @@ namespace MogMod.Projectiles.Melee
         public override void SetDefaults()
         {
             Projectile.CloneDefaults(ProjectileID.TitaniumTrident); // Clone the default values for a vanilla spear. Spear specific values set for width, height, aiStyle, friendly, penetrate, tileCollide, scale, hide, ownerHitCheck, and melee.
+
+            MogModGlobalProjectile mogProj = Projectile.MogMod();
+            mogProj.bloodDamage = LordOfBloodsSpear.BloodDamage;
         }
 
         public override bool PreAI()

@@ -13,7 +13,7 @@ namespace MogMod.Items.Accessories.Wings
     [AutoloadEquip(EquipType.Wings)]
     public class WingsOfLight : ModItem, ILocalizedModType
     {
-        public new string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories.Wings";
         public override void SetStaticDefaults()
         {
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(240, 9.5f, 2.7f);

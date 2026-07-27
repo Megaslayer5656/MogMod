@@ -85,29 +85,24 @@ namespace MogMod.World
         public static bool spawnedPrapor = false;
         public static bool spawnedSolBadguy = false;
         public static bool HasFoundGiantsMaul = false;
-        public static bool UnderworldIsFreaky = false;
         public static void Save(List<string> boolTagContainer)
         {
             boolTagContainer.AddWithCondition("HasFoundGiantsMaul", HasFoundGiantsMaul);
-            boolTagContainer.AddWithCondition("UnderworldIsFreaky", UnderworldIsFreaky);
         }
         public static void Load(IList<string> boolTagContainer)
         {
             HasFoundGiantsMaul = boolTagContainer.Contains("HasFoundGiantsMaul");
-            UnderworldIsFreaky = boolTagContainer.Contains("UnderworldIsFreaky");
         }
         public static void SendData(BinaryWriter writer)
         {
             BitsByte flags = new BitsByte();
             flags[0] = HasFoundGiantsMaul;
-            flags[1] = UnderworldIsFreaky;
             writer.Write(flags);
         }
         public static void ReceiveData(BinaryReader reader)
         {
             BitsByte flags = reader.ReadByte();
             HasFoundGiantsMaul = flags[0];
-            UnderworldIsFreaky = flags[1];
         }
     }
 }

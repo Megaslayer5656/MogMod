@@ -1,19 +1,24 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Weapons.Magic;
+using MogMod.Utilities;
+using System;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Buffs.PotionBuffs.TheGravityBuffs
 {
     public class TheGravityManaBuff : ModBuff
     {
+        public override LocalizedText Description => base.Description.WithFormatArgs(TheGravity.ManaRegenBoost.ToRegenPerSecond());
         public override void SetStaticDefaults()
         {
             Main.debuff[Type] = false;
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.manaRegen += (int)Math.Round(player.manaRegen * .7f);
+            player.manaRegenBuff = true;
+            player.manaRegenBonus += TheGravity.ManaRegenBoost;
             player.manaRegenDelay = 0f;
             if (Main.rand.NextBool(3))
             {

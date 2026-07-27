@@ -20,7 +20,6 @@ namespace MogMod.Buffs.Debuffs
         {
             player.MogMod().ghostflameDebuff = true;
         }
-
         public override void Update(NPC npc, ref int buffIndex)
         {
             npc.MogMod().ghostflameDebuff = true;

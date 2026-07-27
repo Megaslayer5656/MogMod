@@ -31,6 +31,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             Projectile.timeLeft = 3600;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
+            Projectile.netImportant = true;
             Projectile.ContinuouslyUpdateDamageStats = true;
         }
         public override void OnSpawn(IEntitySource source)

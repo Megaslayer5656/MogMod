@@ -1,4 +1,6 @@
-﻿using MogMod.Utilities;
+﻿using MogMod.Items.Weapons.Melee;
+using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -22,6 +24,9 @@ namespace MogMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.Melee;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
+
+            MogModGlobalProjectile mogProj = Projectile.MogMod();
+            mogProj.bloodDamage = LordOfBloodsSpear.BloodExplosionDamage;
         }
         public override bool? CanCutTiles() => false;
         public override void AI()

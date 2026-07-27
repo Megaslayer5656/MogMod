@@ -1,13 +1,23 @@
-﻿using MogMod.Items.Global;
-using MogMod.Items.Other;
+﻿using MogMod.Common.MogModPlayer;
+using MogMod.Items.Global;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 namespace MogMod.Items.Accessories
 {
     public class DrumOfEndurance : ModItem, ILocalizedModType
     {
+        // aura buffs
+        public const float MovementSpeedBoost = 0.30f;
+        public const float MeleeSpeedBoost = 0.10f;
+        public const float WhipSpeedBoost = 0.10f;
+        // accessory buffs
+        public const int MaxMinions = 1;
+        public const float SummonDamageBoost = 0.05f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(SummonDamageBoost.ToPercent(), MaxMinions, MovementSpeedBoost.ToPercent(), MeleeSpeedBoost.ToPercent());
         int teamBuff = ModContent.BuffType<Buffs.AccessoryAuras.DrumOfEnduranceBuff>();
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
@@ -20,8 +30,9 @@ namespace MogMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Summon) += .05f;
-            player.maxMinions += 1;
+            MogPlayer mogPlayer = player.MogMod();
+            player.GetDamage(DamageClass.Summon) += SummonDamageBoost;
+            player.maxMinions += MaxMinions;
             if (player.miscCounter % 10 == 0)
             {
                 int myPlayer = Main.myPlayer;
@@ -30,7 +41,7 @@ namespace MogMod.Items.Accessories
                 {
                     float teamPlayerXDist = player.position.X - Main.player[myPlayer].position.X;
                     float teamPlayerYDist = player.position.Y - Main.player[myPlayer].position.Y;
-                    if ((float)Math.Sqrt(teamPlayerXDist * teamPlayerXDist + teamPlayerYDist * teamPlayerYDist) < 800f)
+                    if ((float)Math.Sqrt(teamPlayerXDist * teamPlayerXDist + teamPlayerYDist * teamPlayerYDist) < mogPlayer.auraRange)
                     {
                         Main.player[myPlayer].AddBuff(teamBuff, 20);
                     }

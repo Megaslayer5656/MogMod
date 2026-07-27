@@ -1,4 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Weapons.Magic;
+using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -21,6 +24,9 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.timeLeft = 500;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.ignoreWater = true;
+
+            MogModGlobalProjectile mogProj = Projectile.MogMod();
+            mogProj.bloodDamage = Bloodthorn.BloodDamage;
         }
 
         public override void AI()

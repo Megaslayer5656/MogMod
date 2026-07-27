@@ -14,14 +14,16 @@ namespace MogMod.Items.Accessories
     public class GlimmerCape : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        // accessory buffs
+        public const int ManaBoost = 50;
+        public const int AggroBoost = 400;
+        // effect buffs
+        public const float MovementSpeedBoost = 0.25f;
+        public const int ManaRegenBoost = 4;
+        public const int BuffAggroBoost = 750;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ManaBoost, AggroBoost);
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.GlimmerCapeKeybind);
         ModKeybind keybindActive = null;
-
-        public override void Load()
-        {
-            //base.Load();
-        }
-
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -30,14 +32,12 @@ namespace MogMod.Items.Accessories
             Item.rare = ItemRarityID.Green;
             Item.value = MogGlobalItem.RarityGreenBuyPrice;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statManaMax2 += 50;
-            player.aggro -= 600;
+            player.statManaMax2 += ManaBoost;
+            player.aggro -= AggroBoost;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.isWearingGlimmerCape = true;
-            
         }
         public override void AddRecipes()
         {

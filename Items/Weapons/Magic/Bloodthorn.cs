@@ -2,6 +2,7 @@
 using MogMod.Items.Global;
 using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.MagicProjectiles;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -9,14 +10,12 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Magic
 {
+    // TODO: resprite this (and maybe rework it)
     public class Bloodthorn : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
-        public override void SetStaticDefaults()
-        {
-            Item.staff[Item.type] = true;
-        }
-
+        public const int BloodDamage = 20;
+        public override void SetStaticDefaults() => Item.staff[Item.type] = true;
         public override void SetDefaults()
         {
             Item.width = 60;
@@ -34,9 +33,10 @@ namespace MogMod.Items.Weapons.Magic
             Item.shootSpeed = 18f;
             Item.rare = ItemRarityID.Yellow;
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
+
+            MogGlobalItem mogItem = Item.MogMod();
+            mogItem.visualBloodDamage = BloodDamage;
         }
-
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 v = velocity;
@@ -46,7 +46,6 @@ namespace MogMod.Items.Weapons.Magic
             Projectile.NewProjectile(source, position, v - offset * Vector2.UnitX, type, damage, knockback, player.whoAmI, 1f);
             return false;
         }
-
         public override void AddRecipes()
         {
             CreateRecipe().

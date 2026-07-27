@@ -1,9 +1,12 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Projectiles.Melee;
+using MogMod.Utilities;
+using Mono.Cecil;
+using System;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using MogMod.Projectiles.Melee;
 
 namespace MogMod.Items.Weapons.Magic.DeckCards
 {

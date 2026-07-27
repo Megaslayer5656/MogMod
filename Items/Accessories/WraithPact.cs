@@ -1,8 +1,8 @@
-﻿using MogMod.Common.MogModPlayer;
-using MogMod.Items.Consumables;
+﻿using MogMod.Buffs.AccessoryAuras;
+using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Items.Placeable.Bars;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -15,7 +15,14 @@ namespace MogMod.Items.Accessories
     public class WraithPact : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        int wraithBuff = ModContent.BuffType<Buffs.AccessoryAuras.WraithPactAura>();
+        public const int MaxSentries = 5;
+        // auras
+        public const int DefenseBoost = 7;
+        public const float AttackDamageBoost = 0.10f;
+        public const int ManaRegenBoost = 6;
+        public const float LifeStealBoost = 0.50f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MaxSentries, DefenseBoost, AttackDamageBoost.ToPercent(), ManaRegenBoost.ToRegenPerSecond(), LifeStealBoost.ToPercent());
+        int wraithBuff = ModContent.BuffType<WraithPactAura>();
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -28,7 +35,6 @@ namespace MogMod.Items.Accessories
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingWraithPact = true;
-            player.lifeSteal *= 1.5f;
             if (player.miscCounter % 10 == 0)
             {
                 int myPlayer = Main.myPlayer;
@@ -49,7 +55,7 @@ namespace MogMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<VladmirsOffering>().
                 AddIngredient(ItemID.AvengerEmblem).
-                AddIngredient<SpookyEssence>(8).
+                AddIngredient<SpookyEssence>(20).
                 AddIngredient<PointBooster>().
                 AddIngredient<SoulOfMogMod>().
                 AddTile(TileID.TinkerersWorkbench).

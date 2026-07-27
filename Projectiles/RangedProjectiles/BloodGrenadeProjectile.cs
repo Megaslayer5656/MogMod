@@ -1,4 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Weapons.Ranged;
+using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,6 +23,9 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.ignoreWater = false;
             Projectile.aiStyle = ProjAIStyleID.GroundProjectile; // determines what ai it uses
             Projectile.timeLeft = 300; // time before explosion
+
+            MogModGlobalProjectile mogProj = Projectile.MogMod();
+            mogProj.bloodDamage = BloodGrenade.BloodDamage;
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
@@ -52,13 +58,11 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.Slow, 300);
-            target.AddBuff(BuffID.Poisoned, 300);
+            target.AddBuff(BuffID.Slow, 180);
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            target.AddBuff(BuffID.Slow, 200);
-            target.AddBuff(BuffID.Poisoned, 200);
+            target.AddBuff(BuffID.Slow, 180);
         }
     }
 }
