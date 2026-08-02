@@ -220,6 +220,7 @@ Mods: {
 					GravitationalMissileProj.DisplayName: Gravitational Missile
 					SpectralLightProj.DisplayName: Spectral Light
 					CarianSlicerHoldout.DisplayName: Carian Slicer
+					AdulasMoonbladeProj.DisplayName: Adula's Moonblade
 				}
 			}
 
@@ -341,6 +342,9 @@ Mods: {
 				SelvesProj3.DisplayName: Blade of Selves
 				ElysianSeraphThrownProj.DisplayName: Elysian Seraph
 				WarFuryProjectile.DisplayName: War Fury
+				EchoSaberProj.DisplayName: Echo Saber
+				SkullBasherHoldout.DisplayName: Skull Basher
+				EchoSabreProj.DisplayName: Echo Sabre Proj
 			}
 
 			Summon: {

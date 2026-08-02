@@ -7,6 +7,7 @@ using System;
 using MogMod.NPCs.Global;
 using Microsoft.Xna.Framework;
 using Terraria.Audio;
+using MogMod.Utilities;
 
 namespace MogMod.Common.Systems
 {
@@ -21,42 +22,61 @@ namespace MogMod.Common.Systems
                 switch (msgType) //Depending on the message type used in MogPlayerNetcode.cs, this will send the packet to the corresponding handler in MogPlayerNetcode.cs
                 {
                     case MogModMessageType.EssenceShiftStackSync:
-                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleEssenceShiftStack(reader);
+                        Main.player[reader.ReadInt32()].MogMod().HandleEssenceShiftStack(reader);
                         break;
 
                     case MogModMessageType.ShivasSync: //If the message type is ShivasSync:
-                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleShivas(reader); //Sends the packet to the ShivasHandler in MogPlayerNetcode.cs
+                        Main.player[reader.ReadInt32()].MogMod().HandleShivas(reader); //Sends the packet to the ShivasHandler in MogPlayerNetcode.cs
                         break;
 
                     case MogModMessageType.WingsOfLightSync:
-                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleWingsOfLight(reader);
+                        Main.player[reader.ReadInt32()].MogMod().HandleWingsOfLight(reader);
                         break;
 
                     case MogModMessageType.DuelistSync:
-                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleDuelistGloves(reader);
+                        Main.player[reader.ReadInt32()].MogMod().HandleDuelistGloves(reader);
                         break;
 
                     case MogModMessageType.ButterflySync:
-                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleButterfly(reader);
+                        Main.player[reader.ReadInt32()].MogMod().HandleButterfly(reader);
                         break;
 
                     case MogModMessageType.ParrySync:
-                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleParry(reader);
+                        Main.player[reader.ReadInt32()].MogMod().HandleParry(reader);
                         break;
 
                     case MogModMessageType.DragonInstallSync:
-                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleDragonInstall(reader);
+                        Main.player[reader.ReadInt32()].MogMod().HandleDragonInstall(reader);
                         break;
 
                     case MogModMessageType.BleedProcTextSync:
-                        {
-                            Vector2 pos = reader.ReadVector2();
-                            MogModGlobalNPC.doBloodFX(pos);
-                            break;
-                        }
+                        int bloodID = reader.ReadInt32();
+                        int bloodDMG = reader.ReadInt32();
 
+                        NPC bloodNPC = Main.npc[bloodID];
+                        bloodNPC.MogMod().BloodFX(bloodNPC, bloodDMG);
+                        break;
+                    case MogModMessageType.ToxicProcTextSync:
+                        int toxicProcID = reader.ReadInt32();
+
+                        NPC toxicProcNPC = Main.npc[toxicProcID];
+                        toxicProcNPC.MogMod().ToxicFX(toxicProcNPC);
+                        break;
                     case MogModMessageType.UltraCritTextSync:
-                        Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleUltraCritText(reader); //This packet is sent directly from the ChaosBlade file.
+                        int ultraCritID = reader.ReadInt32();
+
+                        NPC ultraCritNPC = Main.npc[ultraCritID];
+                        ultraCritNPC.MogMod().UltraCritFX(ultraCritNPC);
+                        break;
+                    case MogModMessageType.BashProcTextSync:
+                        int bashID = reader.ReadInt32();
+
+                        NPC bashNPC = Main.npc[bashID];
+                        bashNPC.MogMod().BashFX(bashNPC);
+                        break;
+                    case MogModMessageType.TrueStrikeProcTextSync:
+                        Vector2 strikePos = reader.ReadVector2();
+                        MogModGlobalNPC.TrueStrikeFX(strikePos);
                         break;
 
                     case MogModMessageType.AddBloodFromItem:
@@ -66,12 +86,15 @@ namespace MogMod.Common.Systems
                             int itemType = reader.ReadInt32();
 
                             NPC npc = Main.npc[npcID];
-                            Terraria.Player player = Main.player[playerID];
+                            Player player = Main.player[playerID];
                             Item item = player.HeldItem;
 
-                            if (npc.TryGetGlobalNPC<MogModGlobalNPC>(out var g))
+                            if (Main.netMode == NetmodeID.Server)
                             {
-                                g.AddItemBlood(npc, player, item);
+                                if (npc.TryGetGlobalNPC<MogModGlobalNPC>(out var g))
+                                {
+                                    g.AddItemBlood(npc, player, item);
+                                }
                             }
 
                             break;
@@ -80,16 +103,49 @@ namespace MogMod.Common.Systems
                     case MogModMessageType.AddBloodFromProjectile:
                         {
                             int npcID = reader.ReadInt32();
-                            int bloodToAdd = reader.ReadInt32();
                             int playerID = reader.ReadInt32();
-                            Terraria.Player player = Main.player[playerID];
+                            int blood = reader.ReadInt32();
 
                             NPC npc = Main.npc[npcID];
+                            Player player = Main.player[playerID];
 
-                            MogModGlobalNPC globalNPC = npc.GetGlobalNPC<MogModGlobalNPC>();
+                            MogModGlobalNPC globalNPC = npc.MogMod();
                             if (Main.netMode == NetmodeID.Server)
                             {
-                                globalNPC.AddProjectileBlood(npc, bloodToAdd, player);
+                                globalNPC.AddProjectileBlood(npc, player, blood);
+                            }
+
+                            break;
+                        }
+
+                    case MogModMessageType.AddToxicFromItem:
+                        {
+                            int npcID = reader.ReadInt32();
+                            int playerID = reader.ReadInt32();
+
+                            NPC npc = Main.npc[npcID];
+                            Player player = Main.player[playerID];
+
+                            if (npc.TryGetGlobalNPC<MogModGlobalNPC>(out var g))
+                            {
+                                g.AddItemToxic(player);
+                            }
+
+                            break;
+                        }
+
+                    case MogModMessageType.AddToxicFromProjectile:
+                        {
+                            int npcID = reader.ReadInt32();
+                            int playerID = reader.ReadInt32();
+
+                            Player player = Main.player[playerID];
+                            NPC npc = Main.npc[npcID];
+
+                            MogModGlobalNPC globalNPC = npc.MogMod();
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                globalNPC.AddProjectileToxic(player);
                             }
 
                             break;
@@ -97,19 +153,19 @@ namespace MogMod.Common.Systems
 
                     case MogModMessageType.MarkerProjSync:
                         {
-                            Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleMarkerProj(reader);
+                            Main.player[reader.ReadInt32()].MogMod().HandleMarkerProj(reader);
                             break;
                         }
 
                     case MogModMessageType.MarkerProjOutSync:
                         {
-                            Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleMarkerProjOut(reader);
+                            Main.player[reader.ReadInt32()].MogMod().HandleMarkerProjOut(reader);
                             break;
                         }
 
                     case MogModMessageType.ProjParrySync:
                         {
-                            Main.player[reader.ReadInt32()].GetModPlayer<MogPlayer>().HandleProjParry(reader);
+                            Main.player[reader.ReadInt32()].MogMod().HandleProjParry(reader);
                             break;
                         }
 
@@ -117,11 +173,16 @@ namespace MogMod.Common.Systems
                         {
                             int npcID = reader.ReadInt32();
                             Vector2 velocity = reader.ReadVector2();
-                            Vector2 position = reader.ReadVector2();
-                            
-                            Main.npc[npcID].position = position;
-                            Main.npc[npcID].velocity = velocity;
-                            
+                            Vector2 center = reader.ReadVector2();
+
+                            NPC npc = Main.npc[npcID];
+
+                            if (Main.dedServ && npc is not null)
+                            {
+                                npc.Center = center;
+                                npc.velocity = velocity;
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
+                            }
                             break;
                         }
 
@@ -131,7 +192,7 @@ namespace MogMod.Common.Systems
                             float pitch = reader.ReadSingle();
                             float volume = reader.ReadSingle();
                             int maxInstances = reader.ReadInt32();
-                            Vector2 pos = reader.ReadVector2();
+                            Vector2 position = reader.ReadVector2();
 
                             SoundStyle sound = new SoundStyle(path)
                             {
@@ -142,11 +203,43 @@ namespace MogMod.Common.Systems
 
                             if (Main.netMode != NetmodeID.Server)
                             {
-                                SoundEngine.PlaySound(sound, pos);
+                                SoundEngine.PlaySound(sound, position);
                             }
                             
                             break;
                         }
+
+                    case MogModMessageType.HellEpstein:
+                        int hellEpsteinID = reader.ReadInt32();
+                        NPC hellEpsteinNPC = Main.npc[hellEpsteinID];
+                        hellEpsteinNPC.MogMod().MakeHellEpstein(hellEpsteinNPC);
+                        break;
+
+                    case MogModMessageType.OverloadingElite:
+                        int overloadingID = reader.ReadInt32();
+                        NPC overloadingNPC = Main.npc[overloadingID];
+                        overloadingNPC.MogMod().MakeOverloading(overloadingNPC);
+                        break;
+                    case MogModMessageType.BlazingElite:
+                        int blazingID = reader.ReadInt32();
+                        NPC blazingNPC = Main.npc[blazingID];
+                        blazingNPC.MogMod().MakeBlazing(blazingNPC);
+                        break;
+                    case MogModMessageType.GildedElite:
+                        int gildedID = reader.ReadInt32();
+                        NPC gildedNPC = Main.npc[gildedID];
+                        gildedNPC.MogMod().MakeGilded(gildedNPC);
+                        break;
+                    case MogModMessageType.MendingElite:
+                        int mendingID = reader.ReadInt32();
+                        NPC mendingNPC = Main.npc[mendingID];
+                        mendingNPC.MogMod().MakeMending(mendingNPC);
+                        break;
+                    case MogModMessageType.ToxicElite:
+                        int toxicID = reader.ReadInt32();
+                        NPC toxicNPC = Main.npc[toxicID];
+                        toxicNPC.MogMod().MakeToxic(toxicNPC);
+                        break;
                 }
             }
             catch (Exception e)
@@ -169,18 +262,26 @@ namespace MogMod.Common.Systems
             ButterflySync,
             ParrySync,
             DragonInstallSync,
-            BleedProcTextSync,
             TrueStrikeProcTextSync,
             BashProcTextSync,
             UltraCritTextSync,
-            AddBloodSync,
+            BleedProcTextSync,
             AddBloodFromItem,
             AddBloodFromProjectile,
+            ToxicProcTextSync,
+            AddToxicFromItem,
+            AddToxicFromProjectile,
             ProjParrySync,
             MarkerProjSync,
             MarkerProjOutSync,
             NPCVelocitySync,
-            SoundSync
+            SoundSync,
+            HellEpstein,
+            OverloadingElite,
+            BlazingElite,
+            GildedElite,
+            MendingElite,
+            ToxicElite
         }
     }
 }

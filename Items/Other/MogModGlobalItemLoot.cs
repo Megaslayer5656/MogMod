@@ -1,5 +1,6 @@
 ﻿using MogMod.Items.Accessories;
 using MogMod.Items.Accessories.Boots;
+using MogMod.Items.Accessories.NeutralItems;
 using MogMod.Items.Placeable.MusicBoxes;
 using MogMod.Items.Placeable.Ores;
 using MogMod.Items.Weapons.Magic.SorceryStaves;
@@ -18,6 +19,8 @@ namespace MogMod.Items.Other
         public override void ModifyItemLoot(Item item, ItemLoot loot)
         {
             LeadingConditionRule postEvil = loot.DefineConditionalDropSet(DropHelper.PostEvil());
+            LeadingConditionRule postSkele = loot.DefineConditionalDropSet(DropHelper.PostSkele());
+            LeadingConditionRule postAllMech = loot.DefineConditionalDropSet(DropHelper.PostAllMech());
             LeadingConditionRule postEoL = loot.DefineConditionalDropSet(DropHelper.PostEoL());
             switch (item.type)
             {
@@ -89,13 +92,25 @@ namespace MogMod.Items.Other
                     break;
 
 
+                case ItemID.LavaCrate:
+                    loot.Add(ItemDropRule.Common(ModContent.ItemType<VitalityBooster>(), 5, 1, 2));
+                    postSkele.Add(ModContent.ItemType<GiantsMaul>(), 20);
+                    break;
+
+                case ItemID.LavaCrateHard:
+                    loot.Add(ItemDropRule.Common(ModContent.ItemType<VitalityBooster>(), 5, 1, 2));
+                    postAllMech.Add(ModContent.ItemType<HellfireEssence>(), 7, 1, 3);
+                    postSkele.Add(ModContent.ItemType<GiantsMaul>(), 20);
+                    break;
+
+
                 case ItemID.HallowedFishingCrate:
                     postEoL.Add(ModContent.ItemType<FaeOre>(), 6, 8, 14);
                     break;
 
                 case ItemID.HallowedFishingCrateHard:
                     postEoL.Add(ModContent.ItemType<FaeOre>(), 6, 12, 18);
-                    loot.Add(ItemDropRule.Common(ModContent.ItemType<PointBooster>(), 7, 1, 1));
+                    loot.Add(ItemDropRule.Common(ModContent.ItemType<PointBooster>(), 7));
                     break;
             }
         }

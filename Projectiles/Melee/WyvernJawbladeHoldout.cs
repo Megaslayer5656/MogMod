@@ -1,262 +1,188 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
+using MogMod.Items.Weapons.Melee;
+using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
 using System;
-using System.IO;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using MogMod.Items.Weapons.Melee;
 
 namespace MogMod.Projectiles.Melee
 {
-    public class WyvernJawbladeHoldout : ModProjectile, ILocalizedModType
+    public class WyvernJawbladeHoldout : BaseSwordHoldoutProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
-        public override string Texture => "MogMod/Items/Weapons/Melee/WyvernJawblade";
-        private ref float CurrentCharge => ref Projectile.ai[0];
-        public bool canAttack = false;
-        public bool initialized = false;
-        public float chargeDamage = 0f;
-        private readonly float[] amount = [40f, 80f, WyvernJawblade.MaxCharge];
-        private const float swingRange = 1.67f * (float)Math.PI;
-        private const float firstHalfSwing = .45f;
-        private const float windUp = 0.15f;
-        private const float unwind = 0.2f;
-        private float prepTime => 24f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
-        private float execTime => 26f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
-        private float hideTime => 12f / Owner.GetTotalAttackSpeed(Projectile.DamageType);
-        private Player Owner => Main.player[Projectile.owner];
-        private enum AttackStage
+        public Player Owner => Main.player[Projectile.owner];
+        public override Item BaseItem => ModContent.GetModItem(ModContent.ItemType<WyvernJawblade>()).Item;
+        public override string Texture => BaseItem.ModItem.Texture;
+        public override int AfterImageLength => 10;
+        public override int OffsetDistance => 50;
+        public override int CooldownTime { get; set; }
+        public override bool AlternateSwings => false;
+        public override bool useAttackSpeed => false;
+        public override SoundStyle? UseSound => SoundID.DD2_MonkStaffSwing with { Volume = 1f };
+        public ref float CurrentChargeMult => ref Projectile.ai[0];
+        bool hasSmashedTile = false;
+        bool playedChargeSound = false;
+        bool firstEnemyHit = true;
+        public override void Defaults()
         {
-            Prepare,
-            Execute,
-            Unwind
-        }
-        private AttackStage CurrentStage
-        {
-            get => (AttackStage)Projectile.localAI[0];
-            set
-            {
-                Projectile.localAI[0] = (float)value;
-                Timer = 0;
-            }
-        }
-        private ref float InitialAngle => ref Projectile.ai[1];
-        private ref float Timer => ref Projectile.ai[2];
-        private ref float Progress => ref Projectile.localAI[1];
-        private ref float Size => ref Projectile.localAI[2];
-        public override void SetStaticDefaults()
-        {
-            ProjectileID.Sets.HeldProjDoesNotUsePlayerGfxOffY[Type] = true;
-            ProjectileID.Sets.AllowsContactDamageFromJellyfish[Type] = true;
-        }
-        public override void SetDefaults()
-        {
+            Projectile.extraUpdates = 3;
+            swingWidth = 200;
+            RotateInCooldown = 0;
+            RotateInStartup = 0;
             Projectile.width = 80;
             Projectile.height = 88;
-            Projectile.friendly = true;
-            Projectile.timeLeft = 10000;
-            Projectile.penetrate = -1;
-            Projectile.tileCollide = false;
-            Projectile.ignoreWater = true;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -1;
-            Projectile.ownerHitCheck = true;
-            Projectile.DamageType = DamageClass.Melee;
         }
-        public override void OnSpawn(IEntitySource source)
+        public override void Spawn()
         {
-            Projectile.spriteDirection = Main.MouseWorld.X > Owner.MountedCenter.X ? 1 : -1;
-            float targetAngle = (Main.MouseWorld - Owner.MountedCenter).ToRotation();
-            if (Projectile.spriteDirection == 1)
-                targetAngle = MathHelper.Clamp(targetAngle, (float)-Math.PI * 1 / 3, (float)Math.PI * 1 / 6);
-            else
+            angle = new Vector2(angle.X.DirectionalSign(), 0);
+            var player = Main.player[Projectile.owner];
+            var modplayer = player.GetModPlayer<BaseSwordHoldoutPlayer>();
+            StartupTime = 80;
+            CooldownTime = 30;
+            swingTime = 10;
+            modplayer.swingNum = 0;
+            Projectile.timeLeft = 600;
+            Projectile.scale *= 1.25f;
+        }
+        public override void AdditionalAI()
+        {
+            if (inStartup)
             {
-                if (targetAngle < 0)
-                    targetAngle += 2 * (float)Math.PI;
-                targetAngle = MathHelper.Clamp(targetAngle, (float)Math.PI * 5 / 6, (float)Math.PI * 4 / 3);
+                CurrentChargeMult = timer / (float)(StartupTime - 1);
+                Owner.velocity.X *= 0.97f;
             }
-            InitialAngle = targetAngle - firstHalfSwing * swingRange * Projectile.spriteDirection;
-        }
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write((sbyte)Projectile.spriteDirection);
-        }
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            Projectile.spriteDirection = reader.ReadSByte();
-        }
-        public override void AI()
-        {
-            Owner.itemAnimation = 2;
-            Owner.itemTime = 2;
-            Owner.velocity.X *= .94f;
-            if (!Owner.active || Owner.dead || Owner.noItems || Owner.CCed)
+            if (inStartup && !Owner.channel && timer > 30)
             {
-                Projectile.Kill();
-                return;
+                timer = StartupTime - 1;
             }
-            switch (CurrentStage)
+            if (Owner.channel && timer == StartupTime - 1)
             {
-                case AttackStage.Prepare:
-                    PrepareStrike();
-                    break;
-                case AttackStage.Execute:
-                    ExecuteStrike();
-                    break;
-                default:
-                    UnwindStrike();
-                    break;
-            }
-            SetSwordPosition();
-            if (CurrentStage != AttackStage.Prepare)
-            {
-                if (!Owner.CantUseHoldout() && Projectile.owner == Main.myPlayer)
+                Projectile.timeLeft++;
+                timer--;
+                if (!playedChargeSound)
                 {
-                    Projectile.spriteDirection = Main.MouseWorld.X > Owner.MountedCenter.X ? 1 : -1;
-                    float targetAngle = (Main.MouseWorld - Owner.MountedCenter).ToRotation();
-                    if (Projectile.spriteDirection == 1)
-                        targetAngle = MathHelper.Clamp(targetAngle, (float)-Math.PI * 1 / 3, (float)Math.PI * 1 / 6);
-                    else
+                    SoundEngine.PlaySound(SoundID.DeerclopsStep with { Volume = 2f, Pitch = 0.5f }, Projectile.Center);
+                    playedChargeSound = true;
+                    for (int i = 0; i < 5; i++)
                     {
-                        if (targetAngle < 0)
-                            targetAngle += 2 * (float)Math.PI;
-                        targetAngle = MathHelper.Clamp(targetAngle, (float)Math.PI * 5 / 6, (float)Math.PI * 4 / 3);
-                    }
-                    Projectile.direction = Main.MouseWorld.X > Owner.Center.X ? 1 : -1;
-                    Projectile.netUpdate = true;
-                    InitialAngle = targetAngle - firstHalfSwing * swingRange * Projectile.spriteDirection;
-                    Owner.ChangeDir(Projectile.direction);
-                    if (CurrentCharge <= WyvernJawblade.MaxCharge)
-                        CurrentCharge++;
-                }
-                else
-                {
-                    canAttack = true;
-                    Timer++;
-                }
-                if (amount.Contains(CurrentCharge))
-                {
-                    chargeDamage = CurrentCharge;
-                    SoundEngine.PlaySound(SoundID.Item20 with { Pitch = CurrentCharge >= WyvernJawblade.MaxCharge ? -0.2f : 0.1f });
-                    int dustAmt = CurrentCharge == WyvernJawblade.MaxCharge ? 20 : 8;
-                    for (int j = 0; j < dustAmt; j++)
-                    {
-                        Vector2 dustRotate = new Vector2((float)Owner.width / 2f, (float)Owner.height) * 0.1f;
-                        dustRotate = dustRotate.RotatedBy((double)((float)(j - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default) + Owner.Center;
-                        Vector2 dustDirection = dustRotate - Owner.Center;
-                        int killDust = Dust.NewDust(dustRotate + dustDirection, 0, 0, DustID.AncientLight, dustDirection.X, dustDirection.Y, 100, CurrentCharge >= WyvernJawblade.MaxCharge ? Color.Goldenrod : Color.LightGoldenrodYellow, 1.2f);
-                        Main.dust[killDust].noGravity = true;
-                        Main.dust[killDust].velocity = dustDirection;
+                        float scale = Main.rand.NextFloat(0.5f, 1f);
+                        var color = Main.rand.NextBool() ? Color.LightGoldenrodYellow : Color.Red;
+
+                        if (Main.rand.NextBool(5))
+                            scale *= 1.4f;
+                        Vector2 velocity = Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi) * MathHelper.Lerp(10, 30, Main.rand.NextFloat());
+                        Dust d = Dust.NewDustPerfect(Projectile.Center + angle * 30, DustID.AncientLight, velocity, 100, color, scale);
                     }
                 }
+            }
+            if (!hasSmashedTile && inSwing && SwingCompletion > 0.275f)
+            {
+                var adjustedAngle = angle.RotatedBy(Projectile.spriteDirection * SwingFunction());
+                Vector2 HammerFrontPos = Projectile.Center + adjustedAngle * -16 * Projectile.scale + (adjustedAngle.RotatedBy(MathHelper.PiOver2) * 20 * Projectile.scale * angle.X);
+                if (Collision.SolidCollision(HammerFrontPos, 1, 1))
+                {
+                    Owner.velocity *= 0.15f;
+                    Owner.velocity -= adjustedAngle.RotatedBy(MathHelper.PiOver2) * angle.X * MathHelper.Lerp(2f, 10f, CurrentChargeMult);
+                    float ringRot = SwingCompletion < 0.5f ? 0 : MathHelper.PiOver2;
+                    int radius = (int)(4 * CurrentChargeMult);
+                    Point scanAreaStart = HammerFrontPos.ToTileCoordinates() + new Point(-radius, -radius);
+                    Point scanAreaEnd = HammerFrontPos.ToTileCoordinates() + new Point(radius, radius);
+                    Projectile.CreateImpactExplosion((int)(10 * CurrentChargeMult), Projectile.Center, ref scanAreaStart, ref scanAreaEnd, Projectile.width, out bool causedShockwaves);
+
+                    hasSmashedTile = true;
+                    timer = StartupTime + swingTime;
+                    angle = adjustedAngle;
+                    var pos = Projectile.Center;
+                    Projectile.Size *= 2 + CurrentChargeMult;
+                    Projectile.Center = HammerFrontPos;
+                    Projectile.Damage();
+                    Projectile.Size /= 2 + CurrentChargeMult;
+                    Projectile.Center = pos;
+
+                    if (CurrentChargeMult >= 1)
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact with { VariantsWeights = new ReadOnlySpan<float>(new float[] { 1, 0, 0 }) });
+                    SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact);
+                }
+            }
+            Owner.heldProj = Projectile.whoAmI;
+        }
+        public override float SwingFunction()
+        {
+            if (hasSmashedTile)
+                return MathHelper.ToRadians(MathHelper.Lerp(0, -swingWidth * 0.4f, MathF.Pow(CooldownCompletion, 0.5f)));
+            if (inStartup)
+                return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * 0.8f, -swingWidth * 0.66f, 1 - MathF.Pow(StartupCompletion, 0.5f)));
+            if (inCooldown)
+                return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * 0.33f, swingWidth * 0.45f, MathF.Pow(CooldownCompletion, 0.5f)));
+            return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * .66f, (swingWidth * 0.33f), SwingCompletion));
+        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.SourceDamage *= CurrentChargeMult * 4.8f;
+            modifiers.Knockback += (CurrentChargeMult);
+            //Main.NewText($"charge mult = {CurrentChargeMult}");
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (!hasSmashedTile && CurrentChargeMult >= 1)
+            {
+                for (int i = 0; i < 16; i++)
+                {
+                    int sparkLifetime = Main.rand.Next(10, 15);
+                    float sparkScale = Main.rand.NextFloat(1f, 2f);
+                    var sparkColor = Main.rand.NextBool() ? Color.Purple : Color.Red;
+
+                    if (Main.rand.NextBool(5))
+                        sparkScale *= 1.4f;
+
+                }
+                SoundEngine.PlaySound(SoundID.DeerclopsRubbleAttack with { Volume = 0.5f, LimitsArePerVariant = false, MaxInstances = 1 });
+            }
+            else if (!hasSmashedTile)
+            {
+                SoundEngine.PlaySound(SoundID.Item69 with { Volume = 1f, LimitsArePerVariant = false, MaxInstances = 1 });
             }
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 origin;
-            float rotationOffset;
-            SpriteEffects effects;
-            if (Projectile.spriteDirection > 0)
+            if (!inCooldown)
             {
-                origin = new Vector2(0, Projectile.height);
-                rotationOffset = MathHelper.ToRadians(45f);
-                effects = SpriteEffects.None;
+                var tex = ModContent.Request<Texture2D>(Texture).Value;
+                float outlineWidth = (int)(4 * CurrentChargeMult) * 0.5f;
+                if (inSwing)
+                {
+                    outlineWidth *= 1 - SwingCompletion;
+                }
+                for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)
+                {
+                    Main.spriteBatch.Draw(
+                        tex,
+                        Projectile.Center + new Vector2(0, Projectile.gfxOffY) + Vector2.UnitX.RotatedBy(i + Projectile.rotation) * outlineWidth * Projectile.scale - Main.screenPosition,
+                        null,
+                        Color.Lerp(Color.LightGoldenrodYellow, Color.Red, CurrentChargeMult),
+                        Projectile.rotation,
+                        tex.Size() * 0.5f,
+                        Projectile.scale,
+                        Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                        0
+                    );
+                }
+
+                // sick ass light around the sword
+                //for (int i = 0; i < 20; i++)
+                //{
+                //    Color auraColor = Color.SkyBlue with { A = 0 } * 0.18f * fadeIn;
+                //    Vector2 drawOffset = (MathHelper.TwoPi * i / 20f).ToRotationVector2() * 4 * fadeIn;
+                //    Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + drawOffset + new Vector2(0, Owner.gfxOffY), tex.Frame(1, FrameCount, 0, Frame), auraColor, Projectile.rotation + RotationOffset + r, FlipAsSword ? new Vector2(tex.Width() - SpriteOrigin.X, SpriteOrigin.Y) : SpriteOrigin, Projectile.scale, spriteEffects != SpriteEffects.None ? spriteEffects : (FlipAsSword ? SpriteEffects.FlipHorizontally : SpriteEffects.None));
+                //}
             }
-            else
-            {
-                origin = new Vector2(Projectile.width, Projectile.height);
-                rotationOffset = MathHelper.ToRadians(135f);
-                effects = SpriteEffects.FlipHorizontally;
-            }
-            Texture2D texture = TextureAssets.Projectile[Type].Value;
-            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, default, lightColor * Projectile.Opacity, Projectile.rotation + rotationOffset, origin, Projectile.scale, effects, 0);
-            return false;
-        }
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            Vector2 start = Owner.MountedCenter;
-            Vector2 end = start + Projectile.rotation.ToRotationVector2() * ((Projectile.Size.Length()) * Projectile.scale);
-            float collisionPoint = 0f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), start, end, 15f * Projectile.scale, ref collisionPoint);
-        }
-        public override void CutTiles()
-        {
-            Vector2 start = Owner.MountedCenter;
-            Vector2 end = start + Projectile.rotation.ToRotationVector2() * (Projectile.Size.Length() * Projectile.scale);
-            Utils.PlotTileLine(start, end, 15 * Projectile.scale, DelegateMethods.CutTiles);
-        }
-        public override bool? CanDamage()
-        {
-            if (!canAttack)
-                return false;
-            return base.CanDamage();
-        }
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            modifiers.HitDirectionOverride = target.position.X > Owner.MountedCenter.X ? 1 : -1;
-            modifiers.SourceDamage *= (chargeDamage / (CurrentCharge >= WyvernJawblade.MaxCharge ? 25f : 50f)) + 1f;
-            modifiers.Knockback += (chargeDamage / 100f);
-        }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => Projectile.damage = (int)(Projectile.damage * .9f);
-        public void SetSwordPosition()
-        {
-            Projectile.rotation = InitialAngle + Projectile.spriteDirection * Progress;
-            Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.ToRadians(90f));
-            Vector2 armPosition = Owner.GetFrontHandPosition(Player.CompositeArmStretchAmount.Full, Projectile.rotation - (float)Math.PI / 2);
-            if (Owner.gravDir == -1f)
-            {
-                Projectile.rotation = 0f - Projectile.rotation;
-                armPosition.Y = Owner.Bottom.Y + (Owner.position.Y - armPosition.Y);
-            }
-            armPosition.Y += Owner.gfxOffY;
-            Projectile.Center = armPosition;
-            Projectile.scale = Size * 1.2f * Owner.GetAdjustedItemScale(Owner.HeldItem);
-            Owner.heldProj = Projectile.whoAmI;
-        }
-        private void PrepareStrike()
-        {
-            Timer++;
-            Progress = windUp * swingRange * (1f - Timer / prepTime);
-            Size = MathHelper.SmoothStep(0, 1, Timer / prepTime);
-            if (Timer >= prepTime)
-                CurrentStage = AttackStage.Execute;
-        }
-        private void ExecuteStrike()
-        {
-            float t = Timer / execTime;
-            float easing = (float)Math.Sin(t * MathHelper.PiOver2);
-            Progress = MathHelper.Lerp(0, swingRange, easing);
-            if (canAttack && !initialized)
-            {
-                SoundEngine.PlaySound(SoundID.Item1 with { Pitch = CurrentCharge >= WyvernJawblade.MaxCharge ? -0.3f : -0.15f }, Projectile.Center);
-                initialized = true;
-            }
-            if (Main.rand.NextBool(3))
-            {
-                Vector2 dustCorner = Owner.position - 2f * Vector2.One;
-                Vector2 dustVel = Owner.velocity + new Vector2(0f, Main.rand.NextFloat(-5f, -1f));
-                int d = Dust.NewDust(dustCorner, Owner.width, Owner.height, DustID.SandSpray, dustVel.X, dustVel.Y);
-                Main.dust[d].noGravity = true;
-                Main.dust[d].velocity.Y -= 1.5f;
-                Main.dust[d].scale = 0.8f;
-                Main.dust[d].fadeIn = Main.rand.NextFloat(0.6f, 0.8f);
-            }
-            if (Timer >= execTime)
-                CurrentStage = AttackStage.Unwind;
-        }
-        private void UnwindStrike()
-        {
-            float t = Timer / hideTime;
-            float easing = (float)Math.Sin(t * MathHelper.PiOver2);
-            Size = 1f - easing;
-            if (Timer >= hideTime)
-                Projectile.Kill();
+            if (inSwing)
+                return base.PreDraw(ref lightColor);
+            return true;
         }
     }
 }

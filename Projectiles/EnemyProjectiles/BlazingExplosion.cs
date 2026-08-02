@@ -26,7 +26,7 @@ namespace MogMod.Projectiles.EnemyProjectiles
         public static int Lifetime => 50;
         public static int Fadetime => 40;
         public int NumAnimationFrames = 7;
-        public int AnimationFrameTime = 4;
+        public int AnimationFrameTime = 6;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 6;

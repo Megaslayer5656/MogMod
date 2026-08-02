@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static MogMod.Common.Systems.MogModNetcode;
 
 namespace MogMod.Buffs.Debuffs
 {
@@ -47,11 +48,20 @@ namespace MogMod.Buffs.Debuffs
             mogNPC.toxicDebuff = true;
             if (npc.buffTime[buffIndex] < 1)
             {
+                if (Main.netMode != NetmodeID.SinglePlayer)
+                {
+                    ModPacket packet = Mod.GetPacket();
+                    packet.Write((byte)MogModMessageType.ToxicProcTextSync);
+                    packet.Write(npc.whoAmI);
+                    packet.Send();
+                }
+                else
+                    mogNPC.ToxicFX(npc);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     if (npc.type != NPCID.TargetDummy)
                         npc.life -= mogNPC.toxicDamage;
-                    npc.DamageEffect(mogNPC.toxicDamage, Color.Purple);
+                    //npc.DamageEffect(mogNPC.toxicDamage, Color.Purple, true);
                 }
                 if (npc.life <= 0)
                 {

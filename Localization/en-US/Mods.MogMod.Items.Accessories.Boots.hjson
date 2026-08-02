@@ -1,0 +1,81 @@
+ArcaneBoots: {
+	DisplayName: Arcane Boots
+	Tooltip:
+		'''
+		Increases movement speed
+		Increased Maximum Mana by 50
+		Slightly Increased Mana Regeneration
+		Pressing [KEY] will restore 200 Mana
+		[c/2481A6:'Magi equipped with these boots are valued in battle.']
+		'''
+}
+
+GuardianGreaves: {
+	DisplayName: Guardian Greaves
+	Tooltip:
+		'''
+		Greatly Increases placement speed and range
+		Increased Maximum Mana by {0}
+		Enemies are less likely to target you
+		Greatly Increased Mana regeneration
+		Provides you and nearby team members +{1} Maximum Life, +{2} Maximum Mana, 
+		+{3} HP/s Life regen, {4} Defense and +{5}% Increased Attack Damage
+		Pressing [KEY] will restore {6} Life and {7} Mana
+		[c/1CA396:'One of many holy instruments constructed to honor the Omniscience.']
+		'''
+}
+
+BootsOfTravel: {
+	DisplayName: Boots of Travel
+	Tooltip:
+		'''
+		Vastly Increased movement speed
+		Negates fall damage
+		[c/E3B8A1:'Winged boots that grant omnipresence.']
+		'''
+}
+
+UltraBootsOfTravel: {
+	DisplayName: Ultra Boots of Travel
+	Tooltip:
+		'''
+		Run like the wind!
+		[c/C98E3C:'Winged boots that grant ultra-omnipresence.']
+		'''
+}
+
+PowerTreads: {
+	DisplayName: Power Treads
+	Tooltip: ""
+	TooltipGFB: tigla toejob
+	HoldShiftTooltip: ""
+	HoldShiftExtensionIndicator: ""
+	TooltipNormal:
+		'''
+		Allows flight and Greatly Increased Movement Speed
+		[c/aaaaaa:Press {0} while equipped to toggle between different stat bonuses]
+		[c/B29FC9:'A pair of tough-skinned boots that change to meet the demands of the wearer.']
+		'''
+	TreadsLife:
+		'''
+		[c/aaaaaa:Current Stats:]
+		Increases Maximum Life {0}
+		+{1} HP/s life regen 
+		Reduces damage over time taken by {2} HP/s
+		'''
+	TreadsDamage:
+		'''
+		[c/aaaaaa:Current Stats:]
+		+{0}% Critical Strike Chance
+		{1}% Increased Projectile Velocity
+		+{2}% Melee Weapon Size
+		'''
+	TreadsBuilding:
+		'''
+		[c/aaaaaa:Current Stats:]
+		+{0}% Mining Speed
+		+{1}% Block and Wall Placement Speed
+		Increases flight time by {2}%
+		Grants an extra jump
+		'''
+}

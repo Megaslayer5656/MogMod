@@ -22,11 +22,13 @@ using MogMod.Utilities;
 using Mono.Cecil;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using static MogMod.Common.Systems.MogModNetcode;
 using static Terraria.ModLoader.ModContent;
 
@@ -89,12 +91,58 @@ namespace MogMod.Projectiles.BaseProjectiles
         [
             ModContent.ProjectileType<GunlanceHoldout>(),
             ModContent.ProjectileType<GunlanceSpear>(),
-            ModContent.ProjectileType<BlackBladeHoldout>(),
             ModContent.ProjectileType<AnchorHoldout>(),
             ModContent.ProjectileType<WyvernJawbladeHoldout>(),
+            ModContent.ProjectileType<BlackBladeHoldout>(),
+            ModContent.ProjectileType<EchoSabreHoldout>(),
+            ModContent.ProjectileType<SkullBasherHoldout>(),
+            ModContent.ProjectileType<AbyssalBladeHoldout>(),
+            ModContent.ProjectileType<SangeHoldout>(),
+            ModContent.ProjectileType<RiversOfBloodHoldout>(),
+            //ModContent.ProjectileType<BladeOfSelvesHoldout>(),
         ];
         // Amount of extra updates that are set in SetDefaults.
         public int defExtraUpdates = -1;
+        public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
+        {
+            SendBloodAI(projectile, bitWriter, binaryWriter);
+            binaryWriter.Write(overloadingProj);
+            binaryWriter.Write(fireProj);
+            binaryWriter.Write(mendingProj);
+            binaryWriter.Write(toxicProj);
+
+            binaryWriter.Write(azurSpell);
+            binaryWriter.Write(crystalSpell);
+            binaryWriter.Write(deathSpell);
+            binaryWriter.Write(gelmirSpell);
+            binaryWriter.Write(lusatSpell);
+            binaryWriter.Write(meteoriteSpell);
+
+            binaryWriter.Write(daybreakBullet);
+            binaryWriter.Write(deathBullet);
+            binaryWriter.Write(fireBullet);
+            binaryWriter.Write(iceBullet);
+        }
+        public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
+        {
+            ReceiveBloodAI(projectile, bitReader, binaryReader);
+            overloadingProj = binaryReader.ReadBoolean();
+            fireProj = binaryReader.ReadBoolean();
+            mendingProj = binaryReader.ReadBoolean();
+            toxicProj = binaryReader.ReadBoolean();
+
+            azurSpell = binaryReader.ReadBoolean();
+            crystalSpell = binaryReader.ReadBoolean();
+            deathSpell = binaryReader.ReadBoolean();
+            gelmirSpell = binaryReader.ReadBoolean();
+            lusatSpell = binaryReader.ReadBoolean();
+            meteoriteSpell = binaryReader.ReadBoolean();
+
+            daybreakBullet = binaryReader.ReadBoolean();
+            deathBullet = binaryReader.ReadBoolean();
+            fireBullet = binaryReader.ReadBoolean();
+            iceBullet = binaryReader.ReadBoolean();
+        }
         public override bool PreAI(Projectile projectile)
         {
             Player player = Main.player[projectile.owner];
@@ -115,24 +163,23 @@ namespace MogMod.Projectiles.BaseProjectiles
             Time++;
 
             BloodAI(projectile);
-            if (fireBullet)
-                if (projectile.timeLeft > 200)
+            if (projectile.Opacity > 0 && projectile.scale > 0.01f)
+            {
+                if (fireBullet)
                     for (int i = 0; i < 2; ++i)
                     {
                         Dust dust = Dust.NewDustPerfect(projectile.Center, Main.rand.NextBool() ? DustID.Flare : DustID.Torch, projectile.velocity * Main.rand.NextFloat(0.1f, 0.9f));
                         dust.noGravity = true;
                         dust.scale = Main.rand.NextFloat(0.4f, 0.8f);
                     }
-            if (iceBullet)
-                if (projectile.timeLeft > 200)
+                if (iceBullet)
                     for (int i = 0; i < 2; ++i)
                     {
                         Dust dust = Dust.NewDustPerfect(projectile.Center, Main.rand.NextBool() ? DustID.Frost : DustID.IceRod, projectile.velocity * Main.rand.NextFloat(0.1f, 0.9f));
                         dust.noGravity = true;
                         dust.scale = Main.rand.NextFloat(0.4f, 0.8f);
                     }
-            if (deathBullet)
-                if (projectile.timeLeft > 200)
+                if (deathBullet)
                 {
                     float helixOffset = (float)Math.Sin(projectile.timeLeft / 25f * MathHelper.TwoPi) * -8f;
                     Vector2 spawnOffset = new Vector2(helixOffset, 10f).RotatedBy(projectile.rotation);
@@ -144,8 +191,7 @@ namespace MogMod.Projectiles.BaseProjectiles
                         dust.scale = Main.rand.NextFloat(0.4f, 0.8f);
                     }
                 }
-            if (daybreakBullet)
-                if (projectile.timeLeft > 200)
+                if (daybreakBullet)
                 {
                     float helixOffset = (float)Math.Sin(projectile.timeLeft / 25f * MathHelper.TwoPi) * -8f;
                     Vector2 spawnOffset = new Vector2(helixOffset, 10f).RotatedBy(projectile.rotation);
@@ -157,6 +203,7 @@ namespace MogMod.Projectiles.BaseProjectiles
                         dust.scale = Main.rand.NextFloat(0.4f, 0.8f);
                     }
                 }
+            }
             Vector2 dustNumb = new(1.6f, 2f);
             if (gelmirSpell)
             {
@@ -278,7 +325,6 @@ namespace MogMod.Projectiles.BaseProjectiles
             MogModGlobalNPC mogNPC = target.MogMod();
             var source = player.GetSource_OnHit(target);
             int enemyMaxHP = target.lifeMax;
-            int shivDamage = MogModUtils.DamageHardCap(Convert.ToInt32(enemyMaxHP * 0.005) + 50, shivCap);
             int hellfireDamage = MogModUtils.DamageSoftCap(damageDone * HellfireMask.DamageMult, hellfireCap);
             int gunpowderDamage = MogModUtils.DamageSoftCap(damageDone * GunpowderGauntlet.DamageMult, gunpowderCap);
             int overloadingDamage = (int)(damageDone * OverloadingAspect.DamageMult);
@@ -324,28 +370,7 @@ namespace MogMod.Projectiles.BaseProjectiles
                     if (shivProc && modPlayer.wearingSerratedShiv && modPlayer.shivCooldown <= 0)
                     {
                         modPlayer.shivCooldown = cooldownTimer * 4;
-                        hitInfo = new NPC.HitInfo
-                        {
-                            Damage = shivDamage,
-                            Knockback = 0,
-                            HitDirection = 0,
-                            Crit = false,
-                            DamageType = DamageClass.Default
-                        };
-                        target.StrikeNPC(hitInfo);
-                        NetMessage.SendStrikeNPC(target, hitInfo);
-                        Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
-                        Color textColor = new Color(210, 180, 140);
-                        CombatText.NewText(r, textColor, "Strike!", true);
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            ModPacket packet = Mod.GetPacket();
-                            packet.Write((byte)MogModMessageType.TrueStrikeProcTextSync);
-                            packet.Write(target.lastInteraction);
-                            packet.WriteVector2(r.Center.ToVector2());
-                            packet.Send();
-                        }
-                        doTrueStrikeFX(target.Center);
+                        mogNPC.ApplyTrueStrikeProc(target, player);
                     }
 
                     // skull basher (melee holdout projectiles only)
@@ -353,18 +378,7 @@ namespace MogMod.Projectiles.BaseProjectiles
                     if (bashProc && modPlayer.wearingGiantsMaul && modPlayer.bashCooldown <= 0 && MeleeHoldouts.Contains(projectile.type))
                     {
                         modPlayer.bashCooldown = cooldownTimer;
-                        int bash = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ModContent.ProjectileType<SkullBashProjectile>(), bashCap, 0f, player.whoAmI);
-                        Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
-                        Color textColor = new Color(255, 0, 100);
-                        CombatText.NewText(r, textColor, "Bash!", true);
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            ModPacket packet = Mod.GetPacket();
-                            packet.Write((byte)MogModMessageType.BashProcTextSync);
-                            packet.Write(target.lastInteraction);
-                            packet.WriteVector2(r.Center.ToVector2());
-                            packet.Send();
-                        }
+                        target.MogMod().ApplyBashProc(target, player, damageDone);
                     }
 
                     // atg and plasma shrimp
@@ -535,6 +549,8 @@ namespace MogMod.Projectiles.BaseProjectiles
         }
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
+            //if (Main.netMode == NetmodeID.MultiplayerClient)
+            //    return;
             Player player = Main.player[projectile.owner];
             MogPlayer modPlayer = player.MogMod();
             
@@ -545,18 +561,22 @@ namespace MogMod.Projectiles.BaseProjectiles
                 return false;
             }
 
-            if (CheckWeapon(ModContent.ItemType<GelmirGlintstoneStaff>()) && projectile.DamageType == SorceryDamageClass.Instance)
-                gelmirSpell = true;
-            if (CheckWeapon(ModContent.ItemType<MeteoriteStaff>()) && projectile.DamageType == SorceryDamageClass.Instance)
-                meteoriteSpell = true;
-            if (CheckWeapon(ModContent.ItemType<CrystalStaff>()) && projectile.DamageType == SorceryDamageClass.Instance)
-                crystalSpell = true;
-            if (CheckWeapon(ModContent.ItemType<PrinceOfDeathsStaff>()) && projectile.DamageType == SorceryDamageClass.Instance)
-                deathSpell = true;
-            if (CheckWeapon(ModContent.ItemType<LusatsGlintstoneStaff>()) && projectile.DamageType == SorceryDamageClass.Instance)
-                lusatSpell = true;
-            if (CheckWeapon(ModContent.ItemType<AzursGlintstoneStaff>()) && projectile.DamageType == SorceryDamageClass.Instance)
-                azurSpell = true;
+            if (projectile.DamageType == SorceryDamageClass.Instance)
+            {
+                if (CheckWeapon(ModContent.ItemType<GelmirGlintstoneStaff>()))
+                    gelmirSpell = true;
+                if (CheckWeapon(ModContent.ItemType<MeteoriteStaff>()))
+                    meteoriteSpell = true;
+                if (CheckWeapon(ModContent.ItemType<CrystalStaff>()))
+                    crystalSpell = true;
+                if (CheckWeapon(ModContent.ItemType<PrinceOfDeathsStaff>()))
+                    deathSpell = true;
+                if (CheckWeapon(ModContent.ItemType<LusatsGlintstoneStaff>()))
+                    lusatSpell = true;
+                if (CheckWeapon(ModContent.ItemType<AzursGlintstoneStaff>()))
+                    azurSpell = true;
+                //NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
+            }
             if (source is EntitySource_Parent { Entity: Projectile Owner })
             {
                 if (Owner.MogMod().gelmirSpell)
@@ -579,18 +599,23 @@ namespace MogMod.Projectiles.BaseProjectiles
                     toxicProj = true;
                 if (Owner.MogMod().mendingProj)
                     mendingProj = true;
+                //NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
             }
             if (source is EntitySource_Parent { Entity: NPC npc })
             {
                 MogModGlobalNPC mogNPC = npc.MogMod();
-                if (!npc.friendly && mogNPC.overloadingElite)
-                    overloadingProj = true;
-                if (!npc.friendly && mogNPC.fireElite)
-                    fireProj = true;
-                if (!npc.friendly && mogNPC.toxicElite)
-                    toxicProj = true;
-                if (!npc.friendly && mogNPC.healingElite)
-                    mendingProj = true;
+                if (!npc.friendly)
+                {
+                    if (mogNPC.overloadingElite)
+                        overloadingProj = true;
+                    if (mogNPC.fireElite)
+                        fireProj = true;
+                    if (mogNPC.toxicElite)
+                        toxicProj = true;
+                    if (mogNPC.healingElite)
+                        mendingProj = true;
+                    //NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
+                }
             }
 
             // stolen STRAIGHT from fargos souls mod
@@ -659,16 +684,6 @@ namespace MogMod.Projectiles.BaseProjectiles
         {
             int p = Projectile.NewProjectile(spawnSource, pos, vel, type, damage, knockback, owner, ai0, ai1);
             return p < Main.maxProjectiles ? Main.projectile[p] : null;
-        }
-        public static void doTrueStrikeFX(Vector2 position)
-        {
-            SoundEngine.PlaySound(SoundID.NPCDeath56, position);
-            for (int i = 0; i < 40; i++)
-            {
-                int strike = Dust.NewDust(position, 20, 20, DustID.CopperCoin, 0, 0, 100, default, 2f);
-                Main.dust[strike].velocity.Y *= 1.05f;
-                Main.dust[strike].noGravity = true;
-            }
         }
         #endregion
     }

@@ -34,13 +34,16 @@ using System.Collections.Generic;
 using System.Runtime.Intrinsics.Arm;
 using Terraria;
 using Terraria.Audio;
+using Terraria.Chat;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.GameContent.Creative;
 using Terraria.GameInput;
 using Terraria.Graphics;
 using Terraria.Graphics.Renderers;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Default;
 using Terraria.WorldBuilding;
@@ -87,6 +90,12 @@ namespace MogMod.Common.MogModPlayer
         public bool syncMouseRotation = false;
         public bool syncMouseRightClick = false;
 
+        /// <summary>
+        /// General variable used for controlling the strength of screenshake this player is experiencing. Measured in pixels of offset that can be applied to the screen.<br/>
+        /// When setting this, be sure to only set it if its current value is less than the value to set, to prevent overriding an ongoing stronger screenshake with a weaker one.<br/>
+        /// A helper method exists which can automatically do this for you, <see cref="MogModUtils.SetScreenshake"/>.
+        /// </summary>
+        public float GeneralScreenShakePower = 0f;
 
         #region Accessories
         public bool wearingRigSlot;
@@ -233,6 +242,9 @@ namespace MogMod.Common.MogModPlayer
         public bool icbmActive = false;
         public bool polyluteActive = false;
 
+        public bool exultationEquipped = false;
+        public bool mercyBladeEquipped = false;
+
         public int shivCooldown = 0;
         public int bashCooldown = 0;
         public int gunpowderCooldown = 0;
@@ -307,10 +319,6 @@ namespace MogMod.Common.MogModPlayer
 
         public bool inShadowRealm;
         public bool krakenBuff;
-
-        public bool riversOfBloodProj = false;
-        public bool exultationEquipped = false;
-        public bool mercyBladeEquipped = false;
 
         public bool markerProjOut = false;
         public bool moonveilProj = false;
@@ -504,7 +512,7 @@ namespace MogMod.Common.MogModPlayer
                 target.AddBuff(BuffID.ShadowFlame, 180);
             if (Player.HasBuff<DragonInstallBuff>())
                 target.AddBuff(ModContent.BuffType<InfernoDebuff>(), 600);
-            if (wearingFrostArmor)
+            if (wearingFrostArmor && magic)
                 target.AddBuff(ModContent.BuffType<FreezingDebuff>(), 300);
             if (wearingHellfireArmor)
                 target.AddBuff(BuffID.OnFire3, 180);
@@ -516,6 +524,8 @@ namespace MogMod.Common.MogModPlayer
                 target.AddBuff(BuffID.Midas, 180);
             if (wearingToxic && !target.HasBuff<ToxicDebuff>())
                 target.AddBuff(ModContent.BuffType<ToxicDebuff>(), 600);
+            if (wearingMending)
+                target.AddBuff(ModContent.BuffType<HealingDisabledDebuff>(), 600);
         }
         public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -684,7 +694,7 @@ namespace MogMod.Common.MogModPlayer
             {
                 if (actualProjDamage >= dodgeDamageGateValue)
                 {
-                    if (wearingGilded && !MogModProjectileSets.ShouldNotBeReflected[proj.type] && !modifiers.PvP && !proj.friendly && gildedReflectCooldown <= 0)
+                    if (wearingGilded && gildedReflectCooldown <= 0 && !MogModProjectileSets.ShouldNotBeReflected[proj.type] && !modifiers.PvP && !proj.friendly)
                     {
                         proj.hostile = false;
                         proj.friendly = true;
@@ -693,8 +703,8 @@ namespace MogMod.Common.MogModPlayer
                         proj.penetrate = 1;
 
                         SoundEngine.PlaySound(SoundID.Item150, Player.Center);
-                        int daedalusReflectIFrames = Player.ComputeReflectIFrames();
-                        Player.GiveUniversalIFrames(daedalusReflectIFrames, true);
+                        int reflectIFrames = Player.ComputeReflectIFrames();
+                        Player.GiveUniversalIFrames(reflectIFrames, true);
                         modifiers.Cancel();
                         gildedReflectCooldown = GildedAspect.ReflectCooldown;
                     }
@@ -887,7 +897,7 @@ namespace MogMod.Common.MogModPlayer
                     Main.dust[DI1].noGravity = true;
                     Main.dust[DI1].fadeIn = 2f;
                     Main.dust[DI1].velocity *= 3f;
-                    int DI2 = Dust.NewDust(Player.Center, dustPos - 5, dustPos - 5, DustID.Blood, dustVelocity.X * 2, dustVelocity.Y * 2, 0, Color.Red, 2f);
+                    int DI2 = Dust.NewDust(Player.Center, dustPos - 5, dustPos - 5, ChildSafety.Disabled ? DustID.Blood : DustID.CrimsonPlants, dustVelocity.X * 2, dustVelocity.Y * 2, 0, Color.Red, 2f);
                     Main.dust[DI2].noGravity = true;
                     Main.dust[DI2].fadeIn = 2f;
                     Main.dust[DI2].velocity *= 3f;
@@ -1639,6 +1649,35 @@ namespace MogMod.Common.MogModPlayer
             MiscEffects();
             OtherBuffEffects();
             CheckIfMouseItemIsSchematic();
+
+            // Regularly sync player stats & mouse control info during multiplayer
+            if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                if (syncMouseRightClick)
+                {
+                    syncMouseRightClick = false;
+                    MouseRightClickSync();
+                }
+
+                mouseWorldPacketTimer = Math.Min(mouseWorldPacketTimer + 1, MouseWorldPacketInterval);
+                if (mouseWorldPacketTimer >= MouseWorldPacketInterval)
+                {
+                    if (syncMousePosition)
+                    {
+                        mouseWorldPacketTimer = 0;
+                        syncMousePosition = false;
+                        syncMouseRotation = false; // Rotation also get update on position packet
+                        MousePositionSync();
+                    }
+
+                    if (syncMouseRotation)
+                    {
+                        mouseWorldPacketTimer = 0;
+                        syncMouseRotation = false;
+                        MouseRotationSync();
+                    }
+                }
+            }
         }
         public void CheckIfMouseItemIsSchematic()
         {
@@ -1668,6 +1707,8 @@ namespace MogMod.Common.MogModPlayer
             string targetName3 = "Balright";
             string targetName4 = "Jpoel";
             string targetName5 = "SenorDragon";
+            string targetName6 = "wPopOff";
+            string targetName7 = "wPoopButt";
             static Item createItem(int type)
             {
                 Item i = new Item();
@@ -1679,12 +1720,6 @@ namespace MogMod.Common.MogModPlayer
             if (!mediumCoreDeath)
             {
                 yield return createItem(ModContent.ItemType<VonWarning>());
-                if (Main.zenithWorld)
-                {
-                    yield return createItem(ModContent.ItemType<BizarreMusicBox>());
-                    yield return createItem(ModContent.ItemType<VonEvilIncarnateMusicBox>());
-                    yield return createItem(ModContent.ItemType<KingVonMusicBox>());
-                }
                 if (Player.name.Equals(targetName, StringComparison.OrdinalIgnoreCase))
                 {
                     yield return createItem(ModContent.ItemType<Phasma>());
@@ -1700,21 +1735,16 @@ namespace MogMod.Common.MogModPlayer
                     yield return createItem(ModContent.ItemType<TheDeck>());
                     yield return createItem(ModContent.ItemType<KingVonMusicBox>());
                 }
-                if (Player.name.Equals(targetName4, StringComparison.OrdinalIgnoreCase))
+                if (Player.name.Equals(targetName4, StringComparison.OrdinalIgnoreCase) || Player.name.Equals(targetName5, StringComparison.OrdinalIgnoreCase))
                 {
-                    //if (Main.zenithWorld)
                     yield return createItem(ModContent.ItemType<ProximityMines>());
-                    if (Main.zenithWorld)
-                        yield return createItem(ModContent.ItemType<EmptySpell>());
                     yield return createItem(ItemID.GenderChangePotion);
                 }
-                if (Player.name.Equals(targetName5, StringComparison.OrdinalIgnoreCase))
+                if (Player.name.Equals(targetName6, StringComparison.OrdinalIgnoreCase) || Player.name.Equals(targetName7, StringComparison.OrdinalIgnoreCase))
                 {
-                    //if (Main.zenithWorld)
-                    yield return createItem(ModContent.ItemType<ProximityMines>());
-                    if (Main.zenithWorld)
-                        yield return createItem(ModContent.ItemType<EmptySpell>());
-                    yield return createItem(ItemID.GenderChangePotion);
+                    yield return createItem(ModContent.ItemType<BizarreMusicBox>());
+                    yield return createItem(ModContent.ItemType<VonEvilIncarnateMusicBox>());
+                    yield return createItem(ModContent.ItemType<KingVonMusicBox>());
                 }
             }
         }
@@ -2249,11 +2279,6 @@ namespace MogMod.Common.MogModPlayer
             for (int i = 0; i < Player.hurtCooldowns.Length; i++)
             {
                 Player.hurtCooldowns[i] = 35;
-            }
-
-            if (Player.HeldItem.type == ModContent.ItemType<RiversOfBlood>())
-            {
-                riversOfBloodProj = true;
             }
 
             if (Player.HeldItem.type == ModContent.ItemType<Moonveil>())

@@ -1,7 +1,7 @@
 ﻿using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MogMod.Items.Ammo.SorcerySpells;
 using MogMod.Utilities;
 using ReLogic.Content;
 using Terraria;
@@ -28,6 +28,18 @@ namespace MogMod.Projectiles.BaseProjectiles
         public override void OnSpawn(IEntitySource source)
         {
             Projectile.timeLeft = Owner.HeldItem.useAnimation + 1;
+        }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write((sbyte)Projectile.spriteDirection);
+            //writer.Write(RotationOffset);
+            writer.Write(Projectile.rotation);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Projectile.spriteDirection = reader.ReadSByte();
+            //RotationOffset = reader.ReadSingle();
+            Projectile.rotation = reader.ReadSingle();
         }
 
         #region Fields
@@ -200,9 +212,11 @@ namespace MogMod.Projectiles.BaseProjectiles
             if (!ItemUsedAsAmmo)
             {
                 Projectile.ContinuouslyUpdateDamageStats = true;
-                if ((Owner.HeldItem.type != AssignedItemID) || Owner.dead)
+                if (Owner.HeldItem.type != AssignedItemID || Owner.dead)
                     Projectile.Kill();
             }
+            if (Owner.dead)
+                Projectile.Kill();
 
             Owner.MogMod().mouseWorldListener = true;
             Owner.MogMod().rightClickListener = true;
@@ -269,7 +283,8 @@ namespace MogMod.Projectiles.BaseProjectiles
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            modifiers.HitDirectionOverride = Owner.direction;
+            //modifiers.HitDirectionOverride = Owner.direction;
+            modifiers.HitDirectionOverride = target.position.X > Owner.MountedCenter.X ? 1 : -1;
             base.ModifyHitNPC(target, ref modifiers);
         }
         public override bool? CanDamage()

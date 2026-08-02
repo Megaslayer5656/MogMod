@@ -19,7 +19,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = Item.height = 36;
 
-            Item.damage = 10;
+            Item.damage = 15;
             Item.DamageType = DamageClass.Melee;
             Item.useTime = Item.useAnimation = 12;
             Item.shoot = ModContent.ProjectileType<RuntyBladesProj>();

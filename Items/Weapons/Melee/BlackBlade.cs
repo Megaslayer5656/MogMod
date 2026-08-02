@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
+    // TODO: rework
     public class BlackBlade : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";

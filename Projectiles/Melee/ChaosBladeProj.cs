@@ -14,7 +14,7 @@ namespace MogMod.Projectiles.Melee
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
-        public static readonly SoundStyle UltraCrit = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/UltraCrit") //UltraCrit SFX
+        public static readonly SoundStyle UltraCrit = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/UltraCrit")
         {
             Volume = 1.1f,
             PitchVariance = .2f

@@ -1,8 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Common.Packets;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+using static MogMod.Common.Systems.MogModNetcode;
 using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Utilities
@@ -149,6 +152,21 @@ namespace MogMod.Utilities
         internal const int TinyHealthThreshold = 5;
         internal const int TinyDamageThreshold = 5;
         internal const int NoContactDamageHealthThreshold = 3000;
+        /// <summary>
+        /// Syncs position and velocity from a client to the server. This is to be used in contexts where these things are reliant on client-side information, such as <see cref="Main.MouseWorld"/>.
+        /// </summary>
+        /// <param name="npc"></param>
+        public static void SyncMotionToServer(this NPC npc)
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                return;
+
+            SyncNPCMotionDataToServerPacket.Send(npc);
+        }
+        public static void SyncNPCPosAndRotOnly(this NPC npc)
+        {
+            SyncNPCPosAndRotOnlyPacket.Send(npc);
+        }
         public static bool IsAnEnemy(this NPC npc, bool allowStatues = true, bool checkDead = true, bool checkDamage = true)
         {
             // Null, inactive, town NPCs, and friendlies are right out.
@@ -176,14 +194,27 @@ namespace MogMod.Utilities
         /// <summary>
         /// Spawns a <see cref="CombatText"/> indicating the amount of damage manually dealt to the NPC, such as from self-damage. Automatically syncs it in multiplayer.
         /// </summary>
-        public static void DamageEffect(this NPC npc, int damageAmount, Color color)
+        public static void DamageEffect(this NPC npc, int damageAmount, Color color, bool dramatic = false)
         {
-            Rectangle r = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
+            Rectangle r = new((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
             Color textColor = color;
+            int num = dramatic ? 1 : 0;
             if (Main.dedServ)
-                NetMessage.SendData(MessageID.CombatTextInt, -1, -1, null, (int)textColor.PackedValue, r.Center.X, r.Center.Y, damageAmount);
+                NetMessage.SendData(MessageID.CombatTextInt, -1, -1, null, (int)textColor.PackedValue, r.Center.X, r.Center.Y, damageAmount); // TODO: find a way to make this dramatic
             else
-                CombatText.NewText(r, textColor, damageAmount);
+                CombatText.NewText(r, textColor, damageAmount, dramatic);
+        }
+        /// <summary>
+        /// Spawns a <see cref="CombatText"/> set to a custom text. Automatically syncs it in multiplayer.
+        /// </summary>
+        public static void TextEffect(NetworkText text, Rectangle rectangle, Color color, bool dramatic = false)
+        {
+            Color textColor = color;
+            int num = dramatic ? 1 : 0;
+            if (Main.dedServ)
+                NetMessage.SendData(MessageID.CombatTextString, -1, -1, text, (int)textColor.PackedValue, rectangle.Center.X, rectangle.Center.Y); // TODO: find a way to make this dramatic
+            else
+                CombatText.NewText(rectangle, textColor, text.ToString(), dramatic);
         }
         /// <summary>
         /// Check if an NPC can be moved
@@ -211,7 +242,7 @@ namespace MogMod.Utilities
                 float playerKnockbackMult = 1;
                 float knockbackMult = playerKnockbackMult * (heavyKnockback ? Math.Max(target.knockBackResist, 1) : target.knockBackResist); // Heavy knockback ignores knockback resist (but not knockback weakness)
                 target.velocity = launchVel * knockbackMult;
-                target.netUpdate = true; // may or may not work
+                target.SyncMotionToServer();
             }
         }
         public static NPCShop AddWithCustomValue(this NPCShop shop, int itemType, int customValue, params Condition[] conditions)

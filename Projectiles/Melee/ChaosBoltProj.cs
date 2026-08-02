@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Weapons.Melee;
+using MogMod.NPCs.Global;
 using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static MogMod.Common.Systems.MogModNetcode;
@@ -98,46 +100,49 @@ namespace MogMod.Projectiles.Melee
             }
 
             var source = Projectile.GetSource_OnHit(target);
-            if (Main.rand.Next(0, 10) == 0) // 1 in 10 chance
+            if (hit.Crit)
             {
-                Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
-                Color textColor = new Color(255, 0, 0);
-                CombatText.NewText(r, textColor, "Ultra Crit!", true);
-                if (Main.netMode == NetmodeID.Server)
+                if (Main.rand.Next(0, 10) == 0) // 1 in 10 chance
                 {
-                    ModPacket packet = Mod.GetPacket();
-                    packet.Write((byte)MogModMessageType.UltraCritTextSync);
-                    packet.Write(player.whoAmI);
-                    packet.WriteVector2(r.Center.ToVector2());
-                    packet.Send();
-                }
-
-                int randNumProjectiles = Main.rand.Next(1, 4);
-                int randDamage = Main.rand.Next(ChaosArbiter.strikeMin, ChaosArbiter.strikeMax);
-                for (int i = 0; i < randNumProjectiles; i++)
-                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ChaosBladeProj>(), randDamage, 0f, Projectile.owner, false, 0f);
-
-                if (target.type != NPCID.TargetDummy)
-                {
-                    int heal = Main.rand.Next(1, 3);
-                    // for SOME REASON player has a default of 70 lifesteal
-                    heal *= Convert.ToInt32(player.lifeSteal * 0.08);
-                    player.statLife += heal;
-                    player.HealEffect(heal);
-                    // so we dont go over max life
-                    if (player.statLife > player.statLifeMax2)
-                        player.statLife = player.statLifeMax2;
-                }
-
-                // TODO: make phantom spawns take up empty slots instead of going 0 -> 3
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosArbiterClone>()] <= 3)
-                {
-                    if (ChaosArbiter.numb <= 3)
-                        ChaosArbiter.numb++;
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        ModPacket packet = Mod.GetPacket();
+                        packet.Write((byte)MogModMessageType.UltraCritTextSync);
+                        packet.Write(target.lastInteraction);
+                        packet.Write(target.whoAmI);
+                        packet.Send();
+                    }
                     else
-                        ChaosArbiter.numb = 0;
-                    Projectile clone = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ModContent.ProjectileType<ChaosArbiterClone>(), Projectile.damage, Projectile.knockBack, Projectile.owner, ChaosArbiter.numb);
-                    clone.OriginalCritChance = Main.rand.Next(10, 30);
+                    {
+                        target.MogMod().UltraCritFX(target);
+                    }
+                    int randNumProjectiles = Main.rand.Next(1, 4);
+                    int randDamage = Main.rand.Next(ChaosArbiter.strikeMin, ChaosArbiter.strikeMax);
+                    for (int i = 0; i < randNumProjectiles; i++)
+                        MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ChaosBladeProj>(), randDamage, 0f, Projectile.owner, false, 0f);
+
+                    if (target.type != NPCID.TargetDummy)
+                    {
+                        int heal = Main.rand.Next(1, 3);
+                        // for SOME REASON player has a default of 70 lifesteal
+                        heal *= Convert.ToInt32(player.lifeSteal * 0.08);
+                        player.statLife += heal;
+                        player.HealEffect(heal);
+                        // so we dont go over max life
+                        if (player.statLife > player.statLifeMax2)
+                            player.statLife = player.statLifeMax2;
+                    }
+
+                    // TODO: make phantom spawns take up empty slots instead of going 0 -> 3
+                    if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosArbiterClone>()] <= 3)
+                    {
+                        if (ChaosArbiter.numb <= 3)
+                            ChaosArbiter.numb++;
+                        else
+                            ChaosArbiter.numb = 0;
+                        Projectile clone = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ModContent.ProjectileType<ChaosArbiterClone>(), Projectile.damage, Projectile.knockBack, Projectile.owner, ChaosArbiter.numb);
+                        clone.OriginalCritChance = Main.rand.Next(10, 30);
+                    }
                 }
             }
         }
@@ -159,16 +164,24 @@ namespace MogMod.Projectiles.Melee
             var source = Projectile.GetSource_OnHit(target);
             if (Main.rand.Next(0, 10) == 0) // 1 in 10 chance
             {
-                Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
-                Color textColor = new Color(255, 0, 0);
-                CombatText.NewText(r, textColor, "Ultra Crit!", true);
-                if (Main.netMode == NetmodeID.Server)
+                SoundEngine.PlaySound(MogModGlobalNPC.UltraCritSFX, target.Center);
+                Rectangle r = new((int)target.Hitbox.X, (int)target.Hitbox.Y - 50, target.Hitbox.Width, target.Hitbox.Height);
+                Color textColor = new(255, 0, 0);
+                MogModUtils.TextEffect(MiscUtils.GetText("Status.Proc.UltraCrit").ToNetworkText(), r, textColor, true);
+                for (int i = 0; i < 30; i++)
                 {
-                    ModPacket packet = Mod.GetPacket();
-                    packet.Write((byte)MogModMessageType.UltraCritTextSync);
-                    packet.Write(player.whoAmI);
-                    packet.WriteVector2(r.Center.ToVector2());
-                    packet.Send();
+                    Vector2 randPos = Main.rand.NextVector2CircularEdge(r.Width / 2f, r.Height / 2f);
+                    Dust telegraphDust = Dust.NewDustPerfect(target.Center + randPos, ChildSafety.Disabled ? DustID.Blood : DustID.CrimsonPlants, target.DirectionFrom(target.Center + randPos) * Main.rand.NextFloat(5f, 7f), 0, default, 1.5f);
+                    telegraphDust.noGravity = true;
+                }
+                for (int n = 0; n < 6; n++)
+                {
+                    float swirlRotation = Main.GlobalTimeWrappedHourly * -5.75f + (MathHelper.TwoPi / 6f * n);
+                    Vector2 swirlPos = target.Center + Vector2.UnitX.RotatedBy(swirlRotation) * 20f;
+                    Vector2 swirlVelocity = Vector2.Normalize(swirlPos - target.Center).RotatedBy(MathHelper.ToRadians(20)) * 2f;
+                    Dust swirlDust = Dust.NewDustPerfect(swirlPos, DustID.GemRuby, swirlVelocity * Main.rand.NextFloat(5f, 7f), 0, default, 1.5f);
+                    swirlDust.noGravity = true;
+                    swirlDust.fadeIn = .6f;
                 }
 
                 int randNumProjectiles = Main.rand.Next(2, 8);

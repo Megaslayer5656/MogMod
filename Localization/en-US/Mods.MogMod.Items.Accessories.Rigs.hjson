@@ -1,0 +1,54 @@
+IdeaRig: {
+	DisplayName: Idea Rig
+	Tooltip: "{$Common.RigInformation}"
+}
+
+TritonM43A: {
+	DisplayName: Triton M43-A
+	Tooltip: ""
+	TooltipGFB:
+		'''
+		-{0}% Mining Speed
+		Press {1} to open your Piggy Bank
+		[c/B29FC9:'Broken and curbstomped by Dynaforce.']
+		'''
+	TooltipNormal:
+		'''
+		+{0}% Mining Speed
+		Press {1} to open your Safe
+		[c/B29FC9:'Manufactured by Dynaforce.']
+		'''
+	HoldShiftTooltip: "{$Common.RigInformation}"
+}
+
+AzimutSSZhuk: {
+	DisplayName: Azimut SS Zhuk
+	Tooltip: ""
+	TooltipGFB:
+		'''
+		tigs
+		-{0}% Mining Speed
+		Press {1} to open your Defender's Forge
+		[c/5BA689:'RAgmuddy_reaper']
+		'''
+	TooltipNormal:
+		'''
+		+{0}% Mining Speed
+		Press {1} to open your Safe
+		[c/5BA689:'RAgmuddy_reaper']
+		'''
+	HoldShiftTooltip: "{$Common.RigInformation}"
+}
+
+OspreyMK4A: {
+	DisplayName: Osprey MK4A
+	Tooltip:
+		'''
+		[c/C73650:-{0}% Movement Speed]
+		+{1}% Damage Reduction
+		+{2}% Ranged Critical Strike Chance
+		{3}% Chance to not consume ammo
+		[c/4C703A:'Actively used by the British army and specialists.']
+		'''
+	HoldShiftTooltip: "{$Common.RigInformation}"
+}

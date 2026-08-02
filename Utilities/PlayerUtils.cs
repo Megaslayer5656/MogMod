@@ -1,14 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
+using MogMod.Items.Accessories.Boots;
+using MogMod.Items.Accessories.NeutralItems;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.GameContent.Animations.IL_Actions.Sprites;
 using static Terraria.Player;
 
 namespace MogMod.Utilities
 {
     public static partial class MogModUtils
     {
-        public static void SendPacket(this Player player, ModPacket packet, bool server) //Thank you for this idea Calamity Mod, we love you!
+        public static void SendPacket(this Player player, ModPacket packet, bool server)
         {
             // Client: Send the packet only to the host.
             if (!server)
@@ -26,10 +30,16 @@ namespace MogMod.Utilities
         /// </param>
         public static float GetMeleeScale(this Player player, bool addHeldItemScale = true)
         {
+            MogPlayer mogPlayer = player.MogMod();
             float baseScale = 1;
             player.ApplyMeleeScale(ref baseScale); // Gets vanilla's glove scale boosts
             if (addHeldItemScale)
                 baseScale += (player.HeldItem.scale - 1);
+
+            if (mogPlayer.wearingGiantsMaul)
+                baseScale += GiantsMaul.SizeMult + (Main.zenithWorld ? -1.1f : 0);
+            if (mogPlayer.wearingTreadsDamage)
+                baseScale += PowerTreads.SizeMult;
 
             return baseScale;
         }

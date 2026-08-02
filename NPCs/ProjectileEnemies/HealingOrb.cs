@@ -42,6 +42,7 @@ namespace MogMod.NPCs.ProjectileEnemies
             AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 0, 0);
             NPC.DeathSound = SoundID.Dig;
+            NPC.dontTakeDamage = true;
         }
         #endregion
 
@@ -66,7 +67,7 @@ namespace MogMod.NPCs.ProjectileEnemies
                 Dust telegraphDust = Dust.NewDustPerfect(NPC.Center + randPos, Main.rand.NextBool(3) ? DustID.GreenTorch : DustID.JungleTorch, NPC.DirectionFrom(NPC.Center + NPC.velocity + randPos) * Main.rand.NextFloat(5f, 7f), 0, default, 1.5f);
                 telegraphDust.noGravity = true;
             }
-            NPC.dontTakeDamage = AITimer <= explodeTime - 100f;
+            NPC.dontTakeDamage = AITimer <= explodeTime - 90f;
             if (AITimer >= (explodeTime + 60f))
             {
                 SoundEngine.PlaySound(SoundID.Item60, NPC.Center);

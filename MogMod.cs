@@ -1,15 +1,19 @@
+using log4net;
+using MogMod.Common.Systems;
+using MogMod.Items.Weapons.Melee;
 using System.Drawing.Text;
 using System.IO;
 using System.Security.Cryptography.X509Certificates; // what could this possibly even do
-using Terraria.ModLoader;
-using MogMod.Common.Systems;
 using Terraria.ID;
-using MogMod.Items.Weapons.Melee;
+using Terraria.ModLoader;
 
 namespace MogMod
 {
     public class MogMod : Mod
     {
+        internal static MogMod Instance => _Instance ??= ModContent.GetInstance<MogMod>();
+        private static MogMod _Instance;
+        internal static ILog Log => Instance.Logger;
         public override void Load()
         {
         }

@@ -19,7 +19,7 @@ namespace MogMod.NPCs.Enemies
     internal class FreakyTienHead : WormHead
     {
         #region Setup
-        public const int TotalHealth = 180;
+        public const int TotalHealth = 60;
         public override int BodyType => ModContent.NPCType<FreakyTienBody>();
         public override int TailType => ModContent.NPCType<FreakyTienTail>();
         public override void SetStaticDefaults()
@@ -39,7 +39,7 @@ namespace MogMod.NPCs.Enemies
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.aiStyle = -1;
             NPC.lifeMax = TotalHealth;
-            NPC.damage = 34;
+            NPC.damage = 16;
 
             Banner = Type;
             // These lines are only needed in the main body part.
@@ -61,7 +61,7 @@ namespace MogMod.NPCs.Enemies
             ]);
         }
         // We would like this npc to spawn below the surface.
-        public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.Cavern.Chance * 0.025f;
+        public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.Cavern.Chance * 0.01f;
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<VitalityBooster>(), 1, 1, 2));

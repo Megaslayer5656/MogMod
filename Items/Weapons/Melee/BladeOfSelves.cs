@@ -1,46 +1,38 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Global;
+﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
 using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
+    // TODO: rework
     public class BladeOfSelves : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         int numHits = 0;
         public override void SetDefaults()
         {
-            Item.width = 50;
-            Item.height = 50;
-            Item.damage = 82;
+            Item.width = Item.height = 50;
+
+            Item.damage = 94;
             Item.DamageType = DamageClass.Melee;
-            Item.reuseDelay = 20;
-            Item.useAnimation = 20;
-            Item.useTime = 10;
-            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = Item.useAnimation = 60;
+            Item.useTurn = true;
             Item.autoReuse = true;
-            Item.useLimitPerAnimation = 2;
-            Item.knockBack = 5f;
-            Item.UseSound = SoundID.Item1;
+
+            Item.channel = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.shoot = ModContent.ProjectileType<EchoSabreHoldout>();
+            Item.useStyle = ItemUseStyleID.Shoot;
+
             Item.rare = ItemRarityID.Yellow;
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
-            Item.scale = 1.75f;
-            Item.shootSpeed = 10f;
-            Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing
         }
-
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            return false;
-        }
-
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             numHits++;
@@ -50,7 +42,6 @@ namespace MogMod.Items.Weapons.Melee
                 numHits = 0;
             }
         }
-
         public override void AddRecipes()
         {
             CreateRecipe().

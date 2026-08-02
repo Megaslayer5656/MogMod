@@ -1,0 +1,530 @@
+ArmletOfMordiggian: {
+	DisplayName: Armlet of Mordiggian
+	Tooltip: "[GFB]"
+	TooltipDefault:
+		'''
+		+5% Attack Damage
+		+5% Attack Speed
+		Pressing [KEY] will rapidly drain life, but increase attack damage and speed by 15%
+		[c/A62D24:'Weapon of choice among brutes, the bearer sacrifices their life energy to gain immense strength and power.']
+		'''
+	TooltipGFB:
+		'''
+		[c/E3596A:wont turn off for some reason...]
+		[c/E3596A:still evil though]
+		'''
+}
+
+Headdress: {
+	DisplayName: Headdress
+	Tooltip:
+		'''
+		Provides you and nearby team members +{0} HP/s Life regen
+		[c/51A68A:'Creates a soothing aura that restores allies in battle.']
+		'''
+}
+
+Mekansm: {
+	DisplayName: Mekansm
+	Tooltip:
+		'''
+		Increases placement speed and range
+		Provides you and nearby team members +4 HP/s Life regen
+		Pressing [KEY] will restore 80 Life
+		[c/5EA651:'A glowing jewel formed out of assorted parts that somehow fit together perfectly.']
+		'''
+}
+
+Satanic: {
+	DisplayName: Satanic
+	Tooltip: "[GFB]"
+	TooltipDefault:
+		'''
+		+50 Max Life
+		+10% Attack Damage
+		Vastly Increases Lifesteal
+		Press [KEY] go into a frenzy, blinding yourself while also imbuing weapons with Lifesteal
+		Greatly increased Lifesteal effectiveness while frenzied
+		[c/872727:'Immense power at the cost of your soul.']
+		'''
+	TooltipGFB:
+		'''
+		[c/D11324:BLOOD!.. BLOOOD!!...]
+		[c/D11324:Blood is red as sunset,]
+		[c/D11324:Blood is warmer than wine...]
+		[c/D11324:Warmer than wine.]
+		[c/D11324:The taste of salty, summer brine...]
+		'''
+}
+
+RefresherOrb: {
+	DisplayName: Refresher Orb
+	Tooltip: "[GFB]"
+	TooltipDefault:
+		'''
+		+10% Magic Damage
+		+10% Summon Damage
+		Increases Maximum Mana by 50
+		Pressing [KEY] will refresh the cooldowns of all items
+		[c/27873F:'A powerful artifact created for wizards.']
+		'''
+	TooltipGFB:
+		'''
+		does a whole lot a stuff like removing [c/F2B8F0:i] [c/5E9BBF:f][c/668726:r][c/000000:a][c/FF7700:m][c/382B5E:e][c/FF0000:s] sometinmes
+		[c/5C13D1:'tigz be tigaaz be']
+		'''
+}
+
+MagicWand: {
+	DisplayName: Magic Wand
+	Tooltip:
+		'''
+		+3 Magic Damage
+		Increased Maximum Mana by 30
+		Taking damage adds a charge to the wand
+		Pressing [KEY] expends all charges and heals 7 Life and Mana for each charge
+		[c/51A67A:'A simple wand used to channel magic energies, it is ]
+		[c/51A67A:favored by apprentice wizards and great warlocks alike.']
+		'''
+}
+
+MagicStick: {
+	DisplayName: Magic Stick
+	Tooltip:
+		'''
+		Taking damage adds a charge to the stick
+		Pressing [KEY] expends all charges and heals 5 Life and Mana for each charge
+		[c/51A668:'A simple stick used to channel magic energies, it is ]
+		[c/51A668:favored by apprentice wizards and great warlocks alike.']
+		'''
+}
+
+HelmOfTheDominator: {
+	DisplayName: Helm of the Dominator
+	Tooltip:
+		'''
+		Increases your max number of minions by 2
+		Increases your max number of sentries by 2
+		Does not stack with downgrades
+		+5% Magic Damage
+		+5% Summon Damage
+		Increased Maximum Mana by 50
+		Summons a mighty beast to protect you
+		[c/A68351:'The powerful headpiece of a dead necromancer.']
+		'''
+}
+
+GlimmerCape: {
+	DisplayName: Glimmer Cape
+	Tooltip:
+		'''
+		Increased Maximum Mana by {0}
+		Decreased Aggro by {1}
+		Pressing [KEY] will turn you invisible and increase movement speed
+		[c/515BA6:'The stolen cape of a master illusionist.']
+		'''
+}
+
+ForceStaff: {
+	DisplayName: Force Staff
+	Tooltip:
+		'''
+		+20% Knockback
+		Press [KEY] to consume 50 mana and boost forward in the direction you are facing
+		[c/72C281:'Allows you to boost yourself, for good or evil.']
+		'''
+}
+
+HurricanePike: {
+	DisplayName: Hurricane Pike
+	Tooltip:
+		'''
+		+20% Attack Speed
+		+30% Knockback
+		Increases block placement range by 3
+		Press [KEY] to consume 50 mana and boost forward in the direction you are facing
+		[c/A62828:'A legendary pike once held as royal sigil of the ancient wyvern riders.']
+		'''
+}
+
+VeilOfDiscord: {
+	DisplayName: Veil of Discord
+	Tooltip:
+		'''
+		+7% Sorcery Damage
+		+5% Attack Damage
+		+5% Attack Speed
+		Increased Maximum Life and Mana by 20
+		Slightly Increased Life Regeneration
+		[c/853D74:'The headwear of corrupt magi.']
+		'''
+}
+
+Vanguard: {
+	DisplayName: Vanguard
+	Tooltip:
+		'''
+		Increased Maximum Life by 50
+		Increased Life Regeneration
+		Grants immunity to knockback
+		[c/85483D:'A powerful shield that defends its wielder ]
+		[c/85483D:from even the most vicious of attacks.']
+		'''
+}
+
+ShadowAmulet: {
+	DisplayName: Shadow Amulet
+	Tooltip:
+		'''
+		After not moving for 5 seconds, turn completely invisible!
+		[c/E090D2:'A small talisman that clouds the senses of one's enemies when held perfectly still.']
+		'''
+}
+
+MewingGuide: {
+	DisplayName: Mewing Guide
+	Tooltip: Teaches the sacred art of Mewing
+}
+
+HelmOfIronWill: {
+	DisplayName: Helm of Iron Will
+	Tooltip:
+		'''
+		Increased Maximum Life by 20
+		Slightly Increased Life Regeneration
+		[c/D2D46E:'The helmet of a legendary warrior who fell in battle.']
+		'''
+}
+
+HeartOfTarrasque: {
+	DisplayName: Heart of Tarrasque
+	Tooltip:
+		'''
+		Increases Maximum Life by 100
+		Reduces the cooldown of healing potions by 35%
+		Does not stack with downgrades
+		Grants immunity to knockback and fire blocks
+		Grants immunity to most debuffs
+		Vastly Increased Life Regeneration, increasing even more if standing still
+		[c/7D0A0A:'Preserved heart of an extinct monster, it bolsters the bearer's fortitude.']
+		'''
+}
+
+DragonLance: {
+	DisplayName: Dragon Lance
+	Tooltip:
+		'''
+		+3% Ranged Attack Speed
+		+5% Ranged Damage
+		Increases block placement range by 1
+		[c/D4816E:'The forward charge of the wyvern host grants no quarter.']
+		'''
+}
+
+Diadem: {
+	DisplayName: Diadem
+	Tooltip: Increases your max number of minions by 1
+}
+
+Crown: {
+	DisplayName: Crown
+	Tooltip:
+		'''
+		+5% Attack Damage
+		+5% Attack Speed
+		[c/E0DE84:'A stately crown created to ensure a well-]
+		[c/E0DE84:meaning but ungifted heir could fend off ]
+		[c/E0DE84:usurpers and govern with a strong hand.']
+		'''
+}
+
+CrimsonGuard: {
+	DisplayName: Crimson Guard
+	Tooltip:
+		'''
+		Increased Maximum Life by 80
+		Greatly Increased Life Regeneration
+		Enemies are more likely to target you
+		Grants immunity to knockback
+		Absorbs 25% of damage done to players on your team when above 25% life
+		[c/7D411A:'A cuirass originally built to protect against the dreaded Year Beast.']
+		'''
+}
+
+BladesOfAttack: {
+	DisplayName: Blades of Attack
+	Tooltip:
+		'''
+		+3% Crit Chance
+		+2 Attack Damage
+		[c/B8A7A7:'The damage of these small, concealable ]
+		[c/B8A7A7:blades should not be underestimated.']
+		'''
+}
+
+BeltOfStrength: {
+	DisplayName: Belt of Strength
+	Tooltip:
+		'''
+		+5% Attack Damage
+		+10% Knockback
+		[c/BD4040:'A valued accessory for improving strength.']
+		'''
+}
+
+DrumOfEndurance: {
+	DisplayName: Drum of Endurance
+	Tooltip:
+		'''
+		Increases your max number of minions by {0}
+		+{1}% Summon Damage
+		Grants you and nearby team members {2}% movement speed and {3}% Melee and Whip Speed
+		[c/40BD67:'A relic that enchants the bodies of those around it for swifter movement in times of crisis.']
+		'''
+}
+
+HelmOfTheOverlord: {
+	DisplayName: Helm of the Overlord
+	Tooltip:
+		'''
+		Increases your max number of minions by 3
+		Increases your max number of sentries by 3
+		Does not stack with downgrades
+		+15% Magic Damage
+		+15% Summon Damage
+		Increased Maximum Mana by 100
+		Summons an almighty beast to protect you
+		[c/AB4920:'The powerful headpiece of a dead overlord.']
+		'''
+}
+
+EyeOfSkadi: {
+	DisplayName: Eye of Skadi
+	Tooltip:
+		'''
+		+10% Attack Damage
+		+10% Critical Strike Chance
+		+25 Armor Penetration
+		Grants immunity to some debuffs
+		Attacks inflict [mogbuff:MogMod/EyeOfSkadiDebuff]
+		[c/2F4BB5:'Extremely rare artifact, guarded by the azure dragons.']
+		'''
+}
+
+HolyLocket: {
+	DisplayName: Holy Locket
+	Tooltip:
+		'''
+		Increases your max number of minions by 2
+		Does not stack with downgrades
+		+7% Magic Damage
+		+7% Summon Damage
+		Increased Maximum Mana by 70
+		Provides light when worn
+		Taking damage adds a charge to the wand
+		Pressing [KEY] expends all charges and heals 10 Life and Mana for each charge
+		[c/AFC25B:'A prized relic long thought lost forever in a failed crusade.']
+		'''
+}
+
+ShivasGuard: {
+	DisplayName: Shiva's Guard
+	Tooltip:
+		'''
+		+{0}% Sorcery Damage
+		+{1}% Attack Damage and Speed
+		+{2} HP/s Life Regen
+		Increases Maximum Life and Mana by {3}
+		Pressing [KEY] damages nearby enemies and afflicts them with [mogbuff:MogMod/ShivasEnemyDebuff]
+		Provides nearby team members {4} defense and +{5}% ranged damage
+		[c/278187:'Said to have belonged to a goddess, today it retains much of its former power.']
+		'''
+}
+
+EyeOfMendez: {
+	DisplayName: Eye of Mendez
+	Tooltip:
+		'''
+		Enhances you with the power of Mendez
+		'O na.'
+		'''
+}
+
+VladmirsOffering: {
+	DisplayName: Vladmir's Offering
+	Tooltip:
+		'''
+		Increases your max number of sentries by {0}
+		Provides you and nearby team members {1} defense, +{2} Attack damage,
+		Increased Mana Regeneration by {3}, and +{4}% Increased Lifesteal
+		[c/24964A:'An eerie mask that is haunted with the malice of a fallen vampire.']
+		'''
+}
+
+FlameOfCorruption: {
+	DisplayName: Flame of Corruption
+	Tooltip: READY OR NOT!!
+}
+
+LordOfBloodsExultation: {
+	DisplayName: Lord of Blood's Exultation
+	Tooltip:
+		'''
+		Boosts bleed buildup by 15%
+		[c/962424:'His awakening shall herald the dawn of our dynasty.']
+		'''
+}
+
+Fishrael: {
+	DisplayName: Fishrael
+	Tooltip:
+		'''
+		Increases fishing power by 60
+		Fishing rods shoot 14 extra lures, Does not stack with downgrades
+		Permanent Sonar and Crate Buffs
+		Grants the effects of Lavaproof Tackle Bag
+		[c/08F8FF:'Glory to Fishrael']
+		'''
+}
+
+SolRing: {
+	DisplayName: Sol Ring
+	Tooltip:
+		'''
+		Increases max mana by 40
+		Emits a faint light when worn
+		[c/F2D69B:'Lost to time is the artificer's art of trapping light ]
+		[c/F2D69B:from a distant star in a ring of purest gold.']
+		'''
+}
+
+OceanHeart: {
+	DisplayName: Ocean Heart
+	Tooltip:
+		'''
+		Increases fishing power by 15
+		Fishing rods shoot 4 extra lures
+		Grants the effects of Lavaproof Tackle Bag
+		[c/9BD7F2:'A charm blessed by the Council of the Brine.']
+		'''
+}
+
+WraithPact: {
+	DisplayName: Wraith Pact
+	Tooltip:
+		'''
+		Increases your max number of sentries by {0}
+		Does not stack with downgrades
+		Provides you and nearby team members the {1} defense, +{2}% Attack damage,
+		Increased Mana Regeneration by {3}, and +{4}% Increased Lifesteal
+		[c/528727:'A sentient amulet whose animus shakes the courage of even the strongest foes.']
+		'''
+}
+
+ATGMissile: {
+	DisplayName: AtG Missile Mk. 1
+	Tooltip:
+		'''
+		+5% Attack Speed
+		Attacks have a small chance to fire a homing missile on hit
+		'''
+}
+
+PlasmaShrimp: {
+	DisplayName: Plasma Shrimp
+	Tooltip:
+		'''
+		+5% Critical Strike Chance
+		Attacks shoot a plasma orb on hit
+		'''
+}
+
+ICBM: {
+	DisplayName: I.C.B.M.
+	Tooltip:
+		'''
+		+7.5% Attack Speed
+		Attacks have a small chance to fire 3 homing missiles on hit
+		[c/87564D:'What's better than one missile...? MORE missiles.']
+		'''
+}
+
+BladeOfMercy: {
+	DisplayName: Blade of Mercy
+	Tooltip:
+		'''
+		+10% Attack Speed
+		[c/BA2F2F:-15% Attack Damage]
+		Boosts bleed buildup by 35%
+		Does not stack with downgrades
+		[c/94132A:'After claiming numerous lives, the dagger is now broken, but has acquired a spectral aura.']
+		'''
+}
+
+RuntyHorseshoe: {
+	DisplayName: Runty Horseshoe
+	Tooltip:
+		'''
+		Increases fall resistance
+		Fall damage cannot kill you
+		'''
+}
+
+SacrosanctAegis: {
+	DisplayName: Sacrosanct Aegis
+	Tooltip:
+		'''
+		Grants an omni-directional dash with a 5 second cooldown
+		You are immune to damage during the dash
+		Increases Maximum Life by 200
+		Reduces the cooldown of healing potions by 45%
+		Does not stack with downgrades
+		Grants immunity to both knockback and debuffs
+		Vastly Increased Life Regeneration, increasing even more if standing still
+		Enemies are much more likely to target you
+		Absorbs 25% of damage done to players on your team when above 25% life
+		'''
+}
+
+GauntletOfAghanim: {
+	DisplayName: Aghanim's Gauntlet
+	Tooltip:
+		'''
+		Melee attacks and projectiles inflict [mogbuff:MogMod/AghanimHexDebuff]
+		15% increased melee damage and melee speed
+		5% increased melee critical strike chance
+		20% increased melee damage and increased melee knockback
+		Enables auto swing for melee weapons and increases their size
+		Does not stack with downgrades
+		'''
+}
+
+ElvenQuiver: {
+	DisplayName: Elven Quiver
+	Tooltip: Increases arrow damage by 3 and slightly increases arrow speed
+}
+
+EnchantedQuiver: {
+	DisplayName: Enchanted Quiver
+	Tooltip:
+		'''
+		+10% Ranged Critical Strike Chance and Attack Speed
+		Increases arrow damage by 15% and greatly increases arrow speed
+		Every 3rd bow shot, fire an enchanted arrow that splits into 3 as it travels
+		20% chance to not consume arrows
+		'''
+}
+
+ScavVest: {
+	DisplayName: Scav Vest
+	NameNormal: Scav Vest
+	NameGFB: Scat Vest
+	Tooltip:
+		'''
+		+8% Movement Speed
+		6% Chance to not consume ammo
+		Increases fishing power by 5
+		Fishing rods shoot 2 extra lures
+		[c/5FA656:'tigz tigz and matthias's head explodes']
+		'''
+}

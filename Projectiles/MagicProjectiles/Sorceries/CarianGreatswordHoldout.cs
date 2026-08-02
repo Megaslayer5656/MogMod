@@ -11,6 +11,8 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using System.Linq;
+using MogMod.Common.Systems;
 
 namespace MogMod.Projectiles.MagicProjectiles.Sorceries
 {
@@ -21,6 +23,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         public override string Texture => "MogMod/Projectiles/MagicProjectiles/Sorceries/CarianGreatswordHoldout";
         public override bool ItemUsedAsAmmo => true;
         public int size = 130;
+        public int hitsLeft = 3;
         public override float HitboxOutset => size * 0.85f;
         public override Vector2 HitboxSize => new Vector2(size, size);
         public override Vector2 SpriteOrigin => new(0, size);
@@ -46,7 +49,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         public override void WhenSpawned()
         {
             CanHit = false;
-            Projectile.knockBack = 0;
+            //Projectile.knockBack = 0;
             Projectile.ai[1] = -1;
             mousePos = Owner.MogMod().mouseWorld;
             aimVel = (Owner.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX) * 65;
@@ -61,6 +64,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         {
             AnimationProgress = Animation % useAnim;
             DrawUnconditionally = false;
+            Owner.MogMod().mouseWorldListener = true;
 
             if (CanHit || postSwing)
                 mousePos = Owner.Center - aimVel;
@@ -80,6 +84,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                 for (int i = 0; i < Main.maxNPCs; i++)
                     Projectile.localNPCImmunity[i] = 0;
 
+                hitsLeft = 3;
                 Projectile.numHits = 0;
                 mousePos = Owner.MogMod().mouseWorld;
                 aimVel = (Owner.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX) * 65;
@@ -136,6 +141,8 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                         SoundEngine.PlaySound(SoundID.Item15 with { Volume = 0.85f, Pitch = Main.rand.NextFloat(0.1f, 0.2f) }, Projectile.Center);
                         playSwingSound = false;
                     }
+                    if (time > (int)(timeMax * 0.2f))
+                        Reflect(Projectile);
                     if (time > (int)(timeMax * 0.2f) && time < (int)(timeMax * 0.8f))
                         CanHit = true;
                     else
@@ -157,7 +164,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                     {
                         for (int i = 0; i < 4; i++)
                         {
-                            Dust dust = Dust.NewDustPerfect(Owner.Center + (new Vector2((int)(size * 1.5f) * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f)), 15, Vector2.One.RotatedByRandom(MathHelper.Pi) * 0.6f, 0, default, Main.rand.NextFloat(1.15f, 1.5f) * Projectile.scale);
+                            Dust dust = Dust.NewDustPerfect(Owner.Center + (new Vector2((int)(size * 1.4f) * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f)), 15, Vector2.One.RotatedByRandom(MathHelper.Pi) * 0.6f, 100, default, Main.rand.NextFloat(1.15f, 1.5f) * Projectile.scale);
                             dust.noGravity = true;
                             dust.color = Main.rand.NextBool() ? Color.DeepSkyBlue : Color.SkyBlue;
                             dust.fadeIn = Projectile.scale - 1;
@@ -165,14 +172,14 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                         float randRot = Main.rand.NextFloat(-30, -60);
                         Vector2 dustVel = (new Vector2(0, 8 * -Projectile.ai[1] * Owner.direction)).RotatedBy(FinalRotation + MathHelper.ToRadians(randRot));
 
-                        Dust d = Dust.NewDustPerfect(Owner.Center + new Vector2((int)(size * 1.5f) * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f), 15,  dustVel, 100, Main.rand.NextBool(4) ? Color.DeepSkyBlue : Color.SkyBlue, Main.rand.NextFloat(0.4f, 0.8f));
+                        Dust d = Dust.NewDustPerfect(Owner.Center + new Vector2((int)(size * 1.4f) * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f), 15,  dustVel, 100, Main.rand.NextBool(4) ? Color.DeepSkyBlue : Color.SkyBlue, Main.rand.NextFloat(0.4f, 0.8f));
                         d.noGravity = true;
                     }
                 }
             }
 
-            ArmRotationOffset = MathHelper.ToRadians(-140f);
-            ArmRotationOffsetBack = MathHelper.ToRadians(-140f);
+            ArmRotationOffset = MathHelper.ToRadians(-(size + 10f));
+            ArmRotationOffsetBack = MathHelper.ToRadians(-(size + 10f));
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -197,6 +204,35 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             if (Projectile.numHits == 0)
             {
                 SoundEngine.PlaySound(SoundID.Item94 with { Volume = 0.95f, Pitch = Main.rand.NextFloat(-0.1f, 0.1f) }, Projectile.Center);
+            }
+        }
+        // copied from fargos hallow sword
+        private void Reflect(Projectile sword)
+        {
+            Player player = Main.player[sword.owner];
+            if (player == null || !player.active)
+            {
+                return;
+            }
+            int damageCap = 200;
+
+            int size = 3;
+            Rectangle swordBox = new((int)(sword.Center.X - sword.width * size / 2), (int)(sword.Center.Y - sword.height * size / 2), sword.Hitbox.Width * size, sword.Hitbox.Height * size);
+            foreach (Projectile proj in Main.projectile.Where(proj => proj.active && proj.hostile && proj.damage > 0 && !MogModProjectileSets.ShouldNotBeReflected[proj.type] && proj.damage <= damageCap && sword.Colliding(swordBox, proj.Hitbox)))
+            {
+                if (hitsLeft <= 0)
+                    return;
+                SoundEngine.PlaySound(SoundID.Item37, proj.Center);
+                proj.reflected = true;
+                proj.hostile = false;
+                proj.friendly = true;
+                proj.owner = sword.owner;
+                proj.damage = (int)(sword.damage * 1.5f);
+                proj.DamageType = sword.DamageType;
+                Vector2 targetVel = -(aimVel / 7);
+                proj.velocity = targetVel;
+                proj.netUpdate = true;
+                hitsLeft--;
             }
         }
         public override bool PreDraw(ref Color lightColor)

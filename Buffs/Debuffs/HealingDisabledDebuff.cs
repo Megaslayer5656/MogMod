@@ -2,7 +2,6 @@
 using MogMod.Utilities;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Buffs.Debuffs
@@ -20,12 +19,30 @@ namespace MogMod.Buffs.Debuffs
         {
             player.MogMod().healingDisabledDebuff = true;
         }
+        public override void Update(NPC npc, ref int buffIndex)
+        {
+            npc.MogMod().healingDisabledDebuff = true;
+        }
         internal static void DrawEffects(PlayerDrawSet drawInfo)
         {
             Player player = drawInfo.drawPlayer;
             if (Main.rand.NextBool(2))
             {
                 int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), player.width + 4, player.height + 4, 74, player.velocity.X * 1.4f, player.velocity.Y * 1.4f, 100, default, 1.6f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity *= 0.85f;
+                if (Main.rand.NextBool(4))
+                {
+                    Main.dust[dust].noGravity = false;
+                    Main.dust[dust].scale *= .95f;
+                }
+            }
+        }
+        internal static void DrawEffects(NPC npc, ref Color drawColor)
+        {
+            if (Main.rand.NextBool(2))
+            {
+                int dust = Dust.NewDust(npc.position - new Vector2(2f), npc.width + 4, npc.height + 4, 74, npc.velocity.X * 1.4f, npc.velocity.Y * 1.4f, 100, default, 1.4f);
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].velocity *= 0.85f;
                 if (Main.rand.NextBool(4))

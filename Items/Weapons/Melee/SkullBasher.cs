@@ -1,64 +1,32 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Global;
+﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
+using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.Melee;
-using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using static MogMod.Common.Systems.MogModNetcode;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class SkullBasher : ModItem, ILocalizedModType
+    public class SkullBasher : BaseSwordHoldoutItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        Random rand = new Random();
-        public bool bashProc = false;
+        public override int ProjectileType => ModContent.ProjectileType<SkullBasherHoldout>();
         public override void SetDefaults()
         {
-            Item.width = 120;
-            Item.height = 120;
-            Item.damage = 25;
+            base.SetDefaults();
+            Item.width = Item.height = 66;
+            Item.damage = 47;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = Item.useTime = 30;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTurn = false;
-            Item.knockBack = 8.5f;
-            Item.UseSound = SoundID.Item1;
+            Item.useAnimation = Item.useTime = 60;
+            Item.channel = true;
+            Item.knockBack = 6f;
             Item.autoReuse = true;
-            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item1 with { Pitch = -0.1f };
+
             Item.value = MogGlobalItem.RarityGreenBuyPrice;
-            Item.scale = 1f;
-            Item.shootSpeed = 2f;
-            Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing
-        }
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            return false;
-        }
-        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            var source = player.GetSource_OnHit(target);
-            bashProc = rand.Next(5) == 0; //1 in 4
-            if (bashProc)
-            {
-                int bash = Projectile.NewProjectile(source, target.Center, new Vector2(10f, 10f), ModContent.ProjectileType<SkullBashProjectile>(), Item.damage * 5, 0f, player.whoAmI);
-                Rectangle r = new Rectangle((int)target.position.X - 10, (int)target.position.Y - 50, target.width, target.height);
-                Color textColor = new Color(255, 0, 75);
-                CombatText.NewText(r, textColor, "Bash!", true);
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    ModPacket packet = Mod.GetPacket();
-                    packet.Write((byte)MogModMessageType.BashProcTextSync);
-                    packet.Write(target.lastInteraction);
-                    packet.WriteVector2(r.Center.ToVector2());
-                    packet.Send();
-                }
-            }
+            Item.rare = ItemRarityID.Green;
         }
         public override void AddRecipes()
         {

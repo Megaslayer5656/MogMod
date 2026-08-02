@@ -1,0 +1,37 @@
+DabdadWings: {
+	DisplayName: Dabdad's Wings
+	Tooltip: "{$CommonItemTooltip.FlightAndSlowfall}"
+}
+
+WingsOfLight: {
+	DisplayName: Wings of Light
+	Tooltip:
+		'''
+		{$CommonItemTooltip.FlightAndSlowfall}
+		Increased movement speed
+		Nearby enemies are afflicted with [mogbuff:MogMod/WingsOfLightDebuff]
+		[c/C4BB74:'Was ablaze with gold embers']
+		'''
+}
+
+WingsOfAllegiance: {
+	DisplayName: Wings of Allegiance
+	Tooltip:
+		'''
+		{$CommonItemTooltip.FlightAndSlowfall}
+		Increased movement speed
+		Damage is increased by amount of remaining wing time
+		'''
+}
+
+LunarTreads: {
+	DisplayName: Lunar Treads
+	Tooltip:
+		'''
+		Run faster than the speed of light!
+		{$CommonItemTooltip.FlightAndSlowfall}
+		{$CommonItemTooltip.PressDownToHover}
+		Vastly increased movement speed
+		[c/51A68A:'Flying boots that grant ultra-omnipresence.']
+		'''
+}

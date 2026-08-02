@@ -1,0 +1,219 @@
+JidiPollenBag: {
+	DisplayName: Jidi Pollen Bag
+	Tooltip:
+		'''
+		+8% Summon Damage
+		Summon attacks have a chance to explode into pollen, reducing enemy armor by 20
+		[c/2BA63A:'Very dangerous. Very difficult to obtain more.']
+		'''
+}
+
+ChippedVest: {
+	DisplayName: Chipped Vest
+	Tooltip:
+		'''
+		Enemies take a small amount of damage when they hit you
+		[c/ABABAB:'It doesn't look like much, but it's oddly comfy.']
+		'''
+}
+
+DivineRapier: {
+	DisplayName: Divine Regalia
+	Tooltip:
+		'''
+		+35% Attack Damage when at full life
+		[c/E8E5C1:'So magnificent, it cannot abide failure.']
+		'''
+}
+
+SerratedShiv: {
+	DisplayName: Serrated Shiv
+	Tooltip:
+		'''
+		Attacks have a chance to true strike enemies, dealing 0.5% of their maximum life as damage, with a hard cap of 400
+		[c/C25B5B:'Too dangerous for taskwork, this blade's only purpose is vile murder.']
+		'''
+}
+
+SearingSignet: {
+	DisplayName: Searing Signet
+	Tooltip:
+		'''
+		+7% Non-Melee Damage
+		Non-Melee attacks inflict shadowflame
+		[c/A6288D:'To torture a magic user, one must devise means far beyond the mundane.']
+		'''
+}
+
+GiantsMaul: {
+	DisplayName: Giant's Maul
+	Tooltip: ""
+	TooltipNormal:
+		'''
+		+{0}% Melee Weapon Size
+		[c/BA2F2F:-{1}% Melee Speed]
+		True melee attacks have a small chance to bash enemies, dealing {2}x the damage dealt, with a soft cap of {3}
+		[c/A62450:'Crude but smashingly effective.']
+		'''
+	TooltipGFB:
+		'''
+		tiny but super fast melees
+		values are {1}% something, {0}% something else
+		'''
+}
+
+WhisperOfTheDread: {
+	DisplayName: Whisper of the Dread
+	Tooltip:
+		'''
+		+12% Magic Damage
+		+12% Summon Damage
+		[c/BA2F2F:+15% Damage Taken]
+		[c/C25B99:'The air that passes through this amulet makes a dreadful sound.']
+		'''
+}
+
+DuelistGloves: {
+	DisplayName: Duelist Gloves
+	Tooltip:
+		'''
+		Increases Melee Speed by 7% for each enemy around you, up to a max of 21% attack speed
+		Enables auto swing for melee weapons
+		'''
+}
+
+GunpowderGauntlet: {
+	DisplayName: Gunpowder Gauntlet
+	Tooltip:
+		'''
+		+{0}% Magic Attack Speed
+		Magic attacks have a small chance to explode, dealing {1}x the damage dealt, with a soft cap of {2}
+		[c/B87133:'A harmless prank that went entirely too far.']
+		'''
+}
+
+DesperationCharm: {
+	DisplayName: Desperation Charm
+	Tooltip: When there's no exit...
+}
+
+SigmaCharm: {
+	DisplayName: Sigma Charm
+	Tooltip:
+		'''
+		Turns the user into a lone wolf
+		Minor Increase to Damage, Melee Speed,
+		Critical Strike Chance, Life Regeneration, Defense, 
+		Lifesteal Effectiveness, Movement and Melee Speed
+		'''
+}
+
+PartisanBrand: {
+	DisplayName: Partisan Brand
+	Tooltip:
+		'''
+		+7% Sorcery Damage
+		+7% Summon Damage
+		'''
+}
+
+FlayersBota: {
+	DisplayName: Flayer's Bota
+	Tooltip:
+		'''
+		+10% Attack Speed
+		Boosts bleed buildup by 20%
+		Blood procs heal you for a percentage of damage dealt
+		'''
+}
+
+Polylute: {
+	DisplayName: Polylute
+	Tooltip:
+		'''
+		+7% Critical Strike Chance
+		Attacks have a chance to summon homing orb on enemy
+		[c/D9A5D1:'polylute plasma shrimp']
+		'''
+}
+
+HelmOfTheUndying: {
+	DisplayName: Helm of the Undying
+	Tooltip: ""
+	TooltipNormal:
+		'''
+		Reduces the respawn timer by {0}%
+		Dying summons vengeful ghosts that chase after your cursor
+		[c/78C25B:'The price for wearing it is paid in the afterlife.']
+		'''
+	TooltipGFB:
+		'''
+		[c/00FF2B:{0}x respawn time]
+		[i:MogMod/EyeOfMendez] [c/F0ADEE:"D star at 8:10.."]
+		'''
+}
+
+ChaosDice: {
+	DisplayName: Chaos Dice
+	Tooltip: ""
+}
+
+BlazingAspect: {
+	DisplayName: Blazing Aspect
+	Tooltip: ""
+	AspectType: "[c/FFAC8C:Become an aspect of fire]"
+	HoldShiftExtensionIndicator: ""
+	Description:
+		'''
+		Attacks inflict [mogbuff:MogMod/BlazingDebuff]
+		Enemies afflicted with [mogbuff:MogMod/BlazingDebuff] take {0}% increased damage
+		'''
+}
+
+GildedAspect: {
+	DisplayName: Gilded Aspect
+	Tooltip: ""
+	AspectType: "[c/FFF791:Become an aspect of radiance]"
+	HoldShiftExtensionIndicator: ""
+	Description:
+		'''
+		Attacks inflict Midas and enemies have a chance to drop coins on hit
+		You reflect projectiles back at enemies, negating their damage
+		Projectiles that deal less than 5% of your max life in damage will not be reflected
+		The reflect has a cooldown of {0} seconds
+		'''
+}
+
+MendingAspect: {
+	DisplayName: Mending Aspect
+	Tooltip: ""
+	AspectType: "[c/ABF086:Become an aspect of earth]"
+	HoldShiftExtensionIndicator: ""
+	Description:
+		'''
+		Provides you and nearby teammates +{0} HP/s life regen
+		Multiplies all forms of healing by {1}%
+		'''
+}
+
+NoxiousAspect: {
+	DisplayName: Noxious Aspect
+	Tooltip: "[c/E686F0:Become an aspect of corruption]"
+	HoldShiftTooltip:
+		'''
+		Attacks buildup [mogbuff:MogMod/ToxicDebuff] damage
+		Upon [mogbuff:MogMod/ToxicDebuff] expiration, deal a burst of damage dependant on [mogbuff:MogMod/ToxicDebuff] buildup
+		'''
+}
+
+OverloadingAspect: {
+	DisplayName: Overloading Aspect
+	Tooltip: ""
+	AspectType: "[c/89D4F5:Become an aspect of lightning]"
+	HoldShiftExtensionIndicator: ""
+	Description:
+		'''
+		Attacks summon an orb that explodes after a short delay, dealing {0}x of the attacks damage
+		Gain +{2} HP/s life regen after {1} seconds of not receiving damage
+		'''
+}

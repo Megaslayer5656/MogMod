@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
+    // TODO: rework
     public class OversizedAnchor : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";

@@ -1,11 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Global;
+﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Projectiles.RangedProjectiles;
-using MogMod.Utilities;
-using System;
+using MogMod.Projectiles.Melee;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,36 +12,26 @@ namespace MogMod.Items.Weapons.Melee
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
-            Item.width = 60;
-            Item.height = 60;
-            Item.damage = 60; // true melee so it has to be good
+            Item.width = Item.height = 60;
+
+            Item.damage = 71;
             Item.DamageType = DamageClass.Melee;
-            Item.useTime = 8;
-            Item.useAnimation = 16;
-            Item.reuseDelay = 16;
-            Item.useLimitPerAnimation = 2;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTurn = false;
-            Item.knockBack = 4f;
-            Item.UseSound = SoundID.Item1;
+            Item.useTime = Item.useAnimation = 60;
+            Item.knockBack = 10f;
+            Item.useTurn = true;
             Item.autoReuse = true;
+
+            Item.channel = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.shoot = ModContent.ProjectileType<EchoSabreHoldout>();
+            Item.useStyle = ItemUseStyleID.Shoot;
+
             Item.rare = ItemRarityID.LightRed;
             Item.value = MogGlobalItem.RarityLightRedBuyPrice;
-            Item.scale = 1.15f;
-            Item.shootSpeed = 10f;
-            Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing
         }
-
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            return false;
-        }
-        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            var source = player.GetSource_OnHit(target);
-            // yashaProj for now but make it its own proj later
-            MogModUtils.ProjectileBarrage(source, target.Center, target.Center, false, 70f, 70f, -70f, 120f, 0.30f, ModContent.ProjectileType<YashaProj>(), Convert.ToInt32(Item.damage * 0.95), 0f, player.whoAmI, false, 0f);
-        }
+        public override bool MeleePrefix() => true;
+        public override bool CanShoot(Player player) => player.ownedProjectileCounts[Item.shoot] < 1;
         public override void AddRecipes()
         {
             CreateRecipe().

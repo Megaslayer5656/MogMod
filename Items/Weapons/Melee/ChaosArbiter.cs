@@ -6,6 +6,7 @@ using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -58,43 +59,40 @@ namespace MogMod.Items.Weapons.Melee
         {
             var source = player.GetSource_OnHit(target);
 
-            if (Main.rand.Next(0, 10) == 0) // 1 in 10 chance
+            if (hit.Crit)
             {
-                Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
-                Color textColor = new Color(255, 0, 0);
-                CombatText.NewText(r, textColor, "Ultra Crit!", true);
-                if (Main.netMode == NetmodeID.Server)
+                if (Main.rand.Next(0, 7) == 0) // 1 in 10 chance
                 {
-                    ModPacket packet = Mod.GetPacket();
-                    packet.Write((byte)MogModMessageType.UltraCritTextSync);
-                    packet.Write(player.whoAmI);
-                    packet.WriteVector2(r.Center.ToVector2());
-                    packet.Send();
-                }
-
-                int randNumProjectiles = Main.rand.Next(2, 8);
-                int randDamage = Main.rand.Next(strikeMin, strikeMax);
-                for (int i = 0; i < randNumProjectiles; i++)
-                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ChaosBladeProj>(), randDamage, 0f, player.whoAmI, false, 0f);
-
-                if (target.type != NPCID.TargetDummy)
-                {
-                    int heal = Main.rand.Next(1, 5);
-                    // for SOME REASON player has a default of 70 lifesteal
-                    heal *= Convert.ToInt32(player.lifeSteal * 0.1);
-                    player.statLife += heal;
-                    player.HealEffect(heal);
-                    // so we dont go over max life
-                    if (player.statLife > player.statLifeMax2)
-                        player.statLife = player.statLifeMax2;
-                }
-
-                // TODO: make phantom spawns take up empty slots instead of random
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosArbiterClone>()] <= 3)
-                {
-                    numb = Main.rand.Next(0, 4);
-                    Projectile clone = Projectile.NewProjectileDirect(Item.GetSource_FromThis(), player.Center, Vector2.Zero, ModContent.ProjectileType<ChaosArbiterClone>(), Item.damage, Item.knockBack, player.whoAmI, numb);
-                    clone.OriginalCritChance = Item.crit;
+                    if (target.type != NPCID.TargetDummy)
+                    {
+                        int heal = Main.rand.Next(1, 5);
+                        // for SOME REASON player has a default of 70 lifesteal
+                        heal *= Convert.ToInt32(player.lifeSteal * 0.1);
+                        player.statLife += heal;
+                        player.HealEffect(heal);
+                        // so we dont go over max life
+                        if (player.statLife > player.statLifeMax2)
+                            player.statLife = player.statLifeMax2;
+                    }
+                    // TODO: make phantom spawns take up empty slots instead of random
+                    if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosArbiterClone>()] <= 3)
+                    {
+                        numb = Main.rand.Next(0, 4);
+                        Projectile clone = Projectile.NewProjectileDirect(Item.GetSource_FromThis(), player.Center, Vector2.Zero, ModContent.ProjectileType<ChaosArbiterClone>(), Item.damage, Item.knockBack, player.whoAmI, numb);
+                        clone.OriginalCritChance = Item.crit;
+                    }
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        ModPacket packet = Mod.GetPacket();
+                        packet.Write((byte)MogModMessageType.UltraCritTextSync);
+                        packet.Write(target.lastInteraction);
+                        packet.Write(target.whoAmI);
+                        packet.Send();
+                    }
+                    else
+                    {
+                        target.MogMod().UltraCritFX(target);
+                    }
                 }
             }
         }

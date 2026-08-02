@@ -13,19 +13,20 @@ namespace MogMod.Projectiles.BaseProjectiles
         public int bloodDamage = 0;
         public void BloodAI(Projectile projectile)
         {
-            if (bloodDamage > 1)
+            if (bloodDamage > 0)
             {
                 projectile.netUpdate = true; //May have to remove if causes lag
             }
         }
-        public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
+        public void SendBloodAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
         {
             if (bloodDamage > 0)
             {
                 binaryWriter.Write(bloodDamage);
+                //Main.NewText($"Blood damage is {bloodDamage}");
             }
         }
-        public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
+        public void ReceiveBloodAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
         {
             bloodDamage = binaryReader.ReadInt32();
         }

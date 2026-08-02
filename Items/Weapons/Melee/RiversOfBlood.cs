@@ -1,33 +1,34 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Buffs.Cooldowns;
+﻿using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
-using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class RiversOfBlood : ModItem, ILocalizedModType
+    public class RiversOfBlood : BaseSwordHoldoutItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        public static readonly SoundStyle ParryStart = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ParryStart")
+        public static readonly SoundStyle ParryStart = new($"{nameof(MogMod)}/Sounds/SE/ParryStart")
         {
             Volume = .4f,
             PitchVariance = .2f,
             MaxInstances = 1,
         };
+        public const int BuffTime = 600;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(BuffTime.FramesToSeconds());
         public const int ItemBloodDamage = 135;
         public const int ProjectileBloodDamage = 300;
+        public override int ProjectileType => ModContent.ProjectileType<RiversOfBloodHoldout>();
         public override void SetStaticDefaults()
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 9));
@@ -35,33 +36,30 @@ namespace MogMod.Items.Weapons.Melee
         }
         public override void SetDefaults()
         {
+            base.SetDefaults();
             Item.width = 54;
             Item.height = 70;
 
-            Item.scale = 2.25f;
             Item.damage = 165;
-            Item.knockBack = 5.5f;
+            Item.knockBack = 8f;
             Item.DamageType = DamageClass.Melee;
-
-            Item.useTime = Item.useAnimation = 15;
+            Item.useTime = Item.useAnimation = 22;
+            Item.autoReuse = true;
+            Item.shootSpeed = 12f;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.UseSound = SoundID.Item1;
 
             Item.rare = ItemRarityID.Cyan;
             Item.value = MogGlobalItem.RarityCyanBuyPrice;
 
-            Item.shoot = ProjectileID.PurificationPowder;
-            Item.shootSpeed = 4.5f;
-
-            Item.autoReuse = true;
-
             MogGlobalItem mogItem = Item.MogMod();
-            mogItem.bloodDamage = ItemBloodDamage;
+            mogItem.visualBloodDamage = ItemBloodDamage;
         }
         public override bool CanUseItem(Player player)
         {
+            var mogPlayer = player.GetModPlayer<BaseSwordHoldoutPlayer>();
             if (player.altFunctionUse == 2)
             {
+                mogPlayer.swingNum = 0;
                 SoundEngine.PlaySound(ParryStart, player.Center);
                 return false;
             }
@@ -73,32 +71,21 @@ namespace MogMod.Items.Weapons.Melee
         {
             if (!player.HasBuff<ParryCooldown>())
             {
-                player.AddBuff(ModContent.BuffType<Parrying>(), 30); //Actually accurate to Sekiro parry timing
+                player.AddBuff(ModContent.BuffType<Parrying>(), 30);
                 player.AddBuff(ModContent.BuffType<ParryCooldown>(), 600);
                 player.AddBuff(ModContent.BuffType<ParrySlow>(), 90);
                 return true;
             }
             return false;
         }
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            if (mogPlayer.riversOfBloodProj)
-            {
-                type = ModContent.ProjectileType<RiversOfBloodProj>();
-                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
-                mogPlayer.riversOfBloodProj = false;
-            }
-            return false;
-        }
         public override void AddRecipes()
         {
             CreateRecipe().
-            AddIngredient(ModContent.ItemType<Moonveil>()).
-            AddIngredient(ModContent.ItemType<Reduvia>()).
-            AddIngredient(ModContent.ItemType<LizhardBloodVial>()).
-            AddTile(TileID.MythrilAnvil).
-            Register();
+                AddIngredient(ModContent.ItemType<Moonveil>()).
+                AddIngredient(ModContent.ItemType<Reduvia>()).
+                AddIngredient(ModContent.ItemType<LizhardBloodVial>()).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

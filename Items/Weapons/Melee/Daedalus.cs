@@ -12,6 +12,7 @@ using Terraria.ModLoader;
 namespace MogMod.Items.Weapons.Melee
 {
     // what a mess of a file
+    // TODO: rework
     public class Daedalus : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";

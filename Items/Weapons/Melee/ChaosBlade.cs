@@ -12,6 +12,7 @@ using static MogMod.Common.Systems.MogModNetcode;
 
 namespace MogMod.Items.Weapons.Melee
 {
+    // TODO: rework && resprite
     public class ChaosBlade : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
@@ -50,16 +51,17 @@ namespace MogMod.Items.Weapons.Melee
             randUltraCrit = random.Next(1, 13); //1 in 12 chance
             if (ultraCrit)
             {
-                Rectangle r = new Rectangle((int)target.position.X, (int)target.position.Y - 50, target.width, target.height);
-                Color textColor = new Color(255, 0, 0);
-                CombatText.NewText(r, textColor, "Ultra Crit!", true);
                 if (Main.netMode == NetmodeID.Server)
                 {
                     ModPacket packet = Mod.GetPacket();
                     packet.Write((byte)MogModMessageType.UltraCritTextSync);
-                    packet.Write(player.whoAmI);
-                    packet.WriteVector2(r.Center.ToVector2());
+                    packet.Write(target.lastInteraction);
+                    packet.Write(target.whoAmI);
                     packet.Send();
+                }
+                else
+                {
+                    target.MogMod().UltraCritFX(target);
                 }
                 randNumProjectiles = random.Next(1, 4);
                 for (int i = 0; i < randNumProjectiles; i++)

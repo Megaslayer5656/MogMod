@@ -22,8 +22,8 @@ namespace MogMod.Items.Tools
 			// If you decide to copy values from vanilla drills or chainsaws, you should multiply each one by 0.6 to get the expected behavior.
 			Item.damage = 7;
 			Item.DamageType = DamageClass.MeleeNoSpeed; // ignores melee speed bonuses. There's no need for drill animations to play faster, nor drills to dig faster with melee speed.
-			Item.useTime = 8;
-			Item.useAnimation = 16;
+			Item.useTime = 7;
+			Item.useAnimation = 15;
 			Item.useStyle = ItemUseStyleID.Shoot;
 			Item.knockBack = 0.5f;
 

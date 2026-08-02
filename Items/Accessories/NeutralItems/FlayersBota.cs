@@ -11,7 +11,7 @@ namespace MogMod.Items.Accessories.NeutralItems
     public class FlayersBota : NeutralItem
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public const float BloodMult = 1.3f;
+        public const float BloodMult = 0.3f;
         public override void SetDefaults()
         {
             base.SetDefaults();

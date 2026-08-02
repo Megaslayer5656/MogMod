@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
 using System;
 using Terraria;
@@ -10,49 +12,31 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    public class Sange : ModItem, ILocalizedModType
+    public class Sange : BaseSwordHoldoutItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
+        public override int ProjectileType => ModContent.ProjectileType<SangeHoldout>();
+        public const int BloodDamage = 110;
         public override void SetDefaults()
         {
+            base.SetDefaults();
             Item.width = 40;
             Item.height = 48;
-            Item.damage = 72;
-            Item.scale = 2f;
+
+            Item.damage = 78;
+            Item.crit = 56;
             Item.DamageType = DamageClass.Melee;
-            Item.useTime = 16;
-            Item.useAnimation = 16;
-            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = Item.useAnimation = 20;
             Item.knockBack = 7f;
+            Item.shootSpeed = 12f;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.autoReuse = true;
+
             Item.rare = ItemRarityID.Pink;
             Item.value = MogGlobalItem.RarityPinkBuyPrice;
-            Item.UseSound = SoundID.Item1;
-            Item.autoReuse = true;
-            Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing
 
             MogGlobalItem mogItem = Item.MogMod();
-            mogItem.bloodDamage = 110;
-        }
-
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            return false;
-        }
-
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 66;
-        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            // for SOME REASON player has a default of 70 lifesteal
-            if (target.type != NPCID.TargetDummy)
-            {
-                int heal = 1;
-                heal *= Convert.ToInt32(player.lifeSteal * 0.015);
-                player.statLife += heal;
-                player.HealEffect(heal);
-                // so we dont go over max life
-                if (player.statLife > player.statLifeMax2)
-                    player.statLife = player.statLifeMax2;
-            }
+            mogItem.visualBloodDamage = BloodDamage;
         }
         public override void AddRecipes()
         {

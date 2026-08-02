@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using static MogMod.Common.Systems.MogModNetcode;
 using MogMod.NPCs.Global;
 using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Common.Packets;
 
 namespace MogMod.Common.MogModPlayer
 {
@@ -205,17 +206,6 @@ namespace MogMod.Common.MogModPlayer
             }
         }
 
-        internal void HandleUltraCritText(BinaryReader reader)
-        {
-            Vector2 r = reader.ReadVector2();
-            Color textColor = new Color(255, 0, 0);
-            Rectangle rect = new Rectangle((int)r.X, (int)r.Y, 1, 1);
-            if (Main.netMode != NetmodeID.Server)
-            {
-                CombatText.NewText(rect, textColor, "Ultra Crit!", true);
-            }
-        }
-
         internal void HandleMarkerProj(BinaryReader reader)
         {
             int npcID = reader.ReadInt32();
@@ -271,6 +261,21 @@ namespace MogMod.Common.MogModPlayer
                 mogPlayer.doParryFX(Main.player[targetID].Center);
                 MogModGlobalProjectile.ParryProjectile(projectile, targetID);
             }
+        }
+
+        internal void MousePositionSync()
+        {
+            MousePositionSyncPacket.Send(this);
+        }
+
+        internal void MouseRotationSync()
+        {
+            MouseRotationSyncPacket.Send(this);
+        }
+
+        internal void MouseRightClickSync()
+        {
+            RightClickSyncPacket.Send(this);
         }
     }
 }

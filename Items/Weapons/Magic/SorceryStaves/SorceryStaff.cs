@@ -88,9 +88,13 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
             Item.UseSound = Spell.UseSound;
             Item.noUseGraphic = Spell.SwordStyle;
             Item.channel = Spell.Channeled;
+            return base.CanUseItem(player);
+        }
+        public override bool CanShoot(Player player)
+        {
             if (Spell.OnlyOneActive)
                 return player.ownedProjectileCounts[Spell.Item.shoot] <= 0;
-            return base.CanUseItem(player);
+            return base.CanShoot(player);
         }
         // change stats depending on what spell was casted
         public override float UseSpeedMultiplier(Player player)

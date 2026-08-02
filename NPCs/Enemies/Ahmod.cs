@@ -45,7 +45,7 @@ namespace MogMod.NPCs.Enemies
 
             NPC.damage = 12;
             NPC.defense = 7;
-            NPC.lifeMax = Main.hardMode ? 146 : 58;
+            NPC.lifeMax = Main.hardMode ? 146 : 28;
             NPC.knockBackResist = 1.2f;
 
             NPC.noGravity = true;
@@ -78,7 +78,7 @@ namespace MogMod.NPCs.Enemies
             if (NPC.AnyNPCs(NPC.type))
                 return 0f;
 
-            return 0.175f;
+            return 0.075f;
         }
         #endregion
         

@@ -31,7 +31,7 @@ namespace MogMod.Items.Armor.Runty
             Item.width = 22;
             Item.height = 18;
 
-            Item.defense = 2;
+            Item.defense = 4;
 
             Item.rare = ItemRarityID.Blue;
             Item.value = MogGlobalItem.RarityBlueBuyPrice;

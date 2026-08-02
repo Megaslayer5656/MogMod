@@ -45,6 +45,22 @@ namespace MogMod.Items.Global
             ModContent.ItemType<AzimutSSZhuk>(),
             ModContent.ItemType<OspreyMK4A>(),
         ];
+        // makes melee weapons size bigger when wearing certain accessories
+        public static List<int> MeleeSizeAlwaysAffects =
+        [
+            ItemID.TerraBlade,
+            ItemID.NightsEdge,
+            ItemID.TrueNightsEdge,
+            ItemID.Excalibur,
+            ItemID.TrueExcalibur,
+            ItemID.PiercingStarlight,
+            ItemID.TheHorsemansBlade,
+            ItemID.LucyTheAxe,
+            ModContent.ItemType<Gunlance>(), // will remove soon
+            ModContent.ItemType<BlackBlade>(), // will remove soon
+            ModContent.ItemType<OversizedAnchor>(), // will remove soon
+            ItemID.TheAxe
+        ];
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ShimmerTransformToItem[ItemID.SnowBlock] = ItemID.ShimmerBlock;
@@ -216,23 +232,6 @@ namespace MogMod.Items.Global
             }
         }
         public override bool InstancePerEntity => true;
-        // makes melee weapons size bigger when wearing certain accessories
-        public static List<int> MeleeSizeAlwaysAffects =
-        [
-            ItemID.TerraBlade,
-            ItemID.NightsEdge,
-            ItemID.TrueNightsEdge,
-            ItemID.Excalibur,
-            ItemID.TrueExcalibur,
-            ItemID.PiercingStarlight,
-            ItemID.TheHorsemansBlade,
-            ItemID.LucyTheAxe,
-            ModContent.ItemType<Gunlance>(),
-            ModContent.ItemType<BlackBlade>(),
-            ModContent.ItemType<OversizedAnchor>(),
-            ModContent.ItemType<WyvernJawblade>(),
-            ItemID.TheAxe
-        ];
         public override void ModifyItemScale(Item item, Player player, ref float scale)
         {
             MogPlayer modPlayer = player.MogMod();
