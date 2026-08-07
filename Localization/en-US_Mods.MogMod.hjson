@@ -94,7 +94,8 @@ Items: {
 				DisplayName: Chaos Blade
 				Tooltip:
 					'''
-					Randomized damage and crit chance on each hit, with a small chance for an ultra crit
+					Randomized damage, critical strike damage, and knockback on each hit
+					Critical strikes have a {0}% chance to Ultra Crit, dealing {1}x damage and gaining lifesteal properties
 					[c/8A3232:'The light shall be blackened, and chaos shall reign.']
 					'''
 			}
@@ -251,8 +252,9 @@ Items: {
 				Tooltip:
 					'''
 					Inflicts [mogbuff:MogMod/BlackBladeDebuff] on hit
-					Can be charged for up to 4.8x increased damage
+					Swings a greatsword that can be charged for higher damage
 					Deals more damage to unhurt enemies
+					[c/612519:'The Black Blade which once harbored the power of the Rune of Death. A sad shadow of its former glory.']
 					'''
 			}
 
@@ -268,10 +270,17 @@ Items: {
 
 			RiversOfBlood: {
 				DisplayName: Rivers of Blood
-				Tooltip:
+				Tooltip: ""
+				Description:
 					'''
 					Right click to parry
 					After a successful parry, your attacks are empowered for {0} seconds
+					'''
+				FlavorTooltip:
+					'''
+					A cursed weapon that has slain countless victims.
+					When Mohg, the Lord of Blood, first felt this cursed blade upon his flesh, he had a proposal,
+					to offer any swordsman whom could wield the blade the life of a demon, whose thirst would never go unsated.
 					'''
 			}
 
@@ -300,7 +309,7 @@ Items: {
 				Tooltip:
 					'''
 					Right click to parry
-					After a successful parry, shoots a projectile
+					After a successful parry, your next {0} attacks are empowered
 					[c/839ED4:'Katana forged of glintstone, masterpiece of a Sellian swordsmith.']
 					'''
 			}
@@ -318,7 +327,7 @@ Items: {
 
 			GreatswordOfSouls: {
 				DisplayName: Greatsword of Souls
-				Tooltip: Fires homing souls
+				Tooltip: Fires 3 homing souls
 			}
 
 			WarFury: {
@@ -344,9 +353,11 @@ Items: {
 				DisplayName: Chaos Arbiter
 				Tooltip:
 					'''
-					Randomized damage and crit chance on each swing, with a small chance for an ultra crit
-					Has a chance to fire a chaos bolt with randomized properties
-					Ultra crits summon up to 4 phantoms
+					Randomized damage, critical strike damage, and knockback on each hit
+					Critical strikes have a {0}% chance to Ultra Crit, dealing {1}x damage and gaining lifesteal properties
+					Swings have a {2}% chance to fire a chaos bolt with randomized properties
+					Ultra crits summon up to {3} phantoms, which mimic your actions and disappear after {4} seconds
+					Phantoms and chaos bolts cannot summon other phantoms
 					[c/7A2129:'I consign you to dust.']
 					'''
 			}
@@ -410,6 +421,16 @@ Items: {
 					Critical strikes greatly charge the blade
 					When fully charged, right click to throw out a spinning dagger that repeatedly fires homing bolts
 					'''
+			}
+
+			DaturaLash: {
+				DisplayName: Datura Lash
+				Tooltip: Launches a whip sword that inflicts Venom
+			}
+
+			Nativitas: {
+				DisplayName: Nativitas
+				Tooltip: Launches two freezing whip swords that explode on hit
 			}
 		}
 
@@ -621,6 +642,7 @@ Items: {
 					Converts arrows to homing venomous snakes
 					For each enemy nearby, fire up to 6 additional snakes
 					With [i:MogMod/EyeOfSkadi] [c/2F4BB5:Eye Of Skadi] equipped, always fire 6 additional snakes
+					[c/7EFF3D:'All who encounter the cursed Gorgon will feel her rage.']
 					'''
 			}
 
@@ -721,6 +743,15 @@ Items: {
 			GasGrenade: {
 				DisplayName: Gas Grenade
 				Tooltip: Explodes into a mist of disorienting poison gas
+			}
+
+			TidalWave: {
+				DisplayName: Tidal Wave
+				Tooltip:
+					'''
+					Shoots 3 arrows at a time
+					[c/7DFFF8:'shiawase vip']
+					'''
 			}
 		}
 
@@ -950,6 +981,16 @@ Items: {
 			TheDeck: {
 				DisplayName: The Deck
 				Tooltip: ""
+			}
+
+			EmpyreanBombardment: {
+				DisplayName: Empyrean Bombardment
+				Tooltip:
+					'''
+					Unleashes a barrage of stars from the sky
+					Ignores 40 points of enemy Defense
+					'May your hits be many, and your frames few.'
+					'''
 			}
 		}
 
@@ -1794,6 +1835,11 @@ Items: {
 		SpookyEssence: {
 			DisplayName: Spooky Essence
 			Tooltip: spooky hot halloween
+		}
+
+		HellfireBar: {
+			DisplayName: Hellfire Bar
+			Tooltip: ""
 		}
 	}
 

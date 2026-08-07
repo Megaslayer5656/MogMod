@@ -28,13 +28,13 @@ namespace MogMod.Items.Tools
             Item.useTurn = true;
             Item.autoReuse = true;
 
-            Item.hammer = 45;
+            Item.hammer = 50;
             Item.attackSpeedOnlyAffectsWeaponAnimation = true; // melee speed affects how fast the tool swings for damage purposes, but not how fast it can dig
         }
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<RuntyBar>(8)
+                .AddIngredient<RuntyBar>(6)
                 .AddRecipeGroup(RecipeGroupID.Wood, 3)
                 .AddTile(TileID.Anvils)
                 .Register();

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Common.MogModPlayer;
 using MogMod.Items.Weapons.Melee;
 using MogMod.NPCs.Global;
 using MogMod.Utilities;
@@ -18,6 +17,8 @@ namespace MogMod.Projectiles.Melee
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
+        public Player Owner => Main.player[Projectile.owner];
+        public bool ultraCrit = false;
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 16;
@@ -27,6 +28,11 @@ namespace MogMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.timeLeft = 600;
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+            SoundEngine.PlaySound(SoundID.Item109, Projectile.Center);
+            ultraCrit = Main.rand.NextFloat(0f, 1f) < ChaosArbiter.UltraCritChance;
         }
         public override void AI()
         {
@@ -83,86 +89,51 @@ namespace MogMod.Projectiles.Melee
                 }
             }
         }
-        public override void OnSpawn(IEntitySource source) => SoundEngine.PlaySound(SoundID.Item109, Projectile.Center);
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            Player player = Main.player[Projectile.owner];
             if (Projectile.ai[0] != 3)
                 Projectile.Kill();
             if (Projectile.ai[0] == 5 && target.type != NPCID.TargetDummy)
             {
-                int heal = 1;
-                heal *= Convert.ToInt32(player.lifeSteal * 0.04);
-                player.statLife += heal;
-                player.HealEffect(heal);
-                if (player.statLife > player.statLifeMax2)
-                    player.statLife = player.statLifeMax2;
+                int heal = 2;
+                Owner.HealLifestealMult(heal);
             }
 
             var source = Projectile.GetSource_OnHit(target);
-            if (hit.Crit)
+            if (ultraCrit && hit.Crit)
             {
-                if (Main.rand.Next(0, 10) == 0) // 1 in 10 chance
+                if (Main.netMode == NetmodeID.Server)
                 {
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        ModPacket packet = Mod.GetPacket();
-                        packet.Write((byte)MogModMessageType.UltraCritTextSync);
-                        packet.Write(target.lastInteraction);
-                        packet.Write(target.whoAmI);
-                        packet.Send();
-                    }
-                    else
-                    {
-                        target.MogMod().UltraCritFX(target);
-                    }
-                    int randNumProjectiles = Main.rand.Next(1, 4);
-                    int randDamage = Main.rand.Next(ChaosArbiter.strikeMin, ChaosArbiter.strikeMax);
-                    for (int i = 0; i < randNumProjectiles; i++)
-                        MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ChaosBladeProj>(), randDamage, 0f, Projectile.owner, false, 0f);
+                    ModPacket packet = Mod.GetPacket();
+                    packet.Write((byte)MogModMessageType.UltraCritTextSync);
+                    packet.Write(target.lastInteraction);
+                    packet.Write(target.whoAmI);
+                    packet.Send();
+                }
+                else
+                    target.MogMod().UltraCritFX(target);
+                int randNumProjectiles = Main.rand.Next(1, 4);
+                for (int i = 0; i < randNumProjectiles; i++)
+                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ChaosBladeProj>(), Projectile.damage, 0f, Projectile.owner, false, 0f);
 
-                    if (target.type != NPCID.TargetDummy)
-                    {
-                        int heal = Main.rand.Next(1, 3);
-                        // for SOME REASON player has a default of 70 lifesteal
-                        heal *= Convert.ToInt32(player.lifeSteal * 0.08);
-                        player.statLife += heal;
-                        player.HealEffect(heal);
-                        // so we dont go over max life
-                        if (player.statLife > player.statLifeMax2)
-                            player.statLife = player.statLifeMax2;
-                    }
-
-                    // TODO: make phantom spawns take up empty slots instead of going 0 -> 3
-                    if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosArbiterClone>()] <= 3)
-                    {
-                        if (ChaosArbiter.numb <= 3)
-                            ChaosArbiter.numb++;
-                        else
-                            ChaosArbiter.numb = 0;
-                        Projectile clone = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ModContent.ProjectileType<ChaosArbiterClone>(), Projectile.damage, Projectile.knockBack, Projectile.owner, ChaosArbiter.numb);
-                        clone.OriginalCritChance = Main.rand.Next(10, 30);
-                    }
+                if (target.type != NPCID.TargetDummy)
+                {
+                    int heal = Main.rand.Next(1, 3);
+                    Owner.HealLifestealMult(heal);
                 }
             }
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            Player player = Main.player[Projectile.owner];
             if (Projectile.ai[0] != 3)
                 Projectile.Kill();
             if (Projectile.ai[0] == 5)
             {
-                int heal = 1;
-                heal *= Convert.ToInt32(player.lifeSteal * 0.04);
-                player.statLife += heal;
-                player.HealEffect(heal);
-                if (player.statLife > player.statLifeMax2)
-                    player.statLife = player.statLifeMax2;
+                int heal = 2;
+                Owner.HealLifestealMult(heal);
             }
-
             var source = Projectile.GetSource_OnHit(target);
-            if (Main.rand.Next(0, 10) == 0) // 1 in 10 chance
+            if (ultraCrit)
             {
                 SoundEngine.PlaySound(MogModGlobalNPC.UltraCritSFX, target.Center);
                 Rectangle r = new((int)target.Hitbox.X, (int)target.Hitbox.Y - 50, target.Hitbox.Width, target.Hitbox.Height);
@@ -185,27 +156,22 @@ namespace MogMod.Projectiles.Melee
                 }
 
                 int randNumProjectiles = Main.rand.Next(2, 8);
-                int randDamage = Main.rand.Next(ChaosArbiter.strikeMin, ChaosArbiter.strikeMax);
                 for (int i = 0; i < randNumProjectiles; i++)
-                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ChaosBladeProj>(), randDamage, 0f, Projectile.owner, false, 0f);
+                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ChaosBladeProj>(), Projectile.damage, 0f, Projectile.owner, false, 0f);
 
                 int heal = Main.rand.Next(1, 3);
-                // for SOME REASON player has a default of 70 lifesteal
-                heal *= Convert.ToInt32(player.lifeSteal * 0.08);
-                player.statLife += heal;
-                player.HealEffect(heal);
-                // so we dont go over max life
-                if (player.statLife > player.statLifeMax2)
-                    player.statLife = player.statLifeMax2;
-
-                // TODO: make phantom spawns take up empty slots instead of random
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosArbiterClone>()] <= 3)
-                {
-                    ChaosArbiter.numb = Main.rand.Next(0, 4);
-                    Projectile clone = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ModContent.ProjectileType<ChaosArbiterClone>(), Projectile.damage, Projectile.knockBack, Projectile.owner, ChaosArbiter.numb);
-                    clone.OriginalCritChance = Main.rand.Next(10, 30);
-                }
+                Owner.HealLifestealMult(heal);
             }
+        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+            modifiers.SourceDamage *= Main.rand.NextFloat(0.5f, 2f);
+            modifiers.CritDamage += Main.rand.NextFloat(-0.75f, 1.25f);
+            if (Main.rand.NextBool(3)) modifiers.Knockback *= Main.rand.NextFloat(0f, 1f);
+            else modifiers.Knockback += Main.rand.Next(0, 3);
+            if (Main.rand.Next(0, 100 + 1) < (Owner.GetTotalCritChance(Projectile.DamageType) * Main.rand.Next(0, 5 + 1))) modifiers.SetCrit();
+            if (ultraCrit) modifiers.CritDamage *= ChaosArbiter.CritMult;
         }
         public override void OnKill(int timeLeft)
         {

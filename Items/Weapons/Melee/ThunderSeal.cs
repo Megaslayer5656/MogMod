@@ -69,9 +69,8 @@ namespace MogMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            //TODO: Make this recipe more interesting but not too grindy
             CreateRecipe().
-                AddRecipeGroup("CobaltBar", 15).
+                AddRecipeGroup("AnyCobaltBar", 15).
                 AddIngredient(ItemID.SoulofLight, 10).
                 AddIngredient(ItemID.SoulofMight, 5).
                 AddTile(TileID.MythrilAnvil).

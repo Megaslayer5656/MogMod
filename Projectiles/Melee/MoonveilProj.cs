@@ -1,40 +1,71 @@
-﻿using Terraria.ID;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Utilities;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.Melee
 {
-    public class MoonveilProj : ModProjectile
+    public class MoonveilProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
+        public const int size = 2;
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 5;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+        }
         public override void SetDefaults()
         {
-            Projectile.width = 80;
-            Projectile.height = 40;
-            Projectile.aiStyle = ProjAIStyleID.Arrow;
-            Projectile.friendly = true;
-            Projectile.hostile = false;
+            Projectile.width = 40;
+            Projectile.height = 80;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 300;
+            Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.extraUpdates = 1;
-            Projectile.scale = 1.25f;
-            Projectile.netUpdate = true;
-
-            AIType = ProjectileID.Bullet;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
-
         public override void AI()
         {
-            Lighting.AddLight(Projectile.position, 1f, 1f, 1f);
+            Lighting.AddLight(Projectile.Center, Color.Blue.ToVector3());
+            Projectile.rotation = Projectile.velocity.ToRotation();
             if (Main.rand.NextBool(5))
             {
-                int dust = Dust.NewDust(Projectile.position, 10, 60, DustID.IceTorch, 0f, 0f, 150, default, 3f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.IceTorch, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, Main.rand.NextBool(3) ? DustID.GemDiamond : DustID.GemSapphire, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 100);
             }
-
-            Projectile.netUpdate = true;
+            if (Projectile.timeLeft <= 60)
+            {
+                Projectile.alpha = (int)Utils.Remap(Projectile.timeLeft, 0, 60, 255, 0);
+                Projectile.velocity *= 0.94f;
+            }
+            else if (Projectile.scale < 2f)
+            {
+                Projectile.velocity *= 0.996f;
+                Projectile.scale += 0.004f;
+            }
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            Projectile.velocity *= 1.01f;
+            if (Projectile.numHits >= 5 && Projectile.timeLeft > 60)
+                Projectile.timeLeft = 60;
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            Projectile.velocity *= 1.01f;
+            if (Projectile.numHits >= 5 && Projectile.timeLeft > 60)
+                Projectile.timeLeft = 60;
+        }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Projectile.RotatingHitboxCollision(new((int)(targetHitbox.Center.X - targetHitbox.Width * size / 2), (int)(targetHitbox.Center.Y - targetHitbox.Height * size / 2), targetHitbox.Width * size, targetHitbox.Height * size));
+        public override bool? CanDamage() => (Projectile.alpha == 0 ? null : false);
+        public override bool PreDraw(ref Color lightColor)
+        {
+            MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Type], lightColor, 2, scale: 2f);
+            return false;
         }
     }
 }

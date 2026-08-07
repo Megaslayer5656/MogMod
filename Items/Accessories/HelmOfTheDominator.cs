@@ -32,10 +32,10 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<HelmOfIronWill>(1).
-                AddIngredient<Diadem>(1).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Emblem"}", 1).
-                AddRecipeGroup("CobaltBar", 8).
+                AddIngredient<HelmOfIronWill>().
+                AddIngredient<Diadem>().
+                AddRecipeGroup("AnyEmblem").
+                AddRecipeGroup("AnyCobaltBar", 8).
                 AddIngredient(ItemID.Topaz, 2).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

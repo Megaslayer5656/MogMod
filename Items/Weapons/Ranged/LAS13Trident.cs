@@ -48,10 +48,10 @@ namespace MogMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup("AdamantiteBar", 13).
+                AddRecipeGroup("AnyAdamantiteBar", 13).
                 AddIngredient(ItemID.SoulofMight, 7).
-               AddIngredient(ItemID.IllegalGunParts, 1).
-                AddIngredient(ItemID.GolfCupFlagBlue, 1).
+               AddIngredient(ItemID.IllegalGunParts).
+                AddIngredient(ItemID.GolfCupFlagBlue).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

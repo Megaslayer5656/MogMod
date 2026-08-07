@@ -20,7 +20,7 @@ namespace MogMod.Items.Weapons.Magic
         {
             Item.width = 50;
             Item.height = 50;
-            Item.damage = 30; // pretty sure 25 makes it do the same damage as sky fracture, the weapon it upgrades from
+            Item.damage = 33; // pretty sure 25 makes it do the same damage as sky fracture, the weapon it upgrades from
             Item.DamageType = DamageClass.Magic;
             Item.mana = 23;
             Item.useTime = 3;
@@ -73,7 +73,7 @@ namespace MogMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup("MythrilBar", 10).
+                AddRecipeGroup("AnyMythrilBar", 10).
                 AddIngredient(ItemID.SoulofSight, 7).
                 AddIngredient<FrigidCrystal>(3).
                 AddTile(TileID.MythrilAnvil).

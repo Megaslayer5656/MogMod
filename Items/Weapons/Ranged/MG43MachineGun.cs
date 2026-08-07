@@ -91,7 +91,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                AddIngredient<R8Revolver>().
-               AddRecipeGroup("AdamantiteBar", 16).
+               AddRecipeGroup("AnyAdamantiteBar", 16).
                AddIngredient<FuciumBar>(10).
                AddTile(TileID.MythrilAnvil).
                Register();

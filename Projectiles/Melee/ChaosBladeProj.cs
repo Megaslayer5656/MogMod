@@ -1,12 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Utilities;
-using System;
+using MogMod.Items.Weapons.Melee;
 using Terraria;
 using Terraria.Audio;
-using Terraria.ID;
-using Terraria.GameContent.Creative;
-using Terraria.ModLoader;
 using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.Melee
 {
@@ -14,17 +12,13 @@ namespace MogMod.Projectiles.Melee
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
-        public static readonly SoundStyle UltraCrit = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/UltraCrit")
+        public static readonly SoundStyle UltraCritSFX = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/UltraCrit")
         {
             Volume = 1.1f,
             PitchVariance = .2f
         };
-        private bool initialized = false;
-        public override void SetStaticDefaults()
-        {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
-        }
+        public Player Owner => Main.player[Projectile.owner];
+        public bool ultraCrit = false;
         public override void SetDefaults()
         {
             Projectile.width = 4;
@@ -42,15 +36,13 @@ namespace MogMod.Projectiles.Melee
             Projectile.alpha = 0;
 
         }
+        public override void OnSpawn(IEntitySource source)
+        {
+            SoundEngine.PlaySound(UltraCritSFX, Projectile.Center);
+            ultraCrit = Main.rand.NextFloat(0f, 1f) < ChaosArbiter.UltraCritChance;
+        }
         public override void AI()
         {
-            if (!initialized)
-            {
-                SoundEngine.PlaySound(UltraCrit, Projectile.Center);
-                initialized = true;
-            }
-            //float velXMult = 0.85f;
-            //Projectile.velocity.X *= velXMult;
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
@@ -61,6 +53,16 @@ namespace MogMod.Projectiles.Melee
             Main.dust[chaosss].scale = Main.rand.Next(10, 30) * 0.014f;
             Main.dust[chaosss].velocity *= 0.2f;
             Main.dust[chaosss].noLight = false;
+        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+            modifiers.SourceDamage *= Main.rand.NextFloat(0.5f, 2f);
+            modifiers.CritDamage += Main.rand.NextFloat(-0.75f, 1.25f);
+            if (Main.rand.NextBool(3)) modifiers.Knockback *= Main.rand.NextFloat(0f, 1f);
+            else modifiers.Knockback += Main.rand.Next(0, 3);
+            if (Main.rand.Next(0, 100 + 1) < (Owner.GetTotalCritChance(Projectile.DamageType) * Main.rand.Next(0, 5 + 1))) modifiers.SetCrit();
+            if (ultraCrit) modifiers.CritDamage *= ChaosArbiter.CritMult;
         }
     }
 }

@@ -5,6 +5,7 @@ using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -30,15 +31,13 @@ namespace MogMod.Projectiles.Melee
         public bool playSwingSound = true;
         public bool hitNPC = false;
         public bool additionalBlood = true;
-        public override void SetStaticDefaults()
-        {
-            Main.projFrames[Projectile.type] = 9;
-        }
+        public override void SetStaticDefaults() => Main.projFrames[Projectile.type] = 9;
         public override void Defaults()
         {
             Projectile.width = 54;
             Projectile.height = 70;
             Projectile.extraUpdates = 5;
+            Projectile.hide = true;
 
             MogModGlobalProjectile mogProj = Projectile.MogMod();
             mogProj.bloodDamage = RiversOfBlood.ItemBloodDamage;
@@ -70,7 +69,8 @@ namespace MogMod.Projectiles.Melee
                             if (Owner.HasBuff<ParryBuff1>())
                             {
                                 Vector2 aimVel = (Owner.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX) * 65;
-                                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, -(aimVel / 4), ModContent.ProjectileType<RiversOfBloodProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                                if (Projectile.owner == Main.myPlayer)
+                                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, -(aimVel / 4), ModContent.ProjectileType<RiversOfBloodProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                             }
                             playSwingSound = false;
                         }
@@ -109,7 +109,7 @@ namespace MogMod.Projectiles.Melee
             }
 
             Projectile.frameCounter++;
-            if (Projectile.frameCounter % 25 == 0)
+            if (Projectile.frameCounter % (Projectile.extraUpdates * 5) == 0)
                 Projectile.frame = Projectile.frame >= 8 ? 0 : Projectile.frame + 1;
 
             fadeIn = MathHelper.Lerp(fadeIn, 1, 0.25f / Projectile.MaxUpdates * 5);
@@ -144,6 +144,7 @@ namespace MogMod.Projectiles.Melee
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
+            base.ModifyHitNPC(target, ref modifiers);
             var mogPlayer = Owner.GetModPlayer<BaseSwordHoldoutPlayer>();
             MogModGlobalProjectile mogProj = Projectile.MogMod();
             if (mogPlayer.swingNum == 0)
@@ -166,12 +167,13 @@ namespace MogMod.Projectiles.Melee
                 }
             }
         }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => overPlayers.Add(index);
         public override bool PreDraw(ref Color lightColor)
         {
             var mogPlayer = Owner.GetModPlayer<BaseSwordHoldoutPlayer>();
             if (Owner.HasBuff<ParryBuff1>())
             {
-                Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Projectiles/Melee/RiversOfBloodGlow").Value;
+                Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Projectiles/Melee/RiversOfBloodGhost").Value;
 
                 float outlineWidth = 4;
                 if (!inCooldown)

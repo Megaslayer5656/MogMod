@@ -139,7 +139,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                     {
                         SoundEngine.PlaySound(SoundID.Item15 with { Pitch = Main.rand.NextFloat(-0.4f, -0.5f) }, Projectile.Center);
                         SoundEngine.PlaySound(SoundID.Item15 with { Volume = 0.85f, Pitch = Main.rand.NextFloat(0.1f, 0.2f) }, Projectile.Center);
-                        //if (Main.netMode != NetmodeID.MultiplayerClient)
+                        if (Projectile.owner == Main.myPlayer)
                             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, -(aimVel / 4), ModContent.ProjectileType<AdulasMoonbladeProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         playSwingSound = false;
                     }

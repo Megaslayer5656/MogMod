@@ -36,11 +36,11 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-            AddIngredient<ATGMissile>(1).
-            AddIngredient(ItemID.LunarBar, 15).
-            AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Rocket"}", 50).
-            AddTile(TileID.LunarCraftingStation).
-            Register();
+                AddIngredient<ATGMissile>().
+                AddIngredient(ItemID.LunarBar, 15).
+                AddRecipeGroup("AnyRocket", 50).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

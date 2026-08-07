@@ -56,13 +56,13 @@ namespace MogMod.Projectiles.Melee
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            Projectile.velocity *= 1.1f;
+            Projectile.velocity *= 1.02f;
             if (Projectile.numHits >= 5 && Projectile.timeLeft > 60)
                 Projectile.timeLeft = 60;
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            Projectile.velocity *= 1.1f;
+            Projectile.velocity *= 1.02f;
             if (Projectile.numHits >= 5 && Projectile.timeLeft > 60)
                 Projectile.timeLeft = 60;
         }

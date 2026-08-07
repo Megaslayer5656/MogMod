@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Weapons.Ranged;
 using MogMod.Utilities;
+using ReLogic.Utilities;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
@@ -20,6 +21,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         public const float MinCharge = 0f;
         private readonly float[] amount = [0f, 20f, 40f, 60f, 80f];
         public static bool FullyCharged = false;
+        public SlotId AudSlot;
         public override void SetDefaults()
         {
             Projectile.width = 62;
@@ -47,8 +49,8 @@ namespace MogMod.Projectiles.RangedProjectiles
                     Projectile.Kill();
                     return;
                 }
-                else
-                    ShootProjectile(tipPosition);
+                else ShootProjectile(tipPosition);
+                if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();
             }
             else
             {
@@ -75,6 +77,13 @@ namespace MogMod.Projectiles.RangedProjectiles
                 }
                 if (CurrentCharge >= MinCharge)
                 {
+                    if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound) && ChargeSound.IsPlaying)
+                    {
+                        ChargeSound.Position = Projectile.Center;
+                        ChargeSound.Pitch = Utils.Remap(CurrentCharge, 0, Sharpshooter.MaxCharge, -0.4f, 0f);
+                        ChargeSound.Volume = Utils.Remap(CurrentCharge, 0, Sharpshooter.MaxCharge, 0.2f, 1f) * 100;
+                    }
+                    else AudSlot = SoundEngine.PlaySound(SoundID.DD2_KoboldIgniteLoop with { Volume = 0.01f, Pitch = 0, IsLooped = true }, Projectile.Center);
                     int dustSpot = 6;
                     Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * -12f;
                     for (int i = 0; i <= 5; i++)
@@ -84,9 +93,9 @@ namespace MogMod.Projectiles.RangedProjectiles
                         dust.alpha = 100;
                         dust.noGravity = true;
                     }
-                    if (amount.Contains(CurrentCharge))
-                        SoundEngine.PlaySound(SoundID.Item17);
+                    if (amount.Contains(CurrentCharge)) SoundEngine.PlaySound(SoundID.Item17);
                 }
+                if (CurrentCharge < MinCharge) if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();
             }
             UpdateProjectileHeldVariables(armPosition);
             ManipulatePlayerVariables();
@@ -97,10 +106,12 @@ namespace MogMod.Projectiles.RangedProjectiles
                 return;
             SoundEngine.PlaySound(SoundID.Item98);
             Vector2 shootVelocity = Projectile.velocity * 20f;
+            Owner.velocity += shootVelocity.SafeNormalize(Vector2.UnitX) * -10f;
             Projectile.damage = (int)(Projectile.damage * ((CurrentCharge * 0.05f) + 1));
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, ModContent.ProjectileType<SharpshooterProj>(), Projectile.damage, Projectile.knockBack * ((CurrentCharge * .01f) + 1f), Projectile.owner);
             CurrentCharge = 0;
             Projectile.Kill();
+            if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();
         }
         private void UpdateProjectileHeldVariables(Vector2 armPosition)
         {
@@ -132,6 +143,11 @@ namespace MogMod.Projectiles.RangedProjectiles
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
             Owner.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
+        }
+        public override void OnKill(int timeLeft)
+        {
+            if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound))
+                ChargeSound?.Stop();
         }
         public override bool? CanDamage() => false;
     }

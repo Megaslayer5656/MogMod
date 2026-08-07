@@ -33,10 +33,10 @@ namespace MogMod.Items.Ammo.Other
         public override void AddRecipes()
         {
             CreateRecipe(100).
-            AddRecipeGroup(RecipeGroupID.Wood, 10).
-            AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Mushroom"}", 1).
-            AddTile(TileID.WorkBenches).
-            Register();
+                AddRecipeGroup(RecipeGroupID.Wood, 10).
+                AddRecipeGroup("AnyEvilMushroom").
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

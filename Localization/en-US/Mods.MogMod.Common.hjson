@@ -5,3 +5,20 @@ RigInformation:
 	Only one rig may be equipped at a time
 	'''
 NeutralInformation: Can only be equipped in a neutral item slot
+
+RecipeGroup: {
+	HardmodeAnvil: "{$LegacyMisc.37} Hardmode Anvil"
+	HardmodeForge: "{$LegacyMisc.37} Hardmode Forge"
+	AnyFood: "{$LegacyMisc.37} Food Item"
+	AnyEvilBar: "{$LegacyMisc.37} Evil Bar"
+	AnyScaleOrTissue: Shadow Scale or Tissue Sample
+	AnyCursedFlameOrIchor: Cursed Flame or Ichor
+	AnyEvilWater: "{$LegacyMisc.37} Evil Water"
+	AnyEvilMushroom: "{$LegacyMisc.37} Evil Mushroom"
+	AnyEvilMaterial: "{$LegacyMisc.37} Evil Material"
+	AnyEmblem: "{$LegacyMisc.37} Emblem"
+	AnyButterfly: "{$LegacyMisc.37} Butterfly"
+	AnyFragment: "{$LegacyMisc.37} Lunar Fragment"
+	AnyRocket: "{$LegacyMisc.37} Rocket"
+	AnyQuiver: "{$LegacyMisc.37} Quiver"
+}

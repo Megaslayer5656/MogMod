@@ -23,6 +23,8 @@ namespace MogMod.Projectiles.BaseProjectiles
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.noEnchantmentVisuals = true;
+            Projectile.netImportant = true;
+            Projectile.netUpdate = true;
         }
 
         public override void OnSpawn(IEntitySource source)
@@ -63,6 +65,16 @@ namespace MogMod.Projectiles.BaseProjectiles
         /// The Player that is using the projectile.
         /// </summary>
         public virtual Player Owner => Main.player[Projectile.owner];
+        /// <summary>
+        /// How much damage should be lost each hit.
+        /// <br/> Defaults to 0.95f.
+        /// </summary>
+        public virtual float DamageFalloff { get; set; } = 0.95f;
+        /// <summary>
+        /// How many times the projectile can deal damage when hitting an entity.
+        /// <br/> Defaults to 10.
+        /// </summary>
+        public virtual int HitLimit { get; set; } = 10;
 
         /// <summary>
         /// The amount of extra size added to the projectile's scale.
@@ -285,10 +297,12 @@ namespace MogMod.Projectiles.BaseProjectiles
         {
             //modifiers.HitDirectionOverride = Owner.direction;
             modifiers.HitDirectionOverride = target.position.X > Owner.MountedCenter.X ? 1 : -1;
+            if (Projectile.numHits > 0) modifiers.SourceDamage *= DamageFalloff;
             base.ModifyHitNPC(target, ref modifiers);
         }
         public override bool? CanDamage()
         {
+            if (Projectile.numHits > HitLimit) return false;
             return CanHit ? base.CanDamage() : false;
         }
         public override void ModifyDamageHitbox(ref Rectangle hitbox)

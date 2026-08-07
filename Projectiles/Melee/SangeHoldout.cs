@@ -39,7 +39,7 @@ namespace MogMod.Projectiles.Melee
             StartupTime = 8;
             CooldownTime = 4;
             swingTime -= mogPlayer.swingNum % 2 == 0 ? -StartupTime : StartupTime - CooldownTime;
-            Projectile.scale *= mogPlayer.swingNum % 2 == 0 ? 4f : 2.25f;
+            Projectile.scale *= mogPlayer.swingNum % 2 == 0 ? 2.8f : 2.2f;
         }
         public override void AdditionalAI()
         {
@@ -60,23 +60,19 @@ namespace MogMod.Projectiles.Melee
                     //Main.NewText($"small swing {mogPlayer.swingNum}");
                     break;
             }
-            if (inStartup)
-                Projectile.scale = baseScale * MathHelper.Lerp(0.5f, 1, 1 - MathF.Pow(1 - StartupCompletion, 2f));
-            else if (inCooldown)
-                Projectile.scale = baseScale * MathHelper.Lerp(1, 0.75f, MathF.Pow(CooldownCompletion, 2));
-            else
-                Projectile.scale = baseScale * Math.Min(MathHelper.SmoothStep(1, 1.5f, SwingCompletion), MathHelper.SmoothStep(2, 1, SwingCompletion));
+            if (inStartup) Projectile.scale = baseScale * MathHelper.Lerp(0.5f, 1, 1 - MathF.Pow(1 - StartupCompletion, 2f));
+            else if (inCooldown) Projectile.scale = baseScale * MathHelper.Lerp(1, 0.75f, MathF.Pow(CooldownCompletion, 2));
+            else Projectile.scale = baseScale * Math.Min(MathHelper.SmoothStep(1, 1.5f, SwingCompletion), MathHelper.SmoothStep(2, 1, SwingCompletion));
         }
         public override float SwingFunction()
         {
-            if (inStartup)
-                return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * 0.5f, -swingWidth * 0.75f, 1 - MathF.Pow(1 - StartupCompletion, 2f)));
-            if (inCooldown)
-                return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * 0.25f, swingWidth * 0.33f, CooldownCompletion));
+            if (inStartup) return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * 0.5f, -swingWidth * 0.75f, 1 - MathF.Pow(1 - StartupCompletion, 2f)));
+            if (inCooldown) return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * 0.25f, swingWidth * 0.33f, CooldownCompletion));
             return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * 0.75f, swingWidth * 0.25f, SwingCompletion));
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
+            base.ModifyHitNPC(target, ref modifiers);
             var mogPlayer = Owner.GetModPlayer<BaseSwordHoldoutPlayer>();
             MogModGlobalProjectile mogProj = Projectile.MogMod();
             if (mogPlayer.swingNum == 0)
@@ -94,12 +90,8 @@ namespace MogMod.Projectiles.Melee
         {
             if (target.type != NPCID.TargetDummy && hit.Crit)
             {
-                int heal = 1;
-                heal *= Convert.ToInt32(Owner.lifeSteal * 0.015);
-                Owner.statLife += heal;
-                Owner.HealEffect(heal);
-                if (Owner.statLife > Owner.statLifeMax2)
-                    Owner.statLife = Owner.statLifeMax2;
+                int heal = Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum == 0 ? 4 : 2;
+                Owner.HealLifestealMult(heal);
             }
         }
     }

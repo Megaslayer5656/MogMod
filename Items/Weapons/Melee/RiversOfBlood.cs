@@ -1,4 +1,5 @@
-﻿using MogMod.Buffs.Cooldowns;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Items.Global;
@@ -6,11 +7,11 @@ using MogMod.Items.Other;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
@@ -24,8 +25,8 @@ namespace MogMod.Items.Weapons.Melee
             PitchVariance = .2f,
             MaxInstances = 1,
         };
+        public Color DescColor = new(171, 0, 26);
         public const int BuffTime = 600;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(BuffTime.FramesToSeconds());
         public const int ItemBloodDamage = 135;
         public const int ProjectileBloodDamage = 300;
         public override int ProjectileType => ModContent.ProjectileType<RiversOfBloodHoldout>();
@@ -77,6 +78,31 @@ namespace MogMod.Items.Weapons.Melee
                 return true;
             }
             return false;
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            int index = tooltips.FindIndex(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
+            string stats = string.Empty;
+            if (index != -1)
+            {
+                if (Main.keyState.PressingShift())
+                {
+                    index++;
+                    TooltipLine desc = new(Mod, IHoldShiftTooltipItem.ExtensionIndicatorTooltipID, MiscUtils.GetTextFromModItem<RiversOfBlood>("FlavorTooltip").Format());
+                    desc.OverrideColor = DescColor;
+                    tooltips.Insert(index, desc);
+                }
+                else
+                {
+                    index++;
+                    TooltipLine normal = new(Mod, "Tooltip0", MiscUtils.GetTextFromModItem<RiversOfBlood>("Description").Format(BuffTime.FramesToSeconds()));
+                    tooltips.Insert(index, normal);
+                    index++;
+                    TooltipLine holdShiftIndicator = new(Mod, IHoldShiftTooltipItem.FlavorTooltipID, MiscUtils.GetTextValue("UI.HoldShiftTooltipReplacementIndicator"));
+                    holdShiftIndicator.OverrideColor = IHoldShiftTooltipItem.DefaultExtensionIndicatorColor;
+                    tooltips.Insert(index, holdShiftIndicator);
+                }
+            }
         }
         public override void AddRecipes()
         {

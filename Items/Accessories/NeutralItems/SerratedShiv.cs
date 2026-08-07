@@ -28,9 +28,9 @@ namespace MogMod.Items.Accessories.NeutralItems
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<BladesOfAttack>(1).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Emblem"}", 1).
-                AddRecipeGroup("AdamantiteBar", 18).
+                AddIngredient<BladesOfAttack>().
+                AddRecipeGroup("AnyEmblem").
+                AddRecipeGroup("AnyAdamantiteBar", 18).
                 AddIngredient<FuciumBar>(12).
                 AddIngredient(ItemID.SoulofFright, 7).
                 AddTile(TileID.TinkerersWorkbench).

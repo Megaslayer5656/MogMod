@@ -43,6 +43,7 @@ namespace MogMod.NPCs.ProjectileEnemies
             NPC.value = Item.buyPrice(0, 0, 0, 0);
             NPC.DeathSound = SoundID.Dig;
             NPC.dontTakeDamage = true;
+            NPC.chaseable = false;
         }
         #endregion
 

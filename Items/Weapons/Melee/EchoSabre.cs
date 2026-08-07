@@ -35,9 +35,9 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup("CobaltBar", 22).
+                AddRecipeGroup("AnyCobaltBar", 22).
                 AddIngredient(ItemID.SoulofNight, 6).
-                AddIngredient<FrigidCrystal>(1).
+                AddIngredient<FrigidCrystal>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

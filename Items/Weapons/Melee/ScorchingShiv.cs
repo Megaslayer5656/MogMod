@@ -45,7 +45,7 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<GriefBar>(12).
+                AddIngredient<HellfireBar>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

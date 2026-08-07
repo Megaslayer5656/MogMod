@@ -17,8 +17,8 @@ namespace MogMod.Items.Weapons.Melee
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(EssenceMax);
         public override void SetDefaults() //TODO: Test and balance, make better sprite
         {
-            Item.width = 68;
-            Item.height = 90;
+            Item.width = 40;
+            Item.height = 48;
             Item.scale = 1.25f;
             Item.damage = 37;
             Item.DamageType = DamageClass.Melee;
@@ -57,9 +57,9 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.GoldBar, 20).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 12).
-                AddIngredient<HydrakanLatch>(1).
+                AddRecipeGroup("AnyGoldBar", 20).
+                AddRecipeGroup("AnyScaleOrTissue", 12).
+                AddIngredient<HydrakanLatch>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

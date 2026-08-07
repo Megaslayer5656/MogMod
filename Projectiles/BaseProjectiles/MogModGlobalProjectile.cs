@@ -43,6 +43,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         public bool gunpowderProc = false;
         public bool shivProc = false;
         public bool jidiProc = false;
+        public bool ultraCrit = false;
 
         public bool fireBullet = false;
         public bool iceBullet = false;
@@ -64,6 +65,7 @@ namespace MogMod.Projectiles.BaseProjectiles
 
         public int Time = 0;
         private bool doubleDamage = false;
+        public Color StarColor = Color.White;
 
         // damage caps
         public int gunpowderCap = GunpowderGauntlet.DamageCap;
@@ -91,7 +93,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         [
             ModContent.ProjectileType<GunlanceHoldout>(),
             ModContent.ProjectileType<GunlanceSpear>(),
-            ModContent.ProjectileType<AnchorHoldout>(),
+            ModContent.ProjectileType<OversizedAnchorHoldout>(),
             ModContent.ProjectileType<WyvernJawbladeHoldout>(),
             ModContent.ProjectileType<BlackBladeHoldout>(),
             ModContent.ProjectileType<EchoSabreHoldout>(),
@@ -161,6 +163,7 @@ namespace MogMod.Projectiles.BaseProjectiles
             Player player = Main.player[projectile.owner];
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             Time++;
+            if (mogPlayer.wearingChaosDice) ultraCrit = Main.rand.NextBool(ChaosDice.UltraCritChance);
 
             BloodAI(projectile);
             if (projectile.Opacity > 0 && projectile.scale > 0.01f)
@@ -297,17 +300,6 @@ namespace MogMod.Projectiles.BaseProjectiles
                 ParryProjectile(projectile, target.whoAmI);
             }
         }
-        public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
-        {
-            Player player = Main.player[projectile.owner];
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            if (mogPlayer.wearingDamascus1 && Main.zenithWorld)
-                modifiers.CritDamage *= DamascusHelm.GFBCritMult;
-            else if (mogPlayer.wearingDamascus1)
-                modifiers.CritDamage *= DamascusHelm.CritMult + 1;
-            if (crystalSpell)
-                modifiers.CritDamage *= 1.2f;
-        }
         public static void ParryProjectile(Projectile projectile, int newOwner)
         {
             projectile.velocity *= -1f;
@@ -443,22 +435,14 @@ namespace MogMod.Projectiles.BaseProjectiles
                         else if (modPlayer.wearingDamascus2 && hit.Crit)
                         {
                             int heal = 1;
-                            heal *= Convert.ToInt32(player.lifeSteal * 0.01);
-                            player.statLife += heal;
-                            player.HealEffect(heal);
-                            if (player.statLife > player.statLifeMax2)
-                                player.statLife = player.statLifeMax2;
+                            player.HealLifestealMult(heal);
                         }
                         if (modPlayer.wearingSatanic && player.HasBuff(ModContent.BuffType<SatanicBuff>()) && modPlayer.satanicAccCooldown <= 0)
                         //if (modPlayer.wearingSatanic) // for testing
                         {
                             modPlayer.satanicAccCooldown = cooldownTimer * 2;
                             int heal = (int)(damageDone / 100) + 1;
-                            heal *= Convert.ToInt32(player.lifeSteal * 0.01);
-                            player.statLife += heal;
-                            player.HealEffect(heal);
-                            if (player.statLife > player.statLifeMax2)
-                                player.statLife = player.statLifeMax2;
+                            player.HealLifestealMult(heal);
                         }
                         /*
                         if (((modPlayer.wearingNihilumRanged && projectile.CountsAsClass(DamageClass.Ranged)) || (modPlayer.wearingNihilumMagic && projectile.CountsAsClass(DamageClass.Magic))) && modPlayer.VoniumLifeCooldown <= 0)
@@ -472,6 +456,23 @@ namespace MogMod.Projectiles.BaseProjectiles
                                 player.statLife = player.statLifeMax2;
                         }
                         */
+                    }
+                    if (modPlayer.wearingChaosDice && ultraCrit && hit.Crit)
+                    {
+                        if (target.type != NPCID.TargetDummy)
+                            player.HealLifestealMult(1);
+                        if (Main.netMode == NetmodeID.Server)
+                        {
+                            ModPacket packet = Mod.GetPacket();
+                            packet.Write((byte)MogModMessageType.UltraCritTextSync);
+                            packet.Write(target.lastInteraction);
+                            packet.Write(target.whoAmI);
+                            packet.Send();
+                        }
+                        else
+                        {
+                            target.MogMod().UltraCritFX(target);
+                        }
                     }
                 }
             }
@@ -522,6 +523,19 @@ namespace MogMod.Projectiles.BaseProjectiles
                     target.AddBuff(BuffID.OnFire3, 180);
             }
         }
+        public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
+        {
+            Player player = Main.player[projectile.owner];
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            if (mogPlayer.wearingDamascus1 && Main.zenithWorld)
+                modifiers.CritDamage *= DamascusHelm.GFBCritMult;
+            else if (mogPlayer.wearingDamascus1)
+                modifiers.CritDamage *= DamascusHelm.CritMult + 1;
+            if (crystalSpell)
+                modifiers.CritDamage *= 1.2f;
+            if (mogPlayer.wearingChaosDice && ultraCrit)
+                modifiers.CritDamage *= ChaosDice.CritMult;
+        }
         public override void OnKill(Projectile projectile, int timeLeft)
         {
             Player player = Main.player[projectile.owner];
@@ -563,6 +577,8 @@ namespace MogMod.Projectiles.BaseProjectiles
 
             if (projectile.DamageType == SorceryDamageClass.Instance)
             {
+                projectile.netImportant = true;
+                projectile.netUpdate = true;
                 if (CheckWeapon(ModContent.ItemType<GelmirGlintstoneStaff>()))
                     gelmirSpell = true;
                 if (CheckWeapon(ModContent.ItemType<MeteoriteStaff>()))
@@ -579,6 +595,8 @@ namespace MogMod.Projectiles.BaseProjectiles
             }
             if (source is EntitySource_Parent { Entity: Projectile Owner })
             {
+                projectile.netImportant = true;
+                projectile.netUpdate = true;
                 if (Owner.MogMod().gelmirSpell)
                     gelmirSpell = true;
                 if (Owner.MogMod().meteoriteSpell)
@@ -606,6 +624,8 @@ namespace MogMod.Projectiles.BaseProjectiles
                 MogModGlobalNPC mogNPC = npc.MogMod();
                 if (!npc.friendly)
                 {
+                    projectile.netImportant = true;
+                    projectile.netUpdate = true;
                     if (mogNPC.overloadingElite)
                         overloadingProj = true;
                     if (mogNPC.fireElite)

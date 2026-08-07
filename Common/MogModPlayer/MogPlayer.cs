@@ -156,6 +156,7 @@ namespace MogMod.Common.MogModPlayer
         public bool mendingVisual;
         public bool wearingToxic;
         public bool toxicVisual;
+        public bool wearingChaosDice;
 
         public float ammoCost = 1f;
 
@@ -321,7 +322,6 @@ namespace MogMod.Common.MogModPlayer
         public bool krakenBuff;
 
         public bool markerProjOut = false;
-        public bool moonveilProj = false;
 
         public int maxShots = 0;
         public int reloadTime = 0;
@@ -2282,9 +2282,7 @@ namespace MogMod.Common.MogModPlayer
             }
 
             if (Player.HeldItem.type == ModContent.ItemType<Moonveil>())
-            {
-                moonveilProj = true;
-            }
+                Moonveil.Charges = Moonveil.MaxCharges;
 
             removeBuff(Player, BuffID.OnFire); //TODO: Eventually make this automatically remove debuffs (with some exceptions)
             removeBuff(Player, BuffID.OnFire3);
@@ -2724,6 +2722,7 @@ namespace MogMod.Common.MogModPlayer
             wearingGilded = false;
             wearingMending = false;
             wearingToxic = false;
+            wearingChaosDice = false;
             //stopFallDamage = false;
 
             if (!Main.playerInventory || Main.LocalPlayer.chest >= 0 || Main.LocalPlayer.channel)

@@ -29,10 +29,10 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-            AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 12).
-            AddIngredient(ItemID.BloodMoonStarter, 1).
-            AddTile(TileID.DemonAltar).
-            Register();
+                AddRecipeGroup("AnyScaleOrTissue", 12).
+                AddIngredient(ItemID.BloodMoonStarter).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

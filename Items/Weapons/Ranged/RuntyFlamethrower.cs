@@ -16,7 +16,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.width = 64;
             Item.height = 16;
 
-            Item.damage = 15;
+            Item.damage = 18;
             Item.knockBack = 1f;
             Item.DamageType = DamageClass.Ranged;
             Item.autoReuse = true;
@@ -42,8 +42,9 @@ namespace MogMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<RuntyBar>(12).
-                AddIngredient(ItemID.Gel, 10).
+                AddIngredient<RuntyBar>(8).
+                AddIngredient(ItemID.Gel, 6).
+                AddRecipeGroup("AnyTorch").
                 AddTile(TileID.Anvils).
                 Register();
         }

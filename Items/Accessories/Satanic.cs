@@ -30,7 +30,7 @@ namespace MogMod.Items.Accessories
             // makes vampire knives crazy
             player.lifeSteal *= 2f;
             player.GetDamage(DamageClass.Generic) += .10f;
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             mogPlayer.wearingSatanic = true;
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
@@ -45,11 +45,11 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<Sange>(1).
-                AddIngredient(ItemID.MoonStone, 1).
-                AddIngredient<GriefBar>(10).
+                AddIngredient<Sange>().
+                AddIngredient(ItemID.MoonStone).
                 AddIngredient(ItemID.BeetleHusk, 7).
-                AddIngredient<VitalityBooster>(1).
+                AddIngredient<GriefBar>(5).
+                AddIngredient<VitalityBooster>().
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

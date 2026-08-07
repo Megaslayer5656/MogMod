@@ -33,7 +33,7 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Magic Quiver"}").
+                AddRecipeGroup("AnyQuiver").
                 AddIngredient<FaeBar>(8).
                 AddIngredient(ItemID.FragmentNebula, 8).
                 AddIngredient<PointBooster>().

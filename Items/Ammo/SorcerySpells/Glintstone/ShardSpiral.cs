@@ -29,8 +29,8 @@ namespace MogMod.Items.Ammo.SorcerySpells.Glintstone
         {
             CreateRecipe().
                 AddIngredient(ItemID.PixieDust, 15).
-                AddRecipeGroup("MythrilBar", 6).
-                AddIngredient<Scroll>(1).
+                AddRecipeGroup("AnyMythrilBar", 6).
+                AddIngredient<Scroll>().
                 AddTile(TileID.Bookcases).
                 Register();
         }

@@ -52,12 +52,12 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.ManaRegenerationBand, 1).
-                AddIngredient<BladesOfAttack>(1).
+                AddIngredient(ItemID.ManaRegenerationBand).
+                AddIngredient<BladesOfAttack>().
                 AddIngredient(ItemID.Silk, 12).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 7).
+                AddRecipeGroup("AnyScaleOrTissue", 7).
                 AddIngredient<ManaEssence>(3).
-                AddIngredient(ItemID.Skull, 1).
+                AddIngredient(ItemID.Skull).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

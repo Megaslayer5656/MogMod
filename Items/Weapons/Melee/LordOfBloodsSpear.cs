@@ -81,8 +81,8 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.TheRottedFork).
-                AddIngredient<GriefBar>(12).
-                AddIngredient<UltimateOrb>(1).
+                AddIngredient<HellfireBar>(12).
+                AddIngredient<UltimateOrb>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

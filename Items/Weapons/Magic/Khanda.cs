@@ -36,11 +36,11 @@ namespace MogMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<Crystalys>(1).
-                AddIngredient<Phylactery>(1).
-                AddRecipeGroup("CobaltBar", 12).
-                AddIngredient(ItemID.LightShard, 1).
-                AddIngredient<PointBooster>(1).
+                AddIngredient<Crystalys>().
+                AddIngredient<Phylactery>().
+                AddRecipeGroup("AnyCobaltBar", 12).
+                AddIngredient(ItemID.LightShard).
+                AddIngredient<PointBooster>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

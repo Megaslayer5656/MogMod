@@ -87,12 +87,12 @@ namespace MogMod.Items.Accessories.Boots
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<ArcaneBoots>(1).
-                AddIngredient<Mekansm>(1).
-                AddIngredient(ItemID.TerrasparkBoots, 1).
+                AddIngredient<ArcaneBoots>().
+                AddIngredient<Mekansm>().
+                AddIngredient(ItemID.TerrasparkBoots).
                 AddIngredient(ItemID.SoulofMight, 7).
-                AddRecipeGroup("CobaltBar", 5).
-                AddIngredient<FrigidCrystal>(1).
+                AddRecipeGroup("AnyCobaltBar", 5).
+                AddIngredient<FrigidCrystal>().
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

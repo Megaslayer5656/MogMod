@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -57,11 +58,7 @@ namespace MogMod.Projectiles.Melee
             if (target.type != NPCID.TargetDummy)
             {
                 int heal = 1;
-                heal *= Convert.ToInt32(player.lifeSteal * 0.03);
-                player.statLife += heal;
-                player.HealEffect(heal);
-                if (player.statLife > player.statLifeMax2)
-                    player.statLife = player.statLifeMax2;
+                player.HealLifestealMult(heal);
             }
         }
     }

@@ -28,10 +28,10 @@ namespace MogMod.Items.Ammo.SorcerySpells.Glintstone
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<GlintstoneStars>(1).
-                AddRecipeGroup("CobaltBar", 6).
+                AddIngredient<GlintstoneStars>().
                 AddIngredient(ItemID.SoulofSight, 7).
-                AddIngredient<Scroll>(1).
+                AddRecipeGroup("AnyCobaltBar", 6).
+                AddIngredient<Scroll>().
                 AddTile(TileID.Bookcases).
                 Register();
         }

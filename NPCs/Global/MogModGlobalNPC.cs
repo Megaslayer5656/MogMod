@@ -139,7 +139,7 @@ namespace MogMod.NPCs.Global
         }
         public override void SetDefaults(NPC npc)
         {
-            ApplyEliteEffects(npc);
+            ApplyEliteEffects(npc, npc.GetSource_FromThis("parent"));
         }
         #endregion
 
@@ -162,6 +162,9 @@ namespace MogMod.NPCs.Global
                 case NPCID.Demolitionist:
                     shop.InsertAfter(ItemID.Grenade, ModContent.ItemType<GasGrenade>(), Condition.HappyEnoughToSellPylons);
                     shop.InsertAfter(ItemID.Grenade, ModContent.ItemType<BloodGrenade>(), Condition.BloodMoon);
+                    break;
+                case NPCID.Pirate:
+                    shop.InsertAfter(ItemID.Sail, ModContent.ItemType<TidalWave>(), Condition.InBeach);
                     break;
             }
         }
@@ -246,12 +249,21 @@ namespace MogMod.NPCs.Global
                 case NPCID.Crawdad2:
                 case NPCID.GiantShelly:
                 case NPCID.GiantShelly2:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LabGerminator>(), 50, 1, 1));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LabGerminator>(), 50));
                     break;
                 case NPCID.PigronCorruption:
                 case NPCID.PigronCrimson:
                 case NPCID.PigronHallow:
                     postFish.Add(ModContent.ItemType<BrinyRind>(), 4, 3, 5);
+                    break;
+                case NPCID.BloodCrawler:
+                case NPCID.BloodCrawlerWall:
+                case NPCID.LihzahrdCrawler:
+                case NPCID.WallCreeper:
+                case NPCID.WallCreeperWall:
+                case NPCID.BlackRecluse:
+                case NPCID.BlackRecluseWall:
+                    npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<DaturaLash>(), 20, 1, 1));
                     break;
                 #endregion
                 #region Ocean
@@ -281,10 +293,10 @@ namespace MogMod.NPCs.Global
                 #endregion
                 #region Goblins
                 case NPCID.GoblinSorcerer:
-                    npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 20, 1, 1));
+                    npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 20));
                     break;
                 case NPCID.GoblinSummoner:
-                    npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 5, 1, 1));
+                    npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ModContent.ItemType<SearingSignet>(), 5));
                     break;
                 #endregion
                 #region Frost Moon
@@ -727,11 +739,7 @@ namespace MogMod.NPCs.Global
             {
                 //ChatHelper.SendChatMessageToClient(NetworkText.FromLiteral($"going to heal {player.name}, mogName = {mogPlayer.Name}"), Color.Green, player.whoAmI);
                 int heal = (int)(hitInfo.Damage / 100) + 1;
-                heal *= Convert.ToInt32(player.lifeSteal * 0.01);
-                player.statLife += heal;
-                player.HealEffect(heal);
-                if (player.statLife > player.statLifeMax2)
-                    player.statLife = player.statLifeMax2;
+                player.HealLifestealMult(heal);
                 //ChatHelper.SendChatMessageToClient(NetworkText.FromLiteral($"healed {player.name} for {heal}"), Color.Green, player.whoAmI);
             }
 
@@ -925,9 +933,10 @@ namespace MogMod.NPCs.Global
             CombatText.NewText(r, textColor, MiscUtils.GetText("Status.Proc.UltraCrit").ToString(), true);
             for (int i = 0; i < 30; i++)
             {
-                Vector2 randPos = Main.rand.NextVector2CircularEdge(r.Width / 2f, r.Height / 2f);
+                Vector2 randPos = Main.rand.NextVector2CircularEdge(r.Width, r.Height);
                 Dust telegraphDust = Dust.NewDustPerfect(npc.Center + randPos, ChildSafety.Disabled ? DustID.Blood : DustID.CrimsonPlants, npc.DirectionFrom(npc.Center + randPos) * Main.rand.NextFloat(5f, 7f), 0, default, 1.5f);
                 telegraphDust.noGravity = true;
+                telegraphDust.fadeIn = 0.6f;
             }
             for (int n = 0; n < 6; n++)
             {
@@ -936,7 +945,7 @@ namespace MogMod.NPCs.Global
                 Vector2 swirlVelocity = Vector2.Normalize(swirlPos - npc.Center).RotatedBy(MathHelper.ToRadians(20)) * 2f;
                 Dust swirlDust = Dust.NewDustPerfect(swirlPos, DustID.GemRuby, swirlVelocity * Main.rand.NextFloat(5f, 7f), 0, default, 1.5f);
                 swirlDust.noGravity = true;
-                swirlDust.fadeIn = .6f;
+                swirlDust.fadeIn = 0.6f;
             }
         }
         #endregion
@@ -1036,8 +1045,8 @@ namespace MogMod.NPCs.Global
         public override void OnSpawn(NPC npc, IEntitySource source)
         {
         }
-        // TODO: fix enemy life changes not syncing in multiplayer
-        private void ApplyEliteEffects(NPC npc)
+         //TODO: fix enemy life changes not syncing in multiplayer
+        private void ApplyEliteEffects(NPC npc, IEntitySource source)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
                 return;
@@ -1063,7 +1072,8 @@ namespace MogMod.NPCs.Global
             }
             // elite enemy spawning
             // TODO: fix bosses (like destroyer) spawning elites
-            if (npc.GetSource_FromThis() is EntitySource_Parent { Entity: NPC parent })
+            // consists of enemies children becoming elites, doesnt work for now since there is no source parent
+            if (source is EntitySource_Parent { Entity: NPC parent })
             {
                 if (parent.boss || parent.type is NPCID.TheDestroyerBody || parent.type is NPCID.TheDestroyerTail)
                     return;
@@ -1139,6 +1149,7 @@ namespace MogMod.NPCs.Global
             npc.defDamage = npc.damage;
             npc.knockBackResist *= 0.2f;
 
+            npc.netUpdate = true;
             npc.netAlways = true;
         }
         public void MakeOverloading(NPC npc)
@@ -1154,6 +1165,7 @@ namespace MogMod.NPCs.Global
             npc.scale *= Main.rand.NextFloat(1.2f, 1.5f);
             npc.knockBackResist *= 0.2f;
 
+            npc.netUpdate = true;
             npc.netAlways = true;
         }
         public void MakeBlazing(NPC npc)
@@ -1165,6 +1177,7 @@ namespace MogMod.NPCs.Global
             npc.damage = (int)(npc.damage * (Main.zenithWorld ? 3f : 1.8f));
             npc.defDamage = npc.damage;
 
+            npc.netUpdate = true;
             npc.netAlways = true;
         }
         public void MakeGilded(NPC npc)
@@ -1180,6 +1193,7 @@ namespace MogMod.NPCs.Global
             npc.reflectsProjectiles = true;
             npc.chaseable = false;
 
+            npc.netUpdate = true;
             npc.netAlways = true;
         }
         public void MakeMending(NPC npc)
@@ -1193,6 +1207,7 @@ namespace MogMod.NPCs.Global
             npc.defDefense = npc.defense;
             npc.knockBackResist *= 1.5f;
 
+            npc.netUpdate = true;
             npc.netAlways = true;
         }
         public void MakeToxic(NPC npc)
@@ -1204,6 +1219,7 @@ namespace MogMod.NPCs.Global
             npc.defense = (int)(npc.defense * 0.7f);
             npc.defDefense = npc.defense;
 
+            npc.netUpdate = true;
             npc.netAlways = true;
         }
         public override void SendExtraAI(NPC npc, BitWriter bitWriter, BinaryWriter binaryWriter)

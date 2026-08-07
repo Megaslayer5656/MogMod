@@ -27,8 +27,8 @@ namespace MogMod.Items.Other
         {
             CreateRecipe().
                 DisableDecraft().
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Lunar Fragment"}", 3).
-                AddIngredient(ItemID.Ectoplasm, 1).
+                AddRecipeGroup("AnyFragment", 3).
+                AddIngredient(ItemID.Ectoplasm).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

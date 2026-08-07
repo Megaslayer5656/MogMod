@@ -105,8 +105,8 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.ExplosivePowder, 150).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Rocket"}", 80).
-                AddIngredient<GriefBar>(14).
+                AddRecipeGroup("AnyRocket", 80).
+                AddIngredient<HellfireBar>(14).
                 AddIngredient<FuciumBar>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();

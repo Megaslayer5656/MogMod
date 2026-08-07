@@ -93,10 +93,10 @@ namespace MogMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<WindrunnersBow>(1).
-                AddIngredient(ItemID.MagicQuiver, 1).
+                AddIngredient<WindrunnersBow>().
+                AddIngredient(ItemID.MagicQuiver).
                 AddIngredient(ItemID.Cog, 48).
-                AddRecipeGroup("AdamantiteBar", 18).
+                AddRecipeGroup("AnyAdamantiteBar", 18).
                 AddIngredient<FuciumBar>(8).
                 AddTile(TileID.MythrilAnvil).
                 Register();

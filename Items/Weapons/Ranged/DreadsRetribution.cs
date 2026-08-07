@@ -62,9 +62,8 @@ namespace MogMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient<DrowRangersCrossbow>(1).
                 AddIngredient(ItemID.Tsunami, 1).
-                AddIngredient(4953, 1). // eventide from empress
-                AddIngredient<GriefBar>(10).
-                AddIngredient(ItemID.BeetleHusk, 8).
+                AddIngredient(4953). // eventide from empress
+                AddIngredient<GriefBar>(5).
                 AddIngredient<FrigidCrystal>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();

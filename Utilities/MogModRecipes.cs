@@ -1,7 +1,9 @@
-﻿using MogMod.Items.Accessories;
+﻿using Microsoft.Build.Tasks;
+using MogMod.Items.Accessories;
 using MogMod.Items.Consumables;
 using MogMod.Items.Other;
 using MogMod.Items.Weapons.Melee;
+using MogMod.Items.Weapons.Ranged;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -9,135 +11,391 @@ using Terraria.ModLoader;
 
 namespace MogMod.Utilities
 {
-    // This class contains thoughtful examples of item recipe creation.
-    // Recipes are explained in detail on the https://github.com/tModLoader/tModLoader/wiki/Basic-Recipes and https://github.com/tModLoader/tModLoader/wiki/Intermediate-Recipes wiki pages. Please visit the wiki to learn more about recipes if anything is unclear.
     public class MogModRecipes : ModSystem
     {
-        // A place to store the recipe group so we can easily use it later
-        public static RecipeGroup ExampleRecipeGroup;
-
-        public override void Unload()
-        {
-            ExampleRecipeGroup = null;
-        }
-
+        public static int AnyScaleOrTissue, AnyCursedFlameOrIchor, AnyEvilWater, AnyEvilMushroom, AnyEvilMaterial;
+        public static int AnyCopperOre, AnySilverOre, AnyGoldOre, AnyEvilOre, AnyCobaltOre, AnyMythrilOre, AnyAdamantiteOre;
+        public static int AnyCopperBar, AnySilverBar, AnyGoldBar, AnyEvilBar, AnyCobaltBar, AnyMythrilBar, AnyAdamantiteBar;
+        public static int AnyHallowedHelmet, AnyHallowedPlatemail, AnyHallowedGreaves;
+        public static int AnyQuiver, AnyTombstone, AnyChest, AnyTorch, AnySquirrel, AnyEmblem, AnyButterfly, AnyFragment, AnyRocket, AnyJavelin;
         public override void AddRecipeGroups()
         {
-            /// Summary
-            /// Create a recipe group and store it
-            /// Language.GetTextValue("LegacyMisc.37") is the word "Any" in English, and the corresponding word in other languages
-            ///
-            ///ExampleRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ModContent.ItemType<Items.ExampleItem>())}",
-            ///    ModContent.ItemType<Items.ExampleItem>(), ModContent.ItemType<Items.ExampleDataItem>());
-            ///
-            /// To avoid name collisions, when a modded items is the iconic or 1st item in a recipe group, name the recipe group: ModName:ItemName
-            ///RecipeGroup.RegisterGroup("ExampleMod:ExampleItem", ExampleRecipeGroup);
-            ///
-            /// Add an item to an existing Terraria recipeGroup. ExampleCritterItem isn't gold but it serves as an example for this.
-            ///RecipeGroup.recipeGroups[RecipeGroupID.GoldenCritter].ValidItems.Add(ModContent.ItemType<ExampleCritterItem>());
-            ///
-            /// We also add ExampleSand to the Sand group, which is used in the Glass and Magic Sand Dropper recipes
-            ///RecipeGroup.recipeGroups[RecipeGroupID.Sand].ValidItems.Add(ModContent.ItemType<ExampleSandBlock>());
-            ///
-            /// We can also add ExamplePressurePlate to the pressure plate group, allowing it to be used to craft weighted pressure plates and pressure plate track. Since ExamplePressurePlate is a weighed pressure plate, we'll leave this commented out.
-            ///RecipeGroup.recipeGroups[RecipeGroupID.PressurePlate].ValidItems.Add(ModContent.ItemType<ExamplePressurePlate>());
-            ///
-            /// While an "IronBar" group exists, "SilverBar" does not. tModLoader will merge recipe groups registered with the same name,
-            /// so if you are registering a recipe group with a vanilla item as the 1st item,
-            /// you can register it using just the internal item name if you anticipate other mods wanting to use this recipe group for the same concept.
-            /// By doing this, multiple mods can add to the same group without extra effort.
-            /// In this case we are adding a SilverBar group. Don't store the RecipeGroup instance, it might not be used,
-            /// use the same nameof(ItemID.ItemName) or RecipeGroupID returned from RegisterGroup when using Recipe.AddRecipeGroup instead.
-            ///
-            /// AddRecipeGroup(RecipeGroupID.Wood, 1). <-- example of vanilla
-            /// AddRecipeGroup("SilverBar", 1). <-- example of modded
-
             #region Recipe Groups
             #region Bars
-            RecipeGroup SilverBarRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.SilverBar)}",
-            ItemID.SilverBar, ItemID.TungstenBar); // , ModContent.ItemType<Items.Placeable.ExampleBar>() // if you want to add a modded bar
-            RecipeGroup.RegisterGroup(nameof(ItemID.SilverBar), SilverBarRecipeGroup);
-            // AddRecipeGroup("SilverBar", 1).  <- here for easy copy paste
-            
-            RecipeGroup GoldBarRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.GoldBar)}", ItemID.GoldBar, ItemID.PlatinumBar);
-            RecipeGroup.RegisterGroup(nameof(ItemID.GoldBar), GoldBarRecipeGroup);
-            // AddRecipeGroup("GoldBar", 1).
+            // Copper and Tin
+            RecipeGroup group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.CopperOre)}",
+            [
+                ItemID.CopperOre,
+                ItemID.TinOre
+            ]);
+            AnyCopperOre = RecipeGroup.RegisterGroup("AnyCopperOre", group);
 
-            RecipeGroup EvilBarRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", ItemID.CrimtaneBar, ItemID.DemoniteBar);
-            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", EvilBarRecipeGroup);
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.CopperBar)}",
+            [
+                ItemID.CopperBar,
+                ItemID.TinBar
+            ]);
+            AnyCopperBar = RecipeGroup.RegisterGroup("AnyCopperBar", group);
 
-            RecipeGroup CobaltBarRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.CobaltBar)}", ItemID.CobaltBar, ItemID.PalladiumBar);
-            RecipeGroup.RegisterGroup(nameof(ItemID.CobaltBar), CobaltBarRecipeGroup);
-            // AddRecipeGroup("CobaltBar", 1).
+            // Silver and Tungsten
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.SilverOre)}",
+            [
+                ItemID.SilverOre,
+                ItemID.TungstenOre
+            ]);
+            AnySilverOre = RecipeGroup.RegisterGroup("AnySilverOre", group);
 
-            RecipeGroup MythrilBarRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.MythrilBar)}", ItemID.MythrilBar, ItemID.OrichalcumBar);
-            RecipeGroup.RegisterGroup(nameof(ItemID.MythrilBar), MythrilBarRecipeGroup);
-            // AddRecipeGroup("MythrilBar", 1).
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.SilverBar)}",
+            [
+                ItemID.SilverBar,
+                ItemID.TungstenBar,
+            ]);
+            AnySilverBar = RecipeGroup.RegisterGroup("AnySilverBar", group);
 
-            RecipeGroup AdamantiteBarRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.AdamantiteBar)}", ItemID.AdamantiteBar, ItemID.TitaniumBar);
-            RecipeGroup.RegisterGroup(nameof(ItemID.AdamantiteBar), AdamantiteBarRecipeGroup);
-            // AddRecipeGroup("AdamantiteBar", 1).
+            // Gold and Platinum
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.GoldOre)}",
+            [
+                ItemID.GoldOre,
+                ItemID.PlatinumOre
+            ]);
+            AnyGoldOre = RecipeGroup.RegisterGroup("AnyGoldOre", group);
+
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.GoldBar)}",
+            [
+                ItemID.GoldBar,
+                ItemID.PlatinumBar
+            ]);
+            AnyGoldBar = RecipeGroup.RegisterGroup("AnyGoldBar", group);
+
+            // Demonite and Crimtane
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.DemoniteOre)}",
+            [
+                ItemID.DemoniteOre,
+                ItemID.CrimtaneOre
+            ]);
+            AnyEvilOre = RecipeGroup.RegisterGroup("AnyEvilOre", group);
+
+            group = new(() => MiscUtils.GetTextValue("Common.RecipeGroup.AnyEvilBar"),
+            [
+                ItemID.DemoniteBar,
+                ItemID.CrimtaneBar
+            ]);
+            AnyEvilBar = RecipeGroup.RegisterGroup("AnyEvilBar", group);
+
+            // Cobalt and Palladium
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.CobaltOre)}",
+            [
+                ItemID.CobaltOre,
+                ItemID.PalladiumOre
+            ]);
+            AnyCobaltOre = RecipeGroup.RegisterGroup("AnyCobaltOre", group);
+
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.CobaltBar)}",
+            [
+                ItemID.CobaltBar,
+                ItemID.PalladiumBar
+            ]);
+            AnyCobaltBar = RecipeGroup.RegisterGroup("AnyCobaltBar", group);
+
+            // Mythril and Orichalcum
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.MythrilOre)}",
+            [
+                ItemID.MythrilOre,
+                ItemID.OrichalcumOre
+            ]);
+            AnyMythrilOre = RecipeGroup.RegisterGroup("AnyMythrilOre", group);
+
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.MythrilBar)}",
+            [
+                ItemID.MythrilBar,
+                ItemID.OrichalcumBar
+            ]);
+            AnyMythrilBar = RecipeGroup.RegisterGroup("AnyMythrilBar", group);
+
+            // Adamantite and Titanium
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.AdamantiteOre)}",
+            [
+                ItemID.AdamantiteOre,
+                ItemID.TitaniumOre
+            ]);
+            AnyAdamantiteOre = RecipeGroup.RegisterGroup("AnyAdamantiteOre", group);
+
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.AdamantiteBar)}",
+            [
+                ItemID.AdamantiteBar,
+                ItemID.TitaniumBar
+            ]);
+            AnyAdamantiteBar = RecipeGroup.RegisterGroup("AnyAdamantiteBar", group);
             #endregion
 
             #region Evil Materials
-            RecipeGroup EvilMushroomRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Evil Mushroom"}", ItemID.VileMushroom, ItemID.ViciousMushroom);
-            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Mushroom"}", EvilMushroomRecipeGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Mushroom"}", 1).
+            // Shadow Scale and Tissue Sample
+            group = new(() => MiscUtils.GetTextValue("Common.RecipeGroup.AnyScaleOrTissue"),
+            [
+                ItemID.ShadowScale,
+                ItemID.TissueSample
+            ]);
+            AnyScaleOrTissue = RecipeGroup.RegisterGroup("AnyScaleOrTissue", group);
 
-            RecipeGroup VertebraeRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Evil Material"}", ItemID.Vertebrae, ItemID.RottenChunk);
-            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Material"}", VertebraeRecipeGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Material"}", 1).
+            // Cursed Flame and Ichor
+            group = new(() => MiscUtils.GetTextValue("Common.RecipeGroup.AnyCursedFlameOrIchor"),
+            [
+                ItemID.CursedFlame,
+                ItemID.Ichor
+            ]);
+            AnyCursedFlameOrIchor = RecipeGroup.RegisterGroup("AnyCursedFlameOrIchor", group);
 
-            RecipeGroup WorldEvilBossRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", ItemID.TissueSample, ItemID.ShadowScale);
-            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", WorldEvilBossRecipeGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 1)
+            // Unholy Water and Blood Water
+            group = new(() => MiscUtils.GetTextValue("Common.RecipeGroup.AnyEvilWater"),
+            [
+                ItemID.UnholyWater,
+                ItemID.BloodWater
+            ]);
+            AnyEvilWater = RecipeGroup.RegisterGroup("AnyEvilWater", group);
 
-            RecipeGroup HardmodeEvilMaterialGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", ItemID.Ichor, ItemID.CursedFlame);
-            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", HardmodeEvilMaterialGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 1).
+            // Vile and Vicious Mushrooms
+            group = new(() => MiscUtils.GetTextValue("Common.RecipeGroup.AnyEvilMushroom"),
+            [
+                ItemID.VileMushroom,
+                ItemID.ViciousMushroom
+            ]);
+            AnyEvilMushroom = RecipeGroup.RegisterGroup("AnyEvilMushroom", group);
+
+            // Unholy Water and Blood Water
+            group = new(() => MiscUtils.GetTextValue("Common.RecipeGroup.AnyEvilMaterial"),
+            [
+                ItemID.Vertebrae,
+                ItemID.RottenChunk
+            ]);
+            AnyEvilMaterial = RecipeGroup.RegisterGroup("AnyEvilMaterial", group);
             #endregion
 
             #region Misc
-            RecipeGroup DamageClassEmblemGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Emblem"}", ItemID.WarriorEmblem, ItemID.RangerEmblem, ItemID.SorcererEmblem, ItemID.SummonerEmblem);
-            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Emblem"}", DamageClassEmblemGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Emblem"}", 1).
+            // Magic Quivers
+            group = new(() => MiscUtils.GetTextValue("Common.RecipeGroup.AnyQuiver"),
+            [
+                ItemID.MagicQuiver,
+                ItemID.MoltenQuiver,
+                ItemID.StalkersQuiver
+            ]);
+            AnyQuiver = RecipeGroup.RegisterGroup("AnyQuiver", group);
 
-            RecipeGroup ButterflyRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Butterfly"}", ItemID.MonarchButterfly, ItemID.HellButterfly, ItemID.JuliaButterfly, ItemID.GoldButterfly, ItemID.PurpleEmperorButterfly, ItemID.RedAdmiralButterfly, ItemID.SulphurButterfly, ItemID.TreeNymphButterfly, ItemID.UlyssesButterfly, ItemID.ZebraSwallowtailButterfly);
-            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Butterfly"}", ButterflyRecipeGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Butterfly"}", 1).
+            // Tombstones
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.Tombstone)}",
+            [
+                ItemID.Tombstone,
+                ItemID.GraveMarker,
+                ItemID.CrossGraveMarker,
+                ItemID.Headstone,
+                ItemID.Gravestone,
+                ItemID.Obelisk,
+                ItemID.RichGravestone1,
+                ItemID.RichGravestone2,
+                ItemID.RichGravestone3,
+                ItemID.RichGravestone4,
+                ItemID.RichGravestone5
+            ]);
+            AnyTombstone = RecipeGroup.RegisterGroup("AnyTombstone", group);
 
-            RecipeGroup TombstoneRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Grave"}", ItemID.Tombstone, ItemID.Gravestone, ItemID.GraveMarker, ItemID.CrossGraveMarker, ItemID.Headstone, ItemID.Obelisk, ItemID.RichGravestone1, ItemID.RichGravestone2, ItemID.RichGravestone3, ItemID.RichGravestone4, ItemID.RichGravestone5);
-            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Grave"}", TombstoneRecipeGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Grave"}", 1).
+            // Class Emblems
+            group = new(() => MiscUtils.GetTextValue("Common.RecipeGroup.AnyEmblem"),
+            [
+                ItemID.WarriorEmblem,
+                ItemID.RangerEmblem,
+                ItemID.SorcererEmblem,
+                ItemID.SummonerEmblem
+            ]);
+            AnyEmblem = RecipeGroup.RegisterGroup("AnyEmblem", group);
 
-            RecipeGroup RocketRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Rocket"}", ItemID.RocketI, ItemID.RocketII, ItemID.RocketIII, ItemID.RocketIV, ItemID.ClusterRocketI, ItemID.ClusterRocketII, ItemID.DryRocket, ItemID.HoneyRocket, ItemID.LavaRocket, ItemID.WetRocket, ItemID.MiniNukeI, ItemID.MiniNukeII);
-            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Rocket"}", RocketRecipeGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Rocket"}", 1).
+            // Hallowed Helmets
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.HallowedHelmet)}",
+            [
+                ItemID.HallowedHelmet,
+                ItemID.HallowedHeadgear,
+                ItemID.HallowedMask,
+                ItemID.HallowedHood,
+                ItemID.AncientHallowedHelmet,
+                ItemID.AncientHallowedHeadgear,
+                ItemID.AncientHallowedMask,
+                ItemID.AncientHallowedHood
+            ]);
+            AnyHallowedHelmet = RecipeGroup.RegisterGroup("AnyHallowedHelmet", group);
 
-            RecipeGroup LunarFragmentRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Lunar Fragment"}", ItemID.FragmentSolar, ItemID.FragmentStardust, ItemID.FragmentNebula, ItemID.FragmentVortex);
-            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Lunar Fragment"}", LunarFragmentRecipeGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Lunar Fragment"}", 1).
+            // Hallowed Plate Mails
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.HallowedPlateMail)}",
+            [
+                ItemID.HallowedPlateMail,
+                ItemID.AncientHallowedPlateMail
+            ]);
+            AnyHallowedPlatemail = RecipeGroup.RegisterGroup("AnyHallowedPlatemail", group);
 
-            RecipeGroup SquirrelRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Squirrel"}", ItemID.Squirrel, ItemID.SquirrelRed, ItemID.SquirrelGold, ItemID.GemSquirrelAmber, ItemID.GemSquirrelAmethyst, ItemID.GemSquirrelDiamond, ItemID.GemSquirrelEmerald, ItemID.GemSquirrelRuby, ItemID.GemSquirrelSapphire, ItemID.GemSquirrelTopaz);
-            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Squirrel"}", SquirrelRecipeGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Squirrel"}", 1).
+            // Hallowed Greaves
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.HallowedGreaves)}",
+            [
+                ItemID.HallowedGreaves,
+                ItemID.AncientHallowedGreaves
+            ]);
+            AnyHallowedGreaves = RecipeGroup.RegisterGroup("AnyHallowedGreaves", group);
 
-            RecipeGroup MagicQuiverRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Magic Quiver"}", ItemID.MagicQuiver, ItemID.MoltenQuiver, ItemID.StalkersQuiver);
-            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Magic Quiver"}", MagicQuiverRecipeGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Magic Quiver"}", 1).
+            // Chests
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.Chest)}",
+            [
+                ItemID.Chest,
+                ItemID.AshWoodChest,
+                ItemID.BalloonChest,
+                ItemID.BambooChest,
+                ItemID.BlueDungeonChest,
+                ItemID.BoneChest,
+                ItemID.BorealWoodChest,
+                ItemID.CactusChest,
+                ItemID.CapricornChestplate, 
+                ItemID.CoralChest,
+                ItemID.CorruptionChest,
+                ItemID.CrimsonChest,
+                ItemID.CrystalChest,
+                ItemID.DeadMansChest,
+                ItemID.DesertChest,
+                ItemID.DungeonDesertChest,
+                ItemID.DynastyChest,
+                ItemID.EbonwoodChest,
+                ItemID.FleshChest,
+                ItemID.FrozenChest,
+                ItemID.GlassChest,
+                ItemID.GoldChest,
+                ItemID.GoldenChest,
+                ItemID.GolfChest,
+                ItemID.GraniteChest,
+                ItemID.GreenDungeonChest,
+                ItemID.HallowedChest,
+                ItemID.HoneyChest,
+                ItemID.IceChest,
+                ItemID.IvyChest,
+                ItemID.JungleChest,
+                ItemID.LesionChest,
+                ItemID.LihzahrdChest,
+                ItemID.LivingWoodChest,
+                ItemID.MarbleChest,
+                ItemID.MartianChest,
+                ItemID.MeteoriteChest,
+                ItemID.MushroomChest,
+                ItemID.NebulaChest,
+                ItemID.ObsidianChest,
+                ItemID.PalmWoodChest,
+                ItemID.PearlwoodChest,
+                ItemID.PinkDungeonChest,
+                ItemID.PumpkinChest,
+                ItemID.RichMahoganyChest,
+                ItemID.ShadewoodChest,
+                ItemID.ShadowChest,
+                ItemID.SkywareChest,
+                ItemID.SlimeChest,
+                ItemID.SolarChest,
+                ItemID.SpiderChest,
+                ItemID.SpookyChest,
+                ItemID.StardustChest,
+                ItemID.SteampunkChest,
+                ItemID.VortexChest,
+                ItemID.WaterChest,
+                ItemID.WebCoveredChest
+            ]);
+            AnyChest = RecipeGroup.RegisterGroup("AnyChest", group);
 
-            RecipeGroup ChestRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {"Chest"}", 
-                ItemID.Chest, ItemID.AshWoodChest, ItemID.BalloonChest, ItemID.BambooChest, ItemID.BlueDungeonChest, ItemID.BoneChest, 
-                ItemID.BorealWoodChest, ItemID.CactusChest, ItemID.CapricornChestplate, ItemID.CoralChest, ItemID.CorruptionChest, ItemID.CrimsonChest, 
-                ItemID.CrystalChest, ItemID.DeadMansChest, ItemID.DesertChest, ItemID.DungeonDesertChest, ItemID.DynastyChest, ItemID.EbonwoodChest, 
-                ItemID.FleshChest, ItemID.FrozenChest, ItemID.GlassChest, ItemID.GoldChest, ItemID.GoldenChest, ItemID.GolfChest, ItemID.GraniteChest, 
-                ItemID.GreenDungeonChest, ItemID.HallowedChest, ItemID.HoneyChest, ItemID.IceChest, ItemID.IvyChest, ItemID.JungleChest, ItemID.LesionChest, 
-                ItemID.LihzahrdChest, ItemID.LivingWoodChest, ItemID.MarbleChest, ItemID.MartianChest, ItemID.MeteoriteChest, ItemID.MushroomChest, ItemID.NebulaChest, 
-                ItemID.ObsidianChest, ItemID.PalmWoodChest, ItemID.PearlwoodChest, ItemID.PinkDungeonChest, ItemID.PumpkinChest, ItemID.RichMahoganyChest, ItemID.ShadewoodChest, 
-                ItemID.ShadowChest, ItemID.SkywareChest, ItemID.SlimeChest , ItemID.SolarChest, ItemID.SpiderChest, ItemID.SpookyChest, ItemID.StardustChest, 
-                ItemID.SteampunkChest, ItemID.VortexChest, ItemID.WaterChest, ItemID.WebCoveredChest);
-            RecipeGroup.RegisterGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Chest"}", ChestRecipeGroup);
-            // AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Chest"}", 1).
+            // Torches
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.Torch)}",
+            [
+                ItemID.Torch,
+                ItemID.BlueTorch,
+                ItemID.BoneTorch,
+                ItemID.CoralTorch,
+                ItemID.CorruptTorch,
+                ItemID.CrimsonTorch,
+                ItemID.CursedTorch,
+                ItemID.DemonTorch,
+                ItemID.DesertTorch,
+                ItemID.GreenTorch,
+                ItemID.HallowedTorch,
+                ItemID.IceTorch,
+                ItemID.IchorTorch,
+                ItemID.JungleTorch,
+                ItemID.MushroomTorch,
+                ItemID.OrangeTorch,
+                ItemID.PinkTorch,
+                ItemID.PurpleTorch,
+                ItemID.RainbowTorch,
+                ItemID.RedTorch,
+                ItemID.ShimmerTorch,
+                ItemID.TikiTorch, // has torch in the name
+                ItemID.UltrabrightTorch,
+                ItemID.WhiteTorch,
+                ItemID.YellowTorch
+            ]);
+            AnyTorch = RecipeGroup.RegisterGroup("AnyTorch", group);
+
+            // Butterflies
+            group = new(() => MiscUtils.GetTextValue("Common.RecipeGroup.AnyButterfly"),
+            [
+                ItemID.MonarchButterfly, 
+                ItemID.HellButterfly, 
+                ItemID.JuliaButterfly, 
+                ItemID.GoldButterfly, 
+                ItemID.PurpleEmperorButterfly, 
+                ItemID.RedAdmiralButterfly, 
+                ItemID.SulphurButterfly, 
+                ItemID.TreeNymphButterfly, 
+                ItemID.UlyssesButterfly, 
+                ItemID.ZebraSwallowtailButterfly
+            ]);
+            AnyButterfly = RecipeGroup.RegisterGroup("AnyButterfly", group);
+
+            // Class Emblems
+            group = new(() => MiscUtils.GetTextValue("Common.RecipeGroup.AnyFragment"),
+            [
+                ItemID.FragmentSolar, 
+                ItemID.FragmentStardust, 
+                ItemID.FragmentNebula, 
+                ItemID.FragmentVortex
+            ]);
+            AnyFragment = RecipeGroup.RegisterGroup("AnyFragment", group);
+
+            // Class Emblems
+            group = new(() => MiscUtils.GetTextValue("Common.RecipeGroup.AnyRocket"),
+            [
+                ItemID.RocketI, 
+                ItemID.RocketII, 
+                ItemID.RocketIII, 
+                ItemID.RocketIV, 
+                ItemID.ClusterRocketI, 
+                ItemID.ClusterRocketII, 
+                ItemID.DryRocket, 
+                ItemID.HoneyRocket, 
+                ItemID.LavaRocket, 
+                ItemID.WetRocket, 
+                ItemID.MiniNukeI, 
+                ItemID.MiniNukeII
+            ]);
+            AnyRocket = RecipeGroup.RegisterGroup("AnyRocket", group);
+
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.Squirrel)}",
+            [
+                ItemID.Squirrel,
+                ItemID.SquirrelRed, 
+                ItemID.SquirrelGold, 
+                ItemID.GemSquirrelAmber, 
+                ItemID.GemSquirrelAmethyst, 
+                ItemID.GemSquirrelDiamond, 
+                ItemID.GemSquirrelEmerald, 
+                ItemID.GemSquirrelRuby, 
+                ItemID.GemSquirrelSapphire, 
+                ItemID.GemSquirrelTopaz
+            ]);
+            AnySquirrel = RecipeGroup.RegisterGroup("AnySquirrel", group);
+
+            group = new(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.Javelin)}",
+            [
+                ItemID.Javelin,
+                ItemID.BoneJavelin
+            ]);
+            AnyJavelin = RecipeGroup.RegisterGroup("AnyJavelin", group);
             #endregion
             #endregion
         }
@@ -148,58 +406,58 @@ namespace MogMod.Utilities
             // In addition to these methods, there are also methods relating to shimmer decrafting. See ShimmerShowcase.cs for that.
 
             // eskimo helmet
-            Recipe hoodRecipe = Recipe.Create(ItemID.EskimoHood, 1);
+            Recipe hoodRecipe = Recipe.Create(ItemID.EskimoHood);
             hoodRecipe.AddIngredient(ItemID.Silk, 10)
                 .AddIngredient(ItemID.FlinxFur, 3)
                 .AddTile(TileID.Loom)
                 .Register();
             // skull vanity helmet
-            Recipe skullRecipe = Recipe.Create(ItemID.Skull, 1);
+            Recipe skullRecipe = Recipe.Create(ItemID.Skull);
             skullRecipe.AddIngredient(ItemID.Bone, 50)
-                .AddRecipeGroup("SilverBar", 8)
+                .AddRecipeGroup("AnySilverBar", 8)
                 .AddTile(TileID.HeavyWorkBench)
                 .Register();
             // golem power cell summon
             Recipe powerCellRecipe = Recipe.Create(ItemID.LihzahrdPowerCell, 3);
             powerCellRecipe.AddIngredient(ItemID.LunarTabletFragment, 4)
                 .AddIngredient(ItemID.Ectoplasm, 2)
-                .AddIngredient<UltimateOrb>(1)
+                .AddIngredient<UltimateOrb>()
                 .AddTile(TileID.LihzahrdFurnace)
                 .Register();
             // anchor weapon
-            Recipe anchorRecipe = Recipe.Create(ItemID.Anchor, 1);
+            Recipe anchorRecipe = Recipe.Create(ItemID.Anchor);
             anchorRecipe.AddIngredient(ItemID.Rope, 100)
                 .AddRecipeGroup("IronBar", 25)
-                .AddIngredient(ItemID.PirateMap, 1)
+                .AddIngredient(ItemID.PirateMap)
                 .AddTile(TileID.Anvils)
                 .Register();
             // magic missle weapon
-            Recipe magicMissileRecipe = Recipe.Create(ItemID.MagicMissile, 1);
-            magicMissileRecipe.AddIngredient(ItemID.DiamondStaff, 1)
+            Recipe magicMissileRecipe = Recipe.Create(ItemID.MagicMissile);
+            magicMissileRecipe.AddIngredient(ItemID.DiamondStaff)
                 .AddIngredient(ItemID.Bone, 40)
                 .AddIngredient<HealingLotus>(3)
                 .AddTile(TileID.Anvils)
                 .Register();
             // wizard hat
-            Recipe wizardRecipe = Recipe.Create(ItemID.WizardHat, 1);
-            wizardRecipe.AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 12)
+            Recipe wizardRecipe = Recipe.Create(ItemID.WizardHat);
+            wizardRecipe.AddRecipeGroup("AnyScaleOrTissue", 12)
                 .AddIngredient(ItemID.Leather, 7)
                 .AddIngredient<ManaEssence>(3)
                 .AddTile(TileID.Loom)
                 .DisableDecraft()
                 .Register();
             // band of starpower
-            Recipe manaBandRecipe = Recipe.Create(ItemID.BandofStarpower, 1);
-            manaBandRecipe.AddIngredient(ItemID.Shackle, 1)
+            Recipe manaBandRecipe = Recipe.Create(ItemID.BandofStarpower);
+            manaBandRecipe.AddIngredient(ItemID.Shackle)
                 .AddIngredient<FrigidShard>(5)
-                .AddIngredient<ManaEssence>(1)
+                .AddIngredient<ManaEssence>()
                 .AddTile(TileID.TinkerersWorkbench)
                 .Register();
             // north pole
-            Recipe northPoleRecipe = Recipe.Create(ItemID.NorthPole, 1);
-            northPoleRecipe.AddIngredient<FrozenSpear>(1)
-                .AddIngredient(ItemID.ChristmasTreeSword, 1)
-                .AddIngredient<UltimateOrb>(1)
+            Recipe northPoleRecipe = Recipe.Create(ItemID.NorthPole);
+            northPoleRecipe.AddIngredient<FrozenSpear>()
+                .AddIngredient(ItemID.ChristmasTreeSword)
+                .AddIngredient<FrostEssence>(20)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
             // tnt barrel
@@ -220,6 +478,12 @@ namespace MogMod.Utilities
             jesterArrow.AddIngredient(ItemID.WoodenArrow, 150)
                 .AddIngredient<ManaEssence>()
                 .AddTile(TileID.Anvils)
+                .Register();
+            // tsunami
+            Recipe tsunami = Recipe.Create(ItemID.Tsunami);
+            tsunami.AddIngredient<TidalWave>()
+                .AddIngredient<BrinyRind>(12)
+                .AddTile(TileID.MythrilAnvil)
                 .Register();
             #endregion
         }

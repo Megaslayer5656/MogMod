@@ -176,7 +176,7 @@ namespace MogMod.NPCs.Enemies
         private void Explode()
         {
             exploding = true;
-            NPC.ai[1] += 1f;
+            NPC.ai[1]++;
             if (NPC.ai[1] >= 0f)
             {
                 NPC.velocity.X = 0f;

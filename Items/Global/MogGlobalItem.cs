@@ -31,6 +31,8 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.WorldBuilding;
+using static MogMod.Common.Systems.MogModNetcode;
 
 namespace MogMod.Items.Global
 {
@@ -38,6 +40,7 @@ namespace MogMod.Items.Global
     {
         public int cooldownTimer = 5;
         public int shotCounter = 0;
+        public bool ultraCrit = false;
         public static List<int> ChestRigAccessories =
         [
             ModContent.ItemType<IdeaRig>(),
@@ -77,7 +80,7 @@ namespace MogMod.Items.Global
         }
         public override void UpdateAccessory(Item item, Player player, bool hideVisual)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
 
             // Feral Claws line melee speed adjustments and nonstacking
             // First removes all their melee speed so it can be given based on which you wear without stacking
@@ -111,6 +114,7 @@ namespace MogMod.Items.Global
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             MogPlayer mogPlayer = player.MogMod();
+            if (mogPlayer.wearingChaosDice) ultraCrit = Main.rand.NextBool(ChaosDice.UltraCritChance);
             if (mogPlayer.wearingRigSlot && item.useAmmo == AmmoID.Bullet && !item.channel)
             {
                 if (Main.netMode != NetmodeID.Server)
@@ -174,7 +178,7 @@ namespace MogMod.Items.Global
         }
         public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             if ((mogPlayer.wearingElvenQuiver || mogPlayer.wearingEnchantedQuiver) && item.useAmmo == AmmoID.Arrow)
                 velocity *= mogPlayer.wearingEnchantedQuiver ? EnchantedQuiver.VelocityMult : ElvenQuiver.VelocityMult;
             if (mogPlayer.wearingTreadsDamage)
@@ -188,19 +192,10 @@ namespace MogMod.Items.Global
                 itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<BrinyRind>(), 1, 9, 16));
             }
         }
-        // damascus crit damage increase
-        public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers)
-        {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            if (mogPlayer.wearingDamascus1 && Main.zenithWorld)
-                modifiers.CritDamage *= DamascusHelm.GFBCritMult;
-            else if (mogPlayer.wearingDamascus1)
-                modifiers.CritDamage *= DamascusHelm.CritMult + 1;
-        }
         public override bool CanConsumeAmmo(Item weapon, Item ammo, Player player) => Main.rand.NextFloat() <= player.MogMod().ammoCost;
         public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             if (target.type != NPCID.TargetDummy)
             {
                 if (mogPlayer.wearingDamascus2 && hit.Crit && Main.zenithWorld)
@@ -212,24 +207,43 @@ namespace MogMod.Items.Global
                 else if (mogPlayer.wearingDamascus2 && hit.Crit)
                 {
                     int heal = 1;
-                    heal *= Convert.ToInt32(player.lifeSteal * 0.02);
-                    player.statLife += heal;
-                    player.HealEffect(heal);
-                    if (player.statLife > player.statLifeMax2)
-                        player.statLife = player.statLifeMax2;
+                    player.HealLifestealMult(heal);
                 }
                 if (mogPlayer.wearingSatanic && player.HasBuff(ModContent.BuffType<SatanicBuff>()) && mogPlayer.satanicAccCooldown <= 0)
                 //if (mogPlayer.wearingSatanic) // for testing
                 {
                     mogPlayer.satanicAccCooldown = cooldownTimer * 2;
                     int heal = (int)(damageDone / 100) + 1;
-                    heal *= Convert.ToInt32(player.lifeSteal * 0.01);
-                    player.statLife += heal;
-                    player.HealEffect(heal);
-                    if (player.statLife > player.statLifeMax2)
-                        player.statLife = player.statLifeMax2;
+                    player.HealLifestealMult(heal);
                 }
             }
+            if (mogPlayer.wearingChaosDice && ultraCrit && hit.Crit)
+            {
+                if (target.type != NPCID.TargetDummy)
+                    player.HealLifestealMult(1);
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    ModPacket packet = Mod.GetPacket();
+                    packet.Write((byte)MogModMessageType.UltraCritTextSync);
+                    packet.Write(target.lastInteraction);
+                    packet.Write(target.whoAmI);
+                    packet.Send();
+                }
+                else
+                {
+                    target.MogMod().UltraCritFX(target);
+                }
+            }
+        }
+        public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers)
+        {
+            MogPlayer mogPlayer = player.MogMod();
+            if (mogPlayer.wearingDamascus1 && Main.zenithWorld)
+                modifiers.CritDamage *= DamascusHelm.GFBCritMult;
+            else if (mogPlayer.wearingDamascus1)
+                modifiers.CritDamage *= DamascusHelm.CritMult + 1;
+            if (mogPlayer.wearingChaosDice && ultraCrit)
+                modifiers.CritDamage *= ChaosDice.CritMult;
         }
         public override bool InstancePerEntity => true;
         public override void ModifyItemScale(Item item, Player player, ref float scale)

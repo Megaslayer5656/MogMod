@@ -46,11 +46,11 @@ namespace MogMod.Items.Weapons.Magic //Very important note: All of the blood stu
         public override void AddRecipes()
         {
             CreateRecipe().
-              AddIngredient(ItemID.Book, 1).
-              AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 15).
-              AddIngredient(ItemID.Deathweed, 5).
-              AddTile(TileID.Bookcases).
-              Register();
+                AddIngredient(ItemID.Book).
+                AddRecipeGroup("AnyEvilBar", 15).
+                AddIngredient(ItemID.Deathweed, 5).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

@@ -30,11 +30,11 @@ namespace MogMod.Items.Placeable
         public override void AddRecipes()
         {
             CreateRecipe().
-             AddIngredient(ItemID.Torch, 20).
-             AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Material"}", 2).
-             AddIngredient(ItemID.Lens, 1).
-             AddTile(TileID.DemonAltar).
-             Register();
+                AddRecipeGroup("AnyTorch", 20).
+                AddRecipeGroup("AnyEvilMaterial", 2).
+                AddIngredient(ItemID.Lens).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

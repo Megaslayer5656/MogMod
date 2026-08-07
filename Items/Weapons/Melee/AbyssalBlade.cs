@@ -34,11 +34,11 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<SkullBasher>(1).
-                AddIngredient<Sange>(1).
-                AddIngredient(ItemID.VampireKnives, 1).
-                AddRecipeGroup("AdamantiteBar", 15).
-                AddIngredient<GriefBar>(10).
+                AddIngredient<SkullBasher>().
+                AddIngredient<Sange>().
+                AddIngredient(ItemID.VampireKnives).
+                AddRecipeGroup("AnyAdamantiteBar", 15).
+                AddIngredient<GriefBar>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

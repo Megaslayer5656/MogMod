@@ -221,7 +221,11 @@ Mods: {
 					SpectralLightProj.DisplayName: Spectral Light
 					CarianSlicerHoldout.DisplayName: Carian Slicer
 					AdulasMoonbladeProj.DisplayName: Adula's Moonblade
+					FrostExplosion.DisplayName: Frost Explosion
 				}
+
+				EmpyreanBombardmentProj.DisplayName: Empyrean Bombardment Proj
+				EmpyreanStarProj.DisplayName: Empyrean Star Proj
 			}
 
 			RangedProjectiles: {
@@ -345,6 +349,10 @@ Mods: {
 				EchoSaberProj.DisplayName: Echo Saber
 				SkullBasherHoldout.DisplayName: Skull Basher
 				EchoSabreProj.DisplayName: Echo Sabre Proj
+				BladeOfSelvesProj.DisplayName: Blade Of Selves Proj
+				DaturaLashProj.DisplayName: Datura Lash Proj
+				NativitasProj.DisplayName: Nativitas Proj
+				MoonveilProj.DisplayName: Moonveil Proj
 			}
 
 			Summon: {

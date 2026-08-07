@@ -18,7 +18,7 @@ namespace MogMod.Items.Weapons.Magic
             Item.width = 42;
             Item.height = 40;
 
-            Item.damage = 15;
+            Item.damage = 17;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 8;
 
@@ -41,7 +41,7 @@ namespace MogMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<RuntyBar>(12).
+                AddIngredient<RuntyBar>(8).
                 AddIngredient<ManaEssence>(1).
                 AddTile(TileID.Anvils).
                 Register();

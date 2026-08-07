@@ -29,7 +29,7 @@ namespace MogMod.Items.Ammo.SorcerySpells.Glintstone
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 10).
+                AddRecipeGroup("AnyScaleOrTissue", 10).
                 AddIngredient(ItemID.MeteoriteBar, 8).
                 AddIngredient<Scroll>().
                 AddTile(TileID.Bookcases).

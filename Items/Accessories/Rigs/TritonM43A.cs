@@ -83,7 +83,8 @@ namespace MogMod.Items.Accessories.Rigs
             CreateRecipe().
                 AddIngredient<FuciumBar>(8).
                 AddIngredient<ManaEssence>(3).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Chest"}").
+                AddIngredient(ItemID.Safe).
+                AddRecipeGroup("AnyChest").
                 AddTile(TileID.Anvils).
                 Register();
         }

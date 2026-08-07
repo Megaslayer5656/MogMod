@@ -40,7 +40,7 @@ namespace MogMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.SpellTome).
-                AddIngredient<GriefBar>(12).
+                AddIngredient<HellfireBar>(12).
                 AddTile(TileID.Bookcases).
                 Register();
         }

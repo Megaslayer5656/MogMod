@@ -61,7 +61,14 @@ namespace MogMod.NPCs.Enemies
             ]);
         }
         // We would like this npc to spawn below the surface.
-        public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.Cavern.Chance * 0.01f;
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            if (spawnInfo.PlayerSafe && !NPC.downedBoss1)
+                return 0f;
+            if (NPC.AnyNPCs(NPC.type))
+                return 0f;
+            return SpawnCondition.Cavern.Chance * 0.01f;
+        }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<VitalityBooster>(), 1, 1, 2));

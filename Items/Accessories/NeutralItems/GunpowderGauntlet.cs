@@ -33,7 +33,7 @@ namespace MogMod.Items.Accessories.NeutralItems
         {
             CreateRecipe().
                 AddIngredient(ItemID.Dynamite, 12).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 8).
+                AddRecipeGroup("AnyScaleOrTissue", 8).
                 AddIngredient(ItemID.Leather, 5).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

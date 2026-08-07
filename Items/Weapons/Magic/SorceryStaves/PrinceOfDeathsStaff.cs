@@ -25,7 +25,7 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
             CreateRecipe().
                 AddIngredient(ItemID.HallowedBar, 12).
                 AddIngredient(ItemID.Ectoplasm, 8).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Grave"}", 5).
+                AddRecipeGroup("AnyTombstone", 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

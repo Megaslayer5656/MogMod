@@ -43,12 +43,8 @@ namespace MogMod.Projectiles.MagicProjectiles
             Player player = Main.player[Projectile.owner];
             if (target.type != NPCID.TargetDummy)
             {
-                int heal = 1;
-                heal *= Convert.ToInt32(player.lifeSteal * 0.045);
-                player.statLife += heal;
-                player.HealEffect(heal);
-                if (player.statLife > player.statLifeMax2)
-                    player.statLife = player.statLifeMax2;
+                int heal = 5;
+                player.HealLifestealMult(heal);
             }
         }
 

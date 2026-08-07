@@ -44,12 +44,12 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         public override void AI()
         {
             if (Main.zenithWorld)
-                Projectile.extraUpdates += Projectile.MogMod().deathSpell ? 1 : 0;
+                Projectile.extraUpdates += Projectile.MogMod().deathSpell ? 3 : 0;
             else
-                Projectile.extraUpdates = Projectile.MogMod().deathSpell ? 1 : 0;
+                Projectile.extraUpdates = Projectile.MogMod().deathSpell ? 3 : 0;
             float einstein = Projectile.MogMod().deathSpell ? 800f : 350f;
             if (Projectile.timeLeft < (570 * (Main.zenithWorld ? 5 : 1)))
-                MogModUtils.HomeInOnNPC(Projectile, true, einstein, 2.5f, 18f);
+                MogModUtils.HomeInOnNPC(Projectile, true, einstein, 2.5f, 18f, false);
 
             int ghostflameDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.RainbowTorch, 0f, 0f, 100, Utils.SelectRandom(Main.rand, new Color[] { Color.Black, Color.White }), 1f);
             Main.dust[ghostflameDust].velocity *= 0.5f;

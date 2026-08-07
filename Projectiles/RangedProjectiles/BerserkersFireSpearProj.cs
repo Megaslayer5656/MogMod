@@ -1,9 +1,10 @@
-﻿using System;
-using Terraria.ModLoader;
+﻿using MogMod.Buffs.Debuffs;
+using MogMod.Utilities;
+using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.Audio;
-using MogMod.Buffs.Debuffs;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
@@ -40,12 +41,8 @@ namespace MogMod.Projectiles.RangedProjectiles
 
             if (target.type != NPCID.TargetDummy)
             {
-                int heal = Convert.ToInt32(player.statLifeMax2 * .0175);
-                heal *= Convert.ToInt32(player.lifeSteal * 0.0135);
-                player.statLife += heal;
-                player.HealEffect(heal);
-                if (player.statLife > player.statLifeMax2)
-                    player.statLife = player.statLifeMax2;
+                int heal = (int)(player.statLifeMax2 * .0175f);
+                player.HealLifestealMult(heal);
             }
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
@@ -60,12 +57,8 @@ namespace MogMod.Projectiles.RangedProjectiles
             target.AddBuff(ModContent.BuffType<GhostflameDebuff>(), 300);
             Player player = Main.player[Projectile.owner];
 
-            int heal = Convert.ToInt32(player.statLifeMax2 * .0175);
-            heal *= Convert.ToInt32(player.lifeSteal * 0.0135);
-            player.statLife += heal;
-            player.HealEffect(heal);
-            if (player.statLife > player.statLifeMax2)
-                player.statLife = player.statLifeMax2;
+            int heal = (int)(player.statLifeMax2 * .0175f);
+            player.HealLifestealMult(heal);
         }
         public override void AI()
         {

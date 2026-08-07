@@ -64,15 +64,9 @@ namespace MogMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Torch, 30).
-                AddIngredient(ItemID.Javelin, 15). // change to recipe group maybe??
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 12).
-                AddTile(TileID.Anvils).
-                Register();
-            CreateRecipe().
-                AddIngredient(ItemID.Torch, 30).
-                AddIngredient(ItemID.BoneJavelin, 15).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 12).
+                AddRecipeGroup("AnyTorch", 30).
+                AddRecipeGroup("AnyJavelin", 15).
+                AddRecipeGroup("AnyEvilBar", 12).
                 AddTile(TileID.Anvils).
                 Register();
         }

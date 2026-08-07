@@ -28,8 +28,8 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddRecipeGroup("IronBar", 20).
-                AddRecipeGroup("GoldBar", 15).
-                AddRecipeGroup("SilverBar", 12).
+                AddRecipeGroup("AnyGoldBar", 15).
+                AddRecipeGroup("AnySilverBar", 12).
                 AddIngredient(ItemID.Diamond, 6).
                 AddTile(TileID.Anvils).
                 Register();

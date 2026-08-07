@@ -49,7 +49,7 @@ namespace MogMod.Items.Weapons.Magic
                 AddIngredient(ItemID.RazorbladeTyphoon).
                 AddIngredient<InfernoMaelstrom>().
                 AddIngredient<BrinyRind>(12).
-                AddIngredient(ItemID.FragmentStardust, 8).
+                AddIngredient(ItemID.FragmentVortex, 8).
                 AddTile(TileID.Bookcases).
                 Register();
         }

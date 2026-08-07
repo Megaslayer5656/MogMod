@@ -69,7 +69,7 @@ namespace MogMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient<DagonThree>(1).
                 AddIngredient(ItemID.UnholyTrident, 1).
-                AddIngredient<GriefBar>(10).
+                AddIngredient<HellfireBar>(10).
                 AddIngredient<ScorchedCore>(1).
                 AddIngredient<UltimateOrb>(1).
                 AddTile(TileID.MythrilAnvil).

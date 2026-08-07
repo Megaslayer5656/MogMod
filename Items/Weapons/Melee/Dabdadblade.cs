@@ -31,7 +31,7 @@ namespace MogMod.Items.Weapons.Melee
 			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.CursedFlame, 20);
             recipe.AddIngredient(ItemID.SoulofSight, 20);
-			recipe.AddRecipeGroup("CobaltBar", 15);
+			recipe.AddRecipeGroup("AnyCobaltBar", 15);
 			recipe.AddIngredient(ItemID.Emerald, 15);
             recipe.AddTile(TileID.MythrilAnvil);
 			recipe.Register();

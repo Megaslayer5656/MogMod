@@ -19,7 +19,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             Item.width = Item.height = 36;
 
-            Item.damage = 15;
+            Item.damage = 14;
             Item.DamageType = DamageClass.Melee;
             Item.useTime = Item.useAnimation = 12;
             Item.shoot = ModContent.ProjectileType<RuntyBladesProj>();
@@ -56,7 +56,7 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<RuntyBar>(16).
+                AddIngredient<RuntyBar>(10).
                 AddTile(TileID.Anvils).
                 Register();
         }

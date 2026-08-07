@@ -40,11 +40,11 @@ namespace MogMod.Items.Tools
 			// tileBoost changes the range of tiles that the item can reach.
 			// To match Drills, we set this to -1
 			Item.tileBoost = -1;
-			Item.pick = 40; // How strong the drill is, see https://terraria.wiki.gg/wiki/Pickaxe_power for a list of common values
+			Item.pick = 45; // How strong the drill is, see https://terraria.wiki.gg/wiki/Pickaxe_power for a list of common values
 		}
 		public override void AddRecipes() {
 			CreateRecipe()
-				.AddIngredient<RuntyBar>(12)
+				.AddIngredient<RuntyBar>(8)
 				.AddTile(TileID.Anvils)
 				.Register();
 		}

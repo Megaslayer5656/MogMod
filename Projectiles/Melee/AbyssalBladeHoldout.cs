@@ -1,7 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MogMod.Buffs.PotionBuffs;
-using MogMod.Common.MogModPlayer;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
@@ -22,7 +19,7 @@ namespace MogMod.Projectiles.Melee
         public override Item BaseItem => ModContent.GetModItem(ModContent.ItemType<AbyssalBlade>()).Item;
         public override LocalizedText DisplayName => MiscUtils.GetItemName<AbyssalBlade>();
         public override string Texture => ModContent.GetModItem(BaseItem.type).Texture;
-        public override int AfterImageLength => 12;
+        public override int AfterImageLength => 18;
         public override int OffsetDistance => 50;
         public override int StartupTime { get; set; }
         public override int CooldownTime { get; set; }
@@ -41,7 +38,7 @@ namespace MogMod.Projectiles.Melee
             StartupTime = 5;
             CooldownTime = 2;
             swingTime -= StartupTime - CooldownTime;
-            Projectile.scale *= 1.75f;
+            Projectile.scale *= 2f;
         }
         public override void AdditionalAI()
         {
@@ -72,11 +69,11 @@ namespace MogMod.Projectiles.Melee
                 dust2.color = Color.Lerp(Color.DarkRed, Color.IndianRed, MathF.Sin(Main.GlobalTimeWrappedHourly * 6) * 0.5f + 0.5f);
             }
             if (inStartup)
-                Projectile.scale = baseScale * MathHelper.Lerp(0.5f, 1.5f, 1 - MathF.Pow(1 - StartupCompletion, 2f));
+                Projectile.scale = baseScale * MathHelper.Lerp(0.5f, 1, 1 - MathF.Pow(1 - StartupCompletion, 2f));
             else if (inCooldown)
-                Projectile.scale = baseScale * MathHelper.Lerp(2f, 0.75f, MathF.Pow(CooldownCompletion, 2));
+                Projectile.scale = baseScale * MathHelper.Lerp(1, 0.75f, MathF.Pow(CooldownCompletion, 2));
             else
-                Projectile.scale = baseScale * Math.Min(MathHelper.SmoothStep(1.5f, 2f, SwingCompletion), MathHelper.SmoothStep(2, 1, SwingCompletion));
+                Projectile.scale = baseScale * Math.Min(MathHelper.SmoothStep(1, 1.5f, SwingCompletion), MathHelper.SmoothStep(2, 1, SwingCompletion));
         }
         public override float SwingFunction()
         {
@@ -93,7 +90,7 @@ namespace MogMod.Projectiles.Melee
                 Projectile.numHits -= 1;
             if (Projectile.numHits < 3)
             {
-                if (Main.rand.NextBool(4))
+                if (Main.rand.NextBool(4) && Projectile.owner == Main.myPlayer)
                 {
                     for (int i = 0; i < 4; i++)
                     {

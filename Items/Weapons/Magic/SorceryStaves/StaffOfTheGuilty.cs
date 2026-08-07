@@ -13,7 +13,7 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 48;
+            Item.damage = 50;
             Item.width = Item.height = 50;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.rare = ItemRarityID.Yellow;
@@ -26,7 +26,7 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
             CreateRecipe().
                 AddIngredient(ItemID.SpookyWood, 150).
                 AddIngredient(ItemID.Spike, 40).
-                AddIngredient<GriefBar>(4).
+                AddIngredient<GriefBar>(2).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

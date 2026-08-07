@@ -35,7 +35,7 @@ namespace MogMod.Items.Tools
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<RuntyBar>(8)
+                .AddIngredient<RuntyBar>(6)
                 .AddRecipeGroup(RecipeGroupID.Wood, 3)
                 .AddTile(TileID.Anvils)
                 .Register();

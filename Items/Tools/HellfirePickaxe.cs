@@ -42,7 +42,7 @@ namespace MogMod.Items.Tools
         public override void AddRecipes() // hallowed tier
         {
             CreateRecipe().
-               AddIngredient<GriefBar>(10).
+               AddIngredient<HellfireBar>(10).
                AddTile(TileID.MythrilAnvil).
                Register();
         }

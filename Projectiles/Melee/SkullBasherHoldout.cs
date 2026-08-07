@@ -78,12 +78,9 @@ namespace MogMod.Projectiles.Melee
         }
         public override float SwingFunction()
         {
-            if (hasSmashedTile)
-                return MathHelper.ToRadians(MathHelper.Lerp(0, -swingWidth * 0.4f, MathF.Pow(CooldownCompletion, 0.5f)));
-            if (inStartup)
-                return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * 0.8f, -swingWidth * 0.66f, 1 - MathF.Pow(StartupCompletion, 0.5f)));
-            if (inCooldown)
-                return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * 0.33f, swingWidth * 0.45f, MathF.Pow(CooldownCompletion, 0.5f)));
+            if (hasSmashedTile) return MathHelper.ToRadians(MathHelper.Lerp(0, -swingWidth * 0.4f, MathF.Pow(CooldownCompletion, 0.5f)));
+            if (inStartup) return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * 0.8f, -swingWidth * 0.66f, 1 - MathF.Pow(StartupCompletion, 0.5f)));
+            if (inCooldown) return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * 0.33f, swingWidth * 0.45f, MathF.Pow(CooldownCompletion, 0.5f)));
             return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * .66f, (swingWidth * 0.33f), SwingCompletion));
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -97,19 +94,7 @@ namespace MogMod.Projectiles.Melee
                 {
                     firstEnemyHit = false;
                     SoundEngine.PlaySound(SoundID.DeerclopsRubbleAttack with { Volume = 0.5f, LimitsArePerVariant = false, MaxInstances = 1 });
-
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        ModPacket packet = Mod.GetPacket();
-                        packet.Write((byte)MogModMessageType.BashProcTextSync);
-                        packet.Write(target.lastInteraction);
-                        packet.Write(target.whoAmI);
-                        packet.Send();
-                    }
-                    else
-                    {
-                        target.MogMod().BashFX(target);
-                    }
+                    target.MogMod().ApplyBashProc(target, Owner, (int)(damageDone * 2f));
                 }
                 for (int i = 0; i < (proc ? 85 : 40); i++)
                 {

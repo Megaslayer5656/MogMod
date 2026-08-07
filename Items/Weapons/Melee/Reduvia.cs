@@ -55,12 +55,12 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-              AddIngredient(ItemID.Sickle).
-              AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 15). // von squad;
-              AddIngredient(ItemID.Bone, 10).
-              AddIngredient<SpiritShard>(5).
-              AddTile(TileID.Anvils).
-              Register();
+                AddIngredient(ItemID.Sickle).
+                AddRecipeGroup("AnyEvilBar", 15).
+                AddIngredient(ItemID.Bone, 10).
+                AddIngredient<SpiritShard>(5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -74,10 +74,10 @@ namespace MogMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-            AddIngredient(ItemID.FlintlockPistol).
-            AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Material"}", 8).
-            AddTile(TileID.Anvils).
-            Register();
+                AddIngredient(ItemID.FlintlockPistol).
+                AddRecipeGroup("AnyEvilMaterial", 8).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

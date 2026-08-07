@@ -29,6 +29,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.value = MogGlobalItem.RarityGreenBuyPrice;
             Item.rare = ItemRarityID.Green;
         }
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage) => damage *= Main.zenithWorld ? 5f : 1f;
         public override void AddRecipes()
         {
             CreateRecipe().

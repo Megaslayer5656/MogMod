@@ -50,11 +50,11 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.DeathSickle, 1).
-                AddIngredient<GriefBar>(12).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 12).
+                AddIngredient(ItemID.DeathSickle).
+                AddRecipeGroup("AnyScaleOrTissue", 12).
                 AddIngredient(ItemID.FragmentSolar, 8).
-                AddIngredient<UltimateOrb>(3).
+                AddIngredient<GriefBar>(5).
+                AddIngredient<UltimateOrb>().
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

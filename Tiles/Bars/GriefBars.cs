@@ -18,7 +18,7 @@ namespace MogMod.Tiles.Bars
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(255, 25, 0), Language.GetText("MapObject.MetalBar"));
+            AddMapEntry(new Color(199, 0, 21), Language.GetText("MapObject.MetalBar"));
         }
     }
 }

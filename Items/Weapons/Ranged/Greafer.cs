@@ -81,7 +81,7 @@ namespace MogMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient<Jericolt>().
                 AddIngredient<Tripshot>().
-                AddIngredient<GriefBar>(8).
+                AddIngredient<GriefBar>(3).
                 AddIngredient<LizhardBloodVial>().
                 AddTile(TileID.MythrilAnvil).
                 Register();

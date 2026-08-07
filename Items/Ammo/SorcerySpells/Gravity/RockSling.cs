@@ -29,7 +29,7 @@ namespace MogMod.Items.Ammo.SorcerySpells.Gravity
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 8).
+                AddRecipeGroup("AnyEvilBar", 8).
                 AddIngredient(ItemID.Amethyst, 4).
                 AddIngredient<Scroll>().
                 AddTile(TileID.Bookcases).

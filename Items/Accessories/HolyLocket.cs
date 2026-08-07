@@ -39,11 +39,11 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<MagicWand>(1).
-                AddIngredient(ItemID.PygmyNecklace, 1).
-                AddIngredient<Diadem>(1).
-                AddIngredient<SolRing>(1).
-                AddRecipeGroup("AdamantiteBar", 8).
+                AddIngredient<MagicWand>().
+                AddIngredient(ItemID.PygmyNecklace).
+                AddIngredient<Diadem>().
+                AddIngredient<SolRing>().
+                AddRecipeGroup("AnyAdamantiteBar", 8).
                 AddIngredient(ItemID.SoulofSight, 7).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

@@ -104,9 +104,6 @@
     <None Remove="Projectiles\Melee\LordOfBloodsSpearProj.png" />
     <None Remove="Projectiles\Melee\MoonveilProj.png" />
     <None Remove="Projectiles\Melee\RiversOfBloodProj.png" />
-    <None Remove="Projectiles\Melee\SelvesProj1.png" />
-    <None Remove="Projectiles\Melee\SelvesProj2.png" />
-    <None Remove="Projectiles\Melee\SelvesProj3.png" />
     <None Remove="Projectiles\RangedProjectiles\EnergyBulletProj.png" />
     <None Remove="Projectiles\RangedProjectiles\FireworkCrossbowProj.png" />
     <None Remove="Projectiles\RangedProjectiles\SplinterProjectile.png" />

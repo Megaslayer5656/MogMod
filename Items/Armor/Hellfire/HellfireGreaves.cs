@@ -37,7 +37,7 @@ namespace MogMod.Items.Armor.Hellfire
         {
             CreateRecipe().
                 AddIngredient(ItemID.MoltenGreaves).
-                AddIngredient<GriefBar>(12).
+                AddIngredient<HellfireBar>(12).
                 AddIngredient<ScorchedCore>(1).
                 AddTile(TileID.MythrilAnvil).
                 Register();

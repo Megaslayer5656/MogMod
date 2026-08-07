@@ -39,10 +39,10 @@ namespace MogMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DagonOne>(1).
-                AddIngredient<Diadem>(1).
+                AddIngredient<DagonOne>().
+                AddIngredient<Diadem>().
                 AddIngredient(ItemID.MeteoriteBar, 12).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 8).
+                AddRecipeGroup("AnyScaleOrTissue", 8).
                 AddIngredient(ItemID.Fireblossom, 5).
                 AddTile(TileID.Anvils).
                 Register();

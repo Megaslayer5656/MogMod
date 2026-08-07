@@ -85,7 +85,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.Pearlwood, 50).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Squirrel"}", 10).
+                AddRecipeGroup("AnySquirrel", 10).
                 AddIngredient(ItemID.SoulofSight, 7).
                 AddTile(TileID.MythrilAnvil).
                 Register();

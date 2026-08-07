@@ -51,9 +51,9 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<Headdress>(1).
+                AddIngredient<Headdress>().
                 AddIngredient(ItemID.Bone, 20).
-                AddRecipeGroup("SilverBar", 15).
+                AddRecipeGroup("AnySilverBar", 15).
                 AddIngredient<FrigidShard>(5).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

@@ -28,10 +28,10 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup("GoldBar", 15).
+                AddRecipeGroup("AnyGoldBar", 15).
                 AddIngredient(ItemID.Sapphire, 7).
                 AddIngredient<FrigidShard>(5).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 3).
+                AddRecipeGroup("AnyEvilBar", 3).
                 AddTile(TileID.Anvils).
                 Register();
         }

@@ -24,9 +24,9 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<BrinyRind>(15).
-                AddRecipeGroup("MythrilBar", 12).
-                AddIngredient<ManaCore>(1).
+                AddIngredient<BrinyRind>(7).
+                AddRecipeGroup("AnyMythrilBar", 5).
+                AddIngredient<ManaCore>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

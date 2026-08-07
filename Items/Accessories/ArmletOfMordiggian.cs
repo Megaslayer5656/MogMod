@@ -45,10 +45,10 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<HelmOfIronWill>().
-                AddIngredient(ItemID.FeralClaws, 1).
+                AddIngredient(ItemID.FeralClaws).
                 AddIngredient<BladesOfAttack>().
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Emblem"}", 1).
-                AddRecipeGroup("AdamantiteBar", 10).
+                AddRecipeGroup("AnyEmblem").
+                AddRecipeGroup("AnyAdamantiteBar", 10).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

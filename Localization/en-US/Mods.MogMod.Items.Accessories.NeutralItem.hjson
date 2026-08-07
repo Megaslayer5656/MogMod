@@ -155,7 +155,13 @@ HelmOfTheUndying: {
 
 ChaosDice: {
 	DisplayName: Chaos Dice
-	Tooltip: ""
+	Tooltip:
+		'''
+		+{0}% Critical Strike Chance
+		Critical Strikes have a {1}% chance to ultra crit
+		Ultra crits deal {2}x damage and have lifesteal properties
+		[c/7A2129:'Chaos Knight's unwieldy power bludgeons those who stand before him, crushing the thickest of armors.']
+		'''
 }
 
 BlazingAspect: {

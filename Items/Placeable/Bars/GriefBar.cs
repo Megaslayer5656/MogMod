@@ -11,14 +11,14 @@ namespace MogMod.Items.Placeable.Bars
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 15;
-            ItemID.Sets.SortingPriorityMaterials[Type] = 90; // Chlorophyte Ore
+            ItemID.Sets.SortingPriorityMaterials[Type] = 95; // stardust fragment
         }
         public override void SetDefaults()
         {
             Item.width = 30;
             Item.height = 24;
             Item.maxStack = Item.CommonMaxStack;
-            Item.rare = ItemRarityID.Pink;
+            Item.rare = ItemRarityID.Cyan;
             Item.consumable = true;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
@@ -26,14 +26,14 @@ namespace MogMod.Items.Placeable.Bars
             Item.autoReuse = true;
             Item.createTile = ModContent.TileType<Tiles.Bars.GriefBars>();
             Item.placeStyle = 0;
-            Item.value = Item.sellPrice(silver: 88);
+            Item.value = Item.sellPrice(gold: 3, silver: 24);
         }
         public override void AddRecipes()
         {
-            CreateRecipe(4).
-                AddIngredient(ItemID.HellstoneBar, 4).
-                AddIngredient<HellfireEssence>(1).
-                AddIngredient(ItemID.SoulofNight, 1).
+            CreateRecipe(3).
+                AddIngredient<HellfireBar>(3).
+                AddIngredient<SpookyEssence>(5).
+                AddIngredient(ItemID.BeetleHusk, 3).
                 AddTile(TileID.AdamantiteForge).
                 Register();
         }

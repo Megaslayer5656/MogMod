@@ -4,9 +4,7 @@ using MogMod.Items.Other;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
-using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -41,7 +39,7 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup("MythrilBar", 10).
+                AddRecipeGroup("AnyMythrilBar", 10).
                 AddIngredient(ItemID.SoulofFright, 7).
                 AddIngredient<FrigidCrystal>(3).
                 AddTile(TileID.MythrilAnvil).

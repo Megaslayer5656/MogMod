@@ -46,11 +46,11 @@ namespace MogMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.GhostWings, 1).
-                AddIngredient(ItemID.GarlandHat, 1).
+                AddIngredient(ItemID.GhostWings).
+                AddIngredient(ItemID.GarlandHat).
                 AddIngredient<FaeBar>(12).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Hardmode Evil Material"}", 9).
-                AddIngredient<ManaCore>(1).
+                AddRecipeGroup("AnyScaleOrTissue", 9).
+                AddIngredient<ManaCore>().
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

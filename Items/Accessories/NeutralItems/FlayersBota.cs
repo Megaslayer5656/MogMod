@@ -28,7 +28,7 @@ namespace MogMod.Items.Accessories.NeutralItems
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Material"}", 15).
+                AddRecipeGroup("AnyEvilMaterial", 15).
                 AddIngredient(ItemID.SoulofFright, 7).
                 AddIngredient<HellfireEssence>(3).
                 AddTile(TileID.MythrilAnvil).

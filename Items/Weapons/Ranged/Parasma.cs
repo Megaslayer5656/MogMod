@@ -34,10 +34,11 @@ namespace MogMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<WitchBlade>(1).
+                AddIngredient<WitchBlade>().
+                AddRecipeGroup("AnyEvilWater", 20).
                 AddIngredient(ItemID.SpiderFang, 15).
                 AddIngredient(ItemID.ChlorophyteBar, 12).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Mushroom"}", 7).
+                AddRecipeGroup("AnyEvilMushroom", 7).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

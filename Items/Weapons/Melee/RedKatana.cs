@@ -72,10 +72,10 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-            AddRecipeGroup("SilverBar", 10).
-            AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Material"}", 8).
-            AddTile(TileID.Anvils).
-            Register();
+                AddRecipeGroup("AnySilverBar", 10).
+                AddRecipeGroup("AnyEvilMaterial", 8).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

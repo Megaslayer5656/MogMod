@@ -73,23 +73,39 @@ namespace MogMod.Projectiles.BaseProjectiles
     {
         #region Overrideable Fields
         /// <summary>
+        /// The position of the projectile.
+        /// Change to make the projectile center around a set position.
+        /// <br/> Defaults to Vector2.Zero, where the players center is used.
+        /// </summary>
+        public virtual Vector2 ProjectilePosition { get; set; } = Vector2.Zero;
+        /// <summary>
+        /// How much damage should be lost each hit.
+        /// <br/> Defaults to 0.95f.
+        /// </summary>
+        public virtual float DamageFalloff { get; set; } = 0.95f;
+        /// <summary>
+        /// How many times the projectile can deal damage when hitting an entity.
+        /// <br/> Defaults to 10.
+        /// </summary>
+        public virtual int HitLimit { get; set; } = 10;
+        /// <summary>
         /// The width, in degrees, of the sword swing.
-        /// Defaults to 180
+        /// <br/> Defaults to 180
         /// </summary>
         public virtual int swingWidth { get; set; } = 180;
         /// <summary>
         /// How many frames the sword swing should take.
-        /// Defaults to 20
+        /// <br/> Defaults to 20
         /// </summary>
         public virtual int swingTime { get; set; } = 20;
         /// <summary>
         /// If the swing should alternate directions each use.
-        /// Defaults to true
+        /// <br/> Defaults to <see langword="true"/>.
         /// </summary>
         public virtual bool AlternateSwings { get; set; } = true;
         /// <summary>
         /// How far the held sword should be offset from the player
-        /// Defaults to 0
+        /// <br/> Defaults to 0
         /// </summary>
         public virtual int OffsetDistance { get; set; } = 0;
         /// <summary>
@@ -98,47 +114,47 @@ namespace MogMod.Projectiles.BaseProjectiles
         public virtual Item BaseItem { get; set; }
         /// <summary>
         /// Whether or not this projectile uses a base item at all.
-        /// Defaults to true.
+        /// <br/> Defaults to <see langword="true"/>.
         /// </summary>
         public virtual bool UsesBaseItem { get; set; } = true;
 
         /// <summary>
         /// Length of after-image trail left by the projectile.
-        /// Defaults to 0
+        /// <br/> Defaults to 0
         /// </summary>
         public virtual int AfterImageLength { get; set; } = 0;
 
         /// <summary>
         /// Whether or not this should get melee speed bonuses
-        /// Defaults to TRUE
+        /// <br/> Defaults to <see langword="true"/>.
         /// </summary>
-        public virtual bool useAttackSpeed { get; set; } = true;
+        public virtual bool UseAttackSpeed { get; set; } = true;
 
         /// <summary>
         /// Whether or not this should get melee size bonuses (Titan Glove)
-        /// Defaults to TRUE
+        /// <br/> Defaults to <see langword="true"/>.
         /// </summary>
-        public virtual bool useMeleeSize { get; set; } = true;
+        public virtual bool UseMeleeSize { get; set; } = true;
 
         /// <summary>
-        /// How long before the weapon should begin it's actual swing once used
+        /// How long before the weapon should begin it's actual swing once used.
         /// </summary>
         public virtual int StartupTime { get; set; } = 0;
         /// <summary>
-        /// How long the weapon should "cool down" after swinging before ending the item use
+        /// How long the weapon should "cool down" after swinging before ending the item use.
         /// </summary>
         public virtual int CooldownTime { get; set; } = 0;
         /// <summary>
         /// Speed at which the projectile should rotate to match the mouse angle during StartupTime.
-        /// Set to 0 to disable.
-        /// Defaults to 0.5f
+        /// <br/> Set to 0 to disable.
+        /// <br/> Defaults to 0.5f.
         /// </summary>
         public virtual float RotateInStartup { get; set; } = 0.5f;
 
         /// <summary>
         /// Speed at which the projectile should rotate to match the mouse angle during Cooldown.
-        /// Set to 0 to disable.
-        /// Defaults to 0.5f
+        /// <br/> Set to 0 to disable.
+        /// <br/> Defaults to 0.5f.
         /// </summary>
         public virtual float RotateInCooldown { get; set; } = 0.5f;
 
@@ -149,7 +165,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         /// <summary>
         /// The length (from the player) of the projectile's line collision.
         /// This helps to prevent blindspots.
-        /// Defaults to 0
+        /// <br/> Defaults to 0.
         /// </summary>
         public virtual float lineCollisionLength { get; set; } = 0;
 
@@ -238,9 +254,9 @@ namespace MogMod.Projectiles.BaseProjectiles
         {
             Projectile.timeLeft = swingTime * 2;
             if (UsesBaseItem)
-            {
                 Projectile.width = Projectile.height = Math.Max(BaseItem.height, BaseItem.width);
-            }
+            Projectile.netImportant = true;
+            Projectile.netUpdate = true;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.localNPCHitCooldown = -1;
@@ -260,52 +276,56 @@ namespace MogMod.Projectiles.BaseProjectiles
         private void FakeOnSpawn()
         {
             var player = Main.player[Projectile.owner];
-            angle = (player.MountedCenter - player.MogMod().mouseWorld).SafeNormalize(Vector2.One);
+            if (ProjectilePosition != Vector2.Zero) angle = (ProjectilePosition - player.MogMod().mouseWorld).SafeNormalize(Vector2.One);
+            else angle = (player.MountedCenter - player.MogMod().mouseWorld).SafeNormalize(Vector2.One);
             Projectile.velocity = Vector2.Zero;
             if (angle.X < 0)
             {
-                player.direction = 1;
-                Projectile.spriteDirection = 1 * (int)player.gravDir;
+                if (ProjectilePosition == Vector2.Zero)
+                {
+                    player.direction = 1;
+                    Projectile.spriteDirection = 1 * (int)player.gravDir;
+                }
+                else
+                    Projectile.spriteDirection = 1;
             }
             else
             {
-                player.direction = -1;
-                Projectile.spriteDirection = -1 * (int)player.gravDir;
+                if (ProjectilePosition == Vector2.Zero)
+                {
+                    player.direction = -1;
+                    Projectile.spriteDirection = -1 * (int)player.gravDir;
+                }
+                else
+                    Projectile.spriteDirection = -1;
             }
             if (AlternateSwings && player.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 1)
-            {
                 Projectile.spriteDirection *= -1;
-            }
-            if (AlternateSwings)
-            {
+            if (AlternateSwings && (ProjectilePosition == Vector2.Zero))
                 player.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum++;
-            }
             swingTime = Main.player[Projectile.owner].HeldItem.useTime;
             Spawn();
             StartupTime *= Projectile.MaxUpdates;
             CooldownTime *= Projectile.MaxUpdates;
             swingTime *= Projectile.MaxUpdates;
-            if (useAttackSpeed)
+            if (UseAttackSpeed)
             {
                 var speed = Main.player[Projectile.owner].GetTotalAttackSpeed(Projectile.DamageType);
-                if (speed > 3f)
-                    speed = 3f;
+                float cap = 5f;
+                if (speed > cap)
+                    speed = cap;
 
                 if (speed != 0f)
                     speed = 1f / speed;
 
                 swingTime = (int)(swingTime * speed);
                 if (swingTime < 1)
-                {
                     swingTime = 1;
-                }
                 StartupTime = (int)(StartupTime * speed);
                 CooldownTime = (int)(CooldownTime * speed);
             }
-            if (useMeleeSize)
-            {
+            if (UseMeleeSize)
                 Projectile.scale *= player.GetMeleeScale();
-            }
             baseScale = Projectile.scale;
             ExistsTime = swingTime + StartupTime + CooldownTime;
             Projectile.timeLeft = ExistsTime * 2;
@@ -328,33 +348,40 @@ namespace MogMod.Projectiles.BaseProjectiles
             Projectile.gfxOffY = player.gfxOffY;
             player.MogMod().mouseWorldListener = true;
             var modplayer = player.GetModPlayer<BaseSwordHoldoutPlayer>();
+            Vector2 position = ProjectilePosition != Vector2.Zero ? ProjectilePosition : player.MountedCenter;
             float adust = MathHelper.ToRadians(225);
             if (timer < StartupTime || timer > StartupTime + swingTime)
             {
                 if (inStartup)
-                    angle = Vector2.Lerp(angle, (player.MountedCenter - player.MogMod().mouseWorld).SafeNormalize(Vector2.One), RotateInStartup);
+                    angle = Vector2.Lerp(angle, (position - player.MogMod().mouseWorld).SafeNormalize(Vector2.One), RotateInStartup);
                 if (inCooldown)
-                    angle = Vector2.Lerp(angle, (player.MountedCenter - player.MogMod().mouseWorld).SafeNormalize(Vector2.One), RotateInCooldown);
+                    angle = Vector2.Lerp(angle, (position - player.MogMod().mouseWorld).SafeNormalize(Vector2.One), RotateInCooldown);
                 if (angle.X < 0)
                 {
-                    player.direction = 1;
-                    Projectile.spriteDirection = 1 * (int)player.gravDir;
+                    if (ProjectilePosition == Vector2.Zero)
+                    {
+                        player.direction = 1;
+                        Projectile.spriteDirection = 1 * (int)player.gravDir;
+                    }
+                    else
+                        Projectile.spriteDirection = 1;
                 }
                 else
                 {
-                    player.direction = -1;
-                    Projectile.spriteDirection = -1 * (int)player.gravDir;
+                    if (ProjectilePosition == Vector2.Zero)
+                    {
+                        player.direction = -1;
+                        Projectile.spriteDirection = -1 * (int)player.gravDir;
+                    }
+                    else
+                        Projectile.spriteDirection = -1;
                 }
                 if (AlternateSwings && player.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 1)
-                {
                     Projectile.spriteDirection *= -1;
-                }
             }
             if (Projectile.spriteDirection == -1)
-            {
                 adust = MathHelper.ToRadians(-45);
-            }
-            var armCenter = player.MountedCenter - new Vector2(5 * player.direction, 2);
+            var armCenter = position - new Vector2(5 * player.direction, 2);
             if (AfterImageLength > 0)
             {
                 oldProjectileRot.Add(Projectile.rotation);
@@ -366,16 +393,14 @@ namespace MogMod.Projectiles.BaseProjectiles
                 }
             }
             if (inSwing && swingTimer == 1 && UseSound != null)
-            {
                 SoundEngine.PlaySound((SoundStyle)UseSound, player.Center);
-            }
             var angle2 = (AlternateSwings && modplayer.swingNum % 2 == 1 ? SwingFunction() : SwingFunction());
             Projectile.Center = armCenter - (angle * OffsetDistance * (1 + (Projectile.scale - 1) * 0.75f)).RotatedBy(Projectile.spriteDirection * angle2);
             Projectile.rotation = angle.RotatedBy(Projectile.spriteDirection * angle2).ToRotation() + adust;
             AdditionalAI();
             if (!Projectile.active)
                 return;
-            oldPlayerOffset = Projectile.Center - player.MountedCenter;
+            oldPlayerOffset = Projectile.Center - position;
             player.itemTime = ExistsTime + 2 - timer;
             player.itemAnimation = ExistsTime + 2 - timer;
             if (timer > ExistsTime)
@@ -386,12 +411,11 @@ namespace MogMod.Projectiles.BaseProjectiles
             }
             timer++;
             if (timer >= StartupTime && timer < StartupTime + swingTime)
-            {
                 swingTimer++;
-            }
             var armDir = armCenter - Projectile.Center;
             armDir.Y *= player.gravDir;
-            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, armDir.ToRotation() + MathHelper.ToRadians(90));
+            if (ProjectilePosition == Vector2.Zero)
+                player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, armDir.ToRotation() + MathHelper.ToRadians(90));
             oldScale.Insert(0, Projectile.scale);
         }
         public override bool PreDraw(ref Color lightColor)
@@ -414,7 +438,7 @@ namespace MogMod.Projectiles.BaseProjectiles
                     }
                 }
             }
-            Main.player[Projectile.owner].heldProj = Projectile.whoAmI;
+            if (ProjectilePosition == Vector2.Zero) Main.player[Projectile.owner].heldProj = Projectile.whoAmI;
             return true;
         }
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
@@ -429,7 +453,7 @@ namespace MogMod.Projectiles.BaseProjectiles
             if (lineCollisionLength > 0)
             {
                 var player = Main.player[Projectile.owner];
-                var armcenter = player.MountedCenter - new Vector2(5 * player.direction, 2);
+                var armcenter = ProjectilePosition != Vector2.Zero ? ProjectilePosition - new Vector2(5 * player.direction, 2) : player.MountedCenter - new Vector2(5 * player.direction, 2);
                 var swordDir = armcenter.DirectionTo(Projectile.Center);
                 var collisionline = new Vector2(lineCollisionLength / 2f, 0).RotatedBy(swordDir.ToRotation()) * Projectile.scale;
                 bool c = Collision.CheckAABBvLineCollision(targetHitbox.Location.ToVector2(), targetHitbox.Size(), Projectile.Center, Projectile.Center + collisionline);
@@ -441,10 +465,13 @@ namespace MogMod.Projectiles.BaseProjectiles
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             //modifiers.HitDirectionOverride = ((Main.player[Projectile.owner].DirectionTo(target.Center)).X >= 0 ? 1 : -1);
-            modifiers.HitDirectionOverride = target.position.X > Main.player[Projectile.owner].MountedCenter.X ? 1 : -1;
+            if (ProjectilePosition != Vector2.Zero) modifiers.HitDirectionOverride = target.position.X > ProjectilePosition.X ? 1 : -1;
+            else modifiers.HitDirectionOverride = target.position.X > Main.player[Projectile.owner].MountedCenter.X ? 1 : -1;
+            if (Projectile.numHits > 0) modifiers.SourceDamage *= DamageFalloff;
         }
         public override bool? CanDamage()
         {
+            if (Projectile.numHits > HitLimit) return false;
             return inSwing;
         }
         public override void SendExtraAI(BinaryWriter writer)

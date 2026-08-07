@@ -83,41 +83,6 @@ namespace MogMod.Utilities
                 hasItem = true;
             return hasItem;
         }
-        /// <summary>
-        /// Heals the player while accounting for modded life multipliers.
-        /// Does not work with other mods.
-        /// </summary>
-        /// <param name="player"></param>
-        /// <param name="life">The amount of life healed.</param>
-        public static void HealLifeMult(this Player player, int life)
-        {
-            MogPlayer mogPlayer = player.MogMod();
-            double lifeMult = 1 +
-            (mogPlayer.wearingMending ? MendingAspect.LifeMult : 0D);
-            if (mogPlayer.healingDisabledDebuff)
-                lifeMult = 0D;
-            life = (int)(life * lifeMult);
-            player.statLife += life;
-            player.HealEffect(life);
-            if (player.statLife > player.statLifeMax2)
-                player.statLife = player.statLifeMax2;
-        }
-        /// <summary>
-        /// Heals the player's mana while accounting for modded mana multipliers.
-        /// Does not work with other mods.
-        /// </summary>
-        /// <param name="player"></param>
-        /// <param name="mana">The amount of mana healed.</param>
-        public static void HealManaMult(this Player player, int mana)
-        {
-            MogPlayer mogPlayer = player.MogMod();
-            if (mogPlayer.wearingRadiantArmor)
-                mana = (int)(mana * (RadiantFlower.ManaMult + 1));
-            player.statMana += mana;
-            player.ManaEffect(mana);
-            if (player.statMana > player.statManaMax2)
-                player.statMana = player.statManaMax2;
-        }
         public static Color BuffColor => new(255, 105, 237);
         public static Color TypelessDebuffColor => new(230, 202, 250);
         public static Color FreezingColor => new(143, 242, 255);

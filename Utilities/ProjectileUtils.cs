@@ -52,11 +52,11 @@ namespace MogMod.Utilities
 
         #region Projectile Spawning
         // summons projectiles from the sky
-        public static Projectile ProjectileRain(IEntitySource source, Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner)
+        public static Projectile ProjectileRain(IEntitySource source, Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner, float ai0 = 0f, float ai1 = 0f, float ai2 = 0f)
         {
             float x = targetPos.X + Main.rand.NextFloat(-xLimit, xLimit);
             float y = targetPos.Y - Main.rand.NextFloat(yLimitLower, yLimitUpper);
-            Vector2 spawnPosition = new Vector2(x, y);
+            Vector2 spawnPosition = new(x, y);
             Vector2 velocity = targetPos - spawnPosition;
             velocity.X += Main.rand.NextFloat(-xVariance, xVariance);
             float speed = projSpeed;
@@ -64,15 +64,15 @@ namespace MogMod.Utilities
             targetDist = speed / targetDist;
             velocity.X *= targetDist;
             velocity.Y *= targetDist;
-            return Projectile.NewProjectileDirect(source, spawnPosition, velocity, projType, damage, knockback, owner);
+            return Projectile.NewProjectileDirect(source, spawnPosition, velocity, projType, damage, knockback, owner, ai0, ai1, ai2);
         }
 
-        // summons lots of projectiles
-        public static Projectile ProjectileBarrage(IEntitySource source, Vector2 originVec, Vector2 targetPos, bool fromRight, float xOffsetMin, float xOffsetMax, float yOffsetMin, float yOffsetMax, float projSpeed, int projType, int damage, float knockback, int owner, bool clamped = false, float inaccuracyOffset = 5f)
+        // summons projectiles from the sides of the target
+        public static Projectile ProjectileBarrage(IEntitySource source, Vector2 originVec, Vector2 targetPos, bool fromRight, float xOffsetMin, float xOffsetMax, float yOffsetMin, float yOffsetMax, float projSpeed, int projType, int damage, float knockback, int owner, bool clamped = false, float inaccuracyOffset = 5f, float ai0 = 0f, float ai1 = 0f, float ai2 = 0f)
         {
             float xPos = originVec.X + Main.rand.NextFloat(xOffsetMin, xOffsetMax) * fromRight.ToDirectionInt();
             float yPos = originVec.Y + Main.rand.NextFloat(yOffsetMin, yOffsetMax) * Main.rand.NextBool().ToDirectionInt();
-            Vector2 spawnPosition = new Vector2(xPos, yPos);
+            Vector2 spawnPosition = new(xPos, yPos);
             Vector2 velocity = targetPos - spawnPosition;
             velocity.X += Main.rand.NextFloat(-inaccuracyOffset, inaccuracyOffset);
             velocity.Y += Main.rand.NextFloat(-inaccuracyOffset, inaccuracyOffset);
@@ -84,17 +84,17 @@ namespace MogMod.Utilities
                 velocity.X = MathHelper.Clamp(velocity.X, -15f, 15f);
                 velocity.Y = MathHelper.Clamp(velocity.Y, -15f, 15f);
             }
-            return Projectile.NewProjectileDirect(source, spawnPosition, velocity, projType, damage, knockback, owner);
+            return Projectile.NewProjectileDirect(source, spawnPosition, velocity, projType, damage, knockback, owner, ai0, ai1, ai2);
         }
 
-        // homing code (DOES WORK ! ! ! THANK YOU CALAMITY)
-        public static void HomeInOnNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float inertia)
+        // homing code from calamity
+        public static void HomeInOnNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float inertia, bool extraUpdates = true)
         {
             if (!projectile.friendly)
                 return;
 
             // Set amount of extra updates.
-            if (projectile.MogMod().defExtraUpdates == -1)
+            if (projectile.MogMod().defExtraUpdates == -1 && extraUpdates)
                 projectile.MogMod().defExtraUpdates = projectile.extraUpdates;
 
             Vector2 destination = projectile.Center;
@@ -128,7 +128,7 @@ namespace MogMod.Utilities
             if (locatedTarget)
             {
                 // Increase amount of extra updates to greatly increase homing velocity.
-                projectile.extraUpdates = projectile.MogMod().defExtraUpdates + 1;
+                if (extraUpdates) projectile.extraUpdates = projectile.MogMod().defExtraUpdates + 1;
 
                 // Home in on the target.
                 Vector2 homeDirection = (destination - projectile.Center).SafeNormalize(Vector2.UnitY);
@@ -137,7 +137,7 @@ namespace MogMod.Utilities
             else
             {
                 // Set amount of extra updates to default amount.
-                projectile.extraUpdates = projectile.MogMod().defExtraUpdates;
+                if (extraUpdates) projectile.extraUpdates = projectile.MogMod().defExtraUpdates;
             }
         }
         public static void HomeInOnMarkedNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float inertia)

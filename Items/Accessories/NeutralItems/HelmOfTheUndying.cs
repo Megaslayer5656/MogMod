@@ -52,7 +52,7 @@ namespace MogMod.Items.Accessories.NeutralItems
         {
             CreateRecipe().
                 AddIngredient<HelmOfIronWill>().
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Grave"}", 10).
+                AddRecipeGroup("AnyTombstone", 10).
                 AddIngredient<UltimateOrb>(3).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

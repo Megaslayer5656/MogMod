@@ -188,7 +188,8 @@ namespace MogMod.Projectiles.Melee
             {
                 SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundMiss with { Volume = 0.65f, Pitch = 0.8f }, Projectile.Center);
                 SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundMiss with { Volume = 0.55f, Pitch = 0.4f }, Projectile.Center);
-                MogModUtils.ProjectileBarrage(source, Projectile.Center, target.Center, FlipAsSword, 50f, 50f, -50f, 100f, 10f, ModContent.ProjectileType<EchoSabreProj>(), Projectile.damage, 0f, Projectile.owner, false, 0f);
+                if (Projectile.owner == Main.myPlayer)
+                    MogModUtils.ProjectileBarrage(source, Projectile.Center, target.Center, FlipAsSword, 50f, 50f, -50f, 100f, 10f, ModContent.ProjectileType<EchoSabreProj>(), Projectile.damage, 0f, Projectile.owner, false, 0f);
             }
         }
         public override bool PreDraw(ref Color lightColor)

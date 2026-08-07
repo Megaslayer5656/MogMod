@@ -1,101 +1,43 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Global;
+﻿using MogMod.Items.Global;
+using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
-using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using static MogMod.Common.Systems.MogModNetcode;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    // TODO: rework && resprite
-    public class ChaosBlade : ModItem, ILocalizedModType
+    public class ChaosBlade : BaseSwordHoldoutItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        Random random = new Random();
-        public int randUltraCrit;
-        public int randNumProjectiles;
-        public bool ultraCrit = false;
+        public const float UltraCritChance = 0.17f;
+        public const float CritMult = 2.7f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(UltraCritChance.ToPercent(), CritMult);
+        public override int ProjectileType => ModContent.ProjectileType<ChaosBladeHoldout>();
         public override void SetDefaults()
         {
-            Item.width = 120;
-            Item.height = 120;
-            Item.damage = 30;
+            base.SetDefaults();
+            Item.width = 48;
+            Item.height = 50;
+
+            Item.damage = 77;
+            Item.crit = 13;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = Item.useTime = 25;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.knockBack = 7.5f;
-            Item.UseSound = SoundID.Item1;
+            Item.useAnimation = Item.useTime = 40;
+            Item.knockBack = 8f;
             Item.autoReuse = true;
-            Item.rare = ItemRarityID.Orange;
+
             Item.value = MogGlobalItem.RarityOrangeBuyPrice;
-            Item.scale = 1.5f;
-            Item.shootSpeed = 10f;
-            Item.shoot = ProjectileID.PurificationPowder; //This (and the shoot method) just make the weapon be able to face the direction of your mouse when you swing
+            Item.rare = ItemRarityID.Orange;
         }
-
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            return false;
-        }
-
-        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            var source = player.GetSource_OnHit(target);
-            Item.crit = random.Next(1, 40);
-            Item.damage = random.Next(25, 50); //This is hard to balance, more testing required
-            randUltraCrit = random.Next(1, 13); //1 in 12 chance
-            if (ultraCrit)
-            {
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    ModPacket packet = Mod.GetPacket();
-                    packet.Write((byte)MogModMessageType.UltraCritTextSync);
-                    packet.Write(target.lastInteraction);
-                    packet.Write(target.whoAmI);
-                    packet.Send();
-                }
-                else
-                {
-                    target.MogMod().UltraCritFX(target);
-                }
-                randNumProjectiles = random.Next(1, 4);
-                for (int i = 0; i < randNumProjectiles; i++)
-                {
-                    // proj barrage does (source, Vector2 originVec, Vector2 targetPos, T/F fromRight, xOffsetMin, xOffsetMax, yOffsetMin, yOffsetMax, projSpeed, projType, damage, knockback, owner, T/F clamped, innacuracy)
-                    MogModUtils.ProjectileBarrage(source, target.Center, target.Center, true, 50f, 50f, -50f, 100f, 0.25f, ModContent.ProjectileType<ChaosBladeProj>(), random.Next(40, 65), 0f, player.whoAmI, false, 0f);
-                }
-                if (target.type != NPCID.TargetDummy)
-                {
-                    int heal = random.Next(1, 5);
-                    // for SOME REASON player has a default of 70 lifesteal
-                    heal *= Convert.ToInt32(player.lifeSteal * 0.08);
-                    player.statLife += heal;
-                    player.HealEffect(heal);
-                    // so we dont go over max life
-                    if (player.statLife > player.statLifeMax2)
-                        player.statLife = player.statLifeMax2;
-                }
-                ultraCrit = false;
-            }
-            if (randUltraCrit == 10)
-            {
-                Item.damage = random.Next(80, 130);
-                Item.crit = 100;
-                ultraCrit = true;
-            }
-        }
-
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient(ItemID.HellstoneBar, 20).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 15).
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Flesh"}", 10).
+                AddRecipeGroup("AnyEvilBar", 15).
+                AddRecipeGroup("AnyScaleOrTissue", 10).
                 AddTile(TileID.Anvils).
                 Register();
         }

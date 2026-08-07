@@ -21,7 +21,7 @@ namespace MogMod.Projectiles.Melee
         public override int OffsetDistance => 50;
         public override int CooldownTime { get; set; }
         public override bool AlternateSwings => false;
-        public override bool useAttackSpeed => false;
+        //public override bool UseAttackSpeed => false;
         public override SoundStyle? UseSound => SoundID.DD2_MonkStaffSwing with { Volume = 1f };
         public ref float CurrentChargeMult => ref Projectile.ai[0];
         bool hasSmashedTile = false;
@@ -41,7 +41,7 @@ namespace MogMod.Projectiles.Melee
             angle = new Vector2(angle.X.DirectionalSign(), 0);
             var player = Main.player[Projectile.owner];
             var modplayer = player.GetModPlayer<BaseSwordHoldoutPlayer>();
-            StartupTime = 80;
+            StartupTime = Main.zenithWorld ? 360 : 80;
             CooldownTime = 30;
             swingTime = 10;
             modplayer.swingNum = 0;
@@ -86,7 +86,7 @@ namespace MogMod.Projectiles.Melee
                 if (Collision.SolidCollision(HammerFrontPos, 1, 1))
                 {
                     Owner.velocity *= 0.15f;
-                    Owner.velocity -= adjustedAngle.RotatedBy(MathHelper.PiOver2) * angle.X * MathHelper.Lerp(2f, 10f, CurrentChargeMult);
+                    Owner.velocity -= adjustedAngle.RotatedBy(MathHelper.PiOver2) * angle.X * MathHelper.Lerp(2f, Main.zenithWorld ? 100f : 10f, CurrentChargeMult);
                     float ringRot = SwingCompletion < 0.5f ? 0 : MathHelper.PiOver2;
                     int radius = (int)(4 * CurrentChargeMult);
                     Point scanAreaStart = HammerFrontPos.ToTileCoordinates() + new Point(-radius, -radius);
@@ -112,16 +112,14 @@ namespace MogMod.Projectiles.Melee
         }
         public override float SwingFunction()
         {
-            if (hasSmashedTile)
-                return MathHelper.ToRadians(MathHelper.Lerp(0, -swingWidth * 0.4f, MathF.Pow(CooldownCompletion, 0.5f)));
-            if (inStartup)
-                return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * 0.8f, -swingWidth * 0.66f, 1 - MathF.Pow(StartupCompletion, 0.5f)));
-            if (inCooldown)
-                return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * 0.33f, swingWidth * 0.45f, MathF.Pow(CooldownCompletion, 0.5f)));
+            if (hasSmashedTile) return MathHelper.ToRadians(MathHelper.Lerp(0, -swingWidth * 0.4f, MathF.Pow(CooldownCompletion, 0.5f)));
+            if (inStartup) return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * 0.8f, -swingWidth * 0.66f, 1 - MathF.Pow(StartupCompletion, 0.5f)));
+            if (inCooldown) return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * 0.33f, swingWidth * 0.45f, MathF.Pow(CooldownCompletion, 0.5f)));
             return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * .66f, (swingWidth * 0.33f), SwingCompletion));
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
+            base.ModifyHitNPC(target, ref modifiers);
             modifiers.SourceDamage *= CurrentChargeMult * 4.8f;
             modifiers.Knockback += (CurrentChargeMult);
             //Main.NewText($"charge mult = {CurrentChargeMult}");

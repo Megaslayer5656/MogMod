@@ -1,78 +1,43 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Global;
+﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    // TODO: rework
-    public class OversizedAnchor : ModItem, ILocalizedModType
+    public class OversizedAnchor : BaseSwordHoldoutItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public const int BuffTime = 180;
         public const float DefenseReductionBoost = 0.10f;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(BuffTime.FramesToSeconds(), DefenseReductionBoost.ToPercent());
-        public int attackType = 0; // keeps track of which attack it is
-        public int comboExpireTimer = 0; // we want the attack pattern to reset if the weapon is not used for certain period of time
+        public override int ProjectileType => ModContent.ProjectileType<OversizedAnchorHoldout>();
         public override void SetStaticDefaults() => ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         public override void SetDefaults()
         {
+            base.SetDefaults();
             Item.width = Item.height = 100;
 
-            Item.damage = 78;
-            Item.knockBack = 10f;
+            Item.damage = 76;
+            Item.knockBack = 12f;
             Item.DamageType = DamageClass.Melee;
-            
-            Item.useTime = Item.useAnimation = 45;
-            Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = SoundID.Item1;
-            
-            Item.shoot = ModContent.ProjectileType<AnchorHoldout>();
-            Item.shootSpeed = 1f;
-            
+            Item.useTime = Item.useAnimation = 32;
+            Item.shootSpeed = 12f;
+            Item.useStyle = ItemUseStyleID.Swing;
 
             Item.rare = ItemRarityID.Yellow;
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
-
-            Item.noMelee = true;
-            Item.useTurn = false;
-            Item.autoReuse = true;
-            Item.noUseGraphic = true;
         }
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool AltFunctionUse(Player player)
         {
-            int anchor = ModContent.ProjectileType<AnchorHoldout>();
-            if (player.altFunctionUse == 2)
-            {
-                attackType = 2;
-                comboExpireTimer = 119;
-                Projectile.NewProjectile(source, position, velocity, anchor, damage, knockback, Main.myPlayer, attackType);
-            }
-            if (attackType <= 1)
-            {
-                // do this so different rockets don't mess with the projectile spawned
-                // Using the shoot function, we override the swing projectile to set ai[0] (which attack it is)
-                Projectile.NewProjectile(source, position, velocity, anchor, damage, knockback, Main.myPlayer, attackType);
-                attackType = (attackType + 1) % 2; // Increment attackType to make sure next swing is different
-                comboExpireTimer = 0; // Every time the weapon is used, we reset this so the combo does not expire
-            }
-            return false; // return false to prevent original projectile from being shot
+            player.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum = 2;
+            return true;
         }
-        public override void UpdateInventory(Player player)
-        {
-            if (comboExpireTimer++ >= 120) // after 120 ticks (== 2 seconds) in inventory, reset the attack pattern
-                attackType = 0;
-        }
-        public override bool AltFunctionUse(Player player) => true;
-        public override bool MeleePrefix() => true;
-
-        // added an anchor to the recipe but made anchors craftable
         public override void AddRecipes()
         {
             CreateRecipe().

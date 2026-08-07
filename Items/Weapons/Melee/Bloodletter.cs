@@ -80,8 +80,8 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 12).
-                AddRecipeGroup("GoldBar", 12).
+                AddRecipeGroup("AnyEvilBar", 12).
+                AddRecipeGroup("AnyGoldBar", 12).
                 AddIngredient<VitalityBooster>().
                 AddTile(TileID.Anvils).
                 Register();

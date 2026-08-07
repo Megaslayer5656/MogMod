@@ -17,8 +17,8 @@ namespace MogMod.Items.Weapons.Melee
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(EssenceMax);
         public override void SetDefaults()
         {
-            Item.width = 68;
-            Item.height = 91;
+            Item.width = 40;
+            Item.height = 48;
             Item.scale = 1.25f;
             Item.damage = 12;
             Item.DamageType = DamageClass.Melee;

@@ -19,7 +19,7 @@ namespace MogMod.Items.Other
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup($"{Language.GetTextValue("LegacyMisc.37")} {"Evil Bar"}", 5).
+                AddRecipeGroup("AnyEvilBar", 5).
                 AddIngredient(ItemID.LifeCrystal, 1).
                 AddTile(TileID.Anvils).
                 Register();

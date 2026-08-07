@@ -25,7 +25,7 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-            AddRecipeGroup("GoldBar", 6).
+            AddRecipeGroup("AnyGoldBar", 6).
             AddIngredient(ItemID.FallenStar, 6).
             AddTile(TileID.Anvils).
             Register();

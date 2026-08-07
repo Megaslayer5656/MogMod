@@ -23,7 +23,7 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup("CobaltBar", 12).
+                AddRecipeGroup("AnyCobaltBar", 12).
                 AddIngredient<ManaEssence>(5).
                 AddIngredient<FrigidCrystal>(3).
                 AddTile(TileID.MythrilAnvil).

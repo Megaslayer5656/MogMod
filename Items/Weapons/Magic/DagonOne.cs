@@ -36,9 +36,9 @@ namespace MogMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.FlareGun, 1).
-                AddIngredient(ItemID.WandofSparking, 1).
-                AddIngredient(ItemID.Torch, 20).
+                AddIngredient(ItemID.FlareGun).
+                AddIngredient(ItemID.WandofSparking).
+                AddRecipeGroup("AnyTorch", 20).
                 AddTile(TileID.Anvils).
                 Register();
         }
