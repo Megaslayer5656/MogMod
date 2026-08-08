@@ -28,9 +28,9 @@ namespace MogMod.Items.Ammo.SorcerySpells.Glintstone
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.StoneBlock, 30)
-                .AddIngredient(ItemID.Emerald, 2)
-                .AddIngredient<Scroll>(1)
+                .AddIngredient(ItemID.StoneBlock, 50)
+                .AddIngredient(ItemID.Glass, 20)
+                .AddIngredient<Scroll>()
                 .AddTile(TileID.Bookcases)
                 .Register();
         }

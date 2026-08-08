@@ -25,7 +25,7 @@ namespace MogMod.Projectiles.Melee
         public override Vector2 HitboxSize => new(size, size);
         public override Vector2 SpriteOrigin => new(0, size);
         public override float HitboxRotationOffset => MathHelper.ToRadians(-45);
-        public override int HitLimit => 15;
+        public override int DamageHitCap => 15;
         public Vector2 mousePos;
         public Vector2 aimVel;
         public bool doSwing = false;

@@ -957,6 +957,27 @@ namespace MogMod.NPCs.Global
         {
             Player player = Main.LocalPlayer;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            void MechLoot()
+            {
+                // downed one mech
+                if (!NPC.downedMechBossAny)
+                {
+
+                }
+                // downed two mechs
+                else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
+                {
+
+                }
+                // downed three mechs
+                else
+                {
+                    HellfireEssenceText = Mod.GetLocalization($"WorldGen.{nameof(HellfireEssenceText)}");
+                    WorldGeneration.BroadcastLocalizedText(HellfireEssenceText.Value, Color.Orange);
+
+                    SyncWorld();
+                }
+            }
             switch (npc.type)
             {
                 #region Bosses
@@ -971,16 +992,14 @@ namespace MogMod.NPCs.Global
                     }
                     break;
                 case NPCID.TheDestroyer:
+                    if (!NPC.downedMechBoss1) MechLoot();
+                    break;
                 case NPCID.Retinazer:
                 case NPCID.Spazmatism:
+                    if (!NPC.downedMechBoss2) MechLoot();
+                    break;
                 case NPCID.SkeletronPrime:
-                    if (!Condition.DownedMechBossAll.IsMet() && (!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
-                    {
-                        HellfireEssenceText = Mod.GetLocalization($"WorldGen.{nameof(HellfireEssenceText)}");
-                        WorldGeneration.BroadcastLocalizedText(HellfireEssenceText.Value, Color.Orange);
-
-                        SyncWorld();
-                    }
+                    if (!NPC.downedMechBoss3) MechLoot();
                     break;
                 #endregion
 

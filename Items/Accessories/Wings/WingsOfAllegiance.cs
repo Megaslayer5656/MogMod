@@ -1,8 +1,10 @@
-﻿using MogMod.Common.MogModPlayer;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -28,6 +30,22 @@ namespace MogMod.Items.Accessories.Wings
             mogPlayer.wearingAllegianceWings = true;
             player.moveSpeed += 0.2f;
             player.noFallDmg = true;
+            if (player.velocity.Y != 0f && !hideVisual)
+            {
+                int dustXOffset = 4;
+                if (player.direction == 1)
+                {
+                    dustXOffset = -40;
+                }
+                int flightDust = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)dustXOffset, player.position.Y + (float)(player.height / 2) - 15f), 30, 30, DustID.PlatinumCoin, 0f, 0f, 100, default, 2.4f);
+                Main.dust[flightDust].noGravity = true;
+                Main.dust[flightDust].velocity *= 0.3f;
+                if (Main.rand.NextBool(10))
+                {
+                    Main.dust[flightDust].fadeIn = 2f;
+                }
+                Main.dust[flightDust].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
+            }
         }
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {

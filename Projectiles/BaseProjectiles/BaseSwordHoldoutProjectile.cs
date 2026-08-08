@@ -79,15 +79,15 @@ namespace MogMod.Projectiles.BaseProjectiles
         /// </summary>
         public virtual Vector2 ProjectilePosition { get; set; } = Vector2.Zero;
         /// <summary>
-        /// How much damage should be lost each hit.
-        /// <br/> Defaults to 0.95f.
+        /// How many hits it takes to reach <see cref="DamageMin"/>.
+        /// <br/> Defaults to 7.
         /// </summary>
-        public virtual float DamageFalloff { get; set; } = 0.95f;
+        public virtual int DamageHitCap { get; set; } = 7;
         /// <summary>
-        /// How many times the projectile can deal damage when hitting an entity.
-        /// <br/> Defaults to 10.
+        /// The cap on the amount of damage lost each hit.
+        /// <br/> Defaults to 0.3f.
         /// </summary>
-        public virtual int HitLimit { get; set; } = 10;
+        public virtual float DamageMin { get; set; } = 0.3f;
         /// <summary>
         /// The width, in degrees, of the sword swing.
         /// <br/> Defaults to 180
@@ -467,13 +467,10 @@ namespace MogMod.Projectiles.BaseProjectiles
             //modifiers.HitDirectionOverride = ((Main.player[Projectile.owner].DirectionTo(target.Center)).X >= 0 ? 1 : -1);
             if (ProjectilePosition != Vector2.Zero) modifiers.HitDirectionOverride = target.position.X > ProjectilePosition.X ? 1 : -1;
             else modifiers.HitDirectionOverride = target.position.X > Main.player[Projectile.owner].MountedCenter.X ? 1 : -1;
-            if (Projectile.numHits > 0) modifiers.SourceDamage *= DamageFalloff;
+            float damageMult = Utils.Remap(Projectile.numHits, 0, DamageHitCap, 1, DamageMin, true);
+            modifiers.SourceDamage *= damageMult;
         }
-        public override bool? CanDamage()
-        {
-            if (Projectile.numHits > HitLimit) return false;
-            return inSwing;
-        }
+        public override bool? CanDamage() => inSwing;
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.WriteVector2(angle);

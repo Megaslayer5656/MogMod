@@ -66,16 +66,15 @@ namespace MogMod.Projectiles.BaseProjectiles
         /// </summary>
         public virtual Player Owner => Main.player[Projectile.owner];
         /// <summary>
-        /// How much damage should be lost each hit.
-        /// <br/> Defaults to 0.95f.
+        /// How many hits it takes to reach <see cref="DamageMin"/>.
+        /// <br/> Defaults to 7.
         /// </summary>
-        public virtual float DamageFalloff { get; set; } = 0.95f;
+        public virtual int DamageHitCap { get; set; } = 7;
         /// <summary>
-        /// How many times the projectile can deal damage when hitting an entity.
-        /// <br/> Defaults to 10.
+        /// The cap on the amount of damage lost each hit.
+        /// <br/> Defaults to 0.3f.
         /// </summary>
-        public virtual int HitLimit { get; set; } = 10;
-
+        public virtual float DamageMin { get; set; } = 0.3f;
         /// <summary>
         /// The amount of extra size added to the projectile's scale.
         /// </summary>
@@ -297,14 +296,11 @@ namespace MogMod.Projectiles.BaseProjectiles
         {
             //modifiers.HitDirectionOverride = Owner.direction;
             modifiers.HitDirectionOverride = target.position.X > Owner.MountedCenter.X ? 1 : -1;
-            if (Projectile.numHits > 0) modifiers.SourceDamage *= DamageFalloff;
+            float damageMult = Utils.Remap(Projectile.numHits, 0, DamageHitCap, 1, DamageMin, true);
+            modifiers.SourceDamage *= damageMult;
             base.ModifyHitNPC(target, ref modifiers);
         }
-        public override bool? CanDamage()
-        {
-            if (Projectile.numHits > HitLimit) return false;
-            return CanHit ? base.CanDamage() : false;
-        }
+        public override bool? CanDamage() => CanHit ? base.CanDamage() : false;
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
             Vector2 hitboxScale = HitboxSize * Projectile.scale;
