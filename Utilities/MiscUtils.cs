@@ -156,6 +156,24 @@ namespace MogMod.Utilities
             ExpIn, ExpOut, ExpInOut,
             CircIn, CircOut, CircInOut
         }
+        /// <summary>
+        /// Wraps an angle between -90 and 90 degrees. If an angle goes past this range it'll go back to the other end.
+        /// </summary>
+        /// <param name="theta"></param>
+        /// <returns></returns>
+        public static float WrapAngle90Degrees(float theta)
+        {
+            // Ensure that the angle starts off in the -180 to 180 degree range instead of the 0 to 360 degree range.
+            if (theta > MathHelper.Pi)
+                theta -= MathHelper.Pi;
+
+            if (theta > MathHelper.PiOver2)
+                theta -= MathHelper.Pi;
+            if (theta < -MathHelper.PiOver2)
+                theta += MathHelper.Pi;
+
+            return theta;
+        }
         public static Tile TileRetrieval(int x, int y)
         {
             if (!WorldGen.InWorld(x, y))

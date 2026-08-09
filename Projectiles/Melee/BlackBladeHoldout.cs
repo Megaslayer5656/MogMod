@@ -37,7 +37,7 @@ namespace MogMod.Projectiles.Melee
 
         public bool chargedSwing = false; // True if you have a charged swing fully charged
         public int chargeTimer = 0; // Timer for charging the blade
-        public int chargeTimerMax = 240; // This is set to be base don use time on spawn
+        public int chargeTimerMax = 240; // This is set to be based on use time on spawn
 
         public Color mainColor1 = Color.DarkRed;
         public Color mainColor2 = Color.OrangeRed;

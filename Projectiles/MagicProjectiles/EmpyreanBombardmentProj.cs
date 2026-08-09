@@ -41,6 +41,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         }
         public override void OnSpawn(IEntitySource source)
         {
+            SoundEngine.PlaySound(SoundID.Item105 with { MaxInstances = -1, Volume = 0.7f }, Projectile.Center);
             switch (StarColorType)
             {
                 case 0:

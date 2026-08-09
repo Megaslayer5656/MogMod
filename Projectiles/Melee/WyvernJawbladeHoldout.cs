@@ -169,17 +169,8 @@ namespace MogMod.Projectiles.Melee
                         0
                     );
                 }
-
-                // sick ass light around the sword
-                //for (int i = 0; i < 20; i++)
-                //{
-                //    Color auraColor = Color.SkyBlue with { A = 0 } * 0.18f * fadeIn;
-                //    Vector2 drawOffset = (MathHelper.TwoPi * i / 20f).ToRotationVector2() * 4 * fadeIn;
-                //    Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + drawOffset + new Vector2(0, Owner.gfxOffY), tex.Frame(1, FrameCount, 0, Frame), auraColor, Projectile.rotation + RotationOffset + r, FlipAsSword ? new Vector2(tex.Width() - SpriteOrigin.X, SpriteOrigin.Y) : SpriteOrigin, Projectile.scale, spriteEffects != SpriteEffects.None ? spriteEffects : (FlipAsSword ? SpriteEffects.FlipHorizontally : SpriteEffects.None));
-                //}
             }
-            if (inSwing)
-                return base.PreDraw(ref lightColor);
+            if (inSwing) return base.PreDraw(ref lightColor);
             return true;
         }
     }

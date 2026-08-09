@@ -14,8 +14,8 @@ namespace MogMod.Items.Weapons.Magic
     public class EmpyreanBombardment : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
-        public static int MaxStars = 20;
-        public override void SetStaticDefaults() => Item.staff[Item.type] = true;
+        public static int MaxStars = 10;
+        //public override void SetStaticDefaults() => Item.staff[Item.type] = true; // not required since its a holdout
         public override void SetDefaults()
         {
             Item.width = 52;
@@ -23,28 +23,26 @@ namespace MogMod.Items.Weapons.Magic
 
             Item.damage = 60;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 15;
-            Item.useTime = Item.useAnimation = 8;
+            Item.mana = 3;
+            Item.useTime = Item.useAnimation = 3;
             Item.knockBack = 4f;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = SoundID.Item105 with { MaxInstances = -1 };
-            Item.shoot = ModContent.ProjectileType<EmpyreanBombardmentProj>();
-            Item.shootSpeed = 16f;
+            Item.shoot = ModContent.ProjectileType<EmpyreanHoldout>();
+            Item.shootSpeed = 2f;
             Item.noMelee = true;
+            Item.channel = true;
             Item.autoReuse = true;
+            Item.noUseGraphic = true;
             Item.ArmorPenetration = 40;
 
             Item.rare = ItemRarityID.Red;
             Item.value = MogGlobalItem.RarityRedBuyPrice;
         }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float speed = velocity.Length();
-            for (int i = 0; i < MaxStars; ++i)
-            {
-                float randSpeed = speed * Main.rand.NextFloat(0.6f, 1.2f);
-                MogModUtils.ProjectileRain(source, Main.MouseWorld, 400f, 150f, 850f, 1100f, randSpeed, type, damage, knockback, player.whoAmI);
-            }
+            Projectile holdout = Projectile.NewProjectileDirect(source, position, velocity, Item.shoot, damage, knockback, player.whoAmI);
+            holdout.velocity = (player.MogMod().mouseWorld - player.MountedCenter).SafeNormalize(Vector2.Zero);
             return false;
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
