@@ -323,8 +323,10 @@ namespace MogMod.Common.MogModPlayer
 
         public bool markerProjOut = false;
 
-        public int maxShots = 0;
-        public int reloadTime = 0;
+        public int hellfireOverheat = 0;
+
+        //public float maxShotsMult = 1f;
+        //public float reloadTimeMult = 1f;
 
         /*
         public static List<int> PlayerHurtWeapons =
@@ -2623,6 +2625,8 @@ namespace MogMod.Common.MogModPlayer
                 gildedCoinDropCooldown--;
             if (overloadingRegenCooldown > 0 && wearingOverloading)
                 overloadingRegenCooldown--;
+            if (hellfireOverheat > 0)
+                hellfireOverheat--;
         }
         
         // stops player from moving while charging bow
@@ -2806,8 +2810,8 @@ namespace MogMod.Common.MogModPlayer
             holdingThrowingShade = false;
 
             ammoCost = 1f;
-            maxShots = 0;
-            reloadTime = 0;
+            //maxShotsMult = 1f;
+            //reloadTimeMult = 1f;
 
             fCrystal = false;
             divinitasMinion = false;

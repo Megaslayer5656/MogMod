@@ -14,7 +14,8 @@ namespace MogMod.Items.Weapons.Magic
     public class EmpyreanBombardment : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
-        public static int MaxStars = 10;
+        public static int MaxStars = 8;
+        public static int MaxBarrageStars = 50;
         //public override void SetStaticDefaults() => Item.staff[Item.type] = true; // not required since its a holdout
         public override void SetDefaults()
         {
@@ -58,7 +59,7 @@ namespace MogMod.Items.Weapons.Magic
             Color nextColor = colorList[(colorIndex + 1) % colorList.Count];
             Color tooltipColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
 
-            TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+            TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
             if (line != null) line.OverrideColor = Color.Lerp(tooltipColor, Color.White, 0.5f);
         }
         public override void AddRecipes()

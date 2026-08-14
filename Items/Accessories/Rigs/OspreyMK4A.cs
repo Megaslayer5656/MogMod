@@ -16,11 +16,11 @@ namespace MogMod.Items.Accessories.Rigs
         public const float DamageReduction = 0.05f;
         public const int RangedCritBoost = 12;
         public const float AmmoReduction = 0.85f;
-        public const int MagSize = 65;
-        public const int MagReload = 80;
+        //public const int MagSize = 65;
+        //public const int MagReload = 80;
         public bool HidesNormalTooltip => true;
         public Color? TooltipExtensionColor => new(170, 170, 170);
-        public LocalizedText TooltipExtensionText => this.GetLocalization("HoldShiftTooltip").WithFormatArgs(MagSize, MagReload.FramesToSeconds());
+        //public LocalizedText TooltipExtensionText => this.GetLocalization("HoldShiftTooltip").WithFormatArgs(MagSize, MagReload.FramesToSeconds());
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MovementSpeedBoost.ToPercent(), DamageReduction.ToPercent(), RangedCritBoost, AmmoReduction.ToReversedPercent());
         public override void SetDefaults()
         {
@@ -39,8 +39,8 @@ namespace MogMod.Items.Accessories.Rigs
             base.UpdateAccessory(player, hideVisual);
             MogPlayer mogPlayer = player.MogMod();
             mogPlayer.ammoCost *= AmmoReduction;
-            mogPlayer.maxShots = MagSize;
-            mogPlayer.reloadTime = MagReload;
+            //mogPlayer.maxShots = MagSize;
+            //mogPlayer.reloadTime = MagReload;
             player.endurance += DamageReduction;
             player.GetCritChance<RangedDamageClass>() += RangedCritBoost;
             player.moveSpeed -= MovementSpeedBoost;

@@ -15,11 +15,11 @@ namespace MogMod.Items.Accessories.Rigs
     public class AzimutSSZhuk : ChestRig, IHoldShiftTooltipItem
     {
         public const float MiningSpeedBoost = 0.25f;
-        public const int MagSize = 50;
-        public const int MagReload = 50;
+        //public const int MagSize = 50;
+        //public const int MagReload = 50;
         public bool HidesNormalTooltip => true;
         public Color? TooltipExtensionColor => new(170, 170, 170);
-        public LocalizedText TooltipExtensionText => this.GetLocalization("HoldShiftTooltip").WithFormatArgs(MagSize, MagReload.FramesToSeconds());
+        //public LocalizedText TooltipExtensionText => this.GetLocalization("HoldShiftTooltip").WithFormatArgs(MagSize, MagReload.FramesToSeconds());
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -35,8 +35,8 @@ namespace MogMod.Items.Accessories.Rigs
             base.UpdateAccessory(player, hideVisual);
             MogPlayer mogPlayer = player.MogMod();
             mogPlayer.wearingZhuk = true;
-            mogPlayer.maxShots = MagSize;
-            mogPlayer.reloadTime = MagReload;
+            //mogPlayer.maxShots = MagSize;
+            //mogPlayer.reloadTime = MagReload;
             player.pickSpeed -= Main.zenithWorld ? -MiningSpeedBoost : MiningSpeedBoost;
 
             int chestNumb = Main.zenithWorld ? -4 : -3;

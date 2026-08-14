@@ -9,9 +9,9 @@ namespace MogMod.Items.Accessories.Rigs
 {
     public class IdeaRig : ChestRig
     {
-        public const int MagSize = 15;
-        public const int MagReload = 40;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MagSize, MagReload.FramesToSeconds());
+        //public const int MagSize = 15;
+        //public const int MagReload = 40;
+        //public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MagSize, MagReload.FramesToSeconds());
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -25,8 +25,8 @@ namespace MogMod.Items.Accessories.Rigs
         {
             base.UpdateAccessory(player, hideVisual);
             MogPlayer mogPlayer = player.MogMod();
-            mogPlayer.maxShots = MagSize;
-            mogPlayer.reloadTime = MagReload;
+            //mogPlayer.maxShots = MagSize;
+            //mogPlayer.reloadTime = MagReload;
         }
         /* Prapor sells it
         public override void AddRecipes()

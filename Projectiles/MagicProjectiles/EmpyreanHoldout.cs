@@ -27,7 +27,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         ];
         public int framesBetweenShots = 0;
         public bool fullCharge = false;
-        public int fullChargedShots = 100;
+        public int fullChargedShots = EmpyreanBombardment.MaxBarrageStars;
         public int windupAnim = 11;
         public int soundTimer = 0;
         public bool discharging = false;
@@ -41,6 +41,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.ignoreWater = true;
             Projectile.alpha = 255;
+            Projectile.netImportant = true;
         }
         public override void AI()
         {
@@ -66,7 +67,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 {
                     Owner.channel = true;
                     Projectile.timeLeft = 2;
-                    if (Timer % 3 == 0)
+                    if (Timer % 2 == 0)
                     {
                         Owner.SetScreenshake(1.85f);
                         for (int i = 0; i < fullChargedShots; ++i)

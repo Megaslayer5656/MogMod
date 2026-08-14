@@ -472,7 +472,7 @@ Items: {
 				DisplayName: Mosin
 				Tooltip:
 					'''
-					A strong rifle with heavy recoil
+					A strong rifle with heavy recoil that must reload after {0} shots
 					Converts musket balls into high damage, piercing LPS ammo
 					[c/FFC896:'The great equalizer']
 					'''
@@ -514,7 +514,7 @@ Items: {
 				DisplayName: AXMC
 				Tooltip:
 					'''
-					A powerful sniper rifle with extraordinary recoil
+					A powerful sniper rifle with extraordinary recoil that must reload after {0} shots
 					Converts musket balls into piercing AP Lapua rounds that build up bleed damage
 					Right click to scope in
 					[c/1E6329:'Time for some area brainrot.']
@@ -664,6 +664,7 @@ Items: {
 				DisplayName: MG-43 Machine Gun
 				Tooltip:
 					'''
+					Contains a {0} round magazine that must be reloaded for {1} second(s) before use
 					Right click to change firerate
 					Higher firerates have higher spread
 					Current firerate: [RPM] RPM
@@ -752,6 +753,20 @@ Items: {
 					Shoots 3 arrows at a time
 					[c/7DFFF8:'shiawase vip']
 					'''
+			}
+
+			HellfireMaxigun: {
+				DisplayName: Hellfire Maxigun
+				Tooltip:
+					'''
+					Fires a barrage of flaming bullets that build up heat in the weapon
+					Firing for too long overheats the weapon, leaving it unusable for a {0} seconds
+					'''
+			}
+
+			SinisterSpreader: {
+				DisplayName: Sinister Spreader
+				Tooltip: ""
 			}
 		}
 
@@ -987,7 +1002,8 @@ Items: {
 				DisplayName: Empyrean Bombardment
 				Tooltip:
 					'''
-					Unleashes a barrage of stars from the sky
+					Can be channeled to summon stars above your cursor
+					Cancelling the channel will unleash a barrage of stars from the sky
 					Ignores 40 points of enemy Defense
 					'May your hits be many, and your frames few.'
 					'''

@@ -75,7 +75,7 @@ namespace MogMod.Projectiles.Melee
                     if (SwingCompletion > 0.275f && summonProj)
                     {
                         if (Projectile.owner == Main.myPlayer)
-                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, -(aimVel / 4), ModContent.ProjectileType<AnchorProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, -(aimVel / 4), ModContent.ProjectileType<AnchorProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         summonProj = false;
                     }
             break;
@@ -86,7 +86,7 @@ namespace MogMod.Projectiles.Melee
                         for (float i = -0.25f; i < 0.26f; i += 0.50f)
                         {
                             if (Projectile.owner == Main.myPlayer)
-                                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, -(aimVel / 4).RotatedBy(i), ModContent.ProjectileType<AnchorProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, -(aimVel / 4).RotatedBy(i), ModContent.ProjectileType<AnchorProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         }
                         summonProj = false;
                     }

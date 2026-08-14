@@ -115,51 +115,6 @@ namespace MogMod.Items.Global
         {
             MogPlayer mogPlayer = player.MogMod();
             if (mogPlayer.wearingChaosDice) ultraCrit = Main.rand.NextBool(ChaosDice.UltraCritChance);
-            if (mogPlayer.wearingRigSlot && item.useAmmo == AmmoID.Bullet && !item.channel)
-            {
-                if (Main.netMode != NetmodeID.Server)
-                {
-                    shotCounter++;
-                    //Main.NewText($"bullet counter is {shotCounter}, max shots is {mogPlayer.maxShots}, reuse delay is {item.reuseDelay}");
-                    // the ammo remaining in the mag
-                    if (shotCounter < mogPlayer.maxShots)
-                    {
-                        item.reuseDelay = 0;
-                        if (MogClientConfig.Instance.AmmoEjection)
-                        {
-                            string goreType = "RigGunCasing";
-                            Gore.NewGore(source, position, -velocity * 0.8f, Mod.Find<ModGore>(goreType).Type);
-                        }
-                    }
-                    else
-                    {
-                        // the last bullet in the mag
-                        if (shotCounter == mogPlayer.maxShots)
-                        {
-                            item.reuseDelay = mogPlayer.reloadTime;
-                            if (MogClientConfig.Instance.AmmoEjection)
-                            {
-                                string goreType = "RigGunCasing";
-                                Gore.NewGore(source, position, -velocity * 0.8f, Mod.Find<ModGore>(goreType).Type);
-                            }
-                        }
-                        // reloading
-                        else if (shotCounter > mogPlayer.maxShots)
-                        {
-                            shotCounter = 0;
-                            item.reuseDelay = 0;
-                            if (MogClientConfig.Instance.AmmoEjection)
-                            {
-                                string goreMag = "RigGunMag";
-                                Gore.NewGore(source, position, velocity.RotatedBy(2f * -player.direction) * Main.rand.NextFloat(0.45f, 0.55f), Mod.Find<ModGore>(goreMag).Type);
-                            }
-                            SoundEngine.PlaySound(SoundID.Item149 with { Pitch = -0.1f }, player.Center);
-                            SoundEngine.PlaySound(SoundID.Item108 with { Pitch = -0.2f }, player.Center);
-                            return false; // its important to return here so that nothing interesting happens when we reload
-                        }
-                    }
-                }
-            }
             if ((mogPlayer.wearingNihilumRanged && item.DamageType == DamageClass.Ranged) && mogPlayer.nulledDebuff)
             {
                 Projectile nullEssence = Projectile.NewProjectileDirect(source, position, velocity, ModContent.ProjectileType<GreatswordOfSoulsProj>(), (int)(damage * 0.5), knockback, player.whoAmI);

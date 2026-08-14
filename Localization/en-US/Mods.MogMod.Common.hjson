@@ -1,7 +1,7 @@
 RigInformation:
 	'''
 	Allows for gun attachments to be used
-	Guns now fire {0} bullets before reloading for {1} second(s)
+	Gun attachments can only be used for weapons that use bullets as ammo
 	Only one rig may be equipped at a time
 	'''
 NeutralInformation: Can only be equipped in a neutral item slot

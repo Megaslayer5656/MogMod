@@ -137,10 +137,6 @@ namespace MogMod.NPCs.Global
             FaeOreText = Mod.GetLocalization($"WorldGen.{nameof(FaeOreText)}");
             HellfireEssenceText = Mod.GetLocalization($"WorldGen.{nameof(HellfireEssenceText)}");
         }
-        public override void SetDefaults(NPC npc)
-        {
-            ApplyEliteEffects(npc, npc.GetSource_FromThis("parent"));
-        }
         #endregion
 
         #region Shops
@@ -1063,6 +1059,7 @@ namespace MogMod.NPCs.Global
         }
         public override void OnSpawn(NPC npc, IEntitySource source)
         {
+            ApplyEliteEffects(npc, source);
         }
          //TODO: fix enemy life changes not syncing in multiplayer
         private void ApplyEliteEffects(NPC npc, IEntitySource source)

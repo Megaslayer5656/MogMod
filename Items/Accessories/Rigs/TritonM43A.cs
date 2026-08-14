@@ -17,11 +17,11 @@ namespace MogMod.Items.Accessories.Rigs
     public class TritonM43A : ChestRig, IHoldShiftTooltipItem
     {
         public const float MiningSpeedBoost = 0.12f;
-        public const int MagSize = 30;
-        public const int MagReload = 60;
+        //public const int MagSize = 30;
+        //public const int MagReload = 60;
         public bool HidesNormalTooltip => true;
         public Color? TooltipExtensionColor => new(170, 170, 170);
-        public LocalizedText TooltipExtensionText => this.GetLocalization("HoldShiftTooltip").WithFormatArgs(MagSize, MagReload.FramesToSeconds());
+        //public LocalizedText TooltipExtensionText => this.GetLocalization("HoldShiftTooltip").WithFormatArgs(MagSize, MagReload.FramesToSeconds());
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -36,8 +36,8 @@ namespace MogMod.Items.Accessories.Rigs
             base.UpdateAccessory(player, hideVisual);
             MogPlayer mogPlayer = player.MogMod();
             mogPlayer.wearingTriton = true;
-            mogPlayer.maxShots = MagSize;
-            mogPlayer.reloadTime = MagReload;
+            //mogPlayer.maxShots = MagSize;
+            //mogPlayer.reloadTime = MagReload;
             player.pickSpeed -= Main.zenithWorld ? -MiningSpeedBoost : MiningSpeedBoost;
 
             int chestNumb = Main.zenithWorld ? -2 : -3;

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace MogMod.Utilities
@@ -101,7 +102,6 @@ namespace MogMod.Utilities
         public static Color DivineDebuffColor2 => new(243, 200, 250);
 
         private static readonly Dictionary<int, List<(Color, float)>> debuffColorWeightsCache = [];
-
         public static Color GetDebuffTooltipNameColor(int debuffId)
         {
             var color = TypelessDebuffColor;
