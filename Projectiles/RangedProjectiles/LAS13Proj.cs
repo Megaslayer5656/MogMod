@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Weapons.Ranged;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,22 +10,19 @@ namespace MogMod.Projectiles.RangedProjectiles
     {
         public new string LocalizationCategory => "Projectiles.RangedProjectiles";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
-
         public override void SetDefaults()
         {
-            Projectile.width = 4;
-            Projectile.height = 4;
+            Projectile.width = Projectile.height = 4;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = 1;
             Projectile.extraUpdates = 100;
             Projectile.timeLeft = 300;
+            Projectile.ArmorPenetration = LAS13Trident.ArmorPenetration;
         }
-
         public override void AI()
         {
-            Projectile.localAI[0] += 1f;
-            if (Projectile.localAI[0] > 6f)
+            Projectile.localAI[0]++;
+            if (Projectile.localAI[0] > 1f)
             {
                 for (int i = 0; i < 2; i++)
                 {
@@ -37,17 +35,12 @@ namespace MogMod.Projectiles.RangedProjectiles
                 }
             }
         }
-
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Projectile.penetrate--;
-            if (Projectile.penetrate <= 0)
-            {
-                Projectile.Kill();
-            }
+            if (Projectile.penetrate <= 0) Projectile.Kill();
             return false;
         }
-
         public override void OnKill(int timeLeft)
         {
             int dustAmt = 6;

@@ -189,7 +189,7 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingPike;
 
         public int duelistStacks = 0;
-        public static int maxDuelistStacks = 3;
+        public static int maxDuelistStacks = DuelistGloves.MaxAttackSpeedBoost;
 
         public bool diademMinion = false;
         public bool dominatorMinion = false;
@@ -305,7 +305,7 @@ namespace MogMod.Common.MogModPlayer
         public static int essenceShiftLevelMax = HydrakanLatch.EssenceMax;
 
         public int fierySoulLevel = 0;
-        public static int fierySoulLevelMax = 30;
+        public static int fierySoulLevelMax = FierySoul.FierySoulMax;
 
         public bool holdingThrowingShade;
         public int shadowRealmLevel = 0;
@@ -324,6 +324,7 @@ namespace MogMod.Common.MogModPlayer
         public bool markerProjOut = false;
 
         public int hellfireOverheat = 0;
+        public int lasOverheat = 0;
 
         //public float maxShotsMult = 1f;
         //public float reloadTimeMult = 1f;
@@ -362,6 +363,7 @@ namespace MogMod.Common.MogModPlayer
         public bool blazingDebuff;
         public bool toxicDebuff;
         public bool deathDebuff;
+        public bool terraFlameDebuff;
         public bool healingDisabledDebuff;
 
         public int toxicDamage = 0;
@@ -1477,7 +1479,7 @@ namespace MogMod.Common.MogModPlayer
                 }
                 else
                     if (diademMinion)
-                        Player.maxMinions++;
+                        Player.maxMinions += Diadem.MaxMinions;
             }
             if (locketActive)
                 Player.maxMinions += 2;
@@ -1908,6 +1910,8 @@ namespace MogMod.Common.MogModPlayer
                 ToxicDebuff.DrawEffects(drawInfo);
             if (deathDebuff)
                 BlackBladeDebuff.DrawEffects(drawInfo);
+            if (terraFlameDebuff)
+                TerraFlameDebuff.DrawEffects(drawInfo);
             if (healingDisabledDebuff)
                 HealingDisabledDebuff.DrawEffects(drawInfo);
 
@@ -2266,7 +2270,7 @@ namespace MogMod.Common.MogModPlayer
             }
 
             for (int i = 0; i < duelistStacks; i++)
-                player.GetAttackSpeed<MeleeDamageClass>() += .07f;
+                player.GetAttackSpeed<MeleeDamageClass>() += DuelistGloves.AttackSpeedBoost;
         }
         public void doParry(Terraria.Player player, Vector2 pos)
         {
@@ -2401,6 +2405,8 @@ namespace MogMod.Common.MogModPlayer
                 DamageOverTime(30);
             if (deathDebuff)
                 DamageOverTime(30);
+            if (terraFlameDebuff)
+                DamageOverTime(35);
 
             if (Player.lifeRegen < 0)
             {
@@ -2627,6 +2633,8 @@ namespace MogMod.Common.MogModPlayer
                 overloadingRegenCooldown--;
             if (hellfireOverheat > 0)
                 hellfireOverheat--;
+            if (lasOverheat > 0)
+                lasOverheat--;
         }
         
         // stops player from moving while charging bow
@@ -2781,6 +2789,7 @@ namespace MogMod.Common.MogModPlayer
             blazingDebuff = false;
             toxicDebuff = false;
             deathDebuff = false;
+            terraFlameDebuff = false;
             healingDisabledDebuff = false;
 
             greavesAura = false;

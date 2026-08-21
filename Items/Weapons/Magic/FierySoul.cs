@@ -1,8 +1,8 @@
 ﻿using MogMod.Items.Global;
-using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Magic
@@ -10,6 +10,8 @@ namespace MogMod.Items.Weapons.Magic
     public class FierySoul : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
+        public const int FierySoulMax = 30;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(FierySoulMax);
         public override void SetDefaults()
         {
             Item.width = 28;

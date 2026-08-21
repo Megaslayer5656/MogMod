@@ -3,9 +3,9 @@ ArcaneBoots: {
 	Tooltip:
 		'''
 		Increases movement speed
-		Increased Maximum Mana by 50
+		Increased Maximum Mana by {0}
 		Slightly Increased Mana Regeneration
-		Pressing [KEY] will restore 200 Mana
+		Pressing [KEY] will restore {1} Mana
 		[c/2481A6:'Magi equipped with these boots are valued in battle.']
 		'''
 }

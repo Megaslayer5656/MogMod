@@ -285,6 +285,8 @@ Mods: {
 				EnchantedArrowProj.DisplayName: Enchanted Arrow
 				GasGrenadeProj.DisplayName: Gas Grenade Proj
 				GasExplosion.DisplayName: Gas Explosion
+				SinisterFire.DisplayName: Sinister Fire
+				TerraFire.DisplayName: Terra Fire
 			}
 
 			Melee: {

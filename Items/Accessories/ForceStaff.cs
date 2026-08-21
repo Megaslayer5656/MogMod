@@ -9,6 +9,8 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
+    // TODO: rework into holdout weapon that launches you towards/away (determined by left or right clicked) cursor
+    // aaand resprite
     public class ForceStaff : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";

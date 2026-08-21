@@ -26,6 +26,7 @@ namespace MogMod.Projectiles.Melee
         public override Vector2 SpriteOrigin => new(0, size);
         public override float HitboxRotationOffset => MathHelper.ToRadians(-45);
         public override int DamageHitCap => 15;
+        public override float AdditionalScale => 0.5f;
         public Vector2 mousePos;
         public Vector2 aimVel;
         public bool doSwing = false;
@@ -117,8 +118,7 @@ namespace MogMod.Projectiles.Melee
                     Owner.itemAnimation++;
                     Projectile.timeLeft++;
 
-                    if (chargeTimer < chargeTimerMax && !chargedSwing)
-                        chargeTimer++;
+                    if (chargeTimer < chargeTimerMax && !chargedSwing) chargeTimer++;
 
                     Vector2 dustVelocity = (Owner.Center - dustSpawnPos).SafeNormalize(Vector2.UnitX) * -9 * Projectile.scale;
 

@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
 {
+    // TODO: resprite and make it load bolts and fire them in a holdout
     public class DrowRangersCrossbow : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";

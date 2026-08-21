@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories.Wings
 {
-    [AutoloadEquip(EquipType.Wings)]
+    [AutoloadEquip(EquipType.Wings, EquipType.Shoes)]
     public class LunarTreads : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories.Wings";

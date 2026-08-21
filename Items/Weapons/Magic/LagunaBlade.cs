@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Buffs.Cooldowns;
 using MogMod.Items.Global;
-using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Magic
@@ -13,6 +13,7 @@ namespace MogMod.Items.Weapons.Magic
     public class LagunaBlade : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(FierySoul.FierySoulMax);
         public override void SetDefaults()
         {
             Item.width = 28;
@@ -32,7 +33,6 @@ namespace MogMod.Items.Weapons.Magic
             Item.value = MogGlobalItem.RarityLightPurpleBuyPrice;
         }
         public override bool AltFunctionUse(Player player) => true;
-
         public override bool CanUseItem(Player player)
         {
             Item.UseSound = player.altFunctionUse == 2 ? SoundID.Item43 : SoundID.Item66;
@@ -42,15 +42,11 @@ namespace MogMod.Items.Weapons.Magic
             }
             return base.CanUseItem(player);
         }
-
         public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2 ? 0.3f : 1f;
-
         public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
         {
-            if (player.altFunctionUse == 2)
-                mult *= 4f;
+            if (player.altFunctionUse == 2) mult *= 4f;
         }
-
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             if (player.altFunctionUse == 2 && !player.HasBuff(ModContent.BuffType<Buffs.Cooldowns.LagunaBladeCooldown>()))
@@ -62,7 +58,6 @@ namespace MogMod.Items.Weapons.Magic
                 player.AddBuff(ModContent.BuffType<LagunaBladeCooldown>(), 1800);
             }
         }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int totalProjectiles = 1;

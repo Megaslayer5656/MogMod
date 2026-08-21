@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
+    [AutoloadEquip(EquipType.Back, EquipType.Front)]
     public class GlimmerCape : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
@@ -27,8 +28,7 @@ namespace MogMod.Items.Accessories
         public override void SetDefaults()
         {
             Item.accessory = true;
-            Item.width = 50;
-            Item.height = 42;
+            Item.width = Item.height = 24;
             Item.rare = ItemRarityID.Green;
             Item.value = MogGlobalItem.RarityGreenBuyPrice;
         }

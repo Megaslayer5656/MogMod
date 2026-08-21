@@ -77,7 +77,7 @@ DuelistGloves: {
 	DisplayName: Duelist Gloves
 	Tooltip:
 		'''
-		Increases Melee Speed by 7% for each enemy around you, up to a max of 21% attack speed
+		Increases Melee Speed by {0}% for each enemy around you, up to a max of {1}% attack speed
 		Enables auto swing for melee weapons
 		'''
 }

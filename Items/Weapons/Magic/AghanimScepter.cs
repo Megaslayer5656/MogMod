@@ -2,6 +2,7 @@
 using MogMod.Items.Consumables;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
 using Terraria.DataStructures;
@@ -73,11 +74,10 @@ namespace MogMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<Kaya>(1).
-                AddIngredient(4952, 1). // nightglow from empress
-                AddIngredient<SpiritShard>(5).
-                AddIngredient<PointBooster>(1).
-                AddIngredient<AghanimShard>(1).
+                AddIngredient<Kaya>().
+                AddIngredient<SoulOfMogMod>().
+                AddIngredient<PointBooster>().
+                AddIngredient<BrokenHeroStaff>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

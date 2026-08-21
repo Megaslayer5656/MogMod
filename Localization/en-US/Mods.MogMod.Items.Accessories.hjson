@@ -223,15 +223,15 @@ DragonLance: {
 
 Diadem: {
 	DisplayName: Diadem
-	Tooltip: Increases your max number of minions by 1
+	Tooltip: Increases your max number of minions by {0}
 }
 
 Crown: {
 	DisplayName: Crown
 	Tooltip:
 		'''
-		+5% Attack Damage
-		+5% Attack Speed
+		+{0}% Attack Damage
+		+{1}% Attack Speed
 		[c/E0DE84:'A stately crown created to ensure a well-]
 		[c/E0DE84:meaning but ungifted heir could fend off ]
 		[c/E0DE84:usurpers and govern with a strong hand.']
@@ -266,8 +266,8 @@ BeltOfStrength: {
 	DisplayName: Belt of Strength
 	Tooltip:
 		'''
-		+5% Attack Damage
-		+10% Knockback
+		+{0}% Attack Damage
+		+{1}% Knockback
 		[c/BD4040:'A valued accessory for improving strength.']
 		'''
 }
@@ -391,7 +391,7 @@ SolRing: {
 	DisplayName: Sol Ring
 	Tooltip:
 		'''
-		Increases max mana by 40
+		Increases max mana by {0}
 		Emits a faint light when worn
 		[c/F2D69B:'Lost to time is the artificer's art of trapping light ]
 		[c/F2D69B:from a distant star in a ring of purest gold.']

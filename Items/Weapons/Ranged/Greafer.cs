@@ -83,6 +83,7 @@ namespace MogMod.Items.Weapons.Ranged
                 AddIngredient<Tripshot>().
                 AddIngredient<GriefBar>(3).
                 AddIngredient<LizhardBloodVial>().
+                AddIngredient<BrokenHeroGun>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

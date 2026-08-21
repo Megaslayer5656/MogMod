@@ -432,6 +432,18 @@ Items: {
 				DisplayName: Nativitas
 				Tooltip: Launches two freezing whip swords that explode on hit
 			}
+
+			AstralCataclysm: {
+				DisplayName: Astral Cataclysm
+				Tooltip:
+					'''
+					Swings a greatsword that can be charged for higher damage
+					Deals more damage to unhurt enemies
+					Charged swings shoot out {0} to {1} stars that idle in the air
+					Striking a star with an uncharged swing will push it around and extend its lifetime
+					Charged swings can empower stars, turning them into massive comets on hit and launching them to your cursor
+					'''
+			}
 		}
 
 		Ranged: {
@@ -618,9 +630,10 @@ Items: {
 				DisplayName: LAS-13 Trident
 				Tooltip:
 					'''
+					Fires a spread of 6 lasers that build up heat in the weapon
+					Building up too much heat overheats the weapon, leaving it unusable for {1} seconds
 					Uses gel for ammo
-					Fires a spread of 6 lasers
-					Ignores 15 points of enemy Defense
+					Ignores {0} points of enemy Defense
 					'''
 			}
 
@@ -693,6 +706,8 @@ Items: {
 					'''
 					Unleashes a barrage of flames that inflict [mogbuff:MogMod/InfernoDebuff] and can pass through tiles
 					Uses gel for ammo
+					Ignores {1} points of enemy Defense
+					{0}% chance to save ammo
 					[c/E39127:'here be dragons']
 					'''
 			}
@@ -760,13 +775,28 @@ Items: {
 				Tooltip:
 					'''
 					Fires a barrage of flaming bullets that build up heat in the weapon
-					Firing for too long overheats the weapon, leaving it unusable for a {0} seconds
+					Firing for too long overheats the weapon, leaving it unusable for {0} seconds
 					'''
 			}
 
 			SinisterSpreader: {
 				DisplayName: Sinister Spreader
-				Tooltip: ""
+				Tooltip:
+					'''
+					Charges up to blast a spread of flames that inflict [mogbuff:MogMod/BlazingDebuff]
+					Uses gel for ammo
+					'''
+			}
+
+			Terrablazer: {
+				DisplayName: Terrablazer
+				Tooltip:
+					'''
+					Charges up to spew a stream of energized flames that inflict [mogbuff:MogMod/TerraFlameDebuff]
+					Uses gel for ammo
+					Ignores {1} points of enemy Defense
+					{0}% chance to save ammo
+					'''
 			}
 		}
 
@@ -803,7 +833,7 @@ Items: {
 				Tooltip:
 					'''
 					Hitting enemies grants a stack of [mogbuff:MogMod/FierySoulStack],
-					increasing magic attack speed and movement speed per stack.
+					increasing magic attack speed and movement speed per stack, up to a max of {0}
 					'''
 			}
 
@@ -826,8 +856,8 @@ Items: {
 				Tooltip:
 					'''
 					Hitting enemies grants a stack of [mogbuff:MogMod/FierySoulStack], 
-					increasing magic attack speed and movement speed per stack.
-					Right click to fire a bolt of lightning, granting max stacks of [mogbuff:MogMod/FierySoulStack]
+					increasing magic attack speed and movement speed per stack, up to a max of {0}
+					Right click to fire a bolt of lightning, granting {0} stacks of [mogbuff:MogMod/FierySoulStack]
 					[c/18A9C9:'Words hurt more than Laguna Blade']
 					'''
 			}
@@ -1856,6 +1886,21 @@ Items: {
 		HellfireBar: {
 			DisplayName: Hellfire Bar
 			Tooltip: ""
+		}
+
+		BrokenHeroStaff: {
+			Tooltip: ""
+			DisplayName: Broken Hero Staff
+		}
+
+		BrokenHeroShard: {
+			Tooltip: ""
+			DisplayName: Broken Hero Shard
+		}
+
+		BrokenHeroGun: {
+			Tooltip: ""
+			DisplayName: Broken Hero Gun
 		}
 	}
 

@@ -5,14 +5,15 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories.Boots
 {
+    [AutoloadEquip(EquipType.Shoes)]
     public class BootsOfTravel : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories.Boots";
         public override void SetDefaults()
         {
             Item.accessory = true;
-            Item.width = 50;
-            Item.height = 42;
+            Item.width = 30;
+            Item.height = 28;
             Item.rare = ItemRarityID.Orange;
             Item.value = MogGlobalItem.RarityOrangeBuyPrice;
         }

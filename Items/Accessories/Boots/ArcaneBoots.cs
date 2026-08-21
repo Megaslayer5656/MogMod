@@ -7,21 +7,25 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories.Boots
 {
+    [AutoloadEquip(EquipType.Shoes)]
     public class ArcaneBoots : ModItem, ILocalizedModType
     {
-        public const int ManaHeal = 200;
         public new string LocalizationCategory => "Items.Accessories.Boots";
+        public const int MaxManaBoost = 50;
+        public const int ManaHeal = 200;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MaxManaBoost, ManaHeal);
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.BootsKeybind);
         ModKeybind keybindActive = null;
         public override void SetDefaults()
         {
             Item.accessory = true;
-            Item.width = 50;
-            Item.height = 42;
+            Item.width = 26;
+            Item.height = 28;
             Item.rare = ItemRarityID.Blue;
             Item.value = MogGlobalItem.RarityBlueBuyPrice;
         }

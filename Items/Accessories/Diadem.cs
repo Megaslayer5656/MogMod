@@ -8,14 +8,16 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
+    [AutoloadEquip(EquipType.Face)]
     public class Diadem : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const int MaxMinions = 1;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MaxMinions);
         public override void SetDefaults()
         {
             Item.accessory = true;
-            Item.width = 50;
-            Item.height = 42;
+            Item.width = Item.height = 24;
             Item.rare = ItemRarityID.Blue;
             Item.value = MogGlobalItem.RarityBlueBuyPrice;
         }

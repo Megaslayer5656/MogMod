@@ -18,7 +18,7 @@ namespace MogMod.Projectiles.RangedProjectiles
     {
         // code lifted from calamity mod seadragon
         public override int AssociatedItemID => ModContent.ItemType<MG43MachineGun>();
-        public override float MaxOffsetLengthFromArm => 24f;
+        public override float MaxOffsetLengthFromArm => 14f;
         public override float OffsetXUpwards => -5f;
         public override float BaseOffsetY => -1f;
         public override float OffsetYDownwards => 5f;
@@ -78,7 +78,8 @@ namespace MogMod.Projectiles.RangedProjectiles
                     if (attackSpeed > cap) attackSpeed = cap;
                     if (attackSpeed != 0f) attackSpeed = 1f / attackSpeed;
                     framesBetweenShots = (int)(5 * attackSpeed);
-                    OffsetLengthFromArm -= 2f;
+                    if (MogClientConfig.Instance.GunRecoil)
+                        OffsetLengthFromArm -= 2f; // visual recoil effect
                     Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int bulletDamage, out float knockback, out _);
                     if (Main.myPlayer == Projectile.owner)
                     {

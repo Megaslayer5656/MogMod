@@ -25,11 +25,11 @@ namespace MogMod.Items.Accessories.NeutralItems
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.ShinyStone, 1).
+                AddIngredient(ItemID.ShinyStone).
                 AddIngredient(ItemID.HallowedBar, 10).
-                AddIngredient<BrinyRind>(10).
-                AddIngredient(ItemID.HallowedKey, 1).
-                AddIngredient(ItemID.BrokenHeroSword, 1).
+                AddIngredient<BrokenHeroShard>(5).
+                AddIngredient(ItemID.HallowedKey).
+                AddIngredient<SoulOfMogMod>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

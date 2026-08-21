@@ -404,7 +404,43 @@ namespace MogMod.Utilities
         {
             #region Vanilla Item Recipes
             // In addition to these methods, there are also methods relating to shimmer decrafting. See ShimmerShowcase.cs for that.
-
+            #region Weapons
+            // magic missile
+            Recipe magicMissileRecipe = Recipe.Create(ItemID.MagicMissile);
+            magicMissileRecipe.AddIngredient(ItemID.DiamondStaff)
+                .AddIngredient(ItemID.Bone, 40)
+                .AddIngredient<HealingLotus>(3)
+                .AddTile(TileID.Anvils)
+                .Register();
+            // anchor weapon
+            Recipe anchorRecipe = Recipe.Create(ItemID.Anchor);
+            anchorRecipe.AddIngredient(ItemID.Rope, 100)
+                .AddRecipeGroup("IronBar", 25)
+                .AddIngredient(ItemID.PirateMap)
+                .AddTile(TileID.Anvils)
+                .Register();
+            // tsunami
+            Recipe tsunami = Recipe.Create(ItemID.Tsunami);
+            tsunami.AddIngredient<TidalWave>()
+                .AddIngredient<BrinyRind>(12)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+            // north pole
+            Recipe northPoleRecipe = Recipe.Create(ItemID.NorthPole);
+            northPoleRecipe.AddIngredient<FrozenSpear>()
+                .AddIngredient(ItemID.IceQueenTrophy)
+                .AddIngredient<FrostEssence>(20)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+            // elf melter
+            Recipe elfMelter = Recipe.Create(ItemID.ElfMelter);
+            elfMelter.AddIngredient(ItemID.Flamethrower)
+                .AddIngredient(ItemID.SantaNK1Trophy)
+                .AddIngredient<FrostEssence>(20)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+            #endregion
+            #region Armor
             // eskimo helmet
             Recipe hoodRecipe = Recipe.Create(ItemID.EskimoHood);
             hoodRecipe.AddIngredient(ItemID.Silk, 10)
@@ -417,27 +453,6 @@ namespace MogMod.Utilities
                 .AddRecipeGroup("AnySilverBar", 8)
                 .AddTile(TileID.HeavyWorkBench)
                 .Register();
-            // golem power cell summon
-            Recipe powerCellRecipe = Recipe.Create(ItemID.LihzahrdPowerCell, 3);
-            powerCellRecipe.AddIngredient(ItemID.LunarTabletFragment, 4)
-                .AddIngredient(ItemID.Ectoplasm, 2)
-                .AddIngredient<UltimateOrb>()
-                .AddTile(TileID.LihzahrdFurnace)
-                .Register();
-            // anchor weapon
-            Recipe anchorRecipe = Recipe.Create(ItemID.Anchor);
-            anchorRecipe.AddIngredient(ItemID.Rope, 100)
-                .AddRecipeGroup("IronBar", 25)
-                .AddIngredient(ItemID.PirateMap)
-                .AddTile(TileID.Anvils)
-                .Register();
-            // magic missle weapon
-            Recipe magicMissileRecipe = Recipe.Create(ItemID.MagicMissile);
-            magicMissileRecipe.AddIngredient(ItemID.DiamondStaff)
-                .AddIngredient(ItemID.Bone, 40)
-                .AddIngredient<HealingLotus>(3)
-                .AddTile(TileID.Anvils)
-                .Register();
             // wizard hat
             Recipe wizardRecipe = Recipe.Create(ItemID.WizardHat);
             wizardRecipe.AddRecipeGroup("AnyScaleOrTissue", 12)
@@ -446,25 +461,14 @@ namespace MogMod.Utilities
                 .AddTile(TileID.Loom)
                 .DisableDecraft()
                 .Register();
+            #endregion
+            #region Accessories
             // band of starpower
             Recipe manaBandRecipe = Recipe.Create(ItemID.BandofStarpower);
             manaBandRecipe.AddIngredient(ItemID.Shackle)
                 .AddIngredient<FrigidShard>(5)
                 .AddIngredient<ManaEssence>()
                 .AddTile(TileID.TinkerersWorkbench)
-                .Register();
-            // north pole
-            Recipe northPoleRecipe = Recipe.Create(ItemID.NorthPole);
-            northPoleRecipe.AddIngredient<FrozenSpear>()
-                .AddIngredient(ItemID.ChristmasTreeSword)
-                .AddIngredient<FrostEssence>(20)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
-            // tnt barrel
-            Recipe tntBarrel = Recipe.Create(ItemID.TNTBarrel, 3);
-            tntBarrel.AddIngredient(ItemID.ExplosivePowder, 3)
-                .AddIngredient(ItemID.Barrel, 3)
-                .DisableDecraft()
                 .Register();
             // magic quiver
             Recipe magicQuiver = Recipe.Create(ItemID.MagicQuiver);
@@ -473,18 +477,46 @@ namespace MogMod.Utilities
                 .AddIngredient<PointBooster>()
                 .AddTile(TileID.TinkerersWorkbench)
                 .Register();
+            #endregion
+            #region Misc
+            // golem power cell summon
+            Recipe powerCellRecipe = Recipe.Create(ItemID.LihzahrdPowerCell, 3);
+            powerCellRecipe.AddIngredient(ItemID.LunarTabletFragment, 4)
+                .AddIngredient(ItemID.Ectoplasm, 2)
+                .AddIngredient<UltimateOrb>()
+                .AddTile(TileID.LihzahrdFurnace)
+                .Register();
+            // tnt barrel
+            Recipe tntBarrel = Recipe.Create(ItemID.TNTBarrel, 3);
+            tntBarrel.AddIngredient(ItemID.ExplosivePowder, 3)
+                .AddIngredient(ItemID.Barrel, 3)
+                .DisableDecraft()
+                .Register();
             // jester arrow
             Recipe jesterArrow = Recipe.Create(ItemID.JestersArrow, 150);
             jesterArrow.AddIngredient(ItemID.WoodenArrow, 150)
                 .AddIngredient<ManaEssence>()
                 .AddTile(TileID.Anvils)
                 .Register();
-            // tsunami
-            Recipe tsunami = Recipe.Create(ItemID.Tsunami);
-            tsunami.AddIngredient<TidalWave>()
-                .AddIngredient<BrinyRind>(12)
+            // broken hero sword
+            Recipe brokenHeroSword = Recipe.Create(ItemID.BrokenHeroSword);
+            brokenHeroSword.AddIngredient<BrokenHeroShard>(5)
+                .AddIngredient<CraftingRecipe>()
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
+            // terra toilet (gun)
+            Recipe terraToiletGun = Recipe.Create(ItemID.TerraToilet);
+            terraToiletGun.AddIngredient(ItemID.Toilet)
+                .AddIngredient<BrokenHeroGun>()
+                .AddTile(TileID.Anvils)
+                .Register();
+            // terra toilet (staff)
+            Recipe terraToiletStaff = Recipe.Create(ItemID.TerraToilet);
+            terraToiletStaff.AddIngredient(ItemID.Toilet)
+                .AddIngredient<BrokenHeroStaff>()
+                .AddTile(TileID.Anvils)
+                .Register();
+            #endregion
             #endregion
         }
     }

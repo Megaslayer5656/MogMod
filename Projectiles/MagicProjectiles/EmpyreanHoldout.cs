@@ -69,7 +69,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                     Projectile.timeLeft = 2;
                     if (Timer % 2 == 0)
                     {
-                        Owner.SetScreenshake(1.85f);
+                        Owner.SetScreenshake(5f);
                         for (int i = 0; i < fullChargedShots; ++i)
                         {
                             float randSpeed = speed * Main.rand.NextFloat(1f, 1.5f);

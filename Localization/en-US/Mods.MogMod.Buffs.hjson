@@ -432,3 +432,8 @@ HealingDisabledDebuff: {
 	DisplayName: Healing Disabled Debuff
 	Description: All forms of healing are negated!
 }
+
+TerraFlameDebuff: {
+	DisplayName: Terra Flame
+	Description: Dissolving from elemental flames!
+}

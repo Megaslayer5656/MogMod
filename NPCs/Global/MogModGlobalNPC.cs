@@ -68,6 +68,7 @@ namespace MogMod.NPCs.Global
         public bool infernoDebuff;
         public bool blazingDebuff;
         public bool toxicDebuff;
+        public bool terraFlameDebuff;
         public bool healingDisabledDebuff;
 
         public NPC.HitInfo hitInfo;
@@ -254,7 +255,8 @@ namespace MogMod.NPCs.Global
                     break;
                 case NPCID.BloodCrawler:
                 case NPCID.BloodCrawlerWall:
-                case NPCID.LihzahrdCrawler:
+                case NPCID.JungleCreeper:
+                case NPCID.JungleCreeperWall:
                 case NPCID.WallCreeper:
                 case NPCID.WallCreeperWall:
                 case NPCID.BlackRecluse:
@@ -349,6 +351,22 @@ namespace MogMod.NPCs.Global
                 case NPCID.MourningWood:
                 case NPCID.Pumpking:
                     postPlant.Add(ModContent.ItemType<SpookyEssence>(), 1, 3, 5);
+                    break;
+                #endregion
+                #region Solar Eclipse
+                // med level goons
+                case NPCID.Butcher:
+                case NPCID.DeadlySphere:
+                case NPCID.DrManFly:
+                case NPCID.Nailhead:
+                case NPCID.Psycho:
+                    postPlant.Add(ModContent.ItemType<BrokenHeroShard>(), 10, 1, 2);
+                    break;
+                // big goons (mothra)
+                case NPCID.Mothron:
+                    postPlant.Add(ModContent.ItemType<BrokenHeroShard>(), 3, 1, 3);
+                    postPlant.Add(ModContent.ItemType<BrokenHeroGun>(), 4);
+                    postPlant.Add(ModContent.ItemType<BrokenHeroStaff>(), 4);
                     break;
                 #endregion
                 #region Bosses
@@ -1319,6 +1337,8 @@ namespace MogMod.NPCs.Global
                 ApplyDPSDebuff(500, 50, ref npc.lifeRegen, ref damage);
             if (blazingDebuff)
                 ApplyDPSDebuff(255, 15, ref npc.lifeRegen, ref damage);
+            if (terraFlameDebuff)
+                ApplyDPSDebuff(350, 35, ref npc.lifeRegen, ref damage);
             if (healingDisabledDebuff)
             {
                 if (npc.lifeRegen > 0)
@@ -1535,6 +1555,11 @@ namespace MogMod.NPCs.Global
                 ToxicDebuff.DrawEffects(npc, ref drawColor);
                 drawColor = Color.Magenta;
             }
+            if (terraFlameDebuff)
+            {
+                TerraFlameDebuff.DrawEffects(npc, ref drawColor);
+                drawColor = Color.GreenYellow;
+            }
             if (healingDisabledDebuff)
             {
                 HealingDisabledDebuff.DrawEffects(npc, ref drawColor);
@@ -1619,6 +1644,7 @@ namespace MogMod.NPCs.Global
             infernoDebuff = false;
             blazingDebuff = false;
             toxicDebuff = false;
+            terraFlameDebuff = false;
             healingDisabledDebuff = false;
             overloadingOwner = npc.whoAmI;
         }

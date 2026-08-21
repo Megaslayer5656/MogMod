@@ -113,7 +113,7 @@ namespace MogMod.Items.Weapons.Ranged
             player.ChangeDir(Math.Sign((player.MogMod().mouseWorld - player.Center).X));
             float animProgress = 1 - player.itemTime / (float)player.itemTimeMax;
             float rotation = (player.Center - player.MogMod().mouseWorld).ToRotation() * player.gravDir + MathHelper.PiOver2;
-            if (animProgress < 0.5) rotation += (player.altFunctionUse == 2 ? -1f : -0.45f) * (float)Math.Pow((0.5f - animProgress) / 0.5f, 2) * player.direction;
+            if (animProgress < 0.5 && MogClientConfig.Instance.GunRecoil) rotation += (player.altFunctionUse == 2 ? -1f : -0.45f) * (float)Math.Pow((0.5f - animProgress) / 0.5f, 2) * player.direction;
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, rotation); //must be here otherwise it will vibrate
 
             //Reloads the gun 

@@ -91,6 +91,7 @@ namespace MogMod.Utilities
         public static Color BlazingColor => new(232, 117, 39);
         public static Color GhostflameColor => new(204, 224, 221);
         public static Color DeathColor => new(94, 24, 24);
+        public static Color TerraColor => new(89, 255, 71);
         public static Color WingsOfLightColor => new(255, 232, 163);
         public static Color SkadiColor => new(92, 87, 235);
         public static Color BleedColor => new(176, 5, 29);
@@ -128,6 +129,8 @@ namespace MogMod.Utilities
                 color = BleedColor;
             else if (debuffId == ModContent.BuffType<BlackBladeDebuff>())
                 color = DeathColor;
+            else if (debuffId == ModContent.BuffType<TerraFlameDebuff>())
+                color = TerraColor;
 
             // If this is actually a beneficial buff, color it as so
             else if (!Main.debuff[debuffId])

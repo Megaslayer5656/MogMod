@@ -9,7 +9,6 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -59,7 +58,6 @@ namespace MogMod.Projectiles.RangedProjectiles
                         dust.noGravity = true;
                     }
 
-                    // Spectralstorm Cannon's overheat immediately resets heat after triggered
                     (Owner.HeldItem.ModItem as HellfireMaxigun).BuiltUpHeat = 1;
                     Owner.MogMod().hellfireOverheat = HellfireMaxigun.OverheatCooldown;
                     Overheating = true;
@@ -88,6 +86,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 // Actually fire shtuff
                 if (Timer % firingFrequency == 0)
                 {
+                    Timer++; // here so we dont rapidly fire every frame
                     Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * 30;
                     Dust dust = Dust.NewDustPerfect(GunTipPosition, Main.rand.NextBool(3) ? DustID.FireworksRGB : 303, Vector2.Zero, 100, Color.OrangeRed, Main.rand.NextFloat(0.4f, 1.2f));
                     for (int i = 0; i <= 4; i++)
@@ -97,7 +96,8 @@ namespace MogMod.Projectiles.RangedProjectiles
                         dust2.scale = Main.rand.NextFloat(0.5f, 2.4f);
                     }
                     SoundEngine.PlaySound(SoundID.Item41 with { Volume = 0.3f, Pitch = 0.25f, PitchVariance = 0.1f, MaxInstances = -1 }, Projectile.Center);
-                    OffsetLengthFromArm -= 2f;
+                    if (MogClientConfig.Instance.GunRecoil)
+                        OffsetLengthFromArm -= 2f;
                     Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int bulletDamage, out float knockback, out _);
                     if (Main.myPlayer == Projectile.owner)
                     {
