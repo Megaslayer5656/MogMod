@@ -39,8 +39,6 @@ namespace MogMod.Items.Accessories
                 mogPlayer.wearingHelmOfOverlord = true;
                 mogPlayer.wearingGigaManaBoots = true;
                 mogPlayer.wearingMekansm = true;
-                mogPlayer.wearingForceStaff = true;
-                mogPlayer.wearingPike = true;
                 mogPlayer.wearingShivasGuard = true;
                 mogPlayer.wearingEyeOfSkadi = true;
                 mogPlayer.wearingFlameOfCorruption = true;

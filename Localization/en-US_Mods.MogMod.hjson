@@ -1177,6 +1177,32 @@ Items: {
 					Critical strikes deal 20% extra damage
 					'''
 			}
+
+			DragonLance: {
+				DisplayName: Dragon Lance
+				Tooltip:
+					'''
+					DOESNT WORK FOR NOW ! ! ! ! !
+					Hold left click to charge up a precise thrust
+					Right click to throw the spear, sticking itself onto enemies
+					Fully charge the thrust while a spear is impaled in an enemy to lodge it out, turning into a homing dragon that chases after enemies
+					This weapon is boosted by both melee and ranged damage
+					[c/D4816E:'The forward charge of the wyvern host grants no quarter.']
+					'''
+			}
+
+			HurricanePike: {
+				DisplayName: Hurricane Pike
+				Tooltip:
+					'''
+					DOESNT WORK FOR NOW ! ! ! ! !
+					Hold left click to charge up a precise thrust
+					Right click to throw the spear, sticking itself onto enemies
+					Fully charge the thrust while a spear is impaled in an enemy to lodge it out, turning into a homing dragon that chases after enemies
+					This weapon is boosted by both melee and ranged damage
+					[c/A62828:'A legendary pike once held as royal sigil of the ancient wyvern riders.']
+					'''
+			}
 		}
 	}
 
@@ -2501,6 +2527,15 @@ Items: {
 		HellfirePickaxe: {
 			DisplayName: Hellfire Pickaxe
 			Tooltip: ""
+		}
+
+		ForceStaff: {
+			DisplayName: Force Staff
+			Tooltip:
+				'''
+				Charge up to dash toward your cursor!
+				[c/72C281:'Sometimes a little push is all you need.']
+				'''
 		}
 	}
 

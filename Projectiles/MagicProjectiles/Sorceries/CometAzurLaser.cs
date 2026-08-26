@@ -108,8 +108,9 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                     if (Owner.miscCounter % (hitCooldown * 21) == 0)
                         SoundEngine.PlaySound(laserSound, Projectile.Center);
                     int type = ModContent.ProjectileType<CometAzurProj>();
+                    float Spread = 0.12f;
                     Vector2 velocity = Projectile.velocity * 15;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - Projectile.velocity, velocity, type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - Projectile.velocity, velocity.RotatedByRandom(Spread), type, Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
 

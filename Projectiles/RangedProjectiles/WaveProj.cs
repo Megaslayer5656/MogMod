@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MogMod.Common.Graphics;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
@@ -16,13 +17,13 @@ namespace MogMod.Projectiles.RangedProjectiles
         public float Wave = 63.43f; // gd wave degrees
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 12;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 100;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
         public override void SetDefaults()
         {
-            Projectile.width = 6;
-            Projectile.height = 8;
+            Projectile.width = 8;
+            Projectile.height = 6;
 
             Projectile.DamageType = DamageClass.Ranged;
 
@@ -45,7 +46,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         public override void AI()
         {
             Projectile.ai[1]++;
-            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation();
 
             /* star of david
             float rotation = MathHelper.ToRadians(63.43f);
@@ -67,9 +68,9 @@ namespace MogMod.Projectiles.RangedProjectiles
             {
                 Dust dust = Dust.NewDustPerfect(Projectile.Center, 264, -Projectile.velocity * 0.05f, 100);
                 dust.noGravity = true;
-                dust.scale = 0.7f;
+                dust.scale = 0.4f;
                 dust.color = Color.LightBlue;
-                dust.fadeIn = 1.8f;
+                dust.fadeIn = 1.2f;
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -80,13 +81,16 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
+            TrailDrawer trailDrawer = default;
+            trailDrawer.Draw(Projectile, "MagicMissile", Color.White, Color.LightBlue, 1.4f, 24f, 36);
+
             Texture2D texture = Terraria.GameContent.TextureAssets.Projectile[Type].Value;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Main.EntitySpriteDraw(texture, drawPosition, null, Color.White, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
             Main.spriteBatch.SetBlendState(BlendState.Additive);
             Texture2D bloomTex = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/StarProj").Value;
-            Main.EntitySpriteDraw(bloomTex, drawPosition, null, Color.LightBlue, Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * 0.35f, SpriteEffects.None);
-            Main.EntitySpriteDraw(bloomTex, drawPosition, null, Color.LightBlue * 0.1f, Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * 0.9f, SpriteEffects.None);
+            Main.EntitySpriteDraw(bloomTex, drawPosition, null, Color.LightBlue, Projectile.rotation + MathHelper.PiOver2, bloomTex.Size() * 0.5f, Projectile.scale * 0.35f, SpriteEffects.None);
+            Main.EntitySpriteDraw(bloomTex, drawPosition, null, Color.LightBlue * 0.1f, Projectile.rotation + MathHelper.PiOver2, bloomTex.Size() * 0.5f, Projectile.scale * 0.9f, SpriteEffects.None);
 
             Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;

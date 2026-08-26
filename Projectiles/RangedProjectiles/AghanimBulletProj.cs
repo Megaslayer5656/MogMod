@@ -1,9 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.Debuffs;
+using MogMod.Common.Graphics;
 using MogMod.Utilities;
+using System;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,14 +20,14 @@ namespace MogMod.Projectiles.RangedProjectiles
         public float velocityMult = 1f;
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 60;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         }
         public override void SetDefaults()
         {
-            Projectile.width = 2;
-            Projectile.height = 18;
+            Projectile.width = 18;
+            Projectile.height = 2;
             Projectile.friendly = true;
             Projectile.penetrate = 5;
             Projectile.tileCollide = false;
@@ -39,39 +42,35 @@ namespace MogMod.Projectiles.RangedProjectiles
         public override void OnSpawn(IEntitySource source) => velocityMult = Main.zenithWorld ? 0.1f: Main.rand.NextFloat(0.9f, 0.99f);
         public override void AI()
         {
-            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation(); // important so that trails can be drawn correctly
             Lighting.AddLight(Projectile.Center, Colour.ToVector3() * 0.5f);
             Dust dust = Dust.NewDustPerfect(Projectile.Center, 264, -Projectile.velocity * Main.rand.NextFloat(0.05f, 0.6f), 100);
             dust.noGravity = true;
             dust.scale = Main.rand.NextFloat(0.5f, 0.8f);
             dust.color = Main.rand.NextBool(3) ? Colour : Colour * 0.5f;
 
-            if (Projectile.velocity.Length() < 4)
-                Projectile.velocity += (Owner.MogMod().mouseWorld - Projectile.Center).SafeNormalize(Vector2.UnitX) * 0.3f;
-            else
-                Projectile.velocity *= velocityMult;
+            if (Projectile.velocity.Length() < 4) Projectile.velocity += (Owner.MogMod().mouseWorld - Projectile.Center).SafeNormalize(Vector2.UnitX) * 0.3f;
+            else Projectile.velocity *= velocityMult;
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            // draw glow effect
-            Main.spriteBatch.SetBlendState(BlendState.Additive);
-            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            Texture2D bloomTex = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/StarProj").Value;
-            for (int i = 0; i < 2; i++)
-            {
-                Main.EntitySpriteDraw(bloomTex, drawPosition, null, Colour, Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * 0.5f, SpriteEffects.None);
+            // draw trail
+            TrailDrawer trailDrawer = default;
+            trailDrawer.Draw(Projectile, "MagicMissile", Color.White, Colour, minLength: 20, maxLength: 30);
 
-                if (Projectile.timeLeft <= 1550)
-                {
-                    // backtrail
-                    Vector2 trailOffset = Projectile.oldVelocity * 10f;
-                    for (float n = 0; n < 4; n++)
-                    {
-                        Color newColor = Colour * 0.25f;
-                        Main.EntitySpriteDraw(bloomTex, drawPosition - (trailOffset * n * 0.2f), null, newColor with { A = 255 }, Projectile.oldRot[(int)(n * 0.2f)], bloomTex.Size() * 0.5f, Projectile.scale * 0.8f, SpriteEffects.None);
-                        Main.EntitySpriteDraw(bloomTex, drawPosition - (trailOffset * n * 0.4f), null, newColor with { A = 255 }, Projectile.oldRot[(int)(n * 0.4f)], bloomTex.Size() * 0.5f, Projectile.scale * 0.8f, SpriteEffects.None);
-                    }
-                }
+            Texture2D tex = TextureAssets.Projectile[Type].Value;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Color drawColor = Projectile.GetAlpha(lightColor);
+            Main.EntitySpriteDraw(tex, drawPosition, null, drawColor, Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
+
+            Main.spriteBatch.SetBlendState(BlendState.Additive);
+            for (float i = 0f; i < 1f; i += 0.25f)
+            {
+                Texture2D starTex = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/StarProj").Value;
+                Main.EntitySpriteDraw(starTex, drawPosition, null, Colour * (0.25f + i), Projectile.rotation + MathHelper.PiOver2, starTex.Size() * 0.5f, Projectile.scale * (0.5f + i), SpriteEffects.None);
+
+                Texture2D bloomTex = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/CircleGradient").Value;
+                if (i % 0.5f == 0) Main.EntitySpriteDraw(bloomTex, drawPosition, null, Colour * (0.75f - i), Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * (0.15f + i), SpriteEffects.None);
             }
             Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;

@@ -125,28 +125,6 @@ GlimmerCape: {
 		'''
 }
 
-ForceStaff: {
-	DisplayName: Force Staff
-	Tooltip:
-		'''
-		+20% Knockback
-		Press [KEY] to consume 50 mana and boost forward in the direction you are facing
-		[c/72C281:'Allows you to boost yourself, for good or evil.']
-		'''
-}
-
-HurricanePike: {
-	DisplayName: Hurricane Pike
-	Tooltip:
-		'''
-		+20% Attack Speed
-		+30% Knockback
-		Increases block placement range by 3
-		Press [KEY] to consume 50 mana and boost forward in the direction you are facing
-		[c/A62828:'A legendary pike once held as royal sigil of the ancient wyvern riders.']
-		'''
-}
-
 VeilOfDiscord: {
 	DisplayName: Veil of Discord
 	Tooltip:
@@ -164,9 +142,9 @@ Vanguard: {
 	DisplayName: Vanguard
 	Tooltip:
 		'''
-		Increased Maximum Life by 50
-		Increased Life Regeneration
-		Grants immunity to knockback
+		+{0} HP/s Life Regen
+		{$Common.KnockbackImmunity}
+		{$Common.ChanceDamageReduce@1}{2}
 		[c/85483D:'A powerful shield that defends its wielder ]
 		[c/85483D:from even the most vicious of attacks.']
 		'''
@@ -190,8 +168,8 @@ HelmOfIronWill: {
 	DisplayName: Helm of Iron Will
 	Tooltip:
 		'''
-		Increased Maximum Life by 20
-		Slightly Increased Life Regeneration
+		Increased Maximum Life by {0}
+		+{1} HP/s Life Regen
 		[c/D2D46E:'The helmet of a legendary warrior who fell in battle.']
 		'''
 }
@@ -203,21 +181,10 @@ HeartOfTarrasque: {
 		Increases Maximum Life by 100
 		Reduces the cooldown of healing potions by 35%
 		Does not stack with downgrades
-		Grants immunity to knockback and fire blocks
+		{$Common.KnockbackImmunity} and fire blocks
 		Grants immunity to most debuffs
 		Vastly Increased Life Regeneration, increasing even more if standing still
 		[c/7D0A0A:'Preserved heart of an extinct monster, it bolsters the bearer's fortitude.']
-		'''
-}
-
-DragonLance: {
-	DisplayName: Dragon Lance
-	Tooltip:
-		'''
-		+3% Ranged Attack Speed
-		+5% Ranged Damage
-		Increases block placement range by 1
-		[c/D4816E:'The forward charge of the wyvern host grants no quarter.']
 		'''
 }
 
@@ -238,15 +205,17 @@ Crown: {
 		'''
 }
 
+// {$Common.ChanceDamageBlock@3}
 CrimsonGuard: {
 	DisplayName: Crimson Guard
 	Tooltip:
 		'''
-		Increased Maximum Life by 80
-		Greatly Increased Life Regeneration
-		Enemies are more likely to target you
-		Grants immunity to knockback
-		Absorbs 25% of damage done to players on your team when above 25% life
+		Increased Maximum Life by {0}
+		+{1} HP/s Life Regen
+		Increased Aggro by {2}
+		{$Common.KnockbackImmunity}
+		{$Common.ChanceDamageReduce@3}{4}
+		{$Common.PaladinShield@5}
 		[c/7D411A:'A cuirass originally built to protect against the dreaded Year Beast.']
 		'''
 }
@@ -482,7 +451,7 @@ SacrosanctAegis: {
 		Grants immunity to both knockback and debuffs
 		Vastly Increased Life Regeneration, increasing even more if standing still
 		Enemies are much more likely to target you
-		Absorbs 25% of damage done to players on your team when above 25% life
+		{$Common.PaladinShield}
 		'''
 }
 
@@ -501,17 +470,17 @@ GauntletOfAghanim: {
 
 ElvenQuiver: {
 	DisplayName: Elven Quiver
-	Tooltip: Increases arrow damage by 3 and slightly increases arrow speed
+	Tooltip: Increases arrow damage by {0} and slightly increases arrow speed
 }
 
 EnchantedQuiver: {
 	DisplayName: Enchanted Quiver
 	Tooltip:
 		'''
-		+10% Ranged Critical Strike Chance and Attack Speed
-		Increases arrow damage by 15% and greatly increases arrow speed
-		Every 3rd bow shot, fire an enchanted arrow that splits into 3 as it travels
-		20% chance to not consume arrows
+		+{0}% Ranged Critical Strike Chance and Attack Speed
+		Increases arrow damage by {1}% and greatly increases arrow speed
+		Every {2} bow shots, fire an enchanted arrow that splits into {3} as it travels
+		{$Common.MagicQuiver}
 		'''
 }
 
@@ -521,10 +490,10 @@ ScavVest: {
 	NameGFB: Scat Vest
 	Tooltip:
 		'''
-		+8% Movement Speed
-		6% Chance to not consume ammo
-		Increases fishing power by 5
-		Fishing rods shoot 2 extra lures
+		+{0}% Movement Speed
+		{1}% Chance to not consume ammo
+		Increases fishing power by {2}
+		Fishing rods shoot {3} extra lures
 		[c/5FA656:'tigz tigz and matthias's head explodes']
 		'''
 }

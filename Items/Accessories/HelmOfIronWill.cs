@@ -1,7 +1,8 @@
 ﻿using MogMod.Items.Global;
-using System;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -9,6 +10,10 @@ namespace MogMod.Items.Accessories
     public class HelmOfIronWill : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const int DefenseBoost = 1;
+        public const int LifeRegenBoost = 2;
+        public const int MaxLifeBoost = 20;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MaxLifeBoost, LifeRegenBoost.ToRegenPerSecond());
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -16,13 +21,12 @@ namespace MogMod.Items.Accessories
             Item.height = 42;
             Item.rare = ItemRarityID.Blue;
             Item.value = MogGlobalItem.RarityBlueBuyPrice;
-            Item.defense = 3;
+            Item.defense = DefenseBoost;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.lifeRegen += 2;
-            player.statLifeMax2 += 20;
+            player.lifeRegen += LifeRegenBoost;
+            player.statLifeMax2 += MaxLifeBoost;
         }
         public override void AddRecipes()
         {

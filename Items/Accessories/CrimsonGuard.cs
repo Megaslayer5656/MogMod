@@ -1,9 +1,10 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
-using MogMod.Items.Other;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -11,6 +12,14 @@ namespace MogMod.Items.Accessories
     public class CrimsonGuard : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const int DefenseBoost = 9;
+        public const int MaxLifeBoost = 50;
+        public const int LifeRegenBoost = 8;
+        public const int AggroBoost = 750;
+        public const float DamageBlockChance = 0.25f;
+        public const int SelfDamageReduction = 100;
+        public const float MinHealthReq = 0.25f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MaxLifeBoost, LifeRegenBoost.ToRegenPerSecond(), AggroBoost, DamageBlockChance.ToPercent(), SelfDamageReduction, MinHealthReq.ToPercent());
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -18,17 +27,17 @@ namespace MogMod.Items.Accessories
             Item.height = 42;
             Item.rare = ItemRarityID.Yellow;
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
-            Item.defense = 20;
+            Item.defense = DefenseBoost;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            player.statLifeMax2 += 80;
-            player.lifeRegen += 6;
+            MogPlayer mogPlayer = player.MogMod();
+            mogPlayer.wearingCrimsonGuard = true;
+            player.statLifeMax2 += MaxLifeBoost;
+            player.lifeRegen += LifeRegenBoost;
             player.noKnockback = true;
-            player.aggro += 1000;
-            if (player.statLife > player.statLifeMax2 * 0.25f)
+            player.aggro += AggroBoost;
+            if (player.statLife > player.statLifeMax2 * MinHealthReq)
             {
                 player.hasPaladinShield = true;
                 if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)

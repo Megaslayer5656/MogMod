@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.PotionBuffs;
+using MogMod.Common.MogModPlayer;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
@@ -12,7 +14,6 @@ namespace MogMod.Projectiles.MagicProjectiles
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
 
         private const float radius = 50f;
-
         public override void SetDefaults()
         {
             Projectile.width = 100;
@@ -26,7 +27,6 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.localNPCHitCooldown = -1;
             Projectile.DamageType = DamageClass.Magic;
         }
-
         public override void AI()
         {
             if (Projectile.timeLeft >= 8)
@@ -45,16 +45,25 @@ namespace MogMod.Projectiles.MagicProjectiles
                 }
             }
         }
-
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            Player player = Main.player[Projectile.owner];
+            if (target.type != NPCID.TargetDummy)
+            {
+                player.AddBuff(ModContent.BuffType<FierySoulStack>(), 1200);
+                MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+                mogPlayer.fierySoulLevel += 30;
+            }
             target.AddBuff(BuffID.Electrified, 420);
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
+            Player player = Main.player[Projectile.owner];
+            player.AddBuff(ModContent.BuffType<FierySoulStack>(), 1200);
+            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            mogPlayer.fierySoulLevel += 30;
             target.AddBuff(BuffID.Electrified, 420);
         }
-
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => MogModUtils.CircularHitboxCollision(Projectile.Center, radius, targetHitbox);
     }
 }

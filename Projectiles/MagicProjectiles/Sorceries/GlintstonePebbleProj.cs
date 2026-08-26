@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Classes;
+using MogMod.Common.Graphics;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,13 +17,14 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         public static Color Colour => new(171, 237, 255);
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Type] = 4;
-            ProjectileID.Sets.TrailingMode[Type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Type] = 30;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
         }
         public override void SetDefaults()
         {
             Projectile.width = 30;
             Projectile.height = 14;
+
             Projectile.friendly = true;
             Projectile.DamageType = SorceryDamageClass.Instance;
             Projectile.penetrate = 1;
@@ -60,9 +63,16 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Type], lightColor, 1);
-            Main.spriteBatch.SetBlendState(BlendState.Additive);
+            // draw trail
+            TrailDrawer trailDrawer = default;
+            trailDrawer.Draw(Projectile, "MagicMissile", Colour, Color.White);
+
+            Texture2D tex = TextureAssets.Projectile[Type].Value;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Color drawColor = Projectile.GetAlpha(lightColor);
+            Main.EntitySpriteDraw(tex, drawPosition, null, drawColor, Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
+            //MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Type], lightColor, 1);
+            Main.spriteBatch.SetBlendState(BlendState.Additive);
             Texture2D bloomTex = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/CircleGradient").Value;
             Main.EntitySpriteDraw(bloomTex, drawPosition, null, Colour * 0.5f, Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * 0.35f, SpriteEffects.None);
             Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);

@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories.NeutralItems
 {
+    [AutoloadEquip(EquipType.HandsOn)]
     public class DesperationCharm : NeutralItem
     {
         public int AdditiveDamageBonus = 100;

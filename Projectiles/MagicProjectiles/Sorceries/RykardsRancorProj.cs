@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Classes;
+using MogMod.Common.Graphics;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
@@ -20,14 +21,15 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.CultistIsResistantTo[Type] = true;
-            ProjectileID.Sets.TrailCacheLength[Type] = 6;
-            ProjectileID.Sets.TrailingMode[Type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Type] = 50;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
             Main.projFrames[Projectile.type] = NumAnimationFrames;
         }
         public override void SetDefaults()
         {
             Projectile.width = 28;
             Projectile.height = 26;
+
             Projectile.penetrate = 90;
             Projectile.timeLeft = 1800;
             Projectile.friendly = true;
@@ -43,7 +45,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             Time++;
             if (Time >= 40)
             {
-                MogModUtils.HomeInOnNPC(Projectile, true, 1500f, 3f, 40f);
+                MogModUtils.HomeInOnNPC(Projectile, true, 1500f, 7f, 30f, false);
                 if (Time % 40 == 0)
                 {
                     var source = Projectile.GetSource_FromThis();
@@ -61,16 +63,8 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             Main.dust[flameDust].fadeIn = 0.7f;
             Main.dust[flameDust].noGravity = true;
 
-            if (Projectile.velocity.X < 0f)
-            {
-                Projectile.spriteDirection = -1;
-                Projectile.rotation = (-Projectile.velocity).ToRotation();
-            }
-            else
-            {
-                Projectile.spriteDirection = 1;
-                Projectile.rotation = Projectile.velocity.ToRotation();
-            }
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            Projectile.spriteDirection = Projectile.direction;
 
             Projectile.frameCounter++;
             if (Projectile.frameCounter > AnimationFrameTime)
@@ -96,15 +90,20 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         }
         public override bool PreDraw(ref Color lightColor)
         {
+            // draw trail
+            TrailDrawer trailDrawer = default;
+            trailDrawer.Draw(Projectile, "FlameLash", Color.OrangeRed, Colour, 0.8f);
+
             // projectile animation
             Texture2D tex = TextureAssets.Projectile[Type].Value;
             Rectangle sourceRectangle = tex.Frame(1, Main.projFrames[Type], frameY: Projectile.frame);
             Vector2 origin = sourceRectangle.Size() / 2f;
             Color drawColor = Projectile.GetAlpha(lightColor);
-            SpriteEffects direction = Projectile.velocity.X < 0f ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            SpriteEffects direction = Projectile.spriteDirection == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None;
             Main.EntitySpriteDraw(tex,
                 Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY),
                 sourceRectangle, drawColor, Projectile.rotation, origin, Projectile.scale, direction, 0);
+
             // glow effect
             Main.spriteBatch.SetBlendState(BlendState.Additive);
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;

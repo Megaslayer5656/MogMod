@@ -5,6 +5,11 @@ RigInformation:
 	Only one rig may be equipped at a time
 	'''
 NeutralInformation: Can only be equipped in a neutral item slot
+KnockbackImmunity: Grants immunity to knockback
+PaladinShield: Absorbs 25% of damage done to players on your team when above {0}% life
+MagicQuiver: 20% chance to not consume arrows
+ChanceDamageReduce: "{0}% chance on getting hit to reduce incoming damage by "
+ChanceDamageBlock: "{0}% chance on getting hit to set incoming damage to 1"
 
 RecipeGroup: {
 	HardmodeAnvil: "{$LegacyMisc.37} Hardmode Anvil"

@@ -12,7 +12,6 @@ namespace MogMod.Common.Systems
         public static ModKeybind RefresherOrbKeybind { get; private set; }
         public static ModKeybind WandKeybind { get; private set; }
         public static ModKeybind MekansmKeybind { get; private set; }
-        public static ModKeybind ForceStaffKeybind { get; private set; }
         public static ModKeybind BladeMailKeybind { get; private set; }
         public static ModKeybind ShivasKeybind {  get; private set; }
         public static ModKeybind DragonInstallKeybind {  get; private set; }
@@ -35,7 +34,6 @@ namespace MogMod.Common.Systems
             #region Defensive/Mobility
             GlimmerCapeKeybind = KeybindLoader.RegisterKeybind(Mod, "GlimmerCape", "X");
             SatanicKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateSatanic", "X");
-            ForceStaffKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateForceStaff", "F");
             DragonInstallKeybind = KeybindLoader.RegisterKeybind(Mod, "DragonInstall", "F");
             #endregion
 
@@ -63,7 +61,6 @@ namespace MogMod.Common.Systems
             RefresherOrbKeybind = null;
             WandKeybind = null;
             MekansmKeybind = null;
-            ForceStaffKeybind = null;
             BladeMailKeybind = null;
             ShivasKeybind = null;
             DragonInstallKeybind = null;

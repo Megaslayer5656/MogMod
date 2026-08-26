@@ -88,7 +88,7 @@ namespace MogMod.Common.Config
         #region Gameplay
         [Header("Gameplay")]
         [BackgroundColor(192, 54, 82, 192)]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool EliteEnemySpawning { get; set; }
         #endregion
     }

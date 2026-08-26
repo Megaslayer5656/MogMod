@@ -1,9 +1,12 @@
 using log4net;
+using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Systems;
 using MogMod.Items.Weapons.Melee;
 using System.Drawing.Text;
 using System.IO;
 using System.Security.Cryptography.X509Certificates; // what could this possibly even do
+using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,6 +19,10 @@ namespace MogMod
         internal static ILog Log => Instance.Logger;
         public override void Load()
         {
+            GameShaders.Misc["MogMod:FlameLashRGB"] = new MiscShaderData(Main.VertexPixelShaderRef, "MagicMissile").UseProjectionMatrix(doUse: true);
+            GameShaders.Misc["MogMod:FlameLashRGB"].UseImage0(ModContent.Request<Texture2D>("MogMod/Assets/Textures/FlameLashRGB", ReLogic.Content.AssetRequestMode.ImmediateLoad));
+            GameShaders.Misc["MogMod:FlameLashRGB"].UseImage1("Images/Extra_189");
+            GameShaders.Misc["MogMod:FlameLashRGB"].UseImage2("Images/Extra_190");
         }
 
         public override void HandlePacket(BinaryReader reader, int whoAmI)

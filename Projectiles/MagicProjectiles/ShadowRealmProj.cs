@@ -1,11 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.PotionBuffs;
+using MogMod.Common.Graphics;
 using MogMod.Common.MogModPlayer;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,10 +17,11 @@ namespace MogMod.Projectiles.MagicProjectiles
     public class ShadowRealmProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.MagicProjectiles";
+        private bool hitEnemy = false;
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
         public override void SetDefaults()
         {
@@ -25,18 +29,32 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.alpha = 255;
-            Projectile.penetrate = 1;
             Projectile.timeLeft = 420;
             Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+            SoundEngine.PlaySound(SoundID.Item45, Projectile.Center);
+            Player player = Main.player[Projectile.owner];
+            var mogPlayer = Main.LocalPlayer.GetModPlayer<MogPlayer>();
+            if (mogPlayer.holdingThrowingShade)
+                player.ClearBuff(ModContent.BuffType<ShadowRealmBuff>());
         }
         public override void AI()
         {
             MogModUtils.HomeInOnNPC(Projectile, true, 600f, 13f, 10f);
-            if (Projectile.alpha > 0)
+            if (Projectile.alpha > 0 && !hitEnemy)
             {
                 Projectile.alpha -= 25;
-                if (Projectile.alpha < 0)
-                    Projectile.alpha = 0;
+                if (Projectile.alpha < 0) Projectile.alpha = 0;
+            }
+            if (hitEnemy)
+            {
+                Projectile.alpha += 35;
+                if (Projectile.alpha >= 255) Projectile.Kill();
             }
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.45f / 255f, (255 - Projectile.alpha) * 0.2f / 255f, (255 - Projectile.alpha) * 0.1f / 255f);
             for (int i = 0; i < 2; i++)
@@ -57,15 +75,11 @@ namespace MogMod.Projectiles.MagicProjectiles
                 Main.dust[fireDustSmol].velocity *= 0.25f;
                 Main.dust[fireDustSmol].velocity += Projectile.velocity * 0.5f;
             }
-            Projectile.rotation += 0.3f * (float)Projectile.direction;
+            Projectile.rotation = Projectile.velocity.ToRotation();
         }
-        public override void OnSpawn(IEntitySource source)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            SoundEngine.PlaySound(SoundID.Item45, Projectile.Center);
-            Player player = Main.player[Projectile.owner];
-            var mogPlayer = Main.LocalPlayer.GetModPlayer<MogPlayer>();
-            if (mogPlayer.holdingThrowingShade)
-                player.ClearBuff(ModContent.BuffType<ShadowRealmBuff>());
+            hitEnemy = true;
         }
         public override void OnKill(int timeLeft)
         {
@@ -94,6 +108,23 @@ namespace MogMod.Projectiles.MagicProjectiles
                 dusty = Dust.NewDust(Projectile.position, Projectile.width / numb, Projectile.height / numb, DustID.DemonTorch, 0f, 0f, 100, default, 2f);
                 Main.dust[dusty].velocity *= 1.1f;
             }
+        }
+        public override bool? CanDamage() => !hitEnemy;
+        public override bool PreDraw(ref Color lightColor)
+        {
+            TrailDrawer trailDrawer = default;
+            Color innerColor = new(76, 0, 198);
+            Color outerColor = new(215, 189, 255);
+            Color innerDrawColor = Projectile.GetAlpha(innerColor);
+            Color outerDrawColor = Projectile.GetAlpha(outerColor);
+            trailDrawer.Draw(Projectile, "MogMod:FlameLashRGB", outerDrawColor, innerDrawColor, 1.05f, 24f, 30f);
+
+            Texture2D texture = TextureAssets.Projectile[Type].Value;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Color drawColor = Projectile.GetAlpha(lightColor);
+            float rotation = MathHelper.PiOver2 - Main.GlobalTimeWrappedHourly * 2f;
+            Main.EntitySpriteDraw(texture, drawPosition, null, drawColor, -(rotation * Projectile.direction), texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
+            return false;
         }
     }
 }

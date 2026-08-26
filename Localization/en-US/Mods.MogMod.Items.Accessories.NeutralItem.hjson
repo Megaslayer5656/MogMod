@@ -66,9 +66,9 @@ WhisperOfTheDread: {
 	DisplayName: Whisper of the Dread
 	Tooltip:
 		'''
-		+12% Magic Damage
-		+12% Summon Damage
-		[c/BA2F2F:+15% Damage Taken]
+		+{0}% Magic Damage
+		+{1}% Summon Damage
+		[c/BA2F2F:+{2}% Damage Taken]
 		[c/C25B99:'The air that passes through this amulet makes a dreadful sound.']
 		'''
 }

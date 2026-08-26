@@ -798,6 +798,27 @@ namespace MogMod.Utilities
                 Main.EntitySpriteDraw(aura, drawStartInner, auraRec, innerColor * colorMult, auraRotation, auraOrigin, 0.3f + scaleMult * 0.5f, SpriteEffects.None, 0);
             }
         }
+        public static void DrawTrail(Projectile proj, Vector2 rotatableOffsetFromCenter, Color baseColor, Texture2D texture = null)
+        {
+            if (texture == null) texture = TextureAssets.MagicPixel.Value;
+            Vector2 vector = proj.Size / 2f;
+            Rectangle value2 = new(0, 0, 1, 1);
+            Vector2[] oldPos = proj.oldPos;
+            float[] oldRot = proj.oldRot;
+            int num = oldPos.Length;
+            for (int num2 = num - 1; num2 > 0; num2--)
+            {
+                if (!(oldPos[num2] == Vector2.Zero))
+                {
+                    Vector2 vector2 = oldPos[num2] + vector + rotatableOffsetFromCenter.RotatedBy(oldRot[num2]);
+                    Vector2 v = oldPos[num2 - 1] + vector + rotatableOffsetFromCenter.RotatedBy(oldRot[num2 - 1]) - vector2;
+                    float y = v.Length();
+                    float num3 = v.ToRotation();
+                    float num4 = Utils.Remap(num2, 0f, num, 1f, 0f);
+                    Main.EntitySpriteDraw(texture, vector2 - Main.screenPosition, value2, baseColor * num4, num3 + (float)Math.PI / 2f, new Vector2((float)value2.Width / 2f, value2.Height), new Vector2(4f, y), SpriteEffects.None);
+                }
+            }
+        }
         public static void ForceNetUpdate(this Projectile proj, bool ignoreCurrentNetSpam = true)
         {
             proj.netUpdate = true;

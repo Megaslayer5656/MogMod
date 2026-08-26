@@ -18,8 +18,8 @@ namespace MogMod.Projectiles.RangedProjectiles
         };
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
         public override void SetDefaults()
         {
@@ -61,8 +61,11 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
-            return false;
+            Vector2 drawPos = new(0f, 2f);
+            Color color = new(64, 47, 7);
+            MogModUtils.DrawTrail(Projectile, drawPos, color);
+            //MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return true;
         }
         public override void OnKill(int timeLeft)
         {

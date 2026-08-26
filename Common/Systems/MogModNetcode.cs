@@ -79,6 +79,20 @@ namespace MogMod.Common.Systems
                         MogModGlobalNPC.TrueStrikeFX(strikePos);
                         break;
 
+                    case MogModMessageType.DamageReducedTextSync:
+                        int damageReduceProcID = reader.ReadInt32();
+
+                        Player damageReduceProcPlayer = Main.player[damageReduceProcID];
+                        damageReduceProcPlayer.MogMod().DamageReducedFX(damageReduceProcPlayer);
+                        break;
+
+                    case MogModMessageType.DamageBlockedTextSync:
+                        int damageBlockProcID = reader.ReadInt32();
+
+                        Player damageBlockProcPlayer = Main.player[damageBlockProcID];
+                        damageBlockProcPlayer.MogMod().DamageBlockedFX(damageBlockProcPlayer);
+                        break;
+
                     case MogModMessageType.AddBloodFromItem:
                         {
                             int npcID = reader.ReadInt32();
@@ -271,6 +285,8 @@ namespace MogMod.Common.Systems
             ToxicProcTextSync,
             AddToxicFromItem,
             AddToxicFromProjectile,
+            DamageReducedTextSync,
+            DamageBlockedTextSync,
             ProjParrySync,
             MarkerProjSync,
             MarkerProjOutSync,

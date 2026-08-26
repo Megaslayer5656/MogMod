@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories.NeutralItems
 {
-    [AutoloadEquip(EquipType.HandsOn)]
+    [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
     public class DuelistGloves : NeutralItem
     {
         public const float AttackSpeedBoost = 0.07f;

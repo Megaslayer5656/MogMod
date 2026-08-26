@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Classes;
+using MogMod.Common.Graphics;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
@@ -93,6 +94,10 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         }
         public override bool PreDraw(ref Color lightColor)
         {
+            // draw trail
+            TrailDrawer trailDrawer = default;
+            trailDrawer.Draw(Projectile, "MagicMissile", Color.White, Colour);
+
             // projectile animation
             Texture2D tex = TextureAssets.Projectile[Type].Value;
             Rectangle sourceRectangle = tex.Frame(1, Main.projFrames[Type], frameY: Projectile.frame);

@@ -2,10 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.Debuffs;
 using MogMod.Common.Classes;
+using MogMod.Common.Graphics;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,13 +20,14 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.CultistIsResistantTo[Type] = true;
-            ProjectileID.Sets.TrailCacheLength[Type] = 4;
-            ProjectileID.Sets.TrailingMode[Type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Type] = 30;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
         }
         public override void SetDefaults()
         {
             Projectile.width = 30;
             Projectile.height = 26;
+
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.friendly = true;
@@ -57,16 +60,8 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             Main.dust[ghostflameDust].fadeIn = 0.7f;
             Main.dust[ghostflameDust].noGravity = true;
 
-            if (Projectile.velocity.X < 0f)
-            {
-                Projectile.spriteDirection = -1;
-                Projectile.rotation = (-Projectile.velocity).ToRotation();
-            }
-            else
-            {
-                Projectile.spriteDirection = 1;
-                Projectile.rotation = Projectile.velocity.ToRotation();
-            }
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            Projectile.spriteDirection = Projectile.direction;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<GhostflameDebuff>(), 240);
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<GhostflameDebuff>(), 240);
@@ -83,10 +78,19 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Type], lightColor, 1);
+            // draw trail
+            TrailDrawer trailDrawer = default;
+            trailDrawer.Draw(Projectile, "MogMod:FlameLashRGB", Color.White, Colour);
+
+            Texture2D tex = TextureAssets.Projectile[Type].Value;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Color drawColor = Projectile.GetAlpha(lightColor);
+            SpriteEffects direction = Projectile.spriteDirection == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None;
+            Main.EntitySpriteDraw(tex, drawPosition, null, drawColor, Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, direction);
+
+            //MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Type], lightColor, 1);
             Main.spriteBatch.SetBlendState(BlendState.Additive);
             Texture2D bloomTex = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/CircleGradient").Value;
-            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Main.EntitySpriteDraw(bloomTex, drawPosition, null, Colour * 0.5f, Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * 0.3f, SpriteEffects.None);
             Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;

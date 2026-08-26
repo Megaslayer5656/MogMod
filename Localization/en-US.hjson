@@ -38,6 +38,7 @@ Mods: {
 			BoulderClass.DisplayName: Boulder Class
 			MeleeRangedMagicDamageClass.DisplayName: Melee/Ranged/Magic Damage
 			MeleeMagicDamageClass.DisplayName: Melee/Magic Damage
+			MeleeRangedDamageClass.DisplayName: Melee/Ranged Damage
 			SorceryDamageClass.DisplayName: Sorcery Damage
 		}
 
@@ -385,7 +386,8 @@ Mods: {
 				TridentProj.DisplayName: Trident
 				TridentHomingProj.DisplayName: Trident
 				BloodExplosion.DisplayName: Blood Explosion
-				OverloadingOrbProj.DisplayName: Overloading Orb Proj
+				OverloadingOrbProj.DisplayName: Overloading Orb
+				HurricanePikeHoldout.DisplayName: Hurricane Pike
 			}
 
 			BossProjectiles: {

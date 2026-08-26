@@ -3,6 +3,7 @@ using MogMod.Items.Accessories.Boots;
 using MogMod.Items.Accessories.NeutralItems;
 using MogMod.Items.Placeable.MusicBoxes;
 using MogMod.Items.Placeable.Ores;
+using MogMod.Items.Weapons.Classless;
 using MogMod.Items.Weapons.Magic.SorceryStaves;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Utilities;
@@ -26,91 +27,125 @@ namespace MogMod.Items.Other
             {
                 case ItemID.WoodenCrate:
                     loot.Add(ItemDropRule.Common(ModContent.ItemType<CraftingRecipe>(), 3, 1, 3));
+
                     loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(20, 1,
                         ModContent.ItemType<BladesOfAttack>(),
                         ItemID.WandofSparking));
+
                     break;
 
                 case ItemID.WoodenCrateHard:
                     loot.Add(ItemDropRule.Common(ModContent.ItemType<CraftingRecipe>(), 3, 1, 3));
+
                     loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(20, 1,
                         ModContent.ItemType<BladesOfAttack>(),
                         ItemID.WandofSparking));
+
+                    /*
                     loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(50, 1,
                         ModContent.ItemType<VladmirsOffering>(),
                         ModContent.ItemType<ArmletOfMordiggian>()));
+                    */
+
                     break;
 
 
                 case ItemID.IronCrate:
                     postEvil.Add(ModContent.ItemType<FuciumOre>(), 6, 8, 14);
+
                     loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(20, 1,
                         ModContent.ItemType<BeltOfStrength>(),
                         ModContent.ItemType<AstrologersStaff>()));
+
                     break;
 
                 case ItemID.IronCrateHard:
                     loot.Add(ItemDropRule.Common(ModContent.ItemType<FuciumOre>(), 6, 12, 18));
+
                     loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(20, 1,
                         ModContent.ItemType<BeltOfStrength>(),
                         ModContent.ItemType<AstrologersStaff>()));
+
+                    /*
                     loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(50, 1,
                         ModContent.ItemType<DragonLance>(),
                         ModContent.ItemType<DrumOfEndurance>()));
+                    */
+
                     break;
 
 
                 case ItemID.GoldenCrate:
                     loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(50, 1,
                         ModContent.ItemType<BizarreMusicBox>()));
-                    postEvil.Add(ModContent.ItemType<BootsOfTravel>(), 50);
+
+                    //postEvil.Add(ModContent.ItemType<BootsOfTravel>(), 50);
+
                     break;
 
                 case ItemID.GoldenCrateHard:
                     loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(20, 1, ItemID.MedusaHead));
+
                     loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(50, 1,
-                        ModContent.ItemType<UltraBootsOfTravel>(),
+                        //ModContent.ItemType<UltraBootsOfTravel>(),
                         ModContent.ItemType<BizarreMusicBox>()));
+
                     break;
 
 
                 case ItemID.FrozenCrate:
                     loot.Add(ItemDropRule.Common(ModContent.ItemType<FrigidShard>(), 5, 3, 5));
+
                     loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(20, 1,
                         ModContent.ItemType<FrozenSpear>(),
                         ItemID.WandofFrosting));
+
                     break;
 
                 case ItemID.FrozenCrateHard:
                     loot.Add(ItemDropRule.Common(ModContent.ItemType<FrigidShard>(), 5, 3, 5));
+
                     loot.Add(ItemDropRule.Common(ModContent.ItemType<FrigidCrystal>(), 7, 1, 3));
+
                     loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(20, 1,
                         ModContent.ItemType<FrozenSpear>(),
                         ItemID.WandofFrosting));
+
+                    /*
                     loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(50, 1,
                         ModContent.ItemType<GlimmerCape>()));
+                    */
+
                     break;
 
 
                 case ItemID.LavaCrate:
                     loot.Add(ItemDropRule.Common(ModContent.ItemType<VitalityBooster>(), 5, 1, 2));
+
                     postSkele.Add(ModContent.ItemType<GiantsMaul>(), 20);
+
                     break;
 
                 case ItemID.LavaCrateHard:
                     loot.Add(ItemDropRule.Common(ModContent.ItemType<VitalityBooster>(), 5, 1, 2));
+
                     postAllMech.Add(ModContent.ItemType<HellfireEssence>(), 7, 1, 3);
+
                     postSkele.Add(ModContent.ItemType<GiantsMaul>(), 20);
+
                     break;
 
 
                 case ItemID.HallowedFishingCrate:
                     postEoL.Add(ModContent.ItemType<FaeOre>(), 6, 8, 14);
+
                     break;
 
                 case ItemID.HallowedFishingCrateHard:
                     postEoL.Add(ModContent.ItemType<FaeOre>(), 6, 12, 18);
+
                     loot.Add(ItemDropRule.Common(ModContent.ItemType<PointBooster>(), 7));
+
                     break;
             }
         }

@@ -3,6 +3,7 @@ using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.Melee;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -19,6 +20,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.width = Item.height = 40;
 
             Item.damage = 150;
+            Item.crit = 31;
             Item.DamageType = DamageClass.Melee;
             Item.useTime = Item.useAnimation = 20;
             Item.shoot = ModContent.ProjectileType<ElysianSeraphProj>();
@@ -35,7 +37,6 @@ namespace MogMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Purple;
             Item.value = MogGlobalItem.RarityPurpleBuyPrice;
         }
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 31;
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2)
@@ -46,7 +47,7 @@ namespace MogMod.Items.Weapons.Melee
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             if (player.altFunctionUse == 2)
             {
                 mogPlayer.eSeraphCharge = 0;
@@ -65,7 +66,7 @@ namespace MogMod.Items.Weapons.Melee
         public override bool MeleePrefix() => true;
         public override bool AltFunctionUse(Player player)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             bool noActiveProj = player.ownedProjectileCounts[ModContent.ProjectileType<ElysianSeraphThrownProj>()] == 0;
             bool maxCharge = mogPlayer.eSeraphCharge >= mogPlayer.eSeraphMax;
             return noActiveProj && maxCharge;

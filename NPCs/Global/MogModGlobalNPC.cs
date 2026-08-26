@@ -1451,9 +1451,9 @@ namespace MogMod.NPCs.Global
         }
         public override void ModifyHitPlayer(NPC npc, Player target, ref Player.HurtModifiers modifiers)
         {
+            MogPlayer mogPlayer = target.MogMod();
             if (target.HasBuff(ModContent.BuffType<Parrying>()))
             {
-                MogPlayer mogPlayer = target.GetModPlayer<MogPlayer>();
                 mogPlayer.doParry(target, target.Center);
                 modifiers.Cancel();
 
@@ -1468,6 +1468,20 @@ namespace MogMod.NPCs.Global
                 npc.StrikeNPC(hitInfo); //Must use this instead of modifying the npc's life stat
                 NetMessage.SendStrikeNPC(npc, hitInfo);
             }
+
+            int addedDamage = 0;
+            if (mogPlayer.wearingVanguard && (Main.rand.NextFloat(0f, 1f) < Vanguard.DamageBlockChance))
+            {
+                mogPlayer.ApplyDamageReducedProc();
+                addedDamage -= Vanguard.SelfDamageReduction;
+            }
+            if (mogPlayer.wearingCrimsonGuard && (Main.rand.NextFloat(0f, 1f) < CrimsonGuard.DamageBlockChance))
+            {
+                mogPlayer.ApplyDamageReducedProc();
+                addedDamage -= CrimsonGuard.SelfDamageReduction;
+                //modifiers.Cancel();
+            }
+            modifiers.FinalDamage.Flat += addedDamage;
         }
 
         // lower defense from buffs (taken from example mod)

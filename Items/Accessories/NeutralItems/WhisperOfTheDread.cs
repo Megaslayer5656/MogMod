@@ -1,14 +1,19 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
-using MogMod.Items.Other;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories.NeutralItems
 {
     public class WhisperOfTheDread : NeutralItem
     {
+        public const float MagicDamageBoost = 0.12f;
+        public const float SummonDamageBoost = 0.12f;
+        public const float SelfDamageBoost = 0.15f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MagicDamageBoost.ToPercent(), SummonDamageBoost.ToPercent(), SelfDamageBoost.ToPercent());
         public override void SetStaticDefaults() => ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<PartisanBrand>();
         public override void SetDefaults()
         {
