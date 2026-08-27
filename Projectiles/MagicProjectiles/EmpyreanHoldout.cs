@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Utilities;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -31,6 +32,26 @@ namespace MogMod.Projectiles.MagicProjectiles
         public int windupAnim = 11;
         public int soundTimer = 0;
         public bool discharging = false;
+
+        // lifted from fargos, helps with multiplayer syncing
+        private int syncTimer;
+        private Vector2 mousePos;
+        public float turnSpeed = 0.12f;
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(mousePos.X);
+            writer.Write(mousePos.Y);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Vector2 buffer;
+            buffer.X = reader.ReadSingle();
+            buffer.Y = reader.ReadSingle();
+            if (Projectile.owner != Main.myPlayer)
+            {
+                mousePos = buffer;
+            }
+        }
         public override void SetDefaults()
         {
             Projectile.width = 52;
@@ -125,6 +146,52 @@ namespace MogMod.Projectiles.MagicProjectiles
         }
         private void UpdatePlayerVisuals()
         {
+
+            if (Owner.dead || !Owner.active)
+                Projectile.Kill();
+
+            Vector2 center = Owner.MountedCenter;
+
+            Projectile.Center = center;
+            Projectile.rotation = Projectile.velocity.ToRotation();
+
+            float extrarotate = Projectile.direction * Owner.gravDir < 0 ? MathHelper.Pi : 0;
+            float itemrotate = Projectile.direction < 0 ? MathHelper.Pi : 0;
+            Owner.itemRotation = Projectile.velocity.ToRotation() + itemrotate;
+            Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
+            Owner.ChangeDir(Projectile.direction);
+            Owner.heldProj = Projectile.whoAmI;
+            Owner.itemTime = 10;
+            Owner.itemAnimation = 10;
+
+            Vector2 HoldOffset = new Vector2(Projectile.width / 8, 0).RotatedBy(MathHelper.WrapAngle(Projectile.velocity.ToRotation()));
+
+            Projectile.Center += HoldOffset;
+            Projectile.spriteDirection = Projectile.direction * (int)Owner.gravDir;
+            Projectile.rotation -= extrarotate;
+
+            Projectile.velocity = Vector2.Lerp(Vector2.Normalize(Projectile.velocity),
+                Vector2.Normalize(mousePos - Owner.MountedCenter), turnSpeed); //slowly move towards direction of cursor
+            Projectile.velocity.Normalize();
+
+            if (Projectile.owner == Main.myPlayer)
+            {
+                mousePos = Main.MouseWorld;
+
+                if (++syncTimer > 20)
+                {
+                    syncTimer = 0;
+                    Projectile.netUpdate = true;
+                }
+            }
+            else
+            {
+                Projectile.Center += Projectile.velocity * 20;
+                return;
+            }
+
+
+            /*
             Projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
             Projectile.rotation = Projectile.AngleTo(Main.MouseWorld);
             Projectile.velocity = Projectile.rotation.ToRotationVector2();
@@ -137,6 +204,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             Owner.itemRotation = MiscUtils.WrapAngle90Degrees(Projectile.rotation);
             Projectile.rotation += MathHelper.PiOver4;
             if (Projectile.spriteDirection == -1) Projectile.rotation += MathHelper.PiOver2;
+            */
         }
         public override bool? CanDamage() => false;
         public override bool PreDraw(ref Color lightColor)
