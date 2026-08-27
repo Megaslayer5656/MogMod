@@ -208,7 +208,7 @@ namespace MogMod.Projectiles.BaseProjectiles
             // Non-owner clients use the synced rotation/direction to avoid jitter.
             if (Projectile.owner == Main.myPlayer)
             {
-                // 14NOV2024: Ozzatron: clamped mouse position unnecessary, only used for direction
+                // 14NOV2024: Ozzatron <-- pedofile: clamped mouse position unnecessary, only used for direction
                 // The vector between the player and the mouse, used for pointing the holdout.
                 Vector2 ownerToMouse = Owner.MogMod().mouseWorld - armPosition;
 

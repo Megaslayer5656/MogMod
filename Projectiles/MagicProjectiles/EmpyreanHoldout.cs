@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Items.Weapons.Magic;
+using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
 using System;
 using System.IO;
@@ -12,13 +13,13 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
-    public class EmpyreanHoldout : ModProjectile
+    public class EmpyreanHoldout : BaseHoldoutProjectile
     {
         public override LocalizedText DisplayName => MiscUtils.GetItemName<EmpyreanBombardment>();
         public override string Texture => "MogMod/Items/Weapons/Magic/EmpyreanBombardment";
-        private Player Owner => Main.player[Projectile.owner];
         public ref float Timer => ref Projectile.ai[0];
         public ref float ChargedTimer => ref Projectile.ai[1];
+        public override float RotationOffset => 45;
 
         public static readonly Color[] colorList =
         [
@@ -32,26 +33,6 @@ namespace MogMod.Projectiles.MagicProjectiles
         public int windupAnim = 11;
         public int soundTimer = 0;
         public bool discharging = false;
-
-        // lifted from fargos, helps with multiplayer syncing
-        private int syncTimer;
-        private Vector2 mousePos;
-        public float turnSpeed = 0.12f;
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(mousePos.X);
-            writer.Write(mousePos.Y);
-        }
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            Vector2 buffer;
-            buffer.X = reader.ReadSingle();
-            buffer.Y = reader.ReadSingle();
-            if (Projectile.owner != Main.myPlayer)
-            {
-                mousePos = buffer;
-            }
-        }
         public override void SetDefaults()
         {
             Projectile.width = 52;
@@ -62,19 +43,16 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.ignoreWater = true;
             Projectile.alpha = 255;
+
             Projectile.netImportant = true;
         }
-        public override void AI()
+        public override void HoldoutAI()
         {
             Timer++;
             if (Timer == 3) Projectile.alpha = 0;
             if (Timer % 2 == 0) soundTimer++;
             if (Timer > windupAnim && !Owner.CantUseHoldout()) if (windupAnim > 0) windupAnim--;
-            if (Owner.dead) // destroy the holdout if the player dies
-            {
-                Projectile.Kill();
-                return;
-            }
+
             int type = ModContent.ProjectileType<EmpyreanBombardmentProj>();
             float speed = 16f;
             bool canUseMana = Owner.CheckMana(Owner.HeldItem);
@@ -142,71 +120,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                     if (framesBetweenShots > 0) framesBetweenShots--;
                 }
             }
-            UpdatePlayerVisuals();
         }
-        private void UpdatePlayerVisuals()
-        {
-
-            if (Owner.dead || !Owner.active)
-                Projectile.Kill();
-
-            Vector2 center = Owner.MountedCenter;
-
-            Projectile.Center = center;
-            Projectile.rotation = Projectile.velocity.ToRotation();
-
-            float extrarotate = Projectile.direction * Owner.gravDir < 0 ? MathHelper.Pi : 0;
-            float itemrotate = Projectile.direction < 0 ? MathHelper.Pi : 0;
-            Owner.itemRotation = Projectile.velocity.ToRotation() + itemrotate;
-            Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
-            Owner.ChangeDir(Projectile.direction);
-            Owner.heldProj = Projectile.whoAmI;
-            Owner.itemTime = 10;
-            Owner.itemAnimation = 10;
-
-            Vector2 HoldOffset = new Vector2(Projectile.width / 8, 0).RotatedBy(MathHelper.WrapAngle(Projectile.velocity.ToRotation()));
-
-            Projectile.Center += HoldOffset;
-            Projectile.spriteDirection = Projectile.direction * (int)Owner.gravDir;
-            Projectile.rotation -= extrarotate;
-
-            Projectile.velocity = Vector2.Lerp(Vector2.Normalize(Projectile.velocity),
-                Vector2.Normalize(mousePos - Owner.MountedCenter), turnSpeed); //slowly move towards direction of cursor
-            Projectile.velocity.Normalize();
-
-            if (Projectile.owner == Main.myPlayer)
-            {
-                mousePos = Main.MouseWorld;
-
-                if (++syncTimer > 20)
-                {
-                    syncTimer = 0;
-                    Projectile.netUpdate = true;
-                }
-            }
-            else
-            {
-                Projectile.Center += Projectile.velocity * 20;
-                return;
-            }
-
-
-            /*
-            Projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-            Projectile.rotation = Projectile.AngleTo(Main.MouseWorld);
-            Projectile.velocity = Projectile.rotation.ToRotationVector2();
-            Projectile.Center += Projectile.rotation.ToRotationVector2() * 30f;
-            Projectile.direction = Projectile.spriteDirection = (Math.Cos(Projectile.rotation) > 0).ToDirectionInt();
-            Owner.ChangeDir(Projectile.direction);
-            Owner.heldProj = Projectile.whoAmI;
-            Owner.itemTime = 2;
-            Owner.itemAnimation = 2;
-            Owner.itemRotation = MiscUtils.WrapAngle90Degrees(Projectile.rotation);
-            Projectile.rotation += MathHelper.PiOver4;
-            if (Projectile.spriteDirection == -1) Projectile.rotation += MathHelper.PiOver2;
-            */
-        }
-        public override bool? CanDamage() => false;
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/EmpyreanGhost").Value;

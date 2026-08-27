@@ -37,6 +37,9 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override void HoldoutAI()
         {
+            if (Owner.MogMod().lasOverheat == 0) if (Main.mouseLeft) ShootTimer++;
+            else ShootTimer = 0;
+
             var attackSpeed = Main.player[Projectile.owner].GetTotalAttackSpeed(Projectile.DamageType);
             float cap = 5f;
             if (attackSpeed > cap) attackSpeed = cap;
@@ -103,7 +106,6 @@ namespace MogMod.Projectiles.RangedProjectiles
                 smoke.color = Color.Lerp(Color.Goldenrod, Color.DarkGray, MathF.Abs(MathF.Sin(Owner.MogMod().hellfireOverheat * MathHelper.Pi / 30f)));
                 if (Main.rand.NextBool(4)) smoke.scale *= 1.2f;
             }
-            if (Owner.MogMod().lasOverheat == 0) if (Main.mouseLeft) ShootTimer++;
         }
         public override void OnSpawn(IEntitySource source)
         {

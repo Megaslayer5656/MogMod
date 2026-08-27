@@ -30,11 +30,12 @@ namespace MogMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.shoot = ModContent.ProjectileType<EmpyreanHoldout>();
             Item.shootSpeed = 2f;
+            Item.ArmorPenetration = 40;
+
             Item.noMelee = true;
             Item.channel = true;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
-            Item.ArmorPenetration = 40;
 
             Item.rare = ItemRarityID.Red;
             Item.value = MogGlobalItem.RarityRedBuyPrice;
