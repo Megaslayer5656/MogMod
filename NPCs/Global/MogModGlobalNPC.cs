@@ -428,8 +428,8 @@ namespace MogMod.NPCs.Global
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
             #region Setup
-            MogGlobalItem globalItem = item.GetGlobalItem<MogGlobalItem>();
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogGlobalItem globalItem = item.MogMod();
+            MogPlayer mogPlayer = player.MogMod();
             if (Main.netMode != NetmodeID.SinglePlayer)
             {
                 if (item.MogMod().bloodDamage > 0)
@@ -650,7 +650,7 @@ namespace MogMod.NPCs.Global
         }
         public static void SpawnMarkerProjectile(NPC target, Player player, Item item, Vector2 velocity, float rotation)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             if (target.type == NPCID.TargetDummy) return;
             if (mogPlayer.markerProjOut) return;
 
@@ -674,7 +674,7 @@ namespace MogMod.NPCs.Global
                 }
             }
 
-            target.GetGlobalNPC<MogModGlobalNPC>().markedByMarker = true;
+            target.MogMod().markedByMarker = true;
         }
         #region Effects
         #region Blood
@@ -970,7 +970,7 @@ namespace MogMod.NPCs.Global
         public override void OnKill(NPC npc)
         {
             Player player = Main.LocalPlayer;
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             void MechLoot()
             {
                 // downed one mech

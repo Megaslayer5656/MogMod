@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Items.Tools;
+using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
 using System;
 using Terraria;
@@ -11,12 +12,14 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.Tools
 {
-    public class ForceStaffHoldout : ModProjectile
+    public class ForceStaffHoldout : BaseHoldoutProjectile
     {
         public override LocalizedText DisplayName => MiscUtils.GetItemName<ForceStaff>();
         public override string Texture => "MogMod/Items/Tools/ForceStaff";
+        public override float RotationOffset => 45;
+        public override float HoldoutOffset => Projectile.width / 3;
+        public override float TurnSpeed => 0.25f;
         public static readonly SoundStyle ActivateSound = new($"{nameof(MogMod)}/Sounds/SE/ForceStaffActivate") { Volume = 0.2f, PitchVariance = 0.2f, MaxInstances = 1 };
-        private Player Owner => Main.player[Projectile.owner];
         public ref float Timer => ref Projectile.ai[0];
         public ref float DashTimer => ref Projectile.ai[1];
         public Color Color1 = ForceStaff.MainColor1;
@@ -36,15 +39,11 @@ namespace MogMod.Projectiles.Tools
             Projectile.alpha = 255;
             Projectile.netImportant = true;
         }
-        public override void AI()
+        public override void HoldoutAI()
         {
             if (Timer < maxChargeTime) Timer++;
             if (Timer == 3) Projectile.alpha = 0;
-            if (Owner.dead) // destroy the holdout if the player dies
-            {
-                Projectile.Kill();
-                return;
-            }
+
             if (Owner.CantUseHoldout() || launchedPlayer)
             {
                 if (Timer > minChargeTime)
@@ -112,6 +111,9 @@ namespace MogMod.Projectiles.Tools
                 Projectile.timeLeft = 2;
                 if (Timer >= maxChargeTime)
                 {
+                    float shakeValue = 0.4f;
+                    Vector2 shakePos = new(Main.rand.NextFloat(-shakeValue, shakeValue), Main.rand.NextFloat(-shakeValue, shakeValue));
+                    Projectile.position += shakePos;
                     if (!fullCharge)
                     { 
                         SoundEngine.PlaySound(SoundID.DD2_PhantomPhoenixShot with { Pitch = 0.15f }, Projectile.Center);
@@ -119,34 +121,17 @@ namespace MogMod.Projectiles.Tools
                     }
                     for (int i = 0; i <= 2; i++)
                     {
-                        Dust dust2 = Dust.NewDustPerfect(Owner.Center + Projectile.velocity * 65 + Main.rand.NextVector2Circular(6, 6), Main.rand.NextBool(3) ? 263 : 247, (-Projectile.velocity * Main.rand.NextFloat(-0.25f, 0.25f)).RotatedByRandom(0.2f));
+                        Dust dust2 = Dust.NewDustPerfect(Owner.Center + Projectile.velocity * 62 + Main.rand.NextVector2Circular(6, 6), Main.rand.NextBool(3) ? 263 : 247, (-Projectile.velocity * Main.rand.NextFloat(-0.25f, 0.25f)).RotatedByRandom(0.2f));
                         dust2.noGravity = true;
                         dust2.scale = Main.rand.NextFloat(0.9f, 1.6f);
                         dust2.color = Main.rand.NextBool(3) ? Color2 : Color1;
                     }
                 }
             }
-            UpdatePlayerVisuals();
         }
-        private void UpdatePlayerVisuals()
+        public override void PreDrawBehind(ref Color lightColor)
         {
-            Projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-            Projectile.rotation = Projectile.AngleTo(Main.MouseWorld);
-            Projectile.velocity = Projectile.rotation.ToRotationVector2();
-            Projectile.Center += Projectile.rotation.ToRotationVector2() * 10f;
-            Projectile.direction = Projectile.spriteDirection = (Math.Cos(Projectile.rotation) > 0).ToDirectionInt();
-            Owner.ChangeDir(Projectile.direction);
-            Owner.heldProj = Projectile.whoAmI;
-            Owner.itemTime = 2;
-            Owner.itemAnimation = 2;
-            Owner.itemRotation = MiscUtils.WrapAngle90Degrees(Projectile.rotation);
-            Projectile.rotation += MathHelper.PiOver4;
-            if (Projectile.spriteDirection == -1) Projectile.rotation += MathHelper.PiOver2;
-        }
-        public override bool? CanDamage() => false;
-        public override bool PreDraw(ref Color lightColor)
-        {
-            if (Timer < minChargeTime) return true;
+            if (Timer < minChargeTime) return;
             Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Projectiles/Tools/ForceStaffGhost").Value;
             float drawSpeed = MathF.Sin(Main.GlobalTimeWrappedHourly * (Timer / 100)) * 0.5f + 0.5f;
             float outlineWidth = Timer / 150;
@@ -160,11 +145,10 @@ namespace MogMod.Projectiles.Tools
                     Projectile.rotation,
                     ghost.Size() * 0.5f,
                     Projectile.scale,
-                    Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                    Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically,
                     0
                 );
             }
-            return true;
         }
     }
 }

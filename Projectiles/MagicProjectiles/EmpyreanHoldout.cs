@@ -4,7 +4,6 @@ using MogMod.Items.Weapons.Magic;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
 using System;
-using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -17,10 +16,12 @@ namespace MogMod.Projectiles.MagicProjectiles
     {
         public override LocalizedText DisplayName => MiscUtils.GetItemName<EmpyreanBombardment>();
         public override string Texture => "MogMod/Items/Weapons/Magic/EmpyreanBombardment";
+        public override float RotationOffset => 45;
+        public override float HoldoutOffset => Projectile.width / 2;
+        public override float TurnSpeed => 0.2f;
+        public override int HoldoutHandling => HoldoutStyle.Floaty;
         public ref float Timer => ref Projectile.ai[0];
         public ref float ChargedTimer => ref Projectile.ai[1];
-        public override float RotationOffset => 45;
-
         public static readonly Color[] colorList =
         [
             new Color(255, 249, 59), // yellow
@@ -64,6 +65,9 @@ namespace MogMod.Projectiles.MagicProjectiles
                 discharging = true;
                 if (fullCharge && fullChargedShots > 0)
                 {
+                    float shakeValue = 1.2f;
+                    Vector2 shakePos = new(Main.rand.NextFloat(-shakeValue, shakeValue), Main.rand.NextFloat(-shakeValue, shakeValue));
+                    Projectile.position += shakePos;
                     Owner.channel = true;
                     Projectile.timeLeft = 2;
                     if (Timer % 2 == 0)
@@ -100,6 +104,9 @@ namespace MogMod.Projectiles.MagicProjectiles
                 Projectile.timeLeft = 2;
                 if (Timer > 90)
                 {
+                    float shakeValue = 0.6f;
+                    Vector2 shakePos = new(Main.rand.NextFloat(-shakeValue, shakeValue), Main.rand.NextFloat(-shakeValue, shakeValue));
+                    Projectile.position += shakePos;
                     fullCharge = true;
                     if (framesBetweenShots == 0)
                     {
@@ -121,7 +128,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 }
             }
         }
-        public override bool PreDraw(ref Color lightColor)
+        public override void PreDrawBehind(ref Color lightColor)
         {
             Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/EmpyreanGhost").Value;
             float drawSpeed = discharging ? MathF.Sin(Main.GlobalTimeWrappedHourly * 8) * 0.5f + 0.5f : MathF.Sin(Main.GlobalTimeWrappedHourly * 4) * 0.5f + 0.5f;
@@ -136,11 +143,10 @@ namespace MogMod.Projectiles.MagicProjectiles
                     Projectile.rotation,
                     ghost.Size() * 0.5f,
                     Projectile.scale,
-                    Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                    Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically,
                     0
                 );
             }
-            return true;
         }
     }
 }

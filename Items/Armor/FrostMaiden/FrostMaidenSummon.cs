@@ -49,7 +49,7 @@ namespace MogMod.Items.Armor.FrostMaiden
         #region Armor Stat Changes
         public override void UpdateArmorSet(Player player)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             mogPlayer.wearingFrostArmor = true;
             mogPlayer.wearingFrostSummon = true;
             if (player.whoAmI == Main.myPlayer)

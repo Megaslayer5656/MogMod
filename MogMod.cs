@@ -20,9 +20,14 @@ namespace MogMod
         public override void Load()
         {
             GameShaders.Misc["MogMod:FlameLashRGB"] = new MiscShaderData(Main.VertexPixelShaderRef, "MagicMissile").UseProjectionMatrix(doUse: true);
-            GameShaders.Misc["MogMod:FlameLashRGB"].UseImage0(ModContent.Request<Texture2D>("MogMod/Assets/Textures/FlameLashRGB", ReLogic.Content.AssetRequestMode.ImmediateLoad));
+            GameShaders.Misc["MogMod:FlameLashRGB"].UseImage0(ModContent.Request<Texture2D>("MogMod/Assets/Trails/FlameLashRGB", ReLogic.Content.AssetRequestMode.ImmediateLoad));
             GameShaders.Misc["MogMod:FlameLashRGB"].UseImage1("Images/Extra_189");
             GameShaders.Misc["MogMod:FlameLashRGB"].UseImage2("Images/Extra_190");
+
+            GameShaders.Misc["MogMod:MagicMissileRGB"] = new MiscShaderData(Main.VertexPixelShaderRef, "MagicMissile").UseProjectionMatrix(doUse: true);
+            GameShaders.Misc["MogMod:MagicMissileRGB"].UseImage0(ModContent.Request<Texture2D>("MogMod/Assets/Trails/MagicMissileRGB", ReLogic.Content.AssetRequestMode.ImmediateLoad));
+            GameShaders.Misc["MogMod:MagicMissileRGB"].UseImage1("Images/Extra_194");
+            GameShaders.Misc["MogMod:MagicMissileRGB"].UseImage2("Images/Extra_193");
         }
 
         public override void HandlePacket(BinaryReader reader, int whoAmI)

@@ -1,12 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Items.Weapons.Magic;
-using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
-using Mono.Cecil;
 using System;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,8 +12,9 @@ namespace MogMod.Projectiles.MagicProjectiles
     {
         public new string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/BaseStarProj";
-        public int StarColorType = Main.rand.Next(0, 3);
+        public int StarColorType;
         public Color StarColor;
+        public bool initialized = false;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.MinionShot[Type] = true;
@@ -39,24 +36,23 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.timeLeft = 280;
             Projectile.extraUpdates = 1;
         }
-        public override void OnSpawn(IEntitySource source)
-        {
-            SoundEngine.PlaySound(SoundID.Item105 with { MaxInstances = -1, Volume = 0.7f }, Projectile.Center);
-            switch (StarColorType)
-            {
-                case 0:
-                    StarColor = new Color(255, 249, 59);
-                    break;
-                case 1:
-                    StarColor = new Color(247, 119, 224);
-                    break;
-                case 2:
-                    StarColor = new Color(40, 105, 240);
-                    break;
-            }
-        }
         public override void AI()
         {
+            // done here instead of in OnSpawn() since it doesnt get called in multiplayer
+            if (!initialized)
+            {
+                int type = Main.rand.Next(3);
+                StarColorType = type;
+                StarColor = type switch
+                {
+                    0 => new Color(255, 249, 59),
+                    1 => new Color(247, 119, 224),
+                    _ => new Color(40, 105, 240),
+                };
+                SoundEngine.PlaySound(SoundID.Item105 with { MaxInstances = -1, Volume = 0.7f }, Projectile.Center);
+                initialized = true;
+            }
+
             if (Projectile.timeLeft < 240) Projectile.tileCollide = true;
             if (Projectile.soundDelay == 0 && Projectile.ai[0] == 0f)
             {

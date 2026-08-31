@@ -3,58 +3,61 @@ using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.RangedProjectiles;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
 {
+    // TODO: change to holdout
     public class DreadsRetribution : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
+        public const int maxShots = 3;
+        public const int reloadTime = 60;
+        public const int ArmorPenetration = 20;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(maxShots * 2, reloadTime.FramesToSeconds(), ArmorPenetration);
         public override void SetDefaults()
         {
             Item.width = 72;
             Item.height = 36;
-            Item.damage = 70;
+
+            Item.damage = 140;
+            Item.knockBack = 3f;
+            Item.ArmorPenetration = ArmorPenetration;
             Item.DamageType = DamageClass.Ranged;
-            Item.useTime = 7;
-            Item.useAnimation = 21;
-            Item.useLimitPerAnimation = 3;
-            Item.reuseDelay = Item.useAnimation - 6;
+
+            Item.useTime = Item.useAnimation = 12;
             Item.useStyle = ItemUseStyleID.Shoot;
+
+            Item.useAmmo = AmmoID.Arrow;
+            Item.shoot = ModContent.ProjectileType<DreadsRetributionHoldout>();
+            Item.shootSpeed = 3f;
+
             Item.noMelee = true;
-            Item.knockBack = 2f;
+            Item.channel = true;
+            Item.UseSound = null;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+
             Item.rare = ItemRarityID.Cyan;
             Item.value = MogGlobalItem.RarityCyanBuyPrice;
-            Item.UseSound = SoundID.Item5;
-            Item.autoReuse = true;
-            Item.shoot = ProjectileID.PurificationPowder;
-            Item.shootSpeed = 12f;
-            Item.useAmmo = AmmoID.Arrow;
-            Item.ArmorPenetration = 20;
         }
+        public override bool RangedPrefix() => true;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float tenthPi = 0.314159274f;
-            Vector2 arrowVel = velocity;
-            arrowVel.Normalize();
-            arrowVel *= 50f;
-            bool arrowHitsTiles = Collision.CanHit(vector2, 0, 0, vector2 + arrowVel, 0, 0);
-            for (int i = 0; i < 2; i++)
-            {
-                float piOffsetValue = (float)i - .4f;
-                Vector2 offsetSpawn = arrowVel.RotatedBy((double)(tenthPi * piOffsetValue), default);
-                if (!arrowHitsTiles)
-                {
-                    offsetSpawn -= arrowVel;
-                }
-                int arrowSpawn = Projectile.NewProjectile(source, vector2.X + offsetSpawn.X, vector2.Y + offsetSpawn.Y, velocity.X, velocity.Y, ModContent.ProjectileType<DreadsProj>(), damage, knockback, player.whoAmI);
-                Main.projectile[arrowSpawn].noDropItem = true;
-            }
+            Projectile holdout = Projectile.NewProjectileDirect(source, position, velocity, Item.shoot, damage, knockback, player.whoAmI);
+            holdout.velocity = (player.MogMod().mouseWorld - player.MountedCenter).SafeNormalize(Vector2.Zero);
             return false;
+        }
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            Vector2 muzzleOffset = Vector2.Normalize(velocity) * 25f;
+            if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) position += muzzleOffset;
         }
         public override Vector2? HoldoutOffset() => new Vector2(-10f, 0f);
         public override void AddRecipes()

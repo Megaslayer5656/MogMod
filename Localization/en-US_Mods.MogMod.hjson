@@ -611,7 +611,9 @@ Items: {
 				DisplayName: Drow Ranger's Crossbow
 				Tooltip:
 					'''
-					Fires a burst of 3 freezing arrows
+					Fires a burst of {0} arrows that must be reloaded for {1} second(s) before use
+					Converts wooden arrows into freezing arrows
+					Ignores {2} points of enemy defense
 					[c/2B6082:'I walk alone, but the shadows are company enough.']
 					'''
 			}
@@ -620,8 +622,9 @@ Items: {
 				DisplayName: Dread's Retribution
 				Tooltip:
 					'''
-					Fires a barrage of freezing arrows
-					Ignores 20 points of enemy defense
+					Fires a barrage of {0} arrows that must be reloaded for {1} second(s) before use
+					Converts wooden arrows into freezing arrows
+					Ignores {2} points of enemy defense
 					[c/144C70:'I don't care who you are, we are all guilty of something.']
 					'''
 			}

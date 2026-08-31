@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
+using MogMod.Buffs.Summons;
+using MogMod.Common.Graphics;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
 using MogMod.Items.Accessories.Boots;
@@ -26,6 +28,7 @@ using MogMod.Projectiles.Classless;
 using MogMod.Projectiles.EnemyProjectiles;
 using MogMod.Projectiles.Melee;
 using MogMod.Projectiles.Pets;
+using MogMod.Projectiles.Summon;
 using MogMod.Utilities;
 using MogMod.World;
 using Mono.Cecil;
@@ -129,6 +132,7 @@ namespace MogMod.Common.MogModPlayer
         public bool polyluteVisual;
         public bool wearingRuntyHorseshoe;
         public bool wearingAllegianceWings;
+        public bool allegianceWingsVisual;
         public bool wearingSacrosanctAegis;
         public bool wearingSigmaCharm;
         public bool sigmaCharmVisual;
@@ -160,6 +164,12 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingChaosDice;
         public bool wearingVanguard;
         public bool wearingCrimsonGuard;
+        public bool wearingTravelBoots;
+        public bool travelBootsVisual;
+        public bool wearingUltraTravelBoots;
+        public bool ultraTravelBootsVisual;
+        public bool wearingLunarBoots;
+        public bool lunarBootsVisual;
 
         public float ammoCost = 1f;
 
@@ -315,6 +325,9 @@ namespace MogMod.Common.MogModPlayer
 
         public int hellfireOverheat = 0;
         public int lasOverheat = 0;
+
+        public int mosinShots = 0;
+        public int axmcShots = 0;
 
         //public float maxShotsMult = 1f;
         //public float reloadTimeMult = 1f;
@@ -966,7 +979,6 @@ namespace MogMod.Common.MogModPlayer
         }
 
         #region Miscelanious Effects (spelt right)
-
         public override void PreUpdate()
         {
             if (infiniteFlight)
@@ -1003,6 +1015,7 @@ namespace MogMod.Common.MogModPlayer
         }
         public override void PreUpdateMovement()
         {
+            if (Main.myPlayer != Player.whoAmI) return;
             #region Fae Dash
             // if the player can use our dash, has double tapped in a direction, and our dash isn't currently on cooldown
             if (wearingFaeArmor)
@@ -1702,6 +1715,7 @@ namespace MogMod.Common.MogModPlayer
         {
             if (drawInfo.shadow != 0f || Player.dead)
                 return;
+
             if (divineDebuff)
                 DivineMightDebuff.DrawEffects(drawInfo);
             if (skadiDebuff)
@@ -1912,7 +1926,6 @@ namespace MogMod.Common.MogModPlayer
                 }
             }
         }
-
         public override void MeleeEffects(Item item, Rectangle hitbox)
         {
             if (item.CountsAsClass<MeleeDamageClass>())
@@ -2527,6 +2540,7 @@ namespace MogMod.Common.MogModPlayer
             polyluteVisual = false;
             wearingRuntyHorseshoe = false;
             wearingAllegianceWings = false;
+            allegianceWingsVisual = false;
             wearingSacrosanctAegis = false;
             wearingSigmaCharm = false;
             sigmaCharmVisual = false;
@@ -2551,6 +2565,12 @@ namespace MogMod.Common.MogModPlayer
             wearingChaosDice = false;
             wearingVanguard = false;
             wearingCrimsonGuard = false;
+            wearingTravelBoots = false;
+            travelBootsVisual = false;
+            wearingUltraTravelBoots = false;
+            ultraTravelBootsVisual = false;
+            wearingLunarBoots = false;
+            lunarBootsVisual = false;
             //stopFallDamage = false;
 
 

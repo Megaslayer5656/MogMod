@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using System.Runtime.InteropServices;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Graphics;
 using Terraria.Graphics.Shaders;
 
@@ -30,6 +32,7 @@ public struct TrailDrawer
     /// <param name="maxLength">The maximum length the trail must be.</param>
     public void Draw(Projectile proj, string gameShaderName, Color outerColor, Color innerColor, float stripDivider = 1f, float minLength = 16f, float maxLength = 24f)
     {
+        Player Owner = Main.player[proj.owner];
         transitToDark = Utils.GetLerpValue(0f, 6f, proj.localAI[0], clamped: true);
         _trailColor1 = innerColor;
         _trailColor2 = outerColor;

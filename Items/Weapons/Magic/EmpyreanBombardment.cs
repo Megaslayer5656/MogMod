@@ -2,10 +2,8 @@
 using MogMod.Items.Global;
 using MogMod.Projectiles.MagicProjectiles;
 using System.Linq;
-using MogMod.Utilities;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,7 +14,6 @@ namespace MogMod.Items.Weapons.Magic
         public new string LocalizationCategory => "Items.Weapons.Magic";
         public static int MaxStars = 8;
         public static int MaxBarrageStars = 50;
-        //public override void SetStaticDefaults() => Item.staff[Item.type] = true; // not required since its a holdout
         public override void SetDefaults()
         {
             Item.width = 52;
@@ -39,13 +36,6 @@ namespace MogMod.Items.Weapons.Magic
 
             Item.rare = ItemRarityID.Red;
             Item.value = MogGlobalItem.RarityRedBuyPrice;
-        }
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            Projectile holdout = Projectile.NewProjectileDirect(source, position, velocity, Item.shoot, damage, knockback, player.whoAmI);
-            holdout.velocity = (player.MogMod().mouseWorld - player.MountedCenter).SafeNormalize(Vector2.Zero);
-            return false;
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {

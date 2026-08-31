@@ -21,6 +21,19 @@ namespace MogMod.Projectiles.BaseProjectiles
         /// </summary>
         public int swingNum = 0;
 
+        public override void CopyClientState(ModPlayer targetCopy)
+        {
+            BaseSwordHoldoutPlayer clone = (BaseSwordHoldoutPlayer)targetCopy;
+            clone.swingNum = swingNum;
+        }
+        public override void SendClientChanges(ModPlayer clientPlayer)
+        {
+            BaseSwordHoldoutPlayer clone = (BaseSwordHoldoutPlayer)clientPlayer;
+            if (swingNum != clone.swingNum)
+            {
+                SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
+            }
+        }
     }
     /// <summary>
     /// Manages all the required settings for custom sword holdouts done using BaseSwordHoldoutProjectile
@@ -170,6 +183,12 @@ namespace MogMod.Projectiles.BaseProjectiles
         public virtual float lineCollisionLength { get; set; } = 0;
 
         public virtual Color AfterImageColor { get; set; } = Color.White;
+        /// <summary>
+        /// Flips the sprite if set to true.
+        /// <br/> <b> Doesn't work for now.</b>
+        /// <br/> Defaults to <see langword="false"/>.
+        /// </summary>
+        public virtual bool FlipHoldoutSprite { get; set; } = false;
 
         #endregion
 
@@ -218,6 +237,9 @@ namespace MogMod.Projectiles.BaseProjectiles
         public float CooldownCompletion => CooldownTimer / (float)CooldownTime;
 
         private bool hasFakedOnSpawn = false;
+
+        private int syncTimer;
+        private Vector2 mousePos;
 
         #endregion
 
@@ -276,8 +298,13 @@ namespace MogMod.Projectiles.BaseProjectiles
         private void FakeOnSpawn()
         {
             var player = Main.player[Projectile.owner];
-            if (ProjectilePosition != Vector2.Zero) angle = (ProjectilePosition - player.MogMod().mouseWorld).SafeNormalize(Vector2.One);
-            else angle = (player.MountedCenter - player.MogMod().mouseWorld).SafeNormalize(Vector2.One);
+            if (Projectile.owner == Main.myPlayer)
+            {
+                mousePos = Main.MouseWorld;
+                Projectile.netUpdate = true;
+            }
+            if (ProjectilePosition != Vector2.Zero) angle = (ProjectilePosition - mousePos).SafeNormalize(Vector2.One);
+            else angle = (player.MountedCenter - mousePos).SafeNormalize(Vector2.One);
             Projectile.velocity = Vector2.Zero;
             if (angle.X < 0)
             {
@@ -344,6 +371,21 @@ namespace MogMod.Projectiles.BaseProjectiles
                 FakeOnSpawn();
                 hasFakedOnSpawn = true;
             }
+            if (Projectile.owner == Main.myPlayer)
+            {
+                mousePos = Main.MouseWorld;
+
+                if (++syncTimer > 2)
+                {
+                    syncTimer = 0;
+                    Projectile.netUpdate = true;
+                }
+            }
+            //else
+            //{
+            //    Projectile.Center += Projectile.velocity * 20;
+            //    return;
+            //}
             var player = Main.player[Projectile.owner];
             Projectile.gfxOffY = player.gfxOffY;
             player.MogMod().mouseWorldListener = true;
@@ -353,9 +395,9 @@ namespace MogMod.Projectiles.BaseProjectiles
             if (timer < StartupTime || timer > StartupTime + swingTime)
             {
                 if (inStartup)
-                    angle = Vector2.Lerp(angle, (position - player.MogMod().mouseWorld).SafeNormalize(Vector2.One), RotateInStartup);
+                    angle = Vector2.Lerp(angle, (position - mousePos).SafeNormalize(Vector2.One), RotateInStartup);
                 if (inCooldown)
-                    angle = Vector2.Lerp(angle, (position - player.MogMod().mouseWorld).SafeNormalize(Vector2.One), RotateInCooldown);
+                    angle = Vector2.Lerp(angle, (position - mousePos).SafeNormalize(Vector2.One), RotateInCooldown);
                 if (angle.X < 0)
                 {
                     if (ProjectilePosition == Vector2.Zero)
@@ -422,9 +464,9 @@ namespace MogMod.Projectiles.BaseProjectiles
         {
             var player = Main.player[Projectile.owner];
             var modplayer = player.GetModPlayer<BaseSwordHoldoutPlayer>();
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             if (AfterImageLength > 0)
             {
-                Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
                 for (int i = 0; i < oldProjectileRot.Count; i++)
                 {
                     var col = Projectile.Opacity * (i / (float)AfterImageLength) * 0.1f;
@@ -473,12 +515,24 @@ namespace MogMod.Projectiles.BaseProjectiles
         public override bool? CanDamage() => inSwing;
         public override void SendExtraAI(BinaryWriter writer)
         {
+            writer.WriteVector2(ProjectilePosition);
+            writer.WriteVector2(mousePos);
+            writer.Write(Projectile.rotation);
             writer.WriteVector2(angle);
             writer.Write((sbyte)Projectile.spriteDirection);
             //writer.Write(swingTimer);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+            ProjectilePosition = reader.ReadVector2();
+            Vector2 buffer;
+            buffer = reader.ReadVector2();
+            if (Projectile.owner != Main.myPlayer)
+            {
+                mousePos = buffer;
+            }
+
+            Projectile.rotation = reader.ReadSingle();
             angle = reader.ReadVector2();
             Projectile.spriteDirection = reader.ReadSByte();
             //swingTimer = reader.ReadInt32();

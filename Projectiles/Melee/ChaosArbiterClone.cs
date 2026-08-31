@@ -3,6 +3,7 @@ using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -18,7 +19,8 @@ namespace MogMod.Projectiles.Melee
         public Player Owner => Main.player[Projectile.owner];
         public Player clone;
         // How far the clone should move from the player
-        private Vector2 moveTo = Main.rand.NextVector2CircularEdge(175f, 175f);
+        private Vector2 moveTo;
+        public bool initialized = false;
         public override void SetDefaults()
         {
             Projectile.width = 20;
@@ -31,8 +33,26 @@ namespace MogMod.Projectiles.Melee
             Projectile.penetrate = -1;
             Projectile.timeLeft = ChaosArbiter.PhantomLifetime;
         }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.WriteVector2(moveTo);
+            //writer.WriteVector2(Projectile.position);
+            writer.WriteVector2(Projectile.Center);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            moveTo = reader.ReadVector2();
+            //Projectile.position = reader.ReadVector2();
+            Projectile.Center = reader.ReadVector2();
+        }
         public override void AI()
         {
+            if (!initialized)
+            {
+                moveTo = Main.rand.NextVector2CircularEdge(175f, 175f);
+                initialized = true;
+                Projectile.netUpdate = true;
+            }
             // kill minion if the player isn't holding chaos arbiter
             if (Owner.HeldItem.type != ModContent.ItemType<ChaosArbiter>() || !Owner.active || Owner.CCed || Owner == null)
             {
@@ -45,7 +65,10 @@ namespace MogMod.Projectiles.Melee
             Projectile.Center = Vector2.Lerp(Projectile.Center, Owner.Center + moveTo, 0.4f);
             // produce smoke during initial move
             if (Projectile.Distance(Owner.Center + moveTo) < 16)
-                Projectile.ai[2] = 1;
+            {
+                Projectile.ai[2]++;
+                //if (Projectile.ai[2] % 2 == 0) Projectile.netUpdate = true;
+            }
             if (Projectile.ai[2] == 0)
             {
                 int dustsplash = 0;
@@ -63,6 +86,7 @@ namespace MogMod.Projectiles.Melee
                 Projectile.ai[1] = 0;
                 Vector2 direction = Projectile.Center.DirectionTo(Main.MouseWorld);
                 Projectile.direction = Math.Sign(direction.X);
+                Projectile.netUpdate = true;
                 // summon the sword holdout
                 if (Projectile.owner == Main.myPlayer && !clone.active)
                 {
@@ -111,10 +135,8 @@ namespace MogMod.Projectiles.Melee
             clone.UpdateDyes();
             clone.PlayerFrame();
             // copy the player's arm movements while swinging, otherwise idle
-            if (Owner.ItemAnimationActive && Owner.altFunctionUse != 2)
-                clone.bodyFrame = Owner.bodyFrame;
-            else
-                clone.bodyFrame.Y = 0;
+            if (Owner.ItemAnimationActive && Owner.altFunctionUse != 2) clone.bodyFrame = Owner.bodyFrame;
+            else clone.bodyFrame.Y = 0;
             // legs never jump or walk
             clone.legFrame.Y = 0;
             // face towards the player's cursor

@@ -1,5 +1,10 @@
-﻿using MogMod.Items.Global;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.Summons;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Projectiles.Classless;
+using MogMod.Projectiles.Summon;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,10 +39,23 @@ namespace MogMod.Items.Accessories.Boots
             player.noFallDmg = true; // Grants the player the Lucky Horseshoe effect of nullifying fall damage
             player.lavaRose = true; // Grants the Lava Rose effect
             player.lavaMax += 240; // Grants the player 4 additional seconds of lava immunity
+            player.MogMod().wearingUltraTravelBoots = true;
+            player.MogMod().ultraTravelBootsVisual = !hideVisual;
 
-
+            var type = ModContent.ProjectileType<BootsTrailShaderProj>();
             if (!hideVisual)
             {
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    var source = player.GetSource_ItemUse(Item);
+                    if (player.ownedProjectileCounts[type] < 1)
+                    {
+                        var p = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, type, 1, 0f, Main.myPlayer);
+                        p.active = true;
+                        //p.ai[2] = 2f; // ultra boots of travel
+                    }
+                }
+
                 player.CancelAllBootRunVisualEffects();
 
                 // Hellfire Treads sprint dust. For more info on sprint dusts see Player.SpawnFastRunParticles() method in Player.cs

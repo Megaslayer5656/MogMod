@@ -108,6 +108,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         public int defExtraUpdates = -1;
         public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
         {
+            base.SendExtraAI(projectile, bitWriter, binaryWriter);
             SendBloodAI(projectile, bitWriter, binaryWriter);
             binaryWriter.Write(overloadingProj);
             binaryWriter.Write(fireProj);
@@ -128,6 +129,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         }
         public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
         {
+            base.ReceiveExtraAI(projectile, bitReader, binaryReader);
             ReceiveBloodAI(projectile, bitReader, binaryReader);
             overloadingProj = binaryReader.ReadBoolean();
             fireProj = binaryReader.ReadBoolean();
@@ -149,7 +151,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         public override bool PreAI(Projectile projectile)
         {
             Player player = Main.player[projectile.owner];
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             // faster hook ai
             if (mogPlayer.wearingBoneArmor && projectile.aiStyle == ProjAIStyleID.Hook)
             {
@@ -162,7 +164,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         public override void AI(Projectile projectile)
         {
             Player player = Main.player[projectile.owner];
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             Time++;
             if (mogPlayer.wearingChaosDice) ultraCrit = Main.rand.NextBool(ChaosDice.UltraCritChance);
 
@@ -541,7 +543,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[projectile.owner];
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             if (mogPlayer.wearingDamascus1 && Main.zenithWorld)
                 modifiers.CritDamage *= DamascusHelm.GFBCritMult;
             else if (mogPlayer.wearingDamascus1)

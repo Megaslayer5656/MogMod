@@ -23,7 +23,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         public int NumAnimationFrames = 7;
         public int MaxPenetrate = 5;
         public bool HitTile = false;
-        public float MaxFlameTypes;
+        public float MaxFlameTypes = 0.07f;
         public Color FireColor;
         public override void SetStaticDefaults()
         {

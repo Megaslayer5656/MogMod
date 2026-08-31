@@ -388,6 +388,7 @@ Mods: {
 				BloodExplosion.DisplayName: Blood Explosion
 				OverloadingOrbProj.DisplayName: Overloading Orb
 				HurricanePikeHoldout.DisplayName: Hurricane Pike
+				BootsTrailShaderProj.DisplayName: Boots Trail Shader Proj
 			}
 
 			BossProjectiles: {

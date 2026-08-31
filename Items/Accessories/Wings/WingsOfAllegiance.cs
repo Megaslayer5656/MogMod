@@ -2,6 +2,7 @@
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Projectiles.Classless;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
@@ -28,23 +29,38 @@ namespace MogMod.Items.Accessories.Wings
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingAllegianceWings = true;
+            mogPlayer.allegianceWingsVisual = !hideVisual;
             player.moveSpeed += 0.2f;
             player.noFallDmg = true;
-            if (player.velocity.Y != 0f && !hideVisual)
+
+            var type = ModContent.ProjectileType<BootsTrailShaderProj>();
+            if (!hideVisual)
             {
-                int dustXOffset = 4;
-                if (player.direction == 1)
+                if (player.whoAmI == Main.myPlayer)
                 {
-                    dustXOffset = -40;
+                    var source = player.GetSource_ItemUse(Item);
+                    if (player.ownedProjectileCounts[type] < 1)
+                    {
+                        var p = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, type, 1, 0f, Main.myPlayer);
+                        p.active = true;
+                    }
                 }
-                int flightDust = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)dustXOffset, player.position.Y + (float)(player.height / 2) - 15f), 30, 30, DustID.PlatinumCoin, 0f, 0f, 100, default, 2.4f);
-                Main.dust[flightDust].noGravity = true;
-                Main.dust[flightDust].velocity *= 0.3f;
-                if (Main.rand.NextBool(10))
+                if (player.velocity.Y != 0f)
                 {
-                    Main.dust[flightDust].fadeIn = 2f;
+                    int dustXOffset = 4;
+                    if (player.direction == 1)
+                    {
+                        dustXOffset = -40;
+                    }
+                    int flightDust = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)dustXOffset, player.position.Y + (float)(player.height / 2) - 15f), 30, 30, DustID.PlatinumCoin, 0f, 0f, 100, default, 2.4f);
+                    Main.dust[flightDust].noGravity = true;
+                    Main.dust[flightDust].velocity *= 0.3f;
+                    if (Main.rand.NextBool(10))
+                    {
+                        Main.dust[flightDust].fadeIn = 2f;
+                    }
+                    Main.dust[flightDust].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
                 }
-                Main.dust[flightDust].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
         }
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)

@@ -22,7 +22,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         public static int Size => 80;
         public int NumAnimationFrames = 7;
         public int MaxPenetrate = 10;
-        public float MaxFlameTypes;
+        public float MaxFlameTypes = 0.07f;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;

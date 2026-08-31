@@ -1,4 +1,9 @@
-﻿using MogMod.Items.Global;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Buffs.Summons;
+using MogMod.Items.Global;
+using MogMod.Projectiles.Classless;
+using MogMod.Projectiles.Summon;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,8 +28,23 @@ namespace MogMod.Items.Accessories.Boots
             player.accRunSpeed = 10f;
             player.moveSpeed += .35f;
             player.noFallDmg = true; // Grants the player the Lucky Horseshoe effect of nullifying fall damage
+            player.MogMod().wearingTravelBoots = true;
+            player.MogMod().travelBootsVisual = !hideVisual;
+
+            var type = ModContent.ProjectileType<BootsTrailShaderProj>();
             if (!hideVisual)
             {
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    var source = player.GetSource_ItemUse(Item);
+                    if (player.ownedProjectileCounts[type] < 1)
+                    {
+                        //Main.NewText("summoning proj", Color.DarkSeaGreen);
+                        var p = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, type, 1, 0f, Main.myPlayer);
+                        p.active = true;
+                        //p.ai[2] = 1f; // boots of travel
+                    }
+                }
                 player.CancelAllBootRunVisualEffects(); // This ensures that boot visual effects don't overlap if multiple are equipped
             }
         }

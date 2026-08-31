@@ -17,6 +17,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         public static Color Colour => new(163, 218, 255);
         public int Length = 14;
         public int dust = 3;
+        public int deadTimer = 0;
         public override void SetStaticDefaults()
         {
             // required for texture drawing
@@ -36,9 +37,23 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         }
         public override void AI()
         {
+            // onspawn dust effect
+            dust--;
             Player player = Main.player[Projectile.owner];
             float dim = .012f * Projectile.scale;
             Lighting.AddLight(Projectile.Center, Colour.R * dim, Colour.G * dim, Colour.B * dim);
+
+            // if the players dead, shrink the orb, then delete it
+            if (player.dead)
+            {
+                deadTimer++;
+                float startScale = Projectile.scale;
+                float endScale = 0.0004f;
+                float chargeTime = 120f;
+                Projectile.scale = Utils.Remap(deadTimer, 0f, chargeTime, startScale, endScale);
+                if (Projectile.scale <= 0.0005f) Projectile.Kill();
+                return;
+            }
             // hover above the players head
             // makes it hover slightly ahead of the player (kinda jank though)
             //Vector2 pos = player.direction == 1 ? new(0f, 30f) : new(-30f, 0f);
@@ -46,11 +61,6 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             Vector2 playerPosition = player.Center + Vector2.UnitY * (player.gfxOffY - 30f);
             Projectile.Center = Vector2.Lerp(Projectile.Center, playerPosition, 0.1f);
 
-            // if the players dead, delete proj
-            if (player.dead)
-                Projectile.Kill();
-            // onspawn dust effect
-            dust--;
             if (dust >= 0)
             {
                 for (int i = 0; i < 30; i++)
