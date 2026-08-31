@@ -12,7 +12,6 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
 {
-    // TODO: change to holdout
     public class DreadsRetribution : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
@@ -65,7 +64,7 @@ namespace MogMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient<DrowRangersCrossbow>(1).
                 AddIngredient(ItemID.Tsunami, 1).
-                AddIngredient(4953). // eventide from empress
+                AddIngredient(ItemID.FairyQueenRangedItem).
                 AddIngredient<GriefBar>(5).
                 AddIngredient<FrigidCrystal>(3).
                 AddTile(TileID.MythrilAnvil).

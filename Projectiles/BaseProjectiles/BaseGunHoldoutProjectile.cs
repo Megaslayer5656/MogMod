@@ -79,7 +79,6 @@ namespace MogMod.Projectiles.BaseProjectiles
         /// The offset in the Y-axis of the holdout when the player's pointing downwards.
         /// </summary>
         public virtual float OffsetYDownwards { get; }
-
         #endregion
 
         #region Properties
@@ -208,7 +207,6 @@ namespace MogMod.Projectiles.BaseProjectiles
             // Non-owner clients use the synced rotation/direction to avoid jitter.
             if (Projectile.owner == Main.myPlayer)
             {
-                // 14NOV2024: Ozzatron <-- pedofile: clamped mouse position unnecessary, only used for direction
                 // The vector between the player and the mouse, used for pointing the holdout.
                 Vector2 ownerToMouse = Owner.MogMod().mouseWorld - armPosition;
 

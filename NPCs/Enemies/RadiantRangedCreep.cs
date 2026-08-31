@@ -180,6 +180,20 @@ namespace MogMod.NPCs.Enemies
             }
             return true;
         }
+        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
+        {
+            base.OnHitByItem(player, item, hit, damageDone);
+            Shooting = false;
+            NPC.ai[0] = 10f;
+            NPC.netUpdate = true;
+        }
+        public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
+        {
+            base.OnHitByProjectile(projectile, hit, damageDone);
+            Shooting = false;
+            NPC.ai[0] = 10f;
+            NPC.netUpdate = true;
+        }
         public override void FindFrame(int frameHeight)
         {
             // attack animation

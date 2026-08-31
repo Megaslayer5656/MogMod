@@ -83,19 +83,20 @@ namespace MogMod.NPCs.Enemies
                 NPC.TargetClosest(true);
             if (Main.rand.Next(0, 10) == 0)
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.SilverCoin, NPC.velocity.X * 0.1f, NPC.velocity.Y * 0.1f, 0, default, .75f);
-            if (NPC.WithinRange(player.Center, player.Size.Length() * 2f) && !player.dead)
+            if (AITimer < 0f) AITimer++;
+            if (NPC.WithinRange(player.Center, player.Size.Length() * 2f) && !player.dead && AITimer >= 0f)
             {
                 if (AITimer < explodeTimer)
                     AITimer = explodeTimer;
                 NPC.netUpdate = true;
             }
             AIMovement(player);
-            if (AITimer >= explodeTimer)
+            if (AITimer >= explodeTimer && AITimer >= 0f)
                 State_Exploding(player);
         }
         public void AIMovement(Player player)
         {
-            Vector2 epstein = new Vector2(NPC.Center.X + (float)(40 * NPC.direction), NPC.position.Y + (float)NPC.height * 0.8f);
+            Vector2 epstein = new(NPC.Center.X + (float)(40 * NPC.direction), NPC.position.Y + (float)NPC.height * 0.8f);
             bool canHitTarget = Collision.CanHit(new Vector2(epstein.X, epstein.Y - 30f), 1, 1, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height);
             Vector2 einstein = Main.player[NPC.target].Center;
             Vector2 velocity = NPC.SafeDirectionTo(einstein) * 4f;
@@ -111,7 +112,7 @@ namespace MogMod.NPCs.Enemies
             NPC.TargetClosest(true);
             AITimer++;
             int size = (int)((NPC.ai[1] * 1.5f) + 30f);
-            Vector2 offset = new Vector2(size / 2f);
+            Vector2 offset = new(size / 2f);
             for (int i = 0; i < 10; i++)
             {
                 Vector2 randomOffset = Main.rand.NextVector2Circular(size / 2.1f, size / 2.1f);
@@ -166,6 +167,18 @@ namespace MogMod.NPCs.Enemies
                 }
                 NPC.netUpdate = true;
             }
+        }
+        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
+        {
+            base.OnHitByItem(player, item, hit, damageDone);
+            AITimer = -30f;
+            NPC.netUpdate = true;
+        }
+        public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
+        {
+            base.OnHitByProjectile(projectile, hit, damageDone);
+            AITimer = -30f;
+            NPC.netUpdate = true;
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
         #endregion

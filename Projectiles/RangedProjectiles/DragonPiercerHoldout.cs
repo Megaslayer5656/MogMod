@@ -1,256 +1,195 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MogMod.Common.Config;
 using MogMod.Items.Weapons.Ranged;
+using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
+using ReLogic.Content;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
-    public class DragonPiercerHoldout : ModProjectile, ILocalizedModType
+    public class DragonPiercerHoldout : BaseGunHoldoutProjectile
     {
-        public new string LocalizationCategory => "Projectiles.RangedProjectiles";
-        public override string Texture => "MogMod/Items/Weapons/Ranged/DragonPiercer";
-        public static readonly SoundStyle weakCharge = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/bowChargeWeak")
+        public static readonly SoundStyle weakCharge = new($"{nameof(MogMod)}/Sounds/SE/bowChargeWeak")
         {
             Volume = 1.1f,
             PitchVariance = .2f,
             MaxInstances = 5
         };
-        public static readonly SoundStyle strongCharge = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/bowChargeStrong")
+        public static readonly SoundStyle strongCharge = new($"{nameof(MogMod)}/Sounds/SE/bowChargeStrong")
         {
             Volume = 1.1f,
             PitchVariance = .2f,
             MaxInstances = 2
         };
-        private Player Owner => Main.player[Projectile.owner];
-        private ref float CurrentChargingFrames => ref Projectile.ai[0];
-        private ref float CurrentCharge => ref Projectile.ai[1];
-        private ref float FramesToCharge => ref Projectile.localAI[0];
-        private float storedVelocity = 1f;
-        private float angularSpread = MathHelper.ToRadians(10);
+        public override int AssociatedItemID => ModContent.ItemType<DragonPiercer>();
+        private Asset<Texture2D> ItemTexture => TextureAssets.Item[AssociatedItemID];
+        public override float MaxOffsetLengthFromArm => 10f;
+        public ref float Time => ref Projectile.ai[0];
+        public ref float ShotCounter => ref Projectile.ai[1];
+        public ref float DrawTimer => ref Projectile.ai[2];
+        public float Cap = 10f;
+        public float Spread = 0.1f;
+        public int MaxShots = DragonPiercer.MaxShots;
+        public int MinCharge = DragonPiercer.MinCharge;
+        public int MaxCharge = DragonPiercer.MaxCharge;
+        public override Vector2 GunTipPosition => Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.5f;
         public override void SetDefaults()
         {
-            Projectile.width = 48;
-            Projectile.height = 96;
-            Projectile.friendly = true;
-            Projectile.penetrate = -1;
+            Projectile.width = ItemTexture.Width();
+            Projectile.height = ItemTexture.Height();
             Projectile.tileCollide = false;
+            Projectile.netImportant = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.ignoreWater = true;
+            Projectile.ContinuouslyUpdateDamageStats = true;
         }
-        public override void AI()
+        public override void KillHoldoutLogic()
         {
-            Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-            Vector2 tipPosition = armPosition + Projectile.velocity * Projectile.width * 0.5f;
-            Vector2 tipAdjustment = (Projectile.velocity * Projectile.width * 0.25f);
-            if (Owner.CantUseHoldout())
+            if (Owner.CantUseHoldout() || HeldItem.type != AssociatedItemID)
             {
-                if (CurrentCharge <= 0f)
-                {
-                    Projectile.Kill();
-                    return;
-                }
-                else
-                    FireCharges(tipPosition);
+                Projectile.Kill();
             }
-            else
+        }
+        public override void HoldoutAI()
+        {
+            //Item.UseSound = SoundID.Item20;
+            /// <summary>
+            /// we want a bow that left click fires 1, 3, 5 arrows, or right click charge from 1 arrow up to 5 arrows
+            /// 
+            /// if left click, proj spawns, begin charging.
+            /// once at max charge, fire arrow(s) (use shotCounter to track between 1, 3, 5), and reset charge
+            /// 
+            /// if right clicked, begin charge,
+            /// new max charge is 2.5x regular max charge
+            /// once timer % new max charge / 3 == 0, increase shotCounter
+            /// if released, fire arrow(s), and reset timers
+            /// </summary>
+            Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * 20;
+            var attackSpeed = Main.player[Projectile.owner].GetTotalAttackSpeed(Projectile.DamageType);
+            if (attackSpeed > Cap) attackSpeed = Cap;
+            if (attackSpeed != 0f) attackSpeed = 1f / attackSpeed;
+            int NewMinCharge = (int)(MinCharge * attackSpeed);
+            int NewMaxCharge = (int)(MaxCharge * attackSpeed);
+            if (Main.mouseLeft)
             {
-                if (FramesToCharge == 0f)
+                Time++;
+                if (Time >= NewMinCharge)
                 {
-                    FramesToCharge = Owner.ActiveItem().useAnimation;
-                }
-                if (Owner.HasAmmo(Owner.ActiveItem()))
-                {
-                    ++CurrentChargingFrames;
-                    if (CurrentChargingFrames >= FramesToCharge && CurrentCharge < DragonPiercer.MaxCharge)
+                    DrawTimer++;
+                    //Main.NewText($"timer = {Time}, drawtimer = {DrawTimer}", Color.OldLace);
+                    if (Time % (NewMaxCharge / 3) == 0)
                     {
-                        Item heldItem = Owner.ActiveItem();
-                        Owner.PickAmmo(heldItem, out _, out float shootSpeed, out int damage, out float knockback, out _);
-                        Projectile.damage = damage;
-                        Projectile.knockBack = knockback;
-                        storedVelocity = shootSpeed;
-                        CurrentChargingFrames = 0f;
-                        ++CurrentCharge;
-                        FramesToCharge *= 0.950f;
-                        if (CurrentCharge >= DragonPiercer.MaxCharge)
+                        SoundEngine.PlaySound(SoundID.Item5 with { Volume = 0.3f, Pitch = 0.05f, PitchVariance = 0.1f, MaxInstances = -1 }, Projectile.Center);
+                        Dust dust = Dust.NewDustPerfect(GunTipPosition, Main.rand.NextBool(3) ? DustID.FireworksRGB : 303, Vector2.Zero, 100, Color.DarkGoldenrod, Main.rand.NextFloat(0.8f, 1.2f));
+                        for (int i = 0; i <= 12; i++)
                         {
-                            Projectile.damage *= 2;
-                            SoundEngine.PlaySound(strongCharge);
-                            for (int i = 0; i < 75; i++)
+                            Dust dust2 = Dust.NewDustPerfect(GunTipPosition, Main.rand.NextBool(3) ? DustID.FireworksRGB : 303, (shootVelocity * Main.rand.NextFloat(0.2f, 1.1f)).RotatedByRandom(0.4f), 0, default);
+                            dust2.noGravity = true;
+                            dust2.scale = Main.rand.NextFloat(0.8f, 1.4f);
+                        }
+                        if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm += 2f + ShotCounter; // visual recoil effect
+                        Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int damage, out float knockback, out _);
+                        if (Main.myPlayer == Projectile.owner)
+                        {
+                            //Main.NewText($"firing proj, shotcounter = {ShotCounter}", Color.Khaki);
+                            DrawTimer = 0;
+                            var source = Projectile.GetSource_FromThis();
+                            int type = ModContent.ProjectileType<DragonPiercerArrow>();
+                            if (ShotCounter >= 2) damage = (int)(damage * 1.5f);
+                            SoundEngine.PlaySound(SoundID.Item41, Owner.Center);
+                            Projectile.NewProjectile(source, GunTipPosition, shootVelocity, type, damage, knockback, Projectile.owner);
+                            if (ShotCounter >= 1)
                             {
-                                float colorRando = Main.rand.NextFloat(0, 1);
-                                float offsetAngle = MathHelper.TwoPi * i / 75f;
-                                float unitOffsetX = (float)Math.Pow(Math.Cos(offsetAngle), 3D);
-                                float unitOffsetY = (float)Math.Pow(Math.Sin(offsetAngle), 3D);
-                                Vector2 puffDustVelocity = new Vector2(unitOffsetX, unitOffsetY) * 2.5f;
-                                Dust charged = Dust.NewDustPerfect(tipPosition + tipAdjustment, 267, puffDustVelocity);
-                                charged.scale = 0.75f;
-                                charged.fadeIn = 0.5f;
-                                charged.color = Color.Lerp(Color.Yellow, Color.Gold, colorRando);
-                                charged.noGravity = true;
+                                Projectile.NewProjectile(source, GunTipPosition, shootVelocity.RotatedBy(Spread), type, damage, knockback, Projectile.owner);
+                                Projectile.NewProjectile(source, GunTipPosition, shootVelocity.RotatedBy(-Spread), type, damage, knockback, Projectile.owner);
+                            }
+                            if (ShotCounter >= 2)
+                            {
+                                Projectile.NewProjectile(source, GunTipPosition, shootVelocity.RotatedBy(Spread * 2f), type, damage, knockback, Projectile.owner);
+                                Projectile.NewProjectile(source, GunTipPosition, shootVelocity.RotatedBy(-Spread * 2f), type, damage, knockback, Projectile.owner);
+                                Time = 2;
+                                ShotCounter = 0 - 1;
                             }
                         }
-                        else
-                        {
-                            SoundEngine.PlaySound(weakCharge);
-                            for (int i = 0; i < 75; i++)
-                            {
-                                float colorRando = Main.rand.NextFloat(0, 1);
-                                float offsetAngle = MathHelper.TwoPi * i / 75f;
-                                float unitOffsetX = (float)Math.Pow(Math.Cos(offsetAngle), 3D);
-                                float unitOffsetY = (float)Math.Pow(Math.Sin(offsetAngle), 3D);
-                                Vector2 puffDustVelocity = new Vector2(unitOffsetX, unitOffsetY) * 2f;
-                                Dust charged = Dust.NewDustPerfect(tipPosition + tipAdjustment, 267, puffDustVelocity);
-                                charged.scale = 0.5f;
-                                charged.fadeIn = 0.5f;
-                                charged.color = Color.Lerp(Color.White, Color.GhostWhite, colorRando);
-                                charged.noGravity = true;
-                            }
-                        }
-                    }
-                }
-                int dustSpot = 6;
-                if (CurrentCharge == DragonPiercer.MaxCharge)
-                {
-                    Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * -12f;
-                    for (int i = 0; i <= 5; i++)
-                    {
-                        Dust dust = Dust.NewDustPerfect(tipPosition - Projectile.velocity * dustSpot, DustID.Flare, shootVelocity.RotatedByRandom(MathHelper.ToRadians(12f)) * Main.rand.NextFloat(0.2f, 1.2f), 0, default, Main.rand.NextFloat(1f, 2.3f));
-                        dust.scale = 1f;
-                        dust.alpha = 100;
-                        dust.noGravity = true;
-                    }
-                }
-                if (CurrentCharge >= 1)
-                {
-                    Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * -12f;
-                    for (int i = 0; i <= 5; i++)
-                    {
-                        Dust dust = Dust.NewDustPerfect(tipPosition - Projectile.velocity * dustSpot, DustID.RainbowTorch, shootVelocity.RotatedByRandom(MathHelper.ToRadians(6f)) * Main.rand.NextFloat(0.2f, 1.2f), 0, Color.Goldenrod, Main.rand.NextFloat(1f, 2.3f));
-                        dust.scale = 0.6f;
-                        dust.alpha = 100;
-                        dust.noGravity = true;
-                    }
-                }
-                if (CurrentCharge >= 2 && CurrentCharge < DragonPiercer.MaxCharge)
-                {
-                    Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * -12f;
-                    for (int i = 0; i <= 5; i++)
-                    {
-                        Dust dust = Dust.NewDustPerfect(tipPosition - Projectile.velocity * dustSpot, DustID.Torch, shootVelocity.RotatedByRandom(MathHelper.ToRadians(9f)) * Main.rand.NextFloat(0.2f, 1.2f), 0, default, Main.rand.NextFloat(1f, 2.3f));
-                        dust.scale = 0.8f;
-                        dust.alpha = 100;
-                        dust.noGravity = true;
+                        ShotCounter++;
                     }
                 }
             }
-            UpdateProjectileHeldVariables(armPosition);
-            ManipulatePlayerVariables();
-        }
-        public void FireCharges(Vector2 tipPosition)
-        {
-            if (CurrentCharge == DragonPiercer.MaxCharge)
-            {
-                for (int i = 0; i < CurrentCharge; i++)
-                {
-                    float increment = angularSpread * (CurrentCharge - 1) / 2;
-                    float spreadForThisProjectile = MathHelper.Lerp(-increment, increment, i / (float)(CurrentCharge - 1));
-                    ShootProjectiles(tipPosition, spreadForThisProjectile);
-                }
-                SoundEngine.PlaySound(SoundID.Item38);
-            }
-            else if (CurrentCharge != 0)
-            {
-                for (int i = 0; i < CurrentCharge + 1; i++)
-                {
-                    if (i == CurrentCharge)
-                        continue;
-                    float increment = angularSpread * (CurrentCharge - 1 + MathHelper.Clamp((CurrentChargingFrames / FramesToCharge) * 2, 0f, 1f)) / 2;
-                    float spreadForThisProjectile = MathHelper.Lerp(-increment, increment, i / (float)(MathHelper.Lerp(CurrentCharge - 1, CurrentCharge, MathHelper.Clamp((CurrentChargingFrames * 2 / FramesToCharge), 0f, 1f))));
-                    ShootProjectiles(tipPosition, spreadForThisProjectile);
-                }
-                SoundEngine.PlaySound(SoundID.Item38);
-            }
-            FramesToCharge = Owner.ActiveItem().useAnimation;
-            CurrentCharge = 0;
-        }
-        public void ShootProjectiles(Vector2 tipPosition, float projectileRotation)
-        {
-            if (Main.myPlayer != Projectile.owner)
-                return;
-            Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(projectileRotation) * storedVelocity;
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity * 0.6f, ModContent.ProjectileType<DragonPiercerArrow>(), Projectile.damage, Projectile.knockBack * 2, Projectile.owner);
-        }
-        private void UpdateProjectileHeldVariables(Vector2 armPosition)
-        {
-            if (Main.myPlayer == Projectile.owner)
-            {
-                float interpolant = Utils.GetLerpValue(5f, 25f, Owner.Distance(Main.MouseWorld), true);
-                Vector2 oldVelocity = Projectile.velocity;
-                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Owner.SafeDirectionTo(Main.MouseWorld), interpolant);
-                if (Projectile.velocity != oldVelocity)
-                {
-                    Projectile.netSpam = 0;
-                    Projectile.netUpdate = true;
-                }
-            }
-            Projectile.position = armPosition - Projectile.Size * 0.5f + Projectile.velocity.SafeNormalize(Vector2.Zero) * 25f;
-            Projectile.rotation = Projectile.velocity.ToRotation();
-            int oldDirection = Projectile.spriteDirection;
-            if (oldDirection == -1)
-                Projectile.rotation += MathHelper.Pi;
-            Projectile.direction = Projectile.spriteDirection = (Projectile.velocity.X > 0).ToDirectionInt();
-            if (Projectile.spriteDirection != oldDirection)
-                Projectile.rotation -= MathHelper.Pi;
-            Projectile.timeLeft = 3;
-        }
-        private void ManipulatePlayerVariables()
-        {
-            Owner.ChangeDir(Projectile.direction);
-            Owner.heldProj = Projectile.whoAmI;
-            Owner.itemTime = 2;
-            Owner.itemAnimation = 2;
-            Owner.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            float loops = CurrentCharge + 1;
-            if (CurrentCharge == DragonPiercer.MaxCharge)
-                loops = CurrentCharge;
-            for (int i = 0; i < loops; i++)
+            Texture2D texture = TextureAssets.Projectile[Type].Value;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            float drawRotation = Projectile.rotation + (Projectile.spriteDirection == -1 ? MathHelper.Pi : 0f) - (Owner.gravDir == -1 ? MathHelper.Pi * Owner.direction : 0f);
+            Vector2 rotationPoint = texture.Size() * 0.5f;
+            SpriteEffects flipSprite = (Projectile.spriteDirection * Owner.gravDir == -1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+            var attackSpeed = Main.player[Projectile.owner].GetTotalAttackSpeed(Projectile.DamageType);
+            if (attackSpeed > Cap) attackSpeed = Cap;
+            if (attackSpeed != 0f) attackSpeed = 1f / attackSpeed;
+            int NewMinCharge = (int)(MinCharge * attackSpeed);
+            int NewMaxCharge = (int)(MaxCharge * attackSpeed);
+
+            if (Main.mouseLeft)
             {
-                float BoltAngle;
-                float Shift = 0;
-                if (CurrentCharge == 0)
+                float opacity = Utils.GetLerpValue(0, NewMaxCharge / 3, DrawTimer / 3, true);
+                //Main.NewText($"max charge = {MaxCharge}, new max charge = {NewMaxCharge}, opacity = {opacity}", Color.PaleGoldenrod);
+
+
+                // draw 1, 3, or 5 arrows underneath bow
+                /// <summary>
+                /// we wanna draw anywhere between 1, 3, and 5 arrows underneath the bow
+                /// 
+                /// first get shotcounter
+                /// then prepare to draw in for loop for each arrow
+                /// then adjust position, rotation, and opacity based on time
+                /// then draw arrows
+                /// dont forget to delete them after firing the bow
+                /// </summary>
+                float bolts = ShotCounter >= 2 ? 5 : ShotCounter >= 1 ? 3 : 1;
+                Main.NewText($"bolts = {bolts}");
+                for (int i = 0; i < bolts; i++)
                 {
-                    BoltAngle = 0;
+                    float BoltAngle;
+                    if (bolts == 1) BoltAngle = 0;
+                    else if (bolts == 5)
+                    {
+                        float increment = Spread * (opacity - 1) / 2;
+                        BoltAngle = MathHelper.Lerp(-increment, increment, i / (float)(opacity - 1));
+                    }
+                    else
+                    {
+                        float increment = Spread * (opacity - 1 + MathHelper.Clamp((opacity * 2 / opacity), 0f, 1f)) / 2;
+                        BoltAngle = MathHelper.Lerp(-increment, increment, i / (float)(MathHelper.Lerp(opacity - 1, opacity, MathHelper.Clamp((opacity * 2 / opacity), 0f, 1f))));
+                    }
+                    Color Transparency = Projectile.GetAlpha(lightColor) * (1 - opacity);
+                    var BoltTexture = ModContent.Request<Texture2D>("MogMod/Projectiles/RangedProjectiles/DragonPiercerArrow").Value;
+                    Vector2 PointingTo = new((float)Math.Cos(Projectile.rotation + BoltAngle), (float)Math.Sin(Projectile.rotation + BoltAngle));
+                    Vector2 ShiftDown = PointingTo.RotatedBy(-MathHelper.PiOver2);
+                    float FlipFactor = Owner.direction < 0 ? MathHelper.Pi : 0f;
+                    Vector2 boltPos = GunTipPosition - Main.screenPosition;
+                    Main.EntitySpriteDraw(BoltTexture, boltPos, null, Transparency, Projectile.rotation + (BoltAngle * 1f) + MathHelper.PiOver2 + FlipFactor, BoltTexture.Size(), 1f, 0, 0);
                 }
-                else if (CurrentCharge == DragonPiercer.MaxCharge)
+
+                if (Time >= NewMinCharge)
                 {
-                    float increment = angularSpread * (CurrentCharge - 1) / 2;
-                    BoltAngle = MathHelper.Lerp(-increment, increment, i / (float)(CurrentCharge - 1));
+                    for (int i = 0; i < 16; i++)
+                    {
+                        Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/DragonPiercerGhost").Value;
+                        Color auraColor = (ShotCounter >= 2 ? new(255, 25, 75) : ShotCounter >= 1 ? Color.Goldenrod : Color.PaleGoldenrod) * opacity * 0.8f;
+                        Vector2 drawOffset = ((MathHelper.TwoPi * i / 16f).ToRotationVector2() * 5);
+                        Main.EntitySpriteDraw(ghost, drawPosition + drawOffset, null, auraColor, drawRotation, rotationPoint, Projectile.scale, flipSprite);
+                    }
                 }
-                else
-                {
-                    float increment = angularSpread * (CurrentCharge - 1 + MathHelper.Clamp((CurrentChargingFrames * 2 / FramesToCharge), 0f, 1f)) / 2;
-                    BoltAngle = MathHelper.Lerp(-increment, increment, i / (float)(MathHelper.Lerp(CurrentCharge - 1, CurrentCharge, MathHelper.Clamp((CurrentChargingFrames * 2 / FramesToCharge), 0f, 1f))));
-                }
-                if (i == CurrentCharge)
-                    Shift = 1 - (CurrentChargingFrames / FramesToCharge);
-                Color Transparency = Projectile.GetAlpha(lightColor) * (1 - Shift);
-                var BoltTexture = ModContent.Request<Texture2D>("MogMod/Projectiles/RangedProjectiles/DragonPiercerArrow").Value;
-                Vector2 PointingTo = new Vector2((float)Math.Cos(Projectile.rotation + BoltAngle), (float)Math.Sin(Projectile.rotation + BoltAngle));
-                Vector2 ShiftDown = PointingTo.RotatedBy(-MathHelper.PiOver2);
-                float FlipFactor = Owner.direction < 0 ? MathHelper.Pi : 0f;
-                Vector2 drawPosition = Owner.Center + PointingTo.RotatedBy(FlipFactor) * (10f + (Shift * 40)) - ShiftDown.RotatedBy(FlipFactor) * (BoltTexture.Width / 2) - Main.screenPosition;
-                Main.EntitySpriteDraw(BoltTexture, drawPosition, null, Transparency, Projectile.rotation + (BoltAngle * 1f) + MathHelper.PiOver2 + FlipFactor, BoltTexture.Size(), 1f, 0, 0);
             }
-            return true;
+            Main.EntitySpriteDraw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), drawRotation, rotationPoint, Projectile.scale, flipSprite);
+            return false;
         }
-        public override bool? CanDamage() => false;
     }
 }
