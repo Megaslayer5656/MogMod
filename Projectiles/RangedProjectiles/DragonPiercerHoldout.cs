@@ -4,8 +4,10 @@ using MogMod.Common.Config;
 using MogMod.Items.Weapons.Ranged;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
+using Mono.Cecil;
 using ReLogic.Content;
 using System;
+using System.Threading;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -16,13 +18,13 @@ namespace MogMod.Projectiles.RangedProjectiles
 {
     public class DragonPiercerHoldout : BaseGunHoldoutProjectile
     {
-        public static readonly SoundStyle weakCharge = new($"{nameof(MogMod)}/Sounds/SE/bowChargeWeak")
+        public static readonly SoundStyle WeakCharge = new($"{nameof(MogMod)}/Sounds/SE/bowChargeWeak")
         {
             Volume = 1.1f,
             PitchVariance = .2f,
             MaxInstances = 5
         };
-        public static readonly SoundStyle strongCharge = new($"{nameof(MogMod)}/Sounds/SE/bowChargeStrong")
+        public static readonly SoundStyle StrongCharge = new($"{nameof(MogMod)}/Sounds/SE/bowChargeStrong")
         {
             Volume = 1.1f,
             PitchVariance = .2f,
@@ -30,10 +32,11 @@ namespace MogMod.Projectiles.RangedProjectiles
         };
         public override int AssociatedItemID => ModContent.ItemType<DragonPiercer>();
         private Asset<Texture2D> ItemTexture => TextureAssets.Item[AssociatedItemID];
-        public override float MaxOffsetLengthFromArm => 10f;
+        public override float MaxOffsetLengthFromArm => 22f;
         public ref float Time => ref Projectile.ai[0];
         public ref float ShotCounter => ref Projectile.ai[1];
         public ref float DrawTimer => ref Projectile.ai[2];
+        public bool Charging = false;
         public float Cap = 10f;
         public float Spread = 0.1f;
         public int MaxShots = DragonPiercer.MaxShots;
@@ -58,7 +61,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override void HoldoutAI()
         {
-            //Item.UseSound = SoundID.Item20;
+            // TODO: change this so right click while channeling makes it fire 1, 3, 5 arrows; whereas regular left click makes it charge up to 5 arrows
             /// <summary>
             /// we want a bow that left click fires 1, 3, 5 arrows, or right click charge from 1 arrow up to 5 arrows
             /// 
@@ -76,48 +79,86 @@ namespace MogMod.Projectiles.RangedProjectiles
             if (attackSpeed != 0f) attackSpeed = 1f / attackSpeed;
             int NewMinCharge = (int)(MinCharge * attackSpeed);
             int NewMaxCharge = (int)(MaxCharge * attackSpeed);
+
+            Main.NewText($"timer = {Time}", Color.OldLace);
             if (Main.mouseLeft)
             {
-                Time++;
+                if (Time < NewMaxCharge) Time++;
                 if (Time >= NewMinCharge)
                 {
-                    DrawTimer++;
-                    //Main.NewText($"timer = {Time}, drawtimer = {DrawTimer}", Color.OldLace);
-                    if (Time % (NewMaxCharge / 3) == 0)
+                    if (DrawTimer < NewMaxCharge) DrawTimer++;
+                    if (Owner.MogMod().mouseRight)
                     {
-                        SoundEngine.PlaySound(SoundID.Item5 with { Volume = 0.3f, Pitch = 0.05f, PitchVariance = 0.1f, MaxInstances = -1 }, Projectile.Center);
-                        Dust dust = Dust.NewDustPerfect(GunTipPosition, Main.rand.NextBool(3) ? DustID.FireworksRGB : 303, Vector2.Zero, 100, Color.DarkGoldenrod, Main.rand.NextFloat(0.8f, 1.2f));
-                        for (int i = 0; i <= 12; i++)
+                        if (Charging)
                         {
-                            Dust dust2 = Dust.NewDustPerfect(GunTipPosition, Main.rand.NextBool(3) ? DustID.FireworksRGB : 303, (shootVelocity * Main.rand.NextFloat(0.2f, 1.1f)).RotatedByRandom(0.4f), 0, default);
-                            dust2.noGravity = true;
-                            dust2.scale = Main.rand.NextFloat(0.8f, 1.4f);
+                            Time = 2;
+                            DrawTimer = 0;
+                            ShotCounter = 0;
+                            Charging = false;
                         }
-                        if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm += 2f + ShotCounter; // visual recoil effect
-                        Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int damage, out float knockback, out _);
-                        if (Main.myPlayer == Projectile.owner)
+                        //Main.NewText($"timer = {Time}, drawtimer = {DrawTimer}", Color.OldLace);
+                        if (Time % (NewMaxCharge / 3) == 0)
                         {
-                            //Main.NewText($"firing proj, shotcounter = {ShotCounter}", Color.Khaki);
+                            SoundEngine.PlaySound(SoundID.Item5 with { Volume = 0.3f, Pitch = 0.05f, PitchVariance = 0.1f, MaxInstances = -1 }, Projectile.Center);
+                            Dust dust = Dust.NewDustPerfect(GunTipPosition, Main.rand.NextBool(3) ? DustID.FireworksRGB : 303, Vector2.Zero, 100, Color.DarkGoldenrod, Main.rand.NextFloat(0.8f, 1.2f));
+                            for (int i = 0; i <= 12; i++)
+                            {
+                                Dust dust2 = Dust.NewDustPerfect(GunTipPosition, Main.rand.NextBool(3) ? DustID.FireworksRGB : 303, (shootVelocity * Main.rand.NextFloat(0.2f, 1.1f)).RotatedByRandom(0.4f), 0, default);
+                                dust2.noGravity = true;
+                                dust2.scale = Main.rand.NextFloat(0.8f, 1.4f);
+                            }
+                            if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm += 2f + ShotCounter; // visual recoil effect
+                            Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int damage, out float knockback, out _);
+                            if (Main.myPlayer == Projectile.owner)
+                            {
+                                //Main.NewText($"firing proj, shotcounter = {ShotCounter}", Color.Khaki);
+                                DrawTimer = 0;
+                                var source = Projectile.GetSource_FromThis();
+                                int type = ModContent.ProjectileType<DragonPiercerArrow>();
+                                if (ShotCounter >= 2) damage = (int)(damage * 1.5f);
+                                SoundEngine.PlaySound(SoundID.Item38, Owner.Center);
+                                Projectile.NewProjectile(source, GunTipPosition, shootVelocity, type, damage, knockback, Projectile.owner);
+                                if (ShotCounter >= 1)
+                                {
+                                    Projectile.NewProjectile(source, GunTipPosition, shootVelocity.RotatedBy(Spread), type, damage, knockback, Projectile.owner);
+                                    Projectile.NewProjectile(source, GunTipPosition, shootVelocity.RotatedBy(-Spread), type, damage, knockback, Projectile.owner);
+                                }
+                                if (ShotCounter >= 2)
+                                {
+                                    Projectile.NewProjectile(source, GunTipPosition, shootVelocity.RotatedBy(Spread * 2f), type, damage, knockback, Projectile.owner);
+                                    Projectile.NewProjectile(source, GunTipPosition, shootVelocity.RotatedBy(-Spread * 2f), type, damage, knockback, Projectile.owner);
+                                    Time = 2;
+                                    ShotCounter = 0 - 1;
+                                }
+                            }
+                            ShotCounter++;
+                        }
+                    }
+                    else
+                    {
+                        if (!Owner.MogMod().mouseRight)
+                        {
+                            if (!Charging)
+                            {
+                                Time = 2;
+                                DrawTimer = 0;
+                                ShotCounter = 0;
+                                Charging = true;
+                            }
+                            Main.NewText($"left clicking", Color.Bisque);
+                        }
+                        else if (Owner.MogMod().mouseRight || Time >= MaxCharge)
+                        {
+                            Main.NewText($"released left click", Color.IndianRed);
+                            if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm += 5f + ShotCounter; // visual recoil effect
+                            Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int damage, out float knockback, out _);
+                            Time = 2;
                             DrawTimer = 0;
                             var source = Projectile.GetSource_FromThis();
                             int type = ModContent.ProjectileType<DragonPiercerArrow>();
-                            if (ShotCounter >= 2) damage = (int)(damage * 1.5f);
-                            SoundEngine.PlaySound(SoundID.Item41, Owner.Center);
+                            SoundEngine.PlaySound(SoundID.Item38, Owner.Center);
                             Projectile.NewProjectile(source, GunTipPosition, shootVelocity, type, damage, knockback, Projectile.owner);
-                            if (ShotCounter >= 1)
-                            {
-                                Projectile.NewProjectile(source, GunTipPosition, shootVelocity.RotatedBy(Spread), type, damage, knockback, Projectile.owner);
-                                Projectile.NewProjectile(source, GunTipPosition, shootVelocity.RotatedBy(-Spread), type, damage, knockback, Projectile.owner);
-                            }
-                            if (ShotCounter >= 2)
-                            {
-                                Projectile.NewProjectile(source, GunTipPosition, shootVelocity.RotatedBy(Spread * 2f), type, damage, knockback, Projectile.owner);
-                                Projectile.NewProjectile(source, GunTipPosition, shootVelocity.RotatedBy(-Spread * 2f), type, damage, knockback, Projectile.owner);
-                                Time = 2;
-                                ShotCounter = 0 - 1;
-                            }
                         }
-                        ShotCounter++;
                     }
                 }
             }
@@ -135,54 +176,58 @@ namespace MogMod.Projectiles.RangedProjectiles
             if (attackSpeed != 0f) attackSpeed = 1f / attackSpeed;
             int NewMinCharge = (int)(MinCharge * attackSpeed);
             int NewMaxCharge = (int)(MaxCharge * attackSpeed);
-
+            
+            Color[] colorList =
+            [
+                Color.PaleGoldenrod,
+                Color.Goldenrod,
+                new(255, 25, 75)
+            ];
             if (Main.mouseLeft)
             {
-                float opacity = Utils.GetLerpValue(0, NewMaxCharge / 3, DrawTimer / 3, true);
-                //Main.NewText($"max charge = {MaxCharge}, new max charge = {NewMaxCharge}, opacity = {opacity}", Color.PaleGoldenrod);
+                Color auraColor = Color.White;
 
-
-                // draw 1, 3, or 5 arrows underneath bow
-                /// <summary>
-                /// we wanna draw anywhere between 1, 3, and 5 arrows underneath the bow
-                /// 
-                /// first get shotcounter
-                /// then prepare to draw in for loop for each arrow
-                /// then adjust position, rotation, and opacity based on time
-                /// then draw arrows
-                /// dont forget to delete them after firing the bow
-                /// </summary>
-                float bolts = ShotCounter >= 2 ? 5 : ShotCounter >= 1 ? 3 : 1;
-                Main.NewText($"bolts = {bolts}");
-                for (int i = 0; i < bolts; i++)
+                if (Owner.MogMod().mouseRight)
                 {
-                    float BoltAngle;
-                    if (bolts == 1) BoltAngle = 0;
-                    else if (bolts == 5)
+                    float opacity = Utils.GetLerpValue(0, NewMaxCharge / 3, DrawTimer / 3, true);
+                    //Main.NewText($"max charge = {MaxCharge}, new max charge = {NewMaxCharge}, opacity = {opacity}", Color.PaleGoldenrod);
+                    float bolts = ShotCounter >= 2 ? 5 : ShotCounter >= 1 ? 3 : 1;
+                    for (int i = 0; i < bolts; i++)
                     {
-                        float increment = Spread * (opacity - 1) / 2;
-                        BoltAngle = MathHelper.Lerp(-increment, increment, i / (float)(opacity - 1));
+                        float BoltAngle;
+                        if (bolts == 1) BoltAngle = 0;
+                        else if (bolts == 3)
+                        {
+                            float increment = Spread;
+                            BoltAngle = increment * (i - 1);
+                        }
+                        else
+                        {
+                            float increment = Spread * 2;
+                            BoltAngle = increment * (i - 2);
+                        }
+                        Color Transparency = Projectile.GetAlpha(lightColor) * (opacity * 2f);
+                        var BoltTexture = ModContent.Request<Texture2D>("MogMod/Projectiles/RangedProjectiles/DragonPiercerArrow").Value;
+                        Vector2 PointingTo = new((float)Math.Cos(Projectile.rotation + BoltAngle), (float)Math.Sin(Projectile.rotation + BoltAngle));
+                        Vector2 ShiftDown = PointingTo.RotatedBy(-MathHelper.PiOver2);
+                        float FlipFactor = Owner.direction < 0 ? MathHelper.Pi : 0f;
+                        Vector2 boltPos = Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.25f - Main.screenPosition;
+                        Vector2 drawOffset = ((MathHelper.TwoPi * i / 16f).ToRotationVector2() * 5);
+                        Main.EntitySpriteDraw(BoltTexture, boltPos + drawOffset, null, Transparency, drawRotation + (BoltAngle * 1f) + MathHelper.PiOver2 + FlipFactor, BoltTexture.Size() * 0.5f, 1f, flipSprite, 0);
                     }
-                    else
-                    {
-                        float increment = Spread * (opacity - 1 + MathHelper.Clamp((opacity * 2 / opacity), 0f, 1f)) / 2;
-                        BoltAngle = MathHelper.Lerp(-increment, increment, i / (float)(MathHelper.Lerp(opacity - 1, opacity, MathHelper.Clamp((opacity * 2 / opacity), 0f, 1f))));
-                    }
-                    Color Transparency = Projectile.GetAlpha(lightColor) * (1 - opacity);
-                    var BoltTexture = ModContent.Request<Texture2D>("MogMod/Projectiles/RangedProjectiles/DragonPiercerArrow").Value;
-                    Vector2 PointingTo = new((float)Math.Cos(Projectile.rotation + BoltAngle), (float)Math.Sin(Projectile.rotation + BoltAngle));
-                    Vector2 ShiftDown = PointingTo.RotatedBy(-MathHelper.PiOver2);
-                    float FlipFactor = Owner.direction < 0 ? MathHelper.Pi : 0f;
-                    Vector2 boltPos = GunTipPosition - Main.screenPosition;
-                    Main.EntitySpriteDraw(BoltTexture, boltPos, null, Transparency, Projectile.rotation + (BoltAngle * 1f) + MathHelper.PiOver2 + FlipFactor, BoltTexture.Size(), 1f, 0, 0);
+                    auraColor = (ShotCounter >= 2 ? new(255, 25, 75) : ShotCounter >= 1 ? Color.Goldenrod : Color.PaleGoldenrod) * opacity * 0.8f;
                 }
+                else if (!Owner.MogMod().mouseRight)
+                {
+                    float opacity = Utils.GetLerpValue(0, NewMaxCharge, DrawTimer, true);
+                    auraColor = MogModUtils.MulticolorLerp(opacity * 0.8f, colorList);
 
+                }
                 if (Time >= NewMinCharge)
                 {
                     for (int i = 0; i < 16; i++)
                     {
                         Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/DragonPiercerGhost").Value;
-                        Color auraColor = (ShotCounter >= 2 ? new(255, 25, 75) : ShotCounter >= 1 ? Color.Goldenrod : Color.PaleGoldenrod) * opacity * 0.8f;
                         Vector2 drawOffset = ((MathHelper.TwoPi * i / 16f).ToRotationVector2() * 5);
                         Main.EntitySpriteDraw(ghost, drawPosition + drawOffset, null, auraColor, drawRotation, rotationPoint, Projectile.scale, flipSprite);
                     }
