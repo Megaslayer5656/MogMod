@@ -27,6 +27,7 @@ using MogMod.NPCs.ProjectileEnemies;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.Classless;
 using MogMod.Projectiles.EnemyProjectiles;
+using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Projectiles.Melee;
 using MogMod.Projectiles.Pets;
 using MogMod.Projectiles.Summon;
@@ -986,9 +987,20 @@ namespace MogMod.Common.MogModPlayer
 
             // kaminari (storm spirit)
             bool canUseMana = Player.CheckMana(KaminariHat.ZipCost);
+            var zipProj = ModContent.ProjectileType<KaminariZipProj>();
             if (KeybindSystem.ArmorSetBonusKeybind.Current && wearingKaminari && canUseMana && (kaminariActive || (kaminariCooldown <= 0 && !Player.noItems && !Player.CCed && !kaminariActive)))
             {
                 kaminariActive = true;
+                if (Player.whoAmI == Main.myPlayer)
+                {
+                    var source = Player.GetSource_FromThis();
+                    if (Player.ownedProjectileCounts[zipProj] < 1)
+                    {
+                        //Main.NewText($"spawning proj", Color.Green);
+                        var p = Projectile.NewProjectileDirect(source, Player.Center, Vector2.Zero, zipProj, KaminariHat.ZipDamage, 0f, Player.whoAmI);
+                        p.active = true;
+                    }
+                }
             }
             else if (!KeybindSystem.ArmorSetBonusKeybind.Current || !wearingKaminari) kaminariActive = false;
             #endregion
@@ -1204,10 +1216,16 @@ namespace MogMod.Common.MogModPlayer
             #endregion
 
             #region Kaminari Zip
-            // TODO: add a way for this to target and deal damage to enemies
             bool canUseMana = Player.CheckMana(KaminariHat.ZipCost);
             if (wearingKaminari && kaminariActive && canUseMana)
             {
+                foreach (Projectile proj in Main.ActiveProjectiles)
+                {
+                    if (proj.type == ModContent.ProjectileType<KaminariZipProj>())
+                    {
+                        proj.active = true;
+                    }
+                }
                 if (Player.miscCounter % (KeybindSystem.ZipSlowdownKeybind.Current ? 4 : 2) == 0)
                 {
                     Player.CheckMana(KaminariHat.ZipCost, true);
@@ -1224,7 +1242,7 @@ namespace MogMod.Common.MogModPlayer
                 }
                 Vector2 mousePos = Player.MountedCenter.DirectionTo(Player.ClampedMouseWorld());
                 Player.invis = true;
-                Player.velocity = mousePos * (KeybindSystem.ZipSlowdownKeybind.Current ? 14f : 22f);
+                Player.velocity = mousePos * (KeybindSystem.ZipSlowdownKeybind.Current ? 12f : 22f);
                 Player.noItems = true;
                 Player.mount?.Dismount(Player);
                 Player.RemoveAllGrapplingHooks();

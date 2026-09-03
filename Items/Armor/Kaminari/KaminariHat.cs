@@ -23,6 +23,7 @@ namespace MogMod.Items.Armor.Kaminari
         public const float MagicDamageBoost = 0.3f; // {2}
         public const int MagicCritBoost = 30; // {2}
         // set bonus
+        public const int ZipDamage = 250;
         public const int ZipCost = 30;
         public const int ManaRegenBonus = 30; // {1}
         public static Color AbilityBriefColor = Color.SkyBlue; // {0}

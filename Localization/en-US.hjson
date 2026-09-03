@@ -229,6 +229,7 @@ Mods: {
 
 				EmpyreanBombardmentProj.DisplayName: Empyrean Bombardment Proj
 				EmpyreanStarProj.DisplayName: Empyrean Star Proj
+				KaminariZipProj.DisplayName: Kaminari Zip Proj
 			}
 
 			RangedProjectiles: {
