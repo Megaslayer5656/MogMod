@@ -67,7 +67,7 @@ namespace MogMod.Items.Armor.Blademail
         public static bool HasArmorSet(Player player) => player.armor[0].type == ItemType<BlademailMask>() && player.armor[1].type == ItemType<BlademailBreastplate>() && player.armor[2].type == ItemType<BlademailLeggings>();
         public static void ModifySetTooltips(ModItem item, List<TooltipLine> tooltips)
         {
-            var Hotkey = KeybindSystem.BladeMailKeybind.TooltipHotkeyString();
+            var Hotkey = KeybindSystem.ArmorSetBonusKeybind.TooltipHotkeyString();
             if (HasArmorSet(Main.LocalPlayer))
             {
                 int setBonusIndex = tooltips.FindIndex(x => x.Name == "SetBonus" && x.Mod == "Terraria");
@@ -96,7 +96,7 @@ namespace MogMod.Items.Armor.Blademail
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.FalconBlade, 1).
+                AddIngredient(ItemID.FalconBlade).
                 AddIngredient(ItemID.Spike, 25).
                 AddIngredient(ItemID.Bone, 30).
                 AddTile(TileID.Anvils).

@@ -13,6 +13,7 @@ using MogMod.Items.Accessories.Rigs;
 using MogMod.Items.Accessories.Wings;
 using MogMod.Items.Ammo.SorcerySpells;
 using MogMod.Items.Armor.Fae;
+using MogMod.Items.Armor.Kaminari;
 using MogMod.Items.Armor.Radiant;
 using MogMod.Items.Armor.Seraphic;
 using MogMod.Items.Other;
@@ -296,6 +297,10 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingNihilumRanged;
         public int nihilumTimer = 0;
         public int nihilumTimerMax = 120;
+        public bool wearingKaminari;
+        public bool kaminariActive;
+        public int kaminariCooldown = 0;
+        public int kaminariCooldownMax = 60;
 
         public int VoniumLifeCooldown = 0;
         #endregion
@@ -720,6 +725,7 @@ namespace MogMod.Common.MogModPlayer
             // this works while dead for some reason
             if (Player.dead)
                 return;
+            #region Accessories
             // refresher orb
             if (KeybindSystem.RefresherOrbKeybind.JustPressed && wearingRefresherOrb && !Player.HasBuff(refresherCooldown))
             {
@@ -758,14 +764,6 @@ namespace MogMod.Common.MogModPlayer
                 Player.AddBuff(satanicBuffID, 480);
                 Player.AddBuff(satanicCooldown, 4800);
                 SoundEngine.PlaySound(SatanicActivateSound, Player.Center);
-            }
-
-            // blademail
-            if (KeybindSystem.BladeMailKeybind.JustPressed && wearingBladeMail && !Player.HasBuff(blademailCooldown))
-            {
-                Player.AddBuff(blademailBuff, 600);
-                Player.AddBuff(blademailCooldown, 3600);
-                SoundEngine.PlaySound(BladeMailActivateSound, Player.Center);
             }
 
             // arcane boots
@@ -928,7 +926,7 @@ namespace MogMod.Common.MogModPlayer
                 armletTimer += 1;
 
             // null timer
-            if (KeybindSystem.NulledKeybind.JustPressed && wearingNihilum)
+            if (KeybindSystem.ArmorSetBonusKeybind.JustPressed && wearingNihilum)
             {
                 if (nihilumTimer <= nihilumTimerMax)
                 {
@@ -975,6 +973,25 @@ namespace MogMod.Common.MogModPlayer
                 Main.playerInventory = true;
                 zhukActive = !zhukActive;
             }
+            #endregion
+
+            #region Armor
+            // blademail
+            if (KeybindSystem.ArmorSetBonusKeybind.JustPressed && wearingBladeMail && !Player.HasBuff(blademailCooldown))
+            {
+                Player.AddBuff(blademailBuff, 600);
+                Player.AddBuff(blademailCooldown, 3600);
+                SoundEngine.PlaySound(BladeMailActivateSound, Player.Center);
+            }
+
+            // kaminari (storm spirit)
+            bool canUseMana = Player.CheckMana(KaminariHat.ZipCost);
+            if (KeybindSystem.ArmorSetBonusKeybind.Current && wearingKaminari && canUseMana && (kaminariActive || (kaminariCooldown <= 0 && !Player.noItems && !Player.CCed && !kaminariActive)))
+            {
+                kaminariActive = true;
+            }
+            else if (!KeybindSystem.ArmorSetBonusKeybind.Current || !wearingKaminari) kaminariActive = false;
+            #endregion
             #endregion
         }
 
@@ -1186,6 +1203,51 @@ namespace MogMod.Common.MogModPlayer
             }
             #endregion
 
+            #region Kaminari Zip
+            // TODO: add a way for this to target and deal damage to enemies
+            bool canUseMana = Player.CheckMana(KaminariHat.ZipCost);
+            if (wearingKaminari && kaminariActive && canUseMana)
+            {
+                if (Player.miscCounter % (KeybindSystem.ZipSlowdownKeybind.Current ? 4 : 2) == 0)
+                {
+                    Player.CheckMana(KaminariHat.ZipCost, true);
+                    if (Player.miscCounter % (KeybindSystem.ZipSlowdownKeybind.Current ? 8 : 4) == 0)
+                    {
+                        if (Main.rand.NextBool(2))
+                        {
+                            SoundEngine.PlaySound(SoundID.DD2_SkyDragonsFuryShot with { Volume = 0.4f, Pitch = 0.2f, PitchVariance = 0.15f, LimitsArePerVariant = true }, Player.Center);
+                            SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap with { Volume = 0.5f, Pitch = 0.25f, PitchVariance = 0.1f, LimitsArePerVariant = true }, Player.Center);
+                            SoundEngine.PlaySound(SoundID.DD2_LightningBugZap with { Volume = 0.7f, Pitch = 0.2f, PitchVariance = 0.05f, LimitsArePerVariant = true }, Player.Center);
+                        }
+                        else SoundEngine.PlaySound(SoundID.DD2_LightningBugHurt with { Volume = 0.5f, Pitch = 0.25f, PitchVariance = 0.1f, LimitsArePerVariant = true }, Player.Center);
+                    }
+                }
+                Vector2 mousePos = Player.MountedCenter.DirectionTo(Player.ClampedMouseWorld());
+                Player.invis = true;
+                Player.velocity = mousePos * (KeybindSystem.ZipSlowdownKeybind.Current ? 14f : 22f);
+                Player.noItems = true;
+                Player.mount?.Dismount(Player);
+                Player.RemoveAllGrapplingHooks();
+                int dir = mousePos.X > 0f ? 1 : -1;
+                Player.ChangeDir(dir);
+                kaminariCooldown = kaminariCooldownMax;
+                // dash dust effects
+                for (int d = 0; d < 4; d++)
+                {
+                    Dust zipDust = Dust.NewDustPerfect(Player.Center + new Vector2(Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-15f, 15f)) - (Player.velocity * 1.2f), DustID.Electric, -Player.velocity.RotatedByRandom(MathHelper.ToRadians(10f)) * Main.rand.NextFloat(0.1f, 0.8f), 0, default, Main.rand.NextFloat(1.8f, 2.8f));
+                    zipDust.noGravity = Main.rand.NextBool(3);
+                    zipDust.fadeIn = 0.5f;
+                    zipDust.scale = Main.rand.NextFloat(0.8f, 1.2f);
+                    zipDust.velocity += new Vector2(0, -2.5f) * Main.rand.NextFloat(0.8f, 1.2f);
+
+                    Dust dust = Dust.NewDustPerfect(Player.Center + Main.rand.NextVector2Circular(6, 6) - Player.velocity * 2, 160);
+                    dust.velocity = -Player.velocity * Main.rand.NextFloat(0.6f, 1.4f);
+                    dust.scale = Main.rand.NextFloat(0.9f, 1.4f);
+                    dust.noGravity = true;
+                }
+            }
+            #endregion
+
             /* Use for Hurricane Pike
             Player.armorEffectDrawShadowEOCShield = true;
             float dustLoopcheck = 16f;
@@ -1220,6 +1282,7 @@ namespace MogMod.Common.MogModPlayer
         {
             return !chargeShot
                 && !dpCharge
+                && !kaminariActive
                 && !Player.mount.Active; // player isn't mounted, since dashes on a mount look weird
         }
         public void MiscEffects()
@@ -2464,6 +2527,8 @@ namespace MogMod.Common.MogModPlayer
                 hellfireOverheat--;
             if (lasOverheat > 0)
                 lasOverheat--;
+            if (kaminariCooldown > 0)
+                kaminariCooldown--;
         }
         
         // stops player from moving while charging bow
@@ -2602,6 +2667,8 @@ namespace MogMod.Common.MogModPlayer
             canSeraphicRevive = false;
             wearingNihilum = false;
             wearingNihilumRanged = false;
+            wearingKaminari = false;
+            //kaminariActive = false;
 
             diademMinion = false;
             dominatorMinion = false;

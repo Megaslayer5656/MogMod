@@ -1955,8 +1955,8 @@ Items: {
 			DisplayName: Radiant Flower
 			Tooltip:
 				'''
-				Increases maximum mana by 100 and 17% reduced mana cost
-				+13% Magic Damage and Critical Strike Chance
+				Increases maximum mana by {0} and {1}% reduced mana cost
+				+{2}% Magic Damage and Critical Strike Chance
 				[c/76BACF:'A bolt of lightning shows me where to fly']
 				'''
 			AbilityBrief: "[c/{0}:Radiant Benediction]"
@@ -2476,6 +2476,37 @@ Items: {
 		NihilumLeggings: {
 			DisplayName: Nihilum Leggings
 			Tooltip: +{0}% Jump Speed and Movement Speed
+		}
+
+		KaminariGarb: {
+			DisplayName: Kaminari Garb
+			Tooltip: +{0}% Magic Damage and Critical Strike Chance
+		}
+
+		KaminariHat: {
+			DisplayName: Kaminari Hat
+			Tooltip:
+				'''
+				Increases maximum mana by {0} and {1}% reduced mana cost
+				+{2}% Magic Damage and Critical Strike Chance
+				[c/44FCFC:'Ooh, who's that handsome devil?']
+				'''
+			AbilityBrief: "[c/{0}:Galvanized]"
+			SetBonusNormal:
+				'''
+				[c/{0}:Hold {2} to rapidly zip towards your cursor, dealing damage to nearby enemies]
+				[c/{0}:Hold {3} to greatly slow down the zip speed]
+				[c/{0}:Increased Mana Regeneration by {1}]
+				'''
+		}
+
+		KaminariPants: {
+			DisplayName: Kaminari Pants
+			Tooltip:
+				'''
+				{0}% reduced mana cost
+				+{1}% Jump Speed and Movement Speed
+				'''
 		}
 	}
 

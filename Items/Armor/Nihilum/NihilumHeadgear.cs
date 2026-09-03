@@ -70,7 +70,7 @@ namespace MogMod.Items.Armor.Nihilum
         public static bool HasArmorSet(Player player) => player.armor[0].type == ItemType<NihilumHeadgear>() && player.armor[1].type == ItemType<NihilumChestplate>() && player.armor[2].type == ItemType<NihilumLeggings>();
         public static void ModifySetTooltips(ModItem item, List<TooltipLine> tooltips)
         {
-            var Hotkey = KeybindSystem.NulledKeybind.TooltipHotkeyString();
+            var Hotkey = KeybindSystem.ArmorSetBonusKeybind.TooltipHotkeyString();
             if (HasArmorSet(Main.LocalPlayer))
             {
                 int setBonusIndex = tooltips.FindIndex(x => x.Name == "SetBonus" && x.Mod == "Terraria");

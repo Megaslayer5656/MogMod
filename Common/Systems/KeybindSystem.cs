@@ -12,12 +12,12 @@ namespace MogMod.Common.Systems
         public static ModKeybind RefresherOrbKeybind { get; private set; }
         public static ModKeybind WandKeybind { get; private set; }
         public static ModKeybind MekansmKeybind { get; private set; }
-        public static ModKeybind BladeMailKeybind { get; private set; }
         public static ModKeybind ShivasKeybind {  get; private set; }
         public static ModKeybind DragonInstallKeybind {  get; private set; }
         public static ModKeybind TheGravityKeybind { get; private set; }
-        public static ModKeybind NulledKeybind { get; private set; }
         public static ModKeybind RigKeybind { get; private set; }
+        public static ModKeybind ArmorSetBonusKeybind { get; private set; }
+        public static ModKeybind ZipSlowdownKeybind { get; private set; }
         #endregion
         public override void Load()
         {
@@ -39,10 +39,10 @@ namespace MogMod.Common.Systems
 
             #region Attack
             ShivasKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateShiva'sGuard", "C");
-            BladeMailKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateBladeMail", "X");
+            ArmorSetBonusKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateArmorSetBonus", "X");
             ArmletKeybind = KeybindLoader.RegisterKeybind(Mod, "ToggleArmletOfMordiggian", "T");
-            NulledKeybind = KeybindLoader.RegisterKeybind(Mod, "ToggleNulled", "T");
             TheGravityKeybind = KeybindLoader.RegisterKeybind(Mod, "TheGravityCardSwitch", "Mouse4");
+            ZipSlowdownKeybind = KeybindLoader.RegisterKeybind(Mod, "GalvanizedZipSlowdown", "RightShift");
             #endregion
 
             #region Other
@@ -61,12 +61,12 @@ namespace MogMod.Common.Systems
             RefresherOrbKeybind = null;
             WandKeybind = null;
             MekansmKeybind = null;
-            BladeMailKeybind = null;
             ShivasKeybind = null;
             DragonInstallKeybind = null;
             TheGravityKeybind = null;
-            NulledKeybind = null;
             RigKeybind = null;
+            ArmorSetBonusKeybind = null;
+            ZipSlowdownKeybind = null;
             #endregion
         }
     }

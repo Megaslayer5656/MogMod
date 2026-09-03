@@ -30,6 +30,8 @@ Mods: {
 			ToggleNulled.DisplayName: Toggle Nulled
 			ActivateBootEffects.DisplayName: Activate Boot Effects
 			ActivateRigEffect.DisplayName: Activate Rig Effect
+			ActivateArmorSetBonus.DisplayName: Activate Armor Set Bonus
+			GalvanizedZipSlowdown.DisplayName: Galvanized Zip Slowdown
 		}
 
 		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage

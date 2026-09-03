@@ -32,7 +32,7 @@ namespace MogMod.Items.Armor.Blademail
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             BlademailMask.ModifySetTooltips(this, tooltips);
-            tooltips.IntegrateHotkey(KeybindSystem.BladeMailKeybind);
+            tooltips.IntegrateHotkey(KeybindSystem.ArmorSetBonusKeybind);
         }
         ModKeybind keybindActive = null;
         public override void AddRecipes()
