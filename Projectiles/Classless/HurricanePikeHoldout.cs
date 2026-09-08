@@ -154,7 +154,7 @@ namespace MogMod.Projectiles.Classless
         public override bool PreDraw(ref Color lightColor)
         {
             var tex = TextureAssets.Projectile[Type];
-            var ghost = ModContent.Request<Texture2D>("MogMod/Projectiles/Classless/HurricanePikeGhost").Value;
+            var ghost = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/HurricanePikeGhost").Value;
             var frame = tex.Frame();
 
             float intensity = MathF.Pow(Math.Clamp((channelCharge - 150) / 150f, 0, 1), 2);

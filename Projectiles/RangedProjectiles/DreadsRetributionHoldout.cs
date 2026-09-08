@@ -69,11 +69,12 @@ namespace MogMod.Projectiles.RangedProjectiles
                     if (Main.myPlayer == Projectile.owner)
                     {
                         var source = Projectile.GetSource_FromThis();
+                        Vector2 shootPos = Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * -0.25f;
                         float tenthPi = 0.314159274f;
                         Vector2 arrowVel = shootVelocity;
                         arrowVel.Normalize();
                         arrowVel *= 50f;
-                        bool arrowHitsTiles = Collision.CanHit(GunTipPosition, 0, 0, GunTipPosition + arrowVel, 0, 0);
+                        bool arrowHitsTiles = Collision.CanHit(shootPos, 0, 0, shootPos + arrowVel, 0, 0);
                         int type = ammo;
                         if (ammo == ProjectileID.WoodenArrowFriendly) type = ModContent.ProjectileType<DreadsProj>();
                         for (int i = 0; i < 2; i++)
@@ -81,7 +82,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                             float piOffsetValue = (float)i - 0.4f;
                             Vector2 offsetSpawn = arrowVel.RotatedBy((double)(tenthPi * piOffsetValue), default);
                             if (!arrowHitsTiles) offsetSpawn -= arrowVel;
-                            int arrowSpawn = Projectile.NewProjectile(source, GunTipPosition + offsetSpawn, shootVelocity, type, bulletDamage, knockback, Projectile.owner);
+                            int arrowSpawn = Projectile.NewProjectile(source, shootPos + offsetSpawn, shootVelocity, type, bulletDamage, knockback, Projectile.owner);
                             Main.projectile[arrowSpawn].noDropItem = true;
                         }
                     }

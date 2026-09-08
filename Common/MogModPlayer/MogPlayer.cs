@@ -36,6 +36,7 @@ using MogMod.World;
 using Mono.Cecil;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics.Arm;
 using Terraria;
 using Terraria.Audio;
@@ -988,21 +989,28 @@ namespace MogMod.Common.MogModPlayer
             // kaminari (storm spirit)
             bool canUseMana = Player.CheckMana(KaminariHat.ZipCost);
             var zipProj = ModContent.ProjectileType<KaminariZipProj>();
-            if (KeybindSystem.ArmorSetBonusKeybind.Current && wearingKaminari && canUseMana && (kaminariActive || (kaminariCooldown <= 0 && !Player.noItems && !Player.CCed && !kaminariActive)))
+            if (KeybindSystem.ArmorSetBonusKeybind.Current && wearingKaminari && (kaminariActive || (kaminariCooldown <= 0)))
             {
-                kaminariActive = true;
+                kaminariActive = canUseMana;
+                kaminariCooldown = kaminariCooldownMax + 1;
                 if (Player.whoAmI == Main.myPlayer)
                 {
+                    if (Player.miscCounter % (KeybindSystem.ZipSlowdownKeybind.Current ? 4 : 2) == 0) Player.CheckMana(KaminariHat.ZipCost, true);
                     var source = Player.GetSource_FromThis();
                     if (Player.ownedProjectileCounts[zipProj] < 1)
                     {
                         //Main.NewText($"spawning proj", Color.Green);
                         var p = Projectile.NewProjectileDirect(source, Player.Center, Vector2.Zero, zipProj, KaminariHat.ZipDamage, 0f, Player.whoAmI);
                         p.active = true;
+                        p.ai[1] = 1f;
                     }
                 }
             }
-            else if (!KeybindSystem.ArmorSetBonusKeybind.Current || !wearingKaminari) kaminariActive = false;
+            else if (!KeybindSystem.ArmorSetBonusKeybind.Current || !canUseMana || !wearingKaminari)
+            {
+                kaminariActive = false;
+                if (!canUseMana) kaminariCooldown = kaminariCooldownMax * 3;
+            }
             #endregion
             #endregion
         }
@@ -1217,32 +1225,29 @@ namespace MogMod.Common.MogModPlayer
 
             #region Kaminari Zip
             bool canUseMana = Player.CheckMana(KaminariHat.ZipCost);
+            // if player is wearing armor, zip is active, can use mana
             if (wearingKaminari && kaminariActive && canUseMana)
             {
-                foreach (Projectile proj in Main.ActiveProjectiles)
-                {
-                    if (proj.type == ModContent.ProjectileType<KaminariZipProj>())
-                    {
-                        proj.active = true;
-                    }
-                }
                 if (Player.miscCounter % (KeybindSystem.ZipSlowdownKeybind.Current ? 4 : 2) == 0)
                 {
-                    Player.CheckMana(KaminariHat.ZipCost, true);
                     if (Player.miscCounter % (KeybindSystem.ZipSlowdownKeybind.Current ? 8 : 4) == 0)
                     {
                         if (Main.rand.NextBool(2))
                         {
-                            SoundEngine.PlaySound(SoundID.DD2_SkyDragonsFuryShot with { Volume = 0.4f, Pitch = 0.2f, PitchVariance = 0.15f, LimitsArePerVariant = true }, Player.Center);
-                            SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap with { Volume = 0.5f, Pitch = 0.25f, PitchVariance = 0.1f, LimitsArePerVariant = true }, Player.Center);
-                            SoundEngine.PlaySound(SoundID.DD2_LightningBugZap with { Volume = 0.7f, Pitch = 0.2f, PitchVariance = 0.05f, LimitsArePerVariant = true }, Player.Center);
+                            if (Main.rand.NextBool(2)) SoundEngine.PlaySound(SoundID.DD2_SkyDragonsFuryShot with { Volume = 0.4f, Pitch = 0.2f, PitchVariance = 0.15f, LimitsArePerVariant = true }, Player.Center);
+                            SoundEngine.PlaySound(SoundID.DD2_LightningBugHurt with { Volume = 0.5f, Pitch = 0.25f, PitchVariance = 0.1f, LimitsArePerVariant = true }, Player.Center);
+                            SoundEngine.PlaySound(SoundID.DD2_SkyDragonsFuryCircle with { Volume = 0.7f, Pitch = 0.2f, PitchVariance = 0.05f, LimitsArePerVariant = true }, Player.Center);
                         }
-                        else SoundEngine.PlaySound(SoundID.DD2_LightningBugHurt with { Volume = 0.5f, Pitch = 0.25f, PitchVariance = 0.1f, LimitsArePerVariant = true }, Player.Center);
+                        else
+                        {
+                            if (Main.rand.NextBool(2)) SoundEngine.PlaySound(SoundID.DD2_LightningBugZap with { Volume = 0.5f, Pitch = 0.25f, PitchVariance = 0.1f, LimitsArePerVariant = true }, Player.Center);
+                            SoundEngine.PlaySound(SoundID.DD2_SkyDragonsFuryCircle with { Volume = 0.5f, Pitch = 0.25f, PitchVariance = 0.1f, LimitsArePerVariant = true }, Player.Center);
+                        }
                     }
                 }
                 Vector2 mousePos = Player.MountedCenter.DirectionTo(Player.ClampedMouseWorld());
                 Player.invis = true;
-                Player.velocity = mousePos * (KeybindSystem.ZipSlowdownKeybind.Current ? 12f : 22f);
+                Player.velocity = mousePos * (KeybindSystem.ZipSlowdownKeybind.Current ? 10f : 22f);
                 Player.noItems = true;
                 Player.mount?.Dismount(Player);
                 Player.RemoveAllGrapplingHooks();
@@ -1794,37 +1799,22 @@ namespace MogMod.Common.MogModPlayer
         #endregion
         public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {
-            if (drawInfo.shadow != 0f || Player.dead)
-                return;
+            if (drawInfo.shadow != 0f || Player.dead) return;
 
-            if (divineDebuff)
-                DivineMightDebuff.DrawEffects(drawInfo);
-            if (skadiDebuff)
-                EyeOfSkadiDebuff.DrawEffects(drawInfo);
-            if (freezingDebuff)
-                FreezingDebuff.DrawEffects(drawInfo);
-            if (aghHexDebuff)
-                AghanimHexDebuff.DrawEffects(drawInfo);
-            if (wingsOfLightDebuff)
-                WingsOfLightDebuff.DrawEffects(drawInfo);
-            if (ghostflameDebuff)
-                GhostflameDebuff.DrawEffects(drawInfo);
-            if (jidiDebuff)
-                JidiPollenBagDebuff.DrawEffects(drawInfo);
-            if (shivaDebuff)
-                ShivasEnemyDebuff.DrawEffects(drawInfo);
-            if (infernoDebuff)
-                InfernoDebuff.DrawEffects(drawInfo);
-            if (blazingDebuff)
-                BlazingDebuff.DrawEffects(drawInfo);
-            if (toxicDebuff)
-                ToxicDebuff.DrawEffects(drawInfo);
-            if (deathDebuff)
-                BlackBladeDebuff.DrawEffects(drawInfo);
-            if (terraFlameDebuff)
-                TerraFlameDebuff.DrawEffects(drawInfo);
-            if (healingDisabledDebuff)
-                HealingDisabledDebuff.DrawEffects(drawInfo);
+            if (divineDebuff) DivineMightDebuff.DrawEffects(drawInfo);
+            if (skadiDebuff) EyeOfSkadiDebuff.DrawEffects(drawInfo);
+            if (freezingDebuff) FreezingDebuff.DrawEffects(drawInfo);
+            if (aghHexDebuff) AghanimHexDebuff.DrawEffects(drawInfo);
+            if (wingsOfLightDebuff) WingsOfLightDebuff.DrawEffects(drawInfo);
+            if (ghostflameDebuff) GhostflameDebuff.DrawEffects(drawInfo);
+            if (jidiDebuff) JidiPollenBagDebuff.DrawEffects(drawInfo);
+            if (shivaDebuff) ShivasEnemyDebuff.DrawEffects(drawInfo);
+            if (infernoDebuff) InfernoDebuff.DrawEffects(drawInfo);
+            if (blazingDebuff) BlazingDebuff.DrawEffects(drawInfo);
+            if (toxicDebuff) ToxicDebuff.DrawEffects(drawInfo);
+            if (deathDebuff) BlackBladeDebuff.DrawEffects(drawInfo);
+            if (terraFlameDebuff) TerraFlameDebuff.DrawEffects(drawInfo);
+            if (healingDisabledDebuff) HealingDisabledDebuff.DrawEffects(drawInfo);
 
             float dim = .01f;
             if (wearingOverloading && overloadingVisual)
@@ -2511,42 +2501,24 @@ namespace MogMod.Common.MogModPlayer
             }
 
             // cooldowns
-            if (shivCooldown > 0)
-                shivCooldown--;
-            if (bashCooldown > 0)
-                bashCooldown--;
-            if (radiantCooldown > 0)
-                radiantCooldown--;
-            if (jidiPollenCooldown > 0)
-                jidiPollenCooldown--;
-            if (gunpowderCooldown > 0)
-                gunpowderCooldown--;
-            if (hellfireCooldown > 0 && wearingHellfireArmor)
-                hellfireCooldown--;
-            if (satanicAccCooldown > 0)
-                satanicAccCooldown--;
-            if (seraphicReviveCounter > 0 && wearingSeraphic)
-                seraphicReviveCounter--;
-            if (VoniumLifeCooldown > 0)
-                VoniumLifeCooldown--;
-            if (praporCooldown > 0)
-                praporCooldown--;
-            if (toxicCooldown > 0)
-                toxicCooldown--;
-            if (overloadingCooldown > 0)
-                overloadingCooldown--;
-            if (gildedReflectCooldown > 0 && wearingGilded)
-                gildedReflectCooldown--;
-            if (gildedCoinDropCooldown > 0 && wearingGilded)
-                gildedCoinDropCooldown--;
-            if (overloadingRegenCooldown > 0 && wearingOverloading)
-                overloadingRegenCooldown--;
-            if (hellfireOverheat > 0)
-                hellfireOverheat--;
-            if (lasOverheat > 0)
-                lasOverheat--;
-            if (kaminariCooldown > 0)
-                kaminariCooldown--;
+            if (shivCooldown > 0) shivCooldown--;
+            if (bashCooldown > 0) bashCooldown--;
+            if (radiantCooldown > 0) radiantCooldown--;
+            if (jidiPollenCooldown > 0) jidiPollenCooldown--;
+            if (gunpowderCooldown > 0) gunpowderCooldown--;
+            if (hellfireCooldown > 0 && wearingHellfireArmor) hellfireCooldown--;
+            if (satanicAccCooldown > 0) satanicAccCooldown--;
+            if (seraphicReviveCounter > 0 && wearingSeraphic) seraphicReviveCounter--;
+            if (VoniumLifeCooldown > 0) VoniumLifeCooldown--;
+            if (praporCooldown > 0) praporCooldown--;
+            if (toxicCooldown > 0) toxicCooldown--;
+            if (overloadingCooldown > 0) overloadingCooldown--;
+            if (gildedReflectCooldown > 0 && wearingGilded) gildedReflectCooldown--;
+            if (gildedCoinDropCooldown > 0 && wearingGilded) gildedCoinDropCooldown--;
+            if (overloadingRegenCooldown > 0 && wearingOverloading) overloadingRegenCooldown--;
+            if (hellfireOverheat > 0) hellfireOverheat--;
+            if (lasOverheat > 0) lasOverheat--;
+            if (kaminariCooldown > 0 && wearingKaminari) kaminariCooldown--;
         }
         
         // stops player from moving while charging bow

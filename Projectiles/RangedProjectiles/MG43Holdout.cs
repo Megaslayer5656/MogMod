@@ -93,7 +93,8 @@ namespace MogMod.Projectiles.RangedProjectiles
                         float SpeedX = shootVelocity.X + Main.rand.Next(-fireRate, fireRate + 1) * 0.05f;
                         float SpeedY = shootVelocity.Y + Main.rand.Next(-fireRate, fireRate + 1) * 0.05f;
                         Vector2 newVelocity = new(SpeedX, SpeedY);
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), GunTipPosition, newVelocity, ammo, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Vector2 shootPos = Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.25f;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), shootPos, newVelocity, ammo, Projectile.damage, Projectile.knockBack, Projectile.owner);
                         if (MogClientConfig.Instance.AmmoEjection && Main.netMode != NetmodeID.Server)
                         {
                             string goreType = "RigGunCasing";

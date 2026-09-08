@@ -70,7 +70,8 @@ namespace MogMod.Projectiles.RangedProjectiles
                         var source = Projectile.GetSource_FromThis();
                         int type = ammo;
                         if (ammo == ProjectileID.WoodenArrowFriendly) type = ModContent.ProjectileType<DrowRangerArrow>();
-                        int arrowSpawn = Projectile.NewProjectile(source, GunTipPosition, shootVelocity, type, bulletDamage, knockback, Projectile.owner);
+                        Vector2 shootPos = Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * -0.25f;
+                        int arrowSpawn = Projectile.NewProjectile(source, shootPos, shootVelocity, type, bulletDamage, knockback, Projectile.owner);
                         Main.projectile[arrowSpawn].noDropItem = true;
                     }
                     shotCounter++;

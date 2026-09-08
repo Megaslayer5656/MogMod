@@ -9,21 +9,21 @@ namespace MogMod.Projectiles.RangedProjectiles
 {
     public class DragonPiercerArrow : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.RangedProjectiles";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
-        NPC potentialTarget = null;
+        Projectile potentialTarget = null;
         public override void SetDefaults()
         {
-            Projectile.width = 64;
-            Projectile.height = 14;
-            Projectile.friendly = true;
-            Projectile.timeLeft = 119;
-            Projectile.penetrate = 1;
-            Projectile.MaxUpdates = 2;
-            Projectile.DamageType = DamageClass.Ranged;
-            Projectile.arrow = true;
-        }
+            Projectile.width = 14;
+            Projectile.height = 64;
 
+            Projectile.arrow = true;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+
+            Projectile.timeLeft = 119;
+            Projectile.MaxUpdates = 2;
+        }
         private Vector2 Recalibrate()
         {
             float turnSpeedFactor = (float)Math.Pow(MathHelper.Clamp(Projectile.timeLeft - 40, 0f, 120f) / 120f, 4D);
@@ -33,20 +33,27 @@ namespace MogMod.Projectiles.RangedProjectiles
             Vector2 righTurnVelocity = Projectile.velocity.RotatedBy(turnAngle);
             float leftDirectionImprecision = leftTurnVelocity.AngleBetween(Projectile.SafeDirectionTo(potentialTarget.Center));
             float rightDirectionImprecision = righTurnVelocity.AngleBetween(Projectile.SafeDirectionTo(potentialTarget.Center));
-            potentialTarget = Projectile.Center.ClosestNPCAt(512f, true);
 
-            if (leftDirectionImprecision < rightDirectionImprecision)
-                return leftTurnVelocity;
-            else
-                return righTurnVelocity;
+            foreach (Projectile proj in Main.ActiveProjectiles)
+            {
+                if (proj.type == ModContent.ProjectileType<TracerArrow>())
+                    potentialTarget = proj;
+            }
+
+            if (leftDirectionImprecision < rightDirectionImprecision) return leftTurnVelocity;
+            else return righTurnVelocity;
         }
-
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            if (potentialTarget == null)
-                potentialTarget = Projectile.Center.ClosestNPCAt(512f, true);
+            Projectile.tileCollide = Projectile.localAI[1]++ > 30f;
+
+            foreach (Projectile proj in Main.ActiveProjectiles)
+            {
+                if (proj.type == ModContent.ProjectileType<TracerArrow>())
+                    potentialTarget = proj;
+            }
 
             if (potentialTarget != null)
             {
@@ -65,8 +72,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         {
             for (int i = 0; i < 10; i++)
             {
-
-                Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                Vector2 dustVelocity = new(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                 dustVelocity.Normalize();
                 dustVelocity *= 50;
 

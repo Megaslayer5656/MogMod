@@ -93,7 +93,8 @@ namespace MogMod.Projectiles.RangedProjectiles
                         knockback *= 1.5f;
                     }
                     Owner.velocity += shootVelocity.SafeNormalize(Vector2.UnitX) * -6f;
-                    Projectile.NewProjectile(source, GunTipPosition, shootVelocity, type, bulletDamage, knockback, Projectile.owner);
+                    Vector2 shootPos = Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.25f;
+                    Projectile.NewProjectile(source, shootPos, shootVelocity, type, bulletDamage, knockback, Projectile.owner);
                     if (MogClientConfig.Instance.AmmoEjection && Main.netMode != NetmodeID.Server)
                     {
                         string goreType = "RigGunCasing";

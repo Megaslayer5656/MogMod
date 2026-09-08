@@ -26,7 +26,7 @@ namespace MogMod.Items.Armor.Kaminari
         public const int ZipDamage = 250;
         public const int ZipCost = 30;
         public const int ManaRegenBonus = 30; // {1}
-        public static Color AbilityBriefColor = Color.SkyBlue; // {0}
+        public static Color AbilityBriefColor = new(82, 255, 220); // {0}
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ManaBoost, ManaReduction.ToReversedPercent(), MagicDamageBoost.ToPercent());
         public override void SetStaticDefaults()
         {

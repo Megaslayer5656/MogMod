@@ -99,9 +99,10 @@ namespace MogMod.Projectiles.RangedProjectiles
                     if (MogClientConfig.Instance.GunRecoil)
                         OffsetLengthFromArm -= 2f;
                     Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int bulletDamage, out float knockback, out _);
+                    Vector2 shootPos = Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.25f;
                     if (Main.myPlayer == Projectile.owner)
                     {
-                        Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), GunTipPosition, shootVelocity.RotatedByRandom(MathHelper.ToRadians(MathHelper.Lerp(0.2f, 3f, (Owner.HeldItem.ModItem as HellfireMaxigun).BuiltUpHeat * 0.01f))), ammo, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), shootPos, shootVelocity.RotatedByRandom(MathHelper.ToRadians(MathHelper.Lerp(0.2f, 3f, (Owner.HeldItem.ModItem as HellfireMaxigun).BuiltUpHeat * 0.01f))), ammo, Projectile.damage, Projectile.knockBack, Projectile.owner);
                         MogModGlobalProjectile mogProj = proj.MogMod();
                         mogProj.fireBullet = true;
                         if (MogClientConfig.Instance.AmmoEjection && Main.netMode != NetmodeID.Server)

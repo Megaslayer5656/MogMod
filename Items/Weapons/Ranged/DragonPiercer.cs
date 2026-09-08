@@ -15,9 +15,10 @@ namespace MogMod.Items.Weapons.Ranged
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public const int MaxShots = 5;
+        public const double DamageMult = 1.5;
         public const int MinCharge = 30;
         public const int MaxCharge = 240 - MinCharge;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MaxShots);
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DamageMult);
         public override void SetStaticDefaults() => ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
         public override void SetDefaults()
         {

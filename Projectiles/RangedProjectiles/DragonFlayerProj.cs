@@ -22,6 +22,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         public static int Size => 80;
         public int NumAnimationFrames = 7;
         public int MaxPenetrate = 10;
+        public int Alpha = 0;
         public float MaxFlameTypes = 0.07f;
         public override void SetStaticDefaults()
         {
@@ -68,9 +69,9 @@ namespace MogMod.Projectiles.RangedProjectiles
                 dust.noGravity = true;
                 dust.velocity *= 3f;
             }
-
-            if (Time > Lifetime - 25 || Projectile.numHits >= MaxPenetrate) Projectile.alpha += 15;
-            if (Projectile.alpha >= 255) Projectile.Kill();
+            if (Projectile.numHits >= MaxPenetrate) Time++;
+            Projectile.alpha = Alpha;
+            Alpha = (int)MathHelper.Max(0, (Time * 5));
 
             // Calculate light power. This checks below the position of the fog to check if this fog is underground.
             // Without this, it may render over the fullblack that the game renders for obscured tiles.
@@ -85,14 +86,18 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<InfernoDebuff>(), 1200);
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<InfernoDebuff>(), 1200);
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (Projectile.numHits >= MaxPenetrate) modifiers.SourceDamage *= 0.85f;
+        }
         public override bool PreDraw(ref Color lightColor)
         {
             // copied from calamity mods cataclysmic flame proj
             Texture2D texture = TextureAssets.Projectile[Type].Value;
-            Color color1 = new(255, 137, 87, 200);
-            Color color2 = new(255, 149, 48, 70);
-            Color color3 = new(255, 70, 31, 100);
-            Color color4 = new(200, 60, 35, 100);
+            Color color1 = new(255, 137, 87, Projectile.alpha);
+            Color color2 = new(255, 149, 48, Projectile.alpha);
+            Color color3 = new(255, 70, 31, Projectile.alpha);
+            Color color4 = new(200, 60, 35, Projectile.alpha);
             float length = MaxFlameTypes;
             float vOffset = Math.Min(Time, 20f);
             float timeRatio = Utils.GetLerpValue(0f, Lifetime, Time);
@@ -100,8 +105,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             int flameType = 0;
             int flameType2 = 4;
 
-            if (timeRatio >= 1f)
-                return false;
+            if (timeRatio >= 1f) return false;
 
             for (float j = 1f; j >= 0f; j -= length)
             {
@@ -114,6 +118,8 @@ namespace MogMod.Projectiles.RangedProjectiles
                 Color.Lerp(color4, Color.Transparent, Utils.GetLerpValue(0.85f, 1f, timeRatio)))))));
                 fireColor *= (1f - j) * Utils.GetLerpValue(0f, 0.2f, timeRatio, true);
                 Color innerColor = Color.Lerp(fireColor, Color.Black, 0.3f);
+                Color trailColor = innerColor * 0.25f;
+                Color newInnerColor = innerColor * 0.75f;
 
                 // pos && rot
                 Rectangle sourceRectangle = texture.Frame(1, Main.projFrames[Type], frameY: flameType);
@@ -127,10 +133,10 @@ namespace MogMod.Projectiles.RangedProjectiles
                 else flameType2 = 0;
                 // backtrail
                 Vector2 trailOffset = Projectile.velocity * vOffset * length * 0.5f;
-                Main.EntitySpriteDraw(texture, firePos - trailOffset, sourceRectangle2, innerColor * 0.25f, trailRot, origin, fireSize, SpriteEffects.None);
+                Main.EntitySpriteDraw(texture, firePos - trailOffset, sourceRectangle2, trailColor with { A = (byte)Time }, trailRot, origin, fireSize, SpriteEffects.None);
                 // draw og proj
-                Main.EntitySpriteDraw(texture, firePos, sourceRectangle, innerColor * 0.75f, -mainRot * 0.9f, origin, fireSize * 0.9f, SpriteEffects.None);
-                Main.EntitySpriteDraw(texture, firePos, sourceRectangle, innerColor, mainRot, origin, fireSize, SpriteEffects.None);
+                Main.EntitySpriteDraw(texture, firePos, sourceRectangle, newInnerColor with { A = (byte)Time }, -mainRot * 0.9f, origin, fireSize * 0.9f, SpriteEffects.None);
+                Main.EntitySpriteDraw(texture, firePos, sourceRectangle, innerColor with { A = (byte)Time }, mainRot, origin, fireSize, SpriteEffects.None);
                 if (flameType < 6) flameType++;
                 else flameType = 0;
             }

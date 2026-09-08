@@ -9,7 +9,6 @@ using Terraria.Graphics.Shaders;
 namespace MogMod.Common.Graphics;
 
 // lifted from terrarias shader drawing stuff
-// TODO: fix trail drawing spawn pos being a few steps back
 [StructLayout(LayoutKind.Sequential, Size = 1)]
 public struct TrailDrawer
 {

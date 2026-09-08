@@ -230,6 +230,7 @@ Mods: {
 				EmpyreanBombardmentProj.DisplayName: Empyrean Bombardment Proj
 				EmpyreanStarProj.DisplayName: Empyrean Star Proj
 				KaminariZipProj.DisplayName: Kaminari Zip Proj
+				KaminariZipBeam.DisplayName: Kaminari Zip Beam
 			}
 
 			RangedProjectiles: {
@@ -291,6 +292,9 @@ Mods: {
 				GasExplosion.DisplayName: Gas Explosion
 				SinisterFire.DisplayName: Sinister Fire
 				TerraFire.DisplayName: Terra Fire
+				DragonPiercerArrow.DisplayName: Dragon Piercer Arrow
+				ArcShotArrow.DisplayName: Arc Shot Arrow
+				TracerArrow.DisplayName: Tracer Arrow
 			}
 
 			Melee: {
@@ -392,6 +396,7 @@ Mods: {
 				OverloadingOrbProj.DisplayName: Overloading Orb
 				HurricanePikeHoldout.DisplayName: Hurricane Pike
 				BootsTrailShaderProj.DisplayName: Boots Trail Shader Proj
+				TrailProj.DisplayName: Trail Proj
 			}
 
 			BossProjectiles: {
