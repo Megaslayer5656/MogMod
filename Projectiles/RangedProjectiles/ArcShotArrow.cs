@@ -32,11 +32,15 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             Timer++;
             Projectile.timeLeft = 2;
-
+            Projectile.velocity *= MathHelper.Lerp(1.1f, 0.95f, Timer / 100);
+            Main.NewText($"timer = {Timer}, vel = {MathHelper.Lerp(1.1f, 0.95f, Timer / 100)}");
+    
             if (Timer >= ShootTime)
             {
                 SpawningArrows = true;
                 Projectile.velocity = Vector2.Zero;
+                var source = Projectile.GetSource_FromThis();
+                if (Timer % 2 == 0) MogModUtils.ProjectileRain(source, Projectile.Center, 400f, 50f, 1500f, 1700f, 50, ModContent.ProjectileType<DragonPiercerArrow>(), (int)(Projectile.damage * 0.25), Projectile.knockBack, Projectile.owner);
                 if (Timer >= ShootTime * 5f) Projectile.Kill();
             }
 
