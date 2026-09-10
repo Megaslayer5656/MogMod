@@ -295,6 +295,8 @@ Mods: {
 				DragonPiercerArrow.DisplayName: Dragon Piercer Arrow
 				ArcShotArrow.DisplayName: Arc Shot Arrow
 				TracerArrow.DisplayName: Tracer Arrow
+				StellarStar.DisplayName: Stellar Star
+				ChargedStellarStar.DisplayName: Charged Stellar Star
 			}
 
 			Melee: {

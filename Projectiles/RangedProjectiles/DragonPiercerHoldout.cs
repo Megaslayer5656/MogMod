@@ -16,18 +16,8 @@ namespace MogMod.Projectiles.RangedProjectiles
 {
     public class DragonPiercerHoldout : BaseGunHoldoutProjectile
     {
-        public static readonly SoundStyle WeakCharge = new($"{nameof(MogMod)}/Sounds/SE/bowChargeWeak")
-        {
-            Volume = 1.1f,
-            PitchVariance = .2f,
-            MaxInstances = 5
-        };
-        public static readonly SoundStyle StrongCharge = new($"{nameof(MogMod)}/Sounds/SE/bowChargeStrong")
-        {
-            Volume = 1.1f,
-            PitchVariance = .2f,
-            MaxInstances = 2
-        };
+        public static readonly SoundStyle WeakCharge = new($"{nameof(MogMod)}/Sounds/SE/bowChargeWeak") { Volume = 1.1f, PitchVariance = .2f, MaxInstances = 5 };
+        public static readonly SoundStyle StrongCharge = new($"{nameof(MogMod)}/Sounds/SE/bowChargeStrong") { Volume = 1.1f, PitchVariance = .2f, MaxInstances = 2 };
         public override int AssociatedItemID => ModContent.ItemType<DragonPiercer>();
         private Asset<Texture2D> ItemTexture => TextureAssets.Item[AssociatedItemID];
         public override float RecoilResolveSpeed => (ChargeLvl3 && !HoldingRightClick ? 0.04f : ChargeLvl2 || HoldingRightClick ? 0.12f : ChargeLvl1 ? 0.2f : 0.4f);
@@ -73,6 +63,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             if (attackSpeed > Cap) attackSpeed = Cap;
             if (attackSpeed != 0f) attackSpeed = 1f / attackSpeed;
             NewMinCharge = (int)(MinCharge * attackSpeed);
+            NewMaxCharge = (int)(NewMaxCharge * attackSpeed);
             ChargeLvl1 = Time >= (int)((MaxCharge - 120) * attackSpeed);
             ChargeLvl2 = Time >= (int)((MaxCharge - 60) * attackSpeed);
             ChargeLvl3 = Time >= (NewMaxCharge = (int)(MaxCharge * attackSpeed));
@@ -101,7 +92,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             {
                 if (!ChargeLvl1)
                 {
-                    StartedChargeLvl1 = false;
+                    StartedChargeLvl1 = StartedChargeLvl2 = StartedChargeLvl3 = false;
                     HoldingRightClick = true;
                 }
                 // once reaching lvl 1 charge
@@ -154,7 +145,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             {
                 if (!ChargeLvl1)
                 {
-                    StartedChargeLvl1 = false;
+                    StartedChargeLvl1 = StartedChargeLvl2 = StartedChargeLvl3 = false;
                     HoldingRightClick = false;
                 }
                 if (ChargeLvl1)
@@ -180,8 +171,8 @@ namespace MogMod.Projectiles.RangedProjectiles
                             float unitOffsetX = (float)Math.Pow(Math.Cos(offsetAngle), 3D);
                             float unitOffsetY = (float)Math.Pow(Math.Sin(offsetAngle), 3D);
 
-                            Vector2 puffDustVelocity = new Vector2(unitOffsetX, unitOffsetY) * 2.5f;
-                            Dust charged = Dust.NewDustPerfect(GunTipPosition, 267, puffDustVelocity);
+                            Vector2 vel = new Vector2(unitOffsetX, unitOffsetY) * 2.5f;
+                            Dust charged = Dust.NewDustPerfect(GunTipPosition, 267, vel);
                             charged.scale = 0.75f;
                             charged.fadeIn = 0.5f;
                             charged.color = Color.Lerp(Color.Yellow, Color.Gold, colorRando);
@@ -211,8 +202,8 @@ namespace MogMod.Projectiles.RangedProjectiles
                                 float unitOffsetX = (float)Math.Pow(Math.Cos(offsetAngle), 3D);
                                 float unitOffsetY = (float)Math.Pow(Math.Sin(offsetAngle), 3D);
 
-                                Vector2 puffDustVelocity = new Vector2(unitOffsetX, unitOffsetY) * 2.5f;
-                                Dust charged = Dust.NewDustPerfect(GunTipPosition, 267, puffDustVelocity);
+                                Vector2 vel = new Vector2(unitOffsetX, unitOffsetY) * 2.5f;
+                                Dust charged = Dust.NewDustPerfect(GunTipPosition, 267, vel);
                                 charged.scale = 0.75f;
                                 charged.fadeIn = 0.5f;
                                 charged.color = Color.Lerp(Color.Yellow, Color.Gold, colorRando);
@@ -241,8 +232,8 @@ namespace MogMod.Projectiles.RangedProjectiles
                                     float unitOffsetX = (float)Math.Pow(Math.Cos(offsetAngle), 3D);
                                     float unitOffsetY = (float)Math.Pow(Math.Sin(offsetAngle), 3D);
 
-                                    Vector2 puffDustVelocity = new Vector2(unitOffsetX, unitOffsetY) * 5f;
-                                    Dust charged = Dust.NewDustPerfect(GunTipPosition, 267, puffDustVelocity);
+                                    Vector2 vel = new Vector2(unitOffsetX, unitOffsetY) * 5f;
+                                    Dust charged = Dust.NewDustPerfect(GunTipPosition, 267, vel);
                                     charged.scale = 1.5f;
                                     charged.fadeIn = 0.5f;
                                     charged.color = Color.Lerp(Color.PaleVioletRed, Color.MediumVioletRed, colorRando);
@@ -275,7 +266,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 var source = Projectile.GetSource_FromThis();
                 int type = ModContent.ProjectileType<TracerArrow>();
                 Vector2 shootPos = Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.25f;
-                SoundEngine.PlaySound(SoundID.Item38, Owner.Center);
+                SoundEngine.PlaySound(SoundID.Item102, Projectile.Center);
                 foreach (Projectile proj in Main.projectile) if (proj.type == type) proj.Kill();
                 Projectile.NewProjectile(source, shootPos, shootVelocity, type, damage, knockback, Projectile.owner);
             }
@@ -300,23 +291,24 @@ namespace MogMod.Projectiles.RangedProjectiles
                     int type = ModContent.ProjectileType<DragonPiercerArrow>();
                     Vector2 shootPos = Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.25f;
                     if (ChargeLvl3) damage = (int)(damage * DragonPiercer.DamageMult);
-                    SoundEngine.PlaySound(SoundID.Item38, Owner.Center);
                     if (ChargeLvl1)
                     {
                         Projectile.NewProjectile(source, shootPos, shootVelocity, type, damage, knockback, Projectile.owner);
-                        if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm += 5f;
-                    }
-                    if (ChargeLvl2)
-                    {
-                        Projectile.NewProjectile(source, shootPos, shootVelocity.RotatedBy(Spread), type, damage, knockback, Projectile.owner);
-                        Projectile.NewProjectile(source, shootPos, shootVelocity.RotatedBy(-Spread), type, damage, knockback, Projectile.owner);
-                        if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm += 5f;
-                    }
-                    if (ChargeLvl3)
-                    {
-                        Projectile.NewProjectile(source, shootPos, shootVelocity.RotatedBy(Spread * 2f), type, damage, knockback, Projectile.owner);
-                        Projectile.NewProjectile(source, shootPos, shootVelocity.RotatedBy(-Spread * 2f), type, damage, knockback, Projectile.owner);
-                        if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm += 10f;
+                        if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm += 3f;
+                        SoundEngine.PlaySound(SoundID.DD2_BallistaTowerShot, Owner.Center);
+                        if (ChargeLvl2)
+                        {
+                            Projectile.NewProjectile(source, shootPos, shootVelocity.RotatedBy(Spread), type, damage, knockback, Projectile.owner);
+                            Projectile.NewProjectile(source, shootPos, shootVelocity.RotatedBy(-Spread), type, damage, knockback, Projectile.owner);
+                            if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm += 3f;
+                            if (ChargeLvl3)
+                            {
+                                Projectile.NewProjectile(source, shootPos, shootVelocity.RotatedBy(Spread * 2f), type, damage, knockback, Projectile.owner);
+                                Projectile.NewProjectile(source, shootPos, shootVelocity.RotatedBy(-Spread * 2f), type, damage, knockback, Projectile.owner);
+                                if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm += 4f;
+                                SoundEngine.PlaySound(SoundID.Item102 with { Pitch = -0.2f }, Projectile.Center);
+                            }
+                        }
                     }
                 }
             }
@@ -347,7 +339,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                     float increment = Spread * 2;
                     BoltAngle = increment * (i - 2);
                 }
-                Color Transparency = Projectile.GetAlpha(lightColor) * (opacity * 1.5f);
+                Color Transparency = Projectile.GetAlpha(lightColor) * (opacity * 2.2f);
                 var BoltTexture = ModContent.Request<Texture2D>("MogMod/Projectiles/RangedProjectiles/DragonPiercerArrow").Value;
                 if (Owner.MogMod().mouseRight) BoltTexture = ModContent.Request<Texture2D>("MogMod/Projectiles/RangedProjectiles/TracerArrow").Value;
                 Vector2 PointingTo = new((float)Math.Cos(Projectile.rotation + BoltAngle), (float)Math.Sin(Projectile.rotation + BoltAngle));
@@ -358,6 +350,14 @@ namespace MogMod.Projectiles.RangedProjectiles
                 if (!Owner.CantUseHoldout()) Main.EntitySpriteDraw(BoltTexture, boltPos + drawOffset, null, Transparency, drawRotation + (BoltAngle * 1f) + MathHelper.PiOver2 + FlipFactor, BoltTexture.Size() * 0.5f, 1f, flipSprite, 0);
             }
             auraColor = (HoldingRightClick ? new(255, 233, 186) : ChargeLvl2 ? new(255, 25, 75) : ChargeLvl1 ? Color.Goldenrod : Color.PaleGoldenrod) * opacity * 0.8f;
+            if (HoldingRightClick && ChargeLvl1 || ChargeLvl3)
+            {
+                if (MogClientConfig.Instance.GunRecoil)
+                {
+                    float rumble = MathHelper.Clamp(DrawTimer / (HoldingRightClick ? 2f : 1f), 0f, NewMaxCharge);
+                    drawPosition += Main.rand.NextVector2Circular(rumble / 70f, rumble / 70f);
+                }
+            }
             if (Time >= NewMinCharge)
             {
                 for (int i = 0; i < 16; i++)

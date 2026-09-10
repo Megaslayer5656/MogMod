@@ -54,9 +54,9 @@ namespace MogMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient(ItemID.StarWrath).
                 AddIngredient<BlackBlade>().
-                AddIngredient(ItemID.HallowedBar, 15).
                 AddIngredient(ItemID.FallenStar, 12).
                 AddIngredient(ItemID.LunarBar, 10).
+                AddIngredient(ItemID.FragmentStardust, 8).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

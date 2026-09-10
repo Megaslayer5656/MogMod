@@ -12,6 +12,8 @@ namespace MogMod.Projectiles.RangedProjectiles
         public new string LocalizationCategory => "Projectiles.Ranged";
         public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         Projectile potentialTarget = null;
+        float distance = 1000f;
+        float homingReq = 800f;
         public override void SetDefaults()
         {
             Projectile.width = 14;
@@ -37,7 +39,10 @@ namespace MogMod.Projectiles.RangedProjectiles
             foreach (Projectile proj in Main.ActiveProjectiles)
             {
                 if (proj.type == ModContent.ProjectileType<TracerArrow>())
-                    potentialTarget = proj;
+                {
+                    distance = Vector2.Distance(Projectile.Center, proj.Center);
+                    if (distance <= homingReq) potentialTarget = proj;
+                }
             }
 
             if (leftDirectionImprecision < rightDirectionImprecision) return leftTurnVelocity;
@@ -48,11 +53,14 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
             Projectile.tileCollide = Projectile.localAI[1]++ > 30f;
-
+            
             foreach (Projectile proj in Main.ActiveProjectiles)
             {
                 if (proj.type == ModContent.ProjectileType<TracerArrow>())
-                    potentialTarget = proj;
+                {
+                    distance = Vector2.Distance(Projectile.Center, proj.Center);
+                    if (distance <= homingReq) potentialTarget = proj;
+                }
             }
 
             if (potentialTarget != null)

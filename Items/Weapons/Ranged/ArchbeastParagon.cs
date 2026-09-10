@@ -69,9 +69,10 @@ namespace MogMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DragonPiercer>(1).
-                AddIngredient(ItemID.ElectrosphereLauncher, 1).
-                AddIngredient<UltimateOrb>(1).
+                AddIngredient<DragonPiercer>().
+                AddIngredient(ItemID.DD2PhoenixBow).
+                AddIngredient<UltimateOrb>().
+                AddIngredient<BrokenHeroGun>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

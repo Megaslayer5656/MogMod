@@ -161,7 +161,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             Rectangle sourceRectangle = texture.Frame(1, Main.projFrames[Type], frameY: Projectile.frame);
             Vector2 scale = Vector2.One * Projectile.scale * 2f;
             Vector2 newScale = scale + scale * (float)Math.Cos(Main.GlobalTimeWrappedHourly * ((float)Math.PI * 1f)) * 0.2f;
-            Main.EntitySpriteDraw(texture, drawPosition, sourceRectangle, Projectile.GetAlpha(lightColor), Projectile.rotation, sourceRectangle.Size() * 0.5f, newScale, SpriteEffects.None);
+            Main.EntitySpriteDraw(texture, drawPosition, sourceRectangle, Projectile.GetAlpha(lightColor), 0f, sourceRectangle.Size() * 0.5f, newScale, SpriteEffects.None);
 
             // draw glow effect
             Main.spriteBatch.SetBlendState(BlendState.Additive);

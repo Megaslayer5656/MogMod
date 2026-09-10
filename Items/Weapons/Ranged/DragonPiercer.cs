@@ -70,7 +70,6 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<WindrunnersBow>().
-                AddIngredient(ItemID.MagicQuiver).
                 AddIngredient(ItemID.Cog, 48).
                 AddRecipeGroup("AnyAdamantiteBar", 18).
                 AddIngredient<FuciumBar>(8).

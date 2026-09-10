@@ -547,9 +547,11 @@ Items: {
 				DisplayName: Archbeast Paragon
 				Tooltip:
 					'''
-					Can be charged up to 5 times, doubling damage at max charge
-					Right click to slowly charge up a Dragon Piercer Bolt
-					You are unable to move while charging the Dragon Piercer Bolt
+					Can be charged up to 3 times, increasing damage by {0}x at max charge
+					Right click while charging to charge up special arrow types
+					At the first charge, fire a Tracer Arrow that causes other arrows to home onto it
+					At max charge, fire an Arc Shot that repeatedly shoots arrows from the sky
+					Only 1 Tracer Arrow and or Arc Shot may exist at a time
 					[c/85A845:'Jumpin' Jaggis, a Rathian!']
 					'''
 			}
@@ -801,6 +803,11 @@ Items: {
 					Ignores {1} points of enemy Defense
 					{0}% chance to save ammo
 					'''
+			}
+
+			StellarBlaster: {
+				DisplayName: Stellar Blaster
+				Tooltip: ""
 			}
 		}
 
