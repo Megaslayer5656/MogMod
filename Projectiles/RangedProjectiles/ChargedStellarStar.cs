@@ -19,6 +19,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         public ref float StarCharge => ref Projectile.ai[0];
         public ref float Scale => ref Projectile.ai[2];
         private bool hitEnemy = false;
+        private bool DoubledDamage = false;
         public int Lifetime = 600;
         public int MaxHits = 3;
         public int MaxPenetrate = 1;
@@ -52,30 +53,38 @@ namespace MogMod.Projectiles.RangedProjectiles
         {
             // something in here is causing the consequent to be less than 1
             // it causes the proj to instantly disappear
-            if (hitEnemy)
+            if (hitEnemy || Projectile.timeLeft <= Lifetime / 10)
             {
-                //Projectile.localNPCHitCooldown = -1;
-                SoundEngine.PlaySound(SoundID.Item117 with { Volume = 0.8f, Pitch = -0.1f }, Projectile.Center);
-                SoundEngine.PlaySound(SoundID.DD2_BetsysWrathImpact, Projectile.Center);
-                SoundEngine.PlaySound(SoundID.DD2_PhantomPhoenixShot with { Pitch = 0.15f }, Projectile.Center);
-                SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode with { Pitch = 0.2f }, Projectile.Center);
-                if (StarCharge >= 1f)
+                if (hitEnemy || Projectile.timeLeft > Lifetime / 10)
                 {
-                    Projectile.position = Projectile.Center;
-                    Projectile.width *= 2;
-                    Projectile.height *= 2;
-                    Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
-                    Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-                    if (Projectile.owner == Main.myPlayer) Projectile.Damage();
+                    Projectile.localNPCHitCooldown = -1;
+                    SoundEngine.PlaySound(SoundID.Item117 with { Volume = 0.8f, Pitch = -0.1f }, Projectile.Center);
+                    SoundEngine.PlaySound(SoundID.DD2_BetsysWrathImpact, Projectile.Center);
+                    SoundEngine.PlaySound(SoundID.DD2_PhantomPhoenixShot with { Pitch = 0.15f }, Projectile.Center);
+                    SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode with { Pitch = 0.2f }, Projectile.Center);
+                    if (StarCharge >= 1f)
+                    {
+                        if (!DoubledDamage)
+                        {
+                            Projectile.ContinuouslyUpdateDamageStats = false;
+                            Projectile.damage *= 3;
+                            DoubledDamage = true;
+                        }
+                        Projectile.velocity = Vector2.Zero;
+                        Projectile.position = Projectile.Center;
+                        Projectile.width *= 2;
+                        Projectile.height *= 2;
+                        Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+                        Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+                        if (Projectile.owner == Main.myPlayer) Projectile.Damage();
+                    }
                 }
 
-                Projectile.alpha += 5;
+                Projectile.alpha += (hitEnemy ? 5 : 35);
                 if (Projectile.alpha >= 255) Projectile.Kill();
             }
 
             MaxPenetrate = (int)(MaxHits * (StarCharge + 2f));
-            Projectile.Center = Projectile.position;
-            Projectile.position = Projectile.Center;
 
             int helixType = (int)Projectile.ai[1];
             float ep = 0.02f;
@@ -91,7 +100,7 @@ namespace MogMod.Projectiles.RangedProjectiles
 
             Vector2 speed = Projectile.velocity.SafeNormalize(Vector2.Zero);
             float drawSpeed = MathF.Sin(Main.GlobalTimeWrappedHourly * 4 * (StarCharge + 1f)) * 0.5f + 0.5f;
-            if (Main.rand.NextBool(13 - Projectile.numHits))
+            if (Main.rand.NextBool((int)MathHelper.Max(5, 13 - Projectile.numHits)))
             {
                 int num707 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.FireworksRGB, speed.X, speed.Y, 100, Color.WhiteSmoke, 1.2f);
                 Main.dust[num707].noGravity = true;
@@ -106,8 +115,9 @@ namespace MogMod.Projectiles.RangedProjectiles
                 dust2.velocity *= Main.rand.NextFloat();
             }
 
-            Scale += 0.6f * (hitEnemy ? 3f : 1f);
-            float scaleMax = Projectile.scale * 3f * (hitEnemy ? 3f : 1f);
+            float mult = ((hitEnemy && StarCharge >= 1f) ? 1.5f : 1f);
+            Scale += 0.6f * mult;
+            float scaleMax = Projectile.scale * 3f * mult;
             Scale = MathHelper.Clamp(Scale, 0f, scaleMax);
             Lighting.AddLight(Projectile.Center, (MogModUtils.MulticolorLerp(drawSpeed, colorList).ToVector3() * 0.01f) * Scale);
 
@@ -141,30 +151,31 @@ namespace MogMod.Projectiles.RangedProjectiles
                 d.color = MogModUtils.MulticolorLerp(drawSpeed, colorList);
             }
         }
-        public override bool? CanDamage() => Projectile.timeLeft <= Lifetime - 2;
+        public override bool? CanDamage() => (!hitEnemy && StarCharge < 1f && Projectile.timeLeft <= Lifetime - 2) || (StarCharge >= 1f && Projectile.timeLeft <= Lifetime - 2);
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => overPlayers.Add(index);
         public override bool PreDraw(ref Color lightColor)
         {
             TrailDrawer trailDrawer = default;
             Color auraColor = Color.White;
             float scale = Math.Abs(1f - (Scale * 0.075f));
-            if (Projectile.timeLeft <= Lifetime - 2) trailDrawer.Draw(Projectile, "RainbowRod", auraColor * 0.1f, auraColor, scale, maxLength: 40f);
+            float opacity = StarCharge * 2.5f;
+            if ((Projectile.timeLeft <= Lifetime - 2 && !hitEnemy && opacity >= 2f) || Projectile.timeLeft <= Lifetime / 10) trailDrawer.Draw(Projectile, "RainbowRod", auraColor * 0.1f, auraColor, scale, maxLength: 40f);
 
             var starTex = ModContent.Request<Texture2D>("MogMod/Assets/Textures/StarParticle").Value;
             var bloomTex = ModContent.Request<Texture2D>("MogMod/Assets/Textures/GlowParticle").Value;
             Vector2 starPos = Projectile.Center - Main.screenPosition;
-            float opacity = StarCharge * 2.5f;
             float newDrawTimer = StarCharge * 5f;
             auraColor = (StarCharge >= 1f ? MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * newDrawTimer, colorList) : StarCharge >= 0.5f ? MogModUtils.MulticolorLerp(newDrawTimer, colorList) : Color.WhiteSmoke) * opacity * 0.8f;
             float newScale = Scale + Scale * (float)Math.Cos(Main.GlobalTimeWrappedHourly * ((float)Math.PI * 2f)) * 0.2f;
+            float mult = ((hitEnemy && StarCharge >= 1f) ? (Projectile.alpha / 5) : 1f);
 
             Main.spriteBatch.SetBlendState(BlendState.Additive);
             for (float i = MathHelper.PiOver2; i <= MathHelper.Pi; i += MathHelper.PiOver4)
             {
-                float starRotation = (newDrawTimer * ((Projectile.timeLeft <= Lifetime - 2 || StarCharge >= 1f) ? Main.GlobalTimeWrappedHourly : 1.75f) * Scale) + i;
+                float starRotation = (newDrawTimer * (((Projectile.timeLeft <= Lifetime - 2) || StarCharge >= 1f) ? Main.GlobalTimeWrappedHourly : 1.75f) * Scale) + i;
                 Color Transparency = Projectile.GetAlpha(auraColor) * (opacity * (StarCharge / i));
-                Main.EntitySpriteDraw(bloomTex, starPos, null, Transparency * 0.5f, starRotation, bloomTex.Size() * 0.5f, newScale * 0.2f * (newDrawTimer / 3f), SpriteEffects.None, 0);
-                Main.EntitySpriteDraw(starTex, starPos, null, Transparency, starRotation, starTex.Size() * 0.5f, Scale * (newDrawTimer / 3f), SpriteEffects.None, 0);
+                if (!hitEnemy) Main.EntitySpriteDraw(starTex, starPos, null, Transparency, starRotation, starTex.Size() * 0.5f, Scale * (newDrawTimer / 3f), SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(bloomTex, starPos, null, Transparency * (mult * 0.5f), starRotation, bloomTex.Size() * 0.5f, newScale * 0.2f * (newDrawTimer / 3f) * mult, SpriteEffects.None, 0);
             }
             Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;

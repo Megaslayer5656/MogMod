@@ -812,6 +812,7 @@ Items: {
 					Charges up a spread of stars
 					Right click while charging to charge up a supernova that can be launched towards your cursor
 					The supernova will explode on death when fully charged
+					Only one supernova may exist at a time
 					'''
 			}
 		}
