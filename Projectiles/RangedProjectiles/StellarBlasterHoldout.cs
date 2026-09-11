@@ -48,6 +48,11 @@ namespace MogMod.Projectiles.RangedProjectiles
             StellarBlaster.MainColor2,
             StellarBlaster.MainColor3
         ];
+        public override void KillHoldoutLogic()
+        {
+            if (DecayCounter <= 0 && (Owner.CantUseHoldout() || HeldItem.type != AssociatedItemID)) Projectile.Kill();
+            if (!Owner.active || Owner.dead) Projectile.Kill();
+        }
         public override void HoldoutAI()
         {
             Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.Zero) * 10f;
@@ -72,18 +77,23 @@ namespace MogMod.Projectiles.RangedProjectiles
                 HoldingRightClick = Owner.MogMod().mouseRight;
                 FiredProj = false;
             }
+            int type = ModContent.ProjectileType<ChargedStellarStar>();
             if (Owner.CantUseHoldout())
             {
                 // only fire if there are charges
                 if (ChargeLvl1 && !FiredProj)
                 {
-                    if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm += 5f; // visual recoil effect
-                    Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int damage, out float knockback, out _);
-                    var source = Projectile.GetSource_FromThis();
-                    int type = ModContent.ProjectileType<ChargedStellarStar>();
-                    SoundEngine.PlaySound(SoundID.Item102, Projectile.Center);
-                    foreach (Projectile proj in Main.projectile) if (proj.type == type) proj.Kill();
-                    Projectile.NewProjectile(source, shootPos, shootVelocity * (0.5f + StarCharge), type, (int)(damage * (StarCharge * 3f)), (int)(knockback * (StarCharge * 2f)), Projectile.owner, StarCharge);
+                    SoundEngine.PlaySound(SoundID.DD2_FlameburstTowerShot with { Pitch = StarCharge * 0.15f }, Projectile.Center);
+                    SoundEngine.PlaySound(SoundID.Item92 with { Pitch = StarCharge * 0.1f}, Projectile.Center);
+                    if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= 5f * StarCharge; // visual recoil effect
+                    foreach (Projectile star in Main.ActiveProjectiles)
+                    {
+                        if (star.type == type && star.owner == Main.myPlayer)
+                        {
+                            star.velocity = shootVelocity * (0.5f + StarCharge);
+                            //star.ai[0] = StarCharge;
+                        }
+                    }
                     FiredProj = true;
                 }
                 DecayCounter--;
@@ -100,6 +110,9 @@ namespace MogMod.Projectiles.RangedProjectiles
                 if (ChargeLvl1)
                 {
                     StarCharge = Timer / NewMaxCharge;
+                    Owner.PickAmmo(Owner.HeldItem, out int ammoValue, out float ammoSpeed, out int ammoDamage, out float ammoKnockback, out _, true);
+                    int newDamage = (int)(ammoDamage * (StarCharge * 3f));
+                    float newKnockback = (int)(ammoKnockback * (StarCharge * 2f));
                     // if any charges were present before right clicking, reset variables
                     if (!HoldingRightClick)
                     {
@@ -113,6 +126,14 @@ namespace MogMod.Projectiles.RangedProjectiles
                     }
                     if (!StartedChargeLvl1)
                     {
+                        Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int damage, out float knockback, out _);
+                        var source = Projectile.GetSource_FromThis();
+                        if (Main.myPlayer == Projectile.owner)
+                        {
+                            foreach (Projectile proj in Main.projectile) if (proj.type == type && proj.owner == Main.myPlayer) proj.Kill();
+                            Projectile star = Projectile.NewProjectileDirect(source, shootPos, Vector2.Zero, type, damage, knockback, Projectile.owner, StarCharge);
+                        }
+
                         SoundEngine.PlaySound(WeakCharge with { Volume = 0.9f, Pitch = 0.1f }, Projectile.Center);
                         for (int i = 0; i < 75; i++)
                         {
@@ -129,7 +150,20 @@ namespace MogMod.Projectiles.RangedProjectiles
                             charged.noGravity = true;
                         }
                         StartedChargeLvl1 = true;
-                        DecayCounter = NewMinCharge;
+                        DecayCounter = NewMinCharge * 2f;
+                    }
+                    foreach (Projectile star in Main.ActiveProjectiles)
+                    {
+                        if (star.type == type && star.owner == Main.myPlayer)
+                            {
+                            star.Center = shootPos;
+                            star.velocity = shootVelocity;
+                            star.ai[0] = StarCharge;
+                            star.originalDamage = newDamage;
+                            star.damage = newDamage;
+                            star.knockBack = newKnockback;
+                            star.timeLeft = 600;
+                        }
                     }
                     if (ChargeLvl2)
                     {
@@ -247,24 +281,11 @@ namespace MogMod.Projectiles.RangedProjectiles
 
             Color auraColor = Color.White;
 
-            var starTex = ModContent.Request<Texture2D>("MogMod/Assets/Textures/StarParticle").Value;
-            var bloomTex = ModContent.Request<Texture2D>("MogMod/Assets/Textures/GlowParticle").Value;
-            Vector2 starPos = Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.75f - Main.screenPosition;
             float opacity = Utils.GetLerpValue(0, NewMaxCharge, DrawTimer, true);
             auraColor = (HoldingRightClick && ChargeLvl3 ? MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * (StarCharge * 3f), colorList) : HoldingRightClick && ChargeLvl1 ? MogModUtils.MulticolorLerp((StarCharge * 1.5f), colorList) : Color.WhiteSmoke) * opacity * 0.8f;
-            float newScale = Projectile.scale + Projectile.scale * (float)Math.Cos(Main.GlobalTimeWrappedHourly * ((float)Math.PI * 2f)) * 0.2f;
 
             if (HoldingRightClick && ChargeLvl1)
             {
-                Main.spriteBatch.SetBlendState(BlendState.Additive);
-                if (!Owner.CantUseHoldout()) for (float i = MathHelper.PiOver2; i <= MathHelper.Pi; i += MathHelper.PiOver4)
-                {
-                    float starRotation = ((Main.GlobalTimeWrappedHourly * 0.5f + 0.5f) * (StarCharge * 3f)) + i;
-                    Color Transparency = Projectile.GetAlpha(auraColor) * (opacity * (DrawTimer / (NewMinCharge / i)));
-                    Main.EntitySpriteDraw(bloomTex, starPos, null, Transparency, starRotation, bloomTex.Size() * 0.5f, newScale * 0.15f * (StarCharge * 3f), SpriteEffects.None, 0);
-                    Main.EntitySpriteDraw(starTex, starPos, null, Transparency, starRotation, starTex.Size() * 0.5f, Projectile.scale * (StarCharge * 3f), SpriteEffects.None, 0);
-                }
-                Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
                 if (MogClientConfig.Instance.GunRecoil)
                 {
                     float rumble = MathHelper.Clamp(DrawTimer / (ChargeLvl3 ? 0.85f : ChargeLvl2 ? 1f : 1.2f), 0f, NewMaxCharge);
