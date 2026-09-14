@@ -29,7 +29,7 @@ namespace MogMod.Projectiles.Classless
             Projectile.height = 66;
             Projectile.aiStyle = ProjAIStyleID.Beam;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.Generic;
             Projectile.penetrate = 3;
             Projectile.timeLeft = 250;
             Projectile.tileCollide = false;

@@ -661,11 +661,11 @@ namespace MogMod.Projectiles.BaseProjectiles
             {
                 int splitCount = 0;
                 if (modPlayer.wearingScavVest)
-                    splitCount += 2;
+                    splitCount += ScavVest.LureCount;
                 if (modPlayer.wearingFishSlop1)
-                    splitCount += 5;
+                    splitCount += OceanHeart.LureCount;
                 if (modPlayer.wearingFishSlop2)
-                    splitCount += 10;
+                    splitCount += Fishrael.LureCount;
                 if (player.whoAmI == Main.myPlayer && splitCount > 0)
                     SplitProj(projectile, splitCount, MathHelper.Pi / 3, 1);
             }

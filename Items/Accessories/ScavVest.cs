@@ -4,6 +4,7 @@ using MogMod.Utilities;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -11,6 +12,11 @@ namespace MogMod.Items.Accessories
     public class ScavVest : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const float MovementSpeedBoost = 0.08f;
+        public const float ConsumeAmmoChance = 0.94f;
+        public const int FishingPowerBoost = 5;
+        public const int LureCount = 2;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MovementSpeedBoost.ToPercent(), ConsumeAmmoChance.ToReversedPercent(), FishingPowerBoost, LureCount);
         public override void SetDefaults()
         {
             Item.width = 22;
@@ -23,15 +29,12 @@ namespace MogMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             mogPlayer.wearingScavVest = true;
-            mogPlayer.ammoCost *= 0.94f;
-            player.moveSpeed += 0.08f;
-            player.fishingSkill += 5;
+            mogPlayer.ammoCost *= ConsumeAmmoChance;
+            player.moveSpeed += MovementSpeedBoost;
+            player.fishingSkill += FishingPowerBoost;
         }
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        {
-            tooltips.FindAndReplace("Scav Vest", this.GetLocalizedValue(Main.zenithWorld ? "NameGFB" : "NameNormal"));
-        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => tooltips.FindAndReplace("Scav Vest", this.GetLocalizedValue(Main.zenithWorld ? "NameGFB" : "NameNormal"));
     }
 }

@@ -719,10 +719,10 @@ namespace MogMod.NPCs.Global
             //ChatHelper.SendChatMessageToClient(NetworkText.FromLiteral($"adding {blood} blood damage"), Color.LimeGreen, player.whoAmI);
             MogPlayer mogPlayer = player.MogMod();
             if (mogPlayer.exultationEquipped)
-                blood = (int)(blood * LordOfBloodsExultation.BloodMult);
+                blood = (int)(blood * (LordOfBloodsExultation.BloodMult + 1));
 
             if (mogPlayer.mercyBladeEquipped)
-                blood = (int)(blood * BladeOfMercy.BloodMult);
+                blood = (int)(blood * (BladeOfMercy.BloodMult + 1));
 
             if (mogPlayer.wearingWhiteArmor)
                 blood = (int)(blood * (WhiteMask.BloodMult + 1));

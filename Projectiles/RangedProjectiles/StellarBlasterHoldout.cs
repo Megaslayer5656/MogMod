@@ -57,6 +57,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         {
             Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.Zero) * 10f;
             Vector2 shootPos = Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.25f;
+            Vector2 chargedStarPos = Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.75f;
             // get the max charge adjusted for attack speed
             var attackSpeed = Main.player[Projectile.owner].GetTotalAttackSpeed(Projectile.DamageType);
             if (attackSpeed > Cap) attackSpeed = Cap;
@@ -86,11 +87,12 @@ namespace MogMod.Projectiles.RangedProjectiles
                     SoundEngine.PlaySound(SoundID.DD2_FlameburstTowerShot with { Pitch = StarCharge * 0.15f }, Projectile.Center);
                     SoundEngine.PlaySound(SoundID.Item92 with { Pitch = StarCharge * 0.1f}, Projectile.Center);
                     if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= 5f * StarCharge; // visual recoil effect
-                    foreach (Projectile star in Main.ActiveProjectiles)
+                    if (Main.myPlayer == Projectile.owner) foreach (Projectile star in Main.ActiveProjectiles)
                     {
                         if (star.type == type && star.owner == Main.myPlayer)
                         {
                             star.velocity = shootVelocity * (0.5f + StarCharge);
+                            star.netUpdate = true;
                             //star.ai[0] = StarCharge;
                         }
                     }
@@ -131,7 +133,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                         if (Main.myPlayer == Projectile.owner)
                         {
                             foreach (Projectile proj in Main.projectile) if (proj.type == type && proj.owner == Main.myPlayer) proj.Kill();
-                            Projectile star = Projectile.NewProjectileDirect(source, shootPos, Vector2.Zero, type, damage, knockback, Projectile.owner, StarCharge);
+                            Projectile star = Projectile.NewProjectileDirect(source, chargedStarPos, Vector2.Zero, type, damage, knockback, Projectile.owner, StarCharge);
                         }
 
                         SoundEngine.PlaySound(WeakCharge with { Volume = 0.9f, Pitch = 0.1f }, Projectile.Center);
@@ -152,17 +154,18 @@ namespace MogMod.Projectiles.RangedProjectiles
                         StartedChargeLvl1 = true;
                         DecayCounter = NewMinCharge * 2f;
                     }
-                    foreach (Projectile star in Main.ActiveProjectiles)
+                    if (Main.myPlayer == Projectile.owner) foreach (Projectile star in Main.ActiveProjectiles)
                     {
                         if (star.type == type && star.owner == Main.myPlayer)
-                            {
-                            star.Center = shootPos;
+                        {
+                            star.Center = chargedStarPos;
                             star.velocity = shootVelocity;
                             star.ai[0] = StarCharge;
                             star.originalDamage = newDamage;
                             star.damage = newDamage;
                             star.knockBack = newKnockback;
                             star.timeLeft = 600;
+                            star.netUpdate = true;
                         }
                     }
                     if (ChargeLvl2)

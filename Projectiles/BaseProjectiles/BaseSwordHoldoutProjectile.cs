@@ -88,7 +88,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         /// <summary>
         /// The position of the projectile.
         /// Change to make the projectile center around a set position.
-        /// <br/> Defaults to Vector2.Zero, where the players center is used.
+        /// <br/> Defaults to <see cref="Vector2.Zero"/>, where the players center is used.
         /// </summary>
         public virtual Vector2 ProjectilePosition { get; set; } = Vector2.Zero;
         /// <summary>
@@ -275,8 +275,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         public override void SetDefaults()
         {
             Projectile.timeLeft = swingTime * 2;
-            if (UsesBaseItem)
-                Projectile.width = Projectile.height = Math.Max(BaseItem.height, BaseItem.width);
+            if (UsesBaseItem) Projectile.width = Projectile.height = Math.Max(BaseItem.height, BaseItem.width);
             Projectile.netImportant = true;
             Projectile.netUpdate = true;
             Projectile.friendly = true;
@@ -288,6 +287,7 @@ namespace MogMod.Projectiles.BaseProjectiles
             Projectile.DamageType = DamageClass.Melee;
             Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.tileCollide = false;
+            Projectile.ownerHitCheck = (ProjectilePosition == Vector2.Zero);
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 100;
             Defaults();

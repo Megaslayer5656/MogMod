@@ -70,6 +70,14 @@ namespace MogMod.Utilities
             string finalKey = mhk.TooltipHotkeyString();
             tooltips.FindAndReplace("[KEY]", finalKey);
         }
+        public static void IntegrateAdditionalHotkey(this List<TooltipLine> tooltips, ModKeybind mhk)
+        {
+            if (Main.dedServ || mhk is null)
+                return;
+
+            string finalKey = mhk.TooltipHotkeyString();
+            tooltips.FindAndReplace("[KEY2]", finalKey);
+        }
         public static bool InventoryHas(this Player player, params int[] items) => player.inventory.Any(item => items.Contains(item.type));
         public static bool PortableStorageHas(this Player player, params int[] items)
         {

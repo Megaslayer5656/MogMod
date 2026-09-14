@@ -1,4 +1,5 @@
-﻿using MogMod.Common.MogModPlayer;
+﻿using MogMod.Buffs.AccessoryAuras;
+using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
@@ -7,16 +8,19 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 namespace MogMod.Items.Accessories
 {
     public class Mekansm : ModItem, ILocalizedModType
     {
+        public new string LocalizationCategory => "Items.Accessories";
+        public const int LifeRegenBoost = 4;
         public const int LifeHeal = 80;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(LifeRegenBoost.ToRegenPerSecond(), LifeHeal);
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.MekansmKeybind);
         ModKeybind keybindActive = null;
-        public new string LocalizationCategory => "Items.Accessories";
-        int teamBuff = ModContent.BuffType<Buffs.AccessoryAuras.HeaddressBuff>();
+        int teamBuff = ModContent.BuffType<HeaddressBuff>();
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -28,10 +32,8 @@ namespace MogMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.lifeRegen += 4;
-            player.blockRange += 1;
-            player.tileSpeed += .30f;
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            player.lifeRegen += LifeRegenBoost;
+            MogPlayer mogPlayer = player.MogMod();
             mogPlayer.wearingMekansm = true;
             if (player.miscCounter % 10 == 0)
             {

@@ -1,7 +1,9 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -9,7 +11,8 @@ namespace MogMod.Items.Accessories
     public class ShadowAmulet : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public int i;
+        public const int ChargeTime = 240;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ChargeTime.FramesToSeconds());
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -29,8 +32,8 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.Amethyst, 5).
-                AddIngredient(ItemID.Sapphire, 1).
-                AddIngredient(ItemID.InvisibilityPotion, 1).
+                AddIngredient(ItemID.Sapphire).
+                AddIngredient(ItemID.InvisibilityPotion).
                 AddTile(TileID.Anvils).
                 Register();
         }

@@ -1,8 +1,10 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -10,7 +12,10 @@ namespace MogMod.Items.Accessories
     public class BladeOfMercy : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public const float BloodMult = 1.2f;
+        public const float AttackSpeedBoost = 0.1f;
+        public const float DamageReduction = 0.15f;
+        public const float BloodMult = 0.2f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(AttackSpeedBoost.ToPercent(), DamageReduction.ToPercent(), (BloodMult + LordOfBloodsExultation.BloodMult).ToPercent());
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -24,8 +29,8 @@ namespace MogMod.Items.Accessories
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.mercyBladeEquipped = true;
             mogPlayer.exultationEquipped = true;
-            player.GetAttackSpeed<GenericDamageClass>() += .1f;
-            player.GetDamage<GenericDamageClass>() -= .15f;
+            player.GetAttackSpeed<GenericDamageClass>() += AttackSpeedBoost;
+            player.GetDamage<GenericDamageClass>() -= DamageReduction;
         }
         public override void AddRecipes()
         {

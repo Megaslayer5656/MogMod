@@ -82,7 +82,7 @@ namespace MogMod.Utilities
                 player.statMana = player.statManaMax2;
         }
         /// <summary>
-        /// Applies lifesteal to the player.
+        /// Heals the player's life while accounting for lifesteal.
         /// </summary>
         /// <param name="player"></param>
         /// <param name="lifesteal">The amount of life healed.</param>

@@ -448,11 +448,15 @@ namespace MogMod.Items.Weapons.Magic
         {
             if (player.whoAmI == Main.myPlayer)
             {
-                if (KeybindSystem.TheGravityKeybind.JustPressed)
+                if (KeybindSystem.FirstWeaponKeybind.JustPressed)
                 {
                     SwitchCard++;
-                    if (SwitchCard >= 4)
-                        SwitchCard = 0;
+                    if (SwitchCard >= 4) SwitchCard = 0;
+                }
+                if (KeybindSystem.SecondWeaponKeybind.JustPressed)
+                {
+                    SwitchCard--;
+                    if (SwitchCard < 0) SwitchCard = 3;
                 }
             }
         }
@@ -477,13 +481,14 @@ namespace MogMod.Items.Weapons.Magic
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            list.IntegrateHotkey(KeybindSystem.TheGravityKeybind);
-            List<Color> colorList = new List<Color>()
-            {
-                new Color(164, 97, 212),
-                new Color(212, 97, 110),
-                new Color(97, 107, 212),
-            };
+            list.IntegrateHotkey(KeybindSystem.FirstWeaponKeybind);
+            list.IntegrateAdditionalHotkey(KeybindSystem.SecondWeaponKeybind);
+            List<Color> colorList =
+            [
+                new(164, 97, 212),
+                new(212, 97, 110),
+                new(97, 107, 212),
+            ];
 
             int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % colorList.Count);
             Color currentColor = colorList[colorIndex];
@@ -491,8 +496,7 @@ namespace MogMod.Items.Weapons.Magic
             Color tooltipColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
 
             TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip4");
-            if (line != null)
-                line.OverrideColor = Color.Lerp(tooltipColor, Color.White, 0.5f);
+            if (line != null) line.OverrideColor = Color.Lerp(tooltipColor, Color.White, 0.5f);
         }
         public override bool AltFunctionUse(Player player) => true;
         public override void AddRecipes()

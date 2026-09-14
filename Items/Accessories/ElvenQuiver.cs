@@ -1,7 +1,9 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -10,7 +12,9 @@ namespace MogMod.Items.Accessories
     public class ElvenQuiver : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public const float VelocityMult = 1.2f;
+        public const int FlatDamageBoost = 3;
+        public const float VelocityMult = 0.2f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(FlatDamageBoost, VelocityMult.ToPercent());
         public override void SetDefaults()
         {
             Item.width = Item.height = 30;

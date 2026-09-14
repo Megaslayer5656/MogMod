@@ -1,11 +1,11 @@
 ArmletOfMordiggian: {
 	DisplayName: Armlet of Mordiggian
-	Tooltip: "[GFB]"
-	TooltipDefault:
+	Tooltip: ""
+	TooltipNormal:
 		'''
-		+5% Attack Damage
-		+5% Attack Speed
-		Pressing [KEY] will rapidly drain life, but increase attack damage and speed by 15%
+		+{0}% Attack Damage
+		+{0}% Attack Speed
+		Pressing {1} will rapidly drain life, but increase attack damage and speed by {2}%
 		[c/A62D24:'Weapon of choice among brutes, the bearer sacrifices their life energy to gain immense strength and power.']
 		'''
 	TooltipGFB:
@@ -29,21 +29,21 @@ Mekansm: {
 	Tooltip:
 		'''
 		Increases placement speed and range
-		Provides you and nearby team members +4 HP/s Life regen
-		Pressing [KEY] will restore 80 Life
+		Provides you and nearby team members +{0} HP/s Life regen
+		Pressing [KEY] will restore {1} Life
 		[c/5EA651:'A glowing jewel formed out of assorted parts that somehow fit together perfectly.']
 		'''
 }
 
 Satanic: {
 	DisplayName: Satanic
-	Tooltip: "[GFB]"
-	TooltipDefault:
+	Tooltip: ""
+	TooltipNormal:
 		'''
-		+50 Max Life
-		+10% Attack Damage
+		+{0} Max Life
+		+{1}% Attack Damage
 		Vastly Increases Lifesteal
-		Press [KEY] go into a frenzy, blinding yourself while also imbuing weapons with Lifesteal
+		Press {2} go into a frenzy, blinding yourself while also imbuing weapons with Lifesteal
 		Greatly increased Lifesteal effectiveness while frenzied
 		[c/872727:'Immense power at the cost of your soul.']
 		'''
@@ -59,13 +59,13 @@ Satanic: {
 
 RefresherOrb: {
 	DisplayName: Refresher Orb
-	Tooltip: "[GFB]"
-	TooltipDefault:
+	Tooltip: ""
+	TooltipNormal:
 		'''
-		+10% Magic Damage
-		+10% Summon Damage
-		Increases Maximum Mana by 50
-		Pressing [KEY] will refresh the cooldowns of all items
+		+{0}% Magic Damage
+		+{0}% Summon Damage
+		Increases Maximum Mana by {1}
+		Pressing {2} will refresh the cooldowns of all items
 		[c/27873F:'A powerful artifact created for wizards.']
 		'''
 	TooltipGFB:
@@ -79,10 +79,10 @@ MagicWand: {
 	DisplayName: Magic Wand
 	Tooltip:
 		'''
-		+3 Magic Damage
-		Increased Maximum Mana by 30
+		+{0} Magic Damage
+		Increased Maximum Mana by {1}
 		Taking damage adds a charge to the wand
-		Pressing [KEY] expends all charges and heals 7 Life and Mana for each charge
+		Pressing [KEY] expends all charges and heals {2} Life and Mana for each charge
 		[c/51A67A:'A simple wand used to channel magic energies, it is ]
 		[c/51A67A:favored by apprentice wizards and great warlocks alike.']
 		'''
@@ -93,7 +93,7 @@ MagicStick: {
 	Tooltip:
 		'''
 		Taking damage adds a charge to the stick
-		Pressing [KEY] expends all charges and heals 5 Life and Mana for each charge
+		Pressing [KEY] expends all charges and heals {0} Life and Mana for each charge
 		[c/51A668:'A simple stick used to channel magic energies, it is ]
 		[c/51A668:favored by apprentice wizards and great warlocks alike.']
 		'''
@@ -103,12 +103,12 @@ HelmOfTheDominator: {
 	DisplayName: Helm of the Dominator
 	Tooltip:
 		'''
-		Increases your max number of minions by 2
-		Increases your max number of sentries by 2
+		Increases your max number of minions by {0}
+		Increases your max number of sentries by {0}
 		Does not stack with downgrades
-		+5% Magic Damage
-		+5% Summon Damage
-		Increased Maximum Mana by 50
+		+{1}% Magic Damage
+		+{1}% Summon Damage
+		Increased Maximum Mana by {2}
 		Summons a mighty beast to protect you
 		[c/A68351:'The powerful headpiece of a dead necromancer.']
 		'''
@@ -129,11 +129,10 @@ VeilOfDiscord: {
 	DisplayName: Veil of Discord
 	Tooltip:
 		'''
-		+7% Sorcery Damage
-		+5% Attack Damage
-		+5% Attack Speed
-		Increased Maximum Life and Mana by 20
-		Slightly Increased Life Regeneration
+		+{0}% Sorcery Damage
+		+{1}% Attack Damage and Speed
+		+{2} HP/s Life Regen
+		Increases Maximum Life and Mana by {3}
 		[c/853D74:'The headwear of corrupt magi.']
 		'''
 }
@@ -154,7 +153,7 @@ ShadowAmulet: {
 	DisplayName: Shadow Amulet
 	Tooltip:
 		'''
-		After not moving for 5 seconds, turn completely invisible!
+		After not moving for {0} seconds, turn completely invisible!
 		[c/E090D2:'A small talisman that clouds the senses of one's enemies when held perfectly still.']
 		'''
 }
@@ -178,12 +177,10 @@ HeartOfTarrasque: {
 	DisplayName: Heart of Tarrasque
 	Tooltip:
 		'''
-		Increases Maximum Life by 100
-		Reduces the cooldown of healing potions by 35%
+		Reduces the cooldown of healing potions by {0}%
 		Does not stack with downgrades
-		{$Common.KnockbackImmunity} and fire blocks
-		Grants immunity to most debuffs
-		Vastly Increased Life Regeneration, increasing even more if standing still
+		Life Regeneration increases depending on life remaining, up to a max of {1} HP/s Life Regen
+		Grants the effects of [i:3337] Shiny Stone
 		[c/7D0A0A:'Preserved heart of an extinct monster, it bolsters the bearer's fortitude.']
 		'''
 }
@@ -224,8 +221,8 @@ BladesOfAttack: {
 	DisplayName: Blades of Attack
 	Tooltip:
 		'''
-		+3% Crit Chance
-		+2 Attack Damage
+		+{0}% Critical Strike Chance
+		+{1} Attack Damage
 		[c/B8A7A7:'The damage of these small, concealable ]
 		[c/B8A7A7:blades should not be underestimated.']
 		'''
@@ -256,12 +253,12 @@ HelmOfTheOverlord: {
 	DisplayName: Helm of the Overlord
 	Tooltip:
 		'''
-		Increases your max number of minions by 3
-		Increases your max number of sentries by 3
+		Increases your max number of minions by {0}
+		Increases your max number of sentries by {0}
 		Does not stack with downgrades
-		+15% Magic Damage
-		+15% Summon Damage
-		Increased Maximum Mana by 100
+		+{1}% Magic Damage
+		+{1}% Summon Damage
+		Increased Maximum Mana by {2}
 		Summons an almighty beast to protect you
 		[c/AB4920:'The powerful headpiece of a dead overlord.']
 		'''
@@ -271,9 +268,9 @@ EyeOfSkadi: {
 	DisplayName: Eye of Skadi
 	Tooltip:
 		'''
-		+10% Attack Damage
-		+10% Critical Strike Chance
-		+25 Armor Penetration
+		+{0}% Attack Damage
+		+{0}% Critical Strike Chance
+		+{1} Armor Penetration
 		Grants immunity to some debuffs
 		Attacks inflict [mogbuff:MogMod/EyeOfSkadiDebuff]
 		[c/2F4BB5:'Extremely rare artifact, guarded by the azure dragons.']
@@ -284,14 +281,14 @@ HolyLocket: {
 	DisplayName: Holy Locket
 	Tooltip:
 		'''
-		Increases your max number of minions by 2
+		Increases your max number of minions by {0}
 		Does not stack with downgrades
-		+7% Magic Damage
-		+7% Summon Damage
-		Increased Maximum Mana by 70
+		+{1}% Magic Damage
+		+{1}% Summon Damage
+		Increased Maximum Mana by {2}
 		Provides light when worn
 		Taking damage adds a charge to the wand
-		Pressing [KEY] expends all charges and heals 10 Life and Mana for each charge
+		Pressing [KEY] expends all charges and heals {3} Life and Mana for each charge
 		[c/AFC25B:'A prized relic long thought lost forever in a failed crusade.']
 		'''
 }
@@ -339,7 +336,7 @@ LordOfBloodsExultation: {
 	DisplayName: Lord of Blood's Exultation
 	Tooltip:
 		'''
-		Boosts bleed buildup by 15%
+		Boosts bleed buildup by {0}%
 		[c/962424:'His awakening shall herald the dawn of our dynasty.']
 		'''
 }
@@ -348,10 +345,10 @@ Fishrael: {
 	DisplayName: Fishrael
 	Tooltip:
 		'''
-		Increases fishing power by 60
-		Fishing rods shoot 14 extra lures, Does not stack with downgrades
+		Increases fishing power by {0}
+		Fishing rods shoot {1} extra lures
 		Permanent Sonar and Crate Buffs
-		Grants the effects of Lavaproof Tackle Bag
+		Grants the effects of [i:MogMod/OceanHeart] Ocean Heart
 		[c/08F8FF:'Glory to Fishrael']
 		'''
 }
@@ -371,8 +368,8 @@ OceanHeart: {
 	DisplayName: Ocean Heart
 	Tooltip:
 		'''
-		Increases fishing power by 15
-		Fishing rods shoot 4 extra lures
+		Increases fishing power by {0}
+		Fishing rods shoot {1} extra lures
 		Grants the effects of Lavaproof Tackle Bag
 		[c/9BD7F2:'A charm blessed by the Council of the Brine.']
 		'''
@@ -394,7 +391,7 @@ ATGMissile: {
 	DisplayName: AtG Missile Mk. 1
 	Tooltip:
 		'''
-		+5% Attack Speed
+		+{0}% Attack Speed
 		Attacks have a small chance to fire a homing missile on hit
 		'''
 }
@@ -403,7 +400,7 @@ PlasmaShrimp: {
 	DisplayName: Plasma Shrimp
 	Tooltip:
 		'''
-		+5% Critical Strike Chance
+		+{0}% Critical Strike Chance
 		Attacks shoot a plasma orb on hit
 		'''
 }
@@ -412,7 +409,7 @@ ICBM: {
 	DisplayName: I.C.B.M.
 	Tooltip:
 		'''
-		+7.5% Attack Speed
+		+{0}% Attack Speed
 		Attacks have a small chance to fire 3 homing missiles on hit
 		[c/87564D:'What's better than one missile...? MORE missiles.']
 		'''
@@ -422,9 +419,9 @@ BladeOfMercy: {
 	DisplayName: Blade of Mercy
 	Tooltip:
 		'''
-		+10% Attack Speed
-		[c/BA2F2F:-15% Attack Damage]
-		Boosts bleed buildup by 35%
+		+{0}% Attack Speed
+		[c/BA2F2F:-{1}% Attack Damage]
+		Boosts bleed buildup by {2}%
 		Does not stack with downgrades
 		[c/94132A:'After claiming numerous lives, the dagger is now broken, but has acquired a spectral aura.']
 		'''
@@ -443,13 +440,13 @@ SacrosanctAegis: {
 	DisplayName: Sacrosanct Aegis
 	Tooltip:
 		'''
-		Grants an omni-directional dash with a 5 second cooldown
+		Grants an omni-directional dash with a {0} second cooldown
 		You are immune to damage during the dash
-		Increases Maximum Life by 200
-		Reduces the cooldown of healing potions by 45%
-		Does not stack with downgrades
+		Increases Maximum Life by {1}
+		+{2} HP/s Life Regen
+		+{3}% Damage Reduction
+		+{4} Aggro
 		Grants immunity to both knockback and debuffs
-		Vastly Increased Life Regeneration, increasing even more if standing still
 		Enemies are much more likely to target you
 		{$Common.PaladinShield}
 		'''
@@ -459,10 +456,11 @@ GauntletOfAghanim: {
 	DisplayName: Aghanim's Gauntlet
 	Tooltip:
 		'''
-		Melee attacks and projectiles inflict [mogbuff:MogMod/AghanimHexDebuff]
-		15% increased melee damage and melee speed
-		5% increased melee critical strike chance
-		20% increased melee damage and increased melee knockback
+		Increases Melee Knockback and Melee Attacks Inflict [mogbuff:MogMod/AghanimHexDebuff]
+		+{0}% Melee Damage 
+		+{1}% Melee Attack Speed
+		+{2}% Melee Critical Strike Chance
+
 		Enables auto swing for melee weapons and increases their size
 		Does not stack with downgrades
 		'''
@@ -470,7 +468,7 @@ GauntletOfAghanim: {
 
 ElvenQuiver: {
 	DisplayName: Elven Quiver
-	Tooltip: Increases arrow damage by {0} and slightly increases arrow speed
+	Tooltip: Increases arrow damage by {0} and increases arrow speed by {1}%
 }
 
 EnchantedQuiver: {
@@ -478,8 +476,8 @@ EnchantedQuiver: {
 	Tooltip:
 		'''
 		+{0}% Ranged Critical Strike Chance and Attack Speed
-		Increases arrow damage by {1}% and greatly increases arrow speed
-		Every {2} bow shots, fire an enchanted arrow that splits into {3} as it travels
+		Increases arrow damage by {1}% and increases arrow speed by {2}%
+		Every {3} bow shots, fire an enchanted arrow that splits as it travels
 		{$Common.MagicQuiver}
 		'''
 }

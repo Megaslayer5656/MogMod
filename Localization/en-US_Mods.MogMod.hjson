@@ -813,6 +813,7 @@ Items: {
 					Right click while charging to charge up a supernova that can be launched towards your cursor
 					The supernova will explode on death when fully charged
 					Only one supernova may exist at a time
+					{0}% chance to save ammo
 					'''
 			}
 		}
@@ -1030,7 +1031,7 @@ Items: {
 					[c/AE6CD4:A powerful spell tome containing multiple different spells]
 					[c/6C86D4:Right click to bookmark a card]
 					[c/D46C89:Left click a bookmarked card to cast it]
-					[c/6CD46F:Press [KEY] to switch the selected card]
+					[c/6CD46F:Press [KEY] to select the next card and [KEY2] to select the previous card]
 					'Does meaning have a meaning'
 					'''
 			}
@@ -1199,10 +1200,10 @@ Items: {
 				DisplayName: Dragon Lance
 				Tooltip:
 					'''
-					DOESNT WORK FOR NOW ! ! ! ! !
-					Hold left click to charge up a precise thrust
-					Right click to throw the spear, sticking itself onto enemies
-					Fully charge the thrust while a spear is impaled in an enemy to lodge it out, turning into a homing dragon that chases after enemies
+					Left click to thrust the pike forwards
+					Right click while thrusting to empower the spear shortly
+					Hitting an enemy while empowered will enhance your next thrust
+					Enhanced thrusts launch a homing dragon
 					This weapon is boosted by both melee and ranged damage
 					[c/D4816E:'The forward charge of the wyvern host grants no quarter.']
 					'''
@@ -1212,10 +1213,12 @@ Items: {
 				DisplayName: Hurricane Pike
 				Tooltip:
 					'''
-					DOESNT WORK FOR NOW ! ! ! ! !
-					Hold left click to charge up a precise thrust
-					Right click to throw the spear, sticking itself onto enemies
-					Fully charge the thrust while a spear is impaled in an enemy to lodge it out, turning into a homing dragon that chases after enemies
+					Left click to thrust the pike forwards
+					Right click while thrusting to empower the spear shortly
+					Hitting an enemy while empowered will enhance your next thrust
+					Enhanced thrusts launch a homing dragon that explodes on hit
+					Press [KEY] before an enhanced thrust to dash forward
+					You are invulnerable during the dash
 					This weapon is boosted by both melee and ranged damage
 					[c/A62828:'A legendary pike once held as royal sigil of the ancient wyvern riders.']
 					'''

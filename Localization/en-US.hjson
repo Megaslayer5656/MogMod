@@ -32,6 +32,8 @@ Mods: {
 			ActivateRigEffect.DisplayName: Activate Rig Effect
 			ActivateArmorSetBonus.DisplayName: Activate Armor Set Bonus
 			GalvanizedZipSlowdown.DisplayName: Galvanized Zip Slowdown
+			AdditionalWeaponKeybindOne.DisplayName: Additional Weapon Keybind One
+			AdditionalWeaponKeybindTwo.DisplayName: Additional Weapon Keybind Two
 		}
 
 		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage
@@ -297,6 +299,8 @@ Mods: {
 				TracerArrow.DisplayName: Tracer Arrow
 				StellarStar.DisplayName: Stellar Star
 				ChargedStellarStar.DisplayName: Charged Stellar Star
+				WitchBladeProj.DisplayName: Witch Blade Proj
+				BerserkersFireSpearProj.DisplayName: Berserkers Fire Spear Proj
 			}
 
 			Melee: {
@@ -399,6 +403,8 @@ Mods: {
 				HurricanePikeHoldout.DisplayName: Hurricane Pike
 				BootsTrailShaderProj.DisplayName: Boots Trail Shader Proj
 				TrailProj.DisplayName: Trail Proj
+				DragonPhantomProj.DisplayName: Dragon Phantom Proj
+				DragonLanceHoldout.DisplayName: Dragon Lance Holdout
 			}
 
 			BossProjectiles: {

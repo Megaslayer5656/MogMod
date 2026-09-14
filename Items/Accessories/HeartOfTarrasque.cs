@@ -1,10 +1,6 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -15,6 +11,9 @@ namespace MogMod.Items.Accessories
     public class HeartOfTarrasque : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const float PotionReduction = 0.9f;
+        public const int LifeRegenCap = 80;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(((1 - PotionReduction) + (1 - Player.PhilosopherStoneDurationMultiplier)).ToPercent(), LifeRegenCap.ToRegenPerSecond());
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -24,40 +23,29 @@ namespace MogMod.Items.Accessories
             Item.value = MogGlobalItem.RarityRedBuyPrice;
             Item.defense = 20;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statLifeMax2 += 100;
-            player.lifeRegen += 8;
+            int lifeLeft = player.statLifeMax2 - player.statLife;
+            int lifeRegen = (int)(lifeLeft * 0.15f) + 5;
+            if (lifeRegen > LifeRegenCap) lifeRegen = LifeRegenCap;
+            player.lifeRegen += lifeRegen;
             player.shinyStone = true;
-            player.PotionDelayModifier *= 0.9f;
+            player.PotionDelayModifier *= PotionReduction;
             player.pStone = true;
-
-            // ankh shield immunity
-            player.noKnockback = true;
-            player.fireWalk = true;
-            player.buffImmune[BuffID.Weak] = true;
-            player.buffImmune[BuffID.BrokenArmor] = true;
-            player.buffImmune[BuffID.Bleeding] = true;
-            player.buffImmune[BuffID.Poisoned] = true;
-            player.buffImmune[BuffID.Slow] = true;
-            player.buffImmune[BuffID.Confused] = true;
-            player.buffImmune[BuffID.Silenced] = true;
-            player.buffImmune[BuffID.Cursed] = true;
-            player.buffImmune[BuffID.Darkness] = true;
-            player.buffImmune[BuffID.WindPushed] = true;
-            player.buffImmune[BuffID.Stoned] = true;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.AnkhShield).
                 AddIngredient(ItemID.ShinyStone).
                 AddIngredient(ItemID.CharmofMyths).
-                AddIngredient<SoulOfMogMod>().
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.CharmofMyths).
                 AddIngredient<LizhardBloodVial>().
+                AddIngredient<SoulOfMogMod>().
                 AddIngredient<UltimateOrb>().
-                AddTile(TileID.DemonAltar).
+                AddTile(TileID.TinkerersWorkbench).
                 Register();
         }
     }

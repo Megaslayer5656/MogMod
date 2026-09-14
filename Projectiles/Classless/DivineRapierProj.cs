@@ -16,7 +16,7 @@ namespace MogMod.Projectiles.Classless
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 42;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.Generic;
             Projectile.timeLeft = 90;
             Projectile.friendly = true;
             Projectile.hostile = false;

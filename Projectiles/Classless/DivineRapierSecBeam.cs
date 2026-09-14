@@ -17,7 +17,7 @@ namespace MogMod.Projectiles.Classless
             Projectile.width = 4;
             Projectile.height = 4;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.Generic;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = 3;

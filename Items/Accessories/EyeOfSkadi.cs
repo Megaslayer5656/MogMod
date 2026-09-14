@@ -1,9 +1,9 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
-using MogMod.Items.Placeable.Bars;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -11,6 +11,10 @@ namespace MogMod.Items.Accessories
     public class EyeOfSkadi : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const float DamageBoost = 0.1f; // shared with crit
+        public const int CritBoost = 10; // shared with damage
+        public const int ArmorPenetrationBoost = 25;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(CritBoost, ArmorPenetrationBoost);
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -21,9 +25,9 @@ namespace MogMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetArmorPenetration(DamageClass.Generic) += 25;
-            player.GetDamage(DamageClass.Generic) += .10f;
-            player.GetCritChance(DamageClass.Generic) += 10f;
+            player.GetDamage(DamageClass.Generic) += DamageBoost;
+            player.GetCritChance(DamageClass.Generic) += CritBoost;
+            player.GetArmorPenetration(DamageClass.Generic) += ArmorPenetrationBoost;
 
             // not in ankh shield
             player.buffImmune[BuffID.Venom] = true;

@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -10,12 +11,14 @@ namespace MogMod.Items.Accessories
     public class ICBM : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const float AttackSpeedBoost = 0.08f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(AttackSpeedBoost.ToPercent());
         public override void SetDefaults()
         {
             Item.accessory = true;
             Item.width = 50;
             Item.height = 42;
-            Item.rare = ItemRarityID.Expert;
+            Item.rare = ItemRarityID.Red;
             Item.value = MogGlobalItem.RarityRedBuyPrice;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -27,10 +30,7 @@ namespace MogMod.Items.Accessories
         }
         public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
         {
-            if (equippedItem.type == ModContent.ItemType<PlasmaShrimp>() || equippedItem.type == ModContent.ItemType<ATGMissile>())
-            {
-                return false;
-            }
+            if (equippedItem.type == ModContent.ItemType<PlasmaShrimp>() || equippedItem.type == ModContent.ItemType<ATGMissile>()) return false;
             return true;
         }
         public override void AddRecipes()

@@ -3,13 +3,11 @@ using MogMod.Items.Global;
 using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Utilities;
-using System;
 using System.Linq;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
@@ -25,7 +23,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.damage = 75;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 20;
-            Item.height = 4; // so it doesnt hit the floor when you fire
+            Item.height = 4;
             Item.scale = .15f;
             Item.useTime = 60;
             Item.useAnimation = 60;
@@ -47,15 +45,15 @@ namespace MogMod.Items.Weapons.Ranged
                 float percentLifeLeft = (float)player.statLife / player.statLifeMax2;
                 if (Main.zenithWorld)
                     percentLifeLeft = (float)player.statLifeMax2 / player.statLife;
-                Item.useTime = (int)(50 * (percentLifeLeft + .1));
-                Item.useAnimation = (int)(50 * (percentLifeLeft + .1));
+                Item.useTime = (int)(50 * (percentLifeLeft + 0.1));
+                Item.useAnimation = (int)(50 * (percentLifeLeft + 0.1));
                 return true;
             }
             if (Main.zenithWorld)
             {
                 float percentLifeLeft = (float)player.statLife / player.statLifeMax2;
-                Item.useTime = (int)(5 * (percentLifeLeft + .1));
-                Item.useAnimation = (int)(50 * (percentLifeLeft + .1));
+                Item.useTime = (int)(5 * (percentLifeLeft + 0.1));
+                Item.useAnimation = (int)(50 * (percentLifeLeft + 0.1));
                 return true;
             }
             Item.useTime = 45;
@@ -70,10 +68,10 @@ namespace MogMod.Items.Weapons.Ranged
                 if (Main.zenithWorld)
                     percentLifeLeft = (float)player.statLifeMax2 / player.statLife;
                 // hurts the player and ignores i-frames
-                player.Hurt(PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.BerserkersSpear").ToNetworkText(player.name)), Convert.ToInt32(player.statLifeMax2 * .04), -player.direction, false, false, -1, false, 1000, 0, 0);
+                player.Hurt(PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.BerserkersSpear").ToNetworkText(player.name)), (int)(player.statLifeMax2 * 0.04), -player.direction, false, false, -1, false, 1000, 0, 0);
                 player.immune = false;
                 player.immuneTime = 0;
-                damage = (int)(Item.damage / (percentLifeLeft + .3f));
+                damage = (int)(Item.damage / (percentLifeLeft + 0.3f));
                 type = ModContent.ProjectileType<BerserkersFireSpearProj>();
                 Projectile.NewProjectile(source, position, velocity, type, damage, knockback * 2f, player.whoAmI);
                 return false;
@@ -81,7 +79,7 @@ namespace MogMod.Items.Weapons.Ranged
             if (Main.zenithWorld)
             {
                 float percentLifeLeft = (float)player.statLife / player.statLifeMax2;
-                damage = (int)(Item.damage / (percentLifeLeft + .3f));
+                damage = (int)(Item.damage / (percentLifeLeft + 0.3f));
                 return true;
             }
             return true;

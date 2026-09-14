@@ -14,6 +14,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
+    // TODO: fix proj sprite not showing && owners pos not syncing in multiplayer
     public class KaminariZipProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Magic";
@@ -54,7 +55,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 int dustTimer = 3;
                 while (dustTimer >= 0)
                 {
-                    for (int i = 0; i < 50; i++)
+                    if (Projectile.owner == Main.myPlayer) for (int i = 0; i < 50; i++)
                     {
                         Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(3) ? DustID.FireworksRGB : DustID.Electric, Main.rand.NextVector2Circular(Projectile.width * 0.5f, Projectile.height * 0.5f), 100, Colour, 1f);
                         dust.noGravity = true;
@@ -64,6 +65,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                     dustTimer--;
                 }
                 Initialized = true;
+                Projectile.netUpdate = true;
             }
             Projectile.frameCounter++; // update frameCounter
             if (Projectile.frameCounter % (AnimationFrameTime) == 0) // when frameCounter % animationframetime == 0, update proj frame
@@ -99,26 +101,29 @@ namespace MogMod.Projectiles.MagicProjectiles
 
                 // dust and lighting effects
                 Lighting.AddLight(Projectile.Center, Colour.ToVector3() * (Projectile.scale * 0.5f));
-                for (int i = 0; i < 2; i++)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    float shortXVel = Projectile.velocity.X / 3f * (float)i;
-                    float shortYVel = Projectile.velocity.Y / 3f * (float)i;
-                    int fourConst = 4;
-                    int fireDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)fourConst, Projectile.position.Y + (float)fourConst), Projectile.width - fourConst * 2, Projectile.height - fourConst * 2, DustID.Electric, 0f, 0f, 100, default, 1.2f);
-                    Dust dust = Main.dust[fireDust];
-                    dust.noGravity = true;
-                    dust.velocity *= 0.1f;
-                    dust.velocity += Projectile.velocity * 0.1f;
-                    dust.position.X -= shortXVel;
-                    dust.position.Y -= shortYVel;
-                }
-                if (Main.rand.NextBool(10))
-                {
-                    int otherFourConst = 4;
-                    int fireDustSmol = Dust.NewDust(new Vector2(Projectile.position.X + (float)otherFourConst, Projectile.position.Y + (float)otherFourConst), Projectile.width - otherFourConst * 2, Projectile.height - otherFourConst * 2, DustID.FireworksRGB, 0f, 0f, 100, default, 0.6f);
-                    Main.dust[fireDustSmol].velocity *= 0.25f;
-                    Main.dust[fireDustSmol].velocity += Projectile.velocity * 0.5f;
-                    Main.dust[fireDustSmol].color = Color.Lerp(Colour, Color.Turquoise, MathF.Sin(Main.GlobalTimeWrappedHourly * 6) * 0.5f + 0.5f);
+                    for (int i = 0; i < 2; i++)
+                    {
+                        float shortXVel = Projectile.velocity.X / 3f * (float)i;
+                        float shortYVel = Projectile.velocity.Y / 3f * (float)i;
+                        int fourConst = 4;
+                        int fireDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)fourConst, Projectile.position.Y + (float)fourConst), Projectile.width - fourConst * 2, Projectile.height - fourConst * 2, DustID.Electric, 0f, 0f, 100, default, 1.2f);
+                        Dust dust = Main.dust[fireDust];
+                        dust.noGravity = true;
+                        dust.velocity *= 0.1f;
+                        dust.velocity += Projectile.velocity * 0.1f;
+                        dust.position.X -= shortXVel;
+                        dust.position.Y -= shortYVel;
+                    }
+                    if (Main.rand.NextBool(10))
+                    {
+                        int otherFourConst = 4;
+                        int fireDustSmol = Dust.NewDust(new Vector2(Projectile.position.X + (float)otherFourConst, Projectile.position.Y + (float)otherFourConst), Projectile.width - otherFourConst * 2, Projectile.height - otherFourConst * 2, DustID.FireworksRGB, 0f, 0f, 100, default, 0.6f);
+                        Main.dust[fireDustSmol].velocity *= 0.25f;
+                        Main.dust[fireDustSmol].velocity += Projectile.velocity * 0.5f;
+                        Main.dust[fireDustSmol].color = Color.Lerp(Colour, Color.Turquoise, MathF.Sin(Main.GlobalTimeWrappedHourly * 6) * 0.5f + 0.5f);
+                    }
                 }
                 Projectile.timeLeft = 2; // constantly refresh timeLeft so it doesn't die
             }
@@ -133,7 +138,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         public override void OnKill(int timeLeft)
         {
             int dustTimer = 3;
-            while (dustTimer >= 0)
+            if (Projectile.owner == Main.myPlayer) while (dustTimer >= 0)
             {
                 for (int i = 0; i < 50; i++)
                 {

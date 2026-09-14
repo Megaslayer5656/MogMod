@@ -18,6 +18,7 @@ using MogMod.Items.Armor.Radiant;
 using MogMod.Items.Armor.Seraphic;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.MusicBoxes;
+using MogMod.Items.Weapons.Classless;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Items.Weapons.Magic.SorceryStaves;
 using MogMod.Items.Weapons.Melee;
@@ -182,7 +183,6 @@ namespace MogMod.Common.MogModPlayer
         public bool wraithActive = false;
 
         public int shadowTimer = 0;
-        public const int shadowTimerMax = 240;
 
         public int locketCharges = 0;
         public static int maxLocketCharges = 20;
@@ -228,7 +228,6 @@ namespace MogMod.Common.MogModPlayer
         public int AegisDashDelay = 0;
         public int AegisDashTimer = 0;
 
-        public const int AegisDashCooldown = 200;
         public const int AegisDashDuration = 40;
 
         public bool canDashUp;
@@ -335,6 +334,14 @@ namespace MogMod.Common.MogModPlayer
 
         public int mosinShots = 0;
         public int axmcShots = 0;
+
+        public bool pikeEmpowered = false;
+
+        private static readonly List<int> dragonSpears =
+        [
+            ModContent.ItemType<DragonLance>(),
+            ModContent.ItemType<HurricanePike>()
+        ];
 
         //public float maxShotsMult = 1f;
         //public float reloadTimeMult = 1f;
@@ -833,7 +840,7 @@ namespace MogMod.Common.MogModPlayer
                 if (wandActive && wandCharges > 0)
                 {
                     int heal = MagicWand.LifeHeal * wandCharges;
-                    int mana = MagicWand.ManaHeal * locketCharges;
+                    int mana = MagicWand.ManaHeal * wandCharges;
 
                     Player.HealLifeMult(heal);
                     Player.HealManaMult(mana);
@@ -848,8 +855,8 @@ namespace MogMod.Common.MogModPlayer
             {
                 if (stickActive && stickCharges > 0)
                 {
-                    int heal = MagicStick.LifeHeal * wandCharges;
-                    int mana = MagicStick.ManaHeal * locketCharges;
+                    int heal = MagicStick.LifeHeal * stickCharges;
+                    int mana = MagicStick.ManaHeal * stickCharges;
 
                     Player.HealLifeMult(heal);
                     Player.HealManaMult(mana);
@@ -1171,7 +1178,7 @@ namespace MogMod.Common.MogModPlayer
                             return;
                     }
 
-                    AegisDashDelay = Main.zenithWorld ? 0 : AegisDashCooldown;
+                    AegisDashDelay = Main.zenithWorld ? 0 : SacrosanctAegis.DashCooldown;
                     AegisDashTimer = AegisDashDuration;
                     Player.velocity = newVelocity;
 
@@ -1198,7 +1205,7 @@ namespace MogMod.Common.MogModPlayer
 
                 if (AegisDashTimer > 0)
                 {
-                    Player.SetImmuneTimeForAllTypes(AegisDashTimer);
+                    if (!Main.zenithWorld) Player.SetImmuneTimeForAllTypes(AegisDashTimer);
                     Player.eocDash = AegisDashTimer;
                     Player.armorEffectDrawShadowEOCShield = true;
 
@@ -1314,22 +1321,22 @@ namespace MogMod.Common.MogModPlayer
             // checks if the player is wearing accessory, and if true, stops previous iterations of the accessory from benefitting the player
             if (overlordMinion)
             {
-                Player.maxMinions += 3;
-                Player.maxTurrets += 3;
+                Player.maxMinions += HelmOfTheOverlord.MaxMinionsAndSentries;
+                Player.maxTurrets += HelmOfTheOverlord.MaxMinionsAndSentries;
             }
             else
             {
                 if (dominatorMinion)
                 {
-                    Player.maxMinions += 2;
-                    Player.maxTurrets += 2;
+                    Player.maxMinions += HelmOfTheDominator.MaxMinionsAndSentries;
+                    Player.maxTurrets += HelmOfTheDominator.MaxMinionsAndSentries;
                 }
                 else
                     if (diademMinion)
                         Player.maxMinions += Diadem.MaxMinions;
             }
             if (locketActive)
-                Player.maxMinions += 2;
+                Player.maxMinions += HolyLocket.MaxMinionBoost;
             if (wearingWraithPact)
                 Player.maxTurrets += WraithPact.MaxSentries;
             else
@@ -1441,6 +1448,8 @@ namespace MogMod.Common.MogModPlayer
             // more mines if holding techies mines
             if (Player.HeldItem.type == ModContent.ItemType<ProximityMines>() || Player.HeldItem.type == ModContent.ItemType<MADMine>())
                 Player.maxTurrets += Main.zenithWorld ? 27: 2;
+
+            if (!dragonSpears.Contains(Player.HeldItem.type)) pikeEmpowered = false;
 
             // duelist gloves
             if (wearingDuelistGloves)
@@ -1606,6 +1615,7 @@ namespace MogMod.Common.MogModPlayer
             // if the player is wearing shadow amulet turn them invis after a set amount of time
             if (wearingShadowAmulet)
             {
+                int shadowTimerMax = ShadowAmulet.ChargeTime;
                 if (Player.velocity.X == 0f && Player.velocity.Y == 0f)
                 {
                     // count down timer
@@ -2424,8 +2434,8 @@ namespace MogMod.Common.MogModPlayer
                 Player.slowFall = true;
             if (armletDebuff)
             {
-                Player.GetAttackSpeed<GenericDamageClass>() += 0.15f;
-                Player.GetDamage<GenericDamageClass>() += .15f;
+                Player.GetAttackSpeed<GenericDamageClass>() += ArmletOfMordiggian.ArmletDamageMult;
+                Player.GetDamage<GenericDamageClass>() += ArmletOfMordiggian.ArmletDamageMult;
             }
             if (nulledDebuff)
                 Player.lifeSteal *= 0f;
@@ -2438,22 +2448,6 @@ namespace MogMod.Common.MogModPlayer
                 Player.statDefense += 4;
                 Player.moveSpeed += 0.1f;
                 Player.lifeSteal *= 1.1f;
-            }
-            if (wearingAghGauntlet)
-            {
-                Player.GetDamage<MeleeDamageClass>() += 0.15f;
-                Player.GetCritChance<MeleeDamageClass>() += 5;
-            }
-            if (wearingRefresherOrb)
-            {
-                Player.statManaMax2 += 50;
-                Player.GetDamage(DamageClass.Magic) += .10f;
-                Player.GetDamage(DamageClass.Summon) += .10f;
-                if (Main.zenithWorld)
-                {
-                    Player.immune = false;
-                    Player.immuneTime = 0;
-                }
             }
 
             if (wearingPowerTreads)

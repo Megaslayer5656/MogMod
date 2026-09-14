@@ -14,7 +14,8 @@ namespace MogMod.Common.Systems
         public static ModKeybind MekansmKeybind { get; private set; }
         public static ModKeybind ShivasKeybind {  get; private set; }
         public static ModKeybind DragonInstallKeybind {  get; private set; }
-        public static ModKeybind TheGravityKeybind { get; private set; }
+        public static ModKeybind FirstWeaponKeybind { get; private set; }
+        public static ModKeybind SecondWeaponKeybind { get; private set; }
         public static ModKeybind RigKeybind { get; private set; }
         public static ModKeybind ArmorSetBonusKeybind { get; private set; }
         public static ModKeybind ZipSlowdownKeybind { get; private set; }
@@ -41,7 +42,8 @@ namespace MogMod.Common.Systems
             ShivasKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateShiva'sGuard", "C");
             ArmorSetBonusKeybind = KeybindLoader.RegisterKeybind(Mod, "ActivateArmorSetBonus", "X");
             ArmletKeybind = KeybindLoader.RegisterKeybind(Mod, "ToggleArmletOfMordiggian", "T");
-            TheGravityKeybind = KeybindLoader.RegisterKeybind(Mod, "TheGravityCardSwitch", "Mouse4");
+            FirstWeaponKeybind = KeybindLoader.RegisterKeybind(Mod, "AdditionalWeaponKeybindOne", "Mouse5");
+            SecondWeaponKeybind = KeybindLoader.RegisterKeybind(Mod, "AdditionalWeaponKeybindTwo", "Mouse4");
             ZipSlowdownKeybind = KeybindLoader.RegisterKeybind(Mod, "GalvanizedZipSlowdown", "RightShift");
             #endregion
 
@@ -63,7 +65,8 @@ namespace MogMod.Common.Systems
             MekansmKeybind = null;
             ShivasKeybind = null;
             DragonInstallKeybind = null;
-            TheGravityKeybind = null;
+            FirstWeaponKeybind = null;
+            SecondWeaponKeybind = null;
             RigKeybind = null;
             ArmorSetBonusKeybind = null;
             ZipSlowdownKeybind = null;

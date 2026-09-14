@@ -6,14 +6,16 @@ using MogMod.Utilities;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
 {
-    // TODO: make this item ignore i-frames when equipped in GFB worlds
     public class RefresherOrb : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const float MagicAndSummonDamageBoost = 0.1f;
+        public const int ManaBoost = 50;
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -24,15 +26,38 @@ namespace MogMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             mogPlayer.wearingRefresherOrb = true;
+            player.GetDamage(DamageClass.Magic) += .10f;
+            player.GetDamage(DamageClass.Summon) += .10f;
+            player.statManaMax2 += 50;
+            if (Main.zenithWorld)
+            {
+                player.immune = false;
+                player.immuneTime = 0;
+            }
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            if (Main.LocalPlayer != null)
+            var Hotkey = KeybindSystem.RefresherOrbKeybind.TooltipHotkeyString();
+            int index = tooltips.FindIndex(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
+            if (index != -1)
             {
-                tooltips.FindAndReplace("[GFB]", this.GetLocalizedValue(Main.zenithWorld ? "TooltipGFB" : "TooltipDefault"));
-                tooltips.IntegrateHotkey(KeybindSystem.RefresherOrbKeybind);
+                if (Main.zenithWorld)
+                {
+                    index++;
+                    TooltipLine gfb = new(Mod, "Tooltip0", MiscUtils.GetTextFromModItem<RefresherOrb>("TooltipGFB").Format());
+                    tooltips.Insert(index, gfb);
+                }
+                else
+                {
+                    index++;
+                    TooltipLine normal = new(Mod, "Tooltip0", MiscUtils.GetTextFromModItem<RefresherOrb>("TooltipNormal").Format(
+                    MagicAndSummonDamageBoost.ToPercent(),
+                    ManaBoost,
+                    Hotkey));
+                    tooltips.Insert(index, normal);
+                }
             }
         }
         ModKeybind keybindActive = null;

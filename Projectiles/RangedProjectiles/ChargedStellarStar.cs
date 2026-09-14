@@ -12,14 +12,16 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
+    // TODO: fix proj pos, explosion, && opacity not syncing in multiplayer
     public class ChargedStellarStar : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "MogMod/Assets/Textures/InvisibleProj";
         public ref float StarCharge => ref Projectile.ai[0];
         public ref float Scale => ref Projectile.ai[2];
+        private bool PlayedSounds = false;
         private bool hitEnemy = false;
-        private bool DoubledDamage = false;
+        public float FadeOut = 0.75f;
         public int Lifetime = 600;
         public int MaxHits = 3;
         public int MaxPenetrate = 1;
@@ -48,40 +50,37 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
+            Projectile.netImportant = true;
         }
         public override void AI()
         {
-            // something in here is causing the consequent to be less than 1
-            // it causes the proj to instantly disappear
             if (hitEnemy || Projectile.timeLeft <= Lifetime / 10)
             {
+                Projectile.alpha += 35;
+                Projectile.localNPCHitCooldown = -1;
                 if (hitEnemy || Projectile.timeLeft > Lifetime / 10)
                 {
-                    Projectile.localNPCHitCooldown = -1;
-                    SoundEngine.PlaySound(SoundID.Item117 with { Volume = 0.8f, Pitch = -0.1f }, Projectile.Center);
-                    SoundEngine.PlaySound(SoundID.DD2_BetsysWrathImpact, Projectile.Center);
-                    SoundEngine.PlaySound(SoundID.DD2_PhantomPhoenixShot with { Pitch = 0.15f }, Projectile.Center);
-                    SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode with { Pitch = 0.2f }, Projectile.Center);
-                    if (StarCharge >= 1f)
+                    if (!PlayedSounds)
                     {
-                        if (!DoubledDamage)
-                        {
-                            Projectile.ContinuouslyUpdateDamageStats = false;
-                            Projectile.damage *= 3;
-                            DoubledDamage = true;
-                        }
+                        SoundEngine.PlaySound(SoundID.Item117 with { Volume = 0.8f, Pitch = -0.1f }, Projectile.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_BetsysWrathImpact, Projectile.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_PhantomPhoenixShot with { Pitch = 0.15f }, Projectile.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode with { Pitch = 0.2f }, Projectile.Center);
+                        PlayedSounds = true;
+                    }
+                    if (StarCharge >= 1f && Projectile.alpha < 255)
+                    {
                         Projectile.velocity = Vector2.Zero;
                         Projectile.position = Projectile.Center;
-                        Projectile.width *= 2;
-                        Projectile.height *= 2;
+                        Projectile.width = (int)(Projectile.width * 1.5f);
+                        Projectile.height = (int)(Projectile.height * 1.5f);
                         Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
                         Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
                         if (Projectile.owner == Main.myPlayer) Projectile.Damage();
                     }
+                    if (Projectile.alpha >= 125) FadeOut -= 0.075f;
                 }
-
-                Projectile.alpha += (hitEnemy ? 5 : 35);
-                if (Projectile.alpha >= 255) Projectile.Kill();
+                if ((Projectile.alpha >= 255 && FadeOut >= 1f) || FadeOut <= 0f) Projectile.Kill();
             }
 
             MaxPenetrate = (int)(MaxHits * (StarCharge + 2f));
@@ -151,7 +150,15 @@ namespace MogMod.Projectiles.RangedProjectiles
                 d.color = MogModUtils.MulticolorLerp(drawSpeed, colorList);
             }
         }
-        public override bool? CanDamage() => (!hitEnemy && StarCharge < 1f && Projectile.timeLeft <= Lifetime - 2) || (StarCharge >= 1f && Projectile.timeLeft <= Lifetime - 2);
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (Projectile.numHits >= MaxPenetrate && StarCharge >= 1f)
+            {
+                modifiers.SourceDamage *= 3f;
+                modifiers.Knockback += 1f;
+            }
+        }
+        public override bool? CanDamage() => (!hitEnemy && StarCharge < 1f && Projectile.timeLeft <= Lifetime - 2) || (StarCharge >= 1f && Projectile.timeLeft <= Lifetime - 2) && Projectile.alpha < 255;
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => overPlayers.Add(index);
         public override bool PreDraw(ref Color lightColor)
         {
@@ -167,13 +174,13 @@ namespace MogMod.Projectiles.RangedProjectiles
             float newDrawTimer = StarCharge * 5f;
             auraColor = (StarCharge >= 1f ? MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * newDrawTimer, colorList) : StarCharge >= 0.5f ? MogModUtils.MulticolorLerp(newDrawTimer, colorList) : Color.WhiteSmoke) * opacity * 0.8f;
             float newScale = Scale + Scale * (float)Math.Cos(Main.GlobalTimeWrappedHourly * ((float)Math.PI * 2f)) * 0.2f;
-            float mult = ((hitEnemy && StarCharge >= 1f) ? (Projectile.alpha / 5) : 1f);
+            float mult = ((hitEnemy && StarCharge >= 1f) ? (Projectile.alpha / 15) : 1f);
 
             Main.spriteBatch.SetBlendState(BlendState.Additive);
             for (float i = MathHelper.PiOver2; i <= MathHelper.Pi; i += MathHelper.PiOver4)
             {
                 float starRotation = (newDrawTimer * (((Projectile.timeLeft <= Lifetime - 2) || StarCharge >= 1f) ? Main.GlobalTimeWrappedHourly : 1.75f) * Scale) + i;
-                Color Transparency = Projectile.GetAlpha(auraColor) * (opacity * (StarCharge / i));
+                Color Transparency = Projectile.GetAlpha(auraColor) * (opacity * (StarCharge / i)) * FadeOut;
                 if (!hitEnemy) Main.EntitySpriteDraw(starTex, starPos, null, Transparency, starRotation, starTex.Size() * 0.5f, Scale * (newDrawTimer / 3f), SpriteEffects.None, 0);
                 Main.EntitySpriteDraw(bloomTex, starPos, null, Transparency * (mult * 0.5f), starRotation, bloomTex.Size() * 0.5f, newScale * 0.2f * (newDrawTimer / 3f) * mult, SpriteEffects.None, 0);
             }

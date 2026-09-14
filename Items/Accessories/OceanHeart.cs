@@ -1,8 +1,10 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -10,6 +12,9 @@ namespace MogMod.Items.Accessories
     public class OceanHeart : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const int FishingPowerBoost = 15;
+        public const int LureCount = 5;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(FishingPowerBoost, LureCount);
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -20,7 +25,7 @@ namespace MogMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
 
             // fish slop 1
             mogPlayer.wearingFishSlop1 = true;
@@ -28,7 +33,7 @@ namespace MogMod.Items.Accessories
             player.accTackleBox = true;
             player.accFishFinder = true;
             player.accLavaFishing = true;
-            player.fishingSkill += 15;
+            player.fishingSkill += FishingPowerBoost;
         }
         public override void AddRecipes()
         {

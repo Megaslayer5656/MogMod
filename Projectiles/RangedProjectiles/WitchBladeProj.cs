@@ -2,58 +2,46 @@
 using MogMod.Utilities;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
+    // TODO: fix proj homing not syncing in multiplayer
     public class WitchBladeProj : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.RangedProjectiles";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "MogMod/Items/Weapons/Ranged/WitchBlade";
-        internal float gravspin = 0f;
+        public float gravspin = 0f;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         }
-
         public override void SetDefaults()
         {
-            Projectile.width = 10;
-            Projectile.height = 10;
+            Projectile.width = Projectile.height = 10;
             Projectile.friendly = true;
+            Projectile.timeLeft = 420;
             Projectile.penetrate = 2;
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 1;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 30;
-            Projectile.timeLeft = 420;
         }
-
         public override void AI()
         {
             DrawOriginOffsetY = 11;
             DrawOffsetX = -22;
-            if (Projectile.spriteDirection == 1)
-            {
-                gravspin = Projectile.velocity.Y * 0.03f;
-            }
-            if (Projectile.spriteDirection == -1)
-            {
-                gravspin = Projectile.velocity.Y * -0.03f;
-            }
+
+            if (Projectile.spriteDirection == 1) gravspin = Projectile.velocity.Y * 0.03f;
+            else gravspin =Projectile.velocity.Y * -0.03f;
             Projectile.ai[0]++;
             
-
             // slopes
-            if (Projectile.ai[0] > 2f)
-            {
-                Projectile.tileCollide = true;
-            }
+            if (Projectile.ai[0] > 2f) Projectile.tileCollide = true;
 
             // forward facing rotation
             if (Projectile.ai[0] <= 80 || Projectile.velocity.Y <= 0)
@@ -86,35 +74,16 @@ namespace MogMod.Projectiles.RangedProjectiles
                 if (Projectile.ai[0] > 80)
                 {
                     Projectile.velocity.Y = Projectile.velocity.Y + 0.15f;
-                    if (Projectile.velocity.Y > 0)
-                    {
-                        Projectile.rotation += gravspin;
-                    }
-                    if (Projectile.velocity.Y > 10f)
-                    {
-                        Projectile.velocity.Y = 10f;
-                    }
+                    if (Projectile.velocity.Y > 0) Projectile.rotation += gravspin;
+                    if (Projectile.velocity.Y > 10f) Projectile.velocity.Y = 10f;
                 }
             }
 
-            if (Projectile.ai[2] >= 1f)
-            {
-                Projectile.tileCollide = false;
-            }
+            Projectile.tileCollide = Projectile.ai[2] < 1f;
 
-            if (Projectile.ai[2] >= 1f)
-            {
-                Projectile.ai[2]++;
-            }
+            if (Projectile.ai[2] >= 1f) Projectile.ai[2]++;
 
-            if (Projectile.ai[2] <= 30f && Projectile.ai[2] >= 1f)
-            {
-                Projectile.friendly = false;
-            }
-            else
-            {
-                Projectile.friendly = true;
-            }
+            Projectile.friendly = !(Projectile.ai[2] <= 30f && Projectile.ai[2] >= 1f);
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -122,27 +91,29 @@ namespace MogMod.Projectiles.RangedProjectiles
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             return true;
         }
-
-        public override bool PreDraw(ref Color lightColor)
-        {
-            MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
-            return false;
-        }
-
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.ai[2] = 1f;
             if (Projectile.ai[1] == 1f && Projectile.penetrate == 1)
             {
                 Projectile.timeLeft = 420;
+                Projectile.netUpdate = true;
             }
             target.AddBuff(BuffID.Venom, 300);
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Projectile.ai[1] == 1f && Projectile.penetrate == 1)
+            {
                 Projectile.timeLeft = 420;
+                Projectile.netUpdate = true;
+            }
             target.AddBuff(BuffID.Venom, 300);
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
         }
     }
 }

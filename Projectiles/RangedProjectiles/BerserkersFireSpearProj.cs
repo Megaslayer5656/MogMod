@@ -1,6 +1,5 @@
 ﻿using MogMod.Buffs.Debuffs;
 using MogMod.Utilities;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -10,7 +9,7 @@ namespace MogMod.Projectiles.RangedProjectiles
 {
     public class BerserkersFireSpearProj : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.RangedProjectiles";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override void SetDefaults()
         {
             Projectile.width = 25;
@@ -26,7 +25,6 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.penetrate = 1;
             Projectile.scale = .75f;
         }
-
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Oiled, 300);
@@ -41,8 +39,10 @@ namespace MogMod.Projectiles.RangedProjectiles
 
             if (target.type != NPCID.TargetDummy)
             {
-                int heal = (int)(player.statLifeMax2 * .0175f);
-                player.HealLifestealMult(heal);
+                int heal = (int)(player.statLifeMax2 * 0.04);
+                player.statLife += heal;
+                player.HealEffect(heal);
+                if (player.statLife > player.statLifeMax2) player.statLife = player.statLifeMax2;
             }
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
@@ -72,7 +72,6 @@ namespace MogMod.Projectiles.RangedProjectiles
                 }
             }
         }
-
         public override void OnKill(int timeLeft)
         {
             Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);

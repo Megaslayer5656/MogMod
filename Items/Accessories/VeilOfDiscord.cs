@@ -1,8 +1,10 @@
 ﻿using MogMod.Common.Classes;
 using MogMod.Items.Global;
 using MogMod.Items.Placeable.Bars;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -10,6 +12,11 @@ namespace MogMod.Items.Accessories
     public class VeilOfDiscord : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const float SorceryDamageBoost = 0.07f;
+        public const float AttackDamageAndSpeedBoost = 0.05f;
+        public const int LifeRegenBoost = 4;
+        public const int MaxLifeAndManaBoost = 20;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(SorceryDamageBoost.ToPercent(), AttackDamageAndSpeedBoost.ToPercent(), LifeRegenBoost.ToRegenPerSecond(), MaxLifeAndManaBoost);
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -21,12 +28,12 @@ namespace MogMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage<SorceryDamageClass>() += 0.07f;
-            player.GetDamage<GenericDamageClass>() += 0.05f;
-            player.GetAttackSpeed<GenericDamageClass>() += 0.05f;
-            player.lifeRegen += 2;
-            player.statManaMax2 += 20;
-            player.statLifeMax2 += 20;
+            player.GetDamage<SorceryDamageClass>() += SorceryDamageBoost;
+            player.GetDamage<GenericDamageClass>() += AttackDamageAndSpeedBoost;
+            player.GetAttackSpeed<GenericDamageClass>() += AttackDamageAndSpeedBoost;
+            player.lifeRegen += LifeRegenBoost;
+            player.statManaMax2 += MaxLifeAndManaBoost;
+            player.statLifeMax2 += MaxLifeAndManaBoost;
         }
         public override void AddRecipes()
         {

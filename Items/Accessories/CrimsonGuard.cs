@@ -37,6 +37,22 @@ namespace MogMod.Items.Accessories
             player.lifeRegen += LifeRegenBoost;
             player.noKnockback = true;
             player.aggro += AggroBoost;
+
+            // ankh shield immunity
+            player.noKnockback = true;
+            player.fireWalk = true;
+            player.buffImmune[BuffID.Weak] = true;
+            player.buffImmune[BuffID.BrokenArmor] = true;
+            player.buffImmune[BuffID.Bleeding] = true;
+            player.buffImmune[BuffID.Poisoned] = true;
+            player.buffImmune[BuffID.Slow] = true;
+            player.buffImmune[BuffID.Confused] = true;
+            player.buffImmune[BuffID.Silenced] = true;
+            player.buffImmune[BuffID.Cursed] = true;
+            player.buffImmune[BuffID.Darkness] = true;
+            player.buffImmune[BuffID.WindPushed] = true;
+            player.buffImmune[BuffID.Stoned] = true;
+
             if (player.statLife > player.statLifeMax2 * MinHealthReq)
             {
                 player.hasPaladinShield = true;
@@ -56,10 +72,18 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<Vanguard>(1).
-                AddIngredient<HelmOfIronWill>(1).
-                AddIngredient(ItemID.PaladinsShield, 1).
+                AddIngredient<Vanguard>().
+                AddIngredient(ItemID.AnkhCharm).
+                AddIngredient<HelmOfIronWill>().
+                AddIngredient(ItemID.PaladinsShield).
                 AddIngredient(ItemID.HallowedBar, 10).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.AnkhShield).
+                AddIngredient<HelmOfIronWill>().
+                AddIngredient(ItemID.PaladinsShield).
+                AddIngredient(ItemID.HallowedBar, 15).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

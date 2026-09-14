@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
+using MogMod.Items.Accessories.Boots;
+using MogMod.Items.Accessories.NeutralItems.Aspects;
 using MogMod.Items.Global;
 using MogMod.Utilities;
 using System.Collections.Generic;
@@ -14,6 +16,8 @@ namespace MogMod.Items.Accessories
     public class ArmletOfMordiggian : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const float DamageMult = 0.05f;
+        public const float ArmletDamageMult = 0.15f;
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -25,19 +29,33 @@ namespace MogMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetAttackSpeed(DamageClass.Generic) += .05f;
-            player.GetDamage(DamageClass.Generic) += .05f;
+            player.GetAttackSpeed(DamageClass.Generic) += DamageMult;
+            player.GetDamage(DamageClass.Generic) += DamageMult;
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.armletActive = true;
-            if (Main.zenithWorld)
-                mogPlayer.armletDebuff = true;
+            if (Main.zenithWorld) mogPlayer.armletDebuff = true;
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            if (Main.LocalPlayer != null)
+            var Hotkey = KeybindSystem.ArmletKeybind.TooltipHotkeyString();
+            int index = tooltips.FindIndex(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
+            if (index != -1)
             {
-                tooltips.FindAndReplace("[GFB]", this.GetLocalizedValue(Main.zenithWorld ? "TooltipGFB" : "TooltipDefault"));
-                tooltips.IntegrateHotkey(KeybindSystem.ArmletKeybind);
+                if (Main.zenithWorld)
+                {
+                    index++;
+                    TooltipLine gfb = new(Mod, "Tooltip0", MiscUtils.GetTextFromModItem<ArmletOfMordiggian>("TooltipGFB").Format());
+                    tooltips.Insert(index, gfb);
+                }
+                else
+                {
+                    index++;
+                    TooltipLine normal = new(Mod, "Tooltip0", MiscUtils.GetTextFromModItem<ArmletOfMordiggian>("TooltipNormal").Format(
+                    DamageMult.ToPercent(), 
+                    Hotkey,
+                    ArmletDamageMult.ToPercent()));
+                    tooltips.Insert(index, normal);
+                }
             }
         }
         ModKeybind keybindActive = null;

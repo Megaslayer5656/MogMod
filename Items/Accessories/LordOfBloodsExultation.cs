@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -10,7 +11,8 @@ namespace MogMod.Items.Accessories
     public class LordOfBloodsExultation : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public const float BloodMult = 1.15f;
+        public const float BloodMult = 0.15f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(BloodMult.ToPercent());
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -19,13 +21,11 @@ namespace MogMod.Items.Accessories
             Item.rare = ItemRarityID.Orange;
             Item.value = MogGlobalItem.RarityOrangeBuyPrice;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.exultationEquipped = true;
         }
-
         public override void AddRecipes()
         {
             CreateRecipe().

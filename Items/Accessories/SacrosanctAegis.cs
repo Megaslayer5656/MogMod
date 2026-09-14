@@ -2,9 +2,11 @@
 using MogMod.Common.Systems;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -13,6 +15,12 @@ namespace MogMod.Items.Accessories
     public class SacrosanctAegis : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const int DashCooldown = 200;
+        public const int MaxLifeBoost = 200;
+        public const int LifeRegenBoost = 20;
+        public const float DamageReductionBoost = 0.1f;
+        public const int AggroBoost = 1500;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DashCooldown.FramesToSeconds(), MaxLifeBoost, LifeRegenBoost.ToRegenPerSecond(), DamageReductionBoost.ToPercent(), AggroBoost);
         public override void SetDefaults()
         {
             Item.width = 32;
@@ -26,19 +34,15 @@ namespace MogMod.Items.Accessories
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingSacrosanctAegis = true;
+            player.statLifeMax2 += MaxLifeBoost;
+            player.aggro += AggroBoost;
+            player.lifeRegen += LifeRegenBoost;
+            player.lifeRegenTime += LifeRegenBoost;
+            player.endurance += DamageReductionBoost;
             player.noKnockback = true;
-            player.aggro += 1500;
-            player.statLifeMax2 += 200;
-            player.lifeRegen += 20;
-            player.lifeRegenTime += 20;
-            player.endurance += .10f;
-
-            player.shinyStone = true;
-            player.PotionDelayModifier *= 0.8f;
-            player.pStone = true;
-            player.fireWalk = true;
 
             // complete immunity to everything
+            player.fireWalk = true;
             foreach (int debuff in player.buffType)
             {
                 if (MogModBuffSets.IsDebuff[debuff])
@@ -63,11 +67,10 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<CrimsonGuard>(1).
-                AddIngredient<HeartOfTarrasque>(1).
+                AddIngredient<CrimsonGuard>().
                 AddIngredient(ItemID.LunarBar, 12).
                 AddIngredient<SoulFragment>(3).
-                AddIngredient<SoulOfMogMod>(1).
+                AddIngredient<SoulOfMogMod>().
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

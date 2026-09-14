@@ -1,8 +1,10 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories
@@ -10,6 +12,9 @@ namespace MogMod.Items.Accessories
     public class Fishrael : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public const int FishingPowerBoost = 60;
+        public const int LureCount = 10;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(FishingPowerBoost, LureCount);
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -20,7 +25,7 @@ namespace MogMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
 
             // fish slop 1
             mogPlayer.wearingFishSlop1 = true;
@@ -31,7 +36,7 @@ namespace MogMod.Items.Accessories
 
             // fish slop 2
             mogPlayer.wearingFishSlop2 = true;
-            player.fishingSkill += 60;
+            player.fishingSkill += FishingPowerBoost;
             player.sonarPotion = true;
             player.cratePotion = true;
         }
@@ -39,7 +44,6 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<OceanHeart>().
-                AddIngredient<ScavVest>().
                 AddIngredient(ItemID.GoldenFishingRod).
                 AddIngredient(ItemID.FishingPotion, 15).
                 AddIngredient(ItemID.CratePotion, 15).

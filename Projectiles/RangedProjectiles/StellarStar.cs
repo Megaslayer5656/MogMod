@@ -87,6 +87,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.position -= Projectile.velocity;
             if (!hitEnemy) SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
             hitEnemy = true;
+            Projectile.netUpdate = true;
             return false;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -100,6 +101,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 Dust d = Main.dust[dust];
                 d.color = MogModUtils.MulticolorLerp(drawSpeed, colorList);
             }
+            Projectile.netUpdate = true;
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
@@ -112,6 +114,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 Dust d = Main.dust[dust];
                 d.color = MogModUtils.MulticolorLerp(drawSpeed, colorList);
             }
+            Projectile.netUpdate = true;
         }
         public override bool? CanDamage() => !hitEnemy;
         public override bool PreDraw(ref Color lightColor)

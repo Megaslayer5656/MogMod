@@ -123,7 +123,7 @@ namespace MogMod.Items.Global
             if (mogPlayer.wearingEnchantedQuiver && item.useAmmo == AmmoID.Arrow && !item.channel)  
             {
                 shotCounter++;
-                if (shotCounter >= 3)
+                if (shotCounter >= EnchantedQuiver.ArrowShotCount)
                 {
                     Projectile.NewProjectileDirect(source, position, velocity * 0.5f, ModContent.ProjectileType<EnchantedArrowProj>(), damage * 2, knockback, player.whoAmI);
                     shotCounter = 0;
@@ -135,9 +135,9 @@ namespace MogMod.Items.Global
         {
             MogPlayer mogPlayer = player.MogMod();
             if ((mogPlayer.wearingElvenQuiver || mogPlayer.wearingEnchantedQuiver) && item.useAmmo == AmmoID.Arrow)
-                velocity *= mogPlayer.wearingEnchantedQuiver ? EnchantedQuiver.VelocityMult : ElvenQuiver.VelocityMult;
+                velocity *= ((mogPlayer.wearingEnchantedQuiver ? EnchantedQuiver.VelocityMult : ElvenQuiver.VelocityMult) + 1);
             if (mogPlayer.wearingTreadsDamage)
-                velocity *= PowerTreads.VelocityMult + 1;
+                velocity *= (PowerTreads.VelocityMult + 1);
         }
         public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
         {
