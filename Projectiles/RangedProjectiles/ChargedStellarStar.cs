@@ -80,6 +80,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                     }
                     if (Projectile.alpha >= 125) FadeOut -= 0.075f;
                 }
+                Projectile.netUpdate = true;
                 if ((Projectile.alpha >= 255 && FadeOut >= 1f) || FadeOut <= 0f) Projectile.Kill();
             }
 
@@ -138,6 +139,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 Dust d = Main.dust[dust];
                 d.color = MogModUtils.MulticolorLerp(drawSpeed, colorList);
             }
+            Projectile.netUpdate = true;
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
@@ -149,6 +151,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 Dust d = Main.dust[dust];
                 d.color = MogModUtils.MulticolorLerp(drawSpeed, colorList);
             }
+            Projectile.netUpdate = true;
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {

@@ -21,7 +21,6 @@ namespace MogMod.Projectiles.Melee
         public override int OffsetDistance => 50;
         public override int CooldownTime { get; set; }
         public override bool AlternateSwings => false;
-        //public override bool UseAttackSpeed => false;
         public override SoundStyle? UseSound => SoundID.DD2_MonkStaffSwing with { Volume = 1f };
         public ref float CurrentChargeMult => ref Projectile.ai[0];
         bool hasSmashedTile = false;
@@ -55,10 +54,7 @@ namespace MogMod.Projectiles.Melee
                 CurrentChargeMult = timer / (float)(StartupTime - 1);
                 Owner.velocity.X *= 0.97f;
             }
-            if (inStartup && !Owner.channel && timer > 30)
-            {
-                timer = StartupTime - 1;
-            }
+            if (inStartup && !Owner.channel && timer > 30) timer = StartupTime - 1;
             if (Owner.channel && timer == StartupTime - 1)
             {
                 Projectile.timeLeft++;
@@ -103,8 +99,7 @@ namespace MogMod.Projectiles.Melee
                     Projectile.Size /= 2 + CurrentChargeMult;
                     Projectile.Center = pos;
 
-                    if (CurrentChargeMult >= 1)
-                        SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact with { VariantsWeights = new ReadOnlySpan<float>(new float[] { 1, 0, 0 }) });
+                    if (CurrentChargeMult >= 1) SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact with { VariantsWeights = new ReadOnlySpan<float>(new float[] { 1, 0, 0 }) });
                     SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact);
                 }
             }
@@ -122,28 +117,11 @@ namespace MogMod.Projectiles.Melee
             base.ModifyHitNPC(target, ref modifiers);
             modifiers.SourceDamage *= CurrentChargeMult * 4.8f;
             modifiers.Knockback += (CurrentChargeMult);
-            //Main.NewText($"charge mult = {CurrentChargeMult}");
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (!hasSmashedTile && CurrentChargeMult >= 1)
-            {
-                for (int i = 0; i < 16; i++)
-                {
-                    int sparkLifetime = Main.rand.Next(10, 15);
-                    float sparkScale = Main.rand.NextFloat(1f, 2f);
-                    var sparkColor = Main.rand.NextBool() ? Color.Purple : Color.Red;
-
-                    if (Main.rand.NextBool(5))
-                        sparkScale *= 1.4f;
-
-                }
-                SoundEngine.PlaySound(SoundID.DeerclopsRubbleAttack with { Volume = 0.5f, LimitsArePerVariant = false, MaxInstances = 1 });
-            }
-            else if (!hasSmashedTile)
-            {
-                SoundEngine.PlaySound(SoundID.Item69 with { Volume = 1f, LimitsArePerVariant = false, MaxInstances = 1 });
-            }
+            if (!hasSmashedTile && CurrentChargeMult >= 1) SoundEngine.PlaySound(SoundID.DeerclopsRubbleAttack with { Volume = 0.5f, LimitsArePerVariant = false, MaxInstances = 1 });
+            else if (!hasSmashedTile) SoundEngine.PlaySound(SoundID.Item69 with { Volume = 1f, LimitsArePerVariant = false, MaxInstances = 1 });
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -151,10 +129,7 @@ namespace MogMod.Projectiles.Melee
             {
                 var tex = ModContent.Request<Texture2D>(Texture).Value;
                 float outlineWidth = (int)(4 * CurrentChargeMult) * 0.5f;
-                if (inSwing)
-                {
-                    outlineWidth *= 1 - SwingCompletion;
-                }
+                if (inSwing) outlineWidth *= 1 - SwingCompletion;
                 for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)
                 {
                     Main.spriteBatch.Draw(

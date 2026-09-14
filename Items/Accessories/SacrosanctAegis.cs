@@ -20,7 +20,8 @@ namespace MogMod.Items.Accessories
         public const int LifeRegenBoost = 20;
         public const float DamageReductionBoost = 0.1f;
         public const int AggroBoost = 1500;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DashCooldown.FramesToSeconds(), MaxLifeBoost, LifeRegenBoost.ToRegenPerSecond(), DamageReductionBoost.ToPercent(), AggroBoost);
+        public const float MinHealthReq = 0.25f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DashCooldown.FramesToSeconds(), MaxLifeBoost, LifeRegenBoost.ToRegenPerSecond(), DamageReductionBoost.ToPercent(), AggroBoost, MinHealthReq.ToPercent());
         public override void SetDefaults()
         {
             Item.width = 32;

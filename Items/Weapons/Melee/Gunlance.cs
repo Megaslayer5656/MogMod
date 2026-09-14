@@ -13,6 +13,13 @@ using Terraria.ModLoader;
 namespace MogMod.Items.Weapons.Melee
 {
     // TODO: rework
+    /// <summary>
+    /// gunlance:
+    /// left click triple swing combo
+    /// swing up -> slam down -> poke (refer to dragon lance)
+    /// if right clicked during startup, reload shells but dont continue swing
+    /// if right clicked during cooldown, use a shell and explode
+    /// </summary>
     public class Gunlance : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";

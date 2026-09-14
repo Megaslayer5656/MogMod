@@ -448,7 +448,7 @@ SacrosanctAegis: {
 		+{4} Aggro
 		Grants immunity to both knockback and debuffs
 		Enemies are much more likely to target you
-		{$Common.PaladinShield}
+		{$Common.PaladinShield@5}
 		'''
 }
 

@@ -369,6 +369,8 @@ Mods: {
 				DaturaLashProj.DisplayName: Datura Lash Proj
 				NativitasProj.DisplayName: Nativitas Proj
 				MoonveilProj.DisplayName: Moonveil Proj
+				AstralCataclysmHoldout.DisplayName: Astral Cataclysm Holdout
+				AstralStar.DisplayName: Astral Star
 			}
 
 			Summon: {

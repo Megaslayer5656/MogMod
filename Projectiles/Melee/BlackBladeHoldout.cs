@@ -3,314 +3,156 @@ using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.Debuffs;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
-using MogMod.Utilities;
-using ReLogic.Content;
-using ReLogic.Utilities;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
+using MogMod.Utilities;
 
 namespace MogMod.Projectiles.Melee
 {
-    // code lifted from calamity mod holy collider
-    public class BlackBladeHoldout : BaseCustomUseStyleProjectile, ILocalizedModType
+    // TODO: add charging sound
+    public class BlackBladeHoldout : BaseSwordHoldoutProjectile, ILocalizedModType
     {
-        public override int AssignedItemID => ModContent.ItemType<BlackBlade>();
-        public override LocalizedText DisplayName => MiscUtils.GetItemName<BlackBlade>();
-        public override string Texture => "MogMod/Items/Weapons/Melee/BlackBlade";
-        public int size = 114;
-        public override float HitboxOutset => size * 0.85f;
-        public override Vector2 HitboxSize => new(size, size);
-        public override Vector2 SpriteOrigin => new(0, size);
-        public override float HitboxRotationOffset => MathHelper.ToRadians(-45);
-        public override int DamageHitCap => 15;
-        public override float AdditionalScale => 0.5f;
-        public Vector2 mousePos;
-        public Vector2 aimVel;
-        public bool doSwing = false;
-        public bool postSwing = false;
-        public float fadeIn = 0; // Used to make particle effects and outer glow on the sword fade in and out
-        public int useAnim; // Used as your use time stat since checking the held item use time gets jank if your attack speed changes mid swing
-        public int storedUseAnim; // Used to check your use time when you began using the item and to reset use time when needed
-        public int swingCount = -1; // Runs counting code first, so it has to be one below
-
-        public bool chargedSwing = false; // True if you have a charged swing fully charged
-        public int chargeTimer = 0; // Timer for charging the blade
-        public int chargeTimerMax = 240; // This is set to be based on use time on spawn
-
-        public Color mainColor1 = Color.DarkRed;
-        public Color mainColor2 = Color.OrangeRed;
-        public bool playSwingSound = true;
-
-        public SlotId AudSlot;
-        public override void SetDefaults()
+        public new string LocalizationCategory => "Projectiles.Melee";
+        public Player Owner => Main.player[Projectile.owner];
+        public override Item BaseItem => ModContent.GetModItem(ModContent.ItemType<BlackBlade>()).Item;
+        public override string Texture => BaseItem.ModItem.Texture;
+        public override int AfterImageLength => 10;
+        public override int OffsetDistance => 80;
+        public override int CooldownTime { get; set; }
+        public override SoundStyle? UseSound => SoundID.DD2_MonkStaffSwing with { Volume = 1f };
+        public ref float CurrentChargeMult => ref Projectile.ai[0];
+        public ref float DustTimer => ref Projectile.ai[1];
+        bool playedChargeSound = false;
+        Color Color1 = Color.DarkGoldenrod;
+        Color Color2 = Color.Crimson;
+        public override void Defaults()
         {
-            base.SetDefaults();
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -1;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.extraUpdates = 3;
+            swingWidth = 200;
+            RotateInCooldown = 0.3f;
+            RotateInStartup = 0.3f;
         }
-        public override void WhenSpawned()
+        public override void Spawn()
         {
-            Projectile.knockBack = 0;
-            Projectile.ai[1] = -1;
-
-            mousePos = Owner.MogMod().mouseWorld;
-            aimVel = (Owner.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX) * 65;
-            useAnim = Owner.itemAnimationMax;
-            storedUseAnim = useAnim;
-
-            chargeTimerMax = (int)(useAnim * 1.1f); // Max charge time is set here
-
-            if (mousePos.X < Owner.Center.X) Owner.direction = -1;
-            else Owner.direction = 1;
-
-            FlipAsSword = Owner.direction == -1;
+            StartupTime = Main.zenithWorld ? 360 : 80;
+            CooldownTime = 30;
+            swingTime = 10;
+            Projectile.timeLeft = 600;
+            Projectile.scale *= Main.zenithWorld ? 4f : 1.85f;
         }
-        public override void UseStyle()
+        public override void AdditionalAI()
         {
-            AnimationProgress = Animation % (chargedSwing ? (int)(storedUseAnim * 1.2f) : storedUseAnim);
-
-            DrawUnconditionally = false;
-            bool cantUse = (Owner == null || !Owner.active || Owner.dead || Main.mouseLeftRelease || Owner.CCed || Owner.noItems);
-
-            if (CanHit || postSwing) mousePos = Owner.Center - aimVel;
-            else mousePos = Owner.MogMod().mouseWorld;
-
-            if (CanHit) fadeIn = MathHelper.Lerp(fadeIn, 1, 0.1f);
-            else fadeIn = MathHelper.Lerp(fadeIn, 0, 0.15f);
-            if (chargeTimer > 0) fadeIn = Utils.Remap(chargeTimer, 0, chargeTimerMax, 0, 1f);
-
-            // If you are no longer holding the charge, then stop charge counter so you can swing
-            if (cantUse)
+            var mogPlayer = Owner.GetModPlayer<BaseSwordHoldoutPlayer>();
+            var veloc = oldPlayerOffset - (Projectile.Center - Owner.Center);
+            veloc.Normalize();
+            DustTimer++;
+            if (inStartup)
             {
-                chargeTimer = 0;
-                if (Projectile.ai[2] == 5)
+                CurrentChargeMult = timer / (float)(StartupTime - 1);
+                if (DustTimer % Projectile.extraUpdates == 0)
                 {
-                    Owner.itemAnimation = Owner.itemAnimationMax;
-                    Projectile.timeLeft = Owner.itemAnimation;
-                }
-                Projectile.ai[2] = 0;
-            }
-            else Projectile.ai[2] = 5;
+                    Vector2 dustVel = new Vector2(-60 * -Projectile.spriteDirection, -5).RotatedBy(Projectile.rotation + 0.7f * -Projectile.spriteDirection);
+                    Vector2 spawnPos = Projectile.Center - dustVel.RotatedByRandom(0.4f) * Projectile.scale * CurrentChargeMult;
 
-            if (!doSwing)
-            {
-                mousePos = Owner.MogMod().mouseWorld;
-                aimVel = (Owner.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX) * 65;
-                CanHit = false;
-                if (mousePos.X < Owner.Center.X) Owner.direction = -1;
-                else Owner.direction = 1;
-                FlipAsSword = Owner.direction == -1;
-
-                Vector2 bladePos = new(15 * Projectile.scale, 0);
-                Vector2 dustSpawnPos = Owner.Center + (bladePos).RotatedBy(FinalRotation + MathHelper.ToRadians(-45) - 0.0f * (FlipAsSword ? 1 : -1) * -Projectile.ai[1]);
-
-                if (Projectile.ai[2] == 5)
-                {
-                    RotationOffset = MathHelper.Lerp(RotationOffset, MathHelper.ToRadians(120f * Projectile.ai[1] * Owner.direction), 0.05f);
-
-                    float rotationValue = 45f + (25 * Utils.GetLerpValue(0, chargeTimerMax, chargeTimer, true)) * (FlipAsSword ? 1 : -1) * -Projectile.ai[1];
-                    Projectile.rotation = Projectile.rotation.AngleLerp(Owner.AngleTo(mousePos) + MathHelper.ToRadians(rotationValue), 0.3f);
-                    Animation = 0;
-                    Owner.itemAnimation++;
-                    Projectile.timeLeft++;
-
-                    if (chargeTimer < chargeTimerMax && !chargedSwing) chargeTimer++;
-
-                    Vector2 dustVelocity = (Owner.Center - dustSpawnPos).SafeNormalize(Vector2.UnitX) * -9 * Projectile.scale;
-
-                    Dust dust2 = Dust.NewDustPerfect(dustSpawnPos, DustID.DesertTorch, dustVelocity.RotatedByRandom(0.4f) * Main.rand.NextFloat(0.5f, 1.4f));
-                    dust2.scale = Main.rand.NextFloat(1.45f, 1.95f) * fadeIn * Projectile.scale;
+                    Dust dust2 = Dust.NewDustPerfect(spawnPos, DustID.DesertTorch, dustVel.RotatedByRandom(0.4f) * Main.rand.NextFloat(0.5f, 1.4f) * 0.3f);
+                    dust2.scale = Main.rand.NextFloat(1.45f, 1.95f) * CurrentChargeMult * Projectile.scale;
                     dust2.noGravity = true;
-                    dust2.color = Main.rand.NextBool(3) ? mainColor2 : mainColor1;
-                    dust2.fadeIn = Projectile.scale * 1.5f;
+                    dust2.color = Main.rand.NextBool(3) ? Color2 : Color1;
+                    dust2.fadeIn = CurrentChargeMult;
 
-                    Dust dust3 = Dust.NewDustPerfect(dustSpawnPos, DustID.FireworksRGB, dustVelocity.RotatedByRandom(100) * Main.rand.NextFloat(0.2f, 0.6f), 100, Main.rand.NextBool(3) ? mainColor2 : mainColor1, Main.rand.NextFloat(0.5f, 0.8f) * fadeIn * Projectile.scale);
-
-                    if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound) && ChargeSound.IsPlaying)
-                    {
-                        ChargeSound.Position = Projectile.Center;
-                        ChargeSound.Pitch = Utils.Remap(chargeTimer, 0, chargeTimerMax, -0.4f, 0f);
-                        ChargeSound.Volume = Utils.Remap(chargeTimer, 0, chargeTimerMax, 0f, 0.5f) * 100;
-                    }
-                    else if (!chargedSwing) AudSlot = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop with { Volume = 0.01f, Pitch = 0, IsLooped = true }, Projectile.Center);
-                }
-                if (chargeTimer == chargeTimerMax)
-                {
-                    dustSpawnPos = Owner.Center + (bladePos).RotatedBy(FinalRotation + MathHelper.ToRadians(-45));
-
-                    SoundEngine.PlaySound(SoundID.DD2_PhantomPhoenixShot with { Volume = 0.7f, Pitch = 0.5f }, Projectile.Center);
-
-                    chargedSwing = true;
-                    useAnim = storedUseAnim / 2;
-                    chargeTimer++;
-
-                    for (int i = 0; i < 20; i++)
-                    {
-                        Dust dust4 = Dust.NewDustPerfect(dustSpawnPos, DustID.FireworksRGB, new Vector2(8, 8).RotatedByRandom(100) * Main.rand.NextFloat(0.5f, 1f), 100, Main.rand.NextBool(3) ? mainColor2 : mainColor1, Main.rand.NextFloat(0.3f, 0.8f) * Projectile.scale);
-                    }
-                }
-
-                if (chargeTimer == 0)
-                {
-                    for (int i = 0; i < Main.maxNPCs; i++)
-                        Projectile.localNPCImmunity[i] = 0;
-
-                    Projectile.numHits = 0;
-                    doSwing = true;
+                    Dust dust3 = Dust.NewDustPerfect(spawnPos, DustID.FireworksRGB, dustVel.RotatedByRandom(100) * Main.rand.NextFloat(0.2f, 0.6f) * 0.3f, 100, Main.rand.NextBool(3) ? Color2 : Color1, Main.rand.NextFloat(0.5f, 0.8f) * CurrentChargeMult * Projectile.scale);
                 }
             }
-            else if (chargeTimer == 0)
+            if (inStartup && !Owner.channel && timer > 30) timer = StartupTime - 1;
+            if (Owner.channel)
             {
-                if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();
-
-                if (!CanHit && !postSwing)
+                if (timer == StartupTime - 1)
                 {
-                    if (mousePos.X < Owner.Center.X) Owner.direction = -1;
-                    else Owner.direction = 1;
-                }
-                else
-                {
-                    if ((Owner.Center - aimVel).X < Owner.Center.X) Owner.direction = -1;
-                    else Owner.direction = 1;
-                }
-
-                Projectile.rotation = Projectile.rotation.AngleLerp(Owner.AngleTo(mousePos) + MathHelper.ToRadians(45f), 0.1f);
-
-                if (AnimationProgress < (useAnim / 1.6f))
-                {
-                    if (Projectile.ai[2] == 5 && !chargedSwing) doSwing = false;
-
-                    playSwingSound = true;
-                    aimVel = (Owner.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX) * 65;
-                    CanHit = false;
-                    postSwing = false;
-                    if (AnimationProgress == 0)
+                    Projectile.timeLeft++;
+                    timer--;
+                    if (!playedChargeSound)
                     {
-                        Animation = 0;
-                        doSwing = false;
-                        chargeTimer = 0;
-                        chargedSwing = false;
-                        swingCount++;
-                        useAnim = storedUseAnim;
-                        Projectile.ai[1] = -Projectile.ai[1];
-                    }
-                    RotationOffset = MathHelper.Lerp(RotationOffset, MathHelper.ToRadians(120f * Projectile.ai[1] * Owner.direction * (1 + (Utils.GetLerpValue(useAnim * 0.15f, useAnim * 0.35f, Animation, true)) * 0.35f)), 0.2f);
-                    FlipAsSword = (Owner.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX).X > 0;
-                }
-                else
-                {
-                    float time = (AnimationProgress) - (useAnim / 3);
-                    float timeMax = useAnim - (useAnim / 3);
-
-                    if (time >= (int)(timeMax * (chargedSwing ? 0.2f : 0.4f)) && playSwingSound)
-                    {
-                        if (!chargedSwing)
+                        SoundEngine.PlaySound(SoundID.DeerclopsStep with { Volume = 2f, Pitch = 0.5f }, Projectile.Center);
+                        playedChargeSound = true;
+                        for (int i = 0; i < 5; i++)
                         {
-                            SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing with { Volume = 0.85f, Pitch = -0.15f }, Projectile.Center);
-                        }
-                        else
-                        {
-                            SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDown with { Volume = 0.8f, Pitch = -0.35f }, Projectile.Center);
-                            SoundEngine.PlaySound(SoundID.DD2_SonicBoomBladeSlash with { Volume = 0.9f, Pitch = -0.55f }, Projectile.Center);
-                        }
-                        playSwingSound = false;
-                    }
-                    if (time > (int)(timeMax * (chargedSwing ? 0.1f : 0.3f)) && time < (int)(timeMax * (chargedSwing ? 0.95f : 0.85f)))
-                    {
-                        CanHit = true;
+                            float scale = Main.rand.NextFloat(0.5f, 1f);
+                            var color = Main.rand.NextBool() ? Color1 : Color2;
 
-                        Vector2 dustVelocity = new Vector2(0, 2 * -Projectile.ai[1] * Owner.direction).RotatedBy(FinalRotation + MathHelper.ToRadians(-45));
-                        Vector2 dustSpawnPos = Owner.Center + (new Vector2(Main.rand.Next(30, 170) * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)));
-                        if (!chargedSwing)
-                        {
-                            for (int i = 0; i < 3; i++)
-                            {
-                                dustVelocity = (new Vector2(0, 15 * -Projectile.ai[1] * Owner.direction) * Main.rand.NextFloat(0.3f, 1f)).RotatedBy(FinalRotation + MathHelper.ToRadians(-45));
-                                dustSpawnPos = Owner.Center + (new Vector2(Main.rand.Next(30, 170) * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)));
-                                if (i < 2)
-                                {
-                                    Dust dust2 = Dust.NewDustPerfect(dustSpawnPos, DustID.AncientLight, -dustVelocity.RotatedByRandom(0.3f));
-                                    dust2.scale = Main.rand.NextFloat(0.95f, 1.45f) * Projectile.scale;
-                                    dust2.noGravity = true;
-                                    dust2.color = Main.rand.NextBool(3) ? mainColor2 : mainColor1;
-                                    dust2.fadeIn = Projectile.scale - 1;
-                                }
-                                else
-                                {
-                                    Dust dust2 = Dust.NewDustPerfect(dustSpawnPos, DustID.AncientLight, (-dustVelocity * 0.2f).RotatedByRandom(0.3f), 100, Color.Lerp(Color.Orchid, Color.White, Main.rand.NextFloat(0, 0.7f)), Main.rand.NextFloat(0.9f, 1.1f) * Projectile.scale);
-                                    dust2.fadeIn = Projectile.scale - 1;
-                                }
-                            }
-                        }
-                    }
-                    else CanHit = false;
-
-                    RotationOffset = MathHelper.Lerp(RotationOffset, MathHelper.ToRadians(MathHelper.Lerp(150f * Projectile.ai[1] * Owner.direction, 120f * -Projectile.ai[1] * Owner.direction, MiscUtils.ExpInOutEasing(time / timeMax, 1))), 0.2f);
-
-                    if (time < (int)(timeMax * 0.9f)) postSwing = true;
-
-                    if (CanHit)
-                    {
-                        if (chargedSwing)
-                        {
-                            for (int i = 0; i < 6; i++)
-                            {
-                                float randRot = Main.rand.NextFloat(-10, -45);
-                                Vector2 dustVel = (new Vector2(0, 15 * -Projectile.ai[1] * Owner.direction)).RotatedBy(FinalRotation + MathHelper.ToRadians(randRot));
-                                Vector2 spawnPos = Owner.Center + new Vector2(170 * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(randRot)).RotatedByRandom(0.4f);
-                                Dust dust2 = Dust.NewDustPerfect(spawnPos, DustID.AncientLight, -dustVel * Main.rand.NextFloat(0.4f, 0.7f), 100, Main.rand.NextBool(4) ? Color.DarkGoldenrod : Color.Goldenrod, Main.rand.NextFloat(0.3f, 0.35f) * Projectile.scale);
-                            }
-                            for (int i = 0; i < 6; i++)
-                            {
-                                float randRot = Main.rand.NextFloat(-30, -60);
-                                Vector2 dustVel = (new Vector2(0, 35 * -Projectile.ai[1] * Owner.direction)).RotatedBy(FinalRotation + MathHelper.ToRadians(randRot));
-                                Dust dust2 = Dust.NewDustPerfect(Owner.Center + (new Vector2(170 * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f)), DustID.FireworksRGB, dustVel * Main.rand.NextFloat(0.2f, 0.6f));
-                                dust2.scale = Main.rand.NextFloat(1.35f, 1.85f) * Projectile.scale;
-                                dust2.noGravity = true;
-                                dust2.color = Main.rand.NextBool(3) ? mainColor2 : mainColor1;
-                                dust2.fadeIn = Projectile.scale * 0.3f;
-                            }
-                        }
-                        else
-                        {
-                            for (int i = 0; i < 8; i++)
-                            {
-                                float randRot = Main.rand.NextFloat(-30, -60);
-                                Vector2 dustVel = -(new Vector2(0, 25 * -Projectile.ai[1] * Owner.direction)).RotatedBy(FinalRotation + MathHelper.ToRadians(randRot));
-                                Dust dust2 = Dust.NewDustPerfect(Owner.Center + (new Vector2(170 * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.15f)), DustID.FireworksRGB, dustVel * Main.rand.NextFloat(0.1f, 0.5f));
-                                dust2.scale = Main.rand.NextFloat(0.75f, 0.9f) * Projectile.scale;
-                                dust2.noGravity = true;
-                                dust2.color = Main.rand.NextBool(3) ? mainColor2 : mainColor1;
-                                dust2.fadeIn = Projectile.scale - 1;
-                            }
+                            if (Main.rand.NextBool(5)) scale *= 1.4f;
+                            Vector2 velocity = Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi) * MathHelper.Lerp(10, 30, Main.rand.NextFloat());
+                            Dust d = Dust.NewDustPerfect(Projectile.Center + angle * 30, DustID.AncientLight, velocity, 100, color, scale);
                         }
                     }
                 }
             }
-            ArmRotationOffset = MathHelper.ToRadians(-140f);
-            ArmRotationOffsetBack = MathHelper.ToRadians(-140f);
+            if (inSwing)
+            {
+                if (DustTimer % Projectile.extraUpdates == 0)
+                {
+                    float scale = Main.rand.NextFloat(0.5f, 1f);
+                    var color = Main.rand.NextBool() ? Color1 : Color2;
+                    if (CurrentChargeMult >= 1)
+                    {
+                        for (int i = 0; i < 6; i++)
+                        {
+                            float randRot = Main.rand.NextFloat(40, -65);
+                            Vector2 dustVel = veloc.RotatedBy(MathHelper.PiOver4 * 0.5f * Projectile.spriteDirection) * Main.rand.NextFloat(2, 5);
+                            Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), Main.rand.NextFloat(-0.05f, 0.05f)).RotatedBy(Projectile.rotation - 0.7f * Projectile.spriteDirection) * (randRot * (mogPlayer.swingNum % 2 == 0 ? -1f : 1f)) * Projectile.scale;
+                            Dust dust2 = Dust.NewDustPerfect(spawnPos, DustID.AncientLight, -dustVel * Main.rand.NextFloat(0.4f, 0.7f), 100, Main.rand.NextBool(4) ? Color2 : Color1, Main.rand.NextFloat(0.3f, 0.35f) * Projectile.scale);
+                        }
+                        for (int i = 0; i < 6; i++)
+                        {
+                            float randRot = Main.rand.NextFloat(30, -60);
+                            Vector2 dustVel = veloc.RotatedBy(MathHelper.PiOver4 * 0.5f * Projectile.spriteDirection) * Main.rand.NextFloat(2, 5);
+                            Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), Main.rand.NextFloat(-0.05f, 0.05f)).RotatedBy(Projectile.rotation - 0.7f * Projectile.spriteDirection) * (randRot * (mogPlayer.swingNum % 2 == 0 ? -1f : 1f)) * Projectile.scale;
+                            Dust dust2 = Dust.NewDustPerfect(spawnPos, DustID.FireworksRGB, dustVel * Main.rand.NextFloat(0.2f, 0.6f));
+                            dust2.scale = Main.rand.NextFloat(1.35f, 1.85f) * Projectile.scale;
+                            dust2.noGravity = true;
+                            dust2.color = Main.rand.NextBool(3) ? Color2 : Color1;
+                            dust2.fadeIn = Projectile.scale * 0.3f;
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 8; i++)
+                        {
+                            float randRot = Main.rand.NextFloat(-40, -65);
+                            Vector2 dustVel = veloc.RotatedBy(MathHelper.PiOver4 * 0.5f * Projectile.spriteDirection) * Main.rand.NextFloat(2, 5);
+                            Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), Main.rand.NextFloat(-0.05f, 0.05f)).RotatedBy(Projectile.rotation - 0.7f * Projectile.spriteDirection) * (randRot * (mogPlayer.swingNum % 2 == 0 ? -1f : 1f)) * Projectile.scale;
+                            Dust dust2 = Dust.NewDustPerfect(spawnPos, DustID.FireworksRGB, dustVel * Main.rand.NextFloat(0.1f, 0.5f));
+                            dust2.scale = Main.rand.NextFloat(0.75f, 0.9f) * Projectile.scale;
+                            dust2.noGravity = true;
+                            dust2.color = Main.rand.NextBool(3) ? Color2 : Color1;
+                            dust2.fadeIn = CurrentChargeMult;
+                        }
+                        if (Main.rand.NextBool(5)) scale *= 1.4f;
+                        Vector2 velocity = Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi) * MathHelper.Lerp(10, 30, Main.rand.NextFloat());
+                        Dust d = Dust.NewDustPerfect(Projectile.Center + angle * 30, DustID.AncientLight, velocity, 100, color, scale);
+                    }
+                }
+            }
+            Owner.heldProj = Projectile.whoAmI;
         }
-        public override void OnKill(int timeLeft)
+        public override float SwingFunction()
         {
-            if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound))
-                ChargeSound?.Stop();
+            if (inStartup) return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * 0.8f, -swingWidth * 0.66f, 1 - MathF.Pow(StartupCompletion, 0.5f)));
+            if (inCooldown) return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * 0.45f, swingWidth * 0.7f, MathF.Pow(CooldownCompletion, 0.5f)));
+            return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * .66f, (swingWidth * 0.45f), MathF.Pow(SwingCompletion, 0.5f)));
+        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+            modifiers.SourceDamage *= CurrentChargeMult * 4.8f;
+            modifiers.Knockback += (CurrentChargeMult);
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), 300);
-
-            if (!chargedSwing)
-            {
-                if (Projectile.numHits == 0)
-                {
-                    SoundEngine.PlaySound(SoundID.DD2_GhastlyGlaivePierce with { Volume = 0.85f, PitchVariance = 0.25f }, Projectile.Center);
-                }
-            }
-            else
+            int time = 0;
+            if (CurrentChargeMult >= 1)
             {
                 if (Projectile.numHits == 0)
                 {
@@ -320,50 +162,48 @@ namespace MogMod.Projectiles.Melee
                     float starAngle = MathHelper.ToRadians(45f);
                     for (int i = 0; i < 4; i++)
                     {
-                        Dust chargefull = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB);
+                        Dust chargefull = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB, newColor: Main.rand.NextBool() ? Color1 : Color2);
                         Vector2 vel = (MathHelper.TwoPi * i / 4f).ToRotationVector2().RotatedBy(starAngle) * 4f;
-                        Dust dust2 = Dust.NewDustPerfect(target.Center, DustID.FireworksRGB, vel, 80, Color.Red, 1.2f * Projectile.scale);
+                        Dust dust2 = Dust.NewDustPerfect(target.Center, DustID.FireworksRGB, vel, 80, Color2, 1.2f * Projectile.scale);
                     }
                 }
-            }
-
-            Vector2 launchVel = Utils.DirectionTo(Owner.Center, Owner.MogMod().mouseWorld);
-            target.MoveNPC(launchVel, (chargedSwing ? 35 : 23), true, Owner);
-        }
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            base.ModifyHitNPC(target, ref modifiers);
-            modifiers.SourceDamage *= (chargedSwing ? 1f : 0.2f);
-        }
-        public override bool PreDraw(ref Color lightColor)
-        {
-            // Only draw the projectile if the projectile's owner is currently using the item this projectile is attached to.
-            if ((useAnim > 0 || DrawUnconditionally) && (Owner.ItemAnimationActive))
-            {
-                Asset<Texture2D> tex = ModContent.Request<Texture2D>(Texture);
-                bool flipAsSword = (swingCount % 2 == 0 ? !FlipAsSword : FlipAsSword);
-                float r = flipAsSword ? MathHelper.ToRadians(90) : 0f;
-                Vector2 generalDrawPos = Projectile.Center - Main.screenPosition + new Vector2(0, Owner.gfxOffY);
-                SpriteEffects sEffects = spriteEffects != SpriteEffects.None ? spriteEffects : (flipAsSword ? SpriteEffects.FlipHorizontally : SpriteEffects.None);
-
-                for (int i = 0; i < 25; i++)
-                {
-                    Texture2D centerTexture = ModContent.Request<Texture2D>("MogMod/Projectiles/Melee/BlackBladeGhost").Value;
-                    Color auraColor = mainColor1 with { A = 0 } * 0.15f * fadeIn;
-                    Vector2 drawOffset = (MathHelper.TwoPi * i / 25f).ToRotationVector2() * 6 * fadeIn;
-                    Main.EntitySpriteDraw(centerTexture, Projectile.Center - Main.screenPosition + drawOffset + new Vector2(0, Owner.gfxOffY), centerTexture.Frame(1, FrameCount, 0, Frame), auraColor, Projectile.rotation + RotationOffset + r, flipAsSword ? new Vector2(tex.Width() - SpriteOrigin.X, SpriteOrigin.Y) : SpriteOrigin, Projectile.scale, spriteEffects != SpriteEffects.None ? spriteEffects : (flipAsSword ? SpriteEffects.FlipHorizontally : SpriteEffects.None));
-                }
-                Main.EntitySpriteDraw(tex.Value, generalDrawPos, tex.Frame(1, FrameCount, 0, Frame), lightColor, Projectile.rotation + RotationOffset + r, flipAsSword ? new Vector2(tex.Width() - SpriteOrigin.X, SpriteOrigin.Y) : SpriteOrigin, Projectile.scale, sEffects);
+                SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact);
+                SoundEngine.PlaySound(SoundID.Item69 with { Volume = 1f, LimitsArePerVariant = false, MaxInstances = 1 });
+                time = 600;
             }
             else
             {
-                chargeTimer = 0;
-                chargedSwing = false;
+                if (Projectile.numHits == 0) SoundEngine.PlaySound(SoundID.DD2_GhastlyGlaivePierce with { Volume = 0.85f, PitchVariance = 0.25f }, Projectile.Center);
+                SoundEngine.PlaySound(SoundID.DeerclopsRubbleAttack with { Volume = 0.5f, LimitsArePerVariant = false, MaxInstances = 1 });
+                SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact with { VariantsWeights = new ReadOnlySpan<float>(new float[] { 1, 0, 0 }) });
+                time = 300;
             }
-            return false;
+            target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), time);
         }
-        public override void ResetStyle()
+        public override bool PreDraw(ref Color lightColor)
         {
+            if (!inCooldown)
+            {
+                var tex = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/BlackBladeGhost").Value;
+                float outlineWidth = (int)(4 * CurrentChargeMult) * 0.5f;
+                if (inSwing) outlineWidth *= 1 - SwingCompletion;
+                for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)
+                {
+                    Main.spriteBatch.Draw(
+                        tex,
+                        Projectile.Center + new Vector2(0, Projectile.gfxOffY) + Vector2.UnitX.RotatedBy(i + Projectile.rotation) * outlineWidth * Projectile.scale - Main.screenPosition,
+                        null,
+                        Color.Lerp(Color1, Color2, CurrentChargeMult),
+                        Projectile.rotation,
+                        tex.Size() * 0.5f,
+                        Projectile.scale,
+                        Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                        0
+                    );
+                }
+            }
+            if (inSwing) return base.PreDraw(ref lightColor);
+            return true;
         }
     }
 }
