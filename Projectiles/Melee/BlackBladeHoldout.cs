@@ -147,7 +147,8 @@ namespace MogMod.Projectiles.Melee
         {
             base.ModifyHitNPC(target, ref modifiers);
             modifiers.SourceDamage *= CurrentChargeMult * 4.8f;
-            modifiers.Knockback += (CurrentChargeMult);
+            modifiers.Knockback += CurrentChargeMult;
+            if (target.life >= (int)(target.lifeMax * 0.9f)) modifiers.FinalDamage *= 1.5f;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {

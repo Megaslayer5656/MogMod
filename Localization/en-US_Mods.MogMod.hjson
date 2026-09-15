@@ -439,9 +439,9 @@ Items: {
 					'''
 					Swings a greatsword that can be charged for higher damage
 					Deals more damage to unhurt enemies
-					Charged swings shoot out {0} to {1} stars that idle in the air
+					Hitting an enemy causes stars to shoot out of them
 					Striking a star with an uncharged swing will push it around and extend its lifetime
-					Charged swings can empower stars, turning them into massive comets on hit and launching them to your cursor
+					Charged swings can empower stars, turning them into homing white dwarfs on hit and launching them to your cursor
 					'''
 			}
 		}
