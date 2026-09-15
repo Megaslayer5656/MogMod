@@ -327,7 +327,7 @@ Items: {
 
 			GreatswordOfSouls: {
 				DisplayName: Greatsword of Souls
-				Tooltip: Fires 3 homing souls
+				Tooltip: Hitting an enemy causes 4 souls to fly out
 			}
 
 			WarFury: {

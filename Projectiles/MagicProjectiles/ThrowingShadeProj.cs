@@ -62,26 +62,25 @@ namespace MogMod.Projectiles.MagicProjectiles
             }
             Projectile.rotation = Projectile.velocity.ToRotation();
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            hitEnemy = true;
-        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => KillEffect();
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => KillEffect();
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            hitEnemy = true;
+            KillEffect();
             Projectile.velocity = oldVelocity * 0.95f;
             Projectile.position -= Projectile.velocity;
             return false;
         }
-        public override bool? CanDamage() => !hitEnemy;
-        public override void OnKill(int timeLeft)
+        public void KillEffect()
         {
-            SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
-            for (int k = 0; k < 5; k++)
+            if (!hitEnemy)
             {
-                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.DemonTorch, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
+                SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
+                for (int k = 0; k < 5; k++) Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.DemonTorch, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
+                hitEnemy = true;
             }
         }
+        public override bool? CanDamage() => !hitEnemy;
         public override bool PreDraw(ref Color lightColor)
         {
             TrailDrawer trailDrawer = default;

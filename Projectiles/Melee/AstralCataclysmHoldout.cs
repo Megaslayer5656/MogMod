@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
+using ReLogic.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -12,7 +13,6 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.Melee
 {
-    // TODO: add charging sound
     public class AstralCataclysmHoldout : BaseSwordHoldoutProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
@@ -30,6 +30,7 @@ namespace MogMod.Projectiles.Melee
         Color Color1 = AstralCataclysm.MainColor1;
         Color Color2 = AstralCataclysm.MainColor2;
         Color Color3 = AstralCataclysm.MainColor3;
+        public SlotId AudSlot;
         public static readonly Color[] colorList =
         [
             AstralCataclysm.MainColor1,
@@ -38,6 +39,8 @@ namespace MogMod.Projectiles.Melee
         ];
         public override void Defaults()
         {
+            Projectile.width = 92;
+            Projectile.height = 110;
             Projectile.extraUpdates = 3;
             swingWidth = 200;
             RotateInCooldown = 0.3f;
@@ -74,6 +77,13 @@ namespace MogMod.Projectiles.Melee
 
                     Dust dust3 = Dust.NewDustPerfect(spawnPos, DustID.FireworksRGB, dustVel.RotatedByRandom(100) * Main.rand.NextFloat(0.2f, 0.6f) * 0.3f, 100, dustColor, Main.rand.NextFloat(0.5f, 0.8f) * CurrentChargeMult * Projectile.scale);
                 }
+                if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound) && ChargeSound.IsPlaying)
+                {
+                    ChargeSound.Position = Projectile.Center;
+                    ChargeSound.Pitch = Utils.Remap(CurrentChargeMult, 0, 1f, -0.4f, 0f);
+                    ChargeSound.Volume = Utils.Remap(CurrentChargeMult, 0, 1f, 0f, 0.5f) * 100;
+                }
+                else if (timer != StartupTime - 1) AudSlot = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop with { Volume = 0.01f, Pitch = 0, IsLooped = true }, Projectile.Center);
             }
             if (inStartup && !Owner.channel && timer > 30) timer = StartupTime - 1;
             if (Owner.channel)
@@ -99,6 +109,7 @@ namespace MogMod.Projectiles.Melee
             }
             if (inSwing)
             {
+                if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();
                 if (!playedSwingSound)
                 {
                     SoundEngine.PlaySound(SoundID.Item15 with { Volume = 0.65f, Pitch = 0.4f, PitchVariance = 0.15f }, Projectile.Center);
@@ -250,7 +261,14 @@ namespace MogMod.Projectiles.Melee
             {
                 var tex = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/AstralCataclysmGhost").Value;
                 float outlineWidth = (int)(4 * CurrentChargeMult) * 0.5f;
-                if (inSwing) outlineWidth *= 1 - SwingCompletion;
+                if (inSwing)
+                {
+                    outlineWidth *= 1 - SwingCompletion;
+                    Texture2D swoosh = ModContent.Request<Texture2D>("MogMod/Assets/Textures/VerticalSmearLarge").Value;
+                    float rotation = Projectile.rotation - 0.7f * -Projectile.spriteDirection;
+                    Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 56f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
+                    Main.EntitySpriteDraw(swoosh, spawnPos, null, Color.Lerp(Color3, Color2, CurrentChargeMult) with { A = 0 } * 0.5f, rotation, swoosh.Size() * 0.5f, Projectile.scale * 0.45f, SpriteEffects.None);
+                }
                 for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)
                 {
                     Main.spriteBatch.Draw(

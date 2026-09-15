@@ -77,36 +77,38 @@ namespace MogMod.Projectiles.MagicProjectiles
             }
             Projectile.rotation = Projectile.velocity.ToRotation();
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => KillEffect();
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => KillEffect();
+        public void KillEffect()
         {
-            hitEnemy = true;
-        }
-        public override void OnKill(int timeLeft)
-        {
-            SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
-            int numb = 2;
-            Projectile.position = Projectile.Center;
-            Projectile.width *= 2;
-            Projectile.height *= 2;
-            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
-            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            for (int i = 0; i < 5; i++)
+            if (!hitEnemy)
             {
-                int dust = Dust.NewDust(Projectile.position, Projectile.width / numb, Projectile.height / numb, DustID.DemonTorch, 0f, 0f, 100, default, 2f);
-                Main.dust[dust].velocity *= 1.2f;
-                if (Main.rand.NextBool())
+                SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
+                int numb = 2;
+                Projectile.position = Projectile.Center;
+                Projectile.width *= 2;
+                Projectile.height *= 2;
+                Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+                Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+                for (int i = 0; i < 5; i++)
                 {
-                    Main.dust[dust].scale = 0.5f;
-                    Main.dust[dust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    int dust = Dust.NewDust(Projectile.position, Projectile.width / numb, Projectile.height / numb, DustID.DemonTorch, 0f, 0f, 100, default, 2f);
+                    Main.dust[dust].velocity *= 1.2f;
+                    if (Main.rand.NextBool())
+                    {
+                        Main.dust[dust].scale = 0.5f;
+                        Main.dust[dust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    }
                 }
-            }
-            for (int i = 0; i < 10; i++)
-            {
-                int dusty = Dust.NewDust(Projectile.position, Projectile.width / numb, Projectile.height / numb, DustID.ShadowbeamStaff, 0f, 0f, 100, default, 3f);
-                Main.dust[dusty].noGravity = true;
-                Main.dust[dusty].velocity *= 1.3f;
-                dusty = Dust.NewDust(Projectile.position, Projectile.width / numb, Projectile.height / numb, DustID.DemonTorch, 0f, 0f, 100, default, 2f);
-                Main.dust[dusty].velocity *= 1.1f;
+                for (int i = 0; i < 10; i++)
+                {
+                    int dusty = Dust.NewDust(Projectile.position, Projectile.width / numb, Projectile.height / numb, DustID.ShadowbeamStaff, 0f, 0f, 100, default, 3f);
+                    Main.dust[dusty].noGravity = true;
+                    Main.dust[dusty].velocity *= 1.3f;
+                    dusty = Dust.NewDust(Projectile.position, Projectile.width / numb, Projectile.height / numb, DustID.DemonTorch, 0f, 0f, 100, default, 2f);
+                    Main.dust[dusty].velocity *= 1.1f;
+                }
+                hitEnemy = true;
             }
         }
         public override bool? CanDamage() => !hitEnemy;

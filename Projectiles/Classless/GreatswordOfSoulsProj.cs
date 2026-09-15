@@ -12,7 +12,7 @@ namespace MogMod.Projectiles.Classless
     public class GreatswordOfSoulsProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Classless";
-        public static readonly SoundStyle soul = new SoundStyle("Terraria/Sounds/Item_104")
+        public static readonly SoundStyle soul = new("Terraria/Sounds/Item_104")
         {
             Volume = 1f,
             PitchVariance = 0.2f,
@@ -48,13 +48,18 @@ namespace MogMod.Projectiles.Classless
                     Projectile.frame = 0;
             }
 
-            int width = Convert.ToInt32(Projectile.width / 2);
-            int height = Convert.ToInt32(Projectile.height / 2);
+            int width = (int)(Projectile.width / 2);
+            int height = (int)(Projectile.height / 2);
             Vector2 spawn = Projectile.Center - Projectile.velocity / 2f;
 
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
 
-            MogModUtils.HomeInOnNPC(Projectile, true, 1000f, 8f, 20f);
+            if (Projectile.ai[2] > 0f)
+            {
+                Projectile.velocity *= 0.96f;
+                Projectile.ai[2]--;
+            }
+            else MogModUtils.HomeInOnNPC(Projectile, true, 1000f, 8f, 20f);
 
             if (Main.rand.NextBool(2))
             {
@@ -64,6 +69,7 @@ namespace MogMod.Projectiles.Classless
                 Main.dust[d].velocity *= 0.1f;
             }
         }
+        public override bool? CanDamage() => (Projectile.ai[2] <= 0f);
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.NPCDeath39, Projectile.position);

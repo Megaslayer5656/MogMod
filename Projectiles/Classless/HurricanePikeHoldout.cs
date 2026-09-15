@@ -181,7 +181,7 @@ namespace MogMod.Projectiles.Classless
                     {
                         Dust chargefull = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB);
                         Vector2 vel = (MathHelper.TwoPi * i / totalDusts).ToRotationVector2().RotatedBy(starAngle) * totalDusts;
-                        Dust dust2 = Dust.NewDustPerfect(target.Center, DustID.FireworksRGB, vel, 80, Color.Lerp(Color1, Color2, CooldownTime / CooldownTimer), 1.2f);
+                        Dust dust2 = Dust.NewDustPerfect(target.Center, DustID.FireworksRGB, vel, 80, Color2, 1.2f);
                         dust2.noGravity = true;
                     }
                 }
@@ -191,6 +191,16 @@ namespace MogMod.Projectiles.Classless
                 Owner.MogMod().pikeEmpowered = true;
                 SoundEngine.PlaySound(SoundID.DD2_DarkMageAttack with { Pitch = -0.5f });
                 SoundEngine.PlaySound(SoundID.ResearchComplete with { Volume = 0.15f, Pitch = 0.35f });
+
+                int totalDusts = 5;
+                float starAngle = MathHelper.Pi / totalDusts;
+                for (int i = 0; i < totalDusts; i++)
+                {
+                    Dust chargefull = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB);
+                    Vector2 vel = (MathHelper.TwoPi * i / totalDusts).ToRotationVector2().RotatedBy(starAngle) * totalDusts;
+                    Dust dust2 = Dust.NewDustPerfect(target.Center, DustID.FireworksRGB, vel, 80, Color1, 1.2f);
+                    dust2.noGravity = true;
+                }
             }
             SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact with { Volume = 0.25f, Pitch = -1f });
             base.ModifyHitNPC(target, ref modifiers);

@@ -70,13 +70,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (!hitEnemy)
-            {
-                SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
-                for (int k = 0; k < 15; k++)
-                    Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.InfernoFork, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
-            }
-            hitEnemy = true;
+            KillEffect();
             target.AddBuff(BuffID.OnFire, 420);
             Player player = Main.player[Projectile.owner];
             if (target.type != NPCID.TargetDummy)
@@ -88,12 +82,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (!hitEnemy)
-            {
-                SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
-                for (int k = 0; k < 15; k++)
-                    Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.InfernoFork, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
-            }
+            KillEffect();
             target.AddBuff(BuffID.OnFire, 420);
             Player player = Main.player[Projectile.owner];
             player.AddBuff(ModContent.BuffType<FierySoulStack>(), 600);
@@ -102,16 +91,19 @@ namespace MogMod.Projectiles.MagicProjectiles
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (!hitEnemy)
-            {
-                SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
-                for (int k = 0; k < 15; k++)
-                    Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.InfernoFork, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
-            }
-            hitEnemy = true;
+            KillEffect();
             Projectile.velocity = oldVelocity * 0.95f;
             Projectile.position -= Projectile.velocity;
             return false;
+        }
+        public void KillEffect()
+        {
+            if (!hitEnemy)
+            {
+                SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
+                for (int k = 0; k < 15; k++) Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.InfernoFork, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
+                hitEnemy = true;
+            }
         }
         public override bool? CanDamage() => !hitEnemy;
         public override bool PreDraw(ref Color lightColor)

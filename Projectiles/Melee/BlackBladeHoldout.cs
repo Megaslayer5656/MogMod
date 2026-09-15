@@ -3,16 +3,16 @@ using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.Debuffs;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
+using MogMod.Utilities;
+using ReLogic.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using MogMod.Utilities;
 
 namespace MogMod.Projectiles.Melee
 {
-    // TODO: add charging sound
     public class BlackBladeHoldout : BaseSwordHoldoutProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
@@ -28,6 +28,7 @@ namespace MogMod.Projectiles.Melee
         bool playedChargeSound = false;
         Color Color1 = Color.DarkGoldenrod;
         Color Color2 = Color.Crimson;
+        public SlotId AudSlot;
         public override void Defaults()
         {
             Projectile.extraUpdates = 3;
@@ -65,6 +66,13 @@ namespace MogMod.Projectiles.Melee
 
                     Dust dust3 = Dust.NewDustPerfect(spawnPos, DustID.FireworksRGB, dustVel.RotatedByRandom(100) * Main.rand.NextFloat(0.2f, 0.6f) * 0.3f, 100, Main.rand.NextBool(3) ? Color2 : Color1, Main.rand.NextFloat(0.5f, 0.8f) * CurrentChargeMult * Projectile.scale);
                 }
+                if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound) && ChargeSound.IsPlaying)
+                {
+                    ChargeSound.Position = Projectile.Center;
+                    ChargeSound.Pitch = Utils.Remap(CurrentChargeMult, 0, 1f, -0.4f, 0f);
+                    ChargeSound.Volume = Utils.Remap(CurrentChargeMult, 0, 1f, 0f, 0.5f) * 100;
+                }
+                else if (timer != StartupTime - 1) AudSlot = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop with { Volume = 0.01f, Pitch = 0, IsLooped = true }, Projectile.Center);
             }
             if (inStartup && !Owner.channel && timer > 30) timer = StartupTime - 1;
             if (Owner.channel)
@@ -91,6 +99,7 @@ namespace MogMod.Projectiles.Melee
             }
             if (inSwing)
             {
+                if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();
                 if (DustTimer % Projectile.extraUpdates == 0)
                 {
                     float scale = Main.rand.NextFloat(0.5f, 1f);
@@ -187,7 +196,14 @@ namespace MogMod.Projectiles.Melee
             {
                 var tex = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/BlackBladeGhost").Value;
                 float outlineWidth = (int)(4 * CurrentChargeMult) * 0.5f;
-                if (inSwing) outlineWidth *= 1 - SwingCompletion;
+                if (inSwing)
+                {
+                    outlineWidth *= 1 - SwingCompletion;
+                    Texture2D swoosh = ModContent.Request<Texture2D>("MogMod/Assets/Textures/VerticalSmearLarge").Value;
+                    float rotation = Projectile.rotation - 0.7f * -Projectile.spriteDirection;
+                    Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 52f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
+                    Main.EntitySpriteDraw(swoosh, spawnPos, null, Color.Lerp(Color1, Color2, CurrentChargeMult) with { A = 0 } * 0.5f, rotation, swoosh.Size() * 0.5f, Projectile.scale * 0.45f, SpriteEffects.None);
+                }
                 for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)
                 {
                     Main.spriteBatch.Draw(
