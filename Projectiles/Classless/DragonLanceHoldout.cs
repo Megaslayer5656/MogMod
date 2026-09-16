@@ -37,7 +37,6 @@ namespace MogMod.Projectiles.Classless
             Projectile.width = Projectile.height = 92;
             Projectile.extraUpdates = 5; //ExtraUpdates help make the VFX smoother
             Projectile.noEnchantmentVisuals = true;
-            Projectile.DamageType = MeleeRangedDamageClass.Instance;
         }
         public override void Spawn()
         {

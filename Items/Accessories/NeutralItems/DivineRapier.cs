@@ -1,13 +1,17 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories.NeutralItems
 {
     public class DivineRapier : NeutralItem
     {
+        public const float DamageBoost = 0.35f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DamageBoost.ToPercent());
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -20,7 +24,7 @@ namespace MogMod.Items.Accessories.NeutralItems
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             if (player.statLife >= (player.statLifeMax2 * 1))
-                player.GetDamage(DamageClass.Generic) += 0.35f;
+                player.GetDamage(DamageClass.Generic) += DamageBoost;
         }
         public override void AddRecipes()
         {

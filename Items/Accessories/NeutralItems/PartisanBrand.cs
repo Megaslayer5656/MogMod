@@ -1,14 +1,18 @@
 ﻿using MogMod.Common.Classes;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories.NeutralItems
 {
     public class PartisanBrand : NeutralItem
     {
+        public const float SorceryAndSummonDamageBoost = 0.07f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(SorceryAndSummonDamageBoost.ToPercent());
         public override void SetStaticDefaults() => ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<WhisperOfTheDread>();
         public override void SetDefaults()
         {
@@ -20,8 +24,8 @@ namespace MogMod.Items.Accessories.NeutralItems
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage<SorceryDamageClass>() += .07f;
-            player.GetDamage<SummonDamageClass>() += .07f;
+            player.GetDamage<SorceryDamageClass>() += SorceryAndSummonDamageBoost;
+            player.GetDamage<SummonDamageClass>() += SorceryAndSummonDamageBoost;
         }
         public override void AddRecipes()
         {

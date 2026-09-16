@@ -37,7 +37,6 @@ namespace MogMod.Projectiles.MagicProjectiles
         {
             Projectile.extraUpdates = 2;
             Projectile.hide = true;
-            Projectile.DamageType = DamageClass.Magic;
         }
         public override void Spawn()
         {

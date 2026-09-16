@@ -3,6 +3,7 @@ using MogMod.Projectiles.MagicProjectiles.Sorceries;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo.SorcerySpells.Carian
@@ -15,6 +16,8 @@ namespace MogMod.Items.Ammo.SorcerySpells.Carian
         public override bool SwordStyle => true;
         public override bool OnlyOneActive => true;
         public override bool Channeled => true;
+        public const int MaxReflects = 3;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MaxReflects);
         public override void SetDefaults()
         {
             base.SetDefaults();

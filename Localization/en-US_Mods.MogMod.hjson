@@ -1752,7 +1752,7 @@ Items: {
 				DisplayName: Adula's Moonblade
 				Tooltip:
 					'''
-					Swings a freezing magic blade that fires an ice wave and can reflect up to 5 projectiles back to their owner
+					Swings a freezing magic blade that fires an ice wave and can reflect up to {0} projectiles back to their owner
 					[c/9CFCFF:'Adula, a devourer of sorcerers, was bested by Ranni and subsequently swore a knightly oath to her Dark Moon.']
 					'''
 			}
@@ -1761,7 +1761,7 @@ Items: {
 				DisplayName: Carian Greatsword
 				Tooltip:
 					'''
-					Swings a magic blade that can reflect up to 3 projectiles
+					Swings a magic blade that can reflect up to {0} projectiles
 					[c/2D8DC2:'Armed with this spell, sorcerers gain the strength of knights, their loyalty sworn to the moon.']
 					'''
 			}
@@ -1979,7 +1979,7 @@ Items: {
 			AbilityBrief: "[c/{0}:Radiant Benediction]"
 			SetBonusNormal:
 				'''
-				[c/{0}:Hitting an enemy with a magic weapon summons radiant beams from the sky]
+				[c/{0}:Hitting an enemy with a magic weapon has a {3}% chance to summon radiant beams from the sky]
 				[c/{0}:Increased Mana Regeneration by {1}]
 				[c/{0}:Multiplies all forms of mana regeneration by {2}%]
 				'''

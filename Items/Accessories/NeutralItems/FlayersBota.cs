@@ -1,6 +1,7 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -10,8 +11,9 @@ namespace MogMod.Items.Accessories.NeutralItems
 {
     public class FlayersBota : NeutralItem
     {
-        public new string LocalizationCategory => "Items.Accessories";
         public const float BloodMult = 0.3f;
+        public const float AttackSpeedBoost = 0.1f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(AttackSpeedBoost.ToPercent(), BloodMult.ToPercent());
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -23,7 +25,7 @@ namespace MogMod.Items.Accessories.NeutralItems
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingFlayersBota = true;
-            player.GetAttackSpeed<GenericDamageClass>() += 0.1f;
+            player.GetAttackSpeed<GenericDamageClass>() += AttackSpeedBoost;
         }
         public override void AddRecipes()
         {

@@ -13,7 +13,7 @@ namespace MogMod.Items.Accessories
     {
         public new string LocalizationCategory => "Items.Accessories";
         public const int FishingPowerBoost = 15;
-        public const int LureCount = 5;
+        public const int LureCount = 6;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(FishingPowerBoost, LureCount);
         public override void SetDefaults()
         {

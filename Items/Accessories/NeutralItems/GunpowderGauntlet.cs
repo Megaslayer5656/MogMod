@@ -13,7 +13,8 @@ namespace MogMod.Items.Accessories.NeutralItems
         public static double DamageMult = 1.5D;
         public const int DamageCap = 80;
         public const float MagicSpeedBoost = 0.05f;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MagicSpeedBoost.ToPercent(), DamageMult, DamageCap);
+        public const float ProcChance = 0.4f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MagicSpeedBoost.ToPercent(), DamageMult, DamageCap, ProcChance.ToPercent());
         public override void SetDefaults()
         {
             base.SetDefaults();

@@ -27,16 +27,16 @@ namespace MogMod.Items.Ammo.SorcerySpells.Carian
             Item.shootSpeed = 8f;
             SorceryClass = SorceryID.Carian;
         }
-        /* Sold by Traveling Merchant now.
-        public override void AddRecipes()
-        {
-            CreateRecipe().
-                AddIngredient<FrigidShard>(6).
-                AddIngredient<SpiritShard>(4).
-                AddIngredient<ManaEssence>(3).
-                AddIngredient<Scroll>(1).
-                AddTile(TileID.Bookcases).
-                Register();
-        } */
     }
+    /* Sold by Traveling Merchant now.
+    public override void AddRecipes()
+    {
+        CreateRecipe().
+            AddIngredient<FrigidShard>(6).
+            AddIngredient<SpiritShard>(4).
+            AddIngredient<ManaEssence>(3).
+            AddIngredient<Scroll>(1).
+            AddTile(TileID.Bookcases).
+            Register();
+    } */
 }

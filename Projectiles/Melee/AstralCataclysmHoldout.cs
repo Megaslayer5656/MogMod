@@ -5,9 +5,9 @@ using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
 using ReLogic.Utilities;
 using System;
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
-using Terraria.Graphics.Renderers;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -117,34 +117,33 @@ namespace MogMod.Projectiles.Melee
                     playedSwingSound = true;
                 }
                 var type = ModContent.ProjectileType<AstralStar>();
-                foreach (Projectile star in Main.ActiveProjectiles)
+                float size = 2.5f;
+                Rectangle swordBox = new((int)(Projectile.Center.X - Projectile.width * size / 2), (int)(Projectile.Center.Y - Projectile.height * size / 2), (int)(Projectile.Hitbox.Width * size), (int)(Projectile.Hitbox.Height * size));
+                foreach (Projectile star in Main.projectile.Where(star => star.active && star.damage > 0 && Projectile.Colliding(swordBox, star.Hitbox)))
                 {
                     Vector2 AimVelocity(float velocity) => (star.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX) * velocity;
-                    if (Vector2.Distance(Projectile.Center, star.Center) <= 90 * Projectile.scale + Math.Max(star.width, star.height) && star.active)
-                    {
-                        if (star.type == type && star.timeLeft < AstralStar.Lifetime)
-                        { 
-                            if (CurrentChargeMult >= 1)
-                            {
-                                star.velocity += AimVelocity(-25f);
-                                star.timeLeft = AstralStar.Lifetime + 20;
-                                star.numHits++;
-                                star.owner = Owner.whoAmI;
-                                star.netUpdate = true;
-                                star.ai[1] = 1f;
-                                SoundEngine.PlaySound(SoundID.Item4 with { Pitch = 0.8f, PitchVariance = 0.4f }, Projectile.Center);
-                                SoundEngine.PlaySound(SoundID.Item37 with { Pitch = 0.9f, PitchVariance = 0.1f }, Projectile.Center);
-                            }
-                            else
-                            {
-                                star.velocity += AimVelocity(-15f * CurrentChargeMult);
-                                star.timeLeft = AstralStar.Lifetime + 20;
-                                star.numHits++;
-                                star.owner = Owner.whoAmI;
-                                star.netUpdate = true;
-                                SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact with { Pitch = 0.8f, PitchVariance = 0.4f }, Projectile.Center);
-                                SoundEngine.PlaySound(SoundID.Item37 with { Volume = 0.65f, Pitch = 0.9f, PitchVariance = 0.1f }, Projectile.Center);
-                            }
+                    if (star.type == type && star.timeLeft < AstralStar.Lifetime)
+                    { 
+                        if (CurrentChargeMult >= 1)
+                        {
+                            star.velocity += AimVelocity(-25f);
+                            star.timeLeft = AstralStar.Lifetime + 20;
+                            star.numHits++;
+                            star.owner = Owner.whoAmI;
+                            star.netUpdate = true;
+                            star.ai[1] = 1f;
+                            SoundEngine.PlaySound(SoundID.Item4 with { Pitch = 0.8f, PitchVariance = 0.4f }, Projectile.Center);
+                            SoundEngine.PlaySound(SoundID.Item37 with { Pitch = 0.9f, PitchVariance = 0.1f }, Projectile.Center);
+                        }
+                        else
+                        {
+                            star.velocity += AimVelocity(-15f * CurrentChargeMult);
+                            star.timeLeft = AstralStar.Lifetime + 20;
+                            star.numHits++;
+                            star.owner = Owner.whoAmI;
+                            star.netUpdate = true;
+                            SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact with { Pitch = 0.8f, PitchVariance = 0.4f }, Projectile.Center);
+                            SoundEngine.PlaySound(SoundID.Item37 with { Volume = 0.65f, Pitch = 0.9f, PitchVariance = 0.1f }, Projectile.Center);
                         }
                     }
                 }
@@ -215,20 +214,19 @@ namespace MogMod.Projectiles.Melee
             {
                 if (Projectile.numHits == 0)
                 {
-                    for (float i = -0.5f; i < 0.26f; i += 0.25f) if (Projectile.owner == Main.myPlayer) Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, -(aimVel(50f * CurrentChargeMult) / 4).RotatedByRandom(i) * Main.rand.NextFloat(0.6f, 1.4f), type, Damage(), Projectile.knockBack, Projectile.owner);
+                    for (float i = -0.5f; i < 0.26f; i += 0.25f)
+                    {
+                        if (Projectile.owner == Main.myPlayer) Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, -(aimVel(50f) / 4).RotatedByRandom(i) * Main.rand.NextFloat(0.6f, 1.4f), type, Damage(), Projectile.knockBack, Projectile.owner);
+
+                        Dust chargefull = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB, newColor: Main.rand.NextBool() ? Color1 : Color2);
+                        Vector2 vel = -(aimVel(30f) / 4).RotatedByRandom(i) * Main.rand.NextFloat(0.6f, 1.4f);
+                        Dust dust2 = Dust.NewDustPerfect(target.Center, DustID.FireworksRGB, vel, 80, Color2, 1.2f * Projectile.scale);
+                    }
                     SoundEngine.PlaySound(SoundID.DD2_GhastlyGlaiveImpactGhost with { Volume = 1f, PitchVariance = 0.15f }, Projectile.Center);
                     SoundEngine.PlaySound(SoundID.DD2_EtherianPortalDryadTouch with { Volume = 0.9f, PitchVariance = 0.15f }, Projectile.Center);
                     SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact with { Volume = 0.9f, PitchVariance = 0.15f }, Projectile.Center);
                     SoundEngine.PlaySound(SoundID.DD2_PhantomPhoenixShot);
                     SoundEngine.PlaySound(SoundID.Item69 with { Volume = 1f, LimitsArePerVariant = false, MaxInstances = 1 });
-
-                    float starAngle = MathHelper.ToRadians(45f);
-                    for (int i = 0; i < 4; i++)
-                    {
-                        Dust chargefull = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB, newColor: Main.rand.NextBool() ? Color1 : Color2);
-                        Vector2 vel = (MathHelper.TwoPi * i / 4f).ToRotationVector2().RotatedBy(starAngle) * 4f;
-                        Dust dust2 = Dust.NewDustPerfect(target.Center, DustID.FireworksRGB, vel, 80, Color2, 1.2f * Projectile.scale);
-                    }
                 }
             }
             else
@@ -267,7 +265,7 @@ namespace MogMod.Projectiles.Melee
                     Texture2D swoosh = ModContent.Request<Texture2D>("MogMod/Assets/Textures/VerticalSmearLarge").Value;
                     float rotation = Projectile.rotation - 0.7f * -Projectile.spriteDirection;
                     float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver4 : (MathHelper.TwoPi - MathHelper.PiOver4)) * (angle.X < 0 ? -1f : 1f);
-                    Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 56f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
+                    Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 68f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
                     Main.EntitySpriteDraw(swoosh, spawnPos, null, Color.Lerp(Color3, Color2, CurrentChargeMult) with { A = 0 } * SwingCompletion * (CurrentChargeMult * 0.75f), rotation + rotationOffset, swoosh.Size() * 0.5f, Projectile.scale * 0.45f, SpriteEffects.None);
                 }
                 for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)

@@ -133,7 +133,7 @@ namespace MogMod.Projectiles.Melee
                 Texture2D swoosh = ModContent.Request<Texture2D>("MogMod/Assets/Textures/VerticalSmearLarge").Value;
                 float rotation = Projectile.rotation - 0.7f * -Projectile.spriteDirection;
                 float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver4 : (MathHelper.TwoPi - MathHelper.PiOver4)) * (angle.X < 0 ? -1f : 1f);
-                Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 30f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
+                Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 32f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
                 Main.EntitySpriteDraw(swoosh, spawnPos, null, Color1 with { A = 0 } * SwingCompletion * 0.75f, rotation + rotationOffset, swoosh.Size() * 0.5f, Projectile.scale * 0.25f, SpriteEffects.None);
                 for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)
                 {

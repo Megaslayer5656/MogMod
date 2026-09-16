@@ -168,14 +168,6 @@ namespace MogMod.Projectiles.Melee
                 {
                     SoundEngine.PlaySound(SoundID.DD2_GhastlyGlaiveImpactGhost with { Volume = 1f, PitchVariance = 0.15f }, Projectile.Center);
                     SoundEngine.PlaySound(SoundID.DD2_EtherianPortalDryadTouch with { Volume = 0.9f, PitchVariance = 0.15f }, Projectile.Center);
-
-                    float starAngle = MathHelper.ToRadians(45f);
-                    for (int i = 0; i < 4; i++)
-                    {
-                        Dust chargefull = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB, newColor: Main.rand.NextBool() ? Color1 : Color2);
-                        Vector2 vel = (MathHelper.TwoPi * i / 4f).ToRotationVector2().RotatedBy(starAngle) * 4f;
-                        Dust dust2 = Dust.NewDustPerfect(target.Center, DustID.FireworksRGB, vel, 80, Color2, 1.2f * Projectile.scale);
-                    }
                 }
                 SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact);
                 SoundEngine.PlaySound(SoundID.Item69 with { Volume = 1f, LimitsArePerVariant = false, MaxInstances = 1 });
@@ -202,7 +194,7 @@ namespace MogMod.Projectiles.Melee
                     Texture2D swoosh = ModContent.Request<Texture2D>("MogMod/Assets/Textures/VerticalSmearLarge").Value;
                     float rotation = Projectile.rotation - 0.7f * -Projectile.spriteDirection;
                     float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver4 : (MathHelper.TwoPi - MathHelper.PiOver4)) * (angle.X < 0 ? -1f : 1f);
-                    Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 52f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
+                    Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 60f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
                     Main.EntitySpriteDraw(swoosh, spawnPos, null, Color.Lerp(Color1, Color2, CurrentChargeMult) with { A = 0 } * SwingCompletion * (CurrentChargeMult * 0.75f), rotation + rotationOffset, swoosh.Size() * 0.5f, Projectile.scale * 0.45f, SpriteEffects.None);
                 }
                 for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)

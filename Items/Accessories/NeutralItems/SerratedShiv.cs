@@ -1,17 +1,19 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Placeable.Bars;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories.NeutralItems
 {
     public class SerratedShiv : NeutralItem
     {
-        public new string LocalizationCategory => "Items.Accessories";
+        public const float ProcChance = 0.08f;
+        public const float MaxLifeDamage = 0.005f;
         public const int DamageCap = 400;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ProcChance.ToPercent(), MaxLifeDamage.ToPercent(), DamageCap);
         public override void SetDefaults()
         {
             base.SetDefaults();

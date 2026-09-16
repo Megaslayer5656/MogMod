@@ -109,7 +109,7 @@ namespace MogMod.Projectiles.Melee
                         if (Projectile.owner == Main.myPlayer)
                         {
                             Projectile soul = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, vel(12f), type, Damage(0.75f), Projectile.knockBack, Projectile.owner);
-                            soul.DamageType = DamageClass.Melee;
+                            soul.DamageType = Projectile.DamageType;
                             soul.ai[2] = 25f;
                         }
                     }

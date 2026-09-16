@@ -19,7 +19,7 @@ namespace MogMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.width = Item.height = 50;
+            Item.width = Item.height = 46;
 
             Item.damage = 94;
             Item.knockBack = 12f;

@@ -1,267 +1,177 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MogMod.Common.Classes;
+using MogMod.Common.Systems;
 using MogMod.Items.Ammo.SorcerySpells.Carian;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
-using ReLogic.Content;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using System.Linq;
-using MogMod.Common.Systems;
+using MogMod.Common.Classes;
 
 namespace MogMod.Projectiles.MagicProjectiles.Sorceries
 {
-    public class CarianGreatswordHoldout : BaseCustomUseStyleProjectile, ILocalizedModType
+    public class CarianGreatswordHoldout : BaseSwordHoldoutProjectile, ILocalizedModType
     {
-        public override int AssignedItemID => ModContent.ItemType<CarianGreatsword>();
+        public new string LocalizationCategory => "Projectiles.Magic";
+        public override int swingWidth => 270;
+        public override bool UsesBaseItem => false;
         public override LocalizedText DisplayName => MiscUtils.GetItemName<CarianGreatsword>();
         public override string Texture => "MogMod/Projectiles/MagicProjectiles/Sorceries/CarianGreatswordHoldout";
-        public override bool ItemUsedAsAmmo => true;
-        public int size = 130;
-        public int hitsLeft = 3;
-        public override float HitboxOutset => size * 0.85f;
-        public override Vector2 HitboxSize => new Vector2(size, size);
-        public override Vector2 SpriteOrigin => new(0, size);
-        public override float HitboxRotationOffset => MathHelper.ToRadians(-45);
-        public override float AdditionalScale => 0.2f;
-        public Vector2 mousePos;
+        public override int OffsetDistance => 80;
+        public override int StartupTime { get; set; }
+        public override int CooldownTime { get; set; }
+        public override float lineCollisionLength => 32;
+        public Player Owner => Main.player[Projectile.owner];
+        public override SoundStyle? UseSound => SoundID.Item1 with { Volume = 0.9f, Pitch = Main.rand.NextFloat(0.1f, 0f) };
+        public ref float HitsLeft => ref Projectile.ai[0];
         public Vector2 aimVel;
-        public bool doSwing = true;
-        public bool postSwing = false;
-        public float fadeIn = 0;
-        public int useAnim;
-        public int swingCount;
-        public bool finalFlip = false;
-        public bool playSwingSound = true;
-        public bool swooshFade = false;
-        public override void SetDefaults()
+        Color Color1 = Color.DeepSkyBlue;
+        Color Color2 = Color.SkyBlue;
+        public override void Defaults()
         {
-            base.SetDefaults();
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -1;
+            Projectile.width = Projectile.height = 130;
             Projectile.DamageType = SorceryDamageClass.Instance;
+            Projectile.extraUpdates = 5;
+            Projectile.hide = true;
         }
-        public override void WhenSpawned()
+        public override void Spawn()
         {
-            CanHit = false;
-            //Projectile.knockBack = 0;
-            Projectile.ai[1] = -1;
-            mousePos = Owner.MogMod().mouseWorld;
-            aimVel = (Owner.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX) * 65;
-            useAnim = Owner.itemAnimationMax;
-
-            if (mousePos.X < Owner.Center.X) Owner.direction = -1;
-            else Owner.direction = 1;
-
-            FlipAsSword = Owner.direction == -1 ? true : false;
+            Projectile.numHits = 0;
+            StartupTime = 20;
+            CooldownTime = 10;
+            swingTime = 8;
+            Projectile.scale *= 1.25f;
+            RotateInStartup = 1;
+            HitsLeft = CarianGreatsword.MaxReflects;
         }
-        public override void UseStyle()
+        public override void AdditionalAI()
         {
-            AnimationProgress = Animation % useAnim;
-            DrawUnconditionally = false;
-            Owner.MogMod().mouseWorldListener = true;
-
-            if (CanHit || postSwing)
-                mousePos = Owner.Center - aimVel;
-            else
+            var mogPlayer = Owner.GetModPlayer<BaseSwordHoldoutPlayer>();
+            if (inSwing)
             {
-                mousePos = Owner.MogMod().mouseWorld;
-            }
+                if (Projectile.owner == Main.myPlayer) Reflect(Projectile);
+                var veloc = oldPlayerOffset - (Projectile.Center - Main.player[Projectile.owner].Center);
+                veloc.Normalize();
+                float maxRotationDeviance = 0.8f;
+                float rotationAngle = Main.rand.NextFloat(-maxRotationDeviance, maxRotationDeviance);
+                float scale = Main.rand.NextFloat(0.7f, 1.15f);
+                Vector2 velocity = veloc.RotatedBy(MathHelper.PiOver4 * 0.5f * Projectile.spriteDirection) * Main.rand.NextFloat(1, 4);
 
-            if (CanHit && !swooshFade)
-                fadeIn = MathHelper.Lerp(fadeIn, 1, 0.5f);
-            else
-                fadeIn = MathHelper.Lerp(fadeIn, 0, 0.35f);
-
-
-            if (!doSwing)
-            {
-                for (int i = 0; i < Main.maxNPCs; i++)
-                    Projectile.localNPCImmunity[i] = 0;
-
-                hitsLeft = 3;
-                Projectile.numHits = 0;
-                mousePos = Owner.MogMod().mouseWorld;
-                aimVel = (Owner.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX) * 65;
-                CanHit = false;
-                if (mousePos.X < Owner.Center.X) Owner.direction = -1;
-                else Owner.direction = 1;
-                FlipAsSword = Owner.direction == -1 ? true : false;
-                doSwing = true;
-                swingCount++;
-                finalFlip = false;
-                playSwingSound = true;
-            }
-            else
-            {
-                if (!CanHit && !postSwing)
+                for (int i = 0; i < 1; i++)
                 {
-                    if (mousePos.X < Owner.Center.X) Owner.direction = -1;
-                    else Owner.direction = 1;
-                }
-                else
-                {
-                    if ((Owner.Center - aimVel).X < Owner.Center.X) Owner.direction = -1;
-                    else Owner.direction = 1;
-                }
-
-
-                Projectile.rotation = Projectile.rotation.AngleLerp(Owner.AngleTo(mousePos) + MathHelper.ToRadians(45f), 0.1f);
-
-                if (AnimationProgress < (useAnim / 1.5f))
-                {
-                    aimVel = (Owner.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX) * 65;
-                    CanHit = false;
-                    postSwing = false;
-                    if (AnimationProgress == 0)
-                    {
-                        doSwing = false;
-                        Projectile.ai[1] = -Projectile.ai[1];
-                    }
-                    RotationOffset = MathHelper.Lerp(RotationOffset, MathHelper.ToRadians(120f * Projectile.ai[1] * Owner.direction * (1 + (Utils.GetLerpValue(useAnim * 0.7f, useAnim, Animation, true)) * 0.35f)), 0.2f);
-                }
-                else
-                {
-                    if (!finalFlip)
-                    {
-                        FlipAsSword = Owner.direction < 0 ? true : false;
-                    }
-
-                    float time = (AnimationProgress) - (useAnim / 3);
-                    float timeMax = useAnim - (useAnim / 3);
-
-                    if (time >= (int)(timeMax * 0.4f) && playSwingSound)
-                    {
-                        SoundEngine.PlaySound(SoundID.Item15 with { Pitch = Main.rand.NextFloat(-0.4f, -0.5f) }, Projectile.Center);
-                        SoundEngine.PlaySound(SoundID.Item15 with { Volume = 0.85f, Pitch = Main.rand.NextFloat(0.1f, 0.2f) }, Projectile.Center);
-                        playSwingSound = false;
-                    }
-                    if (time > (int)(timeMax * 0.2f))
-                        Reflect(Projectile);
-                    if (time > (int)(timeMax * 0.2f) && time < (int)(timeMax * 0.8f))
-                        CanHit = true;
-                    else
-                        CanHit = false;
-                    if (time > (int)(timeMax * 0.7f))
-                        swooshFade = true;
-                    else
-                        swooshFade = false;
-
-                    RotationOffset = MathHelper.Lerp(RotationOffset, MathHelper.ToRadians(MathHelper.Lerp(150f * Projectile.ai[1] * Owner.direction, 120f * -Projectile.ai[1] * Owner.direction, MiscUtils.ExpInOutEasing(time / timeMax, 1))),
-                        0.2f);
-
-                    if (time >= timeMax)
-                        doSwing = false;
-                    if (time < (int)(timeMax * 0.7f))
-                        postSwing = true;
-
-                    if (CanHit)
-                    {
-                        for (int i = 0; i < 4; i++)
-                        {
-                            Dust dust = Dust.NewDustPerfect(Owner.Center + (new Vector2((int)(size * 1.4f) * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f)), 15, Vector2.One.RotatedByRandom(MathHelper.Pi) * 0.6f, 100, default, Main.rand.NextFloat(1.15f, 1.5f) * Projectile.scale);
-                            dust.noGravity = true;
-                            dust.color = Main.rand.NextBool() ? Color.DeepSkyBlue : Color.SkyBlue;
-                            dust.fadeIn = Projectile.scale - 1;
-                        }
-                        float randRot = Main.rand.NextFloat(-30, -60);
-                        Vector2 dustVel = (new Vector2(0, 8 * -Projectile.ai[1] * Owner.direction)).RotatedBy(FinalRotation + MathHelper.ToRadians(randRot));
-
-                        Dust d = Dust.NewDustPerfect(Owner.Center + new Vector2((int)(size * 1.4f) * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f), 15,  dustVel, 100, Main.rand.NextBool(4) ? Color.DeepSkyBlue : Color.SkyBlue, Main.rand.NextFloat(0.4f, 0.8f));
-                        d.noGravity = true;
-                    }
+                    Dust outerDust = Dust.NewDustPerfect(Projectile.Center + new Vector2(-angle.X.DirectionalSign(), Main.rand.NextFloat(-0.05f, 0.05f)).RotatedBy(Projectile.rotation - 0.7f * Projectile.spriteDirection) * (Main.rand.NextFloat(-(Projectile.width / 2), -(Projectile.width - (Projectile.width / 4))) * (mogPlayer.swingNum % 2 == 0 ? -1f : 1f)) * Projectile.scale, DustID.FireworksRGB, velocity, 100, Color.WhiteSmoke, scale);
+                    outerDust.scale *= Main.rand.NextFloat(0.75f, 1.05f);
+                    if (Main.rand.NextBool(4)) outerDust.scale *= Main.rand.NextFloat(0.25f, 1.65f);
+                    outerDust.noGravity = true;
+                    outerDust.color = Color.Lerp(Color2, Color1, MathF.Sin(Main.GlobalTimeWrappedHourly * 6) * 0.5f + 0.5f);
                 }
             }
-
-            ArmRotationOffset = MathHelper.ToRadians(-(size + 10f));
-            ArmRotationOffsetBack = MathHelper.ToRadians(-(size + 10f));
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        public override float SwingFunction()
         {
-            if ((damageDone <= 2 || (target.life <= 0 && target.realLife == -1)) && Projectile.numHits > 0)
-                Projectile.numHits -= 1;
-
-            Vector2 launchVel = Utils.DirectionTo(Owner.Center, Owner.MogMod().mouseWorld);
-            MogModUtils.MoveNPC(target, launchVel, 12, true, Owner);
-
-            int dustNum = (int)MathHelper.Clamp(12 - Projectile.numHits * 3, 3, 12);
-            for (int i = 0; i < dustNum; i++)
-            {
-                float variance = Main.rand.NextFloat(-0.5f, 0.5f);
-                int dustStyle = 278;
-                Dust dust2 = Dust.NewDustPerfect(target.Center, dustStyle, Projectile.velocity);
-                dust2.scale = Main.rand.NextFloat(1.2f, 1.4f) - Math.Abs(variance);
-                dust2.velocity = (launchVel * 25).RotatedBy(variance) * Main.rand.NextFloat(0.3f, 1f) * (1 - Math.Abs(variance));
-                dust2.noGravity = true;
-                dust2.color = Main.rand.NextBool() ? Color.DeepSkyBlue : Color.SkyBlue;
-            }
-
-            if (Projectile.numHits == 0)
-            {
-                SoundEngine.PlaySound(SoundID.Item94 with { Volume = 0.95f, Pitch = Main.rand.NextFloat(-0.1f, 0.1f) }, Projectile.Center);
-            }
+            if (inStartup) return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * -0.2f, swingWidth * -0.6f, StartupCompletion));
+            if (inCooldown) return MathHelper.ToRadians(MathHelper.Lerp(swingWidth * 0.2f, swingWidth * 0.33f, CooldownCompletion));
+            return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * -0.6f, swingWidth * 0.2f, SwingCompletion));
         }
         // copied from fargos hallow sword
         private void Reflect(Projectile sword)
         {
-            Player player = Main.player[sword.owner];
-            if (player == null || !player.active)
-            {
-                return;
-            }
+            if (Owner == null || !Owner.active) return;
             int damageCap = 200;
 
-            int size = 3;
-            Rectangle swordBox = new((int)(sword.Center.X - sword.width * size / 2), (int)(sword.Center.Y - sword.height * size / 2), sword.Hitbox.Width * size, sword.Hitbox.Height * size);
+            float size = 2.5f;
+            Rectangle swordBox = new((int)(sword.Center.X - sword.width * size / 2), (int)(sword.Center.Y - sword.height * size / 2), (int)(sword.Hitbox.Width * size), (int)(sword.Hitbox.Height * size));
             foreach (Projectile proj in Main.projectile.Where(proj => proj.active && proj.hostile && proj.damage > 0 && !MogModProjectileSets.ShouldNotBeReflected[proj.type] && proj.damage <= damageCap && sword.Colliding(swordBox, proj.Hitbox)))
             {
-                if (hitsLeft <= 0)
-                    return;
+                if (HitsLeft <= 0) return;
+                aimVel = (proj.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX) * 65f;
                 SoundEngine.PlaySound(SoundID.Item37, proj.Center);
                 proj.reflected = true;
                 proj.hostile = false;
                 proj.friendly = true;
                 proj.owner = sword.owner;
-                proj.damage = (int)(sword.damage * 1.5f);
+                proj.damage = sword.damage;
                 proj.DamageType = sword.DamageType;
-                Vector2 targetVel = -(aimVel / 7);
+                Vector2 targetVel = -(aimVel / 10);
                 proj.velocity = targetVel;
                 proj.netUpdate = true;
-                hitsLeft--;
+
+                int dustNum = 9;
+                for (int i = 0; i < dustNum; i++)
+                {
+                    float variance = Main.rand.NextFloat(-0.5f, 0.5f);
+                    int dustStyle = 278;
+                    Dust dust2 = Dust.NewDustPerfect(proj.Center, dustStyle, Projectile.velocity);
+                    dust2.scale = Main.rand.NextFloat(1.2f, 1.4f) - Math.Abs(variance);
+                    dust2.velocity = (targetVel * 3f).RotatedBy(variance) * Main.rand.NextFloat(0.3f, 1f) * (1 - Math.Abs(variance));
+                    dust2.noGravity = true;
+                    dust2.color = Main.rand.NextBool() ? Color1 : Color2;
+                }
             }
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if ((target.life <= 0 && target.realLife == -1) && Projectile.numHits <= 2) Projectile.numHits -= 1;
+            if (Projectile.numHits <= 2)
+            {
+                Vector2 launchVel = Utils.DirectionTo(Owner.Center, Owner.MogMod().mouseWorld);
+                if (Projectile.numHits == 0)
+                {
+                    SoundEngine.PlaySound(SoundID.Item110 with { Volume = 0.35f, PitchVariance = 0.15f }, Projectile.Center);
+                    SoundEngine.PlaySound(SoundID.Item109 with { Volume = 0.4f, PitchVariance = 0.15f }, Projectile.Center);
+                    SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundMiss with { Volume = 0.65f, Pitch = 0.8f }, Projectile.Center);
+                    SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundMiss with { Volume = 0.55f, Pitch = 0.4f }, Projectile.Center);
+
+                    int dustNum = (int)MathHelper.Clamp(15 - Projectile.numHits * 5, 5, 15);
+                    for (int i = 0; i < dustNum; i++)
+                    {
+                        float variance = Main.rand.NextFloat(-0.5f, 0.5f);
+                        int dustStyle = 278;
+                        Dust dust2 = Dust.NewDustPerfect(target.Center, dustStyle, Projectile.velocity);
+                        dust2.scale = Main.rand.NextFloat(1.2f, 1.4f) - Math.Abs(variance);
+                        dust2.velocity = (launchVel * 25).RotatedBy(variance) * Main.rand.NextFloat(0.3f, 1f) * (1 - Math.Abs(variance));
+                        dust2.noGravity = true;
+                        dust2.color = Main.rand.NextBool() ? Color1 : Color2;
+                    }
+                }
+                SoundEngine.PlaySound(SoundID.Item69 with { Volume = 0.35f, LimitsArePerVariant = false, MaxInstances = 1 });
+                SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact with { Volume = 0.75f, PitchVariance = 0.15f }, Projectile.Center);
+                SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact with { Volume = 0.45f });
+            }
+        }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => overPlayers.Add(index);
         public override bool PreDraw(ref Color lightColor)
         {
-            // Only draw the projectile if the projectile's owner is currently using the item this projectile is attached to.
-            if ((useAnim > 0 || DrawUnconditionally) && Owner.ItemAnimationActive)
+            Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/CarianGreatswordGhost").Value;
+            float outlineWidth = 4;
+            if (!inCooldown) outlineWidth *= 1 - SwingCompletion;
+            if (inSwing)
             {
-                Asset<Texture2D> tex = ModContent.Request<Texture2D>(Texture);
-                Asset<Texture2D> swoosh = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/VerticalSmearLarge");
-
-                float r = FlipAsSword ? MathHelper.ToRadians(90) : 0f;
-
-                // sick ass light around the sword
-                for (int i = 0; i < 20; i++)
+                Texture2D swoosh = ModContent.Request<Texture2D>("MogMod/Assets/Textures/VerticalSmearLarge").Value;
+                float rotation = Projectile.rotation - 0.7f * -Projectile.spriteDirection;
+                float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver4 : (MathHelper.TwoPi - MathHelper.PiOver4)) * (angle.X < 0 ? -1f : 1f);
+                Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 60f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
+                Main.EntitySpriteDraw(swoosh, spawnPos, null, Color1 with { A = 0 } * SwingCompletion * 0.75f, rotation + rotationOffset, swoosh.Size() * 0.5f, Projectile.scale * 0.5f, SpriteEffects.None);
+                for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)
                 {
-                    Color auraColor = Color.SkyBlue with { A = 0 } * 0.18f * fadeIn;
-                    Vector2 drawOffset = (MathHelper.TwoPi * i / 20f).ToRotationVector2() * 4 * fadeIn;
-                    Main.EntitySpriteDraw(tex.Value, Projectile.Center - Main.screenPosition + drawOffset + new Vector2(0, Owner.gfxOffY), tex.Frame(1, FrameCount, 0, Frame), auraColor, Projectile.rotation + RotationOffset + r, FlipAsSword ? new Vector2(tex.Width() - SpriteOrigin.X, SpriteOrigin.Y) : SpriteOrigin, Projectile.scale, spriteEffects != SpriteEffects.None ? spriteEffects : (FlipAsSword ? SpriteEffects.FlipHorizontally : SpriteEffects.None));
+                    Main.spriteBatch.Draw(ghost,
+                        Projectile.Center + new Vector2(0, Projectile.gfxOffY) + Vector2.UnitX.RotatedBy(i + Projectile.rotation) * outlineWidth * Projectile.scale - Main.screenPosition,
+                        null,
+                        Color.Lerp(Color1, Color2, MathF.Sin(Main.GlobalTimeWrappedHourly * 6) * 0.5f + 0.5f),
+                        Projectile.rotation,
+                        ghost.Size() * 0.5f,
+                        Projectile.scale,
+                        Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                        0);
                 }
-
-                Main.EntitySpriteDraw(swoosh.Value, Projectile.Center - Main.screenPosition + new Vector2(0, Owner.gfxOffY), null, Color.SkyBlue with { A = 0 } * fadeIn * 0.5f, (FinalRotation + MathHelper.ToRadians(45)) + MathHelper.ToRadians(Projectile.ai[1] == 1 ? -size - 10 : size - 10) * -Owner.direction, swoosh.Size() * 0.5f, Projectile.scale * 0.55f, SpriteEffects.None);
-
-
-                Main.EntitySpriteDraw(tex.Value, Projectile.Center - Main.screenPosition + new Vector2(0, Owner.gfxOffY), tex.Frame(1, FrameCount, 0, Frame), lightColor, Projectile.rotation + RotationOffset + r, FlipAsSword ? new Vector2(tex.Width() - SpriteOrigin.X, SpriteOrigin.Y) : SpriteOrigin, Projectile.scale, spriteEffects != SpriteEffects.None ? spriteEffects : (FlipAsSword ? SpriteEffects.FlipHorizontally : SpriteEffects.None));
             }
-            return false;
-        }
-        public override void ResetStyle()
-        {
+            return true;
         }
     }
 }

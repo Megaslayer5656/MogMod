@@ -275,7 +275,12 @@ namespace MogMod.Projectiles.BaseProjectiles
         public override void SetDefaults()
         {
             Projectile.timeLeft = swingTime * 2;
-            if (UsesBaseItem) Projectile.width = Projectile.height = Math.Max(BaseItem.height, BaseItem.width);
+            if (UsesBaseItem)
+            {
+                Projectile.width = Projectile.height = Math.Max(BaseItem.height, BaseItem.width);
+                Projectile.DamageType = BaseItem.DamageType;
+                Projectile.ContinuouslyUpdateDamageStats = true;
+            }
             Projectile.netImportant = true;
             Projectile.netUpdate = true;
             Projectile.friendly = true;
@@ -284,8 +289,6 @@ namespace MogMod.Projectiles.BaseProjectiles
             Projectile.usesLocalNPCImmunity = true;
             Projectile.extraUpdates = 0;
             Projectile.aiStyle = -2;
-            Projectile.DamageType = DamageClass.Melee;
-            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.tileCollide = false;
             Projectile.ownerHitCheck = (ProjectilePosition == Vector2.Zero);
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;

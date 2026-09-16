@@ -10,6 +10,7 @@ using MogMod.Items.Accessories.NeutralItems.Aspects;
 using MogMod.Items.Armor.Damascus;
 using MogMod.Items.Armor.FrostMaiden;
 using MogMod.Items.Armor.Hellfire;
+using MogMod.Items.Armor.Radiant;
 using MogMod.Items.Weapons.Magic.SorceryStaves;
 using MogMod.Items.Weapons.Melee;
 using MogMod.NPCs.Global;
@@ -338,9 +339,12 @@ namespace MogMod.Projectiles.BaseProjectiles
             int gunpowderDamage = MogModUtils.DamageSoftCap(damageDone * GunpowderGauntlet.DamageMult, gunpowderCap);
             int overloadingDamage = (int)(damageDone * OverloadingAspect.DamageMult);
 
-            radiantProc = random.Next(2) == 0;
-            gunpowderProc = random.Next(5) == 0;
-            jidiProc = random.Next(4) == 0;
+            radiantProc = Main.rand.NextFloat(0f, 1f) < RadiantFlower.ProcChance;
+            gunpowderProc = Main.rand.NextFloat(0f, 1f) < GunpowderGauntlet.ProcChance;
+            jidiProc = Main.rand.NextFloat(0f, 1f) < JidiPollenBag.ProcChance;
+            shivProc = Main.rand.NextFloat(0f, 1f) < SerratedShiv.ProcChance;
+            bashProc = Main.rand.NextFloat(0f, 1f) < GiantsMaul.ProcChance;
+            bool polyluteProc = Main.rand.NextFloat(0f, 1f) < Polylute.ProcChance;
 
             if (hit.Damage <= 0)
                 return;
@@ -375,7 +379,6 @@ namespace MogMod.Projectiles.BaseProjectiles
                         }
                     }
 
-                    shivProc = random.Next(5) == 0;
                     if (shivProc && modPlayer.wearingSerratedShiv && modPlayer.shivCooldown <= 0)
                     {
                         modPlayer.shivCooldown = cooldownTimer * 4;
@@ -383,7 +386,6 @@ namespace MogMod.Projectiles.BaseProjectiles
                     }
 
                     // skull basher (melee holdout projectiles only)
-                    bashProc = Main.rand.Next(7) == 0;
                     if (bashProc && modPlayer.wearingGiantsMaul && modPlayer.bashCooldown <= 0 && MeleeHoldouts.Contains(projectile.type))
                     {
                         modPlayer.bashCooldown = cooldownTimer;
@@ -399,13 +401,10 @@ namespace MogMod.Projectiles.BaseProjectiles
                             modPlayer.doATG(damageDone);
                     }
 
-                    if (modPlayer.polyluteActive && !voidItems.Contains(projectile.type))
+                    if (polyluteProc && modPlayer.polyluteActive && !voidItems.Contains(projectile.type))
                     {
                         Vector2 kirk = new Vector2(10, 10).RotatedByRandom(MathHelper.ToRadians(360));
-                        int procChance = random.Next(1, 6);
-
-                        if (procChance == 5)
-                            Projectile.NewProjectile(source, target.Center, kirk, ModContent.ProjectileType<PolyluteProj>(), Convert.ToInt32(damageDone * .3f) + 1, 3, player.whoAmI);
+                        Projectile.NewProjectile(source, target.Center, kirk, ModContent.ProjectileType<PolyluteProj>(), (int)(damageDone * 0.3f) + 1, 3, player.whoAmI);
                     }
 
                     // hellfire armor

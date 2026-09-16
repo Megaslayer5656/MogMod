@@ -2350,7 +2350,7 @@ namespace MogMod.Common.MogModPlayer
             }
             if (jidiDebuff)
             {
-                Player.statDefense -= 20; // -20 flat defense
+                Player.statDefense -= JidiPollenBag.ArmorReduction;
             }
             if (healingDisabledDebuff)
             {

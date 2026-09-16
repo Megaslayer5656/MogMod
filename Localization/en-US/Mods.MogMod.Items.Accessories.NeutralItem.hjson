@@ -2,8 +2,8 @@ JidiPollenBag: {
 	DisplayName: Jidi Pollen Bag
 	Tooltip:
 		'''
-		+8% Summon Damage
-		Summon attacks have a chance to explode into pollen, reducing enemy armor by 20
+		+{0}% Summon Damage
+		Summon attacks have a {1}% chance to explode into pollen, reducing enemy armor by {2}
 		[c/2BA63A:'Very dangerous. Very difficult to obtain more.']
 		'''
 }
@@ -12,7 +12,7 @@ ChippedVest: {
 	DisplayName: Chipped Vest
 	Tooltip:
 		'''
-		Enemies take a small amount of damage when they hit you
+		{0}% of damage taken is reflected back to enemies
 		[c/ABABAB:'It doesn't look like much, but it's oddly comfy.']
 		'''
 }
@@ -21,7 +21,7 @@ DivineRapier: {
 	DisplayName: Divine Regalia
 	Tooltip:
 		'''
-		+35% Attack Damage when at full life
+		+{0}% Attack Damage when at full life
 		[c/E8E5C1:'So magnificent, it cannot abide failure.']
 		'''
 }
@@ -30,7 +30,7 @@ SerratedShiv: {
 	DisplayName: Serrated Shiv
 	Tooltip:
 		'''
-		Attacks have a chance to true strike enemies, dealing 0.5% of their maximum life as damage, with a hard cap of 400
+		Attacks have a {0}% chance to true strike enemies, dealing {1}% of their maximum life as damage, with a hard cap of {2}
 		[c/C25B5B:'Too dangerous for taskwork, this blade's only purpose is vile murder.']
 		'''
 }
@@ -39,7 +39,7 @@ SearingSignet: {
 	DisplayName: Searing Signet
 	Tooltip:
 		'''
-		+7% Non-Melee Damage
+		+{0}% Non-Melee Damage
 		Non-Melee attacks inflict shadowflame
 		[c/A6288D:'To torture a magic user, one must devise means far beyond the mundane.']
 		'''
@@ -52,7 +52,7 @@ GiantsMaul: {
 		'''
 		+{0}% Melee Weapon Size
 		[c/BA2F2F:-{1}% Melee Speed]
-		True melee attacks have a small chance to bash enemies, dealing {2}x the damage dealt, with a soft cap of {3}
+		True melee attacks have a {4}% chance to bash enemies, dealing {2}x the damage dealt, with a soft cap of {3}
 		[c/A62450:'Crude but smashingly effective.']
 		'''
 	TooltipGFB:
@@ -87,7 +87,7 @@ GunpowderGauntlet: {
 	Tooltip:
 		'''
 		+{0}% Magic Attack Speed
-		Magic attacks have a small chance to explode, dealing {1}x the damage dealt, with a soft cap of {2}
+		Magic attacks have a {3}% chance to explode, dealing {1}x the damage dealt, with a soft cap of {2}
 		[c/B87133:'A harmless prank that went entirely too far.']
 		'''
 }
@@ -112,8 +112,8 @@ PartisanBrand: {
 	DisplayName: Partisan Brand
 	Tooltip:
 		'''
-		+7% Sorcery Damage
-		+7% Summon Damage
+		+{0}% Sorcery Damage
+		+{0}% Summon Damage
 		'''
 }
 
@@ -121,8 +121,8 @@ FlayersBota: {
 	DisplayName: Flayer's Bota
 	Tooltip:
 		'''
-		+10% Attack Speed
-		Boosts bleed buildup by 20%
+		+{0}% Attack Speed
+		Boosts bleed buildup by {1}%
 		Blood procs heal you for a percentage of damage dealt
 		'''
 }
@@ -131,8 +131,8 @@ Polylute: {
 	DisplayName: Polylute
 	Tooltip:
 		'''
-		+7% Critical Strike Chance
-		Attacks have a chance to summon homing orb on enemy
+		+{0}% Critical Strike Chance
+		Attacks have a {1}% chance to summon homing orb on enemy
 		[c/D9A5D1:'polylute plasma shrimp']
 		'''
 }

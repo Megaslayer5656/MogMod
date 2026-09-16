@@ -24,6 +24,7 @@ namespace MogMod.Items.Armor.Radiant
         public const float MagicDamageBoost = 0.13f;
         public const int MagicCritBoost = 13;
         public const float ManaMult = 0.3f;
+        public const float ProcChance = 0.5f;
         public static Color AbilityBriefColor = Color.LightSkyBlue;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ManaBoost, ManaReduction.ToReversedPercent(), MagicDamageBoost.ToPercent());
         public override void SetStaticDefaults()
@@ -84,7 +85,7 @@ namespace MogMod.Items.Armor.Radiant
                     if (Main.keyState.PressingShift())
                     {
                         setBonusIndex++;
-                        TooltipLine briefDescription = new(item.Mod, "MogMod:SetBonus1", MiscUtils.GetTextFromModItem<RadiantFlower>("SetBonusNormal").Format(AbilityBriefColor.Hex3(), ManaRegenBonus.ToRegenPerSecond(), ManaMult.ToPercent()));
+                        TooltipLine briefDescription = new(item.Mod, "MogMod:SetBonus1", MiscUtils.GetTextFromModItem<RadiantFlower>("SetBonusNormal").Format(AbilityBriefColor.Hex3(), ManaRegenBonus.ToRegenPerSecond(), ManaMult.ToPercent(), ProcChance.ToPercent()));
                         tooltips.Insert(setBonusIndex, briefDescription);
                     }
                     else

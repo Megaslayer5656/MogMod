@@ -17,6 +17,7 @@ namespace MogMod.Items.Accessories.NeutralItems
         public static double DamageMult = 2D;
         public const int DamageCap = 100;
         public const float MeleeSpeedBoost = 0.2f;
+        public const float ProcChance = 0.3f;
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -53,9 +54,7 @@ namespace MogMod.Items.Accessories.NeutralItems
                     index++;
                     TooltipLine gfb = new(Mod, IHoldShiftTooltipItem.ExtensionIndicatorTooltipID, MiscUtils.GetTextFromModItem<GiantsMaul>("TooltipGFB").Format(
                     SizeMult.ToPercent(), // {0}
-                    MeleeSpeedBoost.ToPercent(), // {1}
-                    DamageMult, // {2}
-                    DamageCap)); // {3}
+                    MeleeSpeedBoost.ToPercent())); // {1}
                     tooltips.Insert(index, gfb);
                 }
                 else
@@ -65,7 +64,8 @@ namespace MogMod.Items.Accessories.NeutralItems
                     SizeMult.ToPercent(), // {0}
                     MeleeSpeedBoost.ToPercent(), // {1}
                     DamageMult, // {2}
-                    DamageCap)); // {3}
+                    DamageCap, // {3}
+                    ProcChance.ToPercent())); // {4}
                     tooltips.Insert(index, normal);
                 }
             }

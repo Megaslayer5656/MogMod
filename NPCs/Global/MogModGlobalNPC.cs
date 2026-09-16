@@ -80,7 +80,6 @@ namespace MogMod.NPCs.Global
         // debuff stat changes
         public const int skadiNumb = 25;
         public static float skadiMult = 1 - skadiNumb / 100f;
-        public const int jidiNumb = 20;
         public const int shivaNumb = 15;
         public static float shivaMult = 1 - shivaNumb / 100f;
 
@@ -471,8 +470,9 @@ namespace MogMod.NPCs.Global
             int hellfireDamage = MogModUtils.DamageSoftCap(damageDone * HellfireMask.DamageMult, hellfireCap);
             int overloadingDamage = (int)(damageDone * OverloadingAspect.DamageMult);
             var source = player.GetSource_OnHit(npc);
-            bashProc = rand.Next(7) == 0;
-            shivProc = rand.Next(5) == 0;
+            shivProc = Main.rand.NextFloat(0f, 1f) < SerratedShiv.ProcChance;
+            bashProc = Main.rand.NextFloat(0f, 1f) < GiantsMaul.ProcChance;
+            bool polyluteProc = Main.rand.NextFloat(0f, 1f) < Polylute.ProcChance;
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 overloadingRegenCooldown = OverloadingAspect.EnemyRegenWaitTime;
@@ -519,13 +519,10 @@ namespace MogMod.NPCs.Global
             }
 
             // polylute
-            if (mogPlayer.polyluteActive)
+            if (polyluteProc && mogPlayer.polyluteActive)
             {
                 Vector2 kirk = new Vector2(-10, 10).RotatedByRandom(MathHelper.ToRadians(360));
-                int procChance = rand.Next(1, 6);
-
-                if (procChance == 5)
-                    Projectile.NewProjectile(source, npc.Center, kirk, ModContent.ProjectileType<PolyluteProj>(), Convert.ToInt32(damageDone * .3f) + 1, 3, player.whoAmI);
+                Projectile.NewProjectile(source, npc.Center, kirk, ModContent.ProjectileType<PolyluteProj>(), (int)(damageDone * 0.3f) + 1, 3, player.whoAmI);
             }
 
             if (mogPlayer.wearingOverloading && mogPlayer.overloadingCooldown <= 0)
@@ -843,7 +840,7 @@ namespace MogMod.NPCs.Global
             MogPlayer mogPlayer = player.MogMod();
             NPC.HitInfo hitInfo = new()
             {
-                Damage = MogModUtils.DamageHardCap(Convert.ToInt32(npc.lifeMax * 0.005) + 50, shivCap),
+                Damage = MogModUtils.DamageHardCap((int)(npc.lifeMax * SerratedShiv.MaxLifeDamage) + 50, shivCap),
                 Knockback = 0,
                 HitDirection = 0,
                 Crit = false,
@@ -1490,7 +1487,7 @@ namespace MogMod.NPCs.Global
             if (skadiDebuff)
                 modifiers.Defense *= skadiMult;
             if (jidiDebuff)
-                modifiers.Defense.Flat -= jidiNumb;
+                modifiers.Defense.Flat -= JidiPollenBag.ArmorReduction;
             if (shivasDebuff)
                 modifiers.Defense *= shivaMult;
             if (wingsOfLightDebuff)
