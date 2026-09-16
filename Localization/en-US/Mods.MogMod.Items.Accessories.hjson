@@ -131,8 +131,8 @@ VeilOfDiscord: {
 		'''
 		+{0}% Sorcery Damage
 		+{1}% Attack Damage and Speed
-		+{2} HP/s Life Regen
-		Increases Maximum Life and Mana by {3}
+		+{2}% Damage Reduction
+		Increases Maximum Mana by {3}
 		[c/853D74:'The headwear of corrupt magi.']
 		'''
 }
@@ -167,8 +167,7 @@ HelmOfIronWill: {
 	DisplayName: Helm of Iron Will
 	Tooltip:
 		'''
-		Increased Maximum Life by {0}
-		+{1} HP/s Life Regen
+		+{0}% Damage Reduction
 		[c/D2D46E:'The helmet of a legendary warrior who fell in battle.']
 		'''
 }
@@ -207,8 +206,8 @@ CrimsonGuard: {
 	DisplayName: Crimson Guard
 	Tooltip:
 		'''
-		Increased Maximum Life by {0}
-		+{1} HP/s Life Regen
+		+{0} HP/s Life regen
+		+{1}% Damage Reduction
 		Increased Aggro by {2}
 		{$Common.KnockbackImmunity}
 		{$Common.ChanceDamageReduce@3}{4}
@@ -442,13 +441,12 @@ SacrosanctAegis: {
 		'''
 		Grants an omni-directional dash with a {0} second cooldown
 		You are immune to damage during the dash
-		Increases Maximum Life by {1}
-		+{2} HP/s Life Regen
-		+{3}% Damage Reduction
-		+{4} Aggro
+		+{1} HP/s Life regen
+		+{2}% Damage Reduction
+		+{3} Aggro
 		Grants immunity to both knockback and debuffs
 		Enemies are much more likely to target you
-		{$Common.PaladinShield@5}
+		{$Common.PaladinShield@4}
 		'''
 }
 

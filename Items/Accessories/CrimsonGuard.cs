@@ -12,14 +12,14 @@ namespace MogMod.Items.Accessories
     public class CrimsonGuard : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public const int DefenseBoost = 9;
-        public const int MaxLifeBoost = 50;
-        public const int LifeRegenBoost = 8;
+        public const int DefenseBoost = 10;
+        public const int LifeRegenBoost = 10;
+        public const float DamageReductionBoost = 0.1f;
         public const int AggroBoost = 750;
         public const float DamageBlockChance = 0.25f;
         public const int SelfDamageReduction = 100;
         public const float MinHealthReq = 0.25f;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MaxLifeBoost, LifeRegenBoost.ToRegenPerSecond(), AggroBoost, DamageBlockChance.ToPercent(), SelfDamageReduction, MinHealthReq.ToPercent());
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(LifeRegenBoost.ToRegenPerSecond(), DamageReductionBoost.ToPercent(), AggroBoost, DamageBlockChance.ToPercent(), SelfDamageReduction, MinHealthReq.ToPercent());
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -33,8 +33,8 @@ namespace MogMod.Items.Accessories
         {
             MogPlayer mogPlayer = player.MogMod();
             mogPlayer.wearingCrimsonGuard = true;
-            player.statLifeMax2 += MaxLifeBoost;
             player.lifeRegen += LifeRegenBoost;
+            player.endurance += DamageReductionBoost;
             player.noKnockback = true;
             player.aggro += AggroBoost;
 

@@ -8,10 +8,6 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    // 92x110
-    // charged greatsword that launches out 3-5 stars that come to a stop
-    // sword can hit stars again to launch them again and upgrade them into stronger stars
-    // think holy collider calamity
     public class AstralCataclysm : BaseSwordHoldoutItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";

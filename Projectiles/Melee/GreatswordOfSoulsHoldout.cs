@@ -18,11 +18,11 @@ namespace MogMod.Projectiles.Melee
     public class GreatswordOfSoulsHoldout : BaseSwordHoldoutProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
-        public override int swingWidth => 210;
+        public override int swingWidth => 240;
         public override Item BaseItem => ModContent.GetModItem(ModContent.ItemType<GreatswordOfSouls>()).Item;
         public override LocalizedText DisplayName => MiscUtils.GetItemName<GreatswordOfSouls>();
         public override string Texture => ModContent.GetModItem(BaseItem.type).Texture;
-        public override int OffsetDistance => 76;
+        public override int OffsetDistance => 66;
         public override int StartupTime { get; set; }
         public override int CooldownTime { get; set; }
         public override float lineCollisionLength => 32;
@@ -59,8 +59,6 @@ namespace MogMod.Projectiles.Melee
                 Vector2 dustVel = new Vector2(-10 * Projectile.spriteDirection, -5).RotatedBy(Projectile.rotation);
                 for (int i = 0; i < 1; i++)
                 {
-                    if (ProjectilePosition != Vector2.Zero && Main.rand.NextBool())
-                        break;
                     Dust dust2 = Dust.NewDustPerfect(Projectile.Center + dustVel.RotatedByRandom(0.4f) * Projectile.scale, DustID.FireworksRGB, velocity, 100, Color.WhiteSmoke, scale);
                     dust2.velocity *= 1.05f;
                     if (Main.rand.NextBool(4)) dust2.velocity *= 1.85f;
@@ -73,8 +71,6 @@ namespace MogMod.Projectiles.Melee
 
                 for (int i = 0; i < 1; i++)
                 {
-                    if (ProjectilePosition != Vector2.Zero && Main.rand.NextBool(2))
-                        break;
                     Dust outerDust = Dust.NewDustPerfect(Projectile.Center + new Vector2(-angle.X.DirectionalSign(), Main.rand.NextFloat(-0.05f, 0.05f)).RotatedBy(Projectile.rotation - 0.7f * Projectile.spriteDirection) * (Main.rand.NextFloat(-30, -45) * (mogPlayer.swingNum % 2 == 0 ? -1f : 1f)) * Projectile.scale, DustID.FireworksRGB, velocity, 100, Color.WhiteSmoke, scale);
                     outerDust.scale *= Main.rand.NextFloat(0.75f, 1.05f);
                     if (Main.rand.NextBool(4)) outerDust.scale *= Main.rand.NextFloat(0.25f, 1.65f);
@@ -86,7 +82,7 @@ namespace MogMod.Projectiles.Melee
         public override float SwingFunction()
         {
             if (inStartup) return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * -0.2f, swingWidth * -0.6f, StartupCompletion));
-            if (inCooldown) return MathHelper.ToRadians(MathHelper.Lerp(swingWidth * 0.2f, swingWidth * 0.33f, 1 - MathF.Pow(1 - CooldownCompletion, 3f)));
+            if (inCooldown) return MathHelper.ToRadians(MathHelper.Lerp(swingWidth * 0.2f, swingWidth * 0.33f, CooldownCompletion));
             return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * -0.6f, swingWidth * 0.2f, SwingCompletion));
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -96,12 +92,11 @@ namespace MogMod.Projectiles.Melee
             {
                 if (Projectile.numHits == 0)
                 {
-                    // TODO: change
-                    SoundEngine.PlaySound(SoundID.DD2_GhastlyGlaiveImpactGhost with { Volume = 1f, PitchVariance = 0.15f }, Projectile.Center);
-                    SoundEngine.PlaySound(SoundID.DD2_EtherianPortalDryadTouch with { Volume = 0.9f, PitchVariance = 0.15f }, Projectile.Center);
-                    SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact with { Volume = 0.9f, PitchVariance = 0.15f }, Projectile.Center);
-                    SoundEngine.PlaySound(SoundID.DD2_PhantomPhoenixShot);
-                    SoundEngine.PlaySound(SoundID.Item69 with { Volume = 1f, LimitsArePerVariant = false, MaxInstances = 1 });
+                    SoundEngine.PlaySound(SoundID.DD2_GhastlyGlaiveImpactGhost with { Volume = 0.35f, PitchVariance = 0.15f }, Projectile.Center);
+                    SoundEngine.PlaySound(SoundID.DD2_EtherianPortalDryadTouch with { Volume = 0.4f, PitchVariance = 0.15f }, Projectile.Center);
+                    //SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact with { Volume = 0.75f, PitchVariance = 0.15f }, Projectile.Center);
+                    SoundEngine.PlaySound(SoundID.DD2_PhantomPhoenixShot with { Volume = 0.45f });
+                    SoundEngine.PlaySound(SoundID.Item69 with { Volume = 0.35f, LimitsArePerVariant = false, MaxInstances = 1 });
 
                     float starAngle = MathHelper.ToRadians(45f);
                     var type = ModContent.ProjectileType<GreatswordOfSoulsProj>();
@@ -131,20 +126,21 @@ namespace MogMod.Projectiles.Melee
             {
                 Texture2D swoosh = ModContent.Request<Texture2D>("MogMod/Assets/Textures/VerticalSmearLarge").Value;
                 float rotation = Projectile.rotation - 0.7f * -Projectile.spriteDirection;
+                float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver4 : (MathHelper.TwoPi - MathHelper.PiOver4)) * (angle.X < 0 ? -1f : 1f);
                 Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 52f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
-                Main.EntitySpriteDraw(swoosh, spawnPos, null, Color1 with { A = 0 } * 0.5f, rotation, swoosh.Size() * 0.5f, Projectile.scale * 0.35f, SpriteEffects.None);
-            }
-            for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)
-            {
-                Main.spriteBatch.Draw(ghost,
-                    Projectile.Center + new Vector2(0, Projectile.gfxOffY) + Vector2.UnitX.RotatedBy(i + Projectile.rotation) * outlineWidth * Projectile.scale - Main.screenPosition,
-                    null,
-                    Color.Lerp(Color1, Color2, MathF.Sin(Main.GlobalTimeWrappedHourly * 6) * 0.5f + 0.5f),
-                    Projectile.rotation,
-                    ghost.Size() * 0.5f,
-                    Projectile.scale,
-                    Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-                    0);
+                Main.EntitySpriteDraw(swoosh, spawnPos, null, Color1 with { A = 0 } * SwingCompletion * 0.75f, rotation + rotationOffset, swoosh.Size() * 0.5f, Projectile.scale * 0.35f, SpriteEffects.None);
+                for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)
+                {
+                    Main.spriteBatch.Draw(ghost,
+                        Projectile.Center + new Vector2(0, Projectile.gfxOffY) + Vector2.UnitX.RotatedBy(i + Projectile.rotation) * outlineWidth * Projectile.scale - Main.screenPosition,
+                        null,
+                        Color.Lerp(Color1, Color2, MathF.Sin(Main.GlobalTimeWrappedHourly * 6) * 0.5f + 0.5f),
+                        Projectile.rotation,
+                        ghost.Size() * 0.5f,
+                        Projectile.scale,
+                        Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                        0);
+                }
             }
             return true;
         }

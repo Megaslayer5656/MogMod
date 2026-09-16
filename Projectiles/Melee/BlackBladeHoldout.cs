@@ -70,7 +70,7 @@ namespace MogMod.Projectiles.Melee
                 {
                     ChargeSound.Position = Projectile.Center;
                     ChargeSound.Pitch = Utils.Remap(CurrentChargeMult, 0, 1f, -0.4f, 0f);
-                    ChargeSound.Volume = Utils.Remap(CurrentChargeMult, 0, 1f, 0f, 0.5f) * 100;
+                    ChargeSound.Volume = Utils.Remap(CurrentChargeMult, 0, 1f, 0f, 0.75f) * 100;
                 }
                 else if (timer != StartupTime - 1) AudSlot = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop with { Volume = 0.01f, Pitch = 0, IsLooped = true }, Projectile.Center);
             }
@@ -201,8 +201,9 @@ namespace MogMod.Projectiles.Melee
                     outlineWidth *= 1 - SwingCompletion;
                     Texture2D swoosh = ModContent.Request<Texture2D>("MogMod/Assets/Textures/VerticalSmearLarge").Value;
                     float rotation = Projectile.rotation - 0.7f * -Projectile.spriteDirection;
+                    float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver4 : (MathHelper.TwoPi - MathHelper.PiOver4)) * (angle.X < 0 ? -1f : 1f);
                     Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 52f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
-                    Main.EntitySpriteDraw(swoosh, spawnPos, null, Color.Lerp(Color1, Color2, CurrentChargeMult) with { A = 0 } * 0.5f, rotation, swoosh.Size() * 0.5f, Projectile.scale * 0.45f, SpriteEffects.None);
+                    Main.EntitySpriteDraw(swoosh, spawnPos, null, Color.Lerp(Color1, Color2, CurrentChargeMult) with { A = 0 } * SwingCompletion * (CurrentChargeMult * 0.75f), rotation + rotationOffset, swoosh.Size() * 0.5f, Projectile.scale * 0.45f, SpriteEffects.None);
                 }
                 for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)
                 {

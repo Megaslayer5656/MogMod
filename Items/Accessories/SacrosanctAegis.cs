@@ -16,12 +16,11 @@ namespace MogMod.Items.Accessories
     {
         public new string LocalizationCategory => "Items.Accessories";
         public const int DashCooldown = 200;
-        public const int MaxLifeBoost = 200;
         public const int LifeRegenBoost = 20;
-        public const float DamageReductionBoost = 0.1f;
+        public const float DamageReductionBoost = 0.2f;
         public const int AggroBoost = 1500;
         public const float MinHealthReq = 0.25f;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DashCooldown.FramesToSeconds(), MaxLifeBoost, LifeRegenBoost.ToRegenPerSecond(), DamageReductionBoost.ToPercent(), AggroBoost, MinHealthReq.ToPercent());
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DashCooldown.FramesToSeconds(), LifeRegenBoost.ToRegenPerSecond(), DamageReductionBoost.ToPercent(), AggroBoost, MinHealthReq.ToPercent());
         public override void SetDefaults()
         {
             Item.width = 32;
@@ -35,10 +34,8 @@ namespace MogMod.Items.Accessories
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingSacrosanctAegis = true;
-            player.statLifeMax2 += MaxLifeBoost;
-            player.aggro += AggroBoost;
             player.lifeRegen += LifeRegenBoost;
-            player.lifeRegenTime += LifeRegenBoost;
+            player.aggro += AggroBoost;
             player.endurance += DamageReductionBoost;
             player.noKnockback = true;
 

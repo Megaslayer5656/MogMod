@@ -10,10 +10,9 @@ namespace MogMod.Items.Accessories
     public class HelmOfIronWill : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public const int DefenseBoost = 1;
-        public const int LifeRegenBoost = 2;
-        public const int MaxLifeBoost = 20;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MaxLifeBoost, LifeRegenBoost.ToRegenPerSecond());
+        public const int DefenseBoost = 2;
+        public const float DamageReductionBoost = 0.05f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DamageReductionBoost.ToPercent());
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -25,8 +24,7 @@ namespace MogMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.lifeRegen += LifeRegenBoost;
-            player.statLifeMax2 += MaxLifeBoost;
+            player.endurance += DamageReductionBoost;
         }
         public override void AddRecipes()
         {
