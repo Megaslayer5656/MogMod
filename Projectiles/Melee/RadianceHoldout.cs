@@ -23,11 +23,12 @@ namespace MogMod.Projectiles.Melee
         public override int OffsetDistance => 50;
         public override int CooldownTime { get; set; }
         public override SoundStyle? UseSound => SoundID.DD2_MonkStaffSwing with { Volume = 1f };
-        public ref float CurrentChargeMult => ref Projectile.ai[0];
+        //public ref float CurrentChargeMult => ref Projectile.ai[0];
+        public float CurrentChargeMult = 0f;
         public ref float DustTimer => ref Projectile.ai[1];
         bool playedChargeSound = false;
         bool channelingBurn = false;
-        bool swingMode = false;
+        bool canSwing = false;
         Color Color1 = Color.DarkGoldenrod;
         Color Color2 = Color.Firebrick;
         public SlotId AudSlot;
@@ -40,12 +41,13 @@ namespace MogMod.Projectiles.Melee
         }
         public override void Spawn()
         {
-            StartupTime = 60;
+            StartupTime = 360;
             CooldownTime = 30;
             swingTime = 10;
             Projectile.timeLeft = 600;
             Projectile.scale *= 1.25f;
-            if (Main.mouseLeft && !Owner.MogMod().mouseRight) angle = new Vector2(0, 1);
+            CurrentChargeMult = Owner.MogMod().radiancePower;
+            if (Main.mouseLeft && !canSwing) angle = new Vector2(0, 1);
         }
         /// <summary>
         /// if the player is channeling left click, hold radiance upwards and burn nearby enemies
@@ -53,16 +55,45 @@ namespace MogMod.Projectiles.Melee
         /// if the player is channeling left click && right clicks, stop holding upwards and swing
         /// continue swinging if the player is holding right click (refer to echo saber for continuous swinging)
         /// reduce mogPlayer.radiancePower by 0.05f for each swing
+        /// 
+        /// actually, make this left click swing and right click in startup to stop swing and burn enemies
         /// </summary>
         public override void AdditionalAI()
         {
+            // so the player can stop swinging and still maintain charge
+            Owner.MogMod().radiancePower = CurrentChargeMult;
             var mogPlayer = Owner.GetModPlayer<BaseSwordHoldoutPlayer>();
             var veloc = oldPlayerOffset - (Projectile.Center - Owner.Center);
             veloc.Normalize();
+            // separate dust timer to account for projectile.extraUpdates
             DustTimer++;
-            if (channelingBurn)
+            // keep proj alive
+            Projectile.timeLeft++;
+            // manage charge timer and right click attack
+            if (inStartup && channelingBurn && timer > 30)
             {
-                CurrentChargeMult = timer / (float)(StartupTime - 1);
+                timer = StartupTime - 1;
+            }
+            // if the player is channeling left click, hold radiance upwards and burn nearby enemies
+            if (Owner.channel)
+            {
+                if (!canSwing) channelingBurn = true;
+                // if not swinging and in startup
+                if (!canSwing && inStartup)
+                {
+                    CurrentChargeMult = timer / (float)(StartupTime - 1);
+
+                    // if right clicking at (max charge OR can swing is true ? 0f)
+                    if (CurrentChargeMult >= (canSwing ? 0f : 1f) && Owner.MogMod().mouseRight)
+                    {
+                        Main.NewText($"beggining swing, {CurrentChargeMult}", Color.LemonChiffon);
+                        CurrentChargeMult -= 0.05f;
+                        RotateInCooldown = 0.3f;
+                        RotateInStartup = 0.3f;
+                        canSwing = true;
+                        channelingBurn = false;
+                    }
+                }
                 if (DustTimer % Projectile.extraUpdates == 0)
                 {
                     Vector2 dustVel = new Vector2(-60 * -Projectile.spriteDirection, -5).RotatedBy(Projectile.rotation + 0.7f * -Projectile.spriteDirection);
@@ -83,49 +114,6 @@ namespace MogMod.Projectiles.Melee
                     ChargeSound.Volume = Utils.Remap(CurrentChargeMult, 0, 1f, 0f, 0.75f) * 100;
                 }
                 else if (timer != StartupTime - 1) AudSlot = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop with { Volume = 0.01f, Pitch = 0, IsLooped = true }, Projectile.Center);
-            }
-            if (channelingBurn && timer > 30)
-            {
-                timer = StartupTime - 1;
-                if (CurrentChargeMult >= 1f && Owner.MogMod().mouseRight)
-                {
-                    if (!swingMode)
-                    {
-                        Main.NewText("beggining swing", Color.LemonChiffon);
-                        CurrentChargeMult -= 0.05f;
-                        channelingBurn = false;
-                        swingMode = true;
-                    }
-                    RotateInCooldown = 0.3f;
-                    RotateInStartup = 0.3f;
-                }
-                Main.NewText($"not channeling, timer > 30", Color.FloralWhite);
-
-            }
-            if (Owner.channel && !Owner.MogMod().mouseRight && !swingMode)
-            {
-                channelingBurn = true;
-                Main.NewText($"channeling, not rightclicking", Color.Bisque);
-                if (timer == StartupTime - 1)
-                {
-                    Main.NewText($"channeling, timer == starttuime - 1", Color.Violet);
-                    Projectile.timeLeft++;
-                    timer--;
-                    if (!playedChargeSound)
-                    {
-                        SoundEngine.PlaySound(SoundID.DeerclopsStep with { Volume = 2f, Pitch = 0.5f }, Projectile.Center);
-                        playedChargeSound = true;
-                        for (int i = 0; i < 5; i++)
-                        {
-                            float scale = Main.rand.NextFloat(0.5f, 1f);
-                            var color = Main.rand.NextBool() ? Color1 : Color2;
-
-                            if (Main.rand.NextBool(5)) scale *= 1.4f;
-                            Vector2 velocity = Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi) * MathHelper.Lerp(10, 30, Main.rand.NextFloat());
-                            Dust d = Dust.NewDustPerfect(Projectile.Center + angle * 30, DustID.AncientLight, velocity, 100, color, scale);
-                        }
-                    }
-                }
             }
             if (inSwing)
             {
@@ -174,13 +162,14 @@ namespace MogMod.Projectiles.Melee
                     }
                 }
             }
-            if (inCooldown && CooldownCompletion >= 1f && Owner.MogMod().mouseRight)
+            if (inCooldown && CooldownCompletion >= 1f && Owner.MogMod().mouseRight && canSwing)
             {
-                Main.NewText($"resetting swing");
+                Main.NewText($"resetting swing, {CurrentChargeMult}, {canSwing}");
                 mogPlayer.swingNum++;
                 timer = swingTimer = 0;
                 Projectile.numHits = 0;
                 Projectile.ResetLocalNPCHitImmunity();
+                if (CurrentChargeMult <= 0f) canSwing = false;
             }
             Owner.heldProj = Projectile.whoAmI;
         }

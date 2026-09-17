@@ -4,7 +4,6 @@ using MogMod.Items.Other;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.Melee;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
