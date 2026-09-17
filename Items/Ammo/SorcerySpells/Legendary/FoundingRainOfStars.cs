@@ -14,7 +14,7 @@ namespace MogMod.Items.Ammo.SorcerySpells.Legendary
     {
         public override int ManaCost => 45;
         public override int AttackSpeed => 64;
-        public override SoundStyle UseSound => SoundID.Item8;
+        public override SoundStyle? UseSound => SoundID.Item8;
         public override void SetStaticDefaults() => ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<StarsOfRuin>();
         public override void SetDefaults()
         {

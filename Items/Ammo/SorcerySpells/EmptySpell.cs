@@ -12,7 +12,7 @@ namespace MogMod.Items.Ammo.SorcerySpells
         public override string Texture => "MogMod/Items/Armor/Other/PleaseStopMe";
         public override int ManaCost => 0;
         public override int AttackSpeed => 60;
-        public override SoundStyle UseSound => SoundID.Item9;
+        public override SoundStyle? UseSound => SoundID.Item9;
         public override void SetDefaults()
         {
             base.SetDefaults();

@@ -444,6 +444,11 @@ Items: {
 					Charged swings can empower stars, turning them into homing white dwarfs on hit and launching them to your cursor
 					'''
 			}
+
+			Radiance: {
+				DisplayName: Radiance
+				Tooltip: ""
+			}
 		}
 
 		Ranged: {

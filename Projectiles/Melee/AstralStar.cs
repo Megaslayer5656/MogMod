@@ -20,6 +20,7 @@ namespace MogMod.Projectiles.Melee
         private bool hitEnemy = false;
         public const int Lifetime = 480;
         public int MaxHits = 10;
+        public float MinVel = 2f;
         public static readonly Color[] colorList =
         [
             AstralCataclysm.MainColor1,
@@ -57,8 +58,8 @@ namespace MogMod.Projectiles.Melee
             }
 
             int helixType = (int)Projectile.ai[2];
-            float ep = Projectile.ai[1] >= 1f ? 0.08f : 0.02f;
-            float stein = Projectile.ai[1] >= 1f ? 12f : 3f;
+            float ep = Projectile.ai[1] == 1f ? 0.08f : 0.02f;
+            float stein = Projectile.ai[1] == 1f ? 12f : 3f;
             float krik = (float)helixType * (float)Math.PI;
             float rick = (float)Math.Sin(Projectile.localAI[0] * ((float)Math.PI * 2f) * ep + krik);
             float trick = (float)Math.Sin((Projectile.localAI[0] + 1f) * ((float)Math.PI * 2f) * ep + krik);
@@ -68,7 +69,7 @@ namespace MogMod.Projectiles.Melee
             Projectile.position += vector * kirk * stein;
             Projectile.rotation = Projectile.velocity.ToRotation();
 
-            if (Projectile.ai[1] >= 1f)
+            if (Projectile.ai[1] == 1f)
             {
                 MogModUtils.HomeInOnNPC(Projectile, true, 1200f, 12f, 30f, false);
                 if (Projectile.timeLeft < Lifetime - 240) Projectile.ai[1] = 0f;
@@ -76,8 +77,13 @@ namespace MogMod.Projectiles.Melee
             else
             {
                 if (Projectile.velocity.Length() > 8) Projectile.velocity *= 0.88f;
-                else Projectile.velocity *= 0.965f;
+                else
+                {
+                    Projectile.velocity *= 0.965f;
+                    if (Projectile.ai[1] >= 2f && Projectile.velocity.Length() <= MinVel) Projectile.ai[1] = 0f;
+                }
             }
+            //Main.NewText($"{Projectile.velocity.Length()}");
 
             Vector2 speed = Projectile.velocity.SafeNormalize(Vector2.Zero);
             float drawSpeed = MathF.Sin(Main.GlobalTimeWrappedHourly * 4) * 0.5f + 0.5f;
@@ -143,7 +149,7 @@ namespace MogMod.Projectiles.Melee
                 modifiers.Knockback += 1f;
             }
         }
-        public override bool? CanDamage() => !hitEnemy && (Projectile.ai[1] >= 1f);
+        public override bool? CanDamage() => !hitEnemy && ((Projectile.ai[1] == 1f) || (Projectile.ai[1] >= 2f && Projectile.velocity.Length() > MinVel));
         public override bool PreDraw(ref Color lightColor)
         {
             // draw trail

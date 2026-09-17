@@ -371,6 +371,7 @@ Mods: {
 				MoonveilProj.DisplayName: Moonveil Proj
 				AstralCataclysmHoldout.DisplayName: Astral Cataclysm Holdout
 				AstralStar.DisplayName: Astral Star
+				RadianceHoldout.DisplayName: Radiance Holdout
 			}
 
 			Summon: {

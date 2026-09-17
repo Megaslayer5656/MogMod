@@ -15,7 +15,7 @@ namespace MogMod.Items.Ammo.SorcerySpells.Death
         public override int AttackSpeed => 72;
         public override int NumberOfAttacks => 6;
         public override int AttackDelay => 24;
-        public override SoundStyle UseSound => SoundID.Item45;
+        public override SoundStyle? UseSound => SoundID.Item45;
         public int SpellNumb = 6;
         public override void SetDefaults()
         {

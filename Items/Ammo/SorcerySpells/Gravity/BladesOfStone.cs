@@ -17,7 +17,7 @@ namespace MogMod.Items.Ammo.SorcerySpells.Gravity
         public override int AttackSpeed => 39; // 52
         public override int NumberOfAttacks => 3;
         public override int AttackDelay => 13;
-        public override SoundStyle UseSound => SoundID.Item101;
+        public override SoundStyle? UseSound => SoundID.Item101;
         public override bool OnlyOneActive => Main.zenithWorld;
         public override void SetStaticDefaults()
         {

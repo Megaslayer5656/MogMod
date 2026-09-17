@@ -13,7 +13,7 @@ namespace MogMod.Items.Ammo.SorcerySpells.Gravity
     {
         public override int ManaCost => 26;
         public override int AttackSpeed => 44;
-        public override SoundStyle UseSound => SoundID.Item92;
+        public override SoundStyle? UseSound => SoundID.Item92;
         public override void SetDefaults()
         {
             base.SetDefaults();

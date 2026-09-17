@@ -15,7 +15,7 @@ namespace MogMod.Items.Ammo.SorcerySpells.Legendary
         public override int ManaCost => 4;
         public override bool Channeled => true;
         public override bool OnlyOneActive => true;
-        public override SoundStyle UseSound => SoundID.Item9;
+        public override SoundStyle? UseSound => SoundID.Item9;
         public override bool SwordStyle => Main.zenithWorld;
         public override void SetDefaults()
         {

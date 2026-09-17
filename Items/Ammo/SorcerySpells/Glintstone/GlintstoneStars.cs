@@ -4,7 +4,6 @@ using MogMod.Projectiles.MagicProjectiles.Sorceries;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo.SorcerySpells.Glintstone
@@ -13,7 +12,7 @@ namespace MogMod.Items.Ammo.SorcerySpells.Glintstone
     {
         public override int ManaCost => 12;
         public override int AttackSpeed => 40;
-        public override SoundStyle UseSound => SoundID.Item8;
+        public override SoundStyle? UseSound => SoundID.Item8;
         public override void SetDefaults()
         {
             base.SetDefaults();

@@ -47,7 +47,7 @@ namespace MogMod.Items.Ammo.SorcerySpells
         public virtual PlayerDeathReason SpellDeathReason => PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.SorcerySpell" + Main.rand.Next(1, 2 + 1)).ToNetworkText(Main.player[Owner].name));
         /// <summary> The sound this spell makes when casted. </summary>
         /// <remarks> Defaults to <see cref="SoundID.Item8"/>. </remarks>
-        public virtual SoundStyle UseSound => SoundID.Item8;
+        public virtual SoundStyle? UseSound => SoundID.Item8;
         // for spells that swing swords
         /// <summary> Whether or not this spell has a custom swing animation. </summary>
         /// <remarks> Defaults to <see langword="false"/>. </remarks>

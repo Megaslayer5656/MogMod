@@ -287,6 +287,12 @@ namespace MogMod.NPCs.Global
                 case NPCID.DiabolistWhite:
                     postPlant.Add(ModContent.ItemType<RingsOfSpectralLight>(), 20, 1, 1);
                     break;
+                case NPCID.HellArmoredBones:
+                case NPCID.HellArmoredBonesMace:
+                case NPCID.HellArmoredBonesSpikeShield:
+                case NPCID.HellArmoredBonesSword:
+                    postPlant.Add(ModContent.ItemType<Radiance>(), 20, 1, 1);
+                    break;
                 #endregion
                 #region Goblins
                 case NPCID.GoblinSorcerer:

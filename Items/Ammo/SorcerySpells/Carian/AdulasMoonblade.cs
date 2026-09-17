@@ -13,7 +13,7 @@ namespace MogMod.Items.Ammo.SorcerySpells.Carian
     {
         public override int ManaCost => 32;
         public override int AttackSpeed => 50;
-        public override SoundStyle UseSound => SoundID.Item9;
+        public override SoundStyle? UseSound => null;
         public override bool SwordStyle => true;
         public override bool OnlyOneActive => true;
         public override bool Channeled => true;

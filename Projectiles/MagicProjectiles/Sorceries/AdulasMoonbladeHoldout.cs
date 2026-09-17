@@ -30,7 +30,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         public override int CooldownTime { get; set; }
         public override float lineCollisionLength => 12;
         public Player Owner => Main.player[Projectile.owner];
-        public override SoundStyle? UseSound => SoundID.Item1 with { Volume = 0.9f, Pitch = Main.rand.NextFloat(0.1f, 0f) };
+        public override SoundStyle? UseSound => SoundID.Item9 with { Volume = 0.9f, Pitch = Main.rand.NextFloat(-0.15f, 0f) };
         public ref float HitsLeft => ref Projectile.ai[0];
         bool playedSwingSound = false;
         public Vector2 aimVel;
@@ -62,7 +62,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                 {
                     if (!playedSwingSound)
                     {
-                        SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing with { Volume = 0.9f, Pitch = Main.rand.NextFloat(0.1f, 0f) }, Projectile.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing with { Volume = 0.9f, Pitch = 0.35f, PitchVariance = 0.2f }, Projectile.Center);
                         Vector2 position = ProjectilePosition != Vector2.Zero ? ProjectilePosition : Owner.Center;
                         Vector2 aimVel = (position - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX) * 65;
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, -(aimVel / 4), ModContent.ProjectileType<AdulasMoonbladeProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
@@ -158,7 +158,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                         dust2.color = Main.rand.NextBool() ? Color1 : Color2;
                     }
                 }
-                SoundEngine.PlaySound(SoundID.Item69 with { Volume = 0.35f, LimitsArePerVariant = false, MaxInstances = 1 });
+                SoundEngine.PlaySound(SoundID.Item69 with { Volume = 0.35f, Pitch = 1f, LimitsArePerVariant = false, MaxInstances = 1 });
                 SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact with { Volume = 0.75f, PitchVariance = 0.15f }, Projectile.Center);
                 SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact with { Volume = 0.45f });
             }

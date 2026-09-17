@@ -4,7 +4,6 @@ using MogMod.Projectiles.MagicProjectiles.Sorceries;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Ammo.SorcerySpells.Gravity
@@ -13,7 +12,7 @@ namespace MogMod.Items.Ammo.SorcerySpells.Gravity
     {
         public override int ManaCost => 20;
         public override int AttackSpeed => 60;
-        public override SoundStyle UseSound => SoundID.Item20;
+        public override SoundStyle? UseSound => SoundID.Item20;
         public override void SetDefaults()
         {
             base.SetDefaults();

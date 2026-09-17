@@ -16,7 +16,7 @@ namespace MogMod.Items.Ammo.SorcerySpells.Death
     {
         public override int ManaCost => 14;
         public override int AttackSpeed => 50;
-        public override SoundStyle UseSound => SoundID.Item104;
+        public override SoundStyle? UseSound => SoundID.Item104;
         public override void SetDefaults()
         {
             base.SetDefaults();

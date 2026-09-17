@@ -12,7 +12,7 @@ namespace MogMod.Items.Ammo.SorcerySpells.Glintstone
     {
         public override int ManaCost => 20;
         public override int AttackSpeed => 46;
-        public override SoundStyle UseSound => SoundID.Item8;
+        public override SoundStyle? UseSound => SoundID.Item8;
         public override void SetDefaults()
         {
             base.SetDefaults();

@@ -17,7 +17,7 @@ namespace MogMod.Items.Ammo.SorcerySpells.Thorn
         public override int AttackSpeed => 44;
         public override int SpellSelfHurtDamage => 8;
         public override PlayerDeathReason SpellDeathReason => PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.BriarsOfPunishment").ToNetworkText(Main.player[Owner].name));
-        public override SoundStyle UseSound => SoundID.Item8;
+        public override SoundStyle? UseSound => SoundID.Item8;
         public const int BloodDamage = 12;
         public override void SetDefaults()
         {

@@ -28,8 +28,9 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         public override int CooldownTime { get; set; }
         public override float lineCollisionLength => 32;
         public Player Owner => Main.player[Projectile.owner];
-        public override SoundStyle? UseSound => SoundID.Item1 with { Volume = 0.9f, Pitch = Main.rand.NextFloat(0.1f, 0f) };
+        public override SoundStyle? UseSound => SoundID.Item9 with { Volume = 0.9f, Pitch = Main.rand.NextFloat(-0.2f, -0.1f) };
         public ref float HitsLeft => ref Projectile.ai[0];
+        bool playedSwingSound = false;
         public Vector2 aimVel;
         Color Color1 = Color.DeepSkyBlue;
         Color Color2 = Color.SkyBlue;
@@ -55,6 +56,11 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             var mogPlayer = Owner.GetModPlayer<BaseSwordHoldoutPlayer>();
             if (inSwing)
             {
+                if (!playedSwingSound)
+                {
+                    SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing with { Volume = 0.9f, Pitch = Main.rand.NextFloat(0.1f, 0f) }, Projectile.Center);
+                    playedSwingSound = true;
+                }
                 if (Projectile.owner == Main.myPlayer) Reflect(Projectile);
                 var veloc = oldPlayerOffset - (Projectile.Center - Main.player[Projectile.owner].Center);
                 veloc.Normalize();
@@ -123,8 +129,8 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                 Vector2 launchVel = Utils.DirectionTo(Owner.Center, Owner.MogMod().mouseWorld);
                 if (Projectile.numHits == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Item110 with { Volume = 0.35f, PitchVariance = 0.15f }, Projectile.Center);
-                    SoundEngine.PlaySound(SoundID.Item109 with { Volume = 0.4f, PitchVariance = 0.15f }, Projectile.Center);
+                    SoundEngine.PlaySound(SoundID.Item8 with { Volume = 0.4f, PitchVariance = 0.15f }, Projectile.Center);
+                    SoundEngine.PlaySound(SoundID.DD2_BetsyFireballShot with { Volume = 0.5f, Pitch = 0.6f, PitchVariance = 0.15f }, Projectile.Center);
                     SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundMiss with { Volume = 0.65f, Pitch = 0.8f }, Projectile.Center);
                     SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundMiss with { Volume = 0.55f, Pitch = 0.4f }, Projectile.Center);
 
@@ -140,9 +146,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                         dust2.color = Main.rand.NextBool() ? Color1 : Color2;
                     }
                 }
-                SoundEngine.PlaySound(SoundID.Item69 with { Volume = 0.35f, LimitsArePerVariant = false, MaxInstances = 1 });
-                SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact with { Volume = 0.75f, PitchVariance = 0.15f }, Projectile.Center);
-                SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact with { Volume = 0.45f });
+                SoundEngine.PlaySound(SoundID.Item69 with { Volume = 0.35f, Pitch = 1f, LimitsArePerVariant = false, MaxInstances = 1 });
             }
         }
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => overPlayers.Add(index);

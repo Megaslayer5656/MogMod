@@ -12,7 +12,7 @@ namespace MogMod.Items.Ammo.SorcerySpells.Magma
     {
         public override int ManaCost => 16;
         public override int AttackSpeed => 38;
-        public override SoundStyle UseSound => SoundID.Item9;
+        public override SoundStyle? UseSound => SoundID.Item9;
         public override void SetDefaults()
         {
             base.SetDefaults();
