@@ -447,7 +447,12 @@ Items: {
 
 			Radiance: {
 				DisplayName: Radiance
-				Tooltip: ""
+				Tooltip:
+					'''
+					Swing a fiery claymore that lights enemies ablaze
+					Right click before swinging to hold the weapon upwards, creating a blazing aura
+					[c/FF9D1C:'A divine weapon that causes damage and a bright burning effect that lays waste to nearby enemies.']
+					'''
 			}
 		}
 

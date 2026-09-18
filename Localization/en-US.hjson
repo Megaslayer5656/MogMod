@@ -372,6 +372,7 @@ Mods: {
 				AstralCataclysmHoldout.DisplayName: Astral Cataclysm Holdout
 				AstralStar.DisplayName: Astral Star
 				RadianceHoldout.DisplayName: Radiance Holdout
+				RadianceAura.DisplayName: Radiance Aura
 			}
 
 			Summon: {

@@ -119,7 +119,7 @@ namespace MogMod.Projectiles.Melee
                 var type = ModContent.ProjectileType<AstralStar>();
                 float size = 2.5f;
                 Rectangle swordBox = new((int)(Projectile.Center.X - Projectile.width * size / 2), (int)(Projectile.Center.Y - Projectile.height * size / 2), (int)(Projectile.Hitbox.Width * size), (int)(Projectile.Hitbox.Height * size));
-                foreach (Projectile star in Main.projectile.Where(star => star.active && star.damage > 0 && Projectile.Colliding(swordBox, star.Hitbox)))
+                if (Projectile.owner == Main.myPlayer) foreach (Projectile star in Main.projectile.Where(star => star.active && star.damage > 0 && Projectile.Colliding(swordBox, star.Hitbox)))
                 {
                     Vector2 AimVelocity(float velocity) => (star.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX) * velocity;
                     if (star.type == type && star.timeLeft < AstralStar.Lifetime)
