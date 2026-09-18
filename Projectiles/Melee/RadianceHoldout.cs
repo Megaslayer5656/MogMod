@@ -23,7 +23,6 @@ namespace MogMod.Projectiles.Melee
         public override int OffsetDistance => 50;
         public override int CooldownTime { get; set; }
         public override SoundStyle? UseSound => SoundID.DD2_MonkStaffSwing with { Volume = 1f };
-        public ref float CurrentChargeMult => ref Projectile.ai[0];
         public ref float DustTimer => ref Projectile.ai[1];
         float MaxCharge = 300f;
         float MinCharge = 0.5f;
@@ -49,18 +48,34 @@ namespace MogMod.Projectiles.Melee
         }
         public override void AdditionalAI()
         {
+            Color color = Color.Lerp(Color1, Color2, Owner.MogMod().radiancePower);
             var mogPlayer = Owner.GetModPlayer<BaseSwordHoldoutPlayer>();
             if (channelingBurn)
             {
                 DustTimer++;
-                if ((DustTimer % Projectile.extraUpdates == 0) && (CurrentChargeMult < MaxCharge)) CurrentChargeMult++;
-                // increase radiance damage
-                Owner.MogMod().radiancePower = CurrentChargeMult / (float)(MaxCharge - 1f);
+                if (Projectile.owner == Main.myPlayer)
+                {
+                    var source = Projectile.GetSource_FromThis();
+                    int damage = (int)(Owner.HeldItem.damage * 0.25f);
+                    int type = ModContent.ProjectileType<RadianceAura>();
+                    if (Owner.ownedProjectileCounts[type] < 1 && DustTimer % Projectile.extraUpdates == 0)
+                    {
+                        //Main.NewText($"summoning proj", Color.Green);
+                        Projectile.NewProjectile(source, Owner.Center, Vector2.Zero, type, damage, 0f, Projectile.owner);
+                    }
+                    else
+                    {
+                        foreach (Projectile aura in Main.ActiveProjectiles)
+                        {
+                            if (aura.type == type) aura.timeLeft = 2;
+                        }
+                    }
+                }
                 if (Main.mouseLeft && timer == StartupTime - 1f)
                 {
                     timer--;
                     Projectile.timeLeft++;
-                    if (CurrentChargeMult / (float)(MaxCharge - 1f) >= 1f)
+                    if (Owner.MogMod().radiancePower >= 1f)
                     {
                         if (!playedChargeSound)
                         {
@@ -70,7 +85,6 @@ namespace MogMod.Projectiles.Melee
                             for (int i = 0; i < 5; i++)
                             {
                                 float scale = Main.rand.NextFloat(0.5f, 1f);
-                                var color = Main.rand.NextBool() ? Color1 : Color2;
 
                                 if (Main.rand.NextBool(5)) scale *= 1.4f;
                                 Vector2 velocity = Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi) * MathHelper.Lerp(10, 30, Main.rand.NextFloat());
@@ -87,10 +101,10 @@ namespace MogMod.Projectiles.Melee
                     Dust dust2 = Dust.NewDustPerfect(spawnPos, DustID.DesertTorch, dustVel.RotatedByRandom(0.4f) * Main.rand.NextFloat(0.5f, 1.4f) * 0.3f);
                     dust2.scale = Main.rand.NextFloat(1.45f, 1.95f) * Owner.MogMod().radiancePower * Projectile.scale;
                     dust2.noGravity = true;
-                    dust2.color = Main.rand.NextBool(3) ? Color2 : Color1;
+                    dust2.color = color;
                     dust2.fadeIn = Owner.MogMod().radiancePower;
 
-                    Dust dust3 = Dust.NewDustPerfect(spawnPos, DustID.FireworksRGB, dustVel.RotatedByRandom(100) * Main.rand.NextFloat(0.2f, 0.6f) * 0.3f, 100, Main.rand.NextBool(3) ? Color2 : Color1, Main.rand.NextFloat(0.5f, 0.8f) * Owner.MogMod().radiancePower * Projectile.scale);
+                    Dust dust3 = Dust.NewDustPerfect(spawnPos, DustID.FireworksRGB, dustVel.RotatedByRandom(100) * Main.rand.NextFloat(0.2f, 0.6f) * 0.3f, 100, color, Main.rand.NextFloat(0.5f, 0.8f) * Owner.MogMod().radiancePower * Projectile.scale);
                 }
                 if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound) && ChargeSound.IsPlaying)
                 {
@@ -121,7 +135,6 @@ namespace MogMod.Projectiles.Melee
                         timer = swingTimer = 0;
                         RotateInCooldown = 0.3f;
                         RotateInStartup = 0.3f;
-                        Owner.MogMod().radiancePower -= 0.05f;
                         channelingBurn = false;
                     }
                 }
@@ -142,7 +155,7 @@ namespace MogMod.Projectiles.Melee
                     outerDust.scale *= Main.rand.NextFloat(0.75f, 1.05f);
                     if (Main.rand.NextBool(4)) outerDust.scale *= Main.rand.NextFloat(0.25f, 1.65f);
                     outerDust.noGravity = true;
-                    outerDust.color = Color.Lerp(Color2, Color1, MathF.Sin(Main.GlobalTimeWrappedHourly * 6) * 0.5f + 0.5f);
+                    outerDust.color = color;
                 }
             }
             if (inCooldown && CooldownCompletion >= 1f && Main.mouseLeft)
@@ -152,7 +165,7 @@ namespace MogMod.Projectiles.Melee
                 Projectile.timeLeft = 600;
                 Projectile.numHits = 0;
                 playedChargeSound = false;
-                CurrentChargeMult = 0f;
+                if (Owner.MogMod().radiancePower > 0f) Owner.MogMod().radiancePower -= 0.05f;
                 Projectile.ResetLocalNPCHitImmunity();
             }
         }
@@ -171,7 +184,7 @@ namespace MogMod.Projectiles.Melee
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            int time = 0;
+            int time = (int)(300 * Owner.MogMod().radiancePower);
             if (Owner.MogMod().radiancePower >= MinCharge)
             {
                 if (Projectile.numHits == 0)
@@ -181,14 +194,12 @@ namespace MogMod.Projectiles.Melee
                 }
                 SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact);
                 SoundEngine.PlaySound(SoundID.Item69 with { Volume = 1f, LimitsArePerVariant = false, MaxInstances = 1 });
-                time = 270;
             }
             else
             {
                 if (Projectile.numHits == 0) SoundEngine.PlaySound(SoundID.DD2_GhastlyGlaivePierce with { Volume = 0.85f, PitchVariance = 0.25f }, Projectile.Center);
                 SoundEngine.PlaySound(SoundID.DeerclopsRubbleAttack with { Volume = 0.5f, LimitsArePerVariant = false, MaxInstances = 1 });
                 SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact with { VariantsWeights = new ReadOnlySpan<float>(new float[] { 1, 0, 0 }) });
-                time = 90;
             }
             target.AddBuff(ModContent.BuffType<BlazingDebuff>(), time);
         }

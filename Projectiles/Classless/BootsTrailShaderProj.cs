@@ -1,14 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Graphics;
 using MogMod.Common.MogModPlayer;
 using MogMod.Utilities;
-using System;
 using Terraria;
-using Terraria.Chat;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.Classless
@@ -68,6 +63,7 @@ namespace MogMod.Projectiles.Classless
                 // Rotation is required to draw the trail in all directions correctly.
                 Projectile.rotation = Projectile.velocity.ToRotation();
 
+                // set the projectiles velocity toward the owners center to draw the trail properly
                 if (Main.myPlayer == Projectile.owner)
                 {
                     Vector2 playerPosition = Owner.Center + Vector2.UnitY * Owner.gfxOffY;
