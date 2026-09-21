@@ -1,4 +1,5 @@
 ﻿using MogMod.Items.Global;
+using MogMod.Utilities;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -13,7 +14,7 @@ namespace MogMod.Items.Armor.Bone
     {
         public new string LocalizationCategory => "Items.Armor";
         public const float MovementSpeedBoost = 0.12f;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MovementSpeedBoost);
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MovementSpeedBoost.ToPercent());
         public override void SetDefaults()
         {
             Item.width = 22;

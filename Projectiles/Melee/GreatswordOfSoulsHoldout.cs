@@ -30,6 +30,7 @@ namespace MogMod.Projectiles.Melee
         public override SoundStyle? UseSound => SoundID.DD2_MonkStaffSwing with { Volume = 0.9f, Pitch = Main.rand.NextFloat(0.1f, 0f) };
         Color Color1 = GreatswordOfSouls.MainColor1;
         Color Color2 = GreatswordOfSouls.MainColor2;
+        float soulDamage = 0.75f;
         public override void Defaults()
         {
             Projectile.extraUpdates = 5;
@@ -89,7 +90,7 @@ namespace MogMod.Projectiles.Melee
             if ((target.life <= 0 && target.realLife == -1) && Projectile.numHits <= 2) Projectile.numHits -= 1;
             if (Projectile.numHits < 3)
             {
-                if (Projectile.numHits == 0)
+                if (soulDamage > 0f)
                 {
                     SoundEngine.PlaySound(SoundID.DD2_GhastlyGlaiveImpactGhost with { Volume = 0.35f, PitchVariance = 0.15f }, Projectile.Center);
                     SoundEngine.PlaySound(SoundID.DD2_EtherianPortalDryadTouch with { Volume = 0.4f, PitchVariance = 0.15f }, Projectile.Center);
@@ -107,11 +108,12 @@ namespace MogMod.Projectiles.Melee
                         Dust dust2 = Dust.NewDustPerfect(target.Center, DustID.FireworksRGB, vel(4f), 80, Color2, 1.2f * Projectile.scale);
                         if (Projectile.owner == Main.myPlayer)
                         {
-                            Projectile soul = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, vel(12f), type, Damage(0.75f), Projectile.knockBack, Projectile.owner);
+                            Projectile soul = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, vel(12f), type, Damage(soulDamage), Projectile.knockBack, Projectile.owner);
                             soul.DamageType = Projectile.DamageType;
                             soul.ai[2] = 25f;
                         }
                     }
+                    soulDamage -= 0.25f;
                 }
             }
         }

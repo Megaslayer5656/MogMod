@@ -102,9 +102,9 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
 
             float size = 2.5f;
             Rectangle swordBox = new((int)(sword.Center.X - sword.width * size / 2), (int)(sword.Center.Y - sword.height * size / 2), (int)(sword.Hitbox.Width * size), (int)(sword.Hitbox.Height * size));
-            foreach (Projectile proj in Main.projectile.Where(proj => proj.active && proj.hostile && proj.damage > 0 && !MogModProjectileSets.ShouldNotBeReflected[proj.type] && proj.damage <= damageCap && sword.Colliding(swordBox, proj.Hitbox)))
+            foreach (Projectile proj in Main.projectile.Where(proj => proj.active && proj.hostile && proj.damage > 0 && proj.type != null && proj.damage <= damageCap && sword.Colliding(swordBox, proj.Hitbox)))
             {
-                if (HitsLeft <= 0) return;
+                if (HitsLeft <= 0 || MogModProjectileSets.ShouldNotBeReflected[proj.type]) return;
                 aimVel = (proj.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX) * 65f;
                 SoundEngine.PlaySound(SoundID.Item37, proj.Center);
                 proj.reflected = true;

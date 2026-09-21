@@ -29,8 +29,8 @@ BootsOfTravel: {
 	DisplayName: Boots of Travel
 	Tooltip:
 		'''
-		Vastly Increased movement speed
-		Negates fall damage
+		Vastly increased movement speed
+		Allows you to fall more quickly and negates fall damage
 		[c/E3B8A1:'Winged boots that grant omnipresence.']
 		'''
 }

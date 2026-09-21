@@ -2478,6 +2478,14 @@ namespace MogMod.Common.MogModPlayer
                 }
             }
 
+            int maxFallSpeed = 0 + 
+                (wearingAllegianceWings ? 100 : 
+                wearingLunarBoots ? 60 : 
+                wearingUltraTravelBoots ? 40 : 
+                wearingTravelBoots ? 20 : 0);
+
+            if (Player.controlDown) Player.maxFallSpeed = maxFallSpeed;
+
             double totalManaMult = 1D +
             (wearingRadiantArmor ? RadiantFlower.ManaMult : 0D);
             Player.manaRegenBonus = (int)(Player.manaRegenBonus * totalManaMult);

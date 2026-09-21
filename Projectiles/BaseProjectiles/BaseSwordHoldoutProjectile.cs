@@ -340,8 +340,8 @@ namespace MogMod.Projectiles.BaseProjectiles
             swingTime *= Projectile.MaxUpdates;
             if (UseAttackSpeed)
             {
-                var speed = Main.player[Projectile.owner].GetTotalAttackSpeed(Projectile.DamageType);
-                float cap = 5f;
+                var speed = Main.player[Projectile.owner].GetTotalAttackSpeed(DamageClass.Melee);
+                float cap = 8f;
                 if (speed > cap)
                     speed = cap;
 

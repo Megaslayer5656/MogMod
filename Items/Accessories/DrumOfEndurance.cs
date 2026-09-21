@@ -17,7 +17,7 @@ namespace MogMod.Items.Accessories
         // accessory buffs
         public const int MaxMinions = 1;
         public const float SummonDamageBoost = 0.05f;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(SummonDamageBoost.ToPercent(), MaxMinions, MovementSpeedBoost.ToPercent(), MeleeSpeedBoost.ToPercent());
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MaxMinions, SummonDamageBoost.ToPercent(), MovementSpeedBoost.ToPercent(), MeleeSpeedBoost.ToPercent());
         int teamBuff = ModContent.BuffType<Buffs.AccessoryAuras.DrumOfEnduranceBuff>();
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()

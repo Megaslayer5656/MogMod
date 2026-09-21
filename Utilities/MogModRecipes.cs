@@ -477,6 +477,12 @@ namespace MogMod.Utilities
                 .AddIngredient<PointBooster>()
                 .AddTile(TileID.TinkerersWorkbench)
                 .Register();
+            // necromantic scroll
+            Recipe necroScroll = Recipe.Create(ItemID.NecromanticScroll);
+            necroScroll.AddIngredient<SpookyEssence>(20)
+                .AddIngredient<Scroll>()
+                .AddTile(TileID.Bookcases)
+                .Register();
             #endregion
             #region Misc
             // golem power cell summon

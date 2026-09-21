@@ -3,12 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Classes;
 using MogMod.Common.Systems;
 using MogMod.Items.Ammo.SorcerySpells.Carian;
-using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
-using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
@@ -59,6 +56,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             {
                 if (Projectile.owner == Main.myPlayer)
                 {
+                    Reflect(Projectile);
                     if (!playedSwingSound)
                     {
                         SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing with { Volume = 0.9f, Pitch = 0.35f, PitchVariance = 0.2f }, Projectile.Center);
@@ -67,7 +65,6 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, -(aimVel / 4), ModContent.ProjectileType<AdulasMoonbladeProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         playedSwingSound = true;
                     }
-                    Reflect(Projectile);
                 }
                 var veloc = oldPlayerOffset - (Projectile.Center - Main.player[Projectile.owner].Center);
                 veloc.Normalize();
@@ -110,9 +107,9 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
 
             float size = 2.5f;
             Rectangle swordBox = new((int)(sword.Center.X - sword.width * size / 2), (int)(sword.Center.Y - sword.height * size / 2), (int)(sword.Hitbox.Width * size), (int)(sword.Hitbox.Height * size));
-            foreach (Projectile proj in Main.projectile.Where(proj => proj.active && proj.hostile && proj.damage > 0 && !MogModProjectileSets.ShouldNotBeReflected[proj.type] && proj.damage <= damageCap && sword.Colliding(swordBox, proj.Hitbox)))
+            foreach (Projectile proj in Main.projectile.Where(proj => proj.active && proj.hostile && proj.damage > 0 && proj.type != null && proj.damage <= damageCap && sword.Colliding(swordBox, proj.Hitbox)))
             {
-                if (HitsLeft <= 0) return;
+                if (HitsLeft <= 0 || MogModProjectileSets.ShouldNotBeReflected[proj.type]) return;
                 aimVel = (proj.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX) * 75f;
                 SoundEngine.PlaySound(SoundID.Item37, proj.Center);
                 proj.reflected = true;
@@ -123,11 +120,17 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                 proj.DamageType = sword.DamageType;
                 const int speed = 15;
                 Vector2 targetVel = -(aimVel / 4);
-                int target = proj.FindTargetWithLineOfSight(800);
+                int target;
+                if (proj.tileCollide) target = proj.FindTargetWithLineOfSight(99999f); // set to a high number to avoid index out of bounds
+                else target = proj.FindTargetWithinRange(99999f).whoAmI;
                 NPC targetNPC = Main.npc[target];
-                if (targetNPC != null && targetNPC.active && !targetNPC.townNPC) targetVel = Vector2.Normalize(targetNPC.Center - proj.Center) * speed;
+                if (targetNPC != null && targetNPC.active && !targetNPC.townNPC && !targetNPC.dontTakeDamage && targetNPC.type != NPCID.TargetDummy)
+                {
+                    if (proj.Distance(targetNPC.Center) < 2000f) targetVel = Vector2.Normalize(targetNPC.Center - proj.Center) * speed;
+                }
                 proj.velocity = targetVel;
                 proj.netUpdate = true;
+                HitsLeft--;
 
                 int dustNum = 9;
                 for (int i = 0; i < dustNum; i++)

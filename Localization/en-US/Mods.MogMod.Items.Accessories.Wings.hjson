@@ -20,6 +20,7 @@ WingsOfAllegiance: {
 		'''
 		{$CommonItemTooltip.FlightAndSlowfall}
 		Increased movement speed
+		Allows you to fall more quickly
 		Damage is increased by amount of remaining wing time
 		'''
 }
@@ -32,6 +33,7 @@ LunarTreads: {
 		{$CommonItemTooltip.FlightAndSlowfall}
 		{$CommonItemTooltip.PressDownToHover}
 		Vastly increased movement speed
+		Allows you to fall more quickly
 		[c/51A68A:'Flying boots that grant ultra-omnipresence.']
 		'''
 }
