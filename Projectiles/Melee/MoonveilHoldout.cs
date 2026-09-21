@@ -36,7 +36,6 @@ namespace MogMod.Projectiles.Melee
             Projectile.width = 50;
             Projectile.height = 64;
             Projectile.extraUpdates = 5;
-            Projectile.hide = true;
         }
         public override void Spawn()
         {
@@ -129,7 +128,6 @@ namespace MogMod.Projectiles.Melee
                 modifiers.Knockback += 0.5f;
             }
         }
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => overPlayers.Add(index);
         public override bool PreDraw(ref Color lightColor)
         {
             var mogPlayer = Owner.GetModPlayer<BaseSwordHoldoutPlayer>();
@@ -152,7 +150,7 @@ namespace MogMod.Projectiles.Melee
                         0);
                 }
             }
-            return true;
+            return base.PreDraw(ref lightColor);
         }
     }
 }

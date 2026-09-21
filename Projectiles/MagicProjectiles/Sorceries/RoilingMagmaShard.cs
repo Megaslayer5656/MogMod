@@ -28,16 +28,13 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         public override void AI()
         {
             Time++;
-            if (Time < 10)
-                Projectile.tileCollide = false;
-            else
-                Projectile.tileCollide = true;
+            if (Time < 10) Projectile.tileCollide = false;
+            else Projectile.tileCollide = true;
             float rotateratio = 0.019f;
             float rotation = (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * rotateratio;
             Projectile.rotation += rotation * Projectile.direction;
             Projectile.velocity.Y = Projectile.velocity.Y + 0.25f;
-            if (Projectile.velocity.Y > 16f)
-                Projectile.velocity.Y = 16f;
+            if (Projectile.velocity.Y > 16f) Projectile.velocity.Y = 16f;
             Dust fDust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(3) ? DustID.Lava : DustID.Flare, Projectile.velocity, 100, default, 1.2f);
             fDust.noGravity = true;
             fDust.velocity *= 0.1f;
@@ -60,6 +57,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                 dust.velocity *= 3f;
             }
         }
+        public override bool? CanDamage() => Time >= 10;
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.OnFire, 180);
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(BuffID.OnFire, 180);
         public override void OnKill(int timeLeft)

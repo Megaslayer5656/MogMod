@@ -35,7 +35,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.value = MogGlobalItem.RarityBlueBuyPrice;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 12f;
-            Item.scale = 1.5f;
+            Item.scale = 1.15f;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

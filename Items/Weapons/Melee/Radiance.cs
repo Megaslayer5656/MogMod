@@ -1,30 +1,27 @@
-﻿using MogMod.Common.Classes;
-using MogMod.Items.Global;
-using MogMod.Items.Other;
-using MogMod.Items.Placeable.Bars;
+﻿using MogMod.Items.Global;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
 {
-    // 72x72
-    // hold up in air to create aura, dealing burn damage over time and increasing charge
-    // tap right click while channeling to swing, dealing more damage the more charge there is
     public class Radiance : BaseSwordHoldoutItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
+        public const int DamageMult = 4;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DamageMult);
         public override int ProjectileType => ModContent.ProjectileType<RadianceHoldout>();
         public override void SetDefaults()
         {
             base.SetDefaults();
             Item.width = Item.height = 72;
 
-            Item.damage = 114;
+            Item.damage = 128;
             Item.crit = 37;
-            Item.DamageType = MeleeRangedDamageClass.Instance;
+            Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 60;
             Item.knockBack = 9f;
             Item.channel = true;

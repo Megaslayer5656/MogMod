@@ -9,15 +9,15 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
-    public class DagonOrb : ModProjectile, ILocalizedModType
+    public class StrongDagonOrb : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "MogMod/Assets/Textures/InvisibleProj";
         public ref float Timer => ref Projectile.ai[0];
         public bool HitEnemy = false;
         public int MaxBounces = 8;
-        public static Color WeakColor => DagonFour.WeakColor;
-        public static Color StrongColor => DagonFour.StrongColor;
+        public static Color WeakColor => DagonFive.WeakColor;
+        public static Color StrongColor => DagonFive.StrongColor;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.CultistIsResistantTo[Type] = true;
@@ -62,7 +62,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 dustVelocity.Normalize();
                 dustVelocity *= 50;
 
-                int dagonDust = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, Main.rand.NextBool(5) ? DustID.FireworksRGB : DustID.Flare, 0, 0, 100, default, 2.5f);
+                int dagonDust = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, Main.rand.NextBool(5) ? DustID.FireworksRGB : DustID.RainbowMk2, 0, 0, 100, WeakColor, 2.5f);
                 Dust dust = Main.dust[dagonDust];
                 dust.noGravity = true;
                 dust.position.X = Projectile.Center.X;
@@ -73,7 +73,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 float dustRot = Main.GlobalTimeWrappedHourly * -5.75f + MathHelper.TwoPi;
                 Vector2 dustPos = Projectile.Center + Vector2.UnitX.RotatedBy(dustRot) * 25f * Timer;
                 Vector2 dustVel = Vector2.Normalize(dustPos - Projectile.Center).RotatedBy(MathHelper.ToRadians(70)) * 2f * (Timer * 1.5f);
-                Dust d = Dust.NewDustPerfect(dustPos, Main.rand.NextBool(2) ? DustID.FireworksRGB : DustID.Flare, dustVel, 100, Color.Lerp(WeakColor, StrongColor, Timer));
+                Dust d = Dust.NewDustPerfect(dustPos, Main.rand.NextBool(2) ? DustID.FireworksRGB : DustID.RainbowMk2, dustVel, 100, Color.Lerp(WeakColor, StrongColor, Timer));
                 d.noGravity = true;
                 d.velocity *= 1.4f;
             }
@@ -104,12 +104,12 @@ namespace MogMod.Projectiles.MagicProjectiles
                 SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
                 for (int i = 0; i < 7; i++)
                 {
-                    int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.NextBool(2) ? DustID.FireworksRGB : DustID.Flare, 0f, 0f, 100, WeakColor, 1f);
+                    int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.NextBool(2) ? DustID.FireworksRGB : DustID.RainbowMk2, 0f, 0f, 100, WeakColor, 1f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.2f;
                     Main.dust[dust].velocity -= Projectile.oldVelocity * 0.3f;
 
-                    int dust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Flare, 0f, 0f, 100, StrongColor, 1f);
+                    int dust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.RainbowMk2, 0f, 0f, 100, StrongColor, 1f);
                     Dust dust3 = Main.dust[dust2];
                     dust3.noGravity = true;
                     dust3.velocity *= 1.2f;
@@ -119,7 +119,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                 if (Projectile.owner == Main.myPlayer)
                 {
                     SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<WeakDagonExplosion>(), (int)(Projectile.damage * 1.5f), Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DagonExplosion>(), (int)(Projectile.damage * 1.5f), Projectile.knockBack, Projectile.owner);
                 }
             }
         }

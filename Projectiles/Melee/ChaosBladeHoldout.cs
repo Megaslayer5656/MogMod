@@ -34,7 +34,6 @@ namespace MogMod.Projectiles.Melee
         public override void Defaults()
         {
             Projectile.extraUpdates = 2;
-            Projectile.hide = true;
         }
         public override void Spawn()
         {
@@ -123,7 +122,6 @@ namespace MogMod.Projectiles.Melee
             if (Main.rand.Next(0, 100 + 1) < (Owner.GetTotalCritChance(Projectile.DamageType) * Main.rand.Next(0, 5 + 1))) modifiers.SetCrit();
             if (ultraCrit) modifiers.CritDamage *= ChaosBlade.CritMult;
         }
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => overPlayers.Add(index);
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Projectiles/Melee/ChaosBladeGhost").Value;
@@ -142,7 +140,7 @@ namespace MogMod.Projectiles.Melee
                     Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                     0);
             }
-            return true;
+            return base.PreDraw(ref lightColor);
         }
     }
 }

@@ -37,7 +37,6 @@ namespace MogMod.Projectiles.Melee
             Projectile.width = 54;
             Projectile.height = 70;
             Projectile.extraUpdates = 5;
-            Projectile.hide = true;
 
             MogModGlobalProjectile mogProj = Projectile.MogMod();
             mogProj.bloodDamage = RiversOfBlood.ItemBloodDamage;
@@ -167,7 +166,6 @@ namespace MogMod.Projectiles.Melee
                 }
             }
         }
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => overPlayers.Add(index);
         public override bool PreDraw(ref Color lightColor)
         {
             var mogPlayer = Owner.GetModPlayer<BaseSwordHoldoutPlayer>();
@@ -193,7 +191,7 @@ namespace MogMod.Projectiles.Melee
                         0);
                 }
             }
-            return true;
+            return base.PreDraw(ref lightColor);
         }
     }
 }

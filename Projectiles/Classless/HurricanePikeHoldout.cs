@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MogMod.Common.Classes;
 using MogMod.Common.Systems;
 using MogMod.Items.Weapons.Classless;
 using MogMod.Projectiles.BaseProjectiles;
@@ -8,7 +7,6 @@ using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -21,7 +19,6 @@ namespace MogMod.Projectiles.Classless
         public static readonly SoundStyle WeakCharge = new($"{nameof(MogMod)}/Sounds/SE/bowChargeWeak") { Volume = 1.1f, PitchVariance = .2f, MaxInstances = 5 };
         public override Item BaseItem => ModContent.GetModItem(ModContent.ItemType<HurricanePike>()).Item;
         private Player Owner => Main.player[Projectile.owner];
-        //public override bool UseAttackSpeed => false;
         public override bool UseMeleeSize => false;
         public override int AfterImageLength => 0;
         public override int StartupTime { get; set; }
@@ -206,9 +203,7 @@ namespace MogMod.Projectiles.Classless
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            var tex = TextureAssets.Projectile[Type];
             var ghost = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/HurricanePikeGhost").Value;
-            var frame = tex.Frame();
 
             float value = ChargeTimer > 0 ? ChargeTimer / MaxCharge : MathHelper.Min(timer, StartupTime) / StartupTime;
             float intensity = 0;
@@ -218,11 +213,9 @@ namespace MogMod.Projectiles.Classless
 
             if (intensity > 0) for (float i = 0; i < MathHelper.TwoPi; i += MathHelper.PiOver2)
             {
-                Main.EntitySpriteDraw(ghost, Projectile.Center - Main.screenPosition + new Vector2(2 * intensity, 0).RotatedBy(i), frame, color, Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : 0);
+                Main.EntitySpriteDraw(ghost, Projectile.Center - Main.screenPosition + new Vector2(2 * intensity, 0).RotatedBy(i), null, color, Projectile.rotation, ghost.Size() * 0.5f, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : 0);
             }
-            Main.EntitySpriteDraw(tex.Value, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : 0);
-
-            return false;
+            return base.PreDraw(ref lightColor);
         }
     }
 }

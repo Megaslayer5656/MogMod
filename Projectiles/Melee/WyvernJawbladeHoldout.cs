@@ -145,8 +145,7 @@ namespace MogMod.Projectiles.Melee
                     );
                 }
             }
-            if (inSwing) return base.PreDraw(ref lightColor);
-            return true;
+            return base.PreDraw(ref lightColor);
         }
     }
 }

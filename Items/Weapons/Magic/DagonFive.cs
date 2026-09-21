@@ -3,8 +3,8 @@ using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Magic
@@ -12,63 +12,37 @@ namespace MogMod.Items.Weapons.Magic
     public class DagonFive : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
-        public override void SetStaticDefaults()
-        {
-            Item.staff[Item.type] = true;
-        }
-
+        public const int MaxShots = 3;
+        public static Color WeakColor => new(255, 31, 31);
+        public static Color StrongColor => new (255, 26, 83);
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MaxShots);
         public override void SetDefaults()
         {
-            Item.width = 32;
-            Item.height = 32;
-            Item.damage = 46;
+            Item.width = Item.height = 32;
+
+            Item.damage = 100;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 55;
-            Item.useTime = 4;
-            Item.useAnimation = 20;
-            Item.reuseDelay = Item.useAnimation + 4;
+            Item.mana = 38;
+            Item.useTime = Item.useAnimation = 40;
+            Item.knockBack = 8f;
             Item.useStyle = ItemUseStyleID.Shoot;
+            Item.shoot = ModContent.ProjectileType<DagonFiveHoldout>();
+            Item.shootSpeed = 6f;
+
             Item.noMelee = true;
-            Item.knockBack = 6.5f;
+            Item.channel = true;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+
             Item.rare = ItemRarityID.Red;
             Item.value = MogGlobalItem.RarityRedBuyPrice;
-            Item.UseSound = SoundID.Item109;
-            Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<DagonFiveProj>();
-            Item.shootSpeed = 20f;
-        }
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo projSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
-            float speed = Item.shootSpeed;
-            float xPos = (float)Main.mouseX + Main.screenPosition.X - playerPos.X;
-            float yPos = (float)Main.mouseY + Main.screenPosition.Y - playerPos.Y;
-            float f = Main.rand.NextFloat() * MathHelper.TwoPi;
-            float sourceVariationLow = 20f;
-            float sourceVariationHigh = 60f;
-            Vector2 source = playerPos + f.ToRotationVector2() * MathHelper.Lerp(sourceVariationLow, sourceVariationHigh, Main.rand.NextFloat());
-            for (int i = 0; i < 50; i++)
-            {
-                source = playerPos + f.ToRotationVector2() * MathHelper.Lerp(sourceVariationLow, sourceVariationHigh, Main.rand.NextFloat());
-                if (Collision.CanHit(playerPos, 0, 0, source + (source - playerPos).SafeNormalize(Vector2.UnitX) * 8f, 0, 0))
-                {
-                    break;
-                }
-                f = Main.rand.NextFloat() * MathHelper.TwoPi;
-            }
-            Vector2 velocityReal = Main.MouseWorld - source;
-            Vector2 velocityVariation = new Vector2(xPos, yPos).SafeNormalize(Vector2.UnitY) * speed;
-            velocityReal = velocityReal.SafeNormalize(velocityVariation) * speed;
-            velocityReal = Vector2.Lerp(velocityReal, velocityVariation, 0.25f);
-            Projectile.NewProjectile(projSource, source, velocityReal, type, damage, knockback, player.whoAmI, 0f, Main.rand.Next(3));
-            return false;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DagonFour>(1).
-                AddIngredient(ItemID.NebulaArcanum, 1).
+                AddIngredient<DagonFour>().
                 AddIngredient(ItemID.FragmentSolar, 12).
+                AddIngredient<BrokenHeroStaff>().
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

@@ -18,7 +18,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
 {
     public class CarianGreatswordHoldout : BaseSwordHoldoutProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic.Sorceries";
         public override int swingWidth => 270;
         public override bool UsesBaseItem => false;
         public override LocalizedText DisplayName => MiscUtils.GetItemName<CarianGreatsword>();
@@ -39,7 +39,6 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             Projectile.width = Projectile.height = 130;
             Projectile.DamageType = SorceryDamageClass.Instance;
             Projectile.extraUpdates = 5;
-            Projectile.hide = true;
         }
         public override void Spawn()
         {
@@ -78,10 +77,20 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                     outerDust.color = Color.Lerp(Color2, Color1, MathF.Sin(Main.GlobalTimeWrappedHourly * 6) * 0.5f + 0.5f);
                 }
             }
+            if (inCooldown && CooldownCompletion >= 1f && Owner.channel)
+            {
+                mogPlayer.swingNum++;
+                Projectile.timeLeft = ExistsTime * 2;
+                timer = swingTimer = 0;
+                Projectile.numHits = 0;
+                HitsLeft = CarianGreatsword.MaxReflects;
+                playedSwingSound = false;
+                Projectile.ResetLocalNPCHitImmunity();
+            }
         }
         public override float SwingFunction()
         {
-            if (inStartup) return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * -0.2f, swingWidth * -0.6f, StartupCompletion));
+            if (inStartup) return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * -0.33f, swingWidth * -0.6f, StartupCompletion));
             if (inCooldown) return MathHelper.ToRadians(MathHelper.Lerp(swingWidth * 0.2f, swingWidth * 0.33f, CooldownCompletion));
             return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * -0.6f, swingWidth * 0.2f, SwingCompletion));
         }
@@ -107,6 +116,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                 Vector2 targetVel = -(aimVel / 10);
                 proj.velocity = targetVel;
                 proj.netUpdate = true;
+                HitsLeft--;
 
                 int dustNum = 9;
                 for (int i = 0; i < dustNum; i++)
@@ -149,19 +159,19 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                 SoundEngine.PlaySound(SoundID.Item69 with { Volume = 0.35f, Pitch = 1f, LimitsArePerVariant = false, MaxInstances = 1 });
             }
         }
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => overPlayers.Add(index);
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/CarianGreatswordGhost").Value;
             float outlineWidth = 4;
             if (!inCooldown) outlineWidth *= 1 - SwingCompletion;
-            if (inSwing)
+            if (inSwing || inCooldown)
             {
                 Texture2D swoosh = ModContent.Request<Texture2D>("MogMod/Assets/Textures/VerticalSmearLarge").Value;
                 float rotation = Projectile.rotation - 0.7f * -Projectile.spriteDirection;
                 float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver4 : (MathHelper.TwoPi - MathHelper.PiOver4)) * (angle.X < 0 ? -1f : 1f);
                 Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 60f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
-                Main.EntitySpriteDraw(swoosh, spawnPos, null, Color1 with { A = 0 } * SwingCompletion * 0.75f, rotation + rotationOffset, swoosh.Size() * 0.5f, Projectile.scale * 0.5f, SpriteEffects.None);
+                float fadeIn = Math.Min(1f, Math.Clamp(1f - (CooldownCompletion + 0.5f), 0f, 1f));
+                Main.EntitySpriteDraw(swoosh, spawnPos, null, Color1 with { A = 0 } * (SwingCompletion * 0.75f) * (SwingCompletion >= 0.65f ? fadeIn : 1f), rotation + rotationOffset, swoosh.Size() * 0.5f, Projectile.scale * 0.5f, SpriteEffects.None);
                 for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)
                 {
                     Main.spriteBatch.Draw(ghost,
@@ -175,7 +185,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                         0);
                 }
             }
-            return true;
+            return base.PreDraw(ref lightColor);
         }
     }
 }

@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MogMod.Common.Classes;
 using MogMod.Items.Weapons.Classless;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -34,7 +32,7 @@ namespace MogMod.Projectiles.Classless
         public Color Color2 = Color.Crimson;
         public override void Defaults()
         {
-            Projectile.width = Projectile.height = 92;
+            Projectile.width = Projectile.height = 84;
             Projectile.extraUpdates = 5; //ExtraUpdates help make the VFX smoother
             Projectile.noEnchantmentVisuals = true;
         }
@@ -171,9 +169,7 @@ namespace MogMod.Projectiles.Classless
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            var tex = TextureAssets.Projectile[Type];
             var ghost = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/DragonLanceGhost").Value;
-            var frame = tex.Frame();
 
             float value = ChargeTimer > 0 ? ChargeTimer / MaxCharge : MathHelper.Min(timer, StartupTime) / StartupTime;
             float intensity = 0;
@@ -183,11 +179,9 @@ namespace MogMod.Projectiles.Classless
 
             if (intensity > 0) for (float i = 0; i < MathHelper.TwoPi; i += MathHelper.PiOver2)
             {
-                Main.EntitySpriteDraw(ghost, Projectile.Center - Main.screenPosition + new Vector2(2 * intensity, 0).RotatedBy(i), frame, color, Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : 0);
+                Main.EntitySpriteDraw(ghost, Projectile.Center - Main.screenPosition + new Vector2(2 * intensity, 0).RotatedBy(i), null, color, Projectile.rotation, ghost.Size() * 0.5f, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : 0);
             }
-            Main.EntitySpriteDraw(tex.Value, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : 0);
-
-            return false;
+            return base.PreDraw(ref lightColor);
         }
     }
 }

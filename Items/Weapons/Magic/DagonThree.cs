@@ -1,4 +1,5 @@
-﻿using MogMod.Items.Global;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
@@ -10,36 +11,35 @@ namespace MogMod.Items.Weapons.Magic
     public class DagonThree : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
-        public override void SetStaticDefaults()
-        {
-            Item.staff[Item.type] = true;
-        }
-
+        public static Color WeakColor => new(255, 139, 61);
+        public static Color StrongColor => new(255, 98, 46);
         public override void SetDefaults()
         {
-            Item.width = 32;
-            Item.height = 32;
-            Item.damage = 80;
+            Item.width = Item.height = 32;
+
+            Item.damage = 154;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 32;
+            Item.mana = 22;
             Item.useTime = Item.useAnimation = 30;
+            Item.knockBack = 2f;
             Item.useStyle = ItemUseStyleID.Shoot;
+            Item.shoot = ModContent.ProjectileType<DagonThreeHoldout>();
+            Item.shootSpeed = 6f;
+
             Item.noMelee = true;
-            Item.knockBack = 6f;
+            Item.channel = true;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+
             Item.rare = ItemRarityID.LightRed;
             Item.value = MogGlobalItem.RarityLightRedBuyPrice;
-            Item.UseSound = SoundID.Item109;
-            Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<DagonThreeProj>();
-            Item.shootSpeed = 20f;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DagonTwo>(1).
-                AddIngredient<PointBooster>(1).
-                AddIngredient(ItemID.MagmaStone, 1).
-                AddIngredient(ItemID.LivingFireBlock, 15).
+                AddIngredient<DagonTwo>().
+                AddIngredient(ItemID.HellstoneBar, 8).
+                AddIngredient<PointBooster>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

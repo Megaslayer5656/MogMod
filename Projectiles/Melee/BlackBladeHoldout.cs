@@ -184,36 +184,33 @@ namespace MogMod.Projectiles.Melee
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            if (!inCooldown)
+            var tex = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/BlackBladeGhost").Value;
+            float outlineWidth = (int)(4 * CurrentChargeMult) * 0.5f;
+            if (inSwing || inCooldown)
             {
-                var tex = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/BlackBladeGhost").Value;
-                float outlineWidth = (int)(4 * CurrentChargeMult) * 0.5f;
-                if (inSwing)
-                {
-                    outlineWidth *= 1 - SwingCompletion;
-                    Texture2D swoosh = ModContent.Request<Texture2D>("MogMod/Assets/Textures/VerticalSmearLarge").Value;
-                    float rotation = Projectile.rotation - 0.7f * -Projectile.spriteDirection;
-                    float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver4 : (MathHelper.TwoPi - MathHelper.PiOver4)) * (angle.X < 0 ? -1f : 1f);
-                    Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 60f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
-                    Main.EntitySpriteDraw(swoosh, spawnPos, null, Color.Lerp(Color1, Color2, CurrentChargeMult) with { A = 0 } * SwingCompletion * (CurrentChargeMult * 0.75f), rotation + rotationOffset, swoosh.Size() * 0.5f, Projectile.scale * 0.45f, SpriteEffects.None);
-                }
-                for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)
-                {
-                    Main.spriteBatch.Draw(
-                        tex,
-                        Projectile.Center + new Vector2(0, Projectile.gfxOffY) + Vector2.UnitX.RotatedBy(i + Projectile.rotation) * outlineWidth * Projectile.scale - Main.screenPosition,
-                        null,
-                        Color.Lerp(Color1, Color2, CurrentChargeMult),
-                        Projectile.rotation,
-                        tex.Size() * 0.5f,
-                        Projectile.scale,
-                        Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-                        0
-                    );
-                }
+                outlineWidth *= 1 - SwingCompletion;
+                Texture2D swoosh = ModContent.Request<Texture2D>("MogMod/Assets/Textures/VerticalSmearLarge").Value;
+                float rotation = Projectile.rotation - 0.7f * -Projectile.spriteDirection;
+                float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver4 : (MathHelper.TwoPi - MathHelper.PiOver4)) * (angle.X < 0 ? -1f : 1f);
+                Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 60f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
+                float fadeIn = Math.Min(1f, Math.Clamp(1f - (CooldownCompletion + 0.5f), 0f, 1f));
+                Main.EntitySpriteDraw(swoosh, spawnPos, null, Color.Lerp(Color1, Color2, CurrentChargeMult) with { A = 0 } * SwingCompletion * (CurrentChargeMult * 0.75f) * (SwingCompletion >= 0.65f ? fadeIn : 1f), rotation + rotationOffset, swoosh.Size() * 0.5f, Projectile.scale * 0.45f, SpriteEffects.None);
             }
-            if (inSwing) return base.PreDraw(ref lightColor);
-            return true;
+            if (!inCooldown) for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)
+            {
+                Main.spriteBatch.Draw(
+                    tex,
+                    Projectile.Center + new Vector2(0, Projectile.gfxOffY) + Vector2.UnitX.RotatedBy(i + Projectile.rotation) * outlineWidth * Projectile.scale - Main.screenPosition,
+                    null,
+                    Color.Lerp(Color1, Color2, CurrentChargeMult),
+                    Projectile.rotation,
+                    tex.Size() * 0.5f,
+                    Projectile.scale,
+                    Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                    0
+                );
+            }
+            return base.PreDraw(ref lightColor);
         }
     }
 }

@@ -449,8 +449,10 @@ Items: {
 				DisplayName: Radiance
 				Tooltip:
 					'''
-					Swing a fiery claymore that lights enemies ablaze
-					Right click before swinging to hold the weapon upwards, creating a blazing aura
+					Swing a fiery claymore that inflicts [mogbuff:MogMod/BlazingDebuff]
+					Right click before swinging to hold the weapon upwards, creating a [mogbuff:MogMod/BlazingDebuff] aura
+					Damaging enemies with the [mogbuff:MogMod/BlazingDebuff] aura empowers the claymore for up to {0}x damage
+					The claymore loses power every time an enemy is struck
 					[c/FF9D1C:'A divine weapon that causes damage and a bright burning effect that lays waste to nearby enemies.']
 					'''
 			}
@@ -851,7 +853,7 @@ Items: {
 				DisplayName: Dagon
 				Tooltip:
 					'''
-					Fires a weak bolt
+					Charges up a weak bolt
 					[c/CF8459:'A lesser wand that brings magic to the fingertips of the user.']
 					'''
 			}
@@ -909,7 +911,7 @@ Items: {
 				DisplayName: Dagon
 				Tooltip:
 					'''
-					Fires a flaming bolt
+					Charges up a bouncing flaming bolt
 					[c/CC7352:'A wand that brings magic to the fingertips of the user.']
 					'''
 			}
@@ -918,7 +920,7 @@ Items: {
 				DisplayName: Dagon
 				Tooltip:
 					'''
-					Fires a blazing volatile bolt
+					Charges up a volatile bolt
 					[c/C7654A:'A staff that brings volatile magic to the fingertips of the user.']
 					'''
 			}
@@ -927,7 +929,7 @@ Items: {
 				DisplayName: Dagon
 				Tooltip:
 					'''
-					Fires three blazing bolts that summon homing volatile orbs on hit
+					Charges up {0} volatile blazing bolts that explode into blazing orbs on hit
 					[c/C2563E:'A superior staff that brings volatile magic to the fingertips of the user.']
 					'''
 			}
@@ -936,8 +938,7 @@ Items: {
 				DisplayName: Dagon
 				Tooltip:
 					'''
-					Fires five randomized infernal bolts
-					On hit, bolts either explode, summon beams from the sky, or split into solar orbs
+					Charges up {0} volatile infernal bolts that explode into infernal orbs on hit
 					[c/B83928:'A legendary staff that holds unimaginable power.']
 					'''
 			}
@@ -1048,7 +1049,7 @@ Items: {
 
 			VortexOfConflagration: {
 				DisplayName: Vortex of Conflagration
-				Tooltip: Casts two incinerating razorwheels
+				Tooltip: Charges up an incinerating razorwheel
 			}
 
 			TheDeck: {
@@ -1871,7 +1872,7 @@ Items: {
 
 		GriefBar: {
 			DisplayName: Grief Bar
-			Tooltip: Said to behold roughly 93% of the chaos knight's strength
+			Tooltip: Said to behold roughly 97% of the chaos knight's strength
 		}
 
 		DabDadBar: {

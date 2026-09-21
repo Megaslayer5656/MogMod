@@ -31,7 +31,6 @@ namespace MogMod.Projectiles.Melee
         public override void Defaults()
         {
             Projectile.extraUpdates = 5;
-            Projectile.hide = true;
         }
         public override void Spawn()
         {
@@ -122,19 +121,19 @@ namespace MogMod.Projectiles.Melee
                     MogModUtils.ProjectileBarrage(source, Owner.Center, target.Center, flip, 200f, 200f, -50f, 40f, 10f, type, Projectile.damage, 0f, Projectile.owner, false, 0f);
             }
         }
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => overPlayers.Add(index);
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/EchoSabreGhost").Value;
             float outlineWidth = 4;
             if (!inCooldown) outlineWidth *= 1 - SwingCompletion;
-            if (inSwing)
+            if (inSwing || inCooldown)
             {
                 Texture2D swoosh = ModContent.Request<Texture2D>("MogMod/Assets/Textures/VerticalSmearLarge").Value;
                 float rotation = Projectile.rotation - 0.7f * -Projectile.spriteDirection;
                 float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver4 : (MathHelper.TwoPi - MathHelper.PiOver4)) * (angle.X < 0 ? -1f : 1f);
                 Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 32f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
-                Main.EntitySpriteDraw(swoosh, spawnPos, null, Color1 with { A = 0 } * SwingCompletion * 0.75f, rotation + rotationOffset, swoosh.Size() * 0.5f, Projectile.scale * 0.25f, SpriteEffects.None);
+                float fadeIn = Math.Min(1f, Math.Clamp(1f - (CooldownCompletion + 0.5f), 0f, 1f));
+                Main.EntitySpriteDraw(swoosh, spawnPos, null, Color1 with { A = 0 } * (SwingCompletion * 0.75f) * (SwingCompletion >= 0.65f ? fadeIn : 1f), rotation + rotationOffset, swoosh.Size() * 0.5f, Projectile.scale * 0.25f, SpriteEffects.None);
                 for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)
                 {
                     Main.spriteBatch.Draw(ghost,
@@ -148,7 +147,7 @@ namespace MogMod.Projectiles.Melee
                         0);
                 }
             }
-            return true;
+            return base.PreDraw(ref lightColor);
         }
     }
 }

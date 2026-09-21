@@ -19,19 +19,20 @@ namespace MogMod.Projectiles.Melee
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 218;
-            Projectile.ignoreWater = true;
-            Projectile.tileCollide = false;
-            Projectile.friendly = true;
-            Projectile.timeLeft *= 5;
             Projectile.penetrate = -1;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.netImportant = true;
+            Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 25;
+            Projectile.DamageType = DamageClass.Melee;
         }
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.15f / 255f, (255 - Projectile.alpha) * 0.15f / 255f, (255 - Projectile.alpha) * 0.01f / 255f);
             HitCooldown++;
-            if (HitCooldown % 2 == 0) hitEnemy = false;
+            if (HitCooldown % Projectile.localNPCHitCooldown == 0) hitEnemy = false;
 
             for (int s = 0; s < 6; s++)
             {
@@ -44,9 +45,11 @@ namespace MogMod.Projectiles.Melee
             if (Projectile.owner == Main.myPlayer)
             {
                 Projectile.width = Projectile.height = (int)(218 * (Owner.MogMod().radiancePower + 1f));
-                Projectile.Center = Owner.Center;
+                //Projectile.Center = Owner.Center;
             }
         }
+        public override bool? CanDamage() => HitCooldown >= Projectile.localNPCHitCooldown;
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => modifiers.SourceDamage *= (Owner.MogMod().radiancePower) + 0.15f;
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<BlazingDebuff>(), debuffTime);

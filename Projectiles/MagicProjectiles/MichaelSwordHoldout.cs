@@ -36,7 +36,6 @@ namespace MogMod.Projectiles.MagicProjectiles
         public override void Defaults()
         {
             Projectile.extraUpdates = 2;
-            Projectile.hide = true;
         }
         public override void Spawn()
         {
@@ -90,7 +89,6 @@ namespace MogMod.Projectiles.MagicProjectiles
             if (inCooldown) return MathHelper.ToRadians(MathHelper.Lerp(swingWidth * -0.2f, swingWidth * -0.33f, 1 - MathF.Pow(1 - CooldownCompletion, 3f)));
             return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * 0.65f, swingWidth * -0.2f, SwingCompletion));
         }
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => overPlayers.Add(index);
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/MichaelSwordGhost").Value;
@@ -110,7 +108,7 @@ namespace MogMod.Projectiles.MagicProjectiles
                     Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                     0);
             }
-            return true;
+            return base.PreDraw(ref lightColor);
         }
     }
 }

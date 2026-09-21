@@ -15,6 +15,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
     {
         public new string LocalizationCategory => "Projectiles.Magic.Sorceries";
         public static Color Colour => new(171, 237, 255);
+        public bool HitEnemy = false;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 30;
@@ -27,13 +28,29 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
 
             Projectile.friendly = true;
             Projectile.DamageType = SorceryDamageClass.Instance;
-            Projectile.penetrate = 1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
             Projectile.timeLeft = 600;
+            Projectile.alpha = 255;
             Projectile.extraUpdates = 1;
         }
         public override void AI()
         {
-            Projectile.rotation = Projectile.velocity.ToRotation();
+            if (!HitEnemy)
+            {
+                Projectile.rotation = Projectile.velocity.ToRotation();
+                if (Projectile.alpha > 0)
+                {
+                    Projectile.alpha -= 25;
+                    if (Projectile.alpha < 0) Projectile.alpha = 0;
+                }
+            }
+            if (HitEnemy)
+            {
+                Projectile.alpha += 10;
+                if (Projectile.alpha >= 255) Projectile.Kill();
+            }
             float dim = .005f;
             Lighting.AddLight(Projectile.Center, Colour.R * dim, Colour.G * dim, Colour.B * dim);
 
@@ -44,21 +61,36 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                 dust.velocity = -Projectile.velocity * 0.7f;
             }
         }
-        public override void OnKill(int timeLeft)
+        public override bool? CanDamage() => !HitEnemy;
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => KillEffect();
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => KillEffect();
+        public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
-            for (int i = 0; i < 7; i++)
+            KillEffect();
+            Projectile.velocity = oldVelocity * 0.95f;
+            Projectile.position -= Projectile.velocity;
+            return false;
+        }
+        public void KillEffect()
+        {
+            if (!HitEnemy)
             {
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Terragrim, 0f, 0f, 100, default, 1f);
-                Main.dust[dust].noGravity = true;
-                Main.dust[dust].velocity *= 1.2f;
-                Main.dust[dust].velocity -= Projectile.oldVelocity * 0.3f;
+                Projectile.velocity = Vector2.Zero;
+                SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
+                for (int i = 0; i < 7; i++)
+                {
+                    int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Terragrim, 0f, 0f, 100, default, 1f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.2f;
+                    Main.dust[dust].velocity -= Projectile.oldVelocity * 0.3f;
 
-                int dust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.AncientLight, 0f, 0f, 100, Color.LightBlue, 1f);
-                Dust dust3 = Main.dust[dust2];
-                dust3.noGravity = true;
-                dust3.velocity *= 1.2f;
-                dust3.velocity -= Projectile.oldVelocity * 0.3f;
+                    int dust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.AncientLight, 0f, 0f, 100, Colour, 1f);
+                    Dust dust3 = Main.dust[dust2];
+                    dust3.noGravity = true;
+                    dust3.velocity *= 1.2f;
+                    dust3.velocity -= Projectile.oldVelocity * 0.3f;
+                }
+                HitEnemy = true;
             }
         }
         public override bool PreDraw(ref Color lightColor)
@@ -71,10 +103,11 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Color drawColor = Projectile.GetAlpha(lightColor);
             Main.EntitySpriteDraw(tex, drawPosition, null, drawColor, Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
-            //MogModUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Type], lightColor, 1);
+
             Main.spriteBatch.SetBlendState(BlendState.Additive);
             Texture2D bloomTex = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/CircleGradient").Value;
-            Main.EntitySpriteDraw(bloomTex, drawPosition, null, Colour * 0.5f, Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * 0.35f, SpriteEffects.None);
+            Color drawColour = Projectile.GetAlpha(Colour);
+            Main.EntitySpriteDraw(bloomTex, drawPosition, null, drawColour * 0.5f, Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * 0.35f, SpriteEffects.None);
             Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;
         }

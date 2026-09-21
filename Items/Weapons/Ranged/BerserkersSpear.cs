@@ -68,7 +68,7 @@ namespace MogMod.Items.Weapons.Ranged
                 if (Main.zenithWorld)
                     percentLifeLeft = (float)player.statLifeMax2 / player.statLife;
                 // hurts the player and ignores i-frames
-                player.Hurt(PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.BerserkersSpear").ToNetworkText(player.name)), (int)(player.statLifeMax2 * 0.04), -player.direction, false, false, -1, false, 1000, 0, 0);
+                player.Hurt(PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.BerserkersSpear").ToNetworkText(player.name)), (int)(player.statLifeMax2 * 0.04), -player.direction, false, false, -1, false, 1000, 1000, 0);
                 player.immune = false;
                 player.immuneTime = 0;
                 damage = (int)(Item.damage / (percentLifeLeft + 0.3f));
