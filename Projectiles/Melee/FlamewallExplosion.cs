@@ -31,9 +31,9 @@ namespace MogMod.Projectiles.Melee
         }
         public override void AI()
         {
-            if (Projectile.timeLeft >= 8)
+            if (Projectile.timeLeft >= 18)
             {
-                Timer += 0.2f;
+                Timer += 0.4f;
                 for (int i = 0; i < 8; i++)
                 {
                     Vector2 dustVelocity = new(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
@@ -59,7 +59,7 @@ namespace MogMod.Projectiles.Melee
                     d.velocity *= 1.4f;
                 }
             }
-            else Timer -= 0.5f;
+            else Timer -= 0.2f;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<BlazingDebuff>(), 360);
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<BlazingDebuff>(), 360);

@@ -20,8 +20,7 @@ namespace MogMod.Items.Weapons.Melee
             base.SetDefaults();
             Item.width = Item.height = 72;
 
-            Item.damage = 128;
-            Item.crit = 37;
+            Item.damage = 130;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 60;
             Item.knockBack = 9f;
@@ -31,9 +30,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Yellow;
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
         }
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit = (crit * player.MogMod().radiancePower) + 2;
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage) => damage = (damage * (player.MogMod().radiancePower + 0.5f));
-        public override void ModifyWeaponKnockback(Player player, ref StatModifier knockback) => knockback += player.MogMod().radiancePower;
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit = (36 * player.MogMod().radiancePower);
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2) return false;

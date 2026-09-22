@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Buffs.Debuffs;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
@@ -10,12 +9,8 @@ using MogMod.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
-using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.WorldBuilding;
 
 namespace MogMod.Items.Weapons.Melee
 {
@@ -32,8 +27,7 @@ namespace MogMod.Items.Weapons.Melee
             base.SetDefaults();
             Item.width = Item.height = 134;
 
-            Item.damage = 350;
-            Item.crit = 46;
+            Item.damage = 1150;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 100;
             Item.knockBack = 15f;
@@ -43,9 +37,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.rare = ModContent.RarityType<VonRarity>();
             Item.value = MogGlobalItem.RarityVonBuyPrice;
         }
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit = (crit * player.MogMod().flamewallPower) + 10;
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage) => damage = (damage * (player.MogMod().flamewallPower + 0.5f));
-        public override void ModifyWeaponKnockback(Player player, ref StatModifier knockback) => knockback += player.MogMod().flamewallPower;
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit = (46 * player.MogMod().flamewallPower);
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2) return false;

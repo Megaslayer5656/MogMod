@@ -39,7 +39,7 @@ namespace MogMod.Projectiles.Melee
         public override void Defaults()
         {
             Projectile.extraUpdates = 5;
-            swingWidth = 900;
+            swingWidth = 960;
             RotateInCooldown = 0.3f;
             RotateInStartup = 0.3f;
         }
@@ -71,7 +71,7 @@ namespace MogMod.Projectiles.Melee
                     if (DustTimer % (shootCooldown * Projectile.extraUpdates) == 0)
                     {
                         NPC target = Projectile.Center.ClosestNPCAt(1000);
-                        if (target != null) MogModUtils.MagnetSphereHitscan(Projectile, Vector2.Distance(Projectile.Center, target.Center), 8f, 0, 1, type);
+                        if (target != null) MogModUtils.MagnetSphereHitscan(Projectile, Vector2.Distance(Projectile.Center, target.Center), 16f, 0, 1, type);
                     }
                 }
                 if (Main.mouseLeft && timer == StartupTime - 1f)
@@ -193,8 +193,14 @@ namespace MogMod.Projectiles.Melee
                 return 0f;
             }
             if (inStartup) return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * 0.45f, -swingWidth * 0.66f, MathF.Pow(StartupCompletion, 0.5f)));
-            if (inCooldown) return MathHelper.ToRadians(MathHelper.Lerp(swingWidth * 0.8f, swingWidth * 0.75f, 1 - MathF.Pow(1 - CooldownCompletion, 0.5f)));
-            return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * 0.66f, swingWidth * 0.8f, SwingCompletion));
+            if (inCooldown) return MathHelper.ToRadians(MathHelper.Lerp(swingWidth * 0.8f, swingWidth * 0.65f, 1 - MathF.Pow(1 - CooldownCompletion, 0.5f)));
+            return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * 0.66f, swingWidth * 0.8f, 1 - MathF.Pow(1 - SwingCompletion, 2f)));
+        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+            modifiers.SourceDamage *= (FlamewallPower * Flamewall.DamageMult) + 0.5f;
+            modifiers.Knockback += FlamewallPower;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {

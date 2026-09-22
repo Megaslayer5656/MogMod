@@ -21,7 +21,7 @@ namespace MogMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.CultistIsResistantTo[Type] = true;
-            ProjectileID.Sets.TrailCacheLength[Type] = 14;
+            ProjectileID.Sets.TrailCacheLength[Type] = 60;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
         public override void SetDefaults()
@@ -30,6 +30,7 @@ namespace MogMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.Melee;
             Projectile.timeLeft = 600;
             Projectile.penetrate = -1;
+            Projectile.extraUpdates = 2;
             Projectile.friendly = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
@@ -73,6 +74,14 @@ namespace MogMod.Projectiles.Melee
             d.velocity *= 1.4f;
         }
         public override bool? CanDamage() => !HitEnemy;
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => modifiers.SourceDamage *= (Owner.MogMod().flamewallPower) + 0.15f;
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => KillEffect();
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => KillEffect();
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            KillEffect();
+            return false;
+        }
         public void KillEffect()
         {
             if (!HitEnemy)
@@ -116,7 +125,7 @@ namespace MogMod.Projectiles.Melee
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 float completionRatio = i / (float)Projectile.oldPos.Length;
-                Vector2 trailPos = Projectile.oldPos[i] + texture.Size() * 0.5f - Main.screenPosition;
+                Vector2 trailPos = Projectile.oldPos[i] + Projectile.Size * 0.5f - Main.screenPosition;
                 float trailRot = Projectile.oldRot[i] + MathHelper.PiOver2;
 
                 // The further the smaller

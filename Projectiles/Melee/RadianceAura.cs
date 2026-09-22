@@ -49,6 +49,7 @@ namespace MogMod.Projectiles.Melee
             }
         }
         public override bool? CanDamage() => HitCooldown >= Projectile.localNPCHitCooldown;
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => modifiers.SourceDamage *= (Owner.MogMod().radiancePower) + 0.15f;
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<BlazingDebuff>(), debuffTime);
