@@ -1,6 +1,7 @@
 ﻿using MogMod.Items.Global;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Projectiles.Melee;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -30,6 +31,9 @@ namespace MogMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Yellow;
             Item.value = MogGlobalItem.RarityYellowBuyPrice;
         }
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit = (crit * player.MogMod().radiancePower) + 2;
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage) => damage = (damage * (player.MogMod().radiancePower + 0.5f));
+        public override void ModifyWeaponKnockback(Player player, ref StatModifier knockback) => knockback += player.MogMod().radiancePower;
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2) return false;

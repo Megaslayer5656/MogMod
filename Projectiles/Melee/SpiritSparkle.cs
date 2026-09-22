@@ -9,11 +9,17 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.Melee
 {
-    public class FlamewallProj : ModProjectile, ILocalizedModType
+    public class SpiritSparkle : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         // We could use a vanilla texture if we want instead of supplying our own.
-        // public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.Excalibur;
+        public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.Excalibur;
+        Color DustColor = Color.LightSkyBlue;
+        Color FrontWeakColor = new(224, 239, 255);
+        Color MiddleMediumColor = new(181, 240, 255);
+        Color BackStrongColor = new(133, 255, 251);
+        float Scale = 0.8f;
+        float ScaleMult = 0.2f;
         public override void SetStaticDefaults() {
 			// If a Jellyfish is zapping and we attack it with this projectile, it will deal damage to us.
 			// This set has the projectiles for the Night's Edge, Excalibur, Terra Blade (close range), and The Horseman's Blade (close range).
@@ -68,8 +74,8 @@ namespace MogMod.Projectiles.Melee
 			float adjustedRotation = MathHelper.Pi * direction * percentageOfLife + velocityRotation + direction * MathHelper.Pi + player.fullRotation;
 			Projectile.rotation = adjustedRotation; // Set the rotation to our to the new rotation we calculated.
 
-			float scaleMulti = 1f; // Excalibur, Terra Blade, and The Horseman's Blade is 0.6f; True Excalibur is 1f; default is 0.2f
-			float scaleAdder = 1.2f; // Excalibur, Terra Blade, and The Horseman's Blade is 1f; True Excalibur is 1.2f; default is 1f
+			float scaleMulti = ScaleMult; // Excalibur, Terra Blade, and The Horseman's Blade is 0.6f; True Excalibur is 1f; default is 0.2f
+			float scaleAdder = Scale; // Excalibur, Terra Blade, and The Horseman's Blade is 1f; True Excalibur is 1.2f; default is 1f
 
 			Projectile.Center = player.RotatedRelativePoint(player.MountedCenter) - Projectile.velocity;
 			Projectile.scale = scaleAdder + percentageOfLife * scaleMulti;
@@ -84,7 +90,7 @@ namespace MogMod.Projectiles.Melee
 			Vector2 dustVelocity = (dustRotation + Projectile.ai[0] * MathHelper.PiOver2).ToRotationVector2();
 			if (Main.rand.NextFloat() * 2f < Projectile.Opacity) {
 				// Original Excalibur color: Color.Gold, Color.White
-				Color dustColor = Color.Lerp(Color.OrangeRed, Color.White, Main.rand.NextFloat() * 0.3f);
+				Color dustColor = Color.Lerp(DustColor, Color.White, Main.rand.NextFloat() * 0.3f);
 				Dust coloredDust = Dust.NewDustPerfect(Projectile.Center + dustRotation.ToRotationVector2() * (Main.rand.NextFloat() * 80f * Projectile.scale + 20f * Projectile.scale), DustID.FireworksRGB, dustVelocity * 1f, 100, dustColor, 0.4f);
 				coloredDust.fadeIn = 0.4f + Main.rand.NextFloat() * 0.15f;
 				coloredDust.noGravity = true;
@@ -92,7 +98,7 @@ namespace MogMod.Projectiles.Melee
 
 			if (Main.rand.NextFloat() * 1.5f < Projectile.Opacity) {
 				// Original Excalibur color: Color.White
-				Dust.NewDustPerfect(dustPosition, DustID.TintableDustLighted, dustVelocity, 100, Color.OrangeRed * Projectile.Opacity, 1.2f * Projectile.Opacity);
+				Dust.NewDustPerfect(dustPosition, DustID.TintableDustLighted, dustVelocity, 100, DustColor * Projectile.Opacity, 1.2f * Projectile.Opacity);
 			}
 
 			Projectile.scale *= Projectile.ai[2]; // Set the scale of the projectile to the scale of the item.
@@ -159,9 +165,12 @@ namespace MogMod.Projectiles.Melee
 			// The particles from the Particle Orchestra are predefined by vanilla and most can not be customized that much.
 			// Use auto complete to see the other ParticleOrchestraType types there are.
 			// Here we are spawning the Excalibur particle randomly inside of the target's hitbox.
-			ParticleOrchestrator.RequestParticleSpawn(clientOnly: false, ParticleOrchestraType.Excalibur,
-				new ParticleOrchestraSettings { PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox) },
-				Projectile.owner);
+            for (int i = 0; i < Main.rand.Next(3, 6); i++)
+            {
+			    ParticleOrchestrator.RequestParticleSpawn(clientOnly: false, ParticleOrchestraType.SilverBulletSparkle,
+				    new ParticleOrchestraSettings { PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox) },
+				    Projectile.owner);
+            }
 
 			// You could also spawn dusts at the enemy position. Here is simple an example:
 			// Dust.NewDust(Main.rand.NextVector2FromRectangle(target.Hitbox), 0, 0, ModContent.DustType<Content.Dusts.Sparkle>());
@@ -169,10 +178,14 @@ namespace MogMod.Projectiles.Melee
 			// Set the target's hit direction to away from the player so the knockback is in the correct direction.
 			hit.HitDirection = (Main.player[Projectile.owner].Center.X < target.Center.X) ? 1 : (-1);
 		}
-		public override void OnHitPlayer(Player target, Player.HurtInfo info) {
-			ParticleOrchestrator.RequestParticleSpawn(clientOnly: false, ParticleOrchestraType.Excalibur,
-				new ParticleOrchestraSettings { PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox) },
-				Projectile.owner);
+		public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            for (int i = 0; i < Main.rand.Next(3, 6); i++)
+            {
+                ParticleOrchestrator.RequestParticleSpawn(clientOnly: false, ParticleOrchestraType.SilverBulletSparkle,
+				    new ParticleOrchestraSettings { PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox) },
+				    Projectile.owner);
+            }
 
 			info.HitDirection = (Main.player[Projectile.owner].Center.X < target.Center.X) ? 1 : (-1);
 		}
@@ -191,9 +204,9 @@ namespace MogMod.Projectiles.Melee
 			float lightingColor = Lighting.GetColor(Projectile.Center.ToTileCoordinates()).ToVector3().Length() / (float)Math.Sqrt(3.0);
 			lightingColor = Utils.Remap(lightingColor, 0.2f, 1f, 0f, 1f);
 
-			Color backDarkColor = new Color(255, 53, 53);
-			Color middleMediumColor = new Color(255, 128, 53);
-			Color frontLightColor = new Color(255, 170, 53);
+			Color backDarkColor = BackStrongColor;
+			Color middleMediumColor = MiddleMediumColor;
+			Color frontLightColor = FrontWeakColor;
 
 			Color whiteTimesLerpTime = Color.White * lerpTime * 0.5f;
 			whiteTimesLerpTime.A = (byte)(whiteTimesLerpTime.A * (1f - lightingColor));

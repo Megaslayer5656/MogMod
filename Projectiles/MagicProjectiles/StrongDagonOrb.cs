@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MogMod.Buffs.Debuffs;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Utilities;
 using Terraria;
@@ -79,8 +80,16 @@ namespace MogMod.Projectiles.MagicProjectiles
             }
         }
         public override bool? CanDamage() => !HitEnemy && Projectile.timeLeft < 590;
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => KillEffect();
-        public override void OnHitPlayer(Player target, Player.HurtInfo info) => KillEffect();
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.Daybreak, 480);
+            KillEffect();
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            target.AddBuff(BuffID.Daybreak, 480);
+            KillEffect();
+        }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);

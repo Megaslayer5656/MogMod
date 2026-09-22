@@ -383,6 +383,10 @@ Mods: {
 				AstralStar.DisplayName: Astral Star
 				RadianceHoldout.DisplayName: Radiance Holdout
 				RadianceAura.DisplayName: Radiance Aura
+				FlamewallBolt.DisplayName: Flamewall Bolt
+				FlamewallExplosion.DisplayName: Flamewall Explosion
+				FlamewallHoldout.DisplayName: Flamewall Holdout
+				SpiritSparkle.DisplayName: Spirit Sparkle
 			}
 
 			Summon: {

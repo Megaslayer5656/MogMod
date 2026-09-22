@@ -338,6 +338,7 @@ namespace MogMod.Common.MogModPlayer
         public bool pikeEmpowered = false;
 
         public float radiancePower = 0f;
+        public float flamewallPower = 0f;
 
         private static readonly List<int> dragonSpears =
         [
@@ -2524,6 +2525,7 @@ namespace MogMod.Common.MogModPlayer
             if (lasOverheat > 0) lasOverheat--;
             if (kaminariCooldown > 0 && wearingKaminari) kaminariCooldown--;
             if (radiancePower > 0f && Player.HeldItem.type != ModContent.ItemType<Radiance>()) radiancePower -= 0.05f;
+            if (flamewallPower > 0f && Player.HeldItem.type != ModContent.ItemType<Flamewall>()) flamewallPower -= 0.05f;
         }
         
         // stops player from moving while charging bow
