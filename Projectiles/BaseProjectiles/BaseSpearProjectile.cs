@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -53,7 +54,7 @@ namespace MogMod.Projectiles.BaseProjectiles
 
                     // If we haven't done the special effect yet (assuming there is one), do it.
                     // Note : Null Coalescing does not work in this case because we are invoking a method, not setting a value.
-                    if (Projectile.localAI[0] == 0f && EffectBeforeReelback != null && Main.myPlayer == Projectile.owner)
+                    if (Projectile.localAI[0] == 0f && EffectBeforeReelback != null && Projectile.owner == Main.myPlayer)
                     {
                         Projectile.localAI[0] = 1f;
                         EffectBeforeReelback.Invoke(Projectile);
@@ -67,7 +68,7 @@ namespace MogMod.Projectiles.BaseProjectiles
 
                 // If at the end of the animation, kill the projectile.
                 //Checking if == 0 is too late, lets the projectile linger into chained item uses.
-                if (player.itemAnimation <= 1)
+                if (player.itemAnimation <= 1 && Projectile.owner == Main.myPlayer)
                     Projectile.Kill();
 
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2 + MathHelper.PiOver4;
@@ -83,7 +84,7 @@ namespace MogMod.Projectiles.BaseProjectiles
                 Projectile.direction = player.direction;
                 player.heldProj = Projectile.whoAmI;
                 Projectile.Center = playerRelativePoint;
-                if (player.dead)
+                if (player.dead && Projectile.owner == Main.myPlayer)
                 {
                     Projectile.Kill();
                     return;
@@ -137,7 +138,7 @@ namespace MogMod.Projectiles.BaseProjectiles
                 // Kill the hook if the player's item use cycle is almost over and reset the reuseDelay
                 // reuseDelay is typically used for burst shots, like the clockwork assult rifle, and is
                 // decremented by the useTime. On reset it reverts to useAnimation - 1
-                if (player.itemAnimation == 2)
+                if (player.itemAnimation == 2 && Projectile.owner == Main.myPlayer)
                 {
                     Projectile.Kill();
                     player.reuseDelay = 2;
@@ -157,7 +158,6 @@ namespace MogMod.Projectiles.BaseProjectiles
                 ExtraBehavior();
             }
         }
-
         public override bool PreDraw(ref Color lightColor)
         {
             if (SpearAiType == SpearType.TypicalSpear)

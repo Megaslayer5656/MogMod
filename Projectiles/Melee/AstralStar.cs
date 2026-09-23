@@ -71,11 +71,13 @@ namespace MogMod.Projectiles.Melee
 
             if (Projectile.ai[1] == 1f)
             {
+                Projectile.netUpdate = true;
                 MogModUtils.HomeInOnNPC(Projectile, true, 1200f, 12f, 30f, false);
                 if (Projectile.timeLeft < Lifetime - 240) Projectile.ai[1] = 0f;
             }
             else
             {
+                Projectile.netUpdate = true;
                 if (Projectile.velocity.Length() > 8) Projectile.velocity *= 0.88f;
                 else
                 {

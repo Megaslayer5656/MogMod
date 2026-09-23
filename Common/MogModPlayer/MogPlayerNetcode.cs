@@ -16,7 +16,7 @@ namespace MogMod.Common.MogModPlayer
         public void SyncEssenceShift(bool server)
         {
             ModPacket packet = Mod.GetPacket(256);
-            MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = Player.MogMod();
 
             packet.Write((byte)MogModMessageType.EssenceShiftStackSync);
             packet.Write(Player.whoAmI);
@@ -28,7 +28,7 @@ namespace MogMod.Common.MogModPlayer
         public void SyncShivas(bool server, Vector2 position)
         {
             ModPacket packet = Mod.GetPacket(256); //Creates the packet. IMPORTANT: Info from packets needs to be read in the same order it is sent.
-            MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = Player.MogMod();
 
             packet.Write((byte)MogModMessageType.ShivasSync); //Needed for MogModNetcode.cs, lets the packet handler know what handle method to use.
             packet.Write(Player.whoAmI); //Also needed for MogModNetcode.cs, lets the packet handler know who sent the packet.
@@ -41,7 +41,7 @@ namespace MogMod.Common.MogModPlayer
         public void SyncWingsOfLight(bool server, Vector2 position)
         {
             ModPacket packet = Mod.GetPacket(256);
-            MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = Player.MogMod();
 
             packet.Write((byte)MogModMessageType.WingsOfLightSync);
             packet.Write(Player.whoAmI);
@@ -53,7 +53,7 @@ namespace MogMod.Common.MogModPlayer
         public void SyncDuelistGloves(bool server, Vector2 position)
         {
             ModPacket packet = Mod.GetPacket(256);
-            MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = Player.MogMod();
 
             packet.Write((byte)MogModMessageType.DuelistSync);
             packet.Write(Player.whoAmI);
@@ -75,7 +75,7 @@ namespace MogMod.Common.MogModPlayer
         public void SyncParry(bool server, Vector2 pos)
         {
             ModPacket packet = Mod.GetPacket(256);
-            MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = Player.MogMod();
 
             packet.Write((byte)MogModMessageType.ParrySync);
             packet.Write(Player.whoAmI);
@@ -87,7 +87,7 @@ namespace MogMod.Common.MogModPlayer
         public void SyncDragonInstall(bool server)
         {
             ModPacket packet = Mod.GetPacket(256);
-            MogPlayer mogPlayer = Player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = Player.MogMod();
 
             packet.Write((byte)MogModMessageType.DragonInstallSync);
             packet.Write(Player.whoAmI);
@@ -128,7 +128,6 @@ namespace MogMod.Common.MogModPlayer
             packet.Write(target.whoAmI);
             packet.Send();
         }
-        
 
         internal void HandleEssenceShiftStack(BinaryReader reader)
         {
@@ -234,7 +233,7 @@ namespace MogMod.Common.MogModPlayer
             int playerID = reader.ReadInt32();
 
             Terraria.Player player = Main.player[playerID];
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             mogPlayer.markerProjOut = false;
             if (Main.netMode == NetmodeID.Server)
             {
@@ -250,7 +249,7 @@ namespace MogMod.Common.MogModPlayer
 
             Projectile projectile = MogModUtils.FindProjectileByIdentity(projID, ownerID);
 
-            MogPlayer mogPlayer = Main.player[targetID].GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = Main.player[targetID].MogMod();
 
             if (Main.netMode == NetmodeID.Server)
             {

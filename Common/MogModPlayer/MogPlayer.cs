@@ -1026,6 +1026,18 @@ namespace MogMod.Common.MogModPlayer
         }
 
         #region Miscelanious Effects (spelt right)
+        public override void CopyClientState(ModPlayer targetCopy)
+        {
+            MogPlayer clone = (MogPlayer)targetCopy;
+            clone.radiancePower = radiancePower;
+            clone.flamewallPower = flamewallPower;
+        }
+        public override void SendClientChanges(ModPlayer clientPlayer)
+        {
+            MogPlayer clone = (MogPlayer)clientPlayer;
+            if (radiancePower != clone.radiancePower) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
+            if (flamewallPower != clone.flamewallPower) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
+        }
         public override void PreUpdate()
         {
             if (infiniteFlight)

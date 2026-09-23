@@ -6,6 +6,7 @@ using MogMod.Items.Ammo.SorcerySpells.Carian;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
 using System;
+using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
@@ -100,6 +101,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * -0.6f, swingWidth * 0.2f, SwingCompletion));
         }
         // copied from fargos hallow sword
+        // TODO: add a custom packet since it doesnt sync
         private void Reflect(Projectile sword)
         {
             if (Owner == null || !Owner.active) return;
@@ -130,6 +132,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                 }
                 proj.velocity = targetVel;
                 proj.netUpdate = true;
+                proj.netImportant = true;
                 HitsLeft--;
 
                 int dustNum = 9;

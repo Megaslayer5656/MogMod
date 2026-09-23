@@ -6,6 +6,7 @@ using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
 using ReLogic.Utilities;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -49,10 +50,23 @@ namespace MogMod.Projectiles.Melee
             Projectile.scale *= 1.25f;
             summonedAura = false;
         }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            base.SendExtraAI(writer);
+            writer.Write(channelingBurn);
+            writer.Write(summonedAura);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            base.ReceiveExtraAI(reader);
+            channelingBurn = reader.ReadBoolean();
+            summonedAura = reader.ReadBoolean();
+        }
         public override void AdditionalAI()
         {
             Color color = Color.Lerp(Color1, Color2, RadiancePower);
             var mogPlayer = Owner.GetModPlayer<BaseSwordHoldoutPlayer>();
+            if (Owner.dead || !Owner.active || Owner.CCed || Owner.cursed) Projectile.Kill();
             if (channelingBurn)
             {
                 AfterImageLength = 0;

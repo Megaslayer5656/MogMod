@@ -95,6 +95,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * -0.6f, swingWidth * 0.2f, SwingCompletion));
         }
         // copied from fargos hallow sword
+        // TODO: add a custom packet since it doesnt sync
         private void Reflect(Projectile sword)
         {
             if (Owner == null || !Owner.active) return;
