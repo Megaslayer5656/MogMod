@@ -387,6 +387,7 @@ Mods: {
 				FlamewallExplosion.DisplayName: Flamewall Explosion
 				FlamewallHoldout.DisplayName: Flamewall Holdout
 				SpiritSparkle.DisplayName: Spirit Sparkle
+				FlamewallLaser.DisplayName: Flamewall Laser
 			}
 
 			Summon: {

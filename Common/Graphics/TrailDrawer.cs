@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Terraria;
 using Terraria.DataStructures;
@@ -29,9 +30,13 @@ public struct TrailDrawer
     /// <param name="stripDivider">The Divisor applied to the trails width.</param>
     /// <param name="minLength">The minimum length the trail must be.</param>
     /// <param name="maxLength">The maximum length the trail must be.</param>
-    public void Draw(Projectile proj, string gameShaderName, Color outerColor, Color innerColor, float stripDivider = 1f, float minLength = 16f, float maxLength = 24f)
+    /// <param name="oldPositions">Custom old positions. Defaults to <see cref="Projectile.oldPos"/>.</param>
+    /// <param name="oldRotations">Custom old rotations. Defaults to <see cref="Projectile.oldRot"/>.</param>
+    public void Draw(Projectile proj, string gameShaderName, Color outerColor, Color innerColor, float stripDivider = 1f, float minLength = 16f, float maxLength = 24f, Vector2[] oldPositions = null)//, float[] oldRotations = null)
     {
         Player Owner = Main.player[proj.owner];
+        oldPositions ??= proj.oldPos;
+        //oldRotations ??= proj.oldRot;
         transitToDark = Utils.GetLerpValue(0f, 6f, proj.localAI[0], clamped: true);
         _trailColor1 = innerColor;
         _trailColor2 = outerColor;
@@ -42,7 +47,7 @@ public struct TrailDrawer
         miscShaderData.UseSaturation(-2f);
         miscShaderData.UseOpacity(MathHelper.Lerp(4f, 8f, transitToDark));
         miscShaderData.Apply();
-        _vertexStrip.PrepareStripWithProceduralPadding(proj.oldPos, proj.oldRot, StripColors, StripWidth, -Main.screenPosition + proj.Size / 2f);
+        _vertexStrip.PrepareStripWithProceduralPadding(oldPositions, proj.oldRot, StripColors, StripWidth, -Main.screenPosition + proj.Size / 2f);
         _vertexStrip.DrawTrail();
         Main.pixelShader.CurrentTechnique.Passes[0].Apply();
     }

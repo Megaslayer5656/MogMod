@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Classes;
+using MogMod.Common.Graphics;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
 using System;
@@ -21,7 +22,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         public override Texture2D LaserMiddleTexture => Request<Texture2D>(LaserTexturePath + "Mid").Value;
         public override Texture2D LaserEndTexture => Request<Texture2D>(LaserTexturePath + "End").Value;
         public override string Texture => "MogMod/Projectiles/MagicProjectiles/Sorceries/CometAzurLaserStart";
-        public static readonly SoundStyle laserSound = new SoundStyle("Terraria/Sounds/Item_15")
+        public static readonly SoundStyle laserSound = new("Terraria/Sounds/Item_15")
         {
             Volume = 1f,
             PitchVariance = 0.2f,
@@ -142,15 +143,12 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         // Gently adjusts the aim vector of the laser to point towards the mouse. if AimResponsiveness is above 1, the beam is backwards
         private void UpdateAim(Vector2 source)
         {
-            if (Main.zenithWorld)
-                return;
+            if (Main.zenithWorld) return;
             Vector2 aimVector = Vector2.Normalize(Main.MouseWorld - source);
-            if (aimVector.HasNaNs())
-                aimVector = -Vector2.UnitY;
+            if (aimVector.HasNaNs()) aimVector = -Vector2.UnitY;
             aimVector = Vector2.Normalize(Vector2.Lerp(aimVector, Vector2.Normalize(Projectile.velocity), AimResponsiveness));
 
-            if (aimVector != Projectile.velocity)
-                Projectile.netUpdate = true;
+            if (aimVector != Projectile.velocity) Projectile.netUpdate = true;
             Projectile.velocity = aimVector;
         }
         public override bool? CanDamage() => Time >= ChargeupTime;
@@ -169,9 +167,21 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            if (Projectile.velocity == Vector2.Zero)
-                return false;
+            if (Projectile.velocity == Vector2.Zero) return false;
 
+            // Draw the actual laser
+            Vector2 laserEnd = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.UnitY) * LaserLength;
+            Vector2[] drawPoints = new Vector2[10];
+            TrailDrawer trailDrawer = default;
+            Color innerDrawColor = Projectile.GetAlpha(LaserOverlayColor);
+            Color outerDrawColor = Projectile.GetAlpha(Color.White);
+            for (int i = 0; i < drawPoints.Length; i++)
+            {
+                drawPoints[i] = Vector2.Lerp(Projectile.Center, laserEnd, i / (float)(drawPoints.Length - 1f));
+                trailDrawer.Draw(Projectile, "MogMod:FlameLashRGB", outerDrawColor, innerDrawColor, 0.6f, 30f, 44f, drawPoints);
+            }
+
+            /*
             Vector2 scale = new(Projectile.scale, Projectile.scale);
 
             Texture2D laserBegin = LaserBeginTexture;
@@ -187,6 +197,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             rayDrawLength -= (laserBegin.Height / 2 + laserEnd.Height) * Projectile.scale;
             Vector2 projCenter = Projectile.Center;
             projCenter += Projectile.velocity * Projectile.scale * laserBegin.Height / 2f;
+            */
 
             Texture2D GlowBallTexture = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/CircleGradient").Value;
             Texture2D GlowRingTexture = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/GlowRingParticle").Value;
@@ -213,6 +224,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
                 }
             }
 
+            /*
             if (rayDrawLength > 0f)
             {
                 float raySegment = 0f;
@@ -236,6 +248,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             sourceRectangle2 = null;
 
             Main.spriteBatch.Draw(laserEnd, vector2, sourceRectangle2, baseColor, Projectile.rotation, laserEnd.Frame(1, 1, 0, 0).Top(), scale, SpriteEffects.None, 0);
+            */
 
             return false;
         }

@@ -13,7 +13,8 @@ namespace MogMod.Projectiles.Melee
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "MogMod/Assets/Textures/InvisibleProj";
-        public ref float Timer => ref Projectile.ai[0];
+        public Player Owner => Main.player[Projectile.owner];
+        public ref float Timer => ref Projectile.ai[2];
         private const float radius = 30f;
         public static Color WeakColor => Flamewall.WeakColor;
         public static Color StrongColor => Flamewall.StrongColor;
@@ -33,7 +34,7 @@ namespace MogMod.Projectiles.Melee
         {
             if (Projectile.timeLeft >= 18)
             {
-                Timer += 0.4f;
+                Timer += 0.1f;
                 for (int i = 0; i < 8; i++)
                 {
                     Vector2 dustVelocity = new(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
@@ -61,12 +62,18 @@ namespace MogMod.Projectiles.Melee
             }
             else Timer -= 0.2f;
         }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+            modifiers.SourceDamage *= (Owner.MogMod().flamewallPower * Flamewall.DamageMult);
+            modifiers.Knockback += Owner.MogMod().flamewallPower;
+            modifiers.CritDamage *= (Owner.MogMod().flamewallPower * Flamewall.CritMult);
+        }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<BlazingDebuff>(), 360);
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<BlazingDebuff>(), 360);
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => MogModUtils.CircularHitboxCollision(Projectile.Center, radius * MathHelper.Max(1f, Timer), targetHitbox);
         public override bool PreDraw(ref Color lightColor)
         {
-            if (Timer > 18) return false;
             // draw glow effect
             Main.spriteBatch.SetBlendState(BlendState.Additive);
             Texture2D ringTex = ModContent.Request<Texture2D>("MogMod/Assets/Textures/VerticalSmearLarge").Value;

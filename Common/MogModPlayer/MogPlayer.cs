@@ -2485,7 +2485,7 @@ namespace MogMod.Common.MogModPlayer
                 wearingUltraTravelBoots ? 40 : 
                 wearingTravelBoots ? 20 : 0);
 
-            if (Player.controlDown) Player.maxFallSpeed = maxFallSpeed;
+            if (Player.controlDown) Player.maxFallSpeed += maxFallSpeed;
 
             double totalManaMult = 1D +
             (wearingRadiantArmor ? RadiantFlower.ManaMult : 0D);

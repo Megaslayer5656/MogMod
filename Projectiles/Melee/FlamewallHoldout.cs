@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.Debuffs;
-using MogMod.Common.MogModPlayer;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
@@ -23,8 +22,9 @@ namespace MogMod.Projectiles.Melee
         public override int OffsetDistance => 90;
         public override int CooldownTime { get; set; }
         public override SoundStyle? UseSound => SoundID.Item105 with { Volume = MathHelper.Lerp(0.6f, 1f, FlamewallPower), Pitch = -FlamewallPower * 0.5f, PitchVariance = 0.1f };
-        //public override bool AlternateSwings => false;
+        public override bool AlternateSwings => false;
         public ref float DustTimer => ref Projectile.ai[1];
+        public ref float SpinTimer => ref Projectile.ai[2];
         public float FlamewallPower => Owner.MogMod().flamewallPower;
         float MaxCharge = 300f;
         float MinCharge = 0.5f;
@@ -32,24 +32,25 @@ namespace MogMod.Projectiles.Melee
         int numHits = 0;
         bool playedChargeSound = false;
         bool playedSwingSound = false;
-        bool channelingBurn = false;
+        bool channelingLaser = false;
         public static Color WeakColor => Flamewall.WeakColor;
         public static Color StrongColor => Flamewall.StrongColor;
         public SlotId AudSlot;
         public override void Defaults()
         {
             Projectile.extraUpdates = 5;
-            swingWidth = 960;
+            swingWidth = 200;
             RotateInCooldown = 0.3f;
             RotateInStartup = 0.3f;
         }
         public override void Spawn()
         {
             var mogPlayer = Owner.GetModPlayer<BaseSwordHoldoutPlayer>();
-            mogPlayer.swingNum = (mogPlayer.swingNum + 1) % 2;
-            StartupTime = 40;
-            CooldownTime = 20;
-            swingTime = 40;
+            //mogPlayer.swingNum = (mogPlayer.swingNum + 1) % 2;
+            mogPlayer.swingNum = 0;
+            StartupTime = 15;
+            CooldownTime = 15;
+            swingTime -= StartupTime + CooldownTime;
             AfterImageLength = 10;
             Projectile.timeLeft = 600;
             Projectile.scale *= 1.25f;
@@ -58,32 +59,30 @@ namespace MogMod.Projectiles.Melee
         {
             Color color = Color.Lerp(WeakColor, StrongColor, FlamewallPower);
             var mogPlayer = Owner.GetModPlayer<BaseSwordHoldoutPlayer>();
-            if (channelingBurn)
+            if (channelingLaser)
             {
-                Owner.MogMod().flamewallPower = 1f;
+                //Owner.MogMod().flamewallPower = 1f;
                 AfterImageLength = 0;
                 DustTimer++;
                 angle = new Vector2((Owner.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX).X > 0 ? 0.000001f : -0.000001f, MathHelper.Lerp(1f, 1.15f, FlamewallPower));
-                if (Projectile.owner == Main.myPlayer)
-                {
-                    var source = Projectile.GetSource_FromThis();
-                    int type = ModContent.ProjectileType<FlamewallBolt>();
-                    if (DustTimer % (shootCooldown * Projectile.extraUpdates) == 0)
-                    {
-                        NPC target = Projectile.Center.ClosestNPCAt(1000);
-                        if (target != null) MogModUtils.MagnetSphereHitscan(Projectile, Vector2.Distance(Projectile.Center, target.Center), 16f, 0, 1, type);
-                    }
-                }
                 if (Main.mouseLeft && timer == StartupTime - 1f)
                 {
                     timer--;
                     Projectile.timeLeft++;
+                    if (FlamewallPower < 1f && Projectile.owner == Main.myPlayer) Owner.MogMod().flamewallPower += 0.01f;
                     if (FlamewallPower >= 1f)
                     {
                         if (!playedChargeSound)
                         {
                             SoundEngine.PlaySound(SoundID.DeerclopsStep with { Volume = 2f, Pitch = 0.5f }, Projectile.Center);
                             SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact with { Volume = 2f, Pitch = -0.2f }, Projectile.Center);
+                            if (Projectile.owner == Main.myPlayer)
+                            {
+                                SoundEngine.PlaySound(SoundID.DD2_BetsysWrathShot, Projectile.Center);
+                                SoundEngine.PlaySound(SoundID.DD2_BetsyFireballShot, Projectile.Center);
+                                Vector2 spawnPos = Vector2.Lerp(Projectile.Center, Owner.Center, 0.5f);
+                                Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPos, Projectile.velocity, ModContent.ProjectileType<FlamewallLaser>(), Projectile.originalDamage, Projectile.knockBack, Projectile.owner, ai1: Projectile.whoAmI);
+                            }
                             playedChargeSound = true;
                             for (int i = 0; i < 5; i++)
                             {
@@ -120,31 +119,33 @@ namespace MogMod.Projectiles.Melee
             if (inStartup)
             {
                 AfterImageLength = 0;
-                if (Main.mouseLeft && Owner.MogMod().mouseRight)
+                if (Owner.channel && Owner.MogMod().mouseRight)
                 {
-                    if (!channelingBurn)
+                    if (!channelingLaser)
                     {
-                        angle = new Vector2(0f, 1f);
-                        RotateInCooldown = 0f;
-                        RotateInStartup = 0f;
-                        channelingBurn = true;
+                        angle = new Vector2(0, 1f);
+                        //angle = new Vector2(0f, 1f);
+                        //RotateInStartup = RotateInCooldown = 0.005f;
+                        RotateInStartup = RotateInCooldown = 0f;
+                        channelingLaser = true;
                     }
                 }
                 else
                 {
                     if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();
-                    if (channelingBurn)
+                    if (channelingLaser)
                     {
                         Projectile.timeLeft = 600;
                         timer = swingTimer = 0;
                         RotateInCooldown = 0.3f;
                         RotateInStartup = 0.3f;
-                        channelingBurn = false;
+                        channelingLaser = false;
                     }
                 }
             }
             if (inSwing)
             {
+                if (SpinTimer < 5f && timer % Projectile.extraUpdates == 0) SpinTimer += 0.005f;
                 if (!playedSwingSound)
                 {
                     SoundEngine.PlaySound(SoundID.Item70 with { Volume = 2f * FlamewallPower, Pitch = -0.3f * FlamewallPower }, Projectile.Center);
@@ -153,7 +154,7 @@ namespace MogMod.Projectiles.Melee
                 
                 AfterImageLength = 10;
                 if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();
-                var veloc = oldPlayerOffset - (Projectile.Center - Main.player[Projectile.owner].Center);
+                var veloc = oldPlayerOffset - (Projectile.Center - Owner.Center);
                 veloc.Normalize();
                 float maxRotationDeviance = 0.8f;
                 float rotationAngle = Main.rand.NextFloat(-maxRotationDeviance, maxRotationDeviance);
@@ -169,14 +170,26 @@ namespace MogMod.Projectiles.Melee
                     outerDust.color = color;
                 }
             }
-            if (inSwing && swingTimer % (swingTime / 3) == (swingTime / 3) - 1 && numHits < 2)
+            //if (inSwing && swingTimer % (swingTime / 3) == (swingTime / 3) - 1 && numHits < 2)
+            //{
+            //    Projectile.ResetLocalNPCHitImmunity();
+            //    numHits++;
+            //}
+            //if (inSwing && SwingCompletion >= 1f && Owner.channel)
+            //{
+            //    timer = StartupTime;
+            //    swingTimer = 1;
+            //    Projectile.timeLeft = ExistsTime * 2;
+            //    Projectile.numHits = numHits = 0;
+            //    playedChargeSound = playedSwingSound = false;
+            //    Projectile.ResetLocalNPCHitImmunity();
+            //}
+            if (inCooldown && CooldownCompletion >= 1f && Owner.channel && !Owner.MogMod().mouseRight)
             {
-                Projectile.ResetLocalNPCHitImmunity();
-                numHits++;
-            }
-            if (inCooldown && CooldownCompletion >= 1f && Main.mouseLeft)
-            {
-                timer = swingTimer = 0;
+                //Spawn();
+                //mogPlayer.swingNum++;
+                timer = StartupTime;
+                swingTimer = 0;
                 Projectile.timeLeft = ExistsTime * 2;
                 Projectile.numHits = numHits = 0;
                 playedChargeSound = playedSwingSound = false;
@@ -185,22 +198,23 @@ namespace MogMod.Projectiles.Melee
         }
         public override float SwingFunction()
         {
-            if (channelingBurn)
+            if (channelingLaser)
             {
                 if (FlamewallPower >= 1f) return Main.rand.NextFloat(-0.025f, 0.025f);
                 else if (FlamewallPower >= MinCharge) return Main.rand.NextFloat(-0.01f, 0.01f);
 
                 return 0f;
             }
-            if (inStartup) return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * 0.45f, -swingWidth * 0.66f, MathF.Pow(StartupCompletion, 0.5f)));
-            if (inCooldown) return MathHelper.ToRadians(MathHelper.Lerp(swingWidth * 0.8f, swingWidth * 0.65f, 1 - MathF.Pow(1 - CooldownCompletion, 0.5f)));
-            return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * 0.66f, swingWidth * 0.8f, 1 - MathF.Pow(1 - SwingCompletion, 2f)));
+            if (inStartup) return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * 0.7f, -swingWidth * 0.4f, 1 - MathF.Pow(StartupCompletion, 0.5f)));
+            if (inCooldown) return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * 0.5f, (360 - swingWidth * 0.4f), MathF.Pow(CooldownCompletion, 0.5f)));
+            return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * .5f, (swingWidth * 0.5f), MathF.Pow(SwingCompletion, 0.5f)));
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             base.ModifyHitNPC(target, ref modifiers);
             modifiers.SourceDamage *= (FlamewallPower * Flamewall.DamageMult) + 0.5f;
             modifiers.Knockback += FlamewallPower;
+            modifiers.CritDamage *= (FlamewallPower * Flamewall.CritMult);
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -219,24 +233,29 @@ namespace MogMod.Projectiles.Melee
             }
             if (numHits < 3)
             {
-                if (Projectile.owner == Main.myPlayer) if (FlamewallPower > 0f) Owner.MogMod().flamewallPower -= 0.025f;
+                if (Projectile.owner == Main.myPlayer && numHits == 0) if (FlamewallPower < 1f) Owner.MogMod().flamewallPower += 0.05f;
                 if (FlamewallPower > 0)
                 {
                     SoundEngine.PlaySound(SoundID.DD2_GhastlyGlaivePierce with { Volume = FlamewallPower * 1.5f, PitchVariance = FlamewallPower * 0.25f, MaxInstances = 3 }, Projectile.Center);
                     SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact with { MaxInstances = 3 });
                     if (FlamewallPower > MinCharge * 0.5f)
                     {
-                        SoundEngine.PlaySound(SoundID.DD2_GhastlyGlaiveImpactGhost with { Volume = 1f, Pitch = -FlamewallPower * 0.1f, PitchVariance = 0.15f, MaxInstances = 3 }, Projectile.Center);
-                        SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact with { VariantsWeights = new ReadOnlySpan<float>(new float[] { 1, 0, 0 }) });
+                        SoundEngine.PlaySound(SoundID.DD2_GhastlyGlaiveImpactGhost with { Volume = FlamewallPower, Pitch = -FlamewallPower * 0.1f, PitchVariance = 0.15f, MaxInstances = 3 }, Projectile.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_FlameburstTowerShot with { VariantsWeights = new ReadOnlySpan<float>(new float[] { 1, 0, 0 }) });
+                        if (Projectile.owner == Main.myPlayer && numHits == 0)
+                        {
+                            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<FlamewallExplosion>(), (int)(Projectile.damage * 1.5f), Projectile.knockBack, Projectile.owner, ai2: Owner.MogMod().radiancePower);
+                        }
                     }
                     if (FlamewallPower >= MinCharge)
                     {
-                        SoundEngine.PlaySound(SoundID.DeerclopsRubbleAttack with { Volume = FlamewallPower * 0.75f, LimitsArePerVariant = false, MaxInstances = 1 });
-                        SoundEngine.PlaySound(SoundID.DD2_EtherianPortalDryadTouch with { Volume = 0.9f, Pitch = -FlamewallPower * 0.1f, PitchVariance = 0.15f, MaxInstances = 3 }, Projectile.Center);
-                        SoundEngine.PlaySound(SoundID.Item69 with { Volume = 1f, LimitsArePerVariant = false, MaxInstances = 1 });
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact with { Volume = FlamewallPower * 0.75f, LimitsArePerVariant = false, MaxInstances = 1 });
+                        SoundEngine.PlaySound(SoundID.DD2_BetsysWrathImpact with { Volume = FlamewallPower, LimitsArePerVariant = false, MaxInstances = 1 });
                     }
                 }
             }
+            numHits++;
             target.AddBuff(ModContent.BuffType<InfernoDebuff>(), time);
         }
         public override void OnKill(int timeLeft) => base.OnKill(timeLeft);
@@ -252,7 +271,7 @@ namespace MogMod.Projectiles.Melee
                 float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver4 : (MathHelper.TwoPi - MathHelper.PiOver4)) * (angle.X < 0 ? -1f : 1f);
                 Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 130f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
                 float fadeIn = Math.Min(1f, Math.Clamp(1f - (CooldownCompletion + 0.75f), 0f, 1f));
-                Main.EntitySpriteDraw(swoosh, spawnPos, null, Color.Lerp(WeakColor, StrongColor, FlamewallPower) with { A = 0 } * (SwingCompletion * (FlamewallPower * 0.75f)) * (SwingCompletion >= 0.25f ? fadeIn : 1f), rotation + rotationOffset, swoosh.Size() * 0.5f, Projectile.scale * 0.7f, SpriteEffects.None);
+                Main.EntitySpriteDraw(swoosh, spawnPos, null, Color.Lerp(WeakColor, StrongColor, FlamewallPower) with { A = 0 } * (SwingCompletion * (FlamewallPower * 0.7f)) * (SwingCompletion >= 0.25f ? fadeIn : 1f), rotation + rotationOffset, swoosh.Size() * 0.5f, Projectile.scale * 0.7f, SpriteEffects.None);
             }
             for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)
             {

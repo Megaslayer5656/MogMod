@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Melee
@@ -18,7 +19,8 @@ namespace MogMod.Items.Weapons.Melee
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public const int DamageMult = 4;
-        //public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DamageMult);
+        public const float CritMult = 2f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DamageMult, CritMult.ToPercent());
         public override int ProjectileType => ModContent.ProjectileType<FlamewallHoldout>();
         public static Color WeakColor => new(255, 191, 41);
         public static Color StrongColor => new(255, 64, 0);
@@ -29,7 +31,7 @@ namespace MogMod.Items.Weapons.Melee
 
             Item.damage = 1150;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = Item.useTime = 100;
+            Item.useAnimation = Item.useTime = 40;
             Item.knockBack = 15f;
             Item.channel = true;
             Item.autoReuse = true;
@@ -46,17 +48,17 @@ namespace MogMod.Items.Weapons.Melee
         public override bool AltFunctionUse(Player player) => true;
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            List<Color> colorList = new List<Color>()
-            {
-                new Color(214, 92, 92),
-                new Color(209, 146, 59),
-                new Color(217, 195, 74),
-            };
+            List<Color> colorList =
+            [
+                new(214, 92, 92),
+                new(209, 146, 59),
+                new(217, 195, 74),
+            ];
             int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % colorList.Count);
             Color currentColor = colorList[colorIndex];
             Color nextColor = colorList[(colorIndex + 1) % colorList.Count];
             Color tooltipColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
-            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip4");
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip5");
             if (line != null)
                 line.OverrideColor = Color.Lerp(tooltipColor, Color.White, 0.5f);
         }

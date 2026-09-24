@@ -366,10 +366,11 @@ Items: {
 				DisplayName: Flamewall
 				Tooltip:
 					'''
-					Rains down flaming meteors from the sky
-					Striking an enemy causes a fire tornado to appear
-					True melee critical strikes deal 50% extra damage
-					Inflicts [mogbuff:MogMod/InfernoDebuff] on hit
+					Swing an inferno greatsword that inflicts [mogbuff:MogMod/InfernoDebuff]
+					Right click before swinging to hold the weapon upwards, shooting [mogbuff:MogMod/InfernoDebuff] bolts that empower the greatsword
+					Damaging enemies with the [mogbuff:MogMod/BlazingDebuff] bolts empower the greatsword for up to {0}x damage
+					The greatsword loses power every time an enemy is struck
+					True melee critical strikes deal up to {1}% extra damage
 					'The ultimate endurance test.'
 					'''
 			}

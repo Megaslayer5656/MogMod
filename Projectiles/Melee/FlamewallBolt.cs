@@ -104,9 +104,9 @@ namespace MogMod.Projectiles.Melee
                 if (Projectile.owner == Main.myPlayer)
                 {
                     SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-                    if (Owner.MogMod().radiancePower < 1f)
-                        Owner.MogMod().radiancePower += 0.05f;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlamewallExplosion>(), (int)(Projectile.damage * 1.5f), Projectile.knockBack, Projectile.owner, ai2: Owner.MogMod().radiancePower);
+                    if (Owner.MogMod().flamewallPower < 1f)
+                        Owner.MogMod().flamewallPower += 0.05f;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlamewallExplosion>(), (int)(Projectile.damage * 1.5f), Projectile.knockBack, Projectile.owner, ai2: Owner.MogMod().flamewallPower);
                 }
             }
         }
