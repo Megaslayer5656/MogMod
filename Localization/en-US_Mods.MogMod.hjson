@@ -930,7 +930,7 @@ Items: {
 				DisplayName: Dagon
 				Tooltip:
 					'''
-					Charges up {0} volatile blazing bolts that explode into blazing orbs on hit
+					Charges up {0} volatile blazing bolts that explode into bouncing blazing orbs on hit
 					[c/C2563E:'A superior staff that brings volatile magic to the fingertips of the user.']
 					'''
 			}
@@ -939,7 +939,7 @@ Items: {
 				DisplayName: Dagon
 				Tooltip:
 					'''
-					Charges up {0} volatile infernal bolts that explode into infernal orbs on hit
+					Charges up {0} volatile infernal bolts that explode into bouncing infernal orbs on hit
 					[c/B83928:'A legendary staff that holds unimaginable power.']
 					'''
 			}

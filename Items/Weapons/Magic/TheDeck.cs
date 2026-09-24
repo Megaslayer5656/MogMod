@@ -63,6 +63,7 @@ namespace MogMod.Items.Weapons.Magic
             ModContent.GetInstance<HealCard>(),
             ModContent.GetInstance<BalrightHealCard>(),
             ModContent.GetInstance<SeethingSongCard>(),
+            ModContent.GetInstance<VolatileExplosionCard>(),
         ];
 
         public static List<DeckCard> currentCards = new List<DeckCard>();

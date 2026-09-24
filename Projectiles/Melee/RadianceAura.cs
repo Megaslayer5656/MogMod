@@ -45,8 +45,8 @@ namespace MogMod.Projectiles.Melee
             if (Projectile.owner == Main.myPlayer)
             {
                 Projectile.width = Projectile.height = (int)(218 * (Owner.MogMod().radiancePower + 1f));
-                //Projectile.Center = Owner.Center;
             }
+            else Projectile.Center = Owner.Center;
         }
         public override bool? CanDamage() => HitCooldown >= Projectile.localNPCHitCooldown;
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => modifiers.SourceDamage *= (Owner.MogMod().radiancePower) + 0.15f;

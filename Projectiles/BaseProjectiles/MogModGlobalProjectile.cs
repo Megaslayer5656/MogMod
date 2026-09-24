@@ -4,6 +4,7 @@ using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Common.Classes;
 using MogMod.Common.MogModPlayer;
+using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
 using MogMod.Items.Accessories.NeutralItems;
 using MogMod.Items.Accessories.NeutralItems.Aspects;
@@ -38,7 +39,6 @@ namespace MogMod.Projectiles.BaseProjectiles
 {
     public partial class MogModGlobalProjectile : GlobalProjectile
     {
-        private Random random = new Random();
         public NPC.HitInfo hitInfo;
         public bool CanSplit = true;
         public bool radiantProc = false;
@@ -477,6 +477,7 @@ namespace MogMod.Projectiles.BaseProjectiles
                     {
                         if (target.type != NPCID.TargetDummy)
                             player.HealLifestealMult(1);
+                        // this does not sync for some reason
                         if (Main.netMode == NetmodeID.Server)
                         {
                             ModPacket packet = Mod.GetPacket();
