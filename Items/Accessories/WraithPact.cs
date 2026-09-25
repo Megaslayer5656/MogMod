@@ -1,4 +1,6 @@
-﻿using MogMod.Buffs.AccessoryAuras;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MogMod.Buffs.AccessoryAuras;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
@@ -26,8 +28,7 @@ namespace MogMod.Items.Accessories
         public override void SetDefaults()
         {
             Item.accessory = true;
-            Item.width = 50;
-            Item.height = 36;
+            Item.width = Item.height = 28;
             Item.rare = ItemRarityID.Lime;
             Item.value = MogGlobalItem.RarityLimeBuyPrice;
         }
@@ -49,6 +50,10 @@ namespace MogMod.Items.Accessories
                     }
                 }
             }
+        }
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("MogMod/Items/Accessories/WraithPactGlow").Value);
         }
         public override void AddRecipes()
         {

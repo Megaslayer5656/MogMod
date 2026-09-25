@@ -1,4 +1,6 @@
-﻿using MogMod.Buffs.AccessoryAuras;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MogMod.Buffs.AccessoryAuras;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
@@ -25,8 +27,7 @@ namespace MogMod.Items.Accessories
         public override void SetDefaults()
         {
             Item.accessory = true;
-            Item.width = 50;
-            Item.height = 42;
+            Item.width = Item.height = 24;
             Item.rare = ItemRarityID.Orange;
             Item.value = MogGlobalItem.RarityOrangeBuyPrice;
         }
@@ -49,12 +50,15 @@ namespace MogMod.Items.Accessories
                 }
             }
         }
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("MogMod/Items/Accessories/VladmirsOfferingGlow").Value);
+        }
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient(ItemID.ManaRegenerationBand).
                 AddIngredient<BladesOfAttack>().
-                AddIngredient(ItemID.Silk, 12).
                 AddRecipeGroup("AnyScaleOrTissue", 7).
                 AddIngredient<ManaEssence>(3).
                 AddIngredient(ItemID.Skull).

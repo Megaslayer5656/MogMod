@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.Debuffs;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories.Boots;
@@ -77,6 +78,14 @@ namespace MogMod.Utilities
 
             string finalKey = mhk.TooltipHotkeyString();
             tooltips.FindAndReplace("[KEY2]", finalKey);
+        }
+        public static void DrawItemGlowmaskSingleFrame(this Item item, SpriteBatch spriteBatch, float rotation, Texture2D glowmaskTexture)
+        {
+            Vector2 origin = new(glowmaskTexture.Width / 2f, glowmaskTexture.Height / 2f);
+
+            Color color = Color.White;
+
+            spriteBatch.Draw(glowmaskTexture, item.Center - Main.screenPosition, null, color, rotation, origin, 1f, SpriteEffects.None, 0f);
         }
         public static bool InventoryHas(this Player player, params int[] items) => player.inventory.Any(item => items.Contains(item.type));
         public static bool PortableStorageHas(this Player player, params int[] items)
