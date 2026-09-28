@@ -115,7 +115,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         {
             if (Timer < MinCharge) return;
             Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/DagonTwoGhost").Value;
-            float outlineWidth = 4;
+            float outlineWidth = 2;
             for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)
             {
                 Main.spriteBatch.Draw(

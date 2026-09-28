@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MogMod.Utilities;
 using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
@@ -84,7 +82,7 @@ namespace MogMod.Projectiles.BaseProjectiles
             if (HoldoutHandling == HoldoutStyle.Rigid) Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(RotationOffset) * Projectile.spriteDirection; // more rigid and strict
             else if (HoldoutHandling == HoldoutStyle.Floaty) Projectile.rotation = Projectile.AngleTo(mousePos) + MathHelper.ToRadians(RotationOffset) * Projectile.spriteDirection; // more wobbly and bouncy
 
-            float extrarotate = Owner.gravDir < 0 ? MathHelper.Pi : 0;
+            float extrarotate = 0;// Owner.gravDir < 0 ? MathHelper.Pi : 0;
             float itemrotate = Projectile.direction < 0 ? MathHelper.Pi : 0;
             Owner.itemRotation = Projectile.velocity.ToRotation() + itemrotate;
             Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
@@ -125,11 +123,29 @@ namespace MogMod.Projectiles.BaseProjectiles
             PreDrawBehind(ref lightColor);
 
             Texture2D texture = TextureAssets.Projectile[Type].Value;
-            Vector2 drawPos = Projectile.Center - Main.screenPosition;
-            int direction = Main.player[Projectile.owner].direction;
-            Vector2 origin = texture.Size() * 0.5f;
-            SpriteEffects flip = direction == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically;
-            Main.EntitySpriteDraw(texture, drawPos, null, lightColor, Projectile.rotation, origin, Projectile.scale, flip);
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Vector2 rotationPoint = texture.Size() * 0.5f;
+            float drawRotation = Projectile.rotation;
+
+            SpriteEffects flip = SpriteEffects.None;
+
+            if (Owner.gravDir == 1f)
+            {
+                if (Projectile.spriteDirection == -1) flip = SpriteEffects.FlipVertically;
+            }
+            else
+            {
+                rotationPoint.Y = texture.Height - rotationPoint.Y;
+
+                if (Projectile.spriteDirection == 1)
+                {
+                    flip = SpriteEffects.None;
+
+                }
+                else flip = SpriteEffects.FlipVertically;
+            }
+
+            Main.EntitySpriteDraw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), drawRotation, rotationPoint, Projectile.scale, flip, 0);
             return false;
         }
         #endregion

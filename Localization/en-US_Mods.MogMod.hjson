@@ -497,8 +497,9 @@ Items: {
 				DisplayName: Mosin
 				Tooltip:
 					'''
-					A strong rifle with heavy recoil that must reload after {0} shots
+					A bolt action rifle with heavy recoil that must reload after {0} shots
 					Converts musket balls into high damage, piercing LPS ammo
+					Hold [KEY] to reload
 					[c/FFC896:'The great equalizer']
 					'''
 			}
@@ -541,6 +542,7 @@ Items: {
 					'''
 					A powerful sniper rifle with extraordinary recoil that must reload after {0} shots
 					Converts musket balls into piercing AP Lapua rounds that build up bleed damage
+					Press [KEY] to reload
 					Right click to scope in
 					[c/1E6329:'Time for some area brainrot.']
 					'''
@@ -827,6 +829,17 @@ Items: {
 					The supernova will explode on death when fully charged
 					Only one supernova may exist at a time
 					{0}% chance to save ammo
+					'''
+			}
+
+			SuperLongBarrelledShotgun: {
+				DisplayName: Super Long Barrelled Shotgun
+				Tooltip:
+					'''
+					A double barrelled shotgun with heavy recoil that must reload after {0} shots
+					Right click to fire both barrels at once with greater spread
+					Hold [KEY] to reload
+					[c/F7B57E:'Not recommended for close quarters combat']
 					'''
 			}
 		}

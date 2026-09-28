@@ -169,7 +169,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             {
                 Texture2D swoosh = ModContent.Request<Texture2D>("MogMod/Assets/Textures/VerticalSmearLarge").Value;
                 float rotation = Projectile.rotation - 0.7f * -Projectile.spriteDirection;
-                float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver4 : (MathHelper.TwoPi - MathHelper.PiOver4)) * (angle.X < 0 ? -1f : 1f);
+                float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver4 : (MathHelper.TwoPi - MathHelper.PiOver4)) * ((angle.X < 0 ? -1f : 1f) * Owner.gravDir);
                 Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 60f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
                 float fadeIn = Math.Min(1f, Math.Clamp(1f - (CooldownCompletion + 0.5f), 0f, 1f));
                 Main.EntitySpriteDraw(swoosh, spawnPos, null, Color1 with { A = 0 } * (SwingCompletion * 0.75f) * (SwingCompletion >= 0.65f ? fadeIn : 1f), rotation + rotationOffset, swoosh.Size() * 0.5f, Projectile.scale * 0.5f, SpriteEffects.None);

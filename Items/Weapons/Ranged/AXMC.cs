@@ -1,12 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Common.Config;
-using MogMod.Common.MogModPlayer;
+using MogMod.Common.Systems;
 using MogMod.Items.Global;
 using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Utilities;
 using System;
+using System.Collections.Generic;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
@@ -18,8 +17,9 @@ namespace MogMod.Items.Weapons.Ranged
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public const int maxShots = 5;
-        public const int reloadTime = 240;
+        public const int reloadTime = 160;
         public const int BloodDamage = 200;
+        ModKeybind keybindActive = null;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(maxShots);
         public override void SetDefaults()
         {
@@ -50,8 +50,8 @@ namespace MogMod.Items.Weapons.Ranged
             MogGlobalItem mogItem = Item.MogMod();
             mogItem.visualBloodDamage = BloodDamage;
         }
-        public override bool RangedPrefix() => true;
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => false;
+        public override bool RangedPrefix() => true; /*
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Projectile holdout = Projectile.NewProjectileDirect(source, position, velocity, Item.shoot, damage, knockback, player.whoAmI);
@@ -63,7 +63,7 @@ namespace MogMod.Items.Weapons.Ranged
             Vector2 muzzleOffset = Vector2.Normalize(velocity) * 25f;
             if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) position += muzzleOffset;
         }
-        public override Vector2? HoldoutOffset() => new Vector2(23.5f, 0.2f);
+        public override Vector2? HoldoutOffset() => new Vector2(23.5f, 0.2f); */
         public override bool AltFunctionUse(Player player)
         {
             if (player.altFunctionUse == 2)
@@ -73,6 +73,7 @@ namespace MogMod.Items.Weapons.Ranged
             }
             return base.AltFunctionUse(player);
         }
+        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(KeybindSystem.FirstWeaponKeybind);
         public override void AddRecipes()
         {
             CreateRecipe().

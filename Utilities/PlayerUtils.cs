@@ -6,6 +6,7 @@ using MogMod.Items.Accessories.NeutralItems.Aspects;
 using MogMod.Items.Armor.Radiant;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.GameContent.Animations.IL_Actions.Sprites;

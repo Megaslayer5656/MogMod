@@ -5,8 +5,11 @@ using MogMod.Common.Graphics;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
+using Mono.Cecil;
 using ReLogic.Content;
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -34,8 +37,8 @@ namespace MogMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.DrawScreenCheckFluff[Type] = 5000;
-            //ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
-            //ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
         public override void SetDefaults()
         {
@@ -61,13 +64,22 @@ namespace MogMod.Projectiles.Melee
         }
         public override void UpdateLaserMotion()
         {
-            Vector2 aimVector = (Owner.MogMod().mouseWorld - Holdout.Center).SafeNormalize(Vector2.UnitX);
+            /*
+            Vector2 aimVector = (Owner.MogMod().mouseWorld - Projectile.Center).SafeNormalize(Vector2.UnitX);
             aimVector = Vector2.Normalize(Vector2.Lerp(aimVector, Vector2.Normalize(Projectile.velocity), 0.94f));
 
             if (aimVector != Projectile.velocity) Projectile.netUpdate = true;
             Projectile.velocity = aimVector;
-            //Projectile.rotation = Projectile.velocity.ToRotation();
             //Projectile.velocity += (Owner.MogMod().mouseWorld - Projectile.Center).SafeNormalize(Vector2.UnitX);
+            //Projectile.rotation = Projectile.velocity.ToRotation();
+            */
+
+            Vector2 aimVector = Vector2.Normalize(Owner.MogMod().mouseWorld - Projectile.Center);
+            if (aimVector.HasNaNs()) aimVector = -Vector2.UnitY;
+            aimVector = Vector2.Normalize(Vector2.Lerp(aimVector, Vector2.Normalize(Projectile.velocity), 0.94f));
+
+            if (aimVector != Projectile.velocity) Projectile.netUpdate = true;
+            Projectile.velocity = aimVector;
         }
         public override void DetermineScale()
         {
@@ -76,17 +88,16 @@ namespace MogMod.Projectiles.Melee
         }
         public override void ExtraBehavior()
         {
-            Projectile.rotation = Projectile.velocity.ToRotation();
-            Main.NewText(Projectile.velocity);
+            Projectile.rotation = -Projectile.velocity.ToRotation();
             Owner.SetScreenshake(3f);
-            if (Owner.channel)
+            if (Owner.channel && Time >= 30f)
             {
                 Projectile.timeLeft++;
                 Time--;
             }
             if (HitSoundCooldown > 0) HitSoundCooldown--;
         }
-        public override bool ShouldUpdatePosition() => false;
+        //public override bool ShouldUpdatePosition() => false;
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<InfernoDebuff>(), 300);
@@ -104,16 +115,22 @@ namespace MogMod.Projectiles.Melee
             // Draw the actual lase
             Vector2 laserEnd = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.UnitY) * LaserLength;
             //Main.NewText($"{laserEnd}");
-            Vector2[] drawPoints = new Vector2[10];
+            int length = 10;
+            Vector2[] drawPoints = new Vector2[length];
+            float[] rotPoints = new float[length];
             TrailDrawer trailDrawer = default;
             Color innerDrawColor = Projectile.GetAlpha(LaserOverlayColor);
             Color outerDrawColor = Projectile.GetAlpha(StrongColor);
-            for (int i = 0; i < drawPoints.Length; i++)
+            for (int i = 0; i < length; i++)
             {
                 drawPoints[i] = Vector2.Lerp(Projectile.Center, laserEnd, i / (float)(drawPoints.Length - 1f));
-                trailDrawer.Draw(Projectile, "MogMod:FlameLashRGB", outerDrawColor, innerDrawColor, 1.1f, 30f, 44f, drawPoints);
+                //rotPoints[i] = MiscUtils.WrapAngle90Degrees(-Projectile.velocity.ToRotation());
+                rotPoints[i] = Math.Abs(MathHelper.WrapAngle(Projectile.oldRot[i]));
+                //Main.NewText($"{rotPoints[i]}");
+                trailDrawer.Draw(Projectile, "MogMod:FlameLashRGB", outerDrawColor, innerDrawColor, 1.1f, 30f, 44f, drawPoints, rotPoints);
             }
-            return base.PreDraw(ref lightColor);
+            return false;
+            //return base.PreDraw(ref lightColor);
         }
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {

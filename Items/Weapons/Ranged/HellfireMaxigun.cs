@@ -58,6 +58,7 @@ namespace MogMod.Items.Weapons.Ranged
         }
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
         public override bool RangedPrefix() => true;
+        public override bool CanConsumeAmmo(Item ammo, Player player) => player.ownedProjectileCounts[Item.shoot] > 0;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Projectile holdout = Projectile.NewProjectileDirect(source, position, velocity, Item.shoot, damage, knockback, player.whoAmI);

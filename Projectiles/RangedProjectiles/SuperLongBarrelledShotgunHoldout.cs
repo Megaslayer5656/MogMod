@@ -13,21 +13,20 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
-    public class AXMCHoldout : BaseGunHoldoutProjectile
+    // projectile lifetime code lifted from calamity mod starfleet
+    public class SuperLongBarrelledShotgunHoldout : BaseGunHoldoutProjectile
     {
-        public override int AssociatedItemID => ModContent.ItemType<AXMC>();
-        public static readonly SoundStyle UseSound = new($"{nameof(MogMod)}/Sounds/SE/AXMCShot") { Volume = 2.25f, PitchVariance = .02f };
-        public override float MaxOffsetLengthFromArm => 53f;
-        public override float OffsetXUpwards => 0f;
-        public override float BaseOffsetY => -8f;
-        public override float OffsetYDownwards => 16f;
+        public override int AssociatedItemID => ModContent.ItemType<SuperLongBarrelledShotgun>();
+        public override float MaxOffsetLengthFromArm => 69f;
+        public override float BaseOffsetY => -3f;
+        public override float OffsetYDownwards => 4f;
         public ref float ShootTimer => ref Projectile.ai[0];
         public ref float ReloadTimer => ref Projectile.ai[1];
         public ref float LastUseTime => ref Projectile.ai[2];
         public int Cap = 10;
-        public int shootTime = AXMC.reloadTime;
+        public int shootTime = SuperLongBarrelledShotgun.reloadTime;
         public int attackTime = 0;
-        public int maxShots = AXMC.maxShots;
+        public int maxShots = SuperLongBarrelledShotgun.maxShots;
         public override Vector2 GunTipPosition => Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.5f;
         public override void KillHoldoutLogic() { }
         public override void SendExtraAIHoldout(BinaryWriter writer)
@@ -52,36 +51,34 @@ namespace MogMod.Projectiles.RangedProjectiles
             if (LastUseTime == 0 || doingNothing) LastUseTime = Owner.HeldItem.useAnimation;
             if (!doingNothing) Owner.itemTime = Owner.itemAnimation = 5;
 
-            if ((Owner.HeldItem.type != ModContent.ItemType<AXMC>() && doingNothing) || (doingNothing && (Main.mapFullscreen || Owner.mouseInterface)) || Owner.dead)
+            if ((Owner.HeldItem.type != ModContent.ItemType<SuperLongBarrelledShotgun>() && doingNothing) || (doingNothing && (Main.mapFullscreen || Owner.mouseInterface)) || Owner.dead)
             {
                 Projectile.Kill();
                 return;
             }
 
             bool hasAmmo = Owner.PickAmmo(HeldItem, out _, out _, out _, out _, out _, true);
-            bool leftShootChecks = Owner.whoAmI == Main.myPlayer && (Main.mouseLeft && Main.mouseLeftRelease && !Main.mapFullscreen && !Owner.mouseInterface && ShootTimer <= 0 && ReloadTimer <= 0) && hasAmmo;
+            bool leftShootChecks = Owner.whoAmI == Main.myPlayer && (Main.mouseLeft && Main.mouseLeftRelease && !Main.mapFullscreen && !Owner.mouseInterface && ReloadTimer <= 0) && hasAmmo;
+            bool rightShootChecks = Owner.whoAmI == Main.myPlayer && (Owner.MogMod().mouseRight && Main.mouseRightRelease && !Main.mapFullscreen && !Owner.mouseInterface && ReloadTimer <= 0) && hasAmmo;
 
             // if we ran out of ammo, reload
-            if (mogPlayer.axmcShots != maxShots && KeybindSystem.FirstWeaponKeybind.JustPressed && hasAmmo || ReloadTimer != 0)
+            if (mogPlayer.longBarrelShotgunShots != maxShots && KeybindSystem.FirstWeaponKeybind.Current && hasAmmo || ReloadTimer != 0)
             {
+                ShootTimer = attackTime / maxShots;
                 ReloadTimer++;
-                if (ReloadTimer == 2 || ReloadTimer == attackTime / 2)
+                if (ReloadTimer == 2)
                 {
-                    if (ReloadTimer == 2)
-                    {
-
-                        if (MogClientConfig.Instance.AmmoEjection && Main.netMode != NetmodeID.Server)
-                        {
-                            string goreType = "AXMCMag";
-                            Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, shootVelocity.RotatedBy(2f * -Owner.direction) * Main.rand.NextFloat(0.6f, 0.7f), Mod.Find<ModGore>(goreType).Type);
-                        }
-                        Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int bulletDamage, out float knockback, out _);
-                    }
+                    Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int bulletDamage, out float knockback, out _);
                     SoundEngine.PlaySound(SoundID.Item149 with { Pitch = -0.2f }, Owner.Center);
                     SoundEngine.PlaySound(SoundID.Item108 with { Pitch = -0.3f }, Owner.Center);
-                    if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= ReloadTimer == 2 ? 4f : 2f;
+                    if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= 5f;
                 }
-                if (ReloadTimer >= attackTime)
+                if (ReloadTimer == (attackTime / maxShots))
+                {
+                    if (mogPlayer.longBarrelShotgunShots < maxShots) mogPlayer.longBarrelShotgunShots++;
+                    ReloadTimer = 0;
+                }
+                if (mogPlayer.longBarrelShotgunShots == maxShots)
                 {
                     SoundEngine.PlaySound(SoundID.ResearchComplete with { Volume = 0.35f, Pitch = -0.3f }, Owner.Center);
 
@@ -90,32 +87,41 @@ namespace MogMod.Projectiles.RangedProjectiles
                     for (int i = 0; i < totalDusts; i++)
                     {
                         Dust chargefull = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB);
-                        Vector2 vel = (MathHelper.TwoPi * i / totalDusts).ToRotationVector2().RotatedBy(starAngle) * 2f;
+                        Vector2 vel = (MathHelper.TwoPi * i / totalDusts).ToRotationVector2().RotatedBy(starAngle) * 3f;
                         Dust dust2 = Dust.NewDustPerfect(GunTipPosition, DustID.FireworksRGB, vel, 80, Color.SandyBrown, 1.2f);
                         dust2.noGravity = true;
                     }
-
-                    mogPlayer.axmcShots = maxShots;
-                    ReloadTimer = 0;
                 }
             }
             else
             {
-                if (leftShootChecks) Shoot(shootVelocity);
+                if (rightShootChecks) Shoot(shootVelocity, true);
+                else if (leftShootChecks) Shoot(shootVelocity, false);
             }
             if (ShootTimer > 0) ShootTimer--;
         }
-        public void Shoot(Vector2 shootVelocity)
+        public void Shoot(Vector2 shootVelocity, bool rightClicked)
         {
             MogPlayer mogPlayer = Owner.MogMod();
-            if (mogPlayer.axmcShots <= 0)
+            if (mogPlayer.longBarrelShotgunShots <= 0)
             {
                 SoundEngine.PlaySound(SoundID.Item17 with { PitchVariance = 0.2f }, Owner.Center);
                 if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= 2f;
                 return;
             }
-
-            SoundEngine.PlaySound(UseSound, Owner.Center);
+            if (rightClicked)
+            {
+                while (mogPlayer.longBarrelShotgunShots > 0)
+                {
+                    ShootBullets(shootVelocity, 0.8f);
+                }
+            }
+            else ShootBullets(shootVelocity);
+        }
+        public void ShootBullets(Vector2 shootVelocity, float spread = 0.15f)
+        {
+            MogPlayer mogPlayer = Owner.MogMod();
+            SoundEngine.PlaySound(SoundID.Item38, Owner.Center);
             Dust dust = Dust.NewDustPerfect(GunTipPosition, Main.rand.NextBool(3) ? DustID.FireworksRGB : 303, Vector2.Zero, 100, Color.BlanchedAlmond, Main.rand.NextFloat(0.8f, 1.2f));
             for (int i = 0; i <= 12; i++)
             {
@@ -123,31 +129,29 @@ namespace MogMod.Projectiles.RangedProjectiles
                 dust2.noGravity = true;
                 dust2.scale = Main.rand.NextFloat(0.8f, 1.4f);
             }
-            if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= 30f; // visual recoil effect
+            if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= 35f; // visual recoil effect
             Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int bulletDamage, out float knockback, out _, true);
             if (Main.myPlayer == Projectile.owner)
             {
                 // reduce ammo by 1
-                if (mogPlayer.axmcShots > 0) mogPlayer.axmcShots--;
+                if (mogPlayer.longBarrelShotgunShots > 0) mogPlayer.longBarrelShotgunShots--;
                 var source = Projectile.GetSource_FromThis();
                 int type = ammo;
-                if (ammo == ProjectileID.Bullet)
+
+                Owner.velocity += shootVelocity.SafeNormalize(Vector2.UnitX) * -8f;
+
+                int bulletAmt = 4;
+                for (int index = 0; index < bulletAmt; ++index)
                 {
-                    type = ModContent.ProjectileType<APLapuaProj>();
-                    bulletDamage = (int)(bulletDamage * 2f);
-                    knockback *= 2f;
+                    Projectile.NewProjectile(source, GunTipPosition, shootVelocity.RotatedByRandom(spread), type, bulletDamage, knockback, Projectile.owner);
                 }
-                Owner.velocity += shootVelocity.SafeNormalize(Vector2.UnitX) * (Main.zenithWorld ? -100f : -18f);
-                Vector2 shootPos = Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.25f;
-                Projectile.NewProjectile(source, shootPos, shootVelocity, type, bulletDamage, knockback, Projectile.owner);
                 if (MogClientConfig.Instance.AmmoEjection && Main.netMode != NetmodeID.Server)
                 {
-                    string goreType = "AXMCCasing";
-                    Vector2 spawnOffset = new(0, -11f);
-                    Vector2 spawnPosition = Projectile.Center + (-Projectile.velocity * 5) + spawnOffset;
-                    Gore.NewGore(Projectile.GetSource_FromAI(), spawnPosition, -shootVelocity * 4f, Mod.Find<ModGore>(goreType).Type);
+                    string goreType = "RigGunCasing";
+                    Vector2 spawnOffset = new(0, -41f);
+                    Vector2 spawnPosition = Projectile.Center + (-Projectile.velocity * 4f) + spawnOffset;
+                    Gore.NewGore(Projectile.GetSource_FromAI(), spawnPosition, -shootVelocity.RotatedByRandom(spread), Mod.Find<ModGore>(goreType).Type);
                 }
-                ShootTimer = attackTime / 3;
             }
         }
     }

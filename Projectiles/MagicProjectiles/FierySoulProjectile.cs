@@ -35,7 +35,6 @@ namespace MogMod.Projectiles.MagicProjectiles
         }
         public override void AI()
         {
-            Main.NewText(Projectile.velocity);
             if (Projectile.alpha > 0 && !hitEnemy)
             {
                 Projectile.alpha -= 25;

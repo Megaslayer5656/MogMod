@@ -37,7 +37,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.damage = 97;
             Item.crit = 23;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = Item.useTime = 40;
+            Item.useAnimation = Item.useTime = 47;
             Item.knockBack = 10f;
             Item.autoReuse = true;
 

@@ -147,13 +147,14 @@ namespace MogMod.NPCs.TownNpc
         {
             NPCShop shop = new(Type);
             shop.AddWithCustomValue<Mosin>(Item.buyPrice(gold: 30))
+                .AddWithCustomValue<SuperLongBarrelledShotgun>(Item.buyPrice(gold: 35), Condition.DownedSkeletron)
+                .AddWithCustomValue<Switch>(Item.buyPrice(platinum: 1, gold: 50), Condition.DownedMoonLord) // change to post von
                 //.Add<MosinLPS>()
                 .AddWithCustomValue(ItemID.SilverBullet, Item.buyPrice(copper: 18))
                 .AddWithCustomValue(ItemID.TungstenBullet, Item.buyPrice(copper: 22))
+                .Add(ModContent.ItemType<GreenTracerAmmo>(), Condition.DownedEowOrBoc)
                 .Add<Salewa>()
                 .AddWithCustomValue<IdeaRig>(Item.buyPrice(gold: 7, silver: 50))
-                //.Add((ModContent.ItemType<Switch>()), Condition.DownedGolem) // post von
-                .Add(ModContent.ItemType<GreenTracerAmmo>(), Condition.DownedEowOrBoc)
                 .Register();
         }
         public override string GetChat()

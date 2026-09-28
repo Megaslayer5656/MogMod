@@ -31,6 +31,7 @@ using MogMod.Projectiles.EnemyProjectiles;
 using MogMod.Projectiles.MagicProjectiles;
 using MogMod.Projectiles.Melee;
 using MogMod.Projectiles.Pets;
+using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Projectiles.Summon;
 using MogMod.Utilities;
 using MogMod.World;
@@ -334,6 +335,7 @@ namespace MogMod.Common.MogModPlayer
 
         public int mosinShots = 0;
         public int axmcShots = 0;
+        public int longBarrelShotgunShots = 0;
 
         public bool pikeEmpowered = false;
 
@@ -1551,6 +1553,25 @@ namespace MogMod.Common.MogModPlayer
                         syncMouseRotation = false;
                         MouseRotationSync();
                     }
+                }
+            }
+
+            if (Player.whoAmI == Main.myPlayer && !Player.dead && !Main.mapFullscreen && !Player.mouseInterface)
+            {
+                if (Player.HeldItem.type == ModContent.ItemType<SuperLongBarrelledShotgun>() && (Player.ownedProjectileCounts[ModContent.ProjectileType<SuperLongBarrelledShotgunHoldout>()] == 0))
+                {
+                    int damage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(Player.HeldItem.damage);
+                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), ModContent.ProjectileType<SuperLongBarrelledShotgunHoldout>(), damage, Player.HeldItem.knockBack, Player.whoAmI);
+                }
+                if (Player.HeldItem.type == ModContent.ItemType<Mosin>() && (Player.ownedProjectileCounts[ModContent.ProjectileType<MosinHoldout>()] == 0))
+                {
+                    int damage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(Player.HeldItem.damage);
+                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), ModContent.ProjectileType<MosinHoldout>(), damage, Player.HeldItem.knockBack, Player.whoAmI);
+                }
+                if (Player.HeldItem.type == ModContent.ItemType<AXMC>() && (Player.ownedProjectileCounts[ModContent.ProjectileType<AXMCHoldout>()] == 0))
+                {
+                    int damage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(Player.HeldItem.damage);
+                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), ModContent.ProjectileType<AXMCHoldout>(), damage, Player.HeldItem.knockBack, Player.whoAmI);
                 }
             }
         }

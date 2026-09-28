@@ -6,6 +6,7 @@ using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -169,7 +170,16 @@ namespace MogMod.Projectiles.Classless
         }
         public override bool PreDraw(ref Color lightColor)
         {
+            Texture2D texture = TextureAssets.Projectile[Type].Value;
+            Vector2 rotationPoint = texture.Size() * 0.5f;
+
+            SpriteEffects flip = SpriteEffects.None;
+
             var ghost = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/DragonLanceGhost").Value;
+
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Vector2 ghostRotationPoint = ghost.Size() * 0.5f;
+            float drawRotation = Projectile.rotation;
 
             float value = ChargeTimer > 0 ? ChargeTimer / MaxCharge : MathHelper.Min(timer, StartupTime) / StartupTime;
             float intensity = 0;
@@ -177,11 +187,26 @@ namespace MogMod.Projectiles.Classless
             if (SwingCompletion < 1 || ChargeTimer >= MaxCharge - EmpowerFrames) intensity = MathF.Pow(Math.Clamp(value, 0, 1), 2);
             color = (ChargeTimer > 0 || WasEmpowered) ? Color2 : Color1;
 
+            if (Owner.gravDir == 1f) 
+            {
+                if (Projectile.spriteDirection == -1) flip = SpriteEffects.FlipHorizontally;
+            }
+            else
+            {
+                rotationPoint.Y = texture.Height - rotationPoint.Y;
+                ghostRotationPoint.Y = ghost.Height - ghostRotationPoint.Y;
+
+                if (Projectile.spriteDirection == 1) drawRotation += MathHelper.Pi;
+                else flip = SpriteEffects.FlipVertically;
+            }
+
             if (intensity > 0) for (float i = 0; i < MathHelper.TwoPi; i += MathHelper.PiOver2)
             {
-                Main.EntitySpriteDraw(ghost, Projectile.Center - Main.screenPosition + new Vector2(2 * intensity, 0).RotatedBy(i), null, color, Projectile.rotation, ghost.Size() * 0.5f, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : 0);
+                Main.EntitySpriteDraw(ghost, Projectile.Center - Main.screenPosition + new Vector2(2 * intensity, 0).RotatedBy(i), null, color, drawRotation, ghostRotationPoint, Projectile.scale, flip);
             }
-            return base.PreDraw(ref lightColor);
+
+            Main.EntitySpriteDraw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), drawRotation, rotationPoint, Projectile.scale, flip, 0);
+            return false;
         }
     }
 }

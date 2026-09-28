@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.GameContent.Prefixes;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -484,7 +485,15 @@ namespace MogMod.Projectiles.BaseProjectiles
                 }
             }
             if (ProjectilePosition == Vector2.Zero) Main.player[Projectile.owner].heldProj = Projectile.whoAmI;
-            return true;
+
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Vector2 rotationPoint = texture.Size() * 0.5f;
+            float drawRotation = Projectile.rotation;
+            //SpriteEffects flip = player.gravDir == -1 ? Projectile.spriteDirection == 1 ? SpriteEffects.FlipVertically : SpriteEffects.FlipHorizontally : Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            SpriteEffects flip = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
+            Main.EntitySpriteDraw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), drawRotation, rotationPoint, Projectile.scale, flip, 0);
+            return false;
         }
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {

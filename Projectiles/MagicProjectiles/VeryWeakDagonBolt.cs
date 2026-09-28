@@ -23,6 +23,11 @@ namespace MogMod.Projectiles.MagicProjectiles
         }
         public override void AI()
         {
+            if (Projectile.wet && !Projectile.lavaWet)
+            {
+                Projectile.Kill();
+                return;
+            }
             Projectile.rotation = Projectile.velocity.ToRotation();
             Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             for (int i = 0; i < 4; i++)
@@ -39,20 +44,33 @@ namespace MogMod.Projectiles.MagicProjectiles
         public override void OnKill(int timeLeft)
         {
             Projectile.velocity = Vector2.Zero;
-            SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 30; i++)
             {
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, 0f, 0f, 100, default, 1f);
-                Main.dust[dust].noGravity = true;
-                Main.dust[dust].velocity *= 1.2f;
-                Main.dust[dust].velocity -= Projectile.oldVelocity * 0.3f;
-
-                int dust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Flare, 0f, 0f, 100, Colour, 1f);
-                Dust dust3 = Main.dust[dust2];
-                dust3.noGravity = true;
-                dust3.velocity *= 1.2f;
-                dust3.velocity -= Projectile.oldVelocity * 0.3f;
+                Vector2 velocity = Projectile.velocity.SafeNormalize(Vector2.Zero);
+                int fireDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, Main.rand.NextBool(3) ? DustID.Flare : DustID.Torch, velocity.X, velocity.Y, 100, Colour, 1.2f);
+                Main.dust[fireDust].noGravity = Main.rand.Next(5) != 0;
+                Dust dust2 = Main.dust[fireDust];
+                dust2.scale *= 1f + Main.rand.NextFloat();
+                dust2 = Main.dust[fireDust];
+                dust2.velocity *= 4.2f;
+                if (!Main.dust[fireDust].noGravity)
+                {
+                    dust2 = Main.dust[fireDust];
+                    dust2.scale *= 0.6f;
+                    Main.dust[fireDust].fadeIn = 0f;
+                    Main.dust[fireDust].noLight = true;
+                }
+                dust2 = Main.dust[fireDust];
+                dust2.velocity *= Main.rand.NextFloat();
             }
+            Projectile.Resize(160, 160);
+            Projectile.damage = (int)(Projectile.damage * 0.5f);
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.knockBack *= 0.35f;
+            Projectile.Damage();
+            Projectile.Resize(22, 22);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
         }
     }
 }

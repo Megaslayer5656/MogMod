@@ -49,6 +49,7 @@ namespace MogMod.Items.Weapons.Ranged
         public override bool RangedPrefix() => true;
         public override bool AltFunctionUse(Player player) => true;
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.altFunctionUse != 2;
+        public override bool CanConsumeAmmo(Item ammo, Player player) => player.ownedProjectileCounts[Item.shoot] > 0;
         public override void HoldItem(Player player)
         {
             if (Main.myPlayer == player.whoAmI) player.MogMod().rightClickListener = true;

@@ -64,7 +64,7 @@ namespace MogMod.Projectiles.Melee
                 //Owner.MogMod().flamewallPower = 1f;
                 AfterImageLength = 0;
                 DustTimer++;
-                angle = new Vector2((Owner.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX).X > 0 ? 0.000001f : -0.000001f, MathHelper.Lerp(1f, 1.15f, FlamewallPower));
+                angle = new Vector2((Owner.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX).X > 0 ? 0.000001f : -0.000001f, MathHelper.Lerp(1f, 1.15f, FlamewallPower) * Owner.gravDir);
                 if (Main.mouseLeft && timer == StartupTime - 1f)
                 {
                     timer--;
@@ -268,7 +268,7 @@ namespace MogMod.Projectiles.Melee
                 outlineWidth *= 1 - SwingCompletion;
                 Texture2D swoosh = ModContent.Request<Texture2D>("MogMod/Assets/Textures/VerticalSmearLarge").Value;
                 float rotation = Projectile.rotation - 0.7f * -Projectile.spriteDirection;
-                float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver4 : (MathHelper.TwoPi - MathHelper.PiOver4)) * (angle.X < 0 ? -1f : 1f);
+                float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver4 : (MathHelper.TwoPi - MathHelper.PiOver4)) * ((angle.X < 0 ? -1f : 1f) * Owner.gravDir);
                 Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 130f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
                 float fadeIn = Math.Min(1f, Math.Clamp(1f - (CooldownCompletion + 0.75f), 0f, 1f));
                 Main.EntitySpriteDraw(swoosh, spawnPos, null, Color.Lerp(WeakColor, StrongColor, FlamewallPower) with { A = 0 } * (SwingCompletion * (FlamewallPower * 0.7f)) * (SwingCompletion >= 0.25f ? fadeIn : 1f), rotation + rotationOffset, swoosh.Size() * 0.5f, Projectile.scale * 0.7f, SpriteEffects.None);

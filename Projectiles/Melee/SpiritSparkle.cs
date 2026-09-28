@@ -172,11 +172,16 @@ namespace MogMod.Projectiles.Melee
 				    Projectile.owner);
             }
 
-			// You could also spawn dusts at the enemy position. Here is simple an example:
-			// Dust.NewDust(Main.rand.NextVector2FromRectangle(target.Hitbox), 0, 0, ModContent.DustType<Content.Dusts.Sparkle>());
+            float randDirX = Main.rand.Next(-5, 6);
+            float randDirY = Main.rand.Next(-5, 6);
+            Vector2 velocity = new(randDirX * 5, randDirY * 5);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<SpiritSwordProj>(), (int)(Projectile.damage * 0.5f), 1f, Projectile.owner);
 
-			// Set the target's hit direction to away from the player so the knockback is in the correct direction.
-			hit.HitDirection = (Main.player[Projectile.owner].Center.X < target.Center.X) ? 1 : (-1);
+            // You could also spawn dusts at the enemy position. Here is simple an example:
+            // Dust.NewDust(Main.rand.NextVector2FromRectangle(target.Hitbox), 0, 0, ModContent.DustType<Content.Dusts.Sparkle>());
+
+            // Set the target's hit direction to away from the player so the knockback is in the correct direction.
+            hit.HitDirection = (Main.player[Projectile.owner].Center.X < target.Center.X) ? 1 : (-1);
 		}
 		public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
@@ -187,7 +192,12 @@ namespace MogMod.Projectiles.Melee
 				    Projectile.owner);
             }
 
-			info.HitDirection = (Main.player[Projectile.owner].Center.X < target.Center.X) ? 1 : (-1);
+            float randDirX = Main.rand.Next(-5, 6);
+            float randDirY = Main.rand.Next(-5, 6);
+            Vector2 velocity = new(randDirX * 5, randDirY * 5);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<SpiritSwordProj>(), (int)(Projectile.damage * 0.5f), 1f, Projectile.owner);
+
+            info.HitDirection = (Main.player[Projectile.owner].Center.X < target.Center.X) ? 1 : (-1);
 		}
         // Taken from Main.DrawProj_Excalibur()
         // Look at the source code for the other sword types.

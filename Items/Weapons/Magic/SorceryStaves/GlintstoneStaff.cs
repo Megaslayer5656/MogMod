@@ -2,7 +2,6 @@
 using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Magic.SorceryStaves
 {
@@ -13,7 +12,8 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
         {
             base.SetDefaults();
             Item.damage = 7;
-            Item.width = Item.height = 32;
+            Item.width = 34;
+            Item.height = 32;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.rare = ItemRarityID.Blue;
             Item.value = MogGlobalItem.RarityBlueBuyPrice;
