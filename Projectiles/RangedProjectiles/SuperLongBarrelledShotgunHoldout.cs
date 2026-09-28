@@ -148,7 +148,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 if (MogClientConfig.Instance.AmmoEjection && Main.netMode != NetmodeID.Server)
                 {
                     string goreType = "RigGunCasing";
-                    Vector2 spawnOffset = new(0, -41f);
+                    Vector2 spawnOffset = new(-20, -11f);
                     Vector2 spawnPosition = Projectile.Center + (-Projectile.velocity * 4f) + spawnOffset;
                     Gore.NewGore(Projectile.GetSource_FromAI(), spawnPosition, -shootVelocity.RotatedByRandom(spread), Mod.Find<ModGore>(goreType).Type);
                 }

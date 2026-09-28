@@ -16,6 +16,7 @@ using MogMod.Items.Armor.Fae;
 using MogMod.Items.Armor.Kaminari;
 using MogMod.Items.Armor.Radiant;
 using MogMod.Items.Armor.Seraphic;
+using MogMod.Items.Armor.Windrunner;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.MusicBoxes;
 using MogMod.Items.Weapons.Classless;
@@ -303,6 +304,8 @@ namespace MogMod.Common.MogModPlayer
         public bool kaminariActive;
         public int kaminariCooldown = 0;
         public int kaminariCooldownMax = 60;
+        public bool wearingWindrunner;
+        public float windrunnerCharge = 0f;
 
         public int VoniumLifeCooldown = 0;
         #endregion
@@ -1478,6 +1481,14 @@ namespace MogMod.Common.MogModPlayer
                 }
             }
 
+            if (wearingWindrunner)
+            {
+                if ((Math.Abs(Player.velocity.X) >= 5) && Player.whoAmI == Main.myPlayer)
+                {
+                    if (windrunnerCharge < WindrunnerTricorn.DamageCap) windrunnerCharge = (Math.Abs(Player.velocity.X) * 0.1f);
+                }
+            }
+
             if (Player.HasBuff<DragonInstallBuff>() && wearingFlameOfCorruption)
             {
                 enterDragonInstall(Player);
@@ -2512,6 +2523,11 @@ namespace MogMod.Common.MogModPlayer
                 }
             }
 
+            if (wearingWindrunner)
+            {
+                Player.GetAttackSpeed<RangedDamageClass>() += windrunnerCharge;
+            }
+
             int maxFallSpeed = 0 + 
                 (wearingAllegianceWings ? 100 : 
                 wearingLunarBoots ? 60 : 
@@ -2699,6 +2715,7 @@ namespace MogMod.Common.MogModPlayer
             wearingNihilumRanged = false;
             wearingKaminari = false;
             //kaminariActive = false;
+            wearingWindrunner = false;
 
             diademMinion = false;
             dominatorMinion = false;

@@ -2,7 +2,6 @@
 using MogMod.Common.Config;
 using MogMod.Items.Weapons.Ranged;
 using MogMod.Projectiles.BaseProjectiles;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;

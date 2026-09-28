@@ -129,16 +129,19 @@ namespace MogMod.Projectiles.RangedProjectiles
                 float trailRot = MathHelper.PiOver4 - mainRot;
                 Vector2 origin = sourceRectangle.Size() * 0.5f;
 
-                if (flameType2 < 6) flameType2++;
-                else flameType2 = 0;
-                // backtrail
-                Vector2 trailOffset = Projectile.velocity * vOffset * length * 0.5f;
-                Main.EntitySpriteDraw(texture, firePos - trailOffset, sourceRectangle2, drawColor * 0.25f, trailRot, origin, fireSize, SpriteEffects.None);
-                // draw og proj
-                Main.EntitySpriteDraw(texture, firePos, sourceRectangle, drawColor * 0.75f, -mainRot * 0.9f, origin, fireSize * 0.9f, SpriteEffects.None);
-                Main.EntitySpriteDraw(texture, firePos, sourceRectangle, drawColor, mainRot, origin, fireSize, SpriteEffects.None);
-                if (flameType < 6) flameType++;
-                else flameType = 0;
+                for (int i = 0; i < 3; i++)
+                {
+                    if (flameType2 < 6) flameType2++;
+                    else flameType2 = 0;
+                    // backtrail
+                    Vector2 trailOffset = Projectile.velocity * vOffset * length * 0.5f;
+                    Main.EntitySpriteDraw(texture, firePos - trailOffset, sourceRectangle2, drawColor * 0.25f, trailRot, origin, fireSize, SpriteEffects.None);
+                    // draw og proj
+                    Main.EntitySpriteDraw(texture, firePos, sourceRectangle, drawColor * 0.75f, -mainRot * 0.9f, origin, fireSize * 0.9f, SpriteEffects.None);
+                    Main.EntitySpriteDraw(texture, firePos, sourceRectangle, drawColor, mainRot, origin, fireSize, SpriteEffects.None);
+                    if (flameType < 6) flameType++;
+                    else flameType = 0;
+                }
             }
             return false;
         }

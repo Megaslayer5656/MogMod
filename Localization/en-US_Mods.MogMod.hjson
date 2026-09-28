@@ -549,7 +549,7 @@ Items: {
 			}
 
 			WindrunnersBow: {
-				DisplayName: Windrunners Bow
+				DisplayName: Windrunner's Bow
 				Tooltip:
 					'''
 					Rapidly fires arrows at the cost of accuracy
@@ -2549,6 +2549,38 @@ Items: {
 				{0}% reduced mana cost
 				+{1}% Jump Speed and Movement Speed
 				'''
+		}
+
+		WindrunnerTop: {
+			DisplayName: Windrunner's Crop Top
+			Tooltip:
+				'''
+				tigsz
+				+{0}% Melee Damage and Critical Strike Chance
+				Enemies take damage when they hit you
+				'A razor-sharp coat of mail, it is the choice of selfless martyrs in combat.'
+				'''
+		}
+
+		WindrunnerTricorn: {
+			DisplayName: Windrunner's Tricorn
+			Tooltip:
+				'''
+				tigz
+				+{0}% Melee Damage and Critical Strike Chance
+				Enemies take damage when they hit you
+				'''
+			AbilityBrief: "[c/{0}:Fluttering Breeze]"
+			SetBonusNormal:
+				'''
+				[c/{0}:Running increases attack speed, up to max of {1}%]
+				[c/{0}:Pressing {2} will {1}x thorns damage]
+				'''
+		}
+
+		BlademailLeggings: {
+			DisplayName: Windrunner's Tights
+			Tooltip: tigz +{0}% Movement and Melee Speed
 		}
 	}
 
