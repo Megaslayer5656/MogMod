@@ -168,6 +168,8 @@ namespace MogMod.Common.MogModPlayer
         public bool mendingVisual;
         public bool wearingToxic;
         public bool toxicVisual;
+        public bool wearingBloody;
+        public bool bloodyVisual;
         public bool wearingChaosDice;
         public bool wearingVanguard;
         public bool wearingCrimsonGuard;
@@ -1934,6 +1936,22 @@ namespace MogMod.Common.MogModPlayer
                 }
                 Lighting.AddLight(Player.Center, 219f * dim, 47f * dim, 237f * dim);
             }
+            if (wearingBloody && bloodyVisual)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    int dust = Dust.NewDust(Player.position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(3) ? DustID.Blood : DustID.CrimsonPlants, Player.velocity.X * 0.04f, Player.velocity.Y * 0.04f, 150, default, 2.2f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 0.65f;
+                    Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.03f;
+                    if (Main.rand.NextBool(4))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.3f;
+                    }
+                }
+                Lighting.AddLight(Player.Center, 136f * dim, 8f * dim, 8f * dim);
+            }
         }
         // shivas effect and dust;
         public void doShivas(Player player, Vector2 center) //This needs to be its own method for netcode to work. See how I did it in MogModNetcode.cs and MogPlayerNetcode.cs
@@ -2657,6 +2675,7 @@ namespace MogMod.Common.MogModPlayer
             wearingGilded = false;
             wearingMending = false;
             wearingToxic = false;
+            wearingBloody = false;
             wearingChaosDice = false;
             wearingVanguard = false;
             wearingCrimsonGuard = false;

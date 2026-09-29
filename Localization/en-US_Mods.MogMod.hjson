@@ -2720,4 +2720,9 @@ Items: {
 		DisplayName: Wandering Jellyfish Banner
 		Tooltip: ""
 	}
+
+	BloodyAspect: {
+		DisplayName: Bloody Aspect
+		Tooltip: ""
+	}
 }
