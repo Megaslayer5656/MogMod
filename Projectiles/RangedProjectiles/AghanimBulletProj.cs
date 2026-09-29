@@ -14,7 +14,7 @@ namespace MogMod.Projectiles.RangedProjectiles
 {
     public class AghanimBulletProj : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.RangedProjectiles";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public Player Owner => Main.player[Projectile.owner];
         public Color Colour = new(153, 110, 255);
         public float velocityMult = 1f;

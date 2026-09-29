@@ -16,6 +16,7 @@ using MogMod.Items.Armor.Fae;
 using MogMod.Items.Armor.Kaminari;
 using MogMod.Items.Armor.Radiant;
 using MogMod.Items.Armor.Seraphic;
+using MogMod.Items.Armor.TankyRizzler;
 using MogMod.Items.Armor.Windrunner;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.MusicBoxes;
@@ -289,7 +290,6 @@ namespace MogMod.Common.MogModPlayer
         public int hellfireCooldown = 0;
         public bool wearingTankyRizzler;
         public int tankyRizzlerHits = 0;
-        public static int counterHelixDmg = 500;
         public bool wearingWhiteArmor;
         public bool wearingFaeArmor;
         public static int wraithDamage = 100;
@@ -605,7 +605,7 @@ namespace MogMod.Common.MogModPlayer
             if (plasmaActive)
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, epstein.RotatedByRandom(Spread * 0.5f), ModContent.ProjectileType<PlasmaShrimpProj>(), Convert.ToInt32(damageDone * .1f) + 1, 1, Player.whoAmI);
         }
-        public override void OnHitByNPC(NPC npc, Terraria.Player.HurtInfo hurtInfo)
+        public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
         {
             MogModGlobalNPC mogNPC = npc.MogMod();
             if (Player.HasItemInAnyInventory(ModContent.ItemType<HolyLocket>()))
@@ -642,12 +642,14 @@ namespace MogMod.Common.MogModPlayer
 
             if (wearingTankyRizzler)
             {
-                tankyRizzlerHits++;
-                if (tankyRizzlerHits >= 2)
-                {
-                    Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<CounterHelixProj>(), counterHelixDmg, 1, Player.whoAmI, 0);
-                    tankyRizzlerHits = 0;
-                }
+                BerserkerHitEffect(hurtInfo);
+            }
+        }
+        public void BerserkerHitEffect(Player.HurtInfo hurtInfo)
+        {
+            if (hurtInfo.SourceDamage >= TankyRizzlerHelmet.MinDamage)
+            {
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<CounterHelixProj>(), TankyRizzlerHelmet.AxeSpinDamage, 1, Player.whoAmI, 0);
             }
         }
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
@@ -686,12 +688,7 @@ namespace MogMod.Common.MogModPlayer
 
             if (wearingTankyRizzler)
             {
-                tankyRizzlerHits++;
-                if (tankyRizzlerHits >= 2)
-                {
-                    Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<CounterHelixProj>(), counterHelixDmg, 1, Player.whoAmI, 0);
-                    tankyRizzlerHits = 0;
-                }
+                BerserkerHitEffect(hurtInfo);
             }
         }
         public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
@@ -1037,12 +1034,16 @@ namespace MogMod.Common.MogModPlayer
             MogPlayer clone = (MogPlayer)targetCopy;
             clone.radiancePower = radiancePower;
             clone.flamewallPower = flamewallPower;
+            clone.kaminariActive = kaminariActive;
+            clone.Player.MountedCenter = Player.MountedCenter;
         }
         public override void SendClientChanges(ModPlayer clientPlayer)
         {
             MogPlayer clone = (MogPlayer)clientPlayer;
             if (radiancePower != clone.radiancePower) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
             if (flamewallPower != clone.flamewallPower) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
+            if (kaminariActive != clone.kaminariActive) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
+            if (Player.MountedCenter != clone.Player.MountedCenter) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
         }
         public override void PreUpdate()
         {
@@ -1298,36 +1299,6 @@ namespace MogMod.Common.MogModPlayer
                 }
             }
             #endregion
-
-            /* Use for Hurricane Pike
-            Player.armorEffectDrawShadowEOCShield = true;
-            float dustLoopcheck = 16f;
-            int dustIncr = 0;
-            while (dustIncr < dustLoopcheck)
-            {
-                Vector2 dustRotate = Vector2.UnitX * 0f;
-                dustRotate += -Vector2.UnitY.RotatedBy((double)((float)dustIncr * (6.28318548f / dustLoopcheck)), default) * new Vector2(1f, 4f);
-                dustRotate = dustRotate.RotatedBy((double)Player.velocity.ToRotation(), default);
-                int bedman = Dust.NewDust(Player.Center, 0, 0, DustID.RainbowMk2, 0f, 0f, 0, Color.LightYellow, 1f);
-                Main.dust[bedman].scale = 1.5f;
-                Main.dust[bedman].noGravity = true;
-                Main.dust[bedman].position = Player.Center + dustRotate;
-                Main.dust[bedman].velocity = Player.velocity * 0f + dustRotate.SafeNormalize(Vector2.UnitY) * 1f;
-                dustIncr++;
-            }
-            for (int d = 0; d < 4; d++)
-            {
-                Dust faeDust = Dust.NewDustPerfect(Player.Center + new Vector2(Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-15f, 15f)) - (Player.velocity * 1.2f), DustID.Sandnado, -Player.velocity.RotatedByRandom(MathHelper.ToRadians(10f)) * Main.rand.NextFloat(0.1f, 0.8f), 0, default, Main.rand.NextFloat(1.8f, 2.8f));
-                faeDust.noGravity = faeDust.type != 222;
-                faeDust.fadeIn = 0.5f;
-                faeDust.scale = Main.rand.NextFloat(0.8f, 1.2f);
-                faeDust.velocity += new Vector2(0, -2.5f) * Main.rand.NextFloat(0.8f, 1.2f);
-                Dust dust = Dust.NewDustPerfect(Player.Center + Main.rand.NextVector2Circular(6, 6) - Player.velocity * 2, DustID.YellowStarDust);
-                dust.velocity = -Player.velocity * Main.rand.NextFloat(0.6f, 1.4f);
-                dust.scale = Main.rand.NextFloat(0.9f, 1.4f);
-                dust.noGravity = true;
-            }
-            */
         }
         private bool CanUseDash()
         {

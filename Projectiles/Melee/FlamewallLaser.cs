@@ -112,7 +112,7 @@ namespace MogMod.Projectiles.Melee
         {
             if (Projectile.velocity == Vector2.Zero) return false;
 
-            // Draw the actual lase
+            // Draw the actual laser
             Vector2 laserEnd = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.UnitY) * LaserLength;
             //Main.NewText($"{laserEnd}");
             int length = 10;
@@ -125,8 +125,14 @@ namespace MogMod.Projectiles.Melee
             {
                 drawPoints[i] = Vector2.Lerp(Projectile.Center, laserEnd, i / (float)(drawPoints.Length - 1f));
                 //rotPoints[i] = MiscUtils.WrapAngle90Degrees(-Projectile.velocity.ToRotation());
-                rotPoints[i] = Math.Abs(MathHelper.WrapAngle(-Projectile.oldRot[i]));
-                //Main.NewText($"{rotPoints[i]}");
+                // PROBLEM:
+                // projectile rotates facing towards cursor,
+                // trail rotates in the opposite direction
+                // SOLUTION:
+                 //make both rotate the same direction
+                //rotPoints[i] = Projectile.oldRot[i]; // causes trail to draw when rotated up && down, not left || right
+                rotPoints[i] = Projectile.oldRot[i];
+                Main.NewText($"{Projectile.rotation}, {Projectile.oldRot[i]}, {rotPoints[i]}");
                 trailDrawer.Draw(Projectile, "MogMod:FlameLashRGB", outerDrawColor, innerDrawColor, 1.1f, 30f, 44f, drawPoints, rotPoints);
             }
             return false;

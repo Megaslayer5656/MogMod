@@ -311,6 +311,7 @@ Mods: {
 				ChargedStellarStar.DisplayName: Charged Stellar Star
 				WitchBladeProj.DisplayName: Witch Blade Proj
 				BerserkersFireSpearProj.DisplayName: Berserkers Fire Spear Proj
+				AghanimBulletProj.DisplayName: Aghanim Bullet Proj
 			}
 
 			Melee: {

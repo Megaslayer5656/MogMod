@@ -14,7 +14,7 @@ namespace MogMod.Items.Weapons.Ranged
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public const int maxShots = 2;
-        public const int reloadTime = 80;
+        public const int reloadTime = 100;
         ModKeybind keybindActive = null;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(maxShots);
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.width = 164;
             Item.height = 18;
 
-            Item.damage = 55;
+            Item.damage = 50;
             Item.knockBack = 6f;
             Item.DamageType = DamageClass.Ranged;
 

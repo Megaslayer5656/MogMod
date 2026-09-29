@@ -18,11 +18,16 @@ namespace MogMod.Items.Armor.TankyRizzler
     {
         #region Setup
         public new string LocalizationCategory => "Items.Armor";
-        public const int AggroBoost = 1300;
-        public const int LifeBoost = 100;
-        public const float DamageReduction = 0.1f;
+        // armor effects
         public const float MeleeDamageBoost = 0.08f;
         public const int LifeRegen = 8;
+
+        // set bonus
+        public const int AggroBoost = 1300;
+        public const int LifeBoost = 100;
+        public const int MinDamage = 10;
+        public const int AxeSpinDamage = 500;
+        public const float DamageReduction = 0.1f;
         public static Color AbilityBriefColor = new(163, 30, 0);
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MeleeDamageBoost.ToPercent(), LifeRegen.ToRegenPerSecond());
         public override void SetStaticDefaults()
@@ -78,7 +83,7 @@ namespace MogMod.Items.Armor.TankyRizzler
                     if (Main.keyState.PressingShift())
                     {
                         setBonusIndex++;
-                        TooltipLine briefDescription = new(item.Mod, "MogMod:SetBonus1", MiscUtils.GetTextFromModItem<TankyRizzlerHelmet>("SetBonusNormal").Format(AbilityBriefColor.Hex3(), AggroBoost, DamageReduction.ToPercent(), LifeBoost));
+                        TooltipLine briefDescription = new(item.Mod, "MogMod:SetBonus1", MiscUtils.GetTextFromModItem<TankyRizzlerHelmet>("SetBonusNormal").Format(AbilityBriefColor.Hex3(), AggroBoost, DamageReduction.ToPercent(), LifeBoost, MinDamage, AxeSpinDamage));
                         tooltips.Insert(setBonusIndex, briefDescription);
                     }
                     else

@@ -2045,7 +2045,7 @@ Items: {
 			SetBonusNormal:
 				'''
 				[c/{0}:+{1} Aggro, +{2}% Damage Reduction, and Increases maximum life by {3}]
-				[c/{0}:Getting hit twice causes you to spin an axe around yourself, dealing melee damage]
+				[c/{0}:Taking more than {4} damage causes you to spin an axe around yourself, dealing {5} melee damage]
 				'''
 		}
 

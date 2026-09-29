@@ -93,7 +93,15 @@ namespace MogMod.Projectiles.Classless
                     }
                 }
             }
-            if (inCooldown) OffsetDistance = (int)MathHelper.SmoothStep(90, 40, MathF.Pow(CooldownCompletion, 1));
+            if (inCooldown)
+            {
+                OffsetDistance = (int)MathHelper.SmoothStep(90, 40, MathF.Pow(CooldownCompletion, 1));
+                if (WasEmpowered && Dashing)
+                {
+                    // owner visual effects
+                    DashingDustEffect();
+                }
+            }
             if (inSwing)
             {
                 OffsetDistance = (int)MathHelper.SmoothStep(5, 90, MathF.Pow(SwingCompletion, 1f));
@@ -134,7 +142,11 @@ namespace MogMod.Projectiles.Classless
                         Owner.mount?.Dismount(Owner);
                         Owner.RemoveAllGrapplingHooks();
                         Owner.SetImmuneTimeForAllTypes(swingTime);
+
+                        // owner visual effects
+                        DashingDustEffect();
                     }
+
                     // Dusts positioned to be at the tip of the spear
                     var dustAngle = angle.RotatedBy(MathHelper.Pi);
                     var color = Color.Lerp(Color.Gold, Color.Crimson, SwingCompletion);
@@ -158,6 +170,36 @@ namespace MogMod.Projectiles.Classless
                 }
             }
             if (ChargeTimer > 0f) ChargeTimer--;
+        }
+        public void DashingDustEffect()
+        {
+            Owner.armorEffectDrawShadowEOCShield = true;
+            float dustLoopcheck = 8f;
+            int dustIncr = 0;
+            while (dustIncr < dustLoopcheck)
+            {
+                Vector2 dustRotate = Vector2.UnitX * 0f;
+                dustRotate += -Vector2.UnitY.RotatedBy((double)((float)dustIncr * (6.28318548f / dustLoopcheck)), default) * new Vector2(1f, 4f);
+                dustRotate = dustRotate.RotatedBy((double)Owner.velocity.ToRotation(), default);
+                int bedman = Dust.NewDust(Owner.Center, 0, 0, DustID.RainbowMk2, 0f, 0f, 0, Color.LightYellow, 1f);
+                Main.dust[bedman].scale = 1.5f;
+                Main.dust[bedman].noGravity = true;
+                Main.dust[bedman].position = Owner.Center + dustRotate;
+                Main.dust[bedman].velocity = Owner.velocity * 0f + dustRotate.SafeNormalize(Vector2.UnitY) * 1f;
+                dustIncr++;
+            }
+            for (int d = 0; d < 4; d++)
+            {
+                Dust faeDust = Dust.NewDustPerfect(Owner.Center + new Vector2(Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-15f, 15f)) - (Owner.velocity * 1.2f), DustID.Sandnado, -Owner.velocity.RotatedByRandom(MathHelper.ToRadians(10f)) * Main.rand.NextFloat(0.1f, 0.8f), 0, default, Main.rand.NextFloat(1.8f, 2.8f));
+                faeDust.noGravity = faeDust.type != 222;
+                faeDust.fadeIn = 0.5f;
+                faeDust.scale = Main.rand.NextFloat(0.8f, 1.2f);
+                faeDust.velocity += new Vector2(0, -2.5f) * Main.rand.NextFloat(0.8f, 1.2f);
+                Dust dust = Dust.NewDustPerfect(Owner.Center + Main.rand.NextVector2Circular(6, 6) - Owner.velocity * 2, DustID.YellowStarDust);
+                dust.velocity = -Owner.velocity * Main.rand.NextFloat(0.6f, 1.4f);
+                dust.scale = Main.rand.NextFloat(0.9f, 1.4f);
+                dust.noGravity = true;
+            }
         }
         public override float SwingFunction() => 0;
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
