@@ -25,7 +25,7 @@ namespace MogMod.Items.Armor.Windrunner
 
         // set bonus
         public const float AttackSpeedCap = 0.2f;
-        public const float AttackSpeedMin = -(AttackSpeedCap * 0.75f);
+        public const float AttackSpeedMin = -0.25f;
         public const int ChargeTime = 180;
         public const float VelocityMult = 0.3f;
         public static Color AbilityBriefColor = new(227, 255, 239);

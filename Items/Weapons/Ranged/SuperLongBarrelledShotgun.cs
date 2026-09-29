@@ -22,7 +22,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.width = 164;
             Item.height = 18;
 
-            Item.damage = 58;
+            Item.damage = 55;
             Item.knockBack = 6f;
             Item.DamageType = DamageClass.Ranged;
 

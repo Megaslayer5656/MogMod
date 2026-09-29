@@ -13,13 +13,13 @@ namespace MogMod.Items.Weapons.Classless
     {
         public new string LocalizationCategory => "Items.Weapons.Classless";
         public override int ProjectileType => ModContent.ProjectileType<DragonLanceHoldout>();
-        public const float DamageMult = 2f;
+        public const float DamageMult = 2.2f;
         public override void SetDefaults()
         {
             base.SetDefaults();
             Item.width = Item.height = 60;
 
-            Item.damage = 114;
+            Item.damage = 100;
             Item.crit = 7;
             Item.DamageType = MeleeRangedDamageClass.Instance;
             Item.useAnimation = Item.useTime = 60;
