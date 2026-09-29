@@ -43,7 +43,7 @@ namespace MogMod.Items.Accessories.Boots
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             // give mana boots an on button press affect that restores 200 mana and if possible does so to everyone
-            player.accRunSpeed = 8.5f;
+            player.accRunSpeed = 7.5f;
             player.moveSpeed += .25f;
             player.statManaMax2 += ManaBoost;
             player.tileSpeed += .40f;

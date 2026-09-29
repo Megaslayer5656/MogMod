@@ -305,6 +305,7 @@ namespace MogMod.Common.MogModPlayer
         public int kaminariCooldown = 0;
         public int kaminariCooldownMax = 60;
         public bool wearingWindrunner;
+        public float windrunnerTimer = 0;
         public float windrunnerCharge = 0f;
 
         public int VoniumLifeCooldown = 0;
@@ -1481,12 +1482,20 @@ namespace MogMod.Common.MogModPlayer
                 }
             }
 
-            if (wearingWindrunner)
+            if (wearingWindrunner && Player.whoAmI == Main.myPlayer)
             {
-                if ((Math.Abs(Player.velocity.X) >= 5) && Player.whoAmI == Main.myPlayer)
+                if (Math.Abs(Player.velocity.X) >= 5f)
                 {
-                    if (windrunnerCharge < WindrunnerTricorn.DamageCap) windrunnerCharge = (Math.Abs(Player.velocity.X) * 0.1f);
+                    if (windrunnerTimer <= WindrunnerTricorn.ChargeTime)
+                    {
+                        windrunnerTimer++;
+                    }
                 }
+                float minWindRunSpeed = WindrunnerTricorn.AttackSpeedMin;
+                float maxWindRunSpeed = WindrunnerTricorn.AttackSpeedCap * MathHelper.Max(1f, ((Player.accRunSpeed * Player.moveSpeed) * 0.1f));
+                windrunnerCharge = MathHelper.Lerp(minWindRunSpeed, maxWindRunSpeed, (windrunnerTimer / WindrunnerTricorn.ChargeTime));
+                //Main.NewText($"{minWindRunSpeed}, {maxWindRunSpeed}, {windrunnerCharge}");
+                //Main.NewText($"{Player.maxRunSpeed}, {Player.accRunSpeed}, {Player.moveSpeed}, {Player.accRunSpeed * Player.moveSpeed}");
             }
 
             if (Player.HasBuff<DragonInstallBuff>() && wearingFlameOfCorruption)
@@ -2153,8 +2162,7 @@ namespace MogMod.Common.MogModPlayer
         {
             Player.ClearBuff(ModContent.BuffType<ClarityBuff>());
             Player.ClearBuff(ModContent.BuffType<HealingSalveBuff>());
-            if (wearingOverloading)
-                overloadingRegenCooldown = OverloadingAspect.RegenWaitTime;
+            if (overloadingRegenCooldown > 0) overloadingRegenCooldown = OverloadingAspect.RegenWaitTime;
             if (wearingRefresherOrb && Main.zenithWorld)
             {
                 if (hurtinfo.CooldownCounter != -1)
@@ -2162,6 +2170,8 @@ namespace MogMod.Common.MogModPlayer
                 Player.immuneTime = 0;
                 Player.immune = false;
             }
+            if (windrunnerTimer > 0) windrunnerTimer = 0;
+            if (windrunnerCharge > 0f) windrunnerCharge = 0f;
         }
         public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
         {
@@ -2575,6 +2585,9 @@ namespace MogMod.Common.MogModPlayer
             if (kaminariCooldown > 0 && wearingKaminari) kaminariCooldown--;
             if (radiancePower > 0f && Player.HeldItem.type != ModContent.ItemType<Radiance>()) radiancePower -= 0.05f;
             if (flamewallPower > 0f && Player.HeldItem.type != ModContent.ItemType<Flamewall>()) flamewallPower -= 0.05f;
+            if (windrunnerTimer > 0 && (Math.Abs(Player.velocity.X) < 5) && Player.whoAmI == Main.myPlayer) windrunnerTimer--;
+            if (windrunnerCharge > 0f && (Math.Abs(Player.velocity.X) < 5) && Player.whoAmI == Main.myPlayer) windrunnerCharge -= 0.01f;
+            if (windrunnerCharge < 0f) windrunnerCharge = 0f;
         }
         
         // stops player from moving while charging bow

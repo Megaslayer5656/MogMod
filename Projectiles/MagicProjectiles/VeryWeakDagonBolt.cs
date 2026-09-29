@@ -43,6 +43,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         }
         public override void OnKill(int timeLeft)
         {
+            if (Projectile.owner == Main.myPlayer) SummonSparks();
             Projectile.velocity = Vector2.Zero;
             for (int i = 0; i < 30; i++)
             {
@@ -63,14 +64,17 @@ namespace MogMod.Projectiles.MagicProjectiles
                 dust2 = Main.dust[fireDust];
                 dust2.velocity *= Main.rand.NextFloat();
             }
-            Projectile.Resize(160, 160);
-            Projectile.damage = (int)(Projectile.damage * 0.5f);
-            Projectile.maxPenetrate = -1;
-            Projectile.penetrate = -1;
-            Projectile.knockBack *= 0.35f;
-            Projectile.Damage();
-            Projectile.Resize(22, 22);
             SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
+        }
+        public void SummonSparks()
+        {
+            int numProj = 3;
+            float rotation = MathHelper.ToRadians(Main.rand.Next(-15, 90));
+            for (int i = 0; i < numProj + 1; i++)
+            {
+                Vector2 velocity = Projectile.velocity.RotatedByRandom(rotation);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity * 0.2f, ProjectileID.WandOfSparkingSpark, (int)(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner);
+            }
         }
     }
 }

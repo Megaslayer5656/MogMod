@@ -2,6 +2,8 @@
 using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
 using MogMod.Items.Global;
+using MogMod.Items.Other;
+using MogMod.Items.Placeable.Bars;
 using MogMod.Utilities;
 using System.Collections.Generic;
 using Terraria;
@@ -17,14 +19,17 @@ namespace MogMod.Items.Armor.Windrunner
     {
         #region Setup
         public new string LocalizationCategory => "Items.Armor";
-        public const float DamageCap = 1f;
+        // armor bonus
+        public const int FlatRangedDamageBoost = 3;
+        public const int RangedCritBoost = 7;
 
-        public const int ThornsMult = 7;
-        public const float ThornsBoost = 0.2f;
-        public const float MeleeDamageBoost = 0.07f;
-        public const int MeleeCritBoost = 7;
-        public static Color AbilityBriefColor = Color.FloralWhite;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MeleeCritBoost);
+        // set bonus
+        public const float AttackSpeedCap = 0.2f;
+        public const float AttackSpeedMin = -(AttackSpeedCap * 0.75f);
+        public const int ChargeTime = 180;
+        public const float VelocityMult = 0.3f;
+        public static Color AbilityBriefColor = new(227, 255, 239);
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(FlatRangedDamageBoost, RangedCritBoost);
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)
@@ -32,12 +37,13 @@ namespace MogMod.Items.Armor.Windrunner
 
             // worn on head
             int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
+            ArmorIDs.Head.Sets.DrawHatHair[equipSlot] = true;
         }
         public override void SetDefaults()
         {
             Item.width = 24;
             Item.height = 16;
-            Item.defense = 9;
+            Item.defense = 5;
             Item.rare = ItemRarityID.Orange;
             Item.value = MogGlobalItem.RarityOrangeBuyPrice;
         }
@@ -52,22 +58,19 @@ namespace MogMod.Items.Armor.Windrunner
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingWindrunner = true;
-            player.aggro += 550;
 
             player.setBonus = this.GetLocalization("AbilityBrief").Format(AbilityBriefColor.Hex3());
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage<MeleeDamageClass>() += MeleeDamageBoost;
-            player.GetCritChance<MeleeDamageClass>() += MeleeCritBoost;
-            player.thorns += ThornsBoost;
+            player.GetDamage<RangedDamageClass>().Flat += FlatRangedDamageBoost;
+            player.GetCritChance<RangedDamageClass>() += RangedCritBoost;
         }
         #endregion
         #region Tooltips
         public static bool HasArmorSet(Player player) => player.armor[0].type == ItemType<WindrunnerTricorn>() && player.armor[1].type == ItemType<WindrunnerTop>() && player.armor[2].type == ItemType<WindrunnerTights>();
         public static void ModifySetTooltips(ModItem item, List<TooltipLine> tooltips)
         {
-            var Hotkey = KeybindSystem.ArmorSetBonusKeybind.TooltipHotkeyString();
             if (HasArmorSet(Main.LocalPlayer))
             {
                 int setBonusIndex = tooltips.FindIndex(x => x.Name == "SetBonus" && x.Mod == "Terraria");
@@ -77,7 +80,7 @@ namespace MogMod.Items.Armor.Windrunner
                     if (Main.keyState.PressingShift())
                     {
                         setBonusIndex++;
-                        TooltipLine briefDescription = new(item.Mod, "MogMod:SetBonus1", MiscUtils.GetTextFromModItem<WindrunnerTricorn>("SetBonusNormal").Format(AbilityBriefColor.Hex3(), ThornsMult, Hotkey));
+                        TooltipLine briefDescription = new(item.Mod, "MogMod:SetBonus1", MiscUtils.GetTextFromModItem<WindrunnerTricorn>("SetBonusNormal").Format(AbilityBriefColor.Hex3(), ChargeTime.FramesToSeconds(), AttackSpeedMin.ToPercent(), AttackSpeedCap.ToPercent(), VelocityMult.ToPercent()));
                         tooltips.Insert(setBonusIndex, briefDescription);
                     }
                     else
@@ -96,9 +99,8 @@ namespace MogMod.Items.Armor.Windrunner
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.FalconBlade).
-                AddIngredient(ItemID.Spike, 25).
-                AddIngredient(ItemID.Bone, 30).
+                AddIngredient<WoodlandFabric>(15).
+                AddIngredient<FuciumBar>(8).
                 AddTile(TileID.Anvils).
                 Register();
         }

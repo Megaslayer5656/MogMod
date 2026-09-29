@@ -82,7 +82,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                         SoundEngine.PlaySound(SoundID.Item108 with { Pitch = -0.3f }, Owner.Center);
                         if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= 4f;
                     }
-                    if (ReloadTimer == (attackTime / maxShots))
+                    if (ReloadTimer >= (attackTime / maxShots))
                     {
                         if (mogPlayer.mosinShots >= maxShots)
                         {

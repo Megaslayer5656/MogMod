@@ -17,13 +17,13 @@ namespace MogMod.Items.Other
             Item.height = 30;
             Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.Blue;
-            Item.value = Item.sellPrice(silver: 2);
+            Item.value = Item.sellPrice(silver: 5);
         }
         public override void AddRecipes()
         {
             CreateRecipe(3).
-                AddIngredient(ItemID.ManaCrystal, 3).
-                AddIngredient(ItemID.Sapphire, 1).
+                AddIngredient(ItemID.FallenStar).
+                AddIngredient(ItemID.Sapphire).
                 AddTile(TileID.Anvils).
                 Register();
         }

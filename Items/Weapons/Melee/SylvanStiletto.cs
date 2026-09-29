@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Projectiles.Melee;
 using Terraria;
 using Terraria.Audio;
@@ -45,9 +46,9 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.JungleSpores, 12).
-                AddIngredient(ItemID.Stinger, 10).
-                AddIngredient(ItemID.BeeWax, 8).
+                AddIngredient(ItemID.RichMahogany, 25).
+                AddIngredient<WoodlandFabric>(16).
+                AddIngredient(ItemID.Stinger, 8).
                 AddTile(TileID.Anvils).
                 Register();
         }

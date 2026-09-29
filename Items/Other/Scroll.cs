@@ -19,6 +19,7 @@ namespace MogMod.Items.Other
         {
             CreateRecipe().
                 AddIngredient(ItemID.Silk, 3).
+                AddIngredient<ManaEssence>().
                 AddTile(TileID.Loom).
                 Register();
         }

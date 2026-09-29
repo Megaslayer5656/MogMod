@@ -126,8 +126,8 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.MoltenFury, 1).
-                AddIngredient(ItemID.AnkletoftheWind, 1).
-                AddIngredient(ItemID.JungleSpores, 10).
+                AddIngredient<WoodlandFabric>(20).
+                AddIngredient(ItemID.Vine, 10).
                 AddIngredient<FuciumBar>(8).
                 AddTile(TileID.Anvils).
                 Register();

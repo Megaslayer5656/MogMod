@@ -1,5 +1,6 @@
 ﻿using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
@@ -19,8 +20,8 @@ namespace MogMod.Items.Accessories
         {
             Item.width = Item.height = 30;
             Item.accessory = true;
-            Item.rare = ItemRarityID.Blue;
-            Item.value = MogGlobalItem.RarityBlueBuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -32,7 +33,7 @@ namespace MogMod.Items.Accessories
         {
             CreateRecipe().
                 AddRecipeGroup(RecipeGroupID.Wood, 50).
-                AddIngredient(ItemID.Silk, 15).
+                AddIngredient<WoodlandFabric>(10).
                 AddIngredient(ItemID.Feather, 3).
                 AddTile(TileID.Loom).
                 Register();

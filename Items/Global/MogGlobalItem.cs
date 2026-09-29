@@ -10,6 +10,7 @@ using MogMod.Items.Accessories.NeutralItems.Aspects;
 using MogMod.Items.Accessories.Rigs;
 using MogMod.Items.Ammo.SorcerySpells.Glintstone;
 using MogMod.Items.Armor.Damascus;
+using MogMod.Items.Armor.Windrunner;
 using MogMod.Items.Other;
 using MogMod.Items.Weapons.Classless;
 using MogMod.Items.Weapons.Magic;
@@ -136,8 +137,8 @@ namespace MogMod.Items.Global
             MogPlayer mogPlayer = player.MogMod();
             if ((mogPlayer.wearingElvenQuiver || mogPlayer.wearingEnchantedQuiver) && item.useAmmo == AmmoID.Arrow)
                 velocity *= ((mogPlayer.wearingEnchantedQuiver ? EnchantedQuiver.VelocityMult : ElvenQuiver.VelocityMult) + 1);
-            if (mogPlayer.wearingTreadsDamage)
-                velocity *= (PowerTreads.VelocityMult + 1);
+            if (mogPlayer.wearingWindrunner && item.useAmmo == AmmoID.Arrow) velocity *= (WindrunnerTricorn.VelocityMult + 1);
+            if (mogPlayer.wearingTreadsDamage) velocity *= (PowerTreads.VelocityMult + 1);
         }
         public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
         {

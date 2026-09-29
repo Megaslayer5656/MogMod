@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.Build.Construction;
+using Microsoft.Xna.Framework;
 using MogMod.Items.Weapons.Magic;
 using Terraria;
 using Terraria.Audio;
@@ -39,18 +40,16 @@ namespace MogMod.Projectiles.MagicProjectiles
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Projectile.damage = (int)(Projectile.damage * 1.25);
-            Projectile.penetrate--;
             if (Projectile.penetrate <= 0) return true;
             else
             {
-                if (Projectile.velocity.X != oldVelocity.X) Projectile.velocity.X = -oldVelocity.X;
-                if (Projectile.velocity.Y != oldVelocity.Y) Projectile.velocity.Y = -oldVelocity.Y;
+                BounceEffect(false);
             }
             return false;
         }
         public override void OnKill(int timeLeft)
         {
+            if (Projectile.owner == Main.myPlayer) SummonSparks(Projectile.velocity);
             Projectile.velocity = Vector2.Zero;
             SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
             for (int i = 0; i < 7; i++)
@@ -67,7 +66,47 @@ namespace MogMod.Projectiles.MagicProjectiles
                 dust3.velocity -= Projectile.oldVelocity * 0.3f;
             }
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.OnFire, 180);
-        public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(BuffID.OnFire, 180);
+        public void BounceEffect(bool hitEnemy)
+        {
+            Projectile.damage = (int)(Projectile.damage * 1.25);
+            if (!hitEnemy) Projectile.penetrate--;
+            if (Projectile.penetrate <= 0) return;
+            else
+            {
+                if (hitEnemy)
+                {
+                    float spread = 45f;
+                    if (Projectile.velocity.X > Projectile.velocity.Y) Projectile.velocity.X = -Projectile.oldVelocity.RotatedByRandom(spread * (Main.rand.NextBool() ? -1f : 1f)).X;
+                    else Projectile.velocity.Y = -Projectile.oldVelocity.RotatedByRandom(spread * (Main.rand.NextBool() ? -1f : 1f)).Y;
+                }
+                else
+                {
+                    if (Projectile.velocity.X != Projectile.oldVelocity.X) Projectile.velocity.X = -Projectile.oldVelocity.X;
+                    if (Projectile.velocity.Y != Projectile.oldVelocity.Y) Projectile.velocity.Y = -Projectile.oldVelocity.Y;
+                }
+                if (Projectile.owner == Main.myPlayer) SummonSparks(hitEnemy ? Projectile.oldVelocity : Projectile.velocity);
+            }
+        }
+        public void SummonSparks(Vector2 sparkVelocity)
+        {
+            int numProj = 3;
+            float rotation = MathHelper.ToRadians(Main.rand.Next(-15, 90));
+            for (int i = 0; i < numProj + 1; i++)
+            {
+                Vector2 velocity = sparkVelocity.RotatedByRandom(rotation);
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, velocity * 0.2f, ProjectileID.WandOfSparkingSpark, (int)(Projectile.damage * 0.85f), Projectile.knockBack, Projectile.owner);
+                proj.tileCollide = false;
+            }
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.OnFire, 180);
+            BounceEffect(true);
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            target.AddBuff(BuffID.OnFire, 180);
+            BounceEffect(true);
+        }
     }
 }

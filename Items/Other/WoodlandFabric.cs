@@ -16,8 +16,8 @@ namespace MogMod.Items.Other
             Item.width = 26;
             Item.height = 28;
             Item.maxStack = Item.CommonMaxStack;
-            Item.rare = ItemRarityID.Green;
-            Item.value = Item.sellPrice(silver: 3);
+            Item.rare = ItemRarityID.Orange;
+            Item.value = Item.sellPrice(silver: 4);
         }
         public override void AddRecipes()
         {

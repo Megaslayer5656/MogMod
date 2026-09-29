@@ -19,7 +19,7 @@ namespace MogMod.Items.Accessories.Boots
         public bool HidesNormalTooltip => true;
         public static int CurrentStats = 0;
         // makes localization way easier to modify
-        public const float Acceleration = 8.5f;
+        public const float Acceleration = 8f;
         public const float MovementSpeed = 0.2f;
         // life
         public const int LifeBoost = 20;

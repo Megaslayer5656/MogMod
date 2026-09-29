@@ -73,7 +73,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                     SoundEngine.PlaySound(SoundID.Item108 with { Pitch = -0.3f }, Owner.Center);
                     if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= 5f;
                 }
-                if (ReloadTimer == (attackTime / maxShots))
+                if (ReloadTimer >= (attackTime / maxShots))
                 {
                     if (mogPlayer.longBarrelShotgunShots < maxShots) mogPlayer.longBarrelShotgunShots++;
                     ReloadTimer = 0;
@@ -113,7 +113,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             {
                 while (mogPlayer.longBarrelShotgunShots > 0)
                 {
-                    ShootBullets(shootVelocity, 0.8f);
+                    ShootBullets(shootVelocity, 0.9f);
                 }
             }
             else ShootBullets(shootVelocity);
@@ -148,7 +148,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 if (MogClientConfig.Instance.AmmoEjection && Main.netMode != NetmodeID.Server)
                 {
                     string goreType = "RigGunCasing";
-                    Vector2 spawnOffset = new(-20, -11f);
+                    Vector2 spawnOffset = new(-60, -11f);
                     Vector2 spawnPosition = Projectile.Center + (-Projectile.velocity * 4f) + spawnOffset;
                     Gore.NewGore(Projectile.GetSource_FromAI(), spawnPosition, -shootVelocity.RotatedByRandom(spread), Mod.Find<ModGore>(goreType).Type);
                 }

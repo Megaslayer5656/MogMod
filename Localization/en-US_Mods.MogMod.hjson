@@ -867,7 +867,7 @@ Items: {
 				DisplayName: Dagon
 				Tooltip:
 					'''
-					Charges up a weak bolt
+					Charges up a weak bolt that splits into sparks on hit
 					[c/CF8459:'A lesser wand that brings magic to the fingertips of the user.']
 					'''
 			}
@@ -925,7 +925,7 @@ Items: {
 				DisplayName: Dagon
 				Tooltip:
 					'''
-					Charges up a bouncing flaming bolt
+					Charges up a bouncing flaming bolt that leave behind sparks every bounce
 					[c/CC7352:'A wand that brings magic to the fingertips of the user.']
 					'''
 			}
@@ -1973,6 +1973,11 @@ Items: {
 			Tooltip: ""
 			DisplayName: Broken Hero Gun
 		}
+
+		WoodlandFabric: {
+			DisplayName: Woodland Fabric
+			Tooltip: ""
+		}
 	}
 
 	Fishing: {
@@ -2110,8 +2115,8 @@ Items: {
 		}
 
 		BlademailLeggings: {
-			DisplayName: Blademail Leggings
-			Tooltip: +{0}% Movement and Melee Speed
+			DisplayName: Windrunner's Tights
+			Tooltip: tigz +{0}% Movement and Melee Speed
 		}
 
 		UndyingHelm: {
@@ -2555,10 +2560,8 @@ Items: {
 			DisplayName: Windrunner's Crop Top
 			Tooltip:
 				'''
-				tigsz
-				+{0}% Melee Damage and Critical Strike Chance
-				Enemies take damage when they hit you
-				'A razor-sharp coat of mail, it is the choice of selfless martyrs in combat.'
+				+{0} Flat Ranged Damage 
+				Increases Arrow Damage by +{1}%
 				'''
 		}
 
@@ -2566,21 +2569,25 @@ Items: {
 			DisplayName: Windrunner's Tricorn
 			Tooltip:
 				'''
-				tigz
-				+{0}% Melee Damage and Critical Strike Chance
-				Enemies take damage when they hit you
+				+{0} Flat Ranged Damage 
+				+{1}% Ranged Critical Strike Chance
 				'''
 			AbilityBrief: "[c/{0}:Fluttering Breeze]"
 			SetBonusNormal:
 				'''
-				[c/{0}:Running increases attack speed, up to max of {1}%]
-				[c/{0}:Pressing {2} will {1}x thorns damage]
+				[c/{0}:Increases arrow speed by {4}%]
+				[c/{0}:Running for {1} seconds increases ranged attack speed based off your current movement speed]
+				[c/{0}:Ranged attack speed bonus ranges from {2}% to {3}%, and can be increased based off your maximum movement speed]
 				'''
 		}
 
-		BlademailLeggings: {
-			DisplayName: Windrunner's Tights
-			Tooltip: tigz +{0}% Movement and Melee Speed
+		WindrunnerTights: {
+			DisplayName: Windrunner Tights
+			Tooltip:
+				'''
+				+{1}% Ranged Critical Strike Chance
+				+{0}% Movement Speed
+				'''
 		}
 	}
 

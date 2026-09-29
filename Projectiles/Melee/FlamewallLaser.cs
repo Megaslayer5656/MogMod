@@ -125,7 +125,7 @@ namespace MogMod.Projectiles.Melee
             {
                 drawPoints[i] = Vector2.Lerp(Projectile.Center, laserEnd, i / (float)(drawPoints.Length - 1f));
                 //rotPoints[i] = MiscUtils.WrapAngle90Degrees(-Projectile.velocity.ToRotation());
-                rotPoints[i] = Math.Abs(MathHelper.WrapAngle(Projectile.oldRot[i]));
+                rotPoints[i] = Math.Abs(MathHelper.WrapAngle(-Projectile.oldRot[i]));
                 //Main.NewText($"{rotPoints[i]}");
                 trailDrawer.Draw(Projectile, "MogMod:FlameLashRGB", outerDrawColor, innerDrawColor, 1.1f, 30f, 44f, drawPoints, rotPoints);
             }
