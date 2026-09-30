@@ -30,7 +30,7 @@ namespace MogMod.Projectiles.Classless
         public bool WasEmpowered = true;
         public bool Dashing = false;
         public float MaxCharge = 60f;
-        public float EmpowerFrames = 10f;
+        public float EmpowerFrames = HurricanePike.EmpowerFrames;
         public Color Color1 = Color.Goldenrod;
         public Color Color2 = Color.Crimson;
         public override void Defaults()

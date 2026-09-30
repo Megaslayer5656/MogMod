@@ -14,6 +14,7 @@ namespace MogMod.Items.Weapons.Classless
         public new string LocalizationCategory => "Items.Weapons.Classless";
         public override int ProjectileType => ModContent.ProjectileType<DragonLanceHoldout>();
         public const float DamageMult = 2.2f;
+        public const int EmpowerFrames = 5;
         public override void SetDefaults()
         {
             base.SetDefaults();

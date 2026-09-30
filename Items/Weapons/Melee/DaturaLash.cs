@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
-using MogMod.Items.Other;
 using MogMod.Projectiles.Melee;
 using Terraria;
 using Terraria.DataStructures;
@@ -18,7 +17,7 @@ namespace MogMod.Items.Weapons.Melee
 
             Item.damage = 46;
             Item.knockBack = 1.5f;
-            Item.shootSpeed = 24f;
+            Item.shootSpeed = 2f;
             Item.useAnimation = Item.useTime = 20;
             Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.useStyle = ItemUseStyleID.Shoot;

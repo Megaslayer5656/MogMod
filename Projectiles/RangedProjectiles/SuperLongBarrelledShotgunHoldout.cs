@@ -23,6 +23,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         public ref float ShootTimer => ref Projectile.ai[0];
         public ref float ReloadTimer => ref Projectile.ai[1];
         public ref float LastUseTime => ref Projectile.ai[2];
+        public int CooldownTimer = 0;
         public int Cap = 10;
         public int shootTime = SuperLongBarrelledShotgun.reloadTime;
         public int attackTime = 0;
@@ -31,10 +32,12 @@ namespace MogMod.Projectiles.RangedProjectiles
         public override void KillHoldoutLogic() { }
         public override void SendExtraAIHoldout(BinaryWriter writer)
         {
+            writer.Write(CooldownTimer);
             writer.Write(Projectile.spriteDirection);
         }
         public override void ReceiveExtraAIHoldout(BinaryReader reader)
         {
+            CooldownTimer = reader.ReadInt32();
             Projectile.spriteDirection = reader.ReadInt32();
         }
         public override void HoldoutAI()
@@ -62,7 +65,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             bool rightShootChecks = Owner.whoAmI == Main.myPlayer && (Owner.MogMod().mouseRight && Main.mouseRightRelease && !Main.mapFullscreen && !Owner.mouseInterface && ReloadTimer <= 0) && hasAmmo;
 
             // if we ran out of ammo, reload
-            if (mogPlayer.longBarrelShotgunShots != maxShots && KeybindSystem.FirstWeaponKeybind.Current && hasAmmo || ReloadTimer != 0)
+            if ((mogPlayer.longBarrelShotgunShots != maxShots && KeybindSystem.FirstWeaponKeybind.Current && CooldownTimer <= 0f) || ReloadTimer != 0)
             {
                 ShootTimer = attackTime / maxShots;
                 ReloadTimer++;
@@ -99,6 +102,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 else if (leftShootChecks) Shoot(shootVelocity, false);
             }
             if (ShootTimer > 0) ShootTimer--;
+            if (CooldownTimer > 0) CooldownTimer--;
         }
         public void Shoot(Vector2 shootVelocity, bool rightClicked)
         {
@@ -152,6 +156,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                     Vector2 spawnPosition = Projectile.Center + (-Projectile.velocity * 4f) + spawnOffset;
                     Gore.NewGore(Projectile.GetSource_FromAI(), spawnPosition, -shootVelocity.RotatedByRandom(spread), Mod.Find<ModGore>(goreType).Type);
                 }
+                CooldownTimer = attackTime / maxShots;
             }
         }
     }

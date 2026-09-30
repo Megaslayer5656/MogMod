@@ -312,6 +312,7 @@ Mods: {
 				WitchBladeProj.DisplayName: Witch Blade Proj
 				BerserkersFireSpearProj.DisplayName: Berserkers Fire Spear Proj
 				AghanimBulletProj.DisplayName: Aghanim Bullet Proj
+				CrescentMoonBullet.DisplayName: Crescent Moon Bullet
 			}
 
 			Melee: {

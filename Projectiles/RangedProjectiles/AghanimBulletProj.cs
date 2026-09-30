@@ -66,10 +66,10 @@ namespace MogMod.Projectiles.RangedProjectiles
             Main.spriteBatch.SetBlendState(BlendState.Additive);
             for (float i = 0f; i < 1f; i += 0.25f)
             {
-                Texture2D starTex = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/StarProj").Value;
+                Texture2D starTex = ModContent.Request<Texture2D>("MogMod/Assets/Textures/BoltParticle").Value;
                 Main.EntitySpriteDraw(starTex, drawPosition, null, Colour * (0.25f + i), Projectile.rotation + MathHelper.PiOver2, starTex.Size() * 0.5f, Projectile.scale * (0.5f + i), SpriteEffects.None);
 
-                Texture2D bloomTex = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/CircleGradient").Value;
+                Texture2D bloomTex = ModContent.Request<Texture2D>("MogMod/Assets/Textures/GlowParticle").Value;
                 if (i % 0.5f == 0) Main.EntitySpriteDraw(bloomTex, drawPosition, null, Colour * (0.75f - i), Projectile.rotation, bloomTex.Size() * 0.5f, Projectile.scale * (0.15f + i), SpriteEffects.None);
             }
             Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);

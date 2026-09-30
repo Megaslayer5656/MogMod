@@ -18,6 +18,7 @@ namespace MogMod.Items.Weapons.Classless
         ModKeybind keybindActive = null;
         public override int ProjectileType => ModContent.ProjectileType<HurricanePikeHoldout>();
         public const float DamageMult = 2.5f;
+        public const int EmpowerFrames = 10;
         public override void SetDefaults()
         {
             base.SetDefaults();

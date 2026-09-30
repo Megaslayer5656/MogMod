@@ -113,6 +113,18 @@ namespace MogMod.Projectiles.BaseProjectiles
         public float OffsetLengthFromArm { get; set; }
 
         /// <summary>
+        /// Whether the holdout should allow <see cref="ArmPosition"/> to be set to a custom value.<br/>
+        /// Defaults to <see langword="true"/>.
+        /// </summary>
+        public bool ModifyArmPosition { get; set; } = true;
+
+        /// <summary>
+        /// Where the gun should be drawn. <br/>
+        /// Defaults to the center of the player, taking into account if they have a mount or not.
+        /// </summary>
+        public Vector2 ArmPosition { get; set; } = Vector2.One;
+
+        /// <summary>
         /// Extra rotation added to the front arm if you want to make it be held cooler or more naturally.<br/>
         /// Direction is already taken care of, so you don't need to multiply anything.
         /// </summary>
@@ -198,7 +210,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         public virtual void ManageHoldout()
         {
             // The center of the player, taking into account if they have a mount or not.
-            Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
+            if (ModifyArmPosition) ArmPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
 
             // The direction this holdout's pointing at.
             float holdoutDirection = Projectile.velocity.ToRotation();
@@ -208,7 +220,7 @@ namespace MogMod.Projectiles.BaseProjectiles
             if (Projectile.owner == Main.myPlayer)
             {
                 // The vector between the player and the mouse, used for pointing the holdout.
-                Vector2 ownerToMouse = Owner.MogMod().mouseWorld - armPosition;
+                Vector2 ownerToMouse = Owner.MogMod().mouseWorld - ArmPosition;
 
                 // A range from -1 to 1 for when the holdout is pointing downards of upwards, respectively.
                 // Used for the offsets.
@@ -218,7 +230,7 @@ namespace MogMod.Projectiles.BaseProjectiles
 
                 Vector2 lengthOffset = Projectile.rotation.ToRotationVector2() * OffsetLengthFromArm;
                 Vector2 armOffset = new(Utils.Remap(MathF.Abs(proximityLookingUpwards), 0f, 1f, 0f, proximityLookingUpwards > 0f ? OffsetXUpwards : OffsetXDownwards) * direction, BaseOffsetY * Owner.gravDir + Utils.Remap(MathF.Abs(proximityLookingUpwards), 0f, 1f, 0f, proximityLookingUpwards > 0f ? OffsetYUpwards : OffsetYDownwards) * Owner.gravDir);
-                Projectile.Center = armPosition + lengthOffset + armOffset;
+                Projectile.Center = ArmPosition + lengthOffset + armOffset;
                 Projectile.velocity = holdoutDirection.AngleTowards(ownerToMouse.ToRotation(), WeaponTurnSpeed).ToRotationVector2();
                 Projectile.rotation = holdoutDirection;
 
@@ -232,7 +244,7 @@ namespace MogMod.Projectiles.BaseProjectiles
                 int direction = Projectile.spriteDirection;
 
                 Vector2 armOffset = new(Utils.Remap(MathF.Abs(proximityLookingUpwards), 0f, 1f, 0f, proximityLookingUpwards > 0f ? OffsetXUpwards : OffsetXDownwards) * direction, BaseOffsetY * Owner.gravDir + Utils.Remap(MathF.Abs(proximityLookingUpwards), 0f, 1f, 0f, proximityLookingUpwards > 0f ? OffsetYUpwards : OffsetYDownwards) * Owner.gravDir);
-                Projectile.Center = armPosition + lengthOffset + armOffset;
+                Projectile.Center = ArmPosition + lengthOffset + armOffset;
                 Projectile.velocity = Projectile.rotation.ToRotationVector2();
 
                 Owner.ChangeDir(direction);

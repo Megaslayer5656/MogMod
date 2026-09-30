@@ -340,6 +340,8 @@ namespace MogMod.Common.MogModPlayer
         public int mosinShots = 0;
         public int axmcShots = 0;
         public int longBarrelShotgunShots = 0;
+        public int leftCrescentMoonShots = 0;
+        public int rightCrescentMoonShots = 0;
 
         public bool pikeEmpowered = false;
 
@@ -1549,20 +1551,29 @@ namespace MogMod.Common.MogModPlayer
 
             if (Player.whoAmI == Main.myPlayer && !Player.dead && !Main.mapFullscreen && !Player.mouseInterface)
             {
-                if (Player.HeldItem.type == ModContent.ItemType<SuperLongBarrelledShotgun>() && (Player.ownedProjectileCounts[ModContent.ProjectileType<SuperLongBarrelledShotgunHoldout>()] == 0))
+                int shotgun = ModContent.ProjectileType<SuperLongBarrelledShotgunHoldout>();
+                if (Player.HeldItem.type == ModContent.ItemType<SuperLongBarrelledShotgun>() && (Player.ownedProjectileCounts[shotgun] < 1))
                 {
                     int damage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(Player.HeldItem.damage);
-                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), ModContent.ProjectileType<SuperLongBarrelledShotgunHoldout>(), damage, Player.HeldItem.knockBack, Player.whoAmI);
+                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), shotgun, damage, Player.HeldItem.knockBack, Player.whoAmI);
                 }
-                if (Player.HeldItem.type == ModContent.ItemType<Mosin>() && (Player.ownedProjectileCounts[ModContent.ProjectileType<MosinHoldout>()] == 0))
+                int mosin = ModContent.ProjectileType<MosinHoldout>();
+                if (Player.HeldItem.type == ModContent.ItemType<Mosin>() && (Player.ownedProjectileCounts[mosin] < 1))
                 {
                     int damage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(Player.HeldItem.damage);
-                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), ModContent.ProjectileType<MosinHoldout>(), damage, Player.HeldItem.knockBack, Player.whoAmI);
+                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), mosin, damage, Player.HeldItem.knockBack, Player.whoAmI);
                 }
-                if (Player.HeldItem.type == ModContent.ItemType<AXMC>() && (Player.ownedProjectileCounts[ModContent.ProjectileType<AXMCHoldout>()] == 0))
+                int axmc = ModContent.ProjectileType<AXMCHoldout>();
+                if (Player.HeldItem.type == ModContent.ItemType<AXMC>() && (Player.ownedProjectileCounts[axmc] < 1))
                 {
                     int damage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(Player.HeldItem.damage);
-                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), ModContent.ProjectileType<AXMCHoldout>(), damage, Player.HeldItem.knockBack, Player.whoAmI);
+                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), axmc, damage, Player.HeldItem.knockBack, Player.whoAmI);
+                }
+                int cresent = ModContent.ProjectileType<CrescentMoonHoldout>();
+                if (Player.HeldItem.type == ModContent.ItemType<CrescentMoon>() && (Player.ownedProjectileCounts[cresent] < 2)) // two guns
+                {
+                    int damage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(Player.HeldItem.damage);
+                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), cresent, damage, Player.HeldItem.knockBack, Player.whoAmI, ai2: Player.ownedProjectileCounts[cresent]);
                 }
             }
         }

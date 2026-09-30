@@ -28,7 +28,7 @@ namespace MogMod.Projectiles.Classless
         public bool CanEmpower = true;
         public bool WasEmpowered = true;
         public float MaxCharge = 60f;
-        public float EmpowerFrames = 6f;
+        public float EmpowerFrames = DragonLance.EmpowerFrames;
         public Color Color1 = Color.Silver;
         public Color Color2 = Color.Crimson;
         public override void Defaults()

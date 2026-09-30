@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.BaseProjectiles
 {
+    // lifted from calamity mods BaseFlailProjectile
     public abstract class BaseFlailProjectile : ModProjectile
     {
         // Note: the original solar eruption code uses hide and player.heldProj.
@@ -206,7 +207,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         /// <param name="bodyDrawPosition">The drawing position of the body segments. Modified in this method.</param>
         public void DrawType1BodySprite(in float speed, in Vector2 normalizedVelocity, in Color lightColor, ref Vector2 bodyDrawPosition)
         {
-            Rectangle type1BodyFrame = new Rectangle(0, BodyType1StartY, FlailTexture.Width, BodyType1SectionHeight);
+            Rectangle type1BodyFrame = new(0, BodyType1StartY, FlailTexture.Width, BodyType1SectionHeight);
             bool reducedType1BodyCount = speed < 100f;
             int type1BodyDrawCount = reducedType1BodyCount ? 22 : 9;
             if (speed > 0f)
@@ -247,7 +248,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         {
             // Draw body segment without the molten rock part sticking to it.
             // From a drawing standpoint, this is the second chain type of the flail
-            Rectangle type2BodyFrame = new Rectangle(0, BodyType2StartY, FlailTexture.Width, BodyType2SectionHeight);
+            Rectangle type2BodyFrame = new(0, BodyType2StartY, FlailTexture.Width, BodyType2SectionHeight);
             if (speed > 0f)
             {
                 float counter = 0f;
