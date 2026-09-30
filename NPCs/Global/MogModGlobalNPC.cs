@@ -176,7 +176,7 @@ namespace MogMod.NPCs.Global
         #endregion
 
         #region NPC Drops
-        public override void ModifyGlobalLoot(GlobalLoot globalLoot)
+        public override void ModifyGlobalLoot(GlobalLoot globalLoot) //Add bloody aspect to this
         {
             int aspectChance = 2000;
             LeadingConditionRule overloadingDrop = new(DropHelper.OverloadingEliteCondition);
@@ -732,6 +732,10 @@ namespace MogMod.NPCs.Global
 
             if (mogPlayer.wearingFlayersBota)
                 blood = (int)(blood * (FlayersBota.BloodMult + 1));
+
+            if (mogPlayer.wearingBloody)
+                blood = (int)(blood * (BloodyAspect.BloodMult + 1));
+
             //ChatHelper.SendChatMessageToClient(NetworkText.FromLiteral($"added {blood} blood damage"), Color.Lime, player.whoAmI);
             return blood;
         }

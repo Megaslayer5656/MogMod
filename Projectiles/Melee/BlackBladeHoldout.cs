@@ -27,7 +27,7 @@ namespace MogMod.Projectiles.Melee
         public ref float DustTimer => ref Projectile.ai[1];
         bool playedChargeSound = false;
         Color Color1 = Color.DarkGoldenrod;
-        Color Color2 = Color.Crimson;
+        Color Color2 = Color.DarkRed;
         public SlotId AudSlot;
         public override void Defaults()
         {

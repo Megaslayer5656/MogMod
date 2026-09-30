@@ -223,3 +223,11 @@ OverloadingAspect: {
 		Gain +{2} HP/s life regen after {1} seconds of not receiving damage
 		'''
 }
+
+BloodyAspect: {
+	DisplayName: Bloody Aspect
+	Tooltip: ""
+	AspectType: "[c/880808:Become an aspect of blood]"
+	HoldShiftExtensionIndicator: ""
+	Description: Increases blood damage by 15%
+}
