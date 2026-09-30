@@ -390,6 +390,7 @@ Mods: {
 				FlamewallHoldout.DisplayName: Flamewall Holdout
 				SpiritSparkle.DisplayName: Spirit Sparkle
 				FlamewallLaser.DisplayName: Flamewall Laser
+				SpiritOrb.DisplayName: Spirit Orb
 			}
 
 			Summon: {

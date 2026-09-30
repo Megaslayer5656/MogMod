@@ -124,7 +124,7 @@ namespace MogMod.Projectiles.RangedProjectiles
 
             for (int i = 0; i < 16; i++)
             {
-                Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Projectiles/RangedProjectiles/LAS13Ghost").Value;
+                Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/LAS13Ghost").Value;
                 Color auraColor = Color.Goldenrod * opacity * 0.6f;
                 Vector2 drawOffset = ((MathHelper.TwoPi * i / 16f).ToRotationVector2() * 5);
                 Main.EntitySpriteDraw(ghost, drawPosition + drawOffset, null, auraColor, drawRotation, rotationPoint, Projectile.scale, flipSprite);

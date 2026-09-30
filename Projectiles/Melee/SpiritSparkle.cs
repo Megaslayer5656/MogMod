@@ -175,7 +175,7 @@ namespace MogMod.Projectiles.Melee
             float randDirX = Main.rand.Next(-5, 6);
             float randDirY = Main.rand.Next(-5, 6);
             Vector2 velocity = new(randDirX * 5, randDirY * 5);
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<SpiritSwordProj>(), (int)(Projectile.damage * 0.5f), 1f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<SpiritOrb>(), (int)(Projectile.damage * 0.5f), 1f, Projectile.owner);
 
             // You could also spawn dusts at the enemy position. Here is simple an example:
             // Dust.NewDust(Main.rand.NextVector2FromRectangle(target.Hitbox), 0, 0, ModContent.DustType<Content.Dusts.Sparkle>());
@@ -195,7 +195,7 @@ namespace MogMod.Projectiles.Melee
             float randDirX = Main.rand.Next(-5, 6);
             float randDirY = Main.rand.Next(-5, 6);
             Vector2 velocity = new(randDirX * 5, randDirY * 5);
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<SpiritSwordProj>(), (int)(Projectile.damage * 0.5f), 1f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<SpiritOrb>(), (int)(Projectile.damage * 0.5f), 1f, Projectile.owner);
 
             info.HitDirection = (Main.player[Projectile.owner].Center.X < target.Center.X) ? 1 : (-1);
 		}

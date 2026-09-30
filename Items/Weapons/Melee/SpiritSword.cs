@@ -59,7 +59,7 @@ namespace MogMod.Items.Weapons.Melee
             float randDirX = Main.rand.Next(-5, 6);
             float randDirY = Main.rand.Next(-5, 6);
             Vector2 velocity = new(randDirX * 5, randDirY * 5);
-            Projectile.NewProjectile(player.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<SpiritSwordProj>(), (int)(Item.damage * 0.5f), 1f, player.whoAmI);
+            Projectile.NewProjectile(player.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<SpiritOrb>(), (int)(Item.damage * 0.5f), 1f, player.whoAmI);
         }
         public override void AddRecipes() // simple recipies like this keep me hard at night
         {

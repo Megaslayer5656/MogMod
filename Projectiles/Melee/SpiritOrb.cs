@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.Melee
 {
-    public class SpiritSwordProj : ModProjectile, ILocalizedModType
+    public class SpiritOrb : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";

@@ -846,6 +846,25 @@ Items: {
 			CrescentMoon: {
 				DisplayName: Crescent Moon
 				Tooltip: ""
+				TooltipNormal:
+					'''
+					A magic revolver that must reload after {0} shots
+					Right click to fire the replica revolver
+					Converts bullets into magical bullets that travel through portals to target enemies
+					Hitting enemies charges the revolvers, 
+					Once fully charged,
+					Hold {2} to reload
+					[c/8AEFFF:'Deus Ex Machina!']
+					'''
+				TooltipGFB:
+					'''
+					A magic revolver that must reload after {0} shots
+					Right click to fire the replica revolver
+					Converts bullets into magical bullets that travel through portals to target enemies
+					Bullets build up charge, dealing
+					Hold {2} to reload
+					[c/8AEFFF:'JPEG Mafia!']
+					'''
 			}
 		}
 

@@ -57,7 +57,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Default;
 using Terraria.WorldBuilding;
-using static AssGen.Assets;
+using static AssGen.Assets; // poopButt
 using static MogMod.Common.Systems.MogModNetcode;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -344,6 +344,7 @@ namespace MogMod.Common.MogModPlayer
         public int longBarrelShotgunShots = 0;
         public int leftCrescentMoonShots = 0;
         public int rightCrescentMoonShots = 0;
+        public float crescentMoonPower = 0;
 
         public bool pikeEmpowered = false;
 
@@ -1039,6 +1040,7 @@ namespace MogMod.Common.MogModPlayer
             clone.radiancePower = radiancePower;
             clone.flamewallPower = flamewallPower;
             clone.kaminariActive = kaminariActive;
+            //clone.crescentMoonPower = crescentMoonPower;
             clone.Player.MountedCenter = Player.MountedCenter;
         }
         public override void SendClientChanges(ModPlayer clientPlayer)
@@ -1047,6 +1049,7 @@ namespace MogMod.Common.MogModPlayer
             if (radiancePower != clone.radiancePower) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
             if (flamewallPower != clone.flamewallPower) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
             if (kaminariActive != clone.kaminariActive) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
+            //if (crescentMoonPower != clone.crescentMoonPower) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
             if (Player.MountedCenter != clone.Player.MountedCenter) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
         }
         public override void PreUpdate()
@@ -2585,6 +2588,8 @@ namespace MogMod.Common.MogModPlayer
             if (kaminariCooldown > 0 && wearingKaminari) kaminariCooldown--;
             if (radiancePower > 0f && Player.HeldItem.type != ModContent.ItemType<Radiance>()) radiancePower -= 0.05f;
             if (flamewallPower > 0f && Player.HeldItem.type != ModContent.ItemType<Flamewall>()) flamewallPower -= 0.05f;
+            if (crescentMoonPower > 0f && Player.HeldItem.type != ModContent.ItemType<CrescentMoon>()) crescentMoonPower -= 0.05f;
+            if (crescentMoonPower > 1f) crescentMoonPower = 1f;
             if (windrunnerTimer > 0 && (Math.Abs(Player.velocity.X) < 5) && Player.whoAmI == Main.myPlayer) windrunnerTimer--;
             if (windrunnerCharge > 0f && (Math.Abs(Player.velocity.X) < 5) && Player.whoAmI == Main.myPlayer) windrunnerCharge -= 0.01f;
             if (windrunnerCharge < 0f) windrunnerCharge = 0f;

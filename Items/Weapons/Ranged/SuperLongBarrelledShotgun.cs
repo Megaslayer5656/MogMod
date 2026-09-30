@@ -14,7 +14,7 @@ namespace MogMod.Items.Weapons.Ranged
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public const int maxShots = 2;
-        public const int reloadTime = 100;
+        public const int reloadTime = 80;
         ModKeybind keybindActive = null;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(maxShots);
         public override void SetDefaults()
