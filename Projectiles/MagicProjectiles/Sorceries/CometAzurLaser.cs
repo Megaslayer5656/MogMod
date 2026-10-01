@@ -70,6 +70,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         {
             Projectile.scale = Time < ChargeupTime ? 0f : Utils.GetLerpValue(0f, 40f, Projectile.timeLeft, true) * MaxScale;
         }
+        /*
         public override bool PreAI()
         {
             // Multiplayer support here, only run this code if the client running it is the owner of the projectile
@@ -140,6 +141,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             }
             return true;
         }
+        */
         // Gently adjusts the aim vector of the laser to point towards the mouse. if AimResponsiveness is above 1, the beam is backwards
         private void UpdateAim(Vector2 source)
         {
@@ -150,6 +152,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
 
             if (aimVector != Projectile.velocity) Projectile.netUpdate = true;
             Projectile.velocity = aimVector;
+            Projectile.rotation = Projectile.velocity.ToRotation();
         }
         public override bool? CanDamage() => Time >= ChargeupTime;
         public override bool ShouldUpdatePosition() => false;
@@ -169,16 +172,21 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
         {
             if (Projectile.velocity == Vector2.Zero) return false;
 
-            // Draw the actual laser
+            // laser drawing
             Vector2 laserEnd = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.UnitY) * LaserLength;
-            Vector2[] drawPoints = new Vector2[10];
+
+            //Main.NewText($"{laserEnd}");
+            int length = 10;
+            Vector2[] drawPoints = new Vector2[length];
+            float[] rotPoints = new float[length];
             TrailDrawer trailDrawer = default;
             Color innerDrawColor = Projectile.GetAlpha(LaserOverlayColor);
             Color outerDrawColor = Projectile.GetAlpha(Color.White);
-            for (int i = 0; i < drawPoints.Length; i++)
+            for (int i = 0; i < length; i++)
             {
                 drawPoints[i] = Vector2.Lerp(Projectile.Center, laserEnd, i / (float)(drawPoints.Length - 1f));
-                trailDrawer.Draw(Projectile, "MogMod:FlameLashRGB", outerDrawColor, innerDrawColor, 0.6f, 30f, 44f, drawPoints);
+                rotPoints[i] = Vector2.Normalize(-laserEnd.RotatedBy(Projectile.rotation)).ToRotation();
+                trailDrawer.Draw(Projectile, "MogMod:FlameLashRGB", outerDrawColor, innerDrawColor, 1.1f, 30f, 44f, drawPoints, rotPoints);
             }
 
             /*

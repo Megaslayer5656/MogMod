@@ -37,6 +37,7 @@ namespace MogMod.Projectiles.MagicProjectiles
         }
         public override void ExtraBehavior()
         {
+            Projectile.rotation = Projectile.velocity.ToRotation();
             MogModUtils.HomeInOnNPC(Projectile, true, 1500f, 1f, 20f);
             //RotationalSpeed = UniversalAngularSpeed;
             // Generate a burst of bubble-like nebula dust.

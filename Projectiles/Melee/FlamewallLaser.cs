@@ -42,7 +42,7 @@ namespace MogMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            Projectile.width = Projectile.height = 6;
+            Projectile.width = Projectile.height = 8;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.ContinuouslyUpdateDamageStats = true;
@@ -64,16 +64,6 @@ namespace MogMod.Projectiles.Melee
         }
         public override void UpdateLaserMotion()
         {
-            /*
-            Vector2 aimVector = (Owner.MogMod().mouseWorld - Projectile.Center).SafeNormalize(Vector2.UnitX);
-            aimVector = Vector2.Normalize(Vector2.Lerp(aimVector, Vector2.Normalize(Projectile.velocity), 0.94f));
-
-            if (aimVector != Projectile.velocity) Projectile.netUpdate = true;
-            Projectile.velocity = aimVector;
-            //Projectile.velocity += (Owner.MogMod().mouseWorld - Projectile.Center).SafeNormalize(Vector2.UnitX);
-            //Projectile.rotation = Projectile.velocity.ToRotation();
-            */
-
             Vector2 aimVector = Vector2.Normalize(Owner.MogMod().mouseWorld - Projectile.Center);
             if (aimVector.HasNaNs()) aimVector = -Vector2.UnitY;
             aimVector = Vector2.Normalize(Vector2.Lerp(aimVector, Vector2.Normalize(Projectile.velocity), 0.94f));
@@ -125,16 +115,7 @@ namespace MogMod.Projectiles.Melee
             for (int i = 0; i < length; i++)
             {
                 drawPoints[i] = Vector2.Lerp(Projectile.Center, laserEnd, i / (float)(drawPoints.Length - 1f));
-                //rotPoints[i] = MiscUtils.WrapAngle90Degrees(-Projectile.velocity.ToRotation());
-                // PROBLEM:
-                // projectile rotates facing towards cursor,
-                // trail rotates in the opposite direction
-                // SOLUTION:
-                // make both rotate the same direction
-                //rotPoints[i] = Projectile.oldRot[i]; // causes trail to draw when rotated up && down, not left || right
-                //rotPoints[i] = laserEnd.ToRotation(); // causes trail to only draw to the right
-                rotPoints[i] = Vector2.Normalize(Owner.MogMod().mouseWorld - Projectile.Center).ToRotation(); // causes it to draw sometimes (mostly when flicking your mouse)
-                //Main.NewText($"{Projectile.rotation}, {Projectile.oldRot[i]}, {rotPoints[i]}");
+                rotPoints[i] = Vector2.Normalize(-laserEnd.RotatedBy(Projectile.rotation)).ToRotation();
                 trailDrawer.Draw(Projectile, "MogMod:FlameLashRGB", outerDrawColor, innerDrawColor, 1.1f, 30f, 44f, drawPoints, rotPoints);
             }
             return false;

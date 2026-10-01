@@ -1,9 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
+using MogMod.Items.Consumables;
 using MogMod.Items.Global;
+using MogMod.Items.Other;
 using MogMod.Projectiles.RangedProjectiles;
 using MogMod.Utilities;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -58,7 +61,7 @@ namespace MogMod.Items.Weapons.Ranged
                 if (Main.zenithWorld)
                 {
                     TooltipLine gfb = new(Mod, "Tooltip0", MiscUtils.GetTextFromModItem<CrescentMoon>("TooltipGFB").Format());
-                    gfb.OverrideColor = Color.Lerp(LeftColor, RightColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
+                    gfb.OverrideColor = Color.Lerp(LeftColor, RightColor, (float)Math.Cos(Main.GlobalTimeWrappedHourly));
                     tooltips.Insert(index++, gfb);
                 }
                 else
@@ -71,9 +74,19 @@ namespace MogMod.Items.Weapons.Ranged
                     tooltips.Insert(index++, normal);
                 }
                 TooltipLine quote = Main.zenithWorld ? new(Mod, "Tooltip0", MiscUtils.GetTextFromModItem<CrescentMoon>("TooltipQuoteGFB").Format()) : new(Mod, "Tooltip0", MiscUtils.GetTextFromModItem<CrescentMoon>("TooltipQuote").Format());
-                quote.OverrideColor = Color.Lerp(RightColor, LeftColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
+                quote.OverrideColor = Color.Lerp(RightColor, LeftColor, (float)Math.Cos(Main.GlobalTimeWrappedHourly));
                 tooltips.Insert(index++, quote);
             }
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.Revolver).
+                AddIngredient(ItemID.FragmentStardust, 8).
+                AddIngredient<SoulFragment>(3).
+                AddIngredient<ManaCore>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -685,7 +685,7 @@ Items: {
 				Tooltip:
 					'''
 					Converts bullets into energy bullets that bounce between enemies
-					Not to be confused with [c/FFC896:'The Great Equalizer']
+					Not to be confused with [i:MogMod/Mosin] [c/FFC896:'The Great Equalizer']
 					'''
 			}
 
