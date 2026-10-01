@@ -1,4 +1,5 @@
-﻿using MogMod.Common.Systems;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
 using MogMod.Items.Global;
 using MogMod.Projectiles.RangedProjectiles;
@@ -17,6 +18,8 @@ namespace MogMod.Items.Weapons.Ranged
         public const int maxShots = 6;
         public const int maxBarrageShots = 72;
         public const int reloadTime = 80;
+        public Color LeftColor = Color.SeaGreen;
+        public Color RightColor = Color.Turquoise;
         ModKeybind keybindActive = null;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(maxShots, maxBarrageShots);
         public override void SetDefaults()
@@ -54,24 +57,22 @@ namespace MogMod.Items.Weapons.Ranged
             {
                 if (Main.zenithWorld)
                 {
-                    index++;
-                    TooltipLine gfb = new(Mod, "Tooltip0", MiscUtils.GetTextFromModItem<CrescentMoon>("TooltipGFB").Format(
-                        maxShots,
-                        maxBarrageShots,
-                        ReloadHotkey,
-                        UltHotkey));
-                    tooltips.Insert(index, gfb);
+                    TooltipLine gfb = new(Mod, "Tooltip0", MiscUtils.GetTextFromModItem<CrescentMoon>("TooltipGFB").Format());
+                    gfb.OverrideColor = Color.Lerp(LeftColor, RightColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
+                    tooltips.Insert(index++, gfb);
                 }
                 else
                 {
-                    index++;
                     TooltipLine normal = new(Mod, "Tooltip0", MiscUtils.GetTextFromModItem<CrescentMoon>("TooltipNormal").Format(
                         maxShots,
                         maxBarrageShots,
                         ReloadHotkey,
                         UltHotkey));
-                    tooltips.Insert(index, normal);
+                    tooltips.Insert(index++, normal);
                 }
+                TooltipLine quote = Main.zenithWorld ? new(Mod, "Tooltip0", MiscUtils.GetTextFromModItem<CrescentMoon>("TooltipQuoteGFB").Format()) : new(Mod, "Tooltip0", MiscUtils.GetTextFromModItem<CrescentMoon>("TooltipQuote").Format());
+                quote.OverrideColor = Color.Lerp(RightColor, LeftColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
+                tooltips.Insert(index++, quote);
             }
         }
     }

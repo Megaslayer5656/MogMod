@@ -1,14 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using MogMod.Common.MogModPlayer;
+﻿using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
-using MogMod.Items.Accessories.Boots;
-using MogMod.Items.Accessories.NeutralItems.Aspects;
 using MogMod.Items.Global;
 using MogMod.Utilities;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Accessories

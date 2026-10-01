@@ -206,7 +206,7 @@ namespace MogMod.Projectiles.Melee
                 return 0f;
             }
             if (inStartup) return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * 0.7f, -swingWidth * 0.4f, 1 - MathF.Pow(StartupCompletion, 0.5f)));
-            if (inCooldown) return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * 0.5f, (360 - swingWidth * 0.4f), MathF.Pow(CooldownCompletion, 0.5f)));
+            if (inCooldown) return MathHelper.ToRadians(MathHelper.SmoothStep(swingWidth * 0.5f, (360 - swingWidth * 0.4f), 1 - MathF.Pow(1 - CooldownCompletion, 0.5f)));
             return MathHelper.ToRadians(MathHelper.SmoothStep(-swingWidth * .5f, (swingWidth * 0.5f), MathF.Pow(SwingCompletion, 0.5f)));
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)

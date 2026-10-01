@@ -848,23 +848,28 @@ Items: {
 				Tooltip: ""
 				TooltipNormal:
 					'''
-					A magic revolver that must reload after {0} shots
+					A magic revolver (and its replica!) that must reload after {0} shots
 					Right click to fire the replica revolver
 					Converts bullets into magical bullets that travel through portals to target enemies
-					Hitting enemies charges the revolvers, 
-					Once fully charged,
+					Hitting enemies charges the revolvers, causing them to deal more damage
+					Once fully charged, press {3} to fire a barrage of {1} bullets that don't consume ammo
 					Hold {2} to reload
-					[c/8AEFFF:'Deus Ex Machina!']
 					'''
+				TooltipQuote: "'Deus Ex Machina!'"
+				UltText1: DEUS!
+				UltText2: EX!
+				UltText3: MACHINA!
 				TooltipGFB:
 					'''
-					A magic revolver that must reload after {0} shots
-					Right click to fire the replica revolver
-					Converts bullets into magical bullets that travel through portals to target enemies
-					Bullets build up charge, dealing
-					Hold {2} to reload
-					[c/8AEFFF:'JPEG Mafia!']
+					It took me ten years to find the answers to something
+					I forgot about it in two seconds
+					I don't have anything that's really important to me
+					That's why everything is beautiful
 					'''
+				TooltipQuoteGFB: "'JPEG MAFIA!'"
+				UltTextGFB1: J!
+				UltTextGFB2: PEG!
+				UltTextGFB3: MAFIA!
 			}
 		}
 

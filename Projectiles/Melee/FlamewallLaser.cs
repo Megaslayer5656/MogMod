@@ -88,7 +88,7 @@ namespace MogMod.Projectiles.Melee
         }
         public override void ExtraBehavior()
         {
-            Projectile.rotation = -Projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation();
             Owner.SetScreenshake(3f);
             if (Owner.channel && Time >= 30f)
             {
@@ -114,6 +114,7 @@ namespace MogMod.Projectiles.Melee
 
             // Draw the actual laser
             Vector2 laserEnd = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.UnitY) * LaserLength;
+
             //Main.NewText($"{laserEnd}");
             int length = 10;
             Vector2[] drawPoints = new Vector2[length];
@@ -129,10 +130,11 @@ namespace MogMod.Projectiles.Melee
                 // projectile rotates facing towards cursor,
                 // trail rotates in the opposite direction
                 // SOLUTION:
-                 //make both rotate the same direction
+                // make both rotate the same direction
                 //rotPoints[i] = Projectile.oldRot[i]; // causes trail to draw when rotated up && down, not left || right
-                rotPoints[i] = Projectile.oldRot[i];
-                Main.NewText($"{Projectile.rotation}, {Projectile.oldRot[i]}, {rotPoints[i]}");
+                //rotPoints[i] = laserEnd.ToRotation(); // causes trail to only draw to the right
+                rotPoints[i] = Vector2.Normalize(Owner.MogMod().mouseWorld - Projectile.Center).ToRotation(); // causes it to draw sometimes (mostly when flicking your mouse)
+                //Main.NewText($"{Projectile.rotation}, {Projectile.oldRot[i]}, {rotPoints[i]}");
                 trailDrawer.Draw(Projectile, "MogMod:FlameLashRGB", outerDrawColor, innerDrawColor, 1.1f, 30f, 44f, drawPoints, rotPoints);
             }
             return false;

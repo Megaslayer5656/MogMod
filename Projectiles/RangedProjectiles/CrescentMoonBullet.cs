@@ -4,6 +4,7 @@ using MogMod.Buffs.Debuffs;
 using MogMod.Common.Graphics;
 using MogMod.Items.Weapons.Ranged;
 using MogMod.Utilities;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -75,6 +76,8 @@ namespace MogMod.Projectiles.RangedProjectiles
             {
                 if (Projectile.ai[0] == MinCharge)
                 {
+                    SoundStyle teleport = (Projectile.ai[2] == 0f ? SoundID.Item114 : SoundID.Item115);
+                    SoundEngine.PlaySound(teleport with { Volume = MathHelper.Clamp(Math.Abs(0.5f - Owner.MogMod().crescentMoonPower), 0.5f, 1f), Pitch = -0.2f, MaxInstances = -1 }, Owner.Center);
                     if (Projectile.owner == Main.myPlayer)
                     {
                         potentialTarget = Projectile.Center.ClosestNPCAt(1500f, true, true);
@@ -113,11 +116,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 dustIncr++;
             }
         }
-        public override bool? CanDamage() => !HitEnemy && Projectile.ai[0] >= MinCharge;
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            if (Projectile.owner == Main.myPlayer) modifiers.SourceDamage *= (Owner.MogMod().radiancePower + 1f);
-        }
+        public override bool? CanDamage() => !HitEnemy;
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             KillEffect();
@@ -138,9 +137,9 @@ namespace MogMod.Projectiles.RangedProjectiles
                     new ParticleOrchestraSettings { PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox) },
                     Projectile.owner);
             }
-            float powerGain = MathHelper.Clamp(hit.Damage * 0.00025f, 0.01f, 1f);
+            float powerGain = MathHelper.Clamp(hit.Damage * 0.000125f, 0.01f, 1f);
             float powerLoss = CrescentMoon.maxBarrageShots / 100;
-            Main.NewText($"{Owner.MogMod().crescentMoonPower}, {powerGain}, {powerLoss}", Colour);
+            //Main.NewText($"{Owner.MogMod().crescentMoonPower}, {powerGain}, {powerLoss}", Colour);
             if (Projectile.owner == Main.myPlayer && Owner.MogMod().crescentMoonPower < 1f && Projectile.ai[1] == 5f) Owner.MogMod().crescentMoonPower += powerGain;
             if (Projectile.owner == Main.myPlayer && Owner.MogMod().crescentMoonPower > 0f && Projectile.ai[1] != 5f) Owner.MogMod().crescentMoonPower -= powerLoss;
         }
@@ -161,9 +160,19 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            // draw trail
-            TrailDrawer trailDrawer = default;
-            trailDrawer.Draw(Projectile, "MagicMissile", Color.White, Colour, minLength: 20, maxLength: 30);
+            // "delete" trail when entering a portal
+            if (Projectile.ai[0] >= MinCharge)
+            {
+                // draw trail
+                TrailDrawer trailDrawer = default;
+                trailDrawer.Draw(Projectile, "MagicMissile", Color.White, Colour, minLength: 20, maxLength: 30);
+            }
+            else if (Projectile.ai[0] < MinCharge - 1)
+            {
+                // draw trail
+                TrailDrawer trailDrawer = default;
+                trailDrawer.Draw(Projectile, "MagicMissile", Color.White, Colour, minLength: 20, maxLength: 30);
+            }
 
             Texture2D tex = TextureAssets.Projectile[Type].Value;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;

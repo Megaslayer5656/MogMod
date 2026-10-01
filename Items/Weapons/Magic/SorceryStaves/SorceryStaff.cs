@@ -138,8 +138,14 @@ namespace MogMod.Items.Weapons.Magic.SorceryStaves
             {
                 var cataLine = new TooltipLine(Mod, "Catalyst", "A catalyst used to cast sorceries");
                 // removes the items base mana, use speed, and knockback tooltips
-                tooltips.RemoveRange(3, 3);
-                tooltips.Insert(3, cataLine);
+                tooltips.RemoveAll(x => x.Name == "Speed");
+                tooltips.RemoveAll(x => x.Name == "Knockback");
+                tooltips.RemoveAll(x => x.Name == "UseMana");
+                int index = tooltips.FindIndex(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
+                if (index != -1)
+                {
+                    tooltips.Insert(index++, cataLine);
+                }
             }
         }
     }
