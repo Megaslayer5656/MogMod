@@ -337,6 +337,7 @@ namespace MogMod.Common.MogModPlayer
         public bool markerProjOut = false;
 
         public int hellfireOverheat = 0;
+        public int las13Heat = 0;
         public int lasOverheat = 0;
 
         public int mosinShots = 0;
@@ -1585,6 +1586,16 @@ namespace MogMod.Common.MogModPlayer
                 if (Player.HeldItem.type == ModContent.ItemType<CrescentMoon>() && (Player.ownedProjectileCounts[cresent] < 2)) // two guns
                 {
                     Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), cresent, rangedDamage, Player.HeldItem.knockBack, Player.whoAmI, ai2: Player.ownedProjectileCounts[cresent]);
+                }
+                int las13 = ModContent.ProjectileType<LAS13Holdout>();
+                if (Player.HeldItem.type == ModContent.ItemType<LAS13Trident>() && (Player.ownedProjectileCounts[las13] < 1))
+                {
+                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), las13, rangedDamage, Player.HeldItem.knockBack, Player.whoAmI);
+                }
+                int hellfireMaxi = ModContent.ProjectileType<HellfireMaxigunHoldout>();
+                if (Player.HeldItem.type == ModContent.ItemType<HellfireMaxigun>() && (Player.ownedProjectileCounts[hellfireMaxi] < 1))
+                {
+                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), hellfireMaxi, rangedDamage, Player.HeldItem.knockBack, Player.whoAmI);
                 }
             }
         }

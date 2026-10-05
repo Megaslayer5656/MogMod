@@ -59,7 +59,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             }
 
             bool hasAmmo = Owner.PickAmmo(HeldItem, out _, out _, out _, out _, out _, true);
-            bool leftShootChecks = Owner.whoAmI == Main.myPlayer && (Main.mouseLeft && Main.mouseLeftRelease && !Main.mapFullscreen && !Owner.mouseInterface && ShootTimer <= 0 && ReloadTimer <= 0) && hasAmmo;
+            bool leftShootChecks = Owner.whoAmI == Main.myPlayer && (Main.mouseLeft && !Main.mapFullscreen && !Owner.mouseInterface && ShootTimer <= 0 && ReloadTimer <= 0) && hasAmmo;
 
             // if we ran out of ammo, reload
             if (mogPlayer.axmcShots != maxShots && KeybindSystem.FirstWeaponKeybind.JustPressed && hasAmmo || ReloadTimer != 0)
@@ -110,8 +110,11 @@ namespace MogMod.Projectiles.RangedProjectiles
             MogPlayer mogPlayer = Owner.MogMod();
             if (mogPlayer.axmcShots <= 0)
             {
-                SoundEngine.PlaySound(SoundID.Item17 with { PitchVariance = 0.2f }, Owner.Center);
-                if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= 2f;
+                if (Main.mouseLeft && Main.mouseLeftRelease)
+                {
+                    SoundEngine.PlaySound(SoundID.Item17 with { PitchVariance = 0.2f }, Owner.Center);
+                    if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= 2f;
+                }
                 return;
             }
 
