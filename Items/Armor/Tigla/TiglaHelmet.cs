@@ -101,7 +101,7 @@ namespace MogMod.Items.Armor.Tigla
                 AddIngredient(ItemID.UltrabrightHelmet, 1).
                 AddIngredient(ItemID.ShroomiteMask, 1).
                 AddIngredient(ItemID.Cog, 100).
-                AddIngredient<DabDadBar>(8).
+                AddIngredient<DabDadBar>(4).
                 AddIngredient(ItemID.SniperScope, 1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
@@ -109,7 +109,7 @@ namespace MogMod.Items.Armor.Tigla
                 AddIngredient(ItemID.UltrabrightHelmet, 1).
                 AddIngredient(ItemID.ShroomiteHeadgear, 1).
                 AddIngredient(ItemID.Cog, 100).
-                AddIngredient<DabDadBar>(8).
+                AddIngredient<DabDadBar>(4).
                 AddIngredient(ItemID.SniperScope, 1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
@@ -117,7 +117,7 @@ namespace MogMod.Items.Armor.Tigla
                 AddIngredient(ItemID.UltrabrightHelmet, 1).
                 AddIngredient(ItemID.ShroomiteHelmet, 1).
                 AddIngredient(ItemID.Cog, 100).
-                AddIngredient<DabDadBar>(8).
+                AddIngredient<DabDadBar>(4).
                 AddIngredient(ItemID.SniperScope, 1).
                 AddTile(TileID.MythrilAnvil).
                 Register();

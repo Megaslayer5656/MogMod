@@ -699,7 +699,7 @@ Items: {
 				Tooltip:
 					'''
 					Contains a {0} round magazine that must be reloaded for {1} second(s) before use
-					Right click to change firerate
+					Press [KEY] to change firerate
 					Higher firerates have higher spread
 					Current firerate: [RPM] RPM
 					[c/D1BB28:'Say hello to Democracy!']
@@ -2144,7 +2144,7 @@ Items: {
 		}
 
 		BlademailLeggings: {
-			DisplayName: Windrunner's Tights
+			DisplayName: Blademail Leggings
 			Tooltip: tigz +{0}% Movement and Melee Speed
 		}
 
@@ -2611,7 +2611,7 @@ Items: {
 		}
 
 		WindrunnerTights: {
-			DisplayName: Windrunner Tights
+			DisplayName: Windrunner's Tights
 			Tooltip:
 				'''
 				+{1}% Ranged Critical Strike Chance

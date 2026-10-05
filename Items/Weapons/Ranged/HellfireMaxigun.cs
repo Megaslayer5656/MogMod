@@ -13,19 +13,20 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
 {
+    // TODO: make persistant holdout
     public class HellfireMaxigun : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public int BuiltUpHeat = 0;
         public const int OverheatLevel = 540;
-        public const int OverheatCooldown = 180;
+        public const int OverheatCooldown = 240;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(OverheatCooldown.FramesToSeconds());
         public override void SetDefaults()
         {
             Item.width = 66;
             Item.height = 30;
 
-            Item.damage = 58;
+            Item.damage = 50;
             Item.knockBack = 3f;
             Item.DamageType = DamageClass.Ranged;
 

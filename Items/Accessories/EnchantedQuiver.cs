@@ -16,10 +16,10 @@ namespace MogMod.Items.Accessories
         public new string LocalizationCategory => "Items.Accessories";
         public const int RangedCritBoost = 10; // shared with damage
         public const float RangedDamageBoost = 0.1f; // shared with crit
-        public const int FlatDamageBoost = 3;
+        public const float ArrowDamageBoost = 0.15f;
         public const float VelocityMult = 0.3f;
         public const int ArrowShotCount = 3;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(RangedCritBoost, FlatDamageBoost, VelocityMult.ToPercent(), ArrowShotCount);
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(RangedCritBoost, ArrowDamageBoost.ToPercent(), VelocityMult.ToPercent(), ArrowShotCount);
         public override void SetDefaults()
         {
             Item.width = Item.height = 30;
@@ -32,7 +32,7 @@ namespace MogMod.Items.Accessories
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
             mogPlayer.wearingEnchantedQuiver = true;
             player.magicQuiver = true;
-            player.arrowDamage += 0.15f;
+            player.arrowDamage += ArrowDamageBoost;
             player.GetCritChance<RangedDamageClass>() += RangedCritBoost;
             player.GetAttackSpeed<RangedDamageClass>() += RangedDamageBoost;
         }

@@ -4,6 +4,7 @@ using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.Classless;
+using MogMod.Utilities;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
@@ -17,6 +18,9 @@ namespace MogMod.Items.Accessories.Wings
     public class WingsOfLight : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories.Wings";
+        public const float EnemyDamageReduction = 0.1f;
+        public const float EnemyCritBoost = 0.1f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(EnemyDamageReduction.ToPercent(), EnemyCritBoost.ToPercent());
         public override void SetStaticDefaults()
         {
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(240, 9.5f, 2.7f);

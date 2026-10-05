@@ -74,8 +74,9 @@ namespace MogMod.Items.Weapons.Ranged
                     tooltips.Insert(index++, normal);
                 }
                 TooltipLine quote = Main.zenithWorld ? new(Mod, "Tooltip0", MiscUtils.GetTextFromModItem<CrescentMoon>("TooltipQuoteGFB").Format()) : new(Mod, "Tooltip0", MiscUtils.GetTextFromModItem<CrescentMoon>("TooltipQuote").Format());
-                quote.OverrideColor = Color.Lerp(RightColor, LeftColor, (float)Math.Cos(Main.GlobalTimeWrappedHourly));
+                quote.OverrideColor = Color.Lerp(RightColor, LeftColor, (float)Math.Abs(Math.Cos(Main.GlobalTimeWrappedHourly)));
                 tooltips.Insert(index++, quote);
+                //Main.NewText($"{(float)Math.Abs(Math.Cos(Main.GlobalTimeWrappedHourly))}");
             }
         }
         public override void AddRecipes()

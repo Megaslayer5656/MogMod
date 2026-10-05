@@ -8,6 +8,7 @@ using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories;
 using MogMod.Items.Accessories.NeutralItems;
 using MogMod.Items.Accessories.NeutralItems.Aspects;
+using MogMod.Items.Accessories.Wings;
 using MogMod.Items.Ammo.SorcerySpells.Carian;
 using MogMod.Items.Ammo.SorcerySpells.Death;
 using MogMod.Items.Ammo.SorcerySpells.Glintstone;
@@ -306,7 +307,7 @@ namespace MogMod.NPCs.Global
                 // low level goons
                 case NPCID.GingerbreadMan:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Gingy>(), 50, 1, 1));
-                    postPlant.Add(ModContent.ItemType<FrostEssence>(), 5, 1, 3);
+                    postPlant.Add(ModContent.ItemType<FrostEssence>(), 7, 1, 2);
                     break;
                 case NPCID.PresentMimic:
                 case NPCID.Flocko:
@@ -317,12 +318,12 @@ namespace MogMod.NPCs.Global
                 case NPCID.Nutcracker:
                 case NPCID.NutcrackerSpinning:
                 case NPCID.ElfCopter:
-                    postPlant.Add(ModContent.ItemType<FrostEssence>(), 5, 1, 3);
+                    postPlant.Add(ModContent.ItemType<FrostEssence>(), 7, 1, 2);
                     break;
                 // high level goons
                 case NPCID.Yeti:
                 case NPCID.Krampus:
-                    postPlant.Add(ModContent.ItemType<FrostEssence>(), 3, 2, 4);
+                    postPlant.Add(ModContent.ItemType<FrostEssence>(), 5, 1, 3);
                     break;
                 // bosses
                 case NPCID.Everscream:
@@ -346,11 +347,11 @@ namespace MogMod.NPCs.Global
                 case NPCID.Splinterling:
                 case NPCID.Hellhound:
                 case NPCID.Poltergeist:
-                    postPlant.Add(ModContent.ItemType<SpookyEssence>(), 1, 3, 5);
+                    postPlant.Add(ModContent.ItemType<SpookyEssence>(), 7, 1, 2);
                     break;
                 // high level goons
                 case NPCID.HeadlessHorseman:
-                    postPlant.Add(ModContent.ItemType<SpookyEssence>(), 1, 3, 5);
+                    postPlant.Add(ModContent.ItemType<SpookyEssence>(), 5, 1, 3);
                     break;
                 // bosses
                 case NPCID.MourningWood:
@@ -1427,7 +1428,7 @@ namespace MogMod.NPCs.Global
             }
 
             if (wingsOfLightDebuff)
-                npc.damage = (int)(npc.defDamage * .9f);
+                npc.damage = (int)(npc.defDamage * (1f - WingsOfLight.EnemyDamageReduction));
             else
                 npc.damage = npc.defDamage;
             if (overloadingElite)
@@ -1501,11 +1502,11 @@ namespace MogMod.NPCs.Global
             if (shivasDebuff)
                 modifiers.Defense *= shivaMult;
             if (wingsOfLightDebuff)
-                modifiers.CritDamage *= 1.1f;
+                modifiers.CritDamage *= (WingsOfLight.EnemyCritBoost + 1f);
             if (aghDebuff)
                 modifiers.CritDamage *= 1.2f;
             if (blazingDebuff)
-                modifiers.FinalDamage *= BlazingAspect.DamageMult + 1;
+                modifiers.FinalDamage *= (BlazingAspect.DamageMult + 1);
         }
 
         // debuff visual effects

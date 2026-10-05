@@ -50,6 +50,8 @@ namespace MogMod.Projectiles.RangedProjectiles
         }
         public override void AI()
         {
+            if (Projectile.ai[2] == 5f) Projectile.tileCollide = false;
+
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
             Projectile.tileCollide = Projectile.localAI[1]++ > 30f;

@@ -122,8 +122,6 @@ namespace MogMod.Items.Other
                 case ItemID.LavaCrate:
                     loot.Add(ItemDropRule.Common(ModContent.ItemType<VitalityBooster>(), 5, 1, 2));
 
-                    postSkele.Add(ModContent.ItemType<GiantsMaul>(), 20);
-
                     break;
 
                 case ItemID.LavaCrateHard:
@@ -131,10 +129,11 @@ namespace MogMod.Items.Other
 
                     postAllMech.Add(ModContent.ItemType<HellfireEssence>(), 7, 1, 3);
 
-                    postSkele.Add(ModContent.ItemType<GiantsMaul>(), 20);
-
                     break;
 
+                case ItemID.ObsidianLockbox:
+                    postSkele.Add(ModContent.ItemType<GiantsMaul>(), 20);
+                    break;
 
                 case ItemID.HallowedFishingCrate:
                     postEoL.Add(ModContent.ItemType<FaeOre>(), 6, 8, 14);

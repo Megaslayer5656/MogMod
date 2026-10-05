@@ -20,13 +20,11 @@ namespace MogMod.Items.Weapons.Ranged
         public override void SetStaticDefaults() => ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         public override void SetDefaults()
         {
-            Item.damage = 75;
+            Item.damage = 80;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 20;
             Item.height = 4;
-            Item.scale = .15f;
-            Item.useTime = 60;
-            Item.useAnimation = 60;
+            Item.useTime = Item.useAnimation = 60;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.autoReuse = true;

@@ -20,13 +20,12 @@ namespace MogMod.Projectiles.Melee
     public class FlamewallLaser : BaseLaserbeamProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
-        //public override string Texture => "MogMod/Assets/Textures/InvisibleProj";
-        public override string Texture => "MogMod/Projectiles/MagicProjectiles/KhandaBeam";
+        public override string Texture => "MogMod/Assets/Textures/InvisibleProj";
         public Player Owner => Main.player[Projectile.owner];
         public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryStart", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryMid", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryEnd", AssetRequestMode.ImmediateLoad).Value;
-        public override float MaxScale => 3f;
+        public override float MaxScale => 4f;
         public override float MaxLaserLength => 2400f;
         public override float Lifetime => 3600f;
         private Projectile Holdout => Main.projectile[(int)Projectile.ai[1]];
@@ -56,7 +55,7 @@ namespace MogMod.Projectiles.Melee
         }
         public override void AttachToSomething()
         {
-            if (Owner.CantUseHoldout())
+            if (Owner.CantUseHoldout() || Holdout.ai[0] != 5f)
             {
                 if (Projectile.timeLeft > 2) Projectile.timeLeft = 2;
             }
@@ -87,8 +86,16 @@ namespace MogMod.Projectiles.Melee
             }
             if (HitSoundCooldown > 0) HitSoundCooldown--;
         }
-        //public override bool ShouldUpdatePosition() => false;
+        public override bool ShouldUpdatePosition() => false;
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            HitEffect(target);
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            HitEffect(target);
+        }
+        public void HitEffect(NPC target)
         {
             target.AddBuff(ModContent.BuffType<InfernoDebuff>(), 300);
 
@@ -98,14 +105,28 @@ namespace MogMod.Projectiles.Melee
                 HitSoundCooldown = 9;
             }
         }
+        public void HitEffect(Player target)
+        {
+            target.AddBuff(ModContent.BuffType<InfernoDebuff>(), 300);
+
+            if (HitSoundCooldown == 0)
+            {
+                SoundEngine.PlaySound(HitSound, target.Center);
+                HitSoundCooldown = 9;
+            }
+        }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            behindProjectiles.Add(index);
+        }
         public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.velocity == Vector2.Zero) return false;
 
             // Draw the actual laser
-            Vector2 laserEnd = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.UnitY) * LaserLength;
+            Vector2 laserEnd = Projectile.Center + Projectile.velocity * LaserLength;
 
-            //Main.NewText($"{laserEnd}");
+            //Main.NewText($"{Projectile.Center}, {vel}, {laserEnd}");
             int length = 10;
             Vector2[] drawPoints = new Vector2[length];
             float[] rotPoints = new float[length];
@@ -115,15 +136,11 @@ namespace MogMod.Projectiles.Melee
             for (int i = 0; i < length; i++)
             {
                 drawPoints[i] = Vector2.Lerp(Projectile.Center, laserEnd, i / (float)(drawPoints.Length - 1f));
-                rotPoints[i] = Vector2.Normalize(-laserEnd.RotatedBy(Projectile.rotation)).ToRotation();
+                rotPoints[i] = Projectile.rotation - MathHelper.Pi;
                 trailDrawer.Draw(Projectile, "MogMod:FlameLashRGB", outerDrawColor, innerDrawColor, 1.1f, 30f, 44f, drawPoints, rotPoints);
             }
             return false;
             //return base.PreDraw(ref lightColor);
-        }
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
-        {
-            behindProjectiles.Add(index);
         }
     }
 }

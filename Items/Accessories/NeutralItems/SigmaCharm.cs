@@ -27,7 +27,7 @@ namespace MogMod.Items.Accessories.NeutralItems
         {
             CreateRecipe().
                 AddIngredient(ItemID.MoonCharm).
-                AddIngredient<DabDadBar>(10).
+                AddIngredient<DabDadBar>(5).
                 AddIngredient<UltimateOrb>().
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

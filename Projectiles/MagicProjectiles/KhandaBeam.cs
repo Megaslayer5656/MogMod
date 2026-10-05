@@ -1,9 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MogMod.Buffs.Debuffs;
+using MogMod.Common.Graphics;
+using MogMod.Items.Weapons.Magic;
+using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
+using Mono.Cecil;
 using ReLogic.Content;
+using ReLogic.Utilities;
 using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Timers;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Enums;
@@ -12,147 +21,99 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
-    class KhandaBeam : BaseLaserbeamProjectile, ILocalizedModType
+    public class KhandaBeam : BaseLaserbeamProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
-        public override string Texture => "MogMod/Projectiles/MagicProjectiles/KhandaBeam";
-        public static readonly Color[] Colors =
-        [
-            //new Color(255, 0, 0, 50), //Red
-            //new Color(255, 128, 0, 50), //Orange
-            //new Color(255, 255, 0, 50), //Yellow
-            //new Color(128, 255, 0, 50), //Lime
-            //new Color(0, 255, 0, 50), //Green
-            //new Color(0, 255, 128, 50), //Turquoise
-            //new Color(0, 255, 255, 50), //Cyan
-            //new Color(0, 128, 255, 50), //Light Blue
-            //new Color(0, 0, 255, 50), //Blue
-            new Color(128, 0, 255, 50), //Purple
-            new Color(255, 0, 255, 50), //Fuschia
-            new Color(128, 0, 255, 50), //Purple
-            //new Color(255, 0, 128, 50) //Hot Pink
-        ];
-        public static readonly Color[] ColorSet =
-        [
-            new Color(128, 0, 255, 50), //Purple
-            new Color(255, 0, 255, 50), //Fuschia
-            new Color(128, 0, 255, 50), //Purple
-        ];
-        public bool PlayedSound = false;
-        public const int ChargeupTime = 30;
+        public new string LocalizationCategory => "Projectiles.Magic";
+        public override string Texture => "MogMod/Assets/Textures/InvisibleProj";
         public Player Owner => Main.player[Projectile.owner];
-        public override Color LaserOverlayColor => MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / ColorSet.Length % 1f, ColorSet); // determines color from ColorSet array
-        public override Color LightCastColor => LaserOverlayColor; // applies it
-        public override float Lifetime => 2700f;
-        public override float MaxScale => 2.1f;
-        public override float MaxLaserLength => 1000f;
         public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryStart", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryMid", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryEnd", AssetRequestMode.ImmediateLoad).Value;
-        private const float AimResponsiveness = 0.88f; // Last Prism is 0.92f. Lower makes the laser turn faster. if above 1.0 it turns the beam backwards
+        public override float MaxScale => 2.1f;
+        public override float MaxLaserLength => 1000f;
+        public override float Lifetime => 3600f;
+        private Projectile Holdout => Main.projectile[(int)Projectile.ai[1]];
+        public override Color LaserOverlayColor => Khanda.WeakColor;
+        public static Color StrongColor => Khanda.StrongColor;
+        public SlotId AudSlot;
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 5000;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+        }
         public override void SetDefaults()
         {
-            Projectile.width = 7;
-            Projectile.height = 7;
+            Projectile.width = Projectile.height = 8;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Magic;
-            Projectile.scale = 2f;
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            Projectile.hide = true;
-            Projectile.timeLeft = 2700;
+            Projectile.timeLeft = (int)Lifetime;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 5;
-            Projectile.ArmorPenetration = 10;
+            Projectile.localNPCHitCooldown = 8;
+            Projectile.netImportant = true;
         }
-        public override void DetermineScale()
+        public override void AttachToSomething()
         {
-            Projectile.scale = Time < ChargeupTime ? 0f : Utils.GetLerpValue(0f, 40f, Projectile.timeLeft, true) * MaxScale;
+            if (Owner.CantUseHoldout() || Holdout.ai[2] == 5f)
+            {
+                if (Projectile.timeLeft > 2) Projectile.timeLeft = 2;
+                if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();
+            }
+            if (Owner.active && !Owner.dead && Holdout.ai[2] != 5f) Projectile.Center = Holdout.Center + Vector2.Normalize(Projectile.velocity * 20f);
         }
-        public override float DetermineLaserLength()
+        public override void UpdateLaserMotion()
         {
-            return DetermineLaserLength_CollideWithTiles(5);
+            if (Holdout.velocity != Projectile.velocity) Projectile.netUpdate = true;
+            Projectile.velocity = Holdout.velocity;
         }
-        public override bool PreAI()
+        public override void ExtraBehavior()
         {
-            // Multiplayer support here, only run this code if the client running it is the owner of the projectile
-            if (Projectile.owner == Main.myPlayer)
+            Projectile.rotation = Holdout.velocity.ToRotation();
+            if (Owner.channel && Time >= 30f)
             {
-                Vector2 rrp = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-                UpdateAim(rrp);
-                Projectile.direction = Main.MouseWorld.X > Owner.Center.X ? 1 : -1;
-                Projectile.netUpdate = true;
+                Projectile.timeLeft++;
+                Time--;
             }
-
-            int dir = Projectile.direction;
-            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            Projectile.Center = Owner.Center + Projectile.velocity * 50f;
-            Owner.ChangeDir(dir);
-            Owner.heldProj = Projectile.whoAmI;
-            Owner.itemTime = 2;
-            Owner.itemAnimation = 2;
-            Owner.itemRotation = ((Projectile.rotation + MathHelper.PiOver2).ToRotationVector2() * -Owner.direction).ToRotation();
-
-            if (!Owner.channel)
+            if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound) && ChargeSound.IsPlaying)
             {
-                Projectile.Kill();
-                return false;
+                ChargeSound.Position = Projectile.Center;
+                ChargeSound.Pitch = 0.4f;
+                ChargeSound.Volume = 0.75f * 100;
             }
-
-            // Do we still have enough mana? If not, we kill the projectile because we cannot use it anymore
-            if (Owner.miscCounter % 10 == 0 && !Owner.CheckMana(Owner.ActiveItem(), -1, true))
-            {
-                Projectile.Kill();
-                return false;
-            }
-
-            if (Time < ChargeupTime)
-            {
-                // Crate charge-up dust.
-                int dustCount = (int)(Time / 20f);
-                Vector2 spawnPos = Projectile.Center;
-                for (int k = 0; k < dustCount + 1; k++)
-                {
-                    Dust dust = Dust.NewDustDirect(spawnPos, 1, 1, DustID.Enchanted_Pink, Projectile.velocity.X / 2f, Projectile.velocity.Y / 2f);
-                    dust.position += Main.rand.NextVector2Square(-10f, 10f);
-                    dust.velocity = Main.rand.NextVector2Unit() * (10f - dustCount * 2f) / 10f;
-                    // (Colors) <- uses Colors array at the top
-                    dust.color = Main.rand.Next(Colors);
-                    dust.scale = Main.rand.NextFloat(0.5f, 1f);
-                    dust.noGravity = true;
-                }
-                DetermineScale();
-                Time++;
-                return false;
-            }
-
-            // Play a cool sound when fully charged.
-            if (!PlayedSound)
-            {
-                SoundEngine.PlaySound(SoundID.Item68, Projectile.position);
-                PlayedSound = true;
-            }
-            return true;
+            else if (Time < 30f) AudSlot = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop with { Volume = 0.01f, Pitch = 0, IsLooped = true }, Projectile.Center);
         }
-        // Gently adjusts the aim vector of the laser to point towards the mouse. if AimResponsiveness is above 1, the beam is backwards
-        private void UpdateAim(Vector2 source)
-        {
-            Vector2 aimVector = Vector2.Normalize(Main.MouseWorld - source);
-            if (aimVector.HasNaNs())
-                aimVector = -Vector2.UnitY;
-            aimVector = Vector2.Normalize(Vector2.Lerp(aimVector, Vector2.Normalize(Projectile.velocity), AimResponsiveness));
-
-            if (aimVector != Projectile.velocity)
-                Projectile.netUpdate = true;
-            Projectile.velocity = aimVector;
-        }
+        public override void DetermineScale() => Projectile.scale = MathHelper.Lerp(0f, 1f, Time / 30f) * MaxScale;
+        public override float DetermineLaserLength() => DetermineLaserLength_CollideWithTiles();
         public override bool ShouldUpdatePosition() => false;
-        // Update CutTiles so the laser will cut tiles (like grass).
         public override void CutTiles()
         {
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Vector2 unit = Projectile.velocity;
-            Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit * LaserLength, Projectile.width + 16, DelegateMethods.CutTiles);
+            Vector2 laserEnd = Projectile.Center + Projectile.velocity * LaserLength;
+            Utils.PlotTileLine(Projectile.Center, laserEnd, Projectile.width + 16, DelegateMethods.CutTiles);
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (Projectile.velocity == Vector2.Zero) return false;
+
+            // Draw the actual laser
+            Vector2 laserEnd = Projectile.Center + Projectile.velocity * LaserLength;
+            int length = 10;
+            Vector2[] drawPoints = new Vector2[length];
+            float[] rotPoints = new float[length];
+            TrailDrawer trailDrawer = default;
+            for (int i = 0; i < length; i++)
+            {
+                Color innerDrawColor = Projectile.GetAlpha(StrongColor);
+                Color outerDrawColor = Projectile.GetAlpha(LaserOverlayColor);
+                drawPoints[i] = Vector2.Lerp(Projectile.Center, laserEnd, i / (float)(drawPoints.Length - 1f));
+                rotPoints[i] = Projectile.rotation - MathHelper.Pi;
+                //Main.NewText($"{Projectile.rotation}, {rotPoints[i]}, {drawPoints[i]}");
+                trailDrawer.Draw(Projectile, "MogMod:MagicMissileRGB", outerDrawColor, innerDrawColor, Math.Abs(0.5f - MaxScale), 30f, 44f, drawPoints, rotPoints);
+            }
+            return false;
         }
     }
 }

@@ -45,7 +45,7 @@ namespace MogMod.Items.Armor.Tigla
             CreateRecipe().
                 AddIngredient(ItemID.ShroomiteBreastplate, 1).
                 AddIngredient(ItemID.Cog, 125).
-                AddIngredient<DabDadBar>(16).
+                AddIngredient<DabDadBar>(8).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

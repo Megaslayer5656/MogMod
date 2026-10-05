@@ -23,6 +23,7 @@ namespace MogMod.Projectiles.Melee
         public override int CooldownTime { get; set; }
         public override SoundStyle? UseSound => SoundID.Item105 with { Volume = MathHelper.Lerp(0.6f, 1f, FlamewallPower), Pitch = -FlamewallPower * 0.5f, PitchVariance = 0.1f };
         public override bool AlternateSwings => false;
+        public ref float Swinging => ref Projectile.ai[0];
         public ref float DustTimer => ref Projectile.ai[1];
         public ref float SpinTimer => ref Projectile.ai[2];
         public float FlamewallPower => Owner.MogMod().flamewallPower;
@@ -61,6 +62,7 @@ namespace MogMod.Projectiles.Melee
             var mogPlayer = Owner.GetModPlayer<BaseSwordHoldoutPlayer>();
             if (channelingLaser)
             {
+                Swinging = 5f;
                 //Owner.MogMod().flamewallPower = 1f;
                 AfterImageLength = 0;
                 DustTimer++;
@@ -76,12 +78,13 @@ namespace MogMod.Projectiles.Melee
                         {
                             SoundEngine.PlaySound(SoundID.DeerclopsStep with { Volume = 2f, Pitch = 0.5f }, Projectile.Center);
                             SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact with { Volume = 2f, Pitch = -0.2f }, Projectile.Center);
-                            if (Projectile.owner == Main.myPlayer)
+                            int type = ModContent.ProjectileType<FlamewallLaser>();
+                            if (Projectile.owner == Main.myPlayer && Owner.ownedProjectileCounts[type] < 1)
                             {
                                 SoundEngine.PlaySound(SoundID.DD2_BetsysWrathShot, Projectile.Center);
                                 SoundEngine.PlaySound(SoundID.DD2_BetsyFireballShot, Projectile.Center);
                                 Vector2 spawnPos = Vector2.Lerp(Projectile.Center, Owner.Center, 0.5f);
-                                Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPos, Projectile.velocity, ModContent.ProjectileType<FlamewallLaser>(), Projectile.originalDamage, Projectile.knockBack, Projectile.owner, ai1: Projectile.whoAmI);
+                                Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPos, Projectile.velocity, type, Projectile.originalDamage, Projectile.knockBack, Projectile.owner, ai1: Projectile.whoAmI);
                             }
                             playedChargeSound = true;
                             for (int i = 0; i < 5; i++)
@@ -123,6 +126,7 @@ namespace MogMod.Projectiles.Melee
                 {
                     if (!channelingLaser)
                     {
+                        Swinging = 5f;
                         angle = new Vector2(0, 1f);
                         //angle = new Vector2(0f, 1f);
                         //RotateInStartup = RotateInCooldown = 0.005f;
@@ -132,6 +136,7 @@ namespace MogMod.Projectiles.Melee
                 }
                 else
                 {
+                    Swinging = 0f;
                     if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();
                     if (channelingLaser)
                     {
@@ -145,6 +150,7 @@ namespace MogMod.Projectiles.Melee
             }
             if (inSwing)
             {
+                Swinging = 0f;
                 if (SpinTimer < 5f && timer % Projectile.extraUpdates == 0) SpinTimer += 0.005f;
                 if (!playedSwingSound)
                 {
@@ -186,6 +192,7 @@ namespace MogMod.Projectiles.Melee
             //}
             if (inCooldown && CooldownCompletion >= 1f && Owner.channel && !Owner.MogMod().mouseRight)
             {
+                Swinging = 0f;
                 //Spawn();
                 //mogPlayer.swingNum++;
                 timer = StartupTime;

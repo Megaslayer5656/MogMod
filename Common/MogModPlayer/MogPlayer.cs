@@ -345,6 +345,8 @@ namespace MogMod.Common.MogModPlayer
         public int leftCrescentMoonShots = 0;
         public int rightCrescentMoonShots = 0;
         public float crescentMoonPower = 0;
+        public int mg43Shots = 0;
+        public int mg43RPM = 3;
 
         public bool pikeEmpowered = false;
 
@@ -1041,6 +1043,7 @@ namespace MogMod.Common.MogModPlayer
             clone.flamewallPower = flamewallPower;
             clone.kaminariActive = kaminariActive;
             //clone.crescentMoonPower = crescentMoonPower;
+            //clone.mg43RPM = mg43RPM;
             clone.Player.MountedCenter = Player.MountedCenter;
         }
         public override void SendClientChanges(ModPlayer clientPlayer)
@@ -1049,6 +1052,7 @@ namespace MogMod.Common.MogModPlayer
             if (radiancePower != clone.radiancePower) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
             if (flamewallPower != clone.flamewallPower) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
             if (kaminariActive != clone.kaminariActive) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
+            //if (mg43RPM != clone.mg43RPM) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
             //if (crescentMoonPower != clone.crescentMoonPower) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
             if (Player.MountedCenter != clone.Player.MountedCenter) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
         }
@@ -1100,13 +1104,13 @@ namespace MogMod.Common.MogModPlayer
                     switch (DashDir)
                     {
                         // Only apply the dash velocity if our current speed in the wanted direction is less than DashVelocity
-                        case DashUp when Player.velocity.Y > -FaeDashVelocity && canDashUp:
+                        case DashUp when Player.velocity.Y > -FaeDashVelocity:// && canDashUp:
                         case DashDown when Player.velocity.Y < FaeDashVelocity:
                             {
                                 // Y-velocity is set here
                                 // If the direction requested was DashUp, then we adjust the velocity to make the dash appear "faster" due to gravity being immediately in effect
                                 // This adjustment is roughly 1.3x the intended dash velocity
-                                canDashUp = false;
+                                //canDashUp = false;
                                 float dashDirection = DashDir == DashDown ? 1 : -1f;
                                 newVelocity.Y = dashDirection * FaeDashVelocity;
                                 break;
@@ -1434,13 +1438,13 @@ namespace MogMod.Common.MogModPlayer
             }
 
             if (Player.HeldItem.type == ModContent.ItemType<MG43MachineGun>())
-                if (MG43MachineGun.rpm <= 2)
+                if (mg43RPM <= 2)
                 {
-                    if (Main.zenithWorld && MG43MachineGun.rpm > 1)
+                    if (Main.zenithWorld && mg43RPM > 1)
                         Player.GetAttackSpeed(DamageClass.Ranged) *= 0.05f;
                     else
                         Player.GetAttackSpeed(DamageClass.Ranged) += 0.2f;
-                    if (MG43MachineGun.rpm <= 1)
+                    if (mg43RPM <= 1)
                         Player.GetAttackSpeed(DamageClass.Ranged) += Main.zenithWorld ? 4f : 0.2f;
                 }
 
@@ -1556,29 +1560,31 @@ namespace MogMod.Common.MogModPlayer
 
             if (Player.whoAmI == Main.myPlayer && !Player.dead && !Main.mapFullscreen && !Player.mouseInterface)
             {
+                int rangedDamage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(Player.HeldItem.damage);
                 int shotgun = ModContent.ProjectileType<SuperLongBarrelledShotgunHoldout>();
                 if (Player.HeldItem.type == ModContent.ItemType<SuperLongBarrelledShotgun>() && (Player.ownedProjectileCounts[shotgun] < 1))
                 {
-                    int damage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(Player.HeldItem.damage);
-                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), shotgun, damage, Player.HeldItem.knockBack, Player.whoAmI);
+                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), shotgun, rangedDamage, Player.HeldItem.knockBack, Player.whoAmI);
                 }
                 int mosin = ModContent.ProjectileType<MosinHoldout>();
                 if (Player.HeldItem.type == ModContent.ItemType<Mosin>() && (Player.ownedProjectileCounts[mosin] < 1))
                 {
-                    int damage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(Player.HeldItem.damage);
-                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), mosin, damage, Player.HeldItem.knockBack, Player.whoAmI);
+                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), mosin, rangedDamage, Player.HeldItem.knockBack, Player.whoAmI);
+                }
+                int mg43 = ModContent.ProjectileType<MG43MachineGunHoldout>();
+                if (Player.HeldItem.type == ModContent.ItemType<MG43MachineGun>() && (Player.ownedProjectileCounts[mg43] < 1))
+                {
+                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), mg43, rangedDamage, Player.HeldItem.knockBack, Player.whoAmI);
                 }
                 int axmc = ModContent.ProjectileType<AXMCHoldout>();
                 if (Player.HeldItem.type == ModContent.ItemType<AXMC>() && (Player.ownedProjectileCounts[axmc] < 1))
                 {
-                    int damage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(Player.HeldItem.damage);
-                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), axmc, damage, Player.HeldItem.knockBack, Player.whoAmI);
+                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), axmc, rangedDamage, Player.HeldItem.knockBack, Player.whoAmI);
                 }
                 int cresent = ModContent.ProjectileType<CrescentMoonHoldout>();
                 if (Player.HeldItem.type == ModContent.ItemType<CrescentMoon>() && (Player.ownedProjectileCounts[cresent] < 2)) // two guns
                 {
-                    int damage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(Player.HeldItem.damage);
-                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), cresent, damage, Player.HeldItem.knockBack, Player.whoAmI, ai2: Player.ownedProjectileCounts[cresent]);
+                    Projectile.NewProjectile(Player.GetSource_ItemUse_WithPotentialAmmo(Player.HeldItem, 0), Player.Center, Player.Center.DirectionTo(mouseWorld), cresent, rangedDamage, Player.HeldItem.knockBack, Player.whoAmI, ai2: Player.ownedProjectileCounts[cresent]);
                 }
             }
         }

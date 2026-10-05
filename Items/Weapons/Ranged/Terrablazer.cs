@@ -11,9 +11,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
 {
-    // elf melter + sinister spreader
-    // holdout "laser" flamethrower
-    // 62x24
+    // TODO: make persistant holdout
     public class Terrablazer : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";

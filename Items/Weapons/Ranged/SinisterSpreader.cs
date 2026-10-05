@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
 {
+    // TODO: make persistant holdout
     public class SinisterSpreader : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";

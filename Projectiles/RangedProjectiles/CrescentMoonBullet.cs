@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MogMod.Buffs.Debuffs;
 using MogMod.Common.Graphics;
 using MogMod.Items.Weapons.Ranged;
 using MogMod.Utilities;
@@ -37,6 +36,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
             Projectile.timeLeft = 600;
@@ -47,6 +47,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         {
             base.OnSpawn(source);
             if (Projectile.ai[2] == 0f) Colour = Color.SeaGreen;
+            if (Projectile.ai[1] != 5f) MinCharge = 2f;
             MinCharge *= Projectile.extraUpdates;
         }
         public override void AI()
@@ -122,13 +123,6 @@ namespace MogMod.Projectiles.RangedProjectiles
             KillEffect();
             HitEnemyEffect(target, hit);
         }
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            KillEffect();
-            Projectile.velocity = oldVelocity * 0.95f;
-            Projectile.position -= Projectile.velocity;
-            return false;
-        }
         public void HitEnemyEffect(NPC target, NPC.HitInfo hit)
         {
             for (int i = 0; i < Main.rand.Next(3, 6); i++)
@@ -140,14 +134,14 @@ namespace MogMod.Projectiles.RangedProjectiles
             float powerGain = MathHelper.Clamp(hit.Damage * 0.000125f, 0.01f, 1f);
             float powerLoss = CrescentMoon.maxBarrageShots / 100;
             //Main.NewText($"{Owner.MogMod().crescentMoonPower}, {powerGain}, {powerLoss}", Colour);
-            if (Projectile.owner == Main.myPlayer && Owner.MogMod().crescentMoonPower < 1f && Projectile.ai[1] == 5f) Owner.MogMod().crescentMoonPower += powerGain;
+            if (Projectile.owner == Main.myPlayer && Owner.MogMod().crescentMoonPower < 1f && Projectile.ai[1] == 5f && target.type != NPCID.TargetDummy) Owner.MogMod().crescentMoonPower += powerGain;
             if (Projectile.owner == Main.myPlayer && Owner.MogMod().crescentMoonPower > 0f && Projectile.ai[1] != 5f) Owner.MogMod().crescentMoonPower -= powerLoss;
         }
         public void KillEffect()
         {
             if (!HitEnemy)
             {
-                if (Projectile.ai[0] <= MinCharge) DustEffect();
+                if (Projectile.ai[0] == MinCharge) DustEffect();
                 Projectile.velocity = Vector2.Zero;
                 Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
                 SoundEngine.PlaySound(SoundID.Item10, Projectile.position);

@@ -1,9 +1,7 @@
 ﻿using MogMod.Items.Global;
-using MogMod.Items.Other;
 using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
@@ -15,7 +13,8 @@ namespace MogMod.Items.Weapons.Ranged
         {
             Item.width = 62;
             Item.height = 52;
-            Item.damage = 44;
+            Item.damage = 66;
+            Item.crit = 16;
             Item.knockBack = 7;
             Item.shootSpeed = 12;
             Item.useTime = Item.useAnimation = 18;
@@ -30,7 +29,6 @@ namespace MogMod.Items.Weapons.Ranged
             Item.shoot = ModContent.ProjectileType<ParasmaProj>();
             Item.ArmorPenetration = 20;
         }
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 16;
         public override void AddRecipes()
         {
             CreateRecipe().

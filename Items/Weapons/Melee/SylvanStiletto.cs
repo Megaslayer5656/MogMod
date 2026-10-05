@@ -47,7 +47,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.RichMahogany, 25).
-                AddIngredient<WoodlandFabric>(16).
+                AddIngredient<WoodlandFabric>(10).
                 AddIngredient(ItemID.Stinger, 8).
                 AddTile(TileID.Anvils).
                 Register();

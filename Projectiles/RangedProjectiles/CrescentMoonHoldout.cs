@@ -30,7 +30,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         public ref float ReloadTimer => ref Projectile.ai[1];
         public int LastUseTime = 0;
         public int CooldownTimer = 0;
-        public int Cap = 10;
+        public int Cap = 5;
         public int shootTime = CrescentMoon.reloadTime;
         public int attackTime = 0;
         public int maxShots = CrescentMoon.maxShots;
@@ -98,8 +98,8 @@ namespace MogMod.Projectiles.RangedProjectiles
             }
 
             bool hasAmmo = Owner.PickAmmo(HeldItem, out _, out _, out _, out _, out _, true);
-            bool leftShootChecks = Owner.whoAmI == Main.myPlayer && (Main.mouseLeft && Main.mouseLeftRelease && !Main.mapFullscreen && !Owner.mouseInterface && ShootTimer <= 0 && ReloadTimer <= 0 && Projectile.ai[2] == 1f) && hasAmmo;
-            bool rightShootChecks = Owner.whoAmI == Main.myPlayer && (mogPlayer.mouseRight && Main.mouseRightRelease && !Main.mapFullscreen && !Owner.mouseInterface && ShootTimer <= 0 && ReloadTimer <= 0 && Projectile.ai[2] == 0f) && hasAmmo;
+            bool leftShootChecks = Owner.whoAmI == Main.myPlayer && (Main.mouseLeft && !Main.mapFullscreen && !Owner.mouseInterface && ShootTimer <= 0 && ReloadTimer <= 0 && Projectile.ai[2] == 1f) && hasAmmo;
+            bool rightShootChecks = Owner.whoAmI == Main.myPlayer && (mogPlayer.mouseRight && !Main.mapFullscreen && !Owner.mouseInterface && ShootTimer <= 0 && ReloadTimer <= 0 && Projectile.ai[2] == 0f) && hasAmmo;
             bool specialShootChecks = Owner.whoAmI == Main.myPlayer && (KeybindSystem.SecondWeaponKeybind.JustPressed && !Main.mapFullscreen && !Owner.mouseInterface && mogPlayer.crescentMoonPower >= 1f && ShootTimer <= 0 && ReloadTimer <= 0) || (Barraging && CooldownTimer > 0);
 
             bool noLeftAmmo = mogPlayer.leftCrescentMoonShots < maxShots && Projectile.ai[2] == 0f;
@@ -175,14 +175,20 @@ namespace MogMod.Projectiles.RangedProjectiles
             MogPlayer mogPlayer = Owner.MogMod();
             if (left && mogPlayer.leftCrescentMoonShots <= 0)
             {
-                SoundEngine.PlaySound(SoundID.Item17 with { PitchVariance = 0.2f }, Owner.Center);
-                if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= 2f;
+                if (mogPlayer.mouseRight && Main.mouseRightRelease)
+                {
+                    SoundEngine.PlaySound(SoundID.Item17 with { PitchVariance = 0.2f }, Owner.Center);
+                    if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= 2f;
+                }
                 return;
             }
             if (!left && mogPlayer.rightCrescentMoonShots <= 0)
             {
-                SoundEngine.PlaySound(SoundID.Item17 with { PitchVariance = 0.2f }, Owner.Center);
-                if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= 2f;
+                if (Main.mouseLeft && Main.mouseLeftRelease)
+                {
+                    SoundEngine.PlaySound(SoundID.Item17 with { PitchVariance = 0.2f }, Owner.Center);
+                    if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= 2f;
+                }
                 return;
             }
 

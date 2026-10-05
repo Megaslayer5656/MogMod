@@ -5,7 +5,6 @@ using MogMod.Projectiles.RangedProjectiles;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
@@ -16,7 +15,7 @@ namespace MogMod.Items.Weapons.Ranged
         public const int HoldoutDistance = 20;
         public const float MaxCharge = 100f;
         public static bool Empowered = false;
-        public static int Charges;
+        public static int Charges = 0;
         public override void SetStaticDefaults() => ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         public override void SetDefaults()
         {
@@ -85,6 +84,7 @@ namespace MogMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.Pearlwood, 50).
+                AddIngredient<WoodlandFabric>(12).
                 AddRecipeGroup("AnySquirrel", 10).
                 AddIngredient(ItemID.SoulofSight, 7).
                 AddTile(TileID.MythrilAnvil).

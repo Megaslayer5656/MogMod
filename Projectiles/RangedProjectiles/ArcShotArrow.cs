@@ -61,7 +61,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 }
                 Projectile.velocity = Vector2.Zero;
                 var source = Projectile.GetSource_FromThis();
-                if (Timer % 5 == 0) MogModUtils.ProjectileRain(source, Projectile.Center, 400f, 50f, 1500f, 1700f, 40, ModContent.ProjectileType<DragonPiercerArrow>(), (int)(Projectile.damage * 0.2), Projectile.knockBack, Projectile.owner);
+                if (Timer % 5 == 0) MogModUtils.ProjectileRain(source, Projectile.Center, 400f, 50f, 1500f, 1700f, 40, ModContent.ProjectileType<DragonPiercerArrow>(), (int)(Projectile.damage * 0.2), Projectile.knockBack, Projectile.owner, ai2: 5f);
                 if (Timer >= ShootTime * 5f) Projectile.Kill();
             }
             else

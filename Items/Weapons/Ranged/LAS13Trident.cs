@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Ranged
 {
+    // TODO: make persistant holdout
     public class LAS13Trident : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
@@ -23,7 +24,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.width = 62;
             Item.height = 24;
 
-            Item.damage = 24;
+            Item.damage = 27;
             Item.knockBack = 2.5f;
             Item.DamageType = DamageClass.Ranged;
 
@@ -48,7 +49,7 @@ namespace MogMod.Items.Weapons.Ranged
             player.MogMod().rightClickListener = true;
             if (player.ownedProjectileCounts[Item.shoot] > 0 && !Main.mouseLeft && BuiltUpHeat > 0 && player.MogMod().lasOverheat == 0)
             {
-                BuiltUpHeat -= 3;
+                BuiltUpHeat -= 4;
                 if (BuiltUpHeat < 0) BuiltUpHeat = 0;
             }
         }

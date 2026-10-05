@@ -22,9 +22,9 @@ namespace MogMod.Items.Other
         public override void AddRecipes()
         {
             CreateRecipe(3).
-                AddIngredient(ItemID.Silk, 3).
+                AddIngredient(ItemID.Cobweb, 3).
+                AddIngredient(ItemID.Vine).
                 AddIngredient(ItemID.BeeWax).
-                AddIngredient(ItemID.JungleSpores).
                 AddTile(TileID.LivingLoom).
                 Register();
         }

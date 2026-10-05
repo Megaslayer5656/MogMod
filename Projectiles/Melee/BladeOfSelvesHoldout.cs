@@ -131,7 +131,7 @@ namespace MogMod.Projectiles.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/BladeOfSelvesGhost").Value;
-            float outlineWidth = 4;
+            float outlineWidth = 2;
             if (!inCooldown) outlineWidth *= 1 - SwingCompletion;
             if (inSwing || inCooldown)
             {

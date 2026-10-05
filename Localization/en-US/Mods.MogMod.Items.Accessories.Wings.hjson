@@ -10,6 +10,7 @@ WingsOfLight: {
 		{$CommonItemTooltip.FlightAndSlowfall}
 		Increased movement speed
 		Nearby enemies are afflicted with [mogbuff:MogMod/WingsOfLightDebuff]
+		Enemies afflicted with [mogbuff:MogMod/WingsOfLightDebuff] deal {0}% less contact damage and take {1}% more critical strike damage
 		[c/C4BB74:'Was ablaze with gold embers']
 		'''
 }

@@ -421,18 +421,18 @@ namespace MogMod.Projectiles.RangedProjectiles
                     if (ChargeLvl3) damage = (int)(damage * ArchbeastParagon.DamageMult);
                     if (ChargeLvl1)
                     {
-                        Projectile.NewProjectile(source, shootPos, shootVelocity, type, damage, knockback, Projectile.owner);
+                        Projectile.NewProjectile(source, shootPos, shootVelocity, type, damage, knockback, Projectile.owner, ai2: 5f);
                         if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm += 3f;
                         SoundEngine.PlaySound(SoundID.DD2_BallistaTowerShot, Owner.Center);
                         if (ChargeLvl2)
                         {
-                            Projectile.NewProjectile(source, shootPos, shootVelocity.RotatedBy(Spread), type, damage, knockback, Projectile.owner);
-                            Projectile.NewProjectile(source, shootPos, shootVelocity.RotatedBy(-Spread), type, damage, knockback, Projectile.owner);
+                            Projectile.NewProjectile(source, shootPos, shootVelocity.RotatedBy(Spread), type, damage, knockback, Projectile.owner, ai2: 5f);
+                            Projectile.NewProjectile(source, shootPos, shootVelocity.RotatedBy(-Spread), type, damage, knockback, Projectile.owner, ai2: 5f);
                             if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm += 3f;
                             if (ChargeLvl3)
                             {
-                                Projectile.NewProjectile(source, shootPos, shootVelocity.RotatedBy(Spread * 2f), type, damage, knockback, Projectile.owner);
-                                Projectile.NewProjectile(source, shootPos, shootVelocity.RotatedBy(-Spread * 2f), type, damage, knockback, Projectile.owner);
+                                Projectile.NewProjectile(source, shootPos, shootVelocity.RotatedBy(Spread * 2f), type, damage, knockback, Projectile.owner, ai2: 5f);
+                                Projectile.NewProjectile(source, shootPos, shootVelocity.RotatedBy(-Spread * 2f), type, damage, knockback, Projectile.owner, ai2: 5f);
                                 if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm += 4f;
                                 SoundEngine.PlaySound(SoundID.Item102 with { Pitch = -0.2f }, Projectile.Center);
                             }

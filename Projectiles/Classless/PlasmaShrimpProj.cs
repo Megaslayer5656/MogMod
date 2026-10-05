@@ -60,7 +60,7 @@ namespace MogMod.Projectiles.Classless
         {
             MogPlayer mogPlayer = Owner.GetModPlayer<MogPlayer>();
             if (mogPlayer.plasmaVisual)
-                SoundEngine.PlaySound(SoundID.Item72, Projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item72 with { MaxInstances = -1 }, Projectile.Center);
         }
         public override bool PreDraw(ref Color lightColor)
         {
