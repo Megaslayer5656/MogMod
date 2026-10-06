@@ -16,8 +16,12 @@ namespace MogMod.Items.Weapons.Ranged
         public const int NumBeams = 6;
         public const int NumAmmoUsed = 15;
         public const int ArmorPenetration = 15;
-        public const int OverheatLevel = 220;
+        public const int OverheatLevel = 210;
         public const int reloadTime = 180;
+
+        public const float ShootSpeed = 5f;
+        public const float MinHeatDamage = 0.25f;
+        public const float MaxHeatDamage = 1f;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(NumBeams, NumAmmoUsed, ArmorPenetration);
         ModKeybind keybindActive = null;
         public override void SetDefaults()
@@ -25,7 +29,7 @@ namespace MogMod.Items.Weapons.Ranged
             Item.width = 62;
             Item.height = 24;
 
-            Item.damage = 27;
+            Item.damage = 25;
             Item.knockBack = 2.5f;
             Item.DamageType = DamageClass.Ranged;
 

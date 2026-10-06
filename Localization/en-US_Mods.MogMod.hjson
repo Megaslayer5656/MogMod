@@ -652,11 +652,13 @@ Items: {
 				Tooltip:
 					'''
 					Fires a spread of {0} lasers that build up heat in the weapon's heatsink
+					Damage is increased based on how much heat is in the weapon
 					Building up too much heat causes the heatsink to overheat, requiring the heatsink to be replaced
 					Press [KEY] to replace the heatsink
 					Uses {1} gel for every heatsink
 					Ignores {2} points of enemy Defense
 					'''
+				ReloadReminder: Press {0} To Reload!
 			}
 
 			SplinterLauncher: {
@@ -797,6 +799,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires a barrage of flaming bullets that build up heat in the weapon
+					Attack speed is increased based on how much heat is in the weapon
 					Firing for too long overheats the weapon, rendering it unusable until it cools down
 					'''
 			}

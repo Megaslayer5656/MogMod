@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Weapons.Ranged;
 using Terraria;
+using Terraria.GameContent.Drawing;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,8 +9,8 @@ namespace MogMod.Projectiles.RangedProjectiles
 {
     public class LAS13Proj : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.RangedProjectiles";
-        public override string Texture => "MogMod/Projectiles/BaseProjectiles/InvisibleProj";
+        public new string LocalizationCategory => "Projectiles.Ranged";
+        public override string Texture => "MogMod/Assets/Textures/InvisibleProj";
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 4;
@@ -24,8 +25,14 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.localAI[0]++;
             if (Projectile.localAI[0] > 1f)
             {
-                for (int i = 0; i < 2; i++)
+                if (Main.rand.NextBool(1))
                 {
+                    /* REALLY LAGGY
+                    ParticleOrchestrator.RequestParticleSpawn(clientOnly: false, ParticleOrchestraType.RainbowRodHit,
+                        new ParticleOrchestraSettings { PositionInWorld = Projectile.Center },
+                        Projectile.owner);
+                    */
+                    // TODO: change with particles
                     Vector2 dustSpawnPos = Projectile.position - Projectile.velocity * i / 2f;
                     Dust lasDust = Dust.NewDustPerfect(dustSpawnPos, DustID.AncientLight);
                     lasDust.color = Color.Lerp(Color.Yellow, Color.Gold, Main.rand.NextFloat(0.6f));
@@ -44,10 +51,12 @@ namespace MogMod.Projectiles.RangedProjectiles
         public override void OnKill(int timeLeft)
         {
             Projectile.Center = Projectile.position;
-            Projectile.position = Projectile.Center; 
+            Projectile.position = Projectile.Center;
             int dustAmt = 6;
             for (int j = 0; j < dustAmt; j++)
             {
+
+                /*
                 Vector2 dustRotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
                 dustRotate = dustRotate.RotatedBy((double)((float)(j - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default) + Projectile.position;
                 Vector2 dustDirection = dustRotate - Projectile.Center;
@@ -55,6 +64,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 Main.dust[killDust].noGravity = true;
                 Main.dust[killDust].noLight = true;
                 Main.dust[killDust].velocity = dustDirection;
+                */
             }
         }
     }

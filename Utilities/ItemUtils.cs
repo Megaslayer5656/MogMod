@@ -1,16 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Buffs.Debuffs;
-using MogMod.Common.MogModPlayer;
-using MogMod.Items.Accessories.Boots;
-using MogMod.Items.Accessories.NeutralItems.Aspects;
-using MogMod.Items.Armor.Radiant;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace MogMod.Utilities
@@ -44,7 +39,7 @@ namespace MogMod.Utilities
         /// </summary>
         /// <param name="tooltips">The tooltip list provided to a <b>ModifyTooltips</b> TML hook.</param>
         /// <param name="replacedKey">The key to be replaced.</param>
-        /// <param name="replacedKey">The new key.</param>
+        /// <param name="newKey">The new key.</param>
         public static void FindAndReplace(this List<TooltipLine> tooltips, string replacedKey, string newKey)
         {
             TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Text.Contains(replacedKey));
@@ -57,7 +52,7 @@ namespace MogMod.Utilities
         /// </summary>
         /// <param name="tooltips">The tooltip list provided to a <b>ModifyTooltips</b> TML hook.</param>
         /// <param name="replacedKey">The key to be replaced.</param>
-        /// <param name="replacedKey">The new key.</param>
+        /// <param name="newKey">The new key.</param>
         public static void FindAndReplaceAll(this List<TooltipLine> tooltips, string replacedKey, string newKey)
         {
             foreach (TooltipLine line in tooltips)

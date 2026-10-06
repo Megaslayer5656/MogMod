@@ -314,6 +314,7 @@ Mods: {
 				BerserkersFireSpearProj.DisplayName: Berserkers Fire Spear Proj
 				AghanimBulletProj.DisplayName: Aghanim Bullet Proj
 				CrescentMoonBullet.DisplayName: Crescent Moon Bullet
+				LAS13Proj.DisplayName: L A S13 Proj
 			}
 
 			Melee: {
