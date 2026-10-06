@@ -13,15 +13,12 @@ namespace MogMod.Items.Weapons.Ranged
     public class LAS13Trident : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
-        public static int ArmorPenetration = 15;
-        public int BuiltUpHeat = 0;
-        public const int OverheatLevel = 360;
-        public const int OverheatCooldown = 180;
-
-
-        public const int reloadTime = 120;
-
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ArmorPenetration, OverheatCooldown.FramesToSeconds());
+        public const int NumBeams = 6;
+        public const int NumAmmoUsed = 15;
+        public const int ArmorPenetration = 15;
+        public const int OverheatLevel = 220;
+        public const int reloadTime = 180;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(NumBeams, NumAmmoUsed, ArmorPenetration);
         ModKeybind keybindActive = null;
         public override void SetDefaults()
         {

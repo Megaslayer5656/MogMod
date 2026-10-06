@@ -10,14 +10,12 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
-    // NOT FINISHED, MAY BREAK
     public class LAS13Holdout : BaseGunHoldoutProjectile
     {
         public override int AssociatedItemID => ModContent.ItemType<LAS13Trident>();
@@ -27,19 +25,20 @@ namespace MogMod.Projectiles.RangedProjectiles
         public override float BaseOffsetY => -5f;
         public override float OffsetYDownwards => 5f;
 
-
         private int BuiltHeat => Owner.MogMod().las13Heat;
         private const int WarningTime = LAS13Trident.OverheatLevel - 70;
         public int MaxHeat = LAS13Trident.OverheatLevel;
         public bool Overheating = false;
+        public bool playedWarningSound = false;
         public static readonly SoundStyle WarningSound = new($"{nameof(MogMod)}/Sounds/SE/ArmletOn") { Volume = 1.1f, PitchVariance = .2f, MaxInstances = 0 };
-
 
         public ref float ShootTimer => ref Projectile.ai[0];
         public ref float ReloadTimer => ref Projectile.ai[1];
         public ref float LastUseTime => ref Projectile.ai[2];
         public int Cap = 10;
-        public int shootTime = LAS13Trident.reloadTime;
+        public float MinShootSpeed = 5f;
+        public float MaxShootSpeed = 8f;
+        public int shootTime = LAS13Trident.reloadTime - 60;
         public int attackTime = 0;
         public override void KillHoldoutLogic() { }
         public override void SendExtraAIHoldout(BinaryWriter writer)
@@ -60,7 +59,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             attackTime = (int)(shootTime * attackSpeed);
 
             SetUsage = false;
-            bool doingNothing = ReloadTimer == 0 && BuiltHeat == 0;
+            bool doingNothing = ReloadTimer == 0 && BuiltHeat <= 0;
             if (LastUseTime == 0 || doingNothing) LastUseTime = Owner.HeldItem.useAnimation;
             if (!doingNothing) Owner.itemTime = Owner.itemAnimation = 5;
 
@@ -74,22 +73,22 @@ namespace MogMod.Projectiles.RangedProjectiles
             bool leftShootChecks = Owner.whoAmI == Main.myPlayer && (Main.mouseLeft && !Main.mapFullscreen && !Owner.mouseInterface && ShootTimer <= 0 && ReloadTimer <= 0) && hasAmmo;
 
             // if we overheated, reload
-            if (BuiltHeat != 0 && KeybindSystem.FirstWeaponKeybind.JustPressed && hasAmmo || ReloadTimer != 0)
+            if (Overheating && KeybindSystem.FirstWeaponKeybind.JustPressed && hasAmmo || ReloadTimer != 0)
             {
                 ReloadTimer++;
                 if (ReloadTimer == 2 || ReloadTimer == attackTime / 2)
                 {
                     if (ReloadTimer == 2)
                     {
-                        SoundEngine.PlaySound(SoundID.Item5 with { Pitch = -0.3f }, Owner.Center);
                         SoundEngine.PlaySound(SoundID.Item149 with { Pitch = -0.2f }, Owner.Center);
                         if (MogClientConfig.Instance.AmmoEjection && Main.netMode != NetmodeID.Server)
                         {
                             string goreType = "HellfireMag"; // TODO: change this
                             Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, shootVelocity.RotatedBy(2f * -Owner.direction) * Main.rand.NextFloat(0.6f, 0.7f), Mod.Find<ModGore>(goreType).Type);
                         }
-                        Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int bulletDamage, out float knockback, out _);
+                        for (int i = 0; i < LAS13Trident.NumAmmoUsed; i++) Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int bulletDamage, out float knockback, out _);
                     }
+                    else SoundEngine.PlaySound(SoundID.Item5 with { Pitch = -0.3f }, Owner.Center);
                     SoundEngine.PlaySound(SoundID.Item108 with { Pitch = -0.3f }, Owner.Center);
                     if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= ReloadTimer == 2 ? 4f : 2f;
                 }
@@ -108,15 +107,36 @@ namespace MogMod.Projectiles.RangedProjectiles
                     }
 
                     mogPlayer.las13Heat = 0;
+                    Overheating = false;
                     ReloadTimer = 0;
                 }
             }
-            else
+            // if the gun is not overheating, fire
+            else if (!Overheating)
             {
                 if (leftShootChecks) Shoot(shootVelocity);
+                if (BuiltHeat < MaxHeat && Main.mouseLeft)
+                {
+                    if (BuiltHeat < MaxHeat) mogPlayer.las13Heat += 1;
+                }
+                else if (BuiltHeat > 0 && !Main.mouseLeft) mogPlayer.las13Heat--;
             }
+            else
+            {
+                // Draw smoke effect while overheated
+                if (Main.rand.NextBool(3))
+                {
+                    Dust smoke = Dust.NewDustPerfect(GunTipPosition, DustID.Smoke, new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-2f, -5f)) * 7.5f, newColor: Color.WhiteSmoke, Scale: 1.55f);
+                    smoke.noGravity = true;
+                    smoke.fadeIn = 0.4f;
+                    smoke.scale *= 0.98f;
+                    smoke.color = Color.DarkGray;
+                    if (Main.rand.NextBool(4)) smoke.scale *= 1.2f;
+                }
+                //if (BuiltHeat > 0) Owner.MogMod().las13Heat--;
+                //else Overheating = false;
+            } 
             if (ShootTimer > 0) ShootTimer--;
-            if (Owner.MogMod().las13Heat > 0) Owner.MogMod().las13Heat--;
         }
         public void Shoot(Vector2 shootVelocity)
         {
@@ -132,62 +152,32 @@ namespace MogMod.Projectiles.RangedProjectiles
                     heatDust.noGravity = true;
                 }
 
-                Owner.MogMod().lasOverheat = LAS13Trident.OverheatCooldown;
-                Owner.MogMod().las13Heat = 0;
                 Overheating = true;
-                if (Main.myPlayer == Projectile.owner)
-                {
-                    if (MogClientConfig.Instance.AmmoEjection && Main.netMode != NetmodeID.Server)
-                    {
-                        string goreType = "HellfireMag"; // TODO: change this
-                        Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity.RotatedBy(2f * -Owner.direction) * Main.rand.NextFloat(0.6f, 0.7f), Mod.Find<ModGore>(goreType).Type);
-                    }
-                }
                 return;
             }
-            if (BuiltHeat == WarningTime) WarningEffect();
-
-            Overheating = Owner.MogMod().lasOverheat != 0;
-            // Draw smoke effect while overheated
-            if (Overheating && Main.rand.NextBool(3))
-            {
-                Dust smoke = Dust.NewDustPerfect(GunTipPosition, DustID.Smoke, new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-2f, -5f)) * 7.5f, newColor: Color.WhiteSmoke, Scale: 1.55f);
-                smoke.noGravity = true;
-                smoke.fadeIn = 0.4f;
-                smoke.scale *= 0.98f;
-                smoke.color = Color.Lerp(Color.Goldenrod, Color.DarkGray, MathF.Abs(MathF.Sin(Owner.MogMod().hellfireOverheat * MathHelper.Pi / 30f)));
-                if (Main.rand.NextBool(4)) smoke.scale *= 1.2f;
-            }
-
+            if (BuiltHeat >= WarningTime && !playedWarningSound) WarningEffect();
+            if (BuiltHeat < WarningTime) playedWarningSound = false;
 
             SoundEngine.PlaySound(SoundID.Item91 with { Volume = 0.8f, Pitch = Main.rand.NextFloat(-0.25f, -0.1f) }, Owner.Center);
-            Dust dust = Dust.NewDustPerfect(GunTipPosition, Main.rand.NextBool(3) ? DustID.FireworksRGB : 303, Vector2.Zero, 100, Color.BlanchedAlmond, Main.rand.NextFloat(0.8f, 1.2f));
-            for (int i = 0; i <= 12; i++)
-            {
-                Dust dust2 = Dust.NewDustPerfect(GunTipPosition, Main.rand.NextBool(3) ? DustID.FireworksRGB : 303, (shootVelocity * Main.rand.NextFloat(0.2f, 1.1f)).RotatedByRandom(0.4f), 0, default);
-                dust2.noGravity = true;
-                dust2.scale = Main.rand.NextFloat(0.8f, 1.4f);
-            }
             Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int bulletDamage, out float knockback, out _, true);
             if (Main.myPlayer == Projectile.owner)
             {
-                // reduce ammo by 1
-                if (BuiltHeat < MaxHeat) mogPlayer.las13Heat += 3;
                 Vector2 shootPos = Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.25f;
                 var source = Projectile.GetSource_FromThis();
                 int type = ModContent.ProjectileType<LAS13Proj>();
-                int bulletAmt = 6;
-                for (int index = 0; index < bulletAmt; ++index)
+                for (int index = 0; index < LAS13Trident.NumBeams; ++index)
                 {
                     Projectile.NewProjectile(source, GunTipPosition, shootVelocity.RotatedByRandom(MathHelper.ToRadians(MathHelper.Lerp(1.4f, 4f, BuiltHeat * 0.01f))), type, bulletDamage, knockback, Projectile.owner, 0f, 0f);
                 }
 
-                ShootTimer = attackTime / 3;
+                float value = MathHelper.Lerp(MinShootSpeed, MaxShootSpeed, BuiltHeat * 0.01f);
+                ShootTimer = (int)(attackTime / value);
             }
         }
         public void WarningEffect()
         {
             SoundEngine.PlaySound(WarningSound, Owner.Center);
+            playedWarningSound = true;
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -203,7 +193,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             {
                 Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/LAS13Ghost").Value;
                 Color auraColor = Color.Goldenrod * opacity * 0.6f;
-                Vector2 drawOffset = ((MathHelper.TwoPi * i / 16f).ToRotationVector2() * 5);
+                Vector2 drawOffset = ((MathHelper.TwoPi * i / 16f).ToRotationVector2() * 2);
                 Main.EntitySpriteDraw(ghost, drawPosition + drawOffset, null, auraColor, drawRotation, rotationPoint, Projectile.scale, flipSprite);
             }
             Main.EntitySpriteDraw(texture, drawPosition, null, tintColor, drawRotation, rotationPoint, Projectile.scale, flipSprite);

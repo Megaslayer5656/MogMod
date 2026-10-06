@@ -651,10 +651,11 @@ Items: {
 				DisplayName: LAS-13 Trident
 				Tooltip:
 					'''
-					Fires a spread of 6 lasers that build up heat in the weapon
-					Building up too much heat overheats the weapon, leaving it unusable for {1} seconds
-					Uses gel for ammo
-					Ignores {0} points of enemy Defense
+					Fires a spread of {0} lasers that build up heat in the weapon's heatsink
+					Building up too much heat causes the heatsink to overheat, requiring the heatsink to be replaced
+					Press [KEY] to replace the heatsink
+					Uses {1} gel for every heatsink
+					Ignores {2} points of enemy Defense
 					'''
 			}
 
@@ -796,7 +797,7 @@ Items: {
 				Tooltip:
 					'''
 					Fires a barrage of flaming bullets that build up heat in the weapon
-					Firing for too long overheats the weapon, leaving it unusable for {0} seconds
+					Firing for too long overheats the weapon, rendering it unusable until it cools down
 					'''
 			}
 

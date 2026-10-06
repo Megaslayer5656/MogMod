@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Config;
+using MogMod.Common.MogModPlayer;
 using MogMod.Items.Weapons.Ranged;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
 using ReLogic.Utilities;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -14,141 +16,160 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.RangedProjectiles
 {
-    // code lifted from calamity mod spectralstormcannon
     public class HellfireMaxigunHoldout : BaseGunHoldoutProjectile
     {
         public override int AssociatedItemID => ModContent.ItemType<HellfireMaxigun>();
+        public override Vector2 GunTipPosition => Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.5f;
         public override float MaxOffsetLengthFromArm => 24f;
         public override float OffsetXUpwards => -5f;
         public override float BaseOffsetY => -1f;
         public override float OffsetYDownwards => 5f;
-        public ref float Timer => ref Projectile.ai[0];
-        private int BuiltHeat => (Owner.HeldItem.ModItem as HellfireMaxigun).BuiltUpHeat;
+
+        private int BuiltHeat => Owner.MogMod().hellfireHeat;
         private const int WarningTime = HellfireMaxigun.OverheatLevel - 100;
+        public int MaxHeat = HellfireMaxigun.OverheatLevel;
         public bool Overheating = false;
-        public SlotId AudSlot;
+        public bool playedWarningSound = false;
         public static readonly SoundStyle WarningSound = new($"{nameof(MogMod)}/Sounds/SE/ArmletOn") { Volume = 1.1f, PitchVariance = .2f, MaxInstances = 0 };
-        public override Vector2 GunTipPosition => Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.5f;
-        public override void KillHoldoutLogic()
+
+        public ref float ShootTimer => ref Projectile.ai[0];
+        public ref float ReloadTimer => ref Projectile.ai[1];
+        public ref float LastUseTime => ref Projectile.ai[2];
+        public int Cap = 10;
+        public float MinShootSpeed = 5f;
+        public float MaxShootSpeed = 9f;
+        public int shootTime = 70;
+        public int attackTime = 0;
+        public SlotId AudSlot;
+        public override void KillHoldoutLogic() { }
+        public override void SendExtraAIHoldout(BinaryWriter writer)
         {
-            if (Owner.CantUseHoldout(false) || HeldItem.type != Owner.HeldItem.type || (BuiltHeat == 0 && !Main.mouseLeft))
-            {
-                if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();
-                Projectile.Kill();
-            }
+            writer.Write(Projectile.spriteDirection);
+        }
+        public override void ReceiveExtraAIHoldout(BinaryReader reader)
+        {
+            Projectile.spriteDirection = reader.ReadInt32();
         }
         public override void HoldoutAI()
         {
-            if (Owner.MogMod().hellfireOverheat == 0) if (Main.mouseLeft) Timer++;
-            else Timer = 0;
+            MogPlayer mogPlayer = Owner.MogMod();
+            Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * 20;
+            var attackSpeed = Main.player[Projectile.owner].GetTotalAttackSpeed(Projectile.DamageType);
+            if (attackSpeed > Cap) attackSpeed = Cap;
+            if (attackSpeed != 0f) attackSpeed = 1f / attackSpeed;
+            attackTime = (int)(shootTime * attackSpeed);
 
-            // Once holding the fire button down long enough, start actually firing
-            if (Timer >= 30)
+            SetUsage = false;
+            bool doingNothing = ReloadTimer == 0 && BuiltHeat <= 0;
+            if (LastUseTime == 0 || doingNothing) LastUseTime = Owner.HeldItem.useAnimation;
+            if (!doingNothing) Owner.itemTime = Owner.itemAnimation = 5;
+
+            if ((Owner.HeldItem.type != AssociatedItemID && doingNothing) || (doingNothing && (Main.mapFullscreen || Owner.mouseInterface)) || Owner.dead)
             {
-                // For some reason using HeldItem here breaks its functionality while being held on the cursor
-                (Owner.HeldItem.ModItem as HellfireMaxigun).BuiltUpHeat++;
-
-                // Overheat yourself if you fire too long
-                if (BuiltHeat >= HellfireMaxigun.OverheatLevel)
-                {
-                    for (int e = 0; e < 7; e++)
-                    {
-                        Vector2 dustVel = -Projectile.rotation.ToRotationVector2().RotatedByRandom(MathHelper.Pi * 0.15f) * Main.rand.NextFloat(3.8f, 5.5f);
-                        Dust dust = Dust.NewDustPerfect(Projectile.Center, DustID.Flare, dustVel, Scale: 1.5f);
-                        dust.noGravity = true;
-                    }
-
-                    (Owner.HeldItem.ModItem as HellfireMaxigun).BuiltUpHeat = 1;
-                    Owner.MogMod().hellfireOverheat = HellfireMaxigun.OverheatCooldown;
-                    Overheating = true;
-                    /*
-                    if (Main.myPlayer == Projectile.owner)
-                    {
-                        Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int bulletDamage, out float knockback, out _);
-                        Vector2 velocity = Main.rand.NextFloat(4f, 7.5f);
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), GunTipPosition + Projectile.velocity * 5 + Main.rand.NextVector2Circular(7, 7), velocity.RotatedByRandom(MathHelper.ToRadians(4f)), ammo, (int)(Projectile.damage), Projectile.knockBack, Projectile.owner);
-                        // minigun with a mag???
-                        //if (MogClientConfig.Instance.AmmoEjection && Main.netMode != NetmodeID.Server)
-                        //{
-                        //    string goreType = "HellfireMag";
-                        //    Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity.RotatedBy(2f * -Owner.direction) * Main.rand.NextFloat(0.6f, 0.7f), Mod.Find<ModGore>(goreType).Type);
-                        //}
-                    }
-                    */
-                    return;
-                }
-                if (BuiltHeat == WarningTime) SoundEngine.PlaySound(WarningSound, Owner.Center);
-
-                // Controls the escalating firing speed
-                float firingLerp = Utils.GetLerpValue(0, 90, Timer - 30, true);
-                int firingFrequency = (int)MathHelper.Lerp(HeldItem.useTime, HeldItem.useTime / 2, firingLerp);
-                if (BuiltHeat >= WarningTime) firingFrequency = (int)MathHelper.Lerp(HeldItem.useTime, HeldItem.useTime / 4, firingLerp);
-                // Actually fire shtuff
-                if (Timer % firingFrequency == 0)
-                {
-                    Timer++; // here so we dont rapidly fire every frame
-                    Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * 30;
-                    Dust dust = Dust.NewDustPerfect(GunTipPosition, Main.rand.NextBool(3) ? DustID.FireworksRGB : 303, Vector2.Zero, 100, Color.OrangeRed, Main.rand.NextFloat(0.4f, 1.2f));
-                    for (int i = 0; i <= 4; i++)
-                    {
-                        Dust dust2 = Dust.NewDustPerfect(GunTipPosition, Main.rand.NextBool(3) ? DustID.FireworksRGB : 303, (shootVelocity * Main.rand.NextFloat(0.8f, 1.6f)).RotatedByRandom(0.4f), 0, default);
-                        dust2.noGravity = true;
-                        dust2.scale = Main.rand.NextFloat(0.5f, 2.4f);
-                    }
-                    SoundEngine.PlaySound(SoundID.Item41 with { Volume = 0.3f, Pitch = 0.25f, PitchVariance = 0.1f, MaxInstances = -1 }, Projectile.Center);
-                    if (MogClientConfig.Instance.GunRecoil)
-                        OffsetLengthFromArm -= 2f;
-                    Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int bulletDamage, out float knockback, out _);
-                    Vector2 shootPos = Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.25f;
-                    if (Main.myPlayer == Projectile.owner)
-                    {
-                        Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), shootPos, shootVelocity.RotatedByRandom(MathHelper.ToRadians(MathHelper.Lerp(0.2f, 3f, (Owner.HeldItem.ModItem as HellfireMaxigun).BuiltUpHeat * 0.01f))), ammo, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        MogModGlobalProjectile mogProj = proj.MogMod();
-                        mogProj.fireBullet = true;
-                        if (MogClientConfig.Instance.AmmoEjection && Main.netMode != NetmodeID.Server)
-                        {
-                            string goreType = "HellfireCasing";
-                            Vector2 spawnOffset = new(0, -11f);
-                            Vector2 spawnPosition = Projectile.Center + (-Projectile.velocity * 5) + spawnOffset;
-                            Gore.NewGore(Projectile.GetSource_FromAI(), spawnPosition, -Projectile.velocity * 4f, Mod.Find<ModGore>(goreType).Type);
-                        }
-                    }
-                }
-            }
-            if (BuiltHeat > 0)
-            {
-                if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound) && ChargeSound.IsPlaying)
-                {
-                    float heat = BuiltHeat * 0.01f;
-                    float maxHeat = HellfireMaxigun.OverheatLevel * 0.01f;
-                    ChargeSound.Position = Projectile.Center;
-                    ChargeSound.Pitch = Utils.Remap(heat, 0, maxHeat, -0.4f, 0f);
-                    ChargeSound.Volume = Utils.Remap(heat, 0, maxHeat, 0.4f, 1f) * 100;
-                }
-                else AudSlot = SoundEngine.PlaySound(SoundID.DD2_KoboldIgniteLoop with { Volume = 0.01f, Pitch = 0, IsLooped = true }, Projectile.Center);
+                if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();   
+                Projectile.Kill();
+                return;
             }
 
-            // Reset overheat draw color once the overheat ends
-            if (Owner.MogMod().hellfireOverheat == 0)
+            bool hasAmmo = Owner.PickAmmo(HeldItem, out _, out _, out _, out _, out _, true);
+            bool leftShootChecks = Owner.whoAmI == Main.myPlayer && (Main.mouseLeft && !Main.mapFullscreen && !Owner.mouseInterface && ShootTimer <= 0 && ReloadTimer <= 0) && hasAmmo;
+
+            // if the gun is not overheating, fire
+            if (!Overheating)
             {
-                Overheating = false;
-                if (BuiltHeat <= 0)
+                if (leftShootChecks) Shoot(shootVelocity);
+                if (BuiltHeat < MaxHeat && Main.mouseLeft)
                 {
+                    if (BuiltHeat < MaxHeat) mogPlayer.hellfireHeat += 1;
+                }
+                else if (BuiltHeat > 0 && !Main.mouseLeft) mogPlayer.hellfireHeat--;
+            }
+            else
+            {
+                if (BuiltHeat > 0)
+                {
+                    if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound) && ChargeSound.IsPlaying)
+                    {
+                        float heat = BuiltHeat * 0.01f;
+                        float maxHeat = HellfireMaxigun.OverheatLevel * 0.01f;
+                        ChargeSound.Position = Projectile.Center;
+                        ChargeSound.Pitch = Utils.Remap(heat, 0, maxHeat, -0.4f, 0f);
+                        ChargeSound.Volume = Utils.Remap(heat, 0, maxHeat, 0.4f, 1f) * 100;
+                    }
+                    else AudSlot = SoundEngine.PlaySound(SoundID.DD2_KoboldIgniteLoop with { Volume = 0.01f, Pitch = 0, IsLooped = true }, Projectile.Center);
+                    mogPlayer.hellfireHeat -= 3;
+                }
+                else
+                {
+                    Overheating = false;
                     if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();
                 }
+                // Draw smoke effect while overheated
+                if (Main.rand.NextBool(3))
+                {
+                    Dust smoke = Dust.NewDustPerfect(GunTipPosition, DustID.Smoke, new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-2f, -5f)) * 7.5f, newColor: Color.WhiteSmoke, Scale: 1.55f);
+                    smoke.noGravity = true;
+                    smoke.fadeIn = 0.4f;
+                    smoke.scale *= 0.98f;
+                    smoke.color = Color.Lerp(Color.OrangeRed, Color.DarkGray, MathF.Abs(MathF.Sin(mogPlayer.hellfireHeat * MathHelper.Pi / 30f)));
+                    if (Main.rand.NextBool(4)) smoke.scale *= 1.2f;
+                }
+                // Constantly move the warning sound on top of the player
+                if (SoundEngine.TryGetActiveSound(AudSlot, out var warning) && warning.IsPlaying) warning.Position = Projectile.Center;
             }
-            // Draw smoke effect while overheated
-            if (Overheating && Main.rand.NextBool(3))
+            if (ShootTimer > 0) ShootTimer--;
+        }
+        public void Shoot(Vector2 shootVelocity)
+        {
+            MogPlayer mogPlayer = Owner.MogMod();
+
+            // Overheat yourself if you fire too long
+            if (BuiltHeat >= MaxHeat)
             {
-                Dust smoke = Dust.NewDustPerfect(GunTipPosition, DustID.Smoke, new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-2f, -5f)) * 7.5f, newColor: Color.WhiteSmoke, Scale: 1.55f);
-                smoke.noGravity = true;
-                smoke.fadeIn = 0.4f;
-                smoke.scale *= 0.98f;
-                smoke.color = Color.Lerp(Color.OrangeRed, Color.DarkGray, MathF.Abs(MathF.Sin(Owner.MogMod().hellfireOverheat * MathHelper.Pi / 30f)));
-                if (Main.rand.NextBool(4)) smoke.scale *= 1.2f;
+                for (int e = 0; e < 7; e++)
+                {
+                    Vector2 dustVel = -Projectile.rotation.ToRotationVector2().RotatedByRandom(MathHelper.Pi * 0.15f) * Main.rand.NextFloat(3.8f, 5.5f);
+                    Dust overheatDust = Dust.NewDustPerfect(Projectile.Center, DustID.Flare, dustVel, Scale: 1.5f);
+                    overheatDust.noGravity = true;
+                }
+
+                Overheating = true;
+                return;
             }
-            // Constantly move the warning sound on top of the player
-            if (SoundEngine.TryGetActiveSound(AudSlot, out var warning) && warning.IsPlaying) warning.Position = Projectile.Center;
+            if (BuiltHeat >= WarningTime && !playedWarningSound) WarningEffect();
+            if (BuiltHeat < WarningTime) playedWarningSound = false;
+
+            Dust dust = Dust.NewDustPerfect(GunTipPosition, Main.rand.NextBool(3) ? DustID.FireworksRGB : 303, Vector2.Zero, 100, Color.OrangeRed, Main.rand.NextFloat(0.4f, 1.2f));
+            for (int i = 0; i <= 4; i++)
+            {
+                Dust dust2 = Dust.NewDustPerfect(GunTipPosition, Main.rand.NextBool(3) ? DustID.FireworksRGB : 303, (shootVelocity * Main.rand.NextFloat(0.8f, 1.6f)).RotatedByRandom(0.4f), 0, default);
+                dust2.noGravity = true;
+                dust2.scale = Main.rand.NextFloat(0.5f, 2.4f);
+            }
+            SoundEngine.PlaySound(SoundID.Item41 with { Volume = 0.3f, Pitch = 0.25f, PitchVariance = 0.1f, MaxInstances = -1 }, Projectile.Center);
+            if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= 2f;
+            Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int bulletDamage, out float knockback, out _);
+            Vector2 shootPos = Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.25f;
+            if (Main.myPlayer == Projectile.owner)
+            {
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), shootPos, shootVelocity.RotatedByRandom(MathHelper.ToRadians(MathHelper.Lerp(0.2f, 3f, BuiltHeat * 0.01f))), ammo, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                MogModGlobalProjectile mogProj = proj.MogMod();
+                mogProj.fireBullet = true;
+                if (MogClientConfig.Instance.AmmoEjection && Main.netMode != NetmodeID.Server)
+                {
+                    string goreType = "HellfireCasing";
+                    Vector2 spawnOffset = new(0, -11f);
+                    Vector2 spawnPosition = Projectile.Center + (-Projectile.velocity * 5) + spawnOffset;
+                    Gore.NewGore(Projectile.GetSource_FromAI(), spawnPosition, -Projectile.velocity * 4f, Mod.Find<ModGore>(goreType).Type);
+                }
+                float value = MathHelper.Lerp(MinShootSpeed, MaxShootSpeed, BuiltHeat * 0.01f);
+                ShootTimer = (int)(attackTime / value);
+            }
+        }
+        public void WarningEffect()
+        {
+            SoundEngine.PlaySound(WarningSound, Owner.Center);
+            playedWarningSound = true;
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -162,9 +183,9 @@ namespace MogMod.Projectiles.RangedProjectiles
 
             for (int i = 0; i < 16; i++)
             {
-                Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Projectiles/RangedProjectiles/HellfireMaxigunGhost").Value;
+                Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/HellfireMaxigunGhost").Value;
                 Color auraColor = Color.OrangeRed * opacity * 0.6f;
-                Vector2 drawOffset = ((MathHelper.TwoPi * i / 16f).ToRotationVector2() * 5);
+                Vector2 drawOffset = ((MathHelper.TwoPi * i / 16f).ToRotationVector2() * 4);
                 Main.EntitySpriteDraw(ghost, drawPosition + drawOffset, null, auraColor, drawRotation, rotationPoint, Projectile.scale, flipSprite);
             }
             Main.EntitySpriteDraw(texture, drawPosition, null, tintColor, drawRotation, rotationPoint, Projectile.scale, flipSprite);

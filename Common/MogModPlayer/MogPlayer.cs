@@ -336,9 +336,8 @@ namespace MogMod.Common.MogModPlayer
 
         public bool markerProjOut = false;
 
-        public int hellfireOverheat = 0;
+        public int hellfireHeat = 0;
         public int las13Heat = 0;
-        public int lasOverheat = 0;
 
         public int mosinShots = 0;
         public int axmcShots = 0;
@@ -2116,6 +2115,8 @@ namespace MogMod.Common.MogModPlayer
             armletTimer = 0;
             praporCooldown = 0;
             toxicDamage = 0;
+            las13Heat = 0;
+            hellfireHeat = 0;
         }
         public void doUndying()
         {
@@ -2600,8 +2601,6 @@ namespace MogMod.Common.MogModPlayer
             if (gildedReflectCooldown > 0 && wearingGilded) gildedReflectCooldown--;
             if (gildedCoinDropCooldown > 0 && wearingGilded) gildedCoinDropCooldown--;
             if (overloadingRegenCooldown > 0 && wearingOverloading) overloadingRegenCooldown--;
-            if (hellfireOverheat > 0) hellfireOverheat--;
-            if (lasOverheat > 0) lasOverheat--;
             if (kaminariCooldown > 0 && wearingKaminari) kaminariCooldown--;
             if (radiancePower > 0f && Player.HeldItem.type != ModContent.ItemType<Radiance>()) radiancePower -= 0.05f;
             if (flamewallPower > 0f && Player.HeldItem.type != ModContent.ItemType<Flamewall>()) flamewallPower -= 0.05f;
