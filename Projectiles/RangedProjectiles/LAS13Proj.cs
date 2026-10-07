@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Weapons.Ranged;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Drawing;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,14 +26,8 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.localAI[0]++;
             if (Projectile.localAI[0] > 1f)
             {
-                if (Main.rand.NextBool(1))
+                for (int i = 0; i < 5; i++)
                 {
-                    /* REALLY LAGGY
-                    ParticleOrchestrator.RequestParticleSpawn(clientOnly: false, ParticleOrchestraType.RainbowRodHit,
-                        new ParticleOrchestraSettings { PositionInWorld = Projectile.Center },
-                        Projectile.owner);
-                    */
-                    // TODO: change with particles
                     Vector2 dustSpawnPos = Projectile.position - Projectile.velocity * i / 2f;
                     Dust lasDust = Dust.NewDustPerfect(dustSpawnPos, DustID.AncientLight);
                     lasDust.color = Color.Lerp(Color.Yellow, Color.Gold, Main.rand.NextFloat(0.6f));
@@ -42,12 +37,6 @@ namespace MogMod.Projectiles.RangedProjectiles
                 }
             }
         }
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            Projectile.penetrate--;
-            if (Projectile.penetrate <= 0) Projectile.Kill();
-            return false;
-        }
         public override void OnKill(int timeLeft)
         {
             Projectile.Center = Projectile.position;
@@ -55,16 +44,23 @@ namespace MogMod.Projectiles.RangedProjectiles
             int dustAmt = 6;
             for (int j = 0; j < dustAmt; j++)
             {
-
-                /*
-                Vector2 dustRotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                dustRotate = dustRotate.RotatedBy((double)((float)(j - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default) + Projectile.position;
-                Vector2 dustDirection = dustRotate - Projectile.Center;
-                int killDust = Dust.NewDust(dustRotate + dustDirection, 0, 0, DustID.AncientLight, dustDirection.X, dustDirection.Y, 100, Color.Yellow, 1.2f);
-                Main.dust[killDust].noGravity = true;
-                Main.dust[killDust].noLight = true;
-                Main.dust[killDust].velocity = dustDirection;
-                */
+                if (Projectile.ai[2] == 5f)
+                {
+                    SoundEngine.PlaySound(SoundID.Item60, Projectile.Center);
+                    ParticleOrchestrator.RequestParticleSpawn(clientOnly: false, ParticleOrchestraType.Excalibur,
+                        new ParticleOrchestraSettings { PositionInWorld = Projectile.Center },
+                        Projectile.owner);
+                }
+                else
+                {
+                    Vector2 dustRotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                    dustRotate = dustRotate.RotatedBy((double)((float)(j - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default) + Projectile.position;
+                    Vector2 dustDirection = dustRotate - Projectile.position;
+                    int killDust = Dust.NewDust(dustRotate + dustDirection, 0, 0, DustID.AncientLight, dustDirection.X, dustDirection.Y, 100, Color.Yellow, 1.2f);
+                    Main.dust[killDust].noGravity = true;
+                    Main.dust[killDust].noLight = true;
+                    Main.dust[killDust].velocity = dustDirection;
+                }
             }
         }
     }

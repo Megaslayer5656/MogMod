@@ -59,7 +59,7 @@ namespace MogMod.Projectiles.Melee
             {
                 if (Projectile.timeLeft > 2) Projectile.timeLeft = 2;
             }
-            if (Owner.active && !Owner.dead) Projectile.Center = Holdout.Center - new Vector2(0f, 130f) * Holdout.scale;
+            if (Owner.active && !Owner.dead) Projectile.Center = Holdout.Center - new Vector2(0f, 130f) * Owner.gravDir * Holdout.scale;
         }
         public override void UpdateLaserMotion()
         {

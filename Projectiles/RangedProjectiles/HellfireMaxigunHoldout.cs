@@ -82,28 +82,12 @@ namespace MogMod.Projectiles.RangedProjectiles
                 {
                     if (BuiltHeat < MaxHeat) mogPlayer.hellfireHeat += 1;
                 }
-                else if (BuiltHeat > 0 && !Main.mouseLeft) mogPlayer.hellfireHeat--;
+                else if (BuiltHeat > 0 && ShootTimer <= 0 && !Main.mouseLeft) mogPlayer.hellfireHeat--;
             }
             else
             {
-                if (BuiltHeat > 0)
-                {
-                    if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound) && ChargeSound.IsPlaying)
-                    {
-                        float heat = BuiltHeat * 0.01f;
-                        float maxHeat = HellfireMaxigun.OverheatLevel * 0.01f;
-                        ChargeSound.Position = Projectile.Center;
-                        ChargeSound.Pitch = Utils.Remap(heat, 0, maxHeat, -0.4f, 0f);
-                        ChargeSound.Volume = Utils.Remap(heat, 0, maxHeat, 0.4f, 1f) * 100;
-                    }
-                    else AudSlot = SoundEngine.PlaySound(SoundID.DD2_KoboldIgniteLoop with { Volume = 0.01f, Pitch = 0, IsLooped = true }, Projectile.Center);
-                    mogPlayer.hellfireHeat -= 3;
-                }
-                else
-                {
-                    Overheating = false;
-                    if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();
-                }
+                if (BuiltHeat > 0) mogPlayer.hellfireHeat -= 1;
+                else Overheating = false;
                 // Draw smoke effect while overheated
                 if (Main.rand.NextBool(3))
                 {
@@ -117,6 +101,20 @@ namespace MogMod.Projectiles.RangedProjectiles
                 // Constantly move the warning sound on top of the player
                 if (SoundEngine.TryGetActiveSound(AudSlot, out var warning) && warning.IsPlaying) warning.Position = Projectile.Center;
             }
+
+            if (BuiltHeat > 0)
+            {
+                if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound) && ChargeSound.IsPlaying)
+                {
+                    float heat = BuiltHeat * 0.01f;
+                    float maxHeat = HellfireMaxigun.OverheatLevel * 0.01f;
+                    ChargeSound.Position = Projectile.Center;
+                    ChargeSound.Pitch = Utils.Remap(heat, 0, maxHeat, -0.4f, 0f);
+                    ChargeSound.Volume = Utils.Remap(heat, 0, maxHeat, 0.4f, 1f) * 100;
+                }
+                else AudSlot = SoundEngine.PlaySound(SoundID.DD2_KoboldIgniteLoop with { Volume = 0.01f, Pitch = 0, IsLooped = true }, Projectile.Center);
+            }
+            else if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();
             if (ShootTimer > 0) ShootTimer--;
         }
         public void Shoot(Vector2 shootVelocity)

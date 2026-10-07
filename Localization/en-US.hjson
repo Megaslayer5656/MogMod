@@ -393,6 +393,7 @@ Mods: {
 				SpiritSparkle.DisplayName: Spirit Sparkle
 				FlamewallLaser.DisplayName: Inferno Laser
 				SpiritOrb.DisplayName: Spirit Orb
+				RustedHatchetProj.DisplayName: Rusted Hatchet Proj
 			}
 
 			Summon: {

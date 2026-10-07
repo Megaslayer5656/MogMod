@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MogMod.Items.Weapons.Magic;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;

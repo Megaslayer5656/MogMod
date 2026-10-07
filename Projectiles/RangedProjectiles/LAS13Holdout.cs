@@ -137,11 +137,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             else if (!Overheating)
             {
                 if (leftShootChecks) Shoot(shootVelocity);
-                if (BuiltHeat < MaxHeat && Main.mouseLeft)
-                {
-                    if (BuiltHeat < MaxHeat) mogPlayer.las13Heat++;
-                }
-                else if (BuiltHeat > 0 && !Main.mouseLeft) mogPlayer.las13Heat -= 2;
+                if (BuiltHeat > 0 && ShootTimer <= 0 && !Main.mouseLeft) mogPlayer.las13Heat--;
             }
             else
             {
@@ -151,7 +147,7 @@ namespace MogMod.Projectiles.RangedProjectiles
                 {
                     var Hotkey = KeybindSystem.FirstWeaponKeybind.TooltipHotkeyString();
                     Rectangle r = new((int)Owner.Hitbox.X, (int)Owner.Hitbox.Y - 20, Owner.Hitbox.Width, Owner.Hitbox.Height);
-                    CombatText.NewText(r, Color.IndianRed, MiscUtils.GetTextFromModItem<LAS13Trident>("ReloadReminder").Format(Hotkey).ToString(), true);
+                    CombatText.NewText(r, Color.IndianRed, MiscUtils.GetTextFromModItem<LAS13Trident>("ReloadReminder").Format(Hotkey).ToString());
 
                     SoundEngine.PlaySound(SoundID.Chat with { PitchVariance = 0.3f, MaxInstances = -1 }, Owner.Center);
                     RemindReload = true;
@@ -193,14 +189,20 @@ namespace MogMod.Projectiles.RangedProjectiles
             Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int bulletDamage, out float knockback, out _, true);
             if (Main.myPlayer == Projectile.owner)
             {
+                if (BuiltHeat < MaxHeat) mogPlayer.las13Heat += (MaxHeat / 20);
                 Vector2 shootPos = Projectile.Center - Vector2.UnitY + Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.width * 0.25f;
                 var source = Projectile.GetSource_FromThis();
                 int type = ModContent.ProjectileType<LAS13Proj>();
                 float value = MathHelper.Lerp(MinHeatDamage, MaxHeatDamage, BuiltHeat * 0.01f);
                 int damage = (int)(bulletDamage * value);
+                if (BuiltHeat >= WarningTime)
+                {
+                    damage = (int)(damage * 1.35f);
+                    knockback *= 2f;
+                }
                 for (int index = 0; index < LAS13Trident.NumBeams; ++index)
                 {
-                    Projectile.NewProjectile(source, GunTipPosition, shootVelocity.RotatedByRandom(MathHelper.ToRadians(MathHelper.Lerp(1.4f, 4f, BuiltHeat * 0.01f))), type, damage, knockback, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(source, GunTipPosition, shootVelocity.RotatedByRandom(MathHelper.ToRadians(MathHelper.Lerp(1.4f, 4f, BuiltHeat * 0.01f))), type, damage, knockback, Projectile.owner, ai2: (BuiltHeat >= WarningTime ? 5f : 0f));
                 }
 
                 ShootTimer = (int)(attackTime / ShootSpeed);

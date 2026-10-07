@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Banners;
+using MogMod.Items.Weapons.Melee;
 using System;
 using Terraria;
 using Terraria.GameContent.Bestiary;
@@ -50,7 +51,7 @@ namespace MogMod.NPCs.Enemies
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CraftingRecipe>(), 10));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CreepBlood>(), 1, 1, 3));
-            npcLoot.Add(ItemDropRule.Common(ItemID.LeadBroadsword, 20, 1, 1));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<RustedHatchet>(), 20, 1, 1));
         }
 #endregion
 

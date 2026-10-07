@@ -24,7 +24,6 @@ namespace MogMod.Items.Weapons.Melee
             Item.knockBack = 3f;
             Item.shootSpeed = 15f;
             Item.UseSound = SoundID.Item1;
-            Item.value = Item.buyPrice(0, 38, 0, 0);
             Item.axe = 150 / 5;
             Item.rare = ItemRarityID.Orange;
             Item.value = MogGlobalItem.RarityOrangeBuyPrice;
