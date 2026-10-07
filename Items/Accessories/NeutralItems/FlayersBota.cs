@@ -23,7 +23,7 @@ namespace MogMod.Items.Accessories.NeutralItems
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             mogPlayer.wearingFlayersBota = true;
             player.GetAttackSpeed<GenericDamageClass>() += AttackSpeedBoost;
         }

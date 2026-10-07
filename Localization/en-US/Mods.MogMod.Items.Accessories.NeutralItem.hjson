@@ -164,6 +164,16 @@ ChaosDice: {
 		'''
 }
 
+WeightedDice: {
+	DisplayName: Weighted Dice
+	Tooltip:
+		'''
+		Increases or decreases damage dealt by {0} flat
+		Enemies drop 
+		[c/A6288D:'To torture a magic user, one must devise means far beyond the mundane.']
+		'''
+}
+
 BlazingAspect: {
 	DisplayName: Blazing Aspect
 	Tooltip: ""

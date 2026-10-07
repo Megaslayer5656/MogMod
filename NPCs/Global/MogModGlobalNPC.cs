@@ -90,6 +90,7 @@ namespace MogMod.NPCs.Global
         public const int hellfireCap = HellfireMask.DamageCap;
 
         public bool markedByMarker;
+        public bool weightedDiceEffect = false;
 
         // procs
         public bool bashProc = false;
@@ -167,12 +168,10 @@ namespace MogMod.NPCs.Global
         }
         public override void SetupTravelShop(int[] shop, ref int nextSlot)
         {
-            if (Main.moonPhase >= 3 && Main.moonPhase <= 5)
-                shop[nextSlot++] = ModContent.ItemType<GasGrenade>();
-            if (Main.moonPhase % 2 == 0)
-                shop[nextSlot++] = ModContent.ItemType<CarianSlicer>();
-            if (Main.hardMode && Main.moonPhase % 2 == 1)
-                shop[nextSlot++] = ModContent.ItemType<CarianGreatsword>();
+            if (Main.moonPhase >= 6 && Main.moonPhase <= 2) shop[nextSlot++] = ModContent.ItemType<WeightedDice>();
+            if (Main.moonPhase >= 3 && Main.moonPhase <= 5) shop[nextSlot++] = ModContent.ItemType<GasGrenade>();
+            if (Main.moonPhase % 2 == 0) shop[nextSlot++] = ModContent.ItemType<CarianSlicer>();
+            if (Main.hardMode && Main.moonPhase % 2 == 1) shop[nextSlot++] = ModContent.ItemType<CarianGreatsword>();
         }
         #endregion
 
@@ -651,6 +650,29 @@ namespace MogMod.NPCs.Global
                 AddProjectileToxic(player);
             }
             #endregion
+        }
+        public override void ModifyHitByItem(NPC npc, Player player, Item item, ref NPC.HitModifiers modifiers)
+        {
+            MogPlayer mogPlayer = player.MogMod();
+            if (mogPlayer.wearingWeightedDice) WeightedDiceEffect(npc, modifiers);
+        }
+        public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref NPC.HitModifiers modifiers)
+        {
+            MogPlayer mogPlayer = Main.player[projectile.owner].MogMod();
+            if (mogPlayer.wearingWeightedDice) WeightedDiceEffect(npc, modifiers);
+        }
+        public void WeightedDiceEffect(NPC npc, NPC.HitModifiers modifiers)
+        {
+            int damage = Main.rand.Next(WeightedDice.RandDamage, WeightedDice.RandDamage + 1);
+            if (damage < 0) damage = 0;
+            modifiers.SourceDamage.Flat += damage;
+            Main.NewText($"{damage}, {weightedDiceEffect}");
+            if (weightedDiceEffect) return;
+            float gold = Main.rand.NextFloat(WeightedDice.RandGold, WeightedDice.RandGold);
+            if (gold < 0f) gold = 0f;
+            npc.value *= gold;
+            weightedDiceEffect = true;
+            Main.NewText($"{gold}, {weightedDiceEffect}");
         }
         public static void SpawnMarkerProjectile(NPC target, Player player, Item item, Vector2 velocity, float rotation)
         {

@@ -179,6 +179,7 @@ namespace MogMod.Common.MogModPlayer
         public bool ultraTravelBootsVisual;
         public bool wearingLunarBoots;
         public bool lunarBootsVisual;
+        public bool wearingWeightedDice;
 
         public float ammoCost = 1f;
 
@@ -2717,6 +2718,7 @@ namespace MogMod.Common.MogModPlayer
             ultraTravelBootsVisual = false;
             wearingLunarBoots = false;
             lunarBootsVisual = false;
+            wearingWeightedDice = false;
             //stopFallDamage = false;
 
 
