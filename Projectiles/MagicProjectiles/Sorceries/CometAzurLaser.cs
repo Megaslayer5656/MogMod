@@ -186,7 +186,7 @@ namespace MogMod.Projectiles.MagicProjectiles.Sorceries
             {
                 Color innerDrawColor = Projectile.GetAlpha(LaserOverlayColor);
                 Color outerDrawColor = Projectile.GetAlpha(Color.White);
-                drawPoints[i] = Vector2.Lerp(Projectile.Center, laserEnd, i / (float)(drawPoints.Length - 1f));
+                drawPoints[i] = Vector2.Lerp(Projectile.position, laserEnd, i / (float)(drawPoints.Length - 1f));
                 rotPoints[i] = Projectile.rotation - MathHelper.Pi;
                 trailDrawer.Draw(Projectile, "MogMod:MagicMissileRGB", outerDrawColor, innerDrawColor, 1f, 30f, 44f, drawPoints, rotPoints);
             }

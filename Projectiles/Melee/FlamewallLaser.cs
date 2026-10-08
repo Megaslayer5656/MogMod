@@ -135,7 +135,7 @@ namespace MogMod.Projectiles.Melee
             Color outerDrawColor = Projectile.GetAlpha(StrongColor);
             for (int i = 0; i < length; i++)
             {
-                drawPoints[i] = Vector2.Lerp(Projectile.Center, laserEnd, i / (float)(drawPoints.Length - 1f));
+                drawPoints[i] = Vector2.Lerp(Projectile.position, laserEnd, i / (float)(drawPoints.Length - 1f));
                 rotPoints[i] = Projectile.rotation - MathHelper.Pi;
                 trailDrawer.Draw(Projectile, "MogMod:FlameLashRGB", outerDrawColor, innerDrawColor, 1.1f, 30f, 44f, drawPoints, rotPoints);
             }

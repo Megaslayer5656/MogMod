@@ -108,7 +108,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             {
                 Color innerDrawColor = Projectile.GetAlpha(StrongColor);
                 Color outerDrawColor = Projectile.GetAlpha(LaserOverlayColor);
-                drawPoints[i] = Vector2.Lerp(Projectile.Center, laserEnd, i / (float)(drawPoints.Length - 1f));
+                drawPoints[i] = Vector2.Lerp(Projectile.position, laserEnd, i / (float)(drawPoints.Length - 1f));
                 rotPoints[i] = Projectile.rotation - MathHelper.Pi;
                 //Main.NewText($"{Projectile.rotation}, {rotPoints[i]}, {drawPoints[i]}");
                 trailDrawer.Draw(Projectile, "MogMod:MagicMissileRGB", outerDrawColor, innerDrawColor, Math.Abs(0.5f - MaxScale), 30f, 44f, drawPoints, rotPoints);

@@ -244,6 +244,7 @@ Mods: {
 				StrongDagonOrb.DisplayName: Strong Dagon Orb
 				StrongVolatileDagonBolt.DisplayName: Strong Volatile Dagon Bolt
 				KhandaBeam.DisplayName: Khanda Beam
+				AghanimLaser.DisplayName: Aghanim Laser
 			}
 
 			RangedProjectiles: {
