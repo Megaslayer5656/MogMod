@@ -53,7 +53,7 @@ namespace MogMod.NPCs.Enemies
             NPC.defense = 0;
             NPC.lifeMax = 50;
             NPC.knockBackResist = 1f;
-            NPC.alpha = 50;
+            NPC.alpha = Main.masterMode ? 200 : Main.expertMode ? 120 : 50;
 
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
@@ -149,7 +149,8 @@ namespace MogMod.NPCs.Enemies
                             type,
                             damage,
                             0f,
-                            Main.myPlayer);
+                            Main.myPlayer,
+                            ai2: 5f);
                         bolt.tileCollide = false;
                         NPC.netUpdate = true;
                     }

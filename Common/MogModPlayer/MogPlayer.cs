@@ -560,25 +560,25 @@ namespace MogMod.Common.MogModPlayer
         }
         public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (Player.whoAmI != Main.myPlayer)
-                return;
+            if (Player.whoAmI != Main.myPlayer) return;
+
+            if (wearingWeightedDice) WeightedDice.WeightedDiceGoldEffect(target);
+
             NPCDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.CountsAsClass<SummonMeleeSpeedDamageClass>(), hit.Crit);
         }
         public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (Player.whoAmI != Main.myPlayer)
-                return;
+            if (Player.whoAmI != Main.myPlayer) return;
+
             MogModGlobalProjectile mogProj = proj.MogMod();
-            if (mogProj.fireBullet)
-                target.AddBuff(BuffID.OnFire3, 180);
-            if (mogProj.iceBullet)
-                target.AddBuff(BuffID.Frostburn2, 180);
-            if (mogProj.deathBullet)
-                target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), 180);
-            if (mogProj.daybreakBullet)
-                target.AddBuff(ModContent.BuffType<BlazingDebuff>(), 180);
-            if (mogProj.gelmirSpell)
-                target.AddBuff(BuffID.OnFire3, 180);
+            if (mogProj.fireBullet) target.AddBuff(BuffID.OnFire3, 180);
+            if (mogProj.iceBullet) target.AddBuff(BuffID.Frostburn2, 180);
+            if (mogProj.deathBullet) target.AddBuff(ModContent.BuffType<BlackBladeDebuff>(), 180);
+            if (mogProj.daybreakBullet) target.AddBuff(ModContent.BuffType<BlazingDebuff>(), 180);
+            if (mogProj.gelmirSpell) target.AddBuff(BuffID.OnFire3, 180);
+
+            if (wearingWeightedDice) WeightedDice.WeightedDiceGoldEffect(target);
+
             NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), proj.CountsAsClass<SummonMeleeSpeedDamageClass>(), hit.Crit);
         }
         public void doATG(int damageDone)
@@ -648,17 +648,7 @@ namespace MogMod.Common.MogModPlayer
                 Player.AddBuff(ModContent.BuffType<BlinkDebuff>(), 600);
             }
 
-            if (wearingTankyRizzler)
-            {
-                BerserkerHitEffect(hurtInfo);
-            }
-        }
-        public void BerserkerHitEffect(Player.HurtInfo hurtInfo)
-        {
-            if (hurtInfo.SourceDamage >= TankyRizzlerHelmet.MinDamage)
-            {
-                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<CounterHelixProj>(), TankyRizzlerHelmet.AxeSpinDamage, 1, Player.whoAmI, 0);
-            }
+            if (wearingTankyRizzler) BerserkerHitEffect(hurtInfo);
         }
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
         {
@@ -694,9 +684,13 @@ namespace MogMod.Common.MogModPlayer
                 Player.AddBuff(ModContent.BuffType<BlinkDebuff>(), 600);
             }
 
-            if (wearingTankyRizzler)
+            if (wearingTankyRizzler) BerserkerHitEffect(hurtInfo);
+        }
+        public void BerserkerHitEffect(Player.HurtInfo hurtInfo)
+        {
+            if (hurtInfo.Damage >= TankyRizzlerHelmet.MinDamage)
             {
-                BerserkerHitEffect(hurtInfo);
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<CounterHelixProj>(), TankyRizzlerHelmet.AxeSpinDamage, 1, Player.whoAmI, 0);
             }
         }
         public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)

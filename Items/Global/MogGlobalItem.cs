@@ -194,12 +194,11 @@ namespace MogMod.Items.Global
         public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers)
         {
             MogPlayer mogPlayer = player.MogMod();
-            if (mogPlayer.wearingDamascus1 && Main.zenithWorld)
-                modifiers.CritDamage *= DamascusHelm.GFBCritMult;
-            else if (mogPlayer.wearingDamascus1)
-                modifiers.CritDamage *= DamascusHelm.CritMult + 1;
-            if (mogPlayer.wearingChaosDice && ultraCrit)
-                modifiers.CritDamage *= ChaosDice.CritMult;
+            if (mogPlayer.wearingDamascus1 && Main.zenithWorld) modifiers.CritDamage *= DamascusHelm.GFBCritMult;
+            else if (mogPlayer.wearingDamascus1) modifiers.CritDamage *= DamascusHelm.CritMult + 1;
+            if (mogPlayer.wearingChaosDice && ultraCrit) modifiers.CritDamage *= ChaosDice.CritMult;
+
+            if (mogPlayer.wearingWeightedDice) modifiers.SourceDamage.Flat += WeightedDice.WeightedDiceDamageEffect();
         }
         public override bool InstancePerEntity => true;
         public override void ModifyItemScale(Item item, Player player, ref float scale)

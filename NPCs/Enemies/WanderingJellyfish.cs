@@ -31,6 +31,7 @@ namespace MogMod.NPCs.Enemies
             NPC.defense = 0;
             NPC.lifeMax = 20;
             NPC.knockBackResist = 1.2f;
+            NPC.alpha = Main.masterMode ? 200 : Main.expertMode ? 120 : 50;
 
             NPC.noGravity = true;
 
@@ -167,6 +168,10 @@ namespace MogMod.NPCs.Enemies
                 }
                 NPC.netUpdate = true;
             }
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
+        {
+            if (Main.expertMode) target.AddBuff(BuffID.Silenced, 240);
         }
         public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
         {

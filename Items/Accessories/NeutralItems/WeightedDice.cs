@@ -1,5 +1,7 @@
-﻿using MogMod.Common.MogModPlayer;
+﻿using Microsoft.Xna.Framework;
+using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
+using MogMod.NPCs.Global;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
@@ -24,6 +26,21 @@ namespace MogMod.Items.Accessories.NeutralItems
         {
             MogPlayer mogPlayer = player.MogMod();
             mogPlayer.wearingWeightedDice = true;
+        }
+        public static int WeightedDiceDamageEffect()
+        {
+            int damage = Main.rand.Next(-RandDamage, RandDamage + 1);
+            return damage;
+        }
+        public static void WeightedDiceGoldEffect(NPC target)
+        {
+            MogModGlobalNPC mogNPC = target.MogMod();
+            if (mogNPC.weightedDiceEffect) return;
+            float gold = Main.rand.NextFloat(-RandGold, RandGold);
+            if (gold < 0f) gold = 0f;
+            target.value *= (1f + gold);
+            mogNPC.weightedDiceEffect = true;
+            target.netUpdate = true;
         }
     }
 }

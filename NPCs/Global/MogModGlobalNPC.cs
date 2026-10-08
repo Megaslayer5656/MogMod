@@ -430,6 +430,7 @@ namespace MogMod.NPCs.Global
                 */
             }
         }
+        #region On Hit Effects
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
             #region Setup
@@ -537,33 +538,12 @@ namespace MogMod.NPCs.Global
                 Projectile orb = Projectile.NewProjectileDirect(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<OverloadingOrbProj>(), overloadingDamage, 0f, player.whoAmI, ai2: 1f);
                 orb.DamageType = player.HeldItem.DamageType;
             }
-            if (Main.rand.NextBool(3) && mogPlayer.wearingGilded && mogPlayer.gildedCoinDropCooldown <= 0 && !npc.SpawnedFromStatue && npc.type != NPCID.TargetDummy && !npc.boss && currentCoins <= maxCoins)
-            {
-                mogPlayer.gildedCoinDropCooldown = cooldownTimer;
-                currentCoins++;
-                Rectangle npcBox = new((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                int coinChance = Main.rand.Next(0, 101);
-                int coin = ItemID.CopperCoin;
-                switch (coinChance)
-                {
-                    case < 60:
-                        break;
-                    case < 90:
-                        coin = ItemID.SilverCoin;
-                        break;
-                    case < 100:
-                        coin = ItemID.GoldCoin;
-                        break;
-                    case >= 100:
-                        coin = ItemID.PlatinumCoin;
-                        break;
-                }
-                Item.NewItem(source, npcBox, coin);
-            }
+
+            if (mogPlayer.wearingGilded) GildedCoinEffect(npc, player, source);
             #endregion
 
             #region Armor Effects
-            // hellfire armor
+                // hellfire armor
             if (mogPlayer.wearingHellfireArmor && mogPlayer.hellfireCooldown <= 0)
             {
                 if (Main.zenithWorld)
@@ -591,29 +571,8 @@ namespace MogMod.NPCs.Global
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 overloadingRegenCooldown = OverloadingAspect.EnemyRegenWaitTime;
-            if (Main.rand.NextBool(3) && mogPlayer.wearingGilded && mogPlayer.gildedCoinDropCooldown <= 0 && !npc.SpawnedFromStatue && npc.type != NPCID.TargetDummy && currentCoins <= maxCoins)
-            {
-                mogPlayer.gildedCoinDropCooldown = cooldownTimer;
-                currentCoins++;
-                Rectangle npcBox = new((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                int coinChance = Main.rand.Next(0, 101);
-                int coin = ItemID.CopperCoin;
-                switch (coinChance)
-                {
-                    case < 60:
-                        break;
-                    case < 90:
-                        coin = ItemID.SilverCoin;
-                        break;
-                    case < 100:
-                        coin = ItemID.GoldCoin;
-                        break;
-                    case >= 100:
-                        coin = ItemID.PlatinumCoin;
-                        break;
-                }
-                Item.NewItem(source, npcBox, coin);
-            }
+
+            if (mogPlayer.wearingGilded) GildedCoinEffect(npc, player, source);
 
             //Main.NewText($"proj blood damage = {projectile.MogMod().bloodDamage}", Color.Red);
             if (Main.netMode != NetmodeID.SinglePlayer)
@@ -651,29 +610,40 @@ namespace MogMod.NPCs.Global
             }
             #endregion
         }
-        public override void ModifyHitByItem(NPC npc, Player player, Item item, ref NPC.HitModifiers modifiers)
+        #endregion
+
+        #region Hit Effects
+        #region Gilded Coin
+        public void GildedCoinEffect(NPC npc, Player player, IEntitySource source)
         {
             MogPlayer mogPlayer = player.MogMod();
-            if (mogPlayer.wearingWeightedDice) WeightedDiceEffect(npc, modifiers);
+            if (Main.rand.NextBool(3) && mogPlayer.gildedCoinDropCooldown <= 0 && !npc.SpawnedFromStatue && npc.type != NPCID.TargetDummy && !npc.boss && currentCoins <= maxCoins)
+            {
+                mogPlayer.gildedCoinDropCooldown = cooldownTimer;
+                currentCoins++;
+                Rectangle npcBox = new((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
+                int coinChance = Main.rand.Next(0, 101);
+                int coin = ItemID.CopperCoin;
+                switch (coinChance)
+                {
+                    case < 60:
+                        break;
+                    case < 90:
+                        coin = ItemID.SilverCoin;
+                        break;
+                    case < 100:
+                        coin = ItemID.GoldCoin;
+                        break;
+                    case >= 100:
+                        coin = ItemID.PlatinumCoin;
+                        break;
+                }
+                Item.NewItem(source, npcBox, coin);
+            }
+            npc.netUpdate = true;
         }
-        public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref NPC.HitModifiers modifiers)
-        {
-            MogPlayer mogPlayer = Main.player[projectile.owner].MogMod();
-            if (mogPlayer.wearingWeightedDice) WeightedDiceEffect(npc, modifiers);
-        }
-        public void WeightedDiceEffect(NPC npc, NPC.HitModifiers modifiers)
-        {
-            int damage = Main.rand.Next(WeightedDice.RandDamage, WeightedDice.RandDamage + 1);
-            if (damage < 0) damage = 0;
-            modifiers.SourceDamage.Flat += damage;
-            Main.NewText($"{damage}, {weightedDiceEffect}");
-            if (weightedDiceEffect) return;
-            float gold = Main.rand.NextFloat(WeightedDice.RandGold, WeightedDice.RandGold);
-            if (gold < 0f) gold = 0f;
-            npc.value *= gold;
-            weightedDiceEffect = true;
-            Main.NewText($"{gold}, {weightedDiceEffect}");
-        }
+        #endregion
+        #region Marker
         public static void SpawnMarkerProjectile(NPC target, Player player, Item item, Vector2 velocity, float rotation)
         {
             MogPlayer mogPlayer = player.MogMod();
@@ -702,7 +672,8 @@ namespace MogMod.NPCs.Global
 
             target.MogMod().markedByMarker = true;
         }
-        #region Effects
+        #endregion
+
         #region Blood
         public void AddItemBlood(NPC npc, Player player, Item item)
         {
@@ -993,6 +964,7 @@ namespace MogMod.NPCs.Global
             }
         }
         #endregion
+
         #endregion
         #endregion
 

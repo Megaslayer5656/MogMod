@@ -544,14 +544,12 @@ namespace MogMod.Projectiles.BaseProjectiles
         {
             Player player = Main.player[projectile.owner];
             MogPlayer mogPlayer = player.MogMod();
-            if (mogPlayer.wearingDamascus1 && Main.zenithWorld)
-                modifiers.CritDamage *= DamascusHelm.GFBCritMult;
-            else if (mogPlayer.wearingDamascus1)
-                modifiers.CritDamage *= DamascusHelm.CritMult + 1;
-            if (crystalSpell)
-                modifiers.CritDamage *= 1.2f;
-            if (mogPlayer.wearingChaosDice && ultraCrit)
-                modifiers.CritDamage *= ChaosDice.CritMult;
+            if (mogPlayer.wearingDamascus1 && Main.zenithWorld) modifiers.CritDamage *= DamascusHelm.GFBCritMult;
+            else if (mogPlayer.wearingDamascus1) modifiers.CritDamage *= DamascusHelm.CritMult + 1;
+            if (crystalSpell) modifiers.CritDamage *= 1.2f;
+            if (mogPlayer.wearingChaosDice && ultraCrit) modifiers.CritDamage *= ChaosDice.CritMult;
+
+            if (mogPlayer.wearingWeightedDice) modifiers.SourceDamage.Flat += WeightedDice.WeightedDiceDamageEffect();
         }
         public override void OnKill(Projectile projectile, int timeLeft)
         {

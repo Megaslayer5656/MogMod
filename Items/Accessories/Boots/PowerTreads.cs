@@ -165,8 +165,8 @@ namespace MogMod.Items.Accessories.Boots
         {
             CreateRecipe().
                 AddIngredient(ItemID.RocketBoots).
-                AddIngredient(ItemID.Leather, 12).
                 AddIngredient<FuciumBar>(8).
+                AddIngredient(ItemID.Leather, 5).
                 AddTile(TileID.Anvils).
                 Register();
         }

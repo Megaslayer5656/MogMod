@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.Melee
@@ -12,7 +13,9 @@ namespace MogMod.Projectiles.Melee
     public class RustedHatchetProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
+        public override LocalizedText DisplayName => MiscUtils.GetItemName<RustedHatchet>();
         public override string Texture => "MogMod/Items/Weapons/Melee/RustedHatchet";
+        private static int Lifetime = 600;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
@@ -24,13 +27,14 @@ namespace MogMod.Projectiles.Melee
             Projectile.height = 26;
             Projectile.friendly = true;
             Projectile.penetrate = RustedHatchet.NumBounces + 1;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = Lifetime;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 20;
         }
         public override void AI()
         {
+            Projectile.tileCollide = Projectile.timeLeft < (Lifetime - 5);
             float rotateratio = 0.019f;
             float rotation = (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * rotateratio;
             Projectile.rotation += rotation * Projectile.direction;
@@ -50,7 +54,7 @@ namespace MogMod.Projectiles.Melee
             Projectile.damage = (int)(Projectile.damage * 0.5f);
             if (Projectile.velocity.Y > 0) Projectile.velocity.Y -= 6;
             else Projectile.velocity.Y = -6;
-            Projectile.velocity.X *= -0.5f;
+            Projectile.velocity.X *= -0.35f;
             Projectile.netUpdate = true;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)

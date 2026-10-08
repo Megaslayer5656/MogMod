@@ -74,6 +74,6 @@ MogServerConfig: {
 
 	EliteEnemySpawning: {
 		Label: Elite Enemy Spawning
-		Tooltip: Allows Elite modifiers to be applied to enemies
+		Tooltip: "[c/FF0000:DOES NOT SYNC IN MULTIPLAYER CURRENTLY] Allows Elite modifiers to be applied to enemies"
 	}
 }

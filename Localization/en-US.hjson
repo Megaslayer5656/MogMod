@@ -452,6 +452,8 @@ Mods: {
 				BlazingExplosion.DisplayName: Blazing Explosion
 			}
 
+			Enemy.RadiantRangedCreepProj.DisplayName: Radiant Ranged Creep Proj
+
 			Pets: {
 				AhmodInABottlePet.DisplayName: Ahmod
 				GingyPet.DisplayName: Gingy

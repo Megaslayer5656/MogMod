@@ -168,9 +168,8 @@ WeightedDice: {
 	DisplayName: Weighted Dice
 	Tooltip:
 		'''
-		Increases or decreases damage dealt by {0} flat
-		Enemies drop 
-		[c/A6288D:'To torture a magic user, one must devise means far beyond the mundane.']
+		Damage dealt is rerolled with {0} extra variance
+		Enemies' coin values are rerolled to give {1}% more or less gold, only positive values will be taken
 		'''
 }
 
