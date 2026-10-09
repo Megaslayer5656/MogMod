@@ -180,6 +180,7 @@ namespace MogMod.Common.MogModPlayer
         public bool wearingLunarBoots;
         public bool lunarBootsVisual;
         public bool wearingWeightedDice;
+        public bool wearingVindicatorsAxe;
 
         public float ammoCost = 1f;
 

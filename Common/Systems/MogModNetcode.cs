@@ -223,6 +223,10 @@ namespace MogMod.Common.Systems
                             break;
                         }
 
+                    case MogModMessageType.VindicatorsAxeSync:
+                        Main.player[reader.ReadInt32()].MogMod().HandleVindicatorsAxe(reader);
+                        break;
+
                     case MogModMessageType.HellEpstein:
                         int hellEpsteinID = reader.ReadInt32();
                         NPC hellEpsteinNPC = Main.npc[hellEpsteinID];
@@ -292,6 +296,7 @@ namespace MogMod.Common.Systems
             MarkerProjOutSync,
             NPCVelocitySync,
             SoundSync,
+            VindicatorsAxeSync,
             HellEpstein,
             OverloadingElite,
             BlazingElite,
