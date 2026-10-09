@@ -2121,8 +2121,8 @@ namespace MogMod.Common.MogModPlayer
         }
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (Player.HasBuff(ModContent.BuffType<WraithBuff>()))
-                return false;
+            if (Player.HasBuff(ModContent.BuffType<WraithBuff>())) return false;
+
             if (wearingRuntyHorseshoe && stopFallDamage)
             {
                 SoundEngine.PlaySound(SoundID.Item37, Player.Center);
@@ -2149,13 +2149,11 @@ namespace MogMod.Common.MogModPlayer
                 SoundEngine.PlaySound(SoundID.NPCDeath52, Player.Center);
                 Player.AddBuff(ModContent.BuffType<WraithBuff>(), 300);
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<PlayerUndyingPortalProj>(), wraithDamage, 1, Player.whoAmI);
+                return false;
             }
-            if (wearingSatanic && Main.zenithWorld)
-                damageSource = PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Satanic").ToNetworkText(Player.name));
-            if (armletDebuff)
-                damageSource = PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Armlet").ToNetworkText(Player.name));
-            if (nulledDebuff)
-                damageSource = PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Nulled").ToNetworkText(Player.name));
+            if (wearingSatanic && Main.zenithWorld) damageSource = PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Satanic").ToNetworkText(Player.name));
+            if (armletDebuff) damageSource = PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Armlet").ToNetworkText(Player.name));
+            if (nulledDebuff) damageSource = PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Nulled").ToNetworkText(Player.name));
             return true;
         }
         #endregion
@@ -2543,8 +2541,8 @@ namespace MogMod.Common.MogModPlayer
                 else if (wearingTreadsBuilding)
                 {
                     Player.pickSpeed -= PowerTreads.MiningSpeed;
-                    Player.tileSpeed += PowerTreads.PlacementSpeed;
-                    Player.wallSpeed += PowerTreads.PlacementSpeed;
+                    Player.tileSpeed -= PowerTreads.PlacementSpeed;
+                    Player.wallSpeed -= PowerTreads.PlacementSpeed;
                     Player.GetJumpState<TreadsJump>().Enable();
                 }
             }

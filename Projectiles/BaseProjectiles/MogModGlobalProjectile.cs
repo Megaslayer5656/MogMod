@@ -26,6 +26,7 @@ using Mono.Cecil;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -91,20 +92,16 @@ namespace MogMod.Projectiles.BaseProjectiles
             ModContent.ProjectileType<PolyluteProj>(),
             ModContent.ProjectileType<PlasmaShrimpProj>()
         ];
-        public static readonly List<int> MeleeHoldouts =
-        [
-            ModContent.ProjectileType<GunlanceHoldout>(),
-            ModContent.ProjectileType<GunlanceSpear>(),
-            ModContent.ProjectileType<OversizedAnchorHoldout>(),
-            ModContent.ProjectileType<WyvernJawbladeHoldout>(),
-            ModContent.ProjectileType<BlackBladeHoldout>(),
-            ModContent.ProjectileType<EchoSabreHoldout>(),
-            ModContent.ProjectileType<SkullBasherHoldout>(),
-            ModContent.ProjectileType<AbyssalBladeHoldout>(),
-            ModContent.ProjectileType<SangeHoldout>(),
-            ModContent.ProjectileType<RiversOfBloodHoldout>(),
-            //ModContent.ProjectileType<BladeOfSelvesHoldout>(),
-        ];
+        private static List<int> MeleeHoldouts = [];
+
+        public override void SetStaticDefaults()
+        {
+            base.SetStaticDefaults();
+            MeleeHoldouts = ModContent.GetContent<ModProjectile>()
+                .Where(p => p is BaseSwordHoldoutProjectile)
+                .Select(p => p.Type)
+                .ToList();
+        }
         // Amount of extra updates that are set in SetDefaults.
         public int defExtraUpdates = -1;
         public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
@@ -395,10 +392,8 @@ namespace MogMod.Projectiles.BaseProjectiles
                     // atg and plasma shrimp
                     if (modPlayer.atgActive || modPlayer.plasmaActive)
                     {
-                        if (Main.zenithWorld)
-                            modPlayer.doATG(damageDone);
-                        else if (!voidItems.Contains(projectile.type))
-                            modPlayer.doATG(damageDone);
+                        if (Main.zenithWorld) modPlayer.doATG(damageDone);
+                        else if (!voidItems.Contains(projectile.type)) modPlayer.doATG(damageDone);
                     }
 
                     if (polyluteProc && modPlayer.polyluteActive && !voidItems.Contains(projectile.type))

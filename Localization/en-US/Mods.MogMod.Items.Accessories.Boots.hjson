@@ -2,7 +2,8 @@ ArcaneBoots: {
 	DisplayName: Arcane Boots
 	Tooltip:
 		'''
-		Increases movement speed
+		Allows flight
+		The wearer can run super fast
 		Increased Maximum Mana by {0}
 		Slightly Increased Mana Regeneration
 		Pressing [KEY] will restore {1} Mana
@@ -14,6 +15,8 @@ GuardianGreaves: {
 	DisplayName: Guardian Greaves
 	Tooltip:
 		'''
+		Allows flight
+		The wearer can run super fast
 		Greatly Increases placement speed and range
 		Increased Maximum Mana by {0}
 		Enemies are less likely to target you
@@ -29,7 +32,8 @@ BootsOfTravel: {
 	DisplayName: Boots of Travel
 	Tooltip:
 		'''
-		Vastly increased movement speed
+		Allows flight
+		The wearer can run super duper fast
 		Allows you to fall more quickly and negates fall damage
 		[c/E3B8A1:'Winged boots that grant omnipresence.']
 		'''
@@ -52,7 +56,7 @@ PowerTreads: {
 	HoldShiftExtensionIndicator: ""
 	TooltipNormal:
 		'''
-		Allows flight and Greatly Increased Movement Speed
+		Allows flight, super fast running
 		[c/aaaaaa:Press {0} while equipped to toggle between different stat bonuses]
 		[c/B29FC9:'A pair of tough-skinned boots that change to meet the demands of the wearer.']
 		'''
