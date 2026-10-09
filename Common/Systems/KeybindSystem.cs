@@ -19,6 +19,7 @@ namespace MogMod.Common.Systems
         public static ModKeybind RigKeybind { get; private set; }
         public static ModKeybind ArmorSetBonusKeybind { get; private set; }
         public static ModKeybind ZipSlowdownKeybind { get; private set; }
+        public static ModKeybind NeutralItemKeybind { get; private set; }
         #endregion
         public override void Load()
         {
@@ -45,6 +46,7 @@ namespace MogMod.Common.Systems
             FirstWeaponKeybind = KeybindLoader.RegisterKeybind(Mod, "AdditionalWeaponKeybindOne", "Mouse5");
             SecondWeaponKeybind = KeybindLoader.RegisterKeybind(Mod, "AdditionalWeaponKeybindTwo", "Mouse4");
             ZipSlowdownKeybind = KeybindLoader.RegisterKeybind(Mod, "GalvanizedZipSlowdown", "RightShift");
+            NeutralItemKeybind = KeybindLoader.RegisterKeybind(Mod, "NeutralItemKeybind", "Z");
             #endregion
 
             #region Other
@@ -70,6 +72,7 @@ namespace MogMod.Common.Systems
             RigKeybind = null;
             ArmorSetBonusKeybind = null;
             ZipSlowdownKeybind = null;
+            NeutralItemKeybind = null;
             #endregion
         }
     }
