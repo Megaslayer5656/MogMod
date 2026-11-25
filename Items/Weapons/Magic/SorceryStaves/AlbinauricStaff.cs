@@ -2,14 +2,13 @@
 using MogMod.Items.Other;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace MogMod.Items.Weapons.Magic.SorceryStaves
 {
     public class AlbinauricStaff : SorceryStaff
     {
         public override float VelocityMult => 1.2f;
-        public override float ManaCostMult => 0.9f;
+        public override float ManaCostMult => 1.1f;
         public override void SetStaticDefaults() => Item.staff[Item.type] = true;
         public override void SetDefaults()
         {

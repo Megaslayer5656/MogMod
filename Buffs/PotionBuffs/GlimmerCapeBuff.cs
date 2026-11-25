@@ -15,11 +15,7 @@ namespace MogMod.Buffs.PotionBuffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.invis = true;
-            player.moveSpeed += GlimmerCape.MovementSpeedBoost;
-            player.manaRegenBonus += GlimmerCape.ManaRegenBoost;
-            player.manaRegenDelay -= 4f;
-            player.aggro -= GlimmerCape.BuffAggroBoost;
+            player.MogMod().glimmerActive = true;
         }
     }
 }

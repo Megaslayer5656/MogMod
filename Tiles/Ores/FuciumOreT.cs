@@ -75,9 +75,9 @@ namespace MogMod.Tiles.Ores
             for (int k = 0; k < (int)(Main.maxTilesX * Main.maxTilesY * 6E-05); k++)
             {
                 // The inside of this for loop corresponds to one single splotch of our Ore.
-                // should spawn on the dungeon side of the world (its completely random)
+                // should spawn on the dungeon side of the world
                 int StartX = 0;
-                StartX = GenVars.dungeonX < Main.maxTilesX / 2 ? 25 : (Main.maxTilesX - (Main.maxTilesX / 9)) - 25;
+                StartX = GenVars.dungeonSide == 0 ? 25 : (Main.maxTilesX - (Main.maxTilesX / 9)) - 25;
 
                 //set these to be able to easily place things in certain locations, like structures
                 int biomeStart = StartX;

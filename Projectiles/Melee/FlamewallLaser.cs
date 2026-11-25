@@ -139,8 +139,20 @@ namespace MogMod.Projectiles.Melee
                 rotPoints[i] = Projectile.rotation - MathHelper.Pi;
                 trailDrawer.Draw(Projectile, "MogMod:FlameLashRGB", outerDrawColor, innerDrawColor, 1.1f, 30f, 44f, drawPoints, rotPoints);
             }
+            // draw glow effect
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Main.spriteBatch.SetBlendState(BlendState.Additive);
+            Texture2D bloomTex = ModContent.Request<Texture2D>("MogMod/Assets/Textures/GlowParticle").Value;
+            for (int i = 0; i < 8; i++)
+            {
+                float increment = MathHelper.Lerp(1f, 1.5f, MathF.Sin(Main.GlobalTimeWrappedHourly * 2) * 0.5f + 0.5f);
+                Main.EntitySpriteDraw(bloomTex, drawPosition, null, Color.White, Projectile.rotation, bloomTex.Size() * 0.5f, 0.4f * increment, SpriteEffects.None);
+                Main.EntitySpriteDraw(bloomTex, drawPosition, null, innerDrawColor * 0.75f, Projectile.rotation, bloomTex.Size() * 0.5f, 0.55f * increment, SpriteEffects.None);
+                Main.EntitySpriteDraw(bloomTex, drawPosition, null, innerDrawColor * 0.35f, Projectile.rotation, bloomTex.Size() * 0.5f, 0.85f * increment, SpriteEffects.None);
+                Main.EntitySpriteDraw(bloomTex, drawPosition, null, outerDrawColor * 0.1f, Projectile.rotation, bloomTex.Size() * 0.5f, 1f * increment, SpriteEffects.None);
+            }
+            Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;
-            //return base.PreDraw(ref lightColor);
         }
     }
 }

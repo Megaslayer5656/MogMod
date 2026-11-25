@@ -91,5 +91,12 @@ namespace MogMod.Common.Config
         [DefaultValue(false)]
         public bool EliteEnemySpawning { get; set; }
         #endregion
+
+        #region Visuals
+        [Header("Visual")]
+        [BackgroundColor(151, 54, 192, 192)]
+        [DefaultValue(false)]
+        public bool Tigz { get; set; }
+        #endregion
     }
 }

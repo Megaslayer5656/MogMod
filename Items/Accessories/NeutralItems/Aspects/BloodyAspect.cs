@@ -11,12 +11,13 @@ using Microsoft.Xna.Framework;
 
 namespace MogMod.Items.Accessories.NeutralItems.Aspects
 {
+    // TODO: find a way to make all weapons deal blood damage with this active
     public class BloodyAspect : NeutralItem //TODO: Make this have a cool and unique effect
     {
         public const float DamageMult = 0.10f;
         public static Color Colour = new(255f, 84f, 24f);
         public Color DescColor = new(255, 8, 8);
-        public const float BloodMult = 0.15f;
+        public const float BloodMult = 0.5f;
         public override void SetStaticDefaults()
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 4));
@@ -40,6 +41,7 @@ namespace MogMod.Items.Accessories.NeutralItems.Aspects
             MogPlayer mogPlayer = player.MogMod();
             mogPlayer.wearingBloody = true;
             mogPlayer.bloodyVisual = !hideVisual;
+            mogPlayer.bloodMult += BloodMult;
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
@@ -52,7 +54,7 @@ namespace MogMod.Items.Accessories.NeutralItems.Aspects
                 if (Main.keyState.PressingShift())
                 {
                     index++;
-                    TooltipLine desc = new(Mod, IHoldShiftTooltipItem.ExtensionIndicatorTooltipID, MiscUtils.GetTextFromModItem<BloodyAspect>("Description").Format(DamageMult.ToPercent()));
+                    TooltipLine desc = new(Mod, IHoldShiftTooltipItem.ExtensionIndicatorTooltipID, MiscUtils.GetTextFromModItem<BloodyAspect>("Description").Format(DamageMult.ToPercent(), BloodMult.ToPercent()));
                     desc.OverrideColor = DescColor;
                     tooltips.Insert(index, desc);
                 }

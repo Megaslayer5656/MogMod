@@ -3,6 +3,7 @@ using MogMod.Buffs.Cooldowns;
 using MogMod.Buffs.Debuffs;
 using MogMod.Buffs.PotionBuffs;
 using MogMod.Buffs.Summons;
+using MogMod.Common.Config;
 using MogMod.Common.Graphics;
 using MogMod.Common.Systems;
 using MogMod.Items.Accessories;
@@ -110,30 +111,32 @@ namespace MogMod.Common.MogModPlayer
 
         #region Accessories
         public bool wearingRigSlot;
-        public bool isWearingGlimmerCape = false;
-        public bool armletActive = false;
-        public bool wearingManaBoots = false;
-        public bool wearingSatanic = false;
-        public bool wearingRefresherOrb = false;
-        public bool wearingGigaManaBoots = false;
-        public bool wearingMekansm = false;
-        public bool wearingEyeOfSkadi = false;
-        public bool wearingWingsOfLight = false;
-        public bool wingsOfLightVisual = false;
-        public bool wearingFishSlop1 = false;
-        public bool wearingFishSlop2 = false;
-        public bool wearingGiantsMaul = false;
-        public bool wearingGunpowderGauntlet = false;
-        public bool wearingDuelistGloves = false;
-        public bool wearingWhisperDread = false;
-        public bool wearingSerratedShiv = false;
-        public bool wearingUndyingHelm = false;
-        public bool wearingSearingSignet = false;
-        public bool wearingVladimirs = false;
-        public bool wearingWraithPact = false;
-        public bool wearingJidiPollenBag = false;
-        public bool wearingShadowAmulet = false;
-        public bool shadowAmuletVisual = false;
+        public bool wearingGlimmerCape;
+        public bool glimmerActive;
+        public bool wearingArmlet;
+        public bool wearingArcaneBoots;
+        public bool wearingSatanic;
+        public bool wearingRefresherOrb;
+        public bool wearingGuardianGreaves;
+        public bool wearingMekansm;
+        public int mekansmAndGreavesLifeCooldown = 0;
+        public bool wearingEyeOfSkadi;
+        public bool wearingWingsOfLight;
+        public bool wingsOfLightVisual;
+        public bool wearingFishSlop1;
+        public bool wearingFishSlop2;
+        public bool wearingGiantsMaul;
+        public bool wearingGunpowderGauntlet;
+        public bool wearingDuelistGloves;
+        public bool wearingWhisperDread;
+        public bool wearingSerratedShiv;
+        public bool wearingUndyingHelm;
+        public bool wearingSearingSignet;
+        public bool wearingVladimirs;
+        public bool wearingWraithPact;
+        public bool wearingJidiPollenBag;
+        public bool wearingShadowAmulet;
+        public bool shadowAmuletVisual;
         public bool wearingMendez;
         public bool plasmaVisual;
         public bool polyluteVisual;
@@ -181,8 +184,18 @@ namespace MogMod.Common.MogModPlayer
         public bool lunarBootsVisual;
         public bool wearingWeightedDice;
         public bool wearingVindicatorsAxe;
+        public int vindicatorsAxeCooldown = 0;
 
+        /// <summary>
+        /// The chance to save ammo upon ammo consumption. <br/>
+        /// Defaults to 1f.
+        /// </summary>
         public float ammoCost = 1f;
+        /// <summary>
+        /// The multiplier on weapons with blood damage.<br/>
+        /// Defaults to 1f.
+        /// </summary>
+        public float bloodMult = 1f;
 
         public bool stopFallDamage;
         int fallDamageTimer = 0;
@@ -193,15 +206,15 @@ namespace MogMod.Common.MogModPlayer
 
         public int locketCharges = 0;
         public static int maxLocketCharges = 20;
-        public bool locketActive = false;
+        public bool wearingHolyLocket = false;
 
         public int wandCharges = 0;
         public static int maxWandCharges = 20;
-        public bool wandActive = false;
+        public bool wearingMagicWand = false;
 
         public int stickCharges = 0;
         public static int maxStickCharges = 10;
-        public bool stickActive = false;
+        public bool wearingMagicStick = false;
 
         public int armletTimer = 0;
         public int armletTimerMax = 120;
@@ -330,8 +343,7 @@ namespace MogMod.Common.MogModPlayer
         public int eSeraphMax = 100;
         public bool eSeraphSound;
 
-        public bool chargeShot = false;
-        public bool dpCharge = false;
+        public int chargingItem = 0;
 
         public bool inShadowRealm;
         public bool krakenBuff;
@@ -393,7 +405,7 @@ namespace MogMod.Common.MogModPlayer
         public bool jidiDebuff;
         public bool shivaDebuff;
         public bool infernoDebuff;
-        public bool armletDebuff;
+        public bool armletActive;
         public bool nulledDebuff;
         public bool blazingDebuff;
         public bool toxicDebuff;
@@ -417,6 +429,7 @@ namespace MogMod.Common.MogModPlayer
         public bool satanicBuff;
 
         public int praporCooldown = 0;
+        public bool mendezGivePet = false;
 
         // pets
         public bool ahmodPet = false;
@@ -467,13 +480,13 @@ namespace MogMod.Common.MogModPlayer
             PitchVariance = .2f,
             MaxInstances = 1,
         };
-        public static readonly SoundStyle GreavesActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/GreavesActivate")
+        public static readonly SoundStyle GuardianGreavesActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/GreavesActivate")
         {
             Volume = .65f,
             PitchVariance = .2f,
             MaxInstances = 1,
         };
-        public static readonly SoundStyle ManaBootsActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ManaBootsActivate")
+        public static readonly SoundStyle ArcaneBootsActivateSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/ManaBootsActivate")
         {
             Volume = .65f,
             PitchVariance = .2f,
@@ -500,23 +513,23 @@ namespace MogMod.Common.MogModPlayer
         #endregion
 
         #region Mod Buff ID/s
-        int glimmerBuff = ModContent.BuffType<GlimmerCapeBuff>();
-        int satanicBuffID = ModContent.BuffType<SatanicBuff>();
+        int GlimmerCapeBuffID = ModContent.BuffType<GlimmerCapeBuff>();
+        int SatanicBuffID = ModContent.BuffType<SatanicBuff>();
         int blademailBuff = ModContent.BuffType<BladeMailBuff>();
 
         // cooldowns
-        int refresherCooldown = ModContent.BuffType<RefresherOrbDebuff>();
-        int glimmerCooldown = ModContent.BuffType<GlimmerCapeDebuff>();
-        int satanicCooldown = ModContent.BuffType<SatanicDebuff>();
-        int manabootsCooldown = ModContent.BuffType<ArcaneBootsDebuff>();
-        int guardianCooldown = ModContent.BuffType<GuardianGreavesDebuff>();
-        int mekansmCooldown = ModContent.BuffType<MekansmDebuff>();
+        int RefresherOrbCooldown = ModContent.BuffType<RefresherOrbDebuff>();
+        int GlimmerCapeCooldown = ModContent.BuffType<GlimmerCapeDebuff>();
+        int SatanicCooldown = ModContent.BuffType<SatanicDebuff>();
+        int ArcaneBootsCooldown = ModContent.BuffType<ArcaneBootsDebuff>();
+        int GuardianGreavesCooldown = ModContent.BuffType<GuardianGreavesDebuff>();
+        int MekansmCooldown = ModContent.BuffType<MekansmDebuff>();
         int blademailCooldown = ModContent.BuffType<BladeMailDebuff>();
         int ShivasCooldown = ModContent.BuffType<ShivasDebuff>();
 
         // armlet
-        int armletToggled = ModContent.BuffType<ArmletOfMordiggianBuff>();
-        int nihilumToggled = ModContent.BuffType<NulledDebuff>();
+        int ArmletToggled = ModContent.BuffType<ArmletOfMordiggianBuff>();
+        int NihilumToggled = ModContent.BuffType<NulledDebuff>();
 
         // dragon install
         int dragonInstall = ModContent.BuffType<DragonInstallBuff>();
@@ -617,32 +630,10 @@ namespace MogMod.Common.MogModPlayer
         public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
         {
             MogModGlobalNPC mogNPC = npc.MogMod();
-            if (Player.HasItemInAnyInventory(ModContent.ItemType<HolyLocket>()))
-            {
-                locketCharges += 1;
-                if (locketCharges > maxLocketCharges)
-                {
-                    locketCharges = maxLocketCharges;
-                }
-            }
 
-            if (Player.HasItemInAnyInventory(ModContent.ItemType<MagicWand>()))
-            {
-                wandCharges += 1;
-                if (wandCharges > maxWandCharges)
-                {
-                    wandCharges = maxWandCharges;
-                }
-            }
-
-            if (Player.HasItemInAnyInventory(ModContent.ItemType<MagicStick>()))
-            {
-                stickCharges += 1;
-                if (stickCharges > maxStickCharges)
-                {
-                    stickCharges = maxStickCharges;
-                }
-            }
+            MagicStickBuff(true);
+            MagicWandBuff(true);
+            HolyLocketBuff(true);
 
             if (Player.HasItemInAnyInventory(ModContent.ItemType<BlinkDagger>()))
             {
@@ -744,136 +735,18 @@ namespace MogMod.Common.MogModPlayer
             if (Player.dead)
                 return;
             #region Accessories
-            // refresher orb
-            if (KeybindSystem.RefresherOrbKeybind.JustPressed && wearingRefresherOrb && !Player.HasBuff(refresherCooldown))
-            {
-                // make it play a sound when activating (add any additional debuffs here)
-                Player.ClearBuff(glimmerCooldown);
-                Player.ClearBuff(satanicCooldown);
-                Player.ClearBuff(manabootsCooldown);
-                Player.ClearBuff(guardianCooldown);
-                Player.ClearBuff(mekansmCooldown);
-                Player.ClearBuff(blademailCooldown);
-                Player.ClearBuff(ShivasCooldown);
-                Player.ClearBuff(ModContent.BuffType<BlinkDebuff>());
-                Player.ClearBuff(ModContent.BuffType<ButterflyCooldown>());
-                Player.ClearBuff(ModContent.BuffType<LagunaBladeCooldown>());
-                Player.ClearBuff(ModContent.BuffType<ParryCooldown>());
-                //Don't add dragon install to this. It shouldn't be able to be refreshed by refresher as it is more of a different mechanic than a buff. Will if you see this stop playing Chen <-- Chen (pronounced "shen") has crazy micro and once i get good at him hes gonna be crazy. that one game was a loss no matter who i played. also it was mendez fault for picking IO
 
-                Player.AddBuff(refresherCooldown, 9000);
-                SoundEngine.PlaySound(RefresherActivateSound, Player.Center);
-            }
-
-            // glimmer cape
-            if (KeybindSystem.GlimmerCapeKeybind.JustPressed && isWearingGlimmerCape && !Player.HasBuff(glimmerCooldown))
-            {
-                // give buff, 600 = 10 seconds
-                Player.AddBuff(glimmerBuff, 1800);
-                // give debuff cd
-                Player.AddBuff(glimmerCooldown, 3600);
-                // play sfx
-                SoundEngine.PlaySound(GlimmerActivateSound, Player.Center);
-            }
-
-            // satanic
-            if (KeybindSystem.SatanicKeybind.JustPressed && wearingSatanic && !Player.HasBuff(satanicCooldown))
-            {
-                Player.AddBuff(satanicBuffID, 480);
-                Player.AddBuff(satanicCooldown, 4800);
-                SoundEngine.PlaySound(SatanicActivateSound, Player.Center);
-            }
-
-            // arcane boots
-            if (KeybindSystem.BootsKeybind.JustPressed && wearingManaBoots && !Player.HasBuff(manabootsCooldown))
-            {
-                //for (int i = 0; i < Main.maxPlayers; i++)
-                //{
-                //    Terraria.Player targetPlayer = Main.player[i];
-                //    if (targetPlayer.active && targetPlayer.team == targetPlayer.team && targetPlayer.team != 0)
-                //    {
-                //        targetPlayer.AddBuff(greavesHeal, 600);
-                //        //if (Main.netMode == NetmodeID.Server) // Check if the game is in multiplayer server mode
-                //        //{
-                //        //    NetMessage.SendData(MessageID.PlayerBuffs, -1, -1, null, i, mekansmHeal, 600f, 0f, 0, 0, 0);
-                //        //}
-                //        for (int k = 0; k < 16; k++)
-                //        {
-                //            Dust dust2 = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.ManaRegeneration);
-                //            dust2.scale = Main.rand.NextFloat(0.6f, 0.8f);
-                //        }
-                //    }
-                //}
-                Player.HealManaMult(ArcaneBoots.ManaHeal);
-                Player.AddBuff(manabootsCooldown, 1800);
-                SoundEngine.PlaySound(ManaBootsActivateSound, Player.Center);
-            }
-
-            // guardian greaves
-            if (KeybindSystem.BootsKeybind.JustPressed && wearingGigaManaBoots && !Player.HasBuff(guardianCooldown))
-            {
-                Player.HealLifeMult(GuardianGreaves.LifeHeal);
-                Player.HealManaMult(GuardianGreaves.ManaHeal);
-                Player.AddBuff(guardianCooldown, 3600);
-                SoundEngine.PlaySound(GreavesActivateSound, Player.Center);
-            }
-
-            // mekansm
-            if (KeybindSystem.MekansmKeybind.JustPressed && wearingMekansm && !Player.HasBuff(mekansmCooldown))
-            {
-                // make it play a sound when activating
-                Player.HealLifeMult(Mekansm.LifeHeal);
-                Player.AddBuff(mekansmCooldown, 3600);
-                SoundEngine.PlaySound(MekansmActivateSound, Player.Center);
-            }
-
-            // holy locket
-            if (KeybindSystem.WandKeybind.JustPressed)
-            {
-                if (locketActive && locketCharges > 0)
-                {
-                    int heal = HolyLocket.LifeHeal * locketCharges;
-                    int mana = HolyLocket.ManaHeal * locketCharges;
-
-                    Player.HealLifeMult(heal);
-                    Player.HealManaMult(mana);
-
-                    locketCharges = 0;
-                    SoundEngine.PlaySound(WandUse, Player.Center);
-                }
-            }
-
-            //Wand
-            if (KeybindSystem.WandKeybind.JustPressed)
-            {
-                if (wandActive && wandCharges > 0)
-                {
-                    int heal = MagicWand.LifeHeal * wandCharges;
-                    int mana = MagicWand.ManaHeal * wandCharges;
-
-                    Player.HealLifeMult(heal);
-                    Player.HealManaMult(mana);
-
-                    wandCharges = 0;
-                    SoundEngine.PlaySound(WandUse, Player.Center);
-                }
-            }
-
-            //Magic Stick
-            if (KeybindSystem.WandKeybind.JustPressed)
-            {
-                if (stickActive && stickCharges > 0)
-                {
-                    int heal = MagicStick.LifeHeal * stickCharges;
-                    int mana = MagicStick.ManaHeal * stickCharges;
-
-                    Player.HealLifeMult(heal);
-                    Player.HealManaMult(mana);
-
-                    stickCharges = 0;
-                    SoundEngine.PlaySound(WandUse, Player.Center);
-                }
-            }
+            VindicatorsAxeEffect();
+            SatanicEffect();
+            GlimmerCapeEffect();
+            RefresherOrbEffect();
+            ArcaneBootsEffect();
+            MekansmEffect();
+            GuardianGreavesEffect();
+            ArmletEffect();
+            MagicStickEffect();
+            MagicWandEffect();
+            HolyLocketEffect();
 
             //Shiva's Guard
             if (KeybindSystem.ShivasKeybind.JustPressed && wearingShivasGuard && !Player.HasBuff(ShivasCooldown))
@@ -919,55 +792,6 @@ namespace MogMod.Common.MogModPlayer
                 }
             }
 
-            // armlet timer
-            if (KeybindSystem.ArmletKeybind.JustPressed && armletActive)
-            {
-                if (armletTimer <= armletTimerMax)
-                {
-                    Player.AddBuff(armletToggled, 9999999);
-                    armletTimer += 1;
-                    SoundEngine.PlaySound(ArmletOnSound, Player.Center);
-                } else if (armletTimer >= armletTimerMax)
-                {
-                    Player.ClearBuff(armletToggled);
-                    armletTimer = 0;
-                    SoundEngine.PlaySound(ArmletOffSound, Player.Center);
-                }
-            }
-
-            if (!armletActive)
-            {
-                Player.ClearBuff(armletToggled);
-                armletTimer = 0;
-            }
-            while (armletTimer >= 1 && armletTimer <= armletTimerMax + 1)
-                armletTimer += 1;
-
-            // null timer
-            if (KeybindSystem.ArmorSetBonusKeybind.JustPressed && wearingNihilum)
-            {
-                if (nihilumTimer <= nihilumTimerMax)
-                {
-                    Player.AddBuff(nihilumToggled, 9999999);
-                    nihilumTimer++;
-                    SoundEngine.PlaySound(ArmletOnSound with { Pitch = -0.15f }, Player.Center);
-                }
-                else if (nihilumTimer >= nihilumTimerMax)
-                {
-                    Player.ClearBuff(nihilumToggled);
-                    nihilumTimer = 0;
-                    SoundEngine.PlaySound(ArmletOffSound with { Pitch = -0.15f }, Player.Center);
-                }
-            }
-
-            if (!wearingNihilum)
-            {
-                Player.ClearBuff(nihilumToggled);
-                nihilumTimer = 0;
-            }
-            while (nihilumTimer >= 1 && nihilumTimer <= nihilumTimerMax + 1)
-                nihilumTimer++;
-
             // power treads
             if (KeybindSystem.BootsKeybind.JustPressed && wearingPowerTreads)
             {
@@ -1001,6 +825,31 @@ namespace MogMod.Common.MogModPlayer
                 Player.AddBuff(blademailCooldown, 3600);
                 SoundEngine.PlaySound(BladeMailActivateSound, Player.Center);
             }
+
+            // null timer
+            if (KeybindSystem.ArmorSetBonusKeybind.JustPressed && wearingNihilum)
+            {
+                if (nihilumTimer <= nihilumTimerMax)
+                {
+                    Player.AddBuff(NihilumToggled, 9999999);
+                    nihilumTimer++;
+                    SoundEngine.PlaySound(ArmletOnSound with { Pitch = -0.15f }, Player.Center);
+                }
+                else if (nihilumTimer >= nihilumTimerMax)
+                {
+                    Player.ClearBuff(NihilumToggled);
+                    nihilumTimer = 0;
+                    SoundEngine.PlaySound(ArmletOffSound with { Pitch = -0.15f }, Player.Center);
+                }
+            }
+
+            if (!wearingNihilum)
+            {
+                Player.ClearBuff(NihilumToggled);
+                nihilumTimer = 0;
+            }
+            while (nihilumTimer >= 1 && nihilumTimer <= nihilumTimerMax + 1)
+                nihilumTimer++;
 
             // kaminari (storm spirit)
             bool canUseMana = Player.CheckMana(KaminariHat.ZipCost);
@@ -1038,7 +887,13 @@ namespace MogMod.Common.MogModPlayer
             clone.radiancePower = radiancePower;
             clone.flamewallPower = flamewallPower;
             clone.kaminariActive = kaminariActive;
-            //clone.crescentMoonPower = crescentMoonPower;
+            clone.crescentMoonPower = crescentMoonPower;
+            clone.axmcShots = axmcShots;
+            clone.leftCrescentMoonShots = leftCrescentMoonShots;
+            clone.rightCrescentMoonShots = rightCrescentMoonShots;
+            clone.longBarrelShotgunShots = longBarrelShotgunShots;
+            clone.mg43Shots = mg43Shots;
+            clone.mosinShots = mosinShots;
             //clone.mg43RPM = mg43RPM;
             clone.Player.MountedCenter = Player.MountedCenter;
         }
@@ -1048,8 +903,14 @@ namespace MogMod.Common.MogModPlayer
             if (radiancePower != clone.radiancePower) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
             if (flamewallPower != clone.flamewallPower) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
             if (kaminariActive != clone.kaminariActive) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
+            if (crescentMoonPower != clone.crescentMoonPower) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
+            if (axmcShots != clone.axmcShots) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
+            if (leftCrescentMoonShots != clone.leftCrescentMoonShots) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
+            if (rightCrescentMoonShots != clone.rightCrescentMoonShots) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
+            if (longBarrelShotgunShots != clone.longBarrelShotgunShots) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
+            if (mg43Shots != clone.mg43Shots) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
+            if (mosinShots != clone.mosinShots) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
             //if (mg43RPM != clone.mg43RPM) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
-            //if (crescentMoonPower != clone.crescentMoonPower) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
             if (Player.MountedCenter != clone.Player.MountedCenter) SyncPlayer(toWho: -1, fromWho: Main.myPlayer, newPlayer: false);
         }
         public override void PreUpdate()
@@ -1309,8 +1170,7 @@ namespace MogMod.Common.MogModPlayer
         }
         private bool CanUseDash()
         {
-            return !chargeShot
-                && !dpCharge
+            return chargingItem <= 0
                 && !kaminariActive
                 && !Player.mount.Active; // player isn't mounted, since dashes on a mount look weird
         }
@@ -1334,8 +1194,6 @@ namespace MogMod.Common.MogModPlayer
                     if (diademMinion)
                         Player.maxMinions += Diadem.MaxMinions;
             }
-            if (locketActive)
-                Player.maxMinions += HolyLocket.MaxMinionBoost;
             if (wearingWraithPact)
                 Player.maxTurrets += WraithPact.MaxSentries;
             else
@@ -1489,6 +1347,15 @@ namespace MogMod.Common.MogModPlayer
             {
                 Player.ClearBuff(ModContent.BuffType<DragonInstallBuff>());
             }
+            #endregion
+
+            #region Accessory Buffs
+
+            VindicatorsAxeBuff();
+            SatanicBuff(false);
+            GlimmerCapeBuff();
+            ArmletBuff(false);
+
             #endregion
 
             #region Wing Time Buffs
@@ -2153,7 +2020,7 @@ namespace MogMod.Common.MogModPlayer
                 return false;
             }
             if (wearingSatanic && Main.zenithWorld) damageSource = PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Satanic").ToNetworkText(Player.name));
-            if (armletDebuff) damageSource = PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Armlet").ToNetworkText(Player.name));
+            if (armletActive) damageSource = PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Armlet").ToNetworkText(Player.name));
             if (nulledDebuff) damageSource = PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Nulled").ToNetworkText(Player.name));
             return true;
         }
@@ -2366,12 +2233,11 @@ namespace MogMod.Common.MogModPlayer
                     Player.lifeRegenCount = 0;
             }
 
-            if (armletActive && armletDebuff)
-                DamageOverTime(30);
             if (wearingNihilum && nulledDebuff)
                 DamageOverTime(50);
-            if (wearingSatanic && Main.zenithWorld)
-                DamageOverTime(50);
+
+            SatanicBuff(true);
+            ArmletBuff(true);
 
             if (aghHexDebuff)
                 DamageOverTime(50);
@@ -2403,13 +2269,9 @@ namespace MogMod.Common.MogModPlayer
         private void OtherBuffEffects()
         {
             // debuffs
-            if (chargeShot)
+            if (chargingItem > 0)
             {
-                ChargeBow();
-            }
-            if (dpCharge)
-            {
-                ChargeBow();
+                ChargingShot();
             }
             if (skadiDebuff)
             {
@@ -2442,6 +2304,7 @@ namespace MogMod.Common.MogModPlayer
             }
 
             // buffs
+
             if (greavesAura)
             {
                 Player.statDefense += GuardianGreaves.DefenseBoost;
@@ -2479,13 +2342,6 @@ namespace MogMod.Common.MogModPlayer
                 Player.aggro += 1000;
                 Player.lifeSteal *= 0f;
             }
-            if (satanicBuff)
-            {
-                Player.lifeSteal *= 4;
-                Player.blind = true;
-                Player.blackout = true; // greatly reduced light effect
-                Player.headcovered = true; // nebula headcrab effect
-            }
             if (inShadowRealm)
             {
                 Player.yoraiz0rDarkness = true;
@@ -2504,11 +2360,6 @@ namespace MogMod.Common.MogModPlayer
             }
             if (wearingSpiritArmor)
                 Player.slowFall = true;
-            if (armletDebuff)
-            {
-                Player.GetAttackSpeed<GenericDamageClass>() += ArmletOfMordiggian.ArmletDamageMult;
-                Player.GetDamage<GenericDamageClass>() += ArmletOfMordiggian.ArmletDamageMult;
-            }
             if (nulledDebuff)
                 Player.lifeSteal *= 0f;
             if (wearingSigmaCharm)
@@ -2603,10 +2454,12 @@ namespace MogMod.Common.MogModPlayer
             if (windrunnerTimer > 0 && (Math.Abs(Player.velocity.X) < 5) && Player.whoAmI == Main.myPlayer) windrunnerTimer--;
             if (windrunnerCharge > 0f && (Math.Abs(Player.velocity.X) < 5) && Player.whoAmI == Main.myPlayer) windrunnerCharge -= 0.01f;
             if (windrunnerCharge < 0f) windrunnerCharge = 0f;
+            if (chargingItem > 0) chargingItem--;
+            if (mekansmAndGreavesLifeCooldown > 0) mekansmAndGreavesLifeCooldown--;
         }
         
         // stops player from moving while charging bow
-        private void ChargeBow()
+        private void ChargingShot()
         {
             Player.controlUp = false;
             Player.controlDown = false;
@@ -2641,19 +2494,20 @@ namespace MogMod.Common.MogModPlayer
             mouseRotationListener = false;
 
             wearingRigSlot = false;
-            isWearingGlimmerCape = false;
-            wearingManaBoots = false;
+            wearingGlimmerCape = false;
+            glimmerActive = false;
+            wearingArcaneBoots = false;
             wearingSatanic = false;
             wearingRefresherOrb = false;
 
-            locketActive = false;
-            wandActive = false;
-            stickActive = false;
-            armletActive = false;
+            wearingMagicStick = false;
+            wearingMagicWand = false;
+            wearingHolyLocket = false;
+            wearingArmlet = false;
 
             wearingHelmOfDominator = false;
             wearingHelmOfOverlord = false;
-            wearingGigaManaBoots = false;
+            wearingGuardianGreaves = false;
             wearingMekansm = false;
             wearingShivasGuard = false;
             wearingEyeOfSkadi = false;
@@ -2712,6 +2566,7 @@ namespace MogMod.Common.MogModPlayer
             wearingLunarBoots = false;
             lunarBootsVisual = false;
             wearingWeightedDice = false;
+            wearingVindicatorsAxe = false;
             //stopFallDamage = false;
 
 
@@ -2751,9 +2606,6 @@ namespace MogMod.Common.MogModPlayer
             dominatorMinion = false;
             overlordMinion = false;
 
-            chargeShot = false;
-            dpCharge = false;
-
             infiniteFlight = false;
 
             divineDebuff = false;
@@ -2765,7 +2617,7 @@ namespace MogMod.Common.MogModPlayer
             jidiDebuff = false;
             shivaDebuff = false;
             infernoDebuff = false;
-            armletDebuff = false;
+            armletActive = false;
             nulledDebuff = false;
             blazingDebuff = false;
             toxicDebuff = false;
@@ -2800,6 +2652,7 @@ namespace MogMod.Common.MogModPlayer
             holdingThrowingShade = false;
 
             ammoCost = 1f;
+            bloodMult = 1f;
             //maxShotsMult = 1f;
             //reloadTimeMult = 1f;
 

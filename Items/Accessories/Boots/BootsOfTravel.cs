@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Buffs.Summons;
 using MogMod.Items.Global;
 using MogMod.Projectiles.Classless;
-using MogMod.Projectiles.Summon;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
@@ -19,14 +17,13 @@ namespace MogMod.Items.Accessories.Boots
             Item.accessory = true;
             Item.width = 30;
             Item.height = 28;
-            Item.rare = ItemRarityID.Orange;
-            Item.value = MogGlobalItem.RarityOrangeBuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.value = MogGlobalItem.RarityLightRedBuyPrice;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.accRunSpeed = 10f;
-            player.moveSpeed += .35f;
+            player.moveSpeed += 0.35f;
             player.noFallDmg = true; // Grants the player the Lucky Horseshoe effect of nullifying fall damage
             player.MogMod().wearingTravelBoots = true;
             player.MogMod().travelBootsVisual = !hideVisual;
@@ -39,10 +36,8 @@ namespace MogMod.Items.Accessories.Boots
                     var source = player.GetSource_ItemUse(Item);
                     if (player.ownedProjectileCounts[type] < 1)
                     {
-                        //Main.NewText("summoning proj", Color.DarkSeaGreen);
                         var p = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, type, 1, 0f, Main.myPlayer);
                         p.active = true;
-                        //p.ai[2] = 1f; // boots of travel
                     }
                 }
                 player.CancelAllBootRunVisualEffects(); // This ensures that boot visual effects don't overlap if multiple are equipped
@@ -51,9 +46,9 @@ namespace MogMod.Items.Accessories.Boots
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.HermesBoots, 1).
-                AddIngredient(ItemID.LuckyHorseshoe, 1).
-                AddIngredient(ItemID.Aglet, 1).
+                AddIngredient(ItemID.HermesBoots).
+                AddIngredient(ItemID.LuckyHorseshoe).
+                AddIngredient(ItemID.Aglet).
                 AddIngredient(ItemID.Bone, 30).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();

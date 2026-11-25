@@ -3,6 +3,7 @@ using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.MagicProjectiles;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -36,6 +37,11 @@ namespace MogMod.Items.Weapons.Magic
 
             Item.rare = ItemRarityID.Red;
             Item.value = MogGlobalItem.RarityRedBuyPrice;
+        }
+        public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+        {
+            // spawning the holdout will not consume mana
+            if (Main.mouseLeft && player.statMana >= Item.mana && player.HeldItem.type == Item.type && player.ownedProjectileCounts[Item.shoot] <= 0) mult *= 0;
         }
         public override void AddRecipes()
         {

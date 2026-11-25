@@ -3,7 +3,8 @@ JidiPollenBag: {
 	Tooltip:
 		'''
 		+{0}% Summon Damage
-		Summon attacks have a {1}% chance to explode into pollen, reducing enemy armor by {2}
+		Summon attacks have a {1}% chance to explode into pollen, afflicting [mogBuff:MogMod/JidiPollenBagDebuff]
+		[mogBuff:MogMod/JidiPollenBagDebuff] reduces enemy armor by {2}
 		[c/2BA63A:'Very dangerous. Very difficult to obtain more.']
 		'''
 }
@@ -40,7 +41,7 @@ SearingSignet: {
 	Tooltip:
 		'''
 		+{0}% Non-Melee Damage
-		Non-Melee attacks inflict shadowflame
+		Non-Melee attacks inflict [mogBuff:ShadowFlame]
 		[c/A6288D:'To torture a magic user, one must devise means far beyond the mundane.']
 		'''
 }
@@ -122,7 +123,7 @@ FlayersBota: {
 	Tooltip:
 		'''
 		+{0}% Attack Speed
-		Boosts bleed buildup by {1}%
+		+{1}% Bleed Buildup
 		Blood procs heal you for a percentage of damage dealt
 		'''
 }
@@ -173,6 +174,16 @@ WeightedDice: {
 		'''
 }
 
+VindicatorsAxe: {
+	DisplayName: Vindicators Axe
+	Tooltip:
+		'''
+		+{0} Armor Penetration
+		Increases attack damage by {1}% when afflicted by [mogBuff:Silenced]
+		Press [KEY] to afflict yourself with [mogBuff:Silenced] for {2} seconds
+		'''
+}
+
 BlazingAspect: {
 	DisplayName: Blazing Aspect
 	Tooltip: ""
@@ -181,6 +192,7 @@ BlazingAspect: {
 	Description:
 		'''
 		Attacks inflict [mogbuff:MogMod/BlazingDebuff]
+		You leave behind a [mogbuff:MogMod/BlazingDebuff] trail that deals {1}% of your currently held item's damage
 		Enemies afflicted with [mogbuff:MogMod/BlazingDebuff] take {0}% increased damage
 		'''
 }
@@ -238,5 +250,9 @@ BloodyAspect: {
 	Tooltip: ""
 	AspectType: "[c/880808:Become an aspect of blood]"
 	HoldShiftExtensionIndicator: ""
-	Description: Increases blood damage by 15%
+	Description:
+		'''
+		Allows all weapons to deal blood damage
+		+{1}% Bleed Buildup
+		'''
 }

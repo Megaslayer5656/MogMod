@@ -17,7 +17,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             base.SetDefaults();
             Item.width = Item.height = 66;
-            Item.damage = 47;
+            Item.damage = 50;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 60;
             Item.channel = true;
@@ -32,7 +32,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddRecipeGroup("IronBar", 20).
-                AddIngredient<RuntyBar>(12).
+                AddRecipeGroup("AnyEvilBar", 8).
                 AddIngredient<CreepBlood>(3).
                 AddTile(TileID.Anvils).
                 Register();

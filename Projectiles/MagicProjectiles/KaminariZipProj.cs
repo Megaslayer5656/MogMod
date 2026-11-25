@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Graphics;
 using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
-using MogMod.Projectiles.Classless;
 using MogMod.Utilities;
 using System;
 using System.Collections.Generic;
@@ -86,12 +85,8 @@ namespace MogMod.Projectiles.MagicProjectiles
                     Projectile.velocity = Vector2.Lerp(Projectile.velocity, orbAttemptedVelocity, 1f); // set the projectiles velocity towards the player
 
                     var source = Projectile.GetSource_FromThis();
-                    var type = ModContent.ProjectileType<TrailProj>();
-                    var p = Projectile.NewProjectileDirect(source, Owner.Center, Vector2.Zero, type, Projectile.damage, 0f, Projectile.owner);
-                    p.DamageType = DamageClass.Magic;
-                    p.timeLeft = 70;
-                    //p.ai[2] = 6f; // used to see the proj
-
+                    var type = ModContent.ProjectileType<KaminariTrailHitbox>();
+                    Projectile.NewProjectile(source, Owner.Center, Vector2.Zero, type, Projectile.damage, 0f, Projectile.owner); //, ai2: 6f);
 
                     NPC target = Projectile.Center.ClosestNPCAt(1000);
                     if (target != null && Timer % (mogPlayer.kaminariCooldownMax / (KeybindSystem.ZipSlowdownKeybind.Current ? 2 : 4)) == 0) MogModUtils.MagnetSphereHitscan(Projectile, Vector2.Distance(Projectile.Center, target.Center), 8f, 0, 3, ModContent.ProjectileType<KaminariZipBeam>(), 1D, true, ai1: Main.rand.Next(0,2));

@@ -25,7 +25,7 @@ namespace MogMod.Items.Accessories.NeutralItems
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             mogPlayer.wearingGunpowderGauntlet = true;
 
             player.GetAttackSpeed(DamageClass.Magic) += MagicSpeedBoost;
@@ -35,8 +35,8 @@ namespace MogMod.Items.Accessories.NeutralItems
             CreateRecipe().
                 AddIngredient(ItemID.Dynamite, 12).
                 AddRecipeGroup("AnyScaleOrTissue", 8).
-                AddIngredient(ItemID.Leather, 5).
-                AddTile(TileID.TinkerersWorkbench).
+                AddIngredient(ItemID.Leather, 3).
+                AddTile(TileID.Anvils).
                 Register();
         }
     }

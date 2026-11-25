@@ -1,18 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MogMod.Buffs.Debuffs;
 using MogMod.Common.Graphics;
 using MogMod.Items.Weapons.Magic;
-using MogMod.Items.Weapons.Melee;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
-using Mono.Cecil;
 using ReLogic.Content;
 using ReLogic.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Timers;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Enums;
@@ -54,6 +49,7 @@ namespace MogMod.Projectiles.MagicProjectiles
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 8;
             Projectile.netImportant = true;
+            Projectile.hide = true;
         }
         public override void AttachToSomething()
         {
@@ -61,8 +57,9 @@ namespace MogMod.Projectiles.MagicProjectiles
             {
                 if (Projectile.timeLeft > 2) Projectile.timeLeft = 2;
                 if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();
+                Projectile.netUpdate = true;
             }
-            if (Owner.active && !Owner.dead && Holdout.ai[2] != 5f) Projectile.Center = Holdout.Center + Vector2.Normalize(Projectile.velocity * 20f);
+            if (Owner.active && !Owner.dead && Holdout.ai[2] != 5f) Projectile.Center = Holdout.Center + Projectile.velocity * 30f;
         }
         public override void UpdateLaserMotion()
         {
@@ -94,25 +91,37 @@ namespace MogMod.Projectiles.MagicProjectiles
             Vector2 laserEnd = Projectile.Center + Projectile.velocity * LaserLength;
             Utils.PlotTileLine(Projectile.Center, laserEnd, Projectile.width + 16, DelegateMethods.CutTiles);
         }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => overWiresUI.Add(index);
         public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.velocity == Vector2.Zero) return false;
 
             // Draw the actual laser
-            Vector2 laserEnd = Projectile.Center + Projectile.velocity * LaserLength;
+            Vector2 laserEnd = (Projectile.Center - Vector2.Normalize(Projectile.velocity * 20f)) + Projectile.velocity * LaserLength;
             int length = 10;
             Vector2[] drawPoints = new Vector2[length];
             float[] rotPoints = new float[length];
             TrailDrawer trailDrawer = default;
             for (int i = 0; i < length; i++)
             {
-                Color innerDrawColor = Projectile.GetAlpha(StrongColor);
-                Color outerDrawColor = Projectile.GetAlpha(LaserOverlayColor);
+                Color innerDrawColor = Projectile.GetAlpha(LaserOverlayColor);
+                Color outerDrawColor = Projectile.GetAlpha(StrongColor);
                 drawPoints[i] = Vector2.Lerp(Projectile.position, laserEnd, i / (float)(drawPoints.Length - 1f));
                 rotPoints[i] = Projectile.rotation - MathHelper.Pi;
                 //Main.NewText($"{Projectile.rotation}, {rotPoints[i]}, {drawPoints[i]}");
                 trailDrawer.Draw(Projectile, "MogMod:MagicMissileRGB", outerDrawColor, innerDrawColor, Math.Abs(0.5f - MaxScale), 30f, 44f, drawPoints, rotPoints);
             }
+            // draw glow effect
+            Vector2 drawPosition = (Projectile.Center - Vector2.Normalize(Projectile.velocity * 20f) + Projectile.velocity) - Main.screenPosition;
+            Main.spriteBatch.SetBlendState(BlendState.Additive);
+            Texture2D bloomTex = ModContent.Request<Texture2D>("MogMod/Assets/Textures/GlowParticle").Value;
+            for (int i = 0; i < 5; i++)
+            {
+                float increment = MathHelper.Lerp(1f, 1.5f, MathF.Sin(Main.GlobalTimeWrappedHourly * 2) * 0.5f + 0.5f);
+                Main.EntitySpriteDraw(bloomTex, drawPosition, null, StrongColor * 0.85f, Projectile.rotation, bloomTex.Size() * 0.5f, 0.35f * increment, SpriteEffects.None);
+                Main.EntitySpriteDraw(bloomTex, drawPosition, null, LaserOverlayColor * 0.8f, Projectile.rotation, bloomTex.Size() * 0.5f, 0.375f * increment, SpriteEffects.None);
+            }
+            Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;
         }
     }

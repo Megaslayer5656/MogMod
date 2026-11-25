@@ -47,8 +47,9 @@ namespace MogMod.Items.Armor.WhiteMaskSet
         #region Armor Stat Changes
         public override void UpdateArmorSet(Player player)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             mogPlayer.wearingWhiteArmor = true;
+            mogPlayer.bloodMult += BloodMult;
 
             player.setBonus = this.GetLocalization("AbilityBrief").Format(AbilityBriefColor.Hex3());
         }

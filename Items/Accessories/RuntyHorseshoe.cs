@@ -27,7 +27,7 @@ namespace MogMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<RuntyBar>(10).
+                AddIngredient<RuntyBar>(8).
                 AddTile(TileID.Anvils).
                 Register();
         }

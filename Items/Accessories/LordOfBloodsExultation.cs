@@ -23,8 +23,9 @@ namespace MogMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             mogPlayer.exultationEquipped = true;
+            mogPlayer.bloodMult += BloodMult;
         }
         public override void AddRecipes()
         {

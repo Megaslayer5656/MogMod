@@ -1,9 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MogMod.Utilities;
+using ReLogic.Content;
 using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.BaseProjectiles
@@ -21,14 +24,25 @@ namespace MogMod.Projectiles.BaseProjectiles
         public virtual Player Owner => Main.player[Projectile.owner];
         private int syncTimer;
         private Vector2 mousePos;
+        private Type AssociatedItemType => ItemLoader.GetItem(AssociatedItemID).GetType();
+        private Asset<Texture2D> ItemTexture => TextureAssets.Item[AssociatedItemID];
         #endregion
 
         #region Overridable Fields
+        /// <summary>
+        /// The ID of the item that this holdout belongs to.
+        /// </summary>
+        public abstract int AssociatedItemID { get; }
         /// <summary>
         /// How fast the holdout should turn.<br/>
         /// Defaults to 0.12f <br/>
         /// </summary>
         public virtual float TurnSpeed => 0.12f;
+        /// <summary>
+        /// How often <see cref="Projectile.netUpdate"/> should be called.<br/>
+        /// Defaults to 2<br/>
+        /// </summary>
+        public virtual int SyncTimer => 2;
         /// <summary>
         /// The offset applied to the holdouts spawn position.<br/>
         /// Defaults to 0f <br/>
@@ -48,6 +62,23 @@ namespace MogMod.Projectiles.BaseProjectiles
         #endregion
 
         #region Properties
+        // Gets the display name of the associated item.
+        public override LocalizedText DisplayName => MiscUtils.GetItemName(AssociatedItemID);
+
+        // Gets the texture of the associated item.
+        public override string Texture => (AssociatedItemType.Namespace + "." + AssociatedItemType.Name).Replace('.', '/');
+        public override void SetDefaults()
+        {
+            Projectile.width = Projectile.height = ItemTexture is null ? 1 : ItemTexture.Width();
+            Projectile.penetrate = -1;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.ContinuouslyUpdateDamageStats = true;
+            Projectile.netImportant = true;
+
+            Defaults();
+        }
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(mousePos.X);
@@ -105,7 +136,7 @@ namespace MogMod.Projectiles.BaseProjectiles
             {
                 mousePos = Main.MouseWorld;
 
-                if (++syncTimer > 2)
+                if (++syncTimer > SyncTimer)
                 {
                     syncTimer = 0;
                     Projectile.netUpdate = true;
@@ -118,8 +149,11 @@ namespace MogMod.Projectiles.BaseProjectiles
             }
         }
         public override bool? CanDamage() => false;
+        // TODO: fix base textures not loading for clients
         public override bool PreDraw(ref Color lightColor)
         {
+            //if (Texture == null) return false;
+
             PreDrawBehind(ref lightColor);
 
             Texture2D texture = TextureAssets.Projectile[Type].Value;
@@ -137,15 +171,11 @@ namespace MogMod.Projectiles.BaseProjectiles
             {
                 rotationPoint.Y = texture.Height - rotationPoint.Y;
 
-                if (Projectile.spriteDirection == 1)
-                {
-                    flip = SpriteEffects.None;
-
-                }
+                if (Projectile.spriteDirection == 1) flip = SpriteEffects.None;
                 else flip = SpriteEffects.FlipVertically;
             }
 
-            Main.EntitySpriteDraw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), drawRotation, rotationPoint, Projectile.scale, flip, 0);
+            Main.EntitySpriteDraw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), drawRotation, rotationPoint, Projectile.scale, flip);
             return false;
         }
         #endregion
@@ -161,6 +191,14 @@ namespace MogMod.Projectiles.BaseProjectiles
         /// </summary>
         /// <param name="lightColor">The color of the light at the projectiles center.</param>
         public virtual void PreDrawBehind(ref Color lightColor)
+        {
+
+        }
+        /// <summary>
+        /// Use to set additional properties in <see cref="SetDefaults()"/>.<br/>
+        /// Keep in mind this is called at the end of <see cref="SetDefaults()"/>.<br/>
+        /// </summary>
+        public virtual void Defaults()
         {
 
         }

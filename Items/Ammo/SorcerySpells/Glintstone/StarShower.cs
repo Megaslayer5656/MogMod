@@ -31,7 +31,6 @@ namespace MogMod.Items.Ammo.SorcerySpells.Glintstone
                 AddIngredient<GlintstoneStars>().
                 AddIngredient(ItemID.SoulofSight, 7).
                 AddRecipeGroup("AnyCobaltBar", 6).
-                AddIngredient<Scroll>().
                 AddTile(TileID.Bookcases).
                 Register();
         }

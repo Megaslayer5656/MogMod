@@ -34,6 +34,11 @@ namespace MogMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.LightRed;
             Item.value = MogGlobalItem.RarityLightRedBuyPrice;
         }
+        public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+        {
+            // spawning the holdout will not consume mana
+            if (Main.mouseLeft && player.statMana >= Item.mana && player.HeldItem.type == Item.type && player.ownedProjectileCounts[Item.shoot] <= 0) mult *= 0;
+        }
         public override void AddRecipes()
         {
             CreateRecipe().

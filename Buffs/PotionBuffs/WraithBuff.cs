@@ -25,7 +25,9 @@ namespace MogMod.Buffs.PotionBuffs
             if (player.buffTime[buffIndex] < 1)
             {
                 player.statLife = 0;
-                player.Hurt(PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Wraith").ToNetworkText(player.name)), player.statLifeMax2, 0);
+                player.Hurt(PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.Wraith").ToNetworkText(player.name)), player.statLifeMax2 * 5, 0);
+                player.immune = false;
+                player.immuneTime = 0;
                 mogPlayer.doUndying();
             }
 

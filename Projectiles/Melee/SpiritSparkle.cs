@@ -18,7 +18,7 @@ namespace MogMod.Projectiles.Melee
         Color FrontWeakColor = new(224, 239, 255);
         Color MiddleMediumColor = new(181, 240, 255);
         Color BackStrongColor = new(133, 255, 251);
-        float Scale = 0.8f;
+        float Scale = 0.7f;
         float ScaleMult = 0.2f;
         public override void SetStaticDefaults() {
 			// If a Jellyfish is zapping and we attack it with this projectile, it will deal damage to us.

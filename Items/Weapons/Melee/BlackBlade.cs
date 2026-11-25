@@ -17,7 +17,7 @@ namespace MogMod.Items.Weapons.Melee
             base.SetDefaults();
             Item.width = Item.height = 114;
 
-            Item.damage = 248;
+            Item.damage = 338;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 60;
             Item.knockBack = 14f;
@@ -31,7 +31,7 @@ namespace MogMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.BreakerBlade, 1).
+                AddIngredient(ItemID.BreakerBlade).
                 AddIngredient<WyvernJawblade>().
                 AddIngredient<SpookyEssence>(20).
                 AddIngredient(ItemID.HallowedBar, 15).

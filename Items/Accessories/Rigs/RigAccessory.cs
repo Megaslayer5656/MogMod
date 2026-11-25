@@ -22,8 +22,7 @@ namespace MogMod.Items.Accessories.Rigs
         public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
         {
             var rigs = MogGlobalItem.ChestRigAccessories;
-            if (rigs.Contains(incomingItem.type) && rigs.Contains(equippedItem.type))
-                return false;
+            if (rigs.Contains(incomingItem.type) && rigs.Contains(equippedItem.type)) return false;
             return true;
         }
         // add a custom tooltip line
@@ -33,7 +32,11 @@ namespace MogMod.Items.Accessories.Rigs
             if (player != null)
             {
                 var rigLine = new TooltipLine(Mod, "RigAccessory", "Chest Rig");
-                tooltips.Insert(1, rigLine);
+                int index = tooltips.FindIndex(x => x.Name == "Equipable" && x.Mod == "Terraria");
+                if (index != -1)
+                {
+                    tooltips.Insert(index++, rigLine);
+                }
             }
         }
     }

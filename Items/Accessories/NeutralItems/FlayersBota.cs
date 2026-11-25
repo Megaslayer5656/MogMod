@@ -25,6 +25,7 @@ namespace MogMod.Items.Accessories.NeutralItems
         {
             MogPlayer mogPlayer = player.MogMod();
             mogPlayer.wearingFlayersBota = true;
+            mogPlayer.bloodMult += BloodMult;
             player.GetAttackSpeed<GenericDamageClass>() += AttackSpeedBoost;
         }
         public override void AddRecipes()

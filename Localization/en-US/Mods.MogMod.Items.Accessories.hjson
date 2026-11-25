@@ -30,7 +30,8 @@ Mekansm: {
 		'''
 		Increases placement speed and range
 		Provides you and nearby team members +{0} HP/s Life regen
-		Pressing [KEY] will restore {1} Life
+		Pressing [KEY] will restore {1} life to you and nearby team members
+		If you've been healed by [i:MogMod/Mekansm] Mekansm or [i:MogMod/GuardianGreaves] Guardian Greaves you cannot be healed by them again for {2} seconds
 		[c/5EA651:'A glowing jewel formed out of assorted parts that somehow fit together perfectly.']
 		'''
 }
@@ -43,7 +44,7 @@ Satanic: {
 		+{0} Max Life
 		+{1}% Attack Damage
 		Vastly Increases Lifesteal
-		Press {2} go into a frenzy, blinding yourself while also imbuing weapons with Lifesteal
+		Press {2} to enter a frenzy for {3} seconds, blinding yourself while also imbuing weapons with Lifesteal
 		Greatly increased Lifesteal effectiveness while frenzied
 		[c/872727:'Immense power at the cost of your soul.']
 		'''
@@ -335,7 +336,7 @@ LordOfBloodsExultation: {
 	DisplayName: Lord of Blood's Exultation
 	Tooltip:
 		'''
-		Boosts bleed buildup by {0}%
+		+{0}% Bleed Buildup
 		[c/962424:'His awakening shall herald the dawn of our dynasty.']
 		'''
 }
@@ -346,7 +347,7 @@ Fishrael: {
 		'''
 		Increases fishing power by {0}
 		Fishing rods shoot {1} extra lures
-		Permanent Sonar and Crate Buffs
+		Permanent [mogBuff:Sonar] and [mogBuff:Crate] Buffs
 		Grants the effects of [i:MogMod/OceanHeart] Ocean Heart
 		[c/08F8FF:'Glory to Fishrael']
 		'''
@@ -380,7 +381,7 @@ WraithPact: {
 		'''
 		Increases your max number of sentries by {0}
 		Does not stack with downgrades
-		Provides you and nearby team members the {1} defense, +{2}% Attack damage,
+		Provides you and nearby team members {1} defense, +{2}% Attack damage,
 		Increased Mana Regeneration by {3}, and +{4}% Increased Lifesteal
 		[c/528727:'A sentient amulet whose animus shakes the courage of even the strongest foes.']
 		'''
@@ -420,8 +421,7 @@ BladeOfMercy: {
 		'''
 		+{0}% Attack Speed
 		[c/BA2F2F:-{1}% Attack Damage]
-		Boosts bleed buildup by {2}%
-		Does not stack with downgrades
+		+{2}% Bleed Buildup
 		[c/94132A:'After claiming numerous lives, the dagger is now broken, but has acquired a spectral aura.']
 		'''
 }
@@ -492,4 +492,11 @@ ScavVest: {
 		Fishing rods shoot {3} extra lures
 		[c/5FA656:'tigz tigz and matthias's head explodes']
 		'''
+}
+
+"": {
+	GuardianGreaves: {
+		DisplayName: Guardian Greaves
+		Tooltip: ""
+	}
 }

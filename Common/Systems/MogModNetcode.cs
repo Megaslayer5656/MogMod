@@ -224,7 +224,47 @@ namespace MogMod.Common.Systems
                         }
 
                     case MogModMessageType.VindicatorsAxeSync:
-                        Main.player[reader.ReadInt32()].MogMod().HandleVindicatorsAxe(reader);
+                        reader.ReadPlayer().MogMod().HandleVindicatorsAxe(reader);
+                        break;
+                        
+                    case MogModMessageType.SatanicSync:
+                        reader.ReadPlayer().MogMod().HandleSatanic(reader);
+                        break;
+
+                    case MogModMessageType.GlimmerCapeSync:
+                        reader.ReadPlayer().MogMod().HandleGlimmerCape(reader);
+                        break;
+
+                    case MogModMessageType.RefresherOrbSync:
+                        reader.ReadPlayer().MogMod().HandleRefresherOrb(reader);
+                        break;
+
+                    case MogModMessageType.ArcaneBootsSync:
+                        reader.ReadPlayer().MogMod().HandleArcaneBoots(reader);
+                        break;
+
+                    case MogModMessageType.MekansmSync:
+                        reader.ReadPlayer().MogMod().HandleMekansm(reader);
+                        break;
+
+                    case MogModMessageType.GuardianGreavesSync:
+                        reader.ReadPlayer().MogMod().HandleGuardianGreaves(reader);
+                        break;
+
+                    case MogModMessageType.ArmletSync:
+                        reader.ReadPlayer().MogMod().HandleArmlet(reader);
+                        break;
+
+                    case MogModMessageType.MagicStickSync:
+                        reader.ReadPlayer().MogMod().HandleMagicStick(reader);
+                        break;
+
+                    case MogModMessageType.MagicWandSync:
+                        reader.ReadPlayer().MogMod().HandleMagicWand(reader);
+                        break;
+
+                    case MogModMessageType.HolyLocketSync:
+                        reader.ReadPlayer().MogMod().HandleHolyLocket(reader);
                         break;
 
                     case MogModMessageType.HellEpstein:
@@ -296,7 +336,19 @@ namespace MogMod.Common.Systems
             MarkerProjOutSync,
             NPCVelocitySync,
             SoundSync,
+
             VindicatorsAxeSync,
+            SatanicSync,
+            GlimmerCapeSync,
+            RefresherOrbSync,
+            ArcaneBootsSync,
+            MekansmSync,
+            GuardianGreavesSync,
+            ArmletSync,
+            MagicStickSync,
+            MagicWandSync,
+            HolyLocketSync,
+
             HellEpstein,
             OverloadingElite,
             BlazingElite,

@@ -32,7 +32,6 @@ namespace MogMod.Items.Ammo.SorcerySpells.Gravity
             CreateRecipe().
                 AddIngredient<GlintstonePebble>().
                 AddIngredient<FuciumBar>(4).
-                AddIngredient<Scroll>().
                 AddTile(TileID.Bookcases).
                 Register();
         }

@@ -2,264 +2,132 @@
 using Microsoft.Xna.Framework.Graphics;
 using MogMod.Common.Classes;
 using MogMod.Common.Graphics;
+using MogMod.Items.Ammo.SorcerySpells.Legendary;
 using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
+using ReLogic.Content;
+using ReLogic.Utilities;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace MogMod.Projectiles.MagicProjectiles.Sorceries
 {
     public class CometAzurLaser : BaseLaserbeamProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Magic.Sorceries";
-        private const string LaserTexturePath = "MogMod/Projectiles/MagicProjectiles/Sorceries/CometAzurLaser";
-        public override Texture2D LaserBeginTexture => Request<Texture2D>(LaserTexturePath + "Start").Value;
-        public override Texture2D LaserMiddleTexture => Request<Texture2D>(LaserTexturePath + "Mid").Value;
-        public override Texture2D LaserEndTexture => Request<Texture2D>(LaserTexturePath + "End").Value;
-        public override string Texture => "MogMod/Projectiles/MagicProjectiles/Sorceries/CometAzurLaserStart";
-        public static readonly SoundStyle laserSound = new("Terraria/Sounds/Item_15")
-        {
-            Volume = 1f,
-            PitchVariance = 0.2f,
-            MaxInstances = -1
-        };
-        private const int hitCooldown = 1;
-        public static readonly Color[] ColorSet =
-        [
-            new Color(28, 255, 225, 50),
-            new Color(32, 28, 255, 50),
-            new Color(28, 157, 255, 50),
-        ];
-        public static readonly Color[] ColorSet2 =
-        [
-            new Color(110, 255, 178),
-            new Color(134, 110, 255),
-            new Color(110, 192, 255),
-        ];
-        public static Color Colour => new(134, 110, 255);
-        public bool PlayedSound = false;
-        public const int ChargeupTime = 60;
+        public override string Texture => "MogMod/Assets/Textures/InvisibleProj";
         public Player Owner => Main.player[Projectile.owner];
-        public override Color LaserOverlayColor => MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / ColorSet.Length % 1f, ColorSet); // determines color from ColorSet array
-        public override Color LightCastColor => LaserOverlayColor; // applies it
-        public override float Lifetime => 3600f;
-        public override float MaxScale => 3f;
+        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryStart", AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryMid", AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("MogMod/Projectiles/MagicProjectiles/PhylacteryEnd", AssetRequestMode.ImmediateLoad).Value;
+        public override float MaxScale => 4f;
         public override float MaxLaserLength => 1500f;
-        private const float AimResponsiveness = 0.97f; // Last Prism is 0.92f. Lower makes the laser turn faster. if above 1.0 it turns the beam backwards
+        public override float Lifetime => 3600f;
+        private Projectile Holdout => Main.projectile[(int)Projectile.ai[1]];
+        public static Color WeakColor => CometAzur.WeakColor;
+        public static Color StrongColor => CometAzur.StrongColor;
+        private const int hitCooldown = 1;
+        public SlotId AudSlot;
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 5000;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+        }
         public override void SetDefaults()
         {
+            Projectile.width = Projectile.height = 8;
             Projectile.friendly = true;
             Projectile.DamageType = SorceryDamageClass.Instance;
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            Projectile.ignoreWater = true;
-            Projectile.hide = true;
+            Projectile.timeLeft = (int)Lifetime;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = hitCooldown;
-            Projectile.alpha = 255;
+            Projectile.netImportant = true;
+            Projectile.hide = true;
         }
-        public override void DetermineScale()
+        public override void AttachToSomething()
         {
-            Projectile.scale = Time < ChargeupTime ? 0f : Utils.GetLerpValue(0f, 40f, Projectile.timeLeft, true) * MaxScale;
-        }
-        public override bool PreAI()
-        {
-            // Multiplayer support here, only run this code if the client running it is the owner of the projectile
-            if (Projectile.owner == Main.myPlayer)
+            if (Owner.CantUseHoldout() || (Holdout.ai[2] == 5f && !Main.zenithWorld))
             {
-                Vector2 rrp = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-                UpdateAim(rrp);
-                Projectile.direction = Main.MouseWorld.X > Owner.Center.X ? 1 : -1;
+                if (Projectile.timeLeft > 2) Projectile.timeLeft = 2;
+                if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound)) ChargeSound?.Stop();
                 Projectile.netUpdate = true;
             }
-
-            int dir = Projectile.direction;
-            Projectile.rotation = Projectile.velocity.ToRotation();
-            Projectile.Center = Owner.MountedCenter + Projectile.velocity * 50f;
-            Owner.ChangeDir(dir);
-            Owner.heldProj = Projectile.whoAmI;
-            Owner.itemTime = 2;
-            Owner.itemAnimation = 2;
-            Owner.itemRotation = ((Projectile.rotation + MathHelper.Pi).ToRotationVector2() * -Owner.direction).ToRotation();
-
-            if (!Owner.channel)
-            {
-                Projectile.Kill();
-                return false;
-            }
-
-            // Do we still have enough mana? If not, we kill the projectile because we cannot use it anymore
-            if (Owner.miscCounter % (hitCooldown * 3) == 0)
-            {
-                if (!Owner.CheckMana(Owner.ActiveItem(), -1, true))
-                {
-                    Projectile.Kill();
-                    return false;
-                }
-                else if (Time > ChargeupTime)
-                {
-                    if (Owner.miscCounter % (hitCooldown * 21) == 0)
-                        SoundEngine.PlaySound(laserSound, Projectile.Center);
-                    int type = ModContent.ProjectileType<CometAzurProj>();
-                    float Spread = 0.12f;
-                    Vector2 velocity = Projectile.velocity * 15;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - Projectile.velocity, velocity.RotatedByRandom(Spread), type, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                }
-            }
-
-            if (Time < ChargeupTime)
-            {
-                // Crate charge-up dust.
-                int dustCount = (int)(Time / 20f);
-                Vector2 spawnPos = Projectile.Center;
-                for (int k = 0; k < dustCount + 1; k++)
-                {
-                    Dust dust = Dust.NewDustDirect(spawnPos, 1, 1, Main.rand.NextBool(3) ? DustID.MagnetSphere : DustID.ApprenticeStorm, Projectile.velocity.X / 2f, Projectile.velocity.Y / 2f);
-                    dust.position += Main.rand.NextVector2Square(-10f, 10f);
-                    dust.velocity = Main.rand.NextVector2Unit() * (10f - dustCount * 2f) / 10f;
-                    dust.color = Colour;
-                    dust.scale = Main.rand.NextFloat(0.5f, 1f);
-                    dust.noGravity = true;
-                }
-                DetermineScale();
-                Time++;
-                return false;
-            }
-            if (!PlayedSound)
-            {
-                SoundEngine.PlaySound(SoundID.Zombie104, Projectile.Center);
-                PlayedSound = true;
-            }
-            return true;
+            if (Owner.active && !Owner.dead && (Holdout.ai[2] != 5f && !Main.zenithWorld)) Projectile.Center = Holdout.Center + Projectile.velocity * 30f;
+            if (Owner.active && !Owner.dead && Main.zenithWorld) Projectile.Center = Owner.MountedCenter;
         }
         public override void UpdateLaserMotion()
         {
-            if (Main.zenithWorld) return;
-            Vector2 aimVector = (Main.MouseWorld - Owner.RotatedRelativePoint(Owner.MountedCenter, true)).SafeNormalize(Vector2.UnitY);
-            aimVector = Vector2.Normalize(Vector2.Lerp(aimVector, Vector2.Normalize(Projectile.velocity), AimResponsiveness));
-
-            if (aimVector != Projectile.velocity) Projectile.netUpdate = true;
-            Projectile.velocity = aimVector;
+            if (Holdout.velocity != Projectile.velocity) Projectile.netUpdate = true;
+            if (!Main.zenithWorld) Projectile.velocity = Holdout.velocity;
+            else Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(1f));
         }
-        // Gently adjusts the aim vector of the laser to point towards the mouse. if AimResponsiveness is above 1, the beam is backwards
-        private void UpdateAim(Vector2 source)
+        public override void ExtraBehavior()
         {
-            if (Main.zenithWorld) return;
-            Vector2 aimVector = Vector2.Normalize(Main.MouseWorld - source);
-            if (aimVector.HasNaNs()) aimVector = -Vector2.UnitY;
-            aimVector = Vector2.Normalize(Vector2.Lerp(aimVector, Vector2.Normalize(Projectile.velocity), AimResponsiveness));
-
-            if (aimVector != Projectile.velocity) Projectile.netUpdate = true;
-            Projectile.velocity = aimVector;
-            Projectile.rotation = Projectile.velocity.ToRotation();
+            Owner.PickAmmo(Owner.HeldItem, out _, out float speed, out int damage, out float knockback, out _, true);
+            Projectile.damage = damage;
+            Projectile.originalDamage = Projectile.damage;
+            Projectile.rotation = (Main.zenithWorld ? Projectile.velocity.ToRotation() : Holdout.velocity.ToRotation());
+            if (Owner.channel && Time >= 30f)
+            {
+                Projectile.timeLeft++;
+                Time--;
+            }
+            if (SoundEngine.TryGetActiveSound(AudSlot, out var ChargeSound) && ChargeSound.IsPlaying)
+            {
+                ChargeSound.Position = Projectile.Center;
+                ChargeSound.Pitch = 0.2f;
+                ChargeSound.Volume = 1f * 100;
+            }
+            else if (Time < 30f) AudSlot = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop with { Volume = 0.01f, Pitch = 0, IsLooped = true }, Projectile.Center);
         }
-        public override bool? CanDamage() => Time >= ChargeupTime;
+        public override void DetermineScale() => Projectile.scale = MathHelper.Lerp(0f, 1f, Time / 30f) * MaxScale;
         public override bool ShouldUpdatePosition() => false;
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            float tigz = 0f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * LaserLength, 65f, ref tigz);
-        }
-        // Update CutTiles so the laser will cut tiles (like grass).
         public override void CutTiles()
         {
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
             Vector2 laserEnd = Projectile.Center + Projectile.velocity * LaserLength;
             Utils.PlotTileLine(Projectile.Center, laserEnd, Projectile.width + 16, DelegateMethods.CutTiles);
         }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => overWiresUI.Add(index);
         public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.velocity == Vector2.Zero) return false;
 
             // Draw the actual laser
-            Vector2 laserEnd = Projectile.Center + Projectile.velocity * LaserLength;
+            Vector2 laserEnd = (Projectile.Center - Vector2.Normalize(Projectile.velocity * 20f)) + Projectile.velocity * LaserLength;
             int length = 10;
             Vector2[] drawPoints = new Vector2[length];
             float[] rotPoints = new float[length];
             TrailDrawer trailDrawer = default;
             for (int i = 0; i < length; i++)
             {
-                Color innerDrawColor = Projectile.GetAlpha(LaserOverlayColor);
-                Color outerDrawColor = Projectile.GetAlpha(Color.White);
+                Color innerDrawColor = Projectile.GetAlpha(WeakColor);
+                Color outerDrawColor = Projectile.GetAlpha(StrongColor);
                 drawPoints[i] = Vector2.Lerp(Projectile.position, laserEnd, i / (float)(drawPoints.Length - 1f));
                 rotPoints[i] = Projectile.rotation - MathHelper.Pi;
-                trailDrawer.Draw(Projectile, "MogMod:MagicMissileRGB", outerDrawColor, innerDrawColor, 1f, 30f, 44f, drawPoints, rotPoints);
+                float scale = 0.75f;
+                trailDrawer.Draw(Projectile, "MogMod:CometLaserRGB", outerDrawColor, innerDrawColor, scale, 30f, 44f, drawPoints, rotPoints);
             }
-
-            /*
-            Vector2 scale = new(Projectile.scale, Projectile.scale);
-
-            Texture2D laserBegin = LaserBeginTexture;
-            Texture2D laserMid = LaserMiddleTexture;
-            Texture2D laserEnd = LaserEndTexture;
-
-            float rayDrawLength = Projectile.localAI[1]; //length of laser
-            Color baseColor = LaserOverlayColor;
-            Vector2 vector = Projectile.Center - Main.screenPosition;
-            Rectangle? sourceRectangle2 = null;
-            if (!Main.zenithWorld)
-                Main.spriteBatch.Draw(laserBegin, vector, sourceRectangle2, baseColor, Projectile.rotation, laserBegin.Size() / 2f, scale, SpriteEffects.None, 0);
-            rayDrawLength -= (laserBegin.Height / 2 + laserEnd.Height) * Projectile.scale;
-            Vector2 projCenter = Projectile.Center;
-            projCenter += Projectile.velocity * Projectile.scale * laserBegin.Height / 2f;
-            */
-
-            Texture2D GlowBallTexture = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/CircleGradient").Value;
-            Texture2D GlowRingTexture = ModContent.Request<Texture2D>("MogMod/Projectiles/BaseProjectiles/GlowRingParticle").Value;
-
-            Projectile.localAI[2]++;
-
-            Color glowColor = MogModUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / ColorSet2.Length % 1f, ColorSet2);
-
-            if (Main.zenithWorld)
+            // draw glow effect
+            Vector2 drawPosition = (Projectile.Center - Vector2.Normalize(Projectile.velocity * 20f) + Projectile.velocity) - Main.screenPosition;
+            Main.spriteBatch.SetBlendState(BlendState.Additive);
+            Texture2D bloomTex = ModContent.Request<Texture2D>("MogMod/Assets/Textures/GlowParticle").Value;
+            for (int i = 0; i < 5; i++)
             {
-                for (int i = 0; i < 2; i++)
-                {
-                    Main.EntitySpriteDraw(GlowBallTexture, Owner.Center - Main.screenPosition, GlowBallTexture.Frame(), glowColor with { A = 0 }, 0f, GlowBallTexture.Frame().Center(), Projectile.scale / (2f + i), SpriteEffects.None);
-                    Main.EntitySpriteDraw(GlowRingTexture, Owner.Center - Main.screenPosition, GlowRingTexture.Frame(), glowColor with { A = 0 }, 0f, GlowRingTexture.Frame().Center(), Projectile.scale / MathHelper.Lerp(2f + i, 2f / i, (float)Math.Sin(Projectile.localAI[2] / 20f) * 0.5f), SpriteEffects.None);
-                }
-                return false;
+                float increment = MathHelper.Lerp(1f, 1.5f, MathF.Sin(Main.GlobalTimeWrappedHourly * 2) * 0.5f + 0.5f);
+                Main.EntitySpriteDraw(bloomTex, drawPosition, null, StrongColor * 0.85f, Projectile.rotation, bloomTex.Size() * 0.5f, 0.5f * increment, SpriteEffects.None);
+                Main.EntitySpriteDraw(bloomTex, drawPosition, null, WeakColor * 0.8f, Projectile.rotation, bloomTex.Size() * 0.5f, 0.525f * increment, SpriteEffects.None);
             }
-            else
-            { 
-                for (int i = 0; i < 2; i++)
-                {
-                    Main.EntitySpriteDraw(GlowBallTexture, Projectile.Center - Main.screenPosition, GlowBallTexture.Frame(), glowColor with { A = 0 }, 0f, GlowBallTexture.Frame().Center(), Projectile.scale / (2f + i), SpriteEffects.None);
-                    Main.EntitySpriteDraw(GlowRingTexture, Projectile.Center - Main.screenPosition, GlowRingTexture.Frame(), glowColor with { A = 0 }, 0f, GlowRingTexture.Frame().Center(), Projectile.scale / MathHelper.Lerp(2f + i, 2f / i, (float)Math.Sin(Projectile.localAI[2] / 20f) * 0.5f), SpriteEffects.None);
-                }
-            }
-
-            /*
-            if (rayDrawLength > 0f)
-            {
-                float raySegment = 0f;
-                Rectangle drawRectangle = new Rectangle(0, 36 * (Projectile.timeLeft / 3 % 4), laserMid.Width, 36);
-                while (raySegment + 1f < rayDrawLength)
-                {
-                    if (rayDrawLength - raySegment < drawRectangle.Height)
-                        drawRectangle.Height = (int)(rayDrawLength - raySegment);
-
-                    Main.spriteBatch.Draw(laserMid, projCenter - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(drawRectangle), baseColor, Projectile.rotation, new Vector2(drawRectangle.Width / 2, 0f), scale, SpriteEffects.None, 0);
-                    raySegment += drawRectangle.Height * Projectile.scale;
-                    projCenter += Projectile.velocity * drawRectangle.Height * Projectile.scale;
-                    drawRectangle.Y += 36;
-
-                    if (drawRectangle.Y + drawRectangle.Height > laserMid.Height)
-                        drawRectangle.Y = 0;
-                }
-            }
-
-            Vector2 vector2 = projCenter - Main.screenPosition;
-            sourceRectangle2 = null;
-
-            Main.spriteBatch.Draw(laserEnd, vector2, sourceRectangle2, baseColor, Projectile.rotation, laserEnd.Frame(1, 1, 0, 0).Top(), scale, SpriteEffects.None, 0);
-            */
-
+            Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;
         }
     }

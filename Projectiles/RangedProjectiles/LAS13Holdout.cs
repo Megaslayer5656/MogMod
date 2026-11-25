@@ -76,7 +76,7 @@ namespace MogMod.Projectiles.RangedProjectiles
             // set to false since we want to be able to switch off the weapon
             SetUsage = false;
             // check if the weapon is not being used, and if so, allow the owner to switch off the weapon
-            bool doingNothing = ReloadTimer == 0 && BuiltHeat <= 0;
+            bool doingNothing = ReloadTimer == 0 && ShootTimer == 0;
             if (LastUseTime == 0 || doingNothing) LastUseTime = Owner.HeldItem.useAnimation;
             if (!doingNothing) Owner.itemTime = Owner.itemAnimation = 5;
 
@@ -86,6 +86,9 @@ namespace MogMod.Projectiles.RangedProjectiles
                 Projectile.Kill();
                 return;
             }
+
+            // so we remember if the weapon is overheating or not
+            if (BuiltHeat >= MaxHeat) Overheating = true;
 
             bool hasAmmo = Owner.PickAmmo(HeldItem, out _, out _, out _, out _, out _, true);
             // check if the owner is able to left click
@@ -137,6 +140,8 @@ namespace MogMod.Projectiles.RangedProjectiles
             else if (!Overheating)
             {
                 if (leftShootChecks) Shoot(shootVelocity);
+                if (BuiltHeat >= WarningTime && !playedWarningSound) WarningEffect();
+                if (BuiltHeat < WarningTime) playedWarningSound = false;
                 if (BuiltHeat > 0 && ShootTimer <= 0 && !Main.mouseLeft) mogPlayer.las13Heat--;
             }
             else
@@ -182,8 +187,6 @@ namespace MogMod.Projectiles.RangedProjectiles
                 Overheating = true;
                 return;
             }
-            if (BuiltHeat >= WarningTime && !playedWarningSound) WarningEffect();
-            if (BuiltHeat < WarningTime) playedWarningSound = false;
 
             SoundEngine.PlaySound(SoundID.Item91 with { Volume = 0.8f, Pitch = Main.rand.NextFloat(-0.25f, -0.1f) }, Owner.Center);
             Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int bulletDamage, out float knockback, out _, true);

@@ -16,23 +16,11 @@ namespace MogMod.Items.Weapons.Melee
     public class Daedalus : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-
         // these dont actually do anything
         Random random = new Random();
-
-        public int attackDamage = 180;
-
+        public int attackDamage = 160;
         public int randUltraCrit;
-
         public bool ultraCrit = false;
-
-        public bool hitsound = true;
-
-        public static readonly SoundStyle daedalusSound = new SoundStyle($"{nameof(MogMod)}/Sounds/SE/DaedalusCrit") //Shot sound effect
-        {
-            Volume = 0.2f,
-            PitchVariance = .2f
-        };
         public override void SetDefaults()
         {
             Item.width = 96;
@@ -40,8 +28,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.DamageType = DamageClass.Melee;
             Item.damage = attackDamage;
             Item.knockBack = 8.5f;
-            Item.useAnimation = 10;
-            Item.useTime = 10;
+            Item.useTime = Item.useAnimation = 10;
             Item.autoReuse = true;
             Item.useTurn = false;
 
@@ -84,37 +71,23 @@ namespace MogMod.Items.Weapons.Melee
             Projectile.NewProjectile(source, new Vector2(rrp.X + leftOffset.X, rrp.Y + leftOffset.Y), originalVelocity, sideID, sideDamage, knockback, player.whoAmI, 0f, 1f);
             Projectile.NewProjectile(source, new Vector2(rrp.X + rightOffset.X, rrp.Y + rightOffset.Y), originalVelocity, sideID, sideDamage, knockback, player.whoAmI, 0f, 2f);
 
-            hitsound = true;
+            int sparkle = ModContent.ProjectileType<DaedalusSparkle>();
+            float adjustedItemScale = player.GetAdjustedItemScale(Item);
+            Projectile.NewProjectile(source, player.MountedCenter, new Vector2(player.direction, 0f), sparkle, damage, knockback, player.whoAmI, player.direction * player.gravDir, player.itemAnimationMax, adjustedItemScale);
+            NetMessage.SendData(MessageID.PlayerControls, number: player.whoAmI);
+
             return false;
         }
-
-        // On-hit, explode for extra damage.
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Dazed, 300);
             target.AddBuff(BuffID.Daybreak, 300);
-            OnHitEffects(player, target.Center);
         }
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(BuffID.Dazed, 300);
             target.AddBuff(BuffID.Daybreak, 300);
-            OnHitEffects(player, target.Center);
         }
-
-        private void OnHitEffects(Player player, Vector2 targetPos)
-        {
-            if (hitsound)
-            {
-                SoundEngine.PlaySound(daedalusSound with { Volume = 0.5f, Pitch = 0.2f, PitchVariance = 0.2f, MaxInstances = -1}, player.Center);
-                //hitsound = false;
-            }
-            int trueMeleeID = ModContent.ProjectileType<DaedalusBoom>();
-            int trueMeleeDamage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(0.85f * Item.damage);
-            var source = player.GetSource_ItemUse(Item);
-            Projectile.NewProjectile(source, targetPos, Vector2.Zero, trueMeleeID, trueMeleeDamage, Item.knockBack, player.whoAmI, 0.0f, 0.0f);
-        }
-
         // Spawn some fancy dust while swinging
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {

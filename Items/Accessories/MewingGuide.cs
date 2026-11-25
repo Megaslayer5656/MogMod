@@ -19,7 +19,7 @@ namespace MogMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            mogPlayer.dpCharge = true;
+            mogPlayer.chargingItem = 2;
         }
     }
 }

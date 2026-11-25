@@ -37,7 +37,6 @@ namespace MogMod.Items.Ammo.SorcerySpells.Carian
                 AddIngredient<CarianGreatsword>().
                 AddIngredient<FrostEssence>(12).
                 AddIngredient(ItemID.FragmentStardust, 8).
-                AddIngredient<Scroll>().
                 AddTile(TileID.Bookcases).
                 Register();
         }

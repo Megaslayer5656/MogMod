@@ -1,15 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Common.MogModPlayer;
 using MogMod.Common.Systems;
+using MogMod.Items.Accessories;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
 using MogMod.Items.Weapons.Melee;
 using MogMod.Utilities;
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static MogMod.Common.Systems.MogModNetcode;
 
 namespace MogMod.Items.Accessories
 {
@@ -18,6 +23,8 @@ namespace MogMod.Items.Accessories
         public new string LocalizationCategory => "Items.Accessories";
         public const float DamageBoost = 0.1f;
         public const int MaxLifeBoost = 50;
+        public const int SatanicDuration = 8 * 60;
+        public const int SatanicCooldown = 120 * 60;
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -53,7 +60,8 @@ namespace MogMod.Items.Accessories
                     TooltipLine normal = new(Mod, "Tooltip0", MiscUtils.GetTextFromModItem<Satanic>("TooltipNormal").Format(
                     MaxLifeBoost,
                     DamageBoost.ToPercent(),
-                    Hotkey));
+                    Hotkey,
+                    SatanicDuration.FramesToSeconds()));
                     tooltips.Insert(index, normal);
                 }
             }
@@ -69,6 +77,81 @@ namespace MogMod.Items.Accessories
                 AddIngredient<VitalityBooster>().
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
+        }
+    }
+}
+namespace MogMod.Common.MogModPlayer
+{
+    public partial class MogPlayer : ModPlayer
+    {
+        public void SatanicEffect()
+        {
+            if (KeybindSystem.SatanicKeybind.JustPressed && wearingSatanic && !Player.HasBuff(SatanicCooldown))
+            {
+                Player.AddBuff(SatanicBuffID, Satanic.SatanicDuration);
+                Player.AddBuff(SatanicCooldown, Satanic.SatanicCooldown);
+                SatanicDustEffect(Player);
+                if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    SatanicSync(Player, false);
+                }
+            }
+        }
+        public void SatanicBuff(bool GFB)
+        {
+            if (wearingSatanic)
+            {
+                if (GFB)
+                {
+                    if (Main.zenithWorld)
+                        DamageOverTime(50);
+                }
+                if (satanicBuff)
+                {
+                    Player.lifeSteal *= 4;
+                    Player.blind = true;
+                    Player.blackout = true; // greatly reduced light effect
+                    Player.headcovered = true; // nebula headcrab effect
+                }
+            }
+        }
+        public static void SatanicDustEffect(Player player)
+        {
+            SoundEngine.PlaySound(SatanicActivateSound, player.Center);
+            for (int i = 0; i < 150; i++)
+            {
+                Vector2 circlePos = Main.rand.NextVector2CircularEdge(player.width * 3f, player.height * 0.75f);
+                Vector2 circleVel = player.DirectionFrom(player.Center + player.velocity + circlePos) * Main.rand.NextFloat(1f, 3f);
+                Dust satanicEye = Dust.NewDustPerfect(player.Center + circlePos * Main.rand.NextFloat(0.75f, 1.25f), ChildSafety.Disabled ? DustID.Blood : DustID.CrimsonPlants, circleVel, 100);
+                satanicEye.fadeIn = 1.45f;
+                satanicEye.noGravity = true;
+            }
+            for (int i = 0; i < 75; i++)
+            {
+                Vector2 circlePos = Main.rand.NextVector2Circular(player.width * 0.25f, player.height * 1.35f);
+                Vector2 circleVel = player.DirectionFrom(player.Center + player.velocity + circlePos) * Main.rand.NextFloat(2f, 4f);
+                Dust satanicPupil = Dust.NewDustPerfect(player.Center + circlePos, DustID.CrystalPulse2, circleVel, 100);
+                satanicPupil.fadeIn = 1.85f;
+                satanicPupil.noGravity = true;
+            }
+        }
+        public void SatanicSync(Player player, bool server)
+        {
+            ModPacket packet = Mod.GetPacket(256);
+
+            packet.Write((byte)MogModMessageType.SatanicSync);
+            packet.Write(player.whoAmI);
+
+            player.SendPacket(packet, server);
+        }
+        internal void HandleSatanic(BinaryReader reader)
+        {
+            Player client = reader.ReadPlayer();
+            if (Main.netMode == NetmodeID.Server)
+            {
+                SatanicSync(client, true);
+            }
+            SatanicDustEffect(client);
         }
     }
 }

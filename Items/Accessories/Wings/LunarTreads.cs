@@ -1,10 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Common.MogModPlayer;
 using MogMod.Items.Accessories.Boots;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.Classless;
-using MogMod.Projectiles.Summon;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.DataStructures;
@@ -33,7 +31,7 @@ namespace MogMod.Items.Accessories.Wings
             player.lavaImmune = true;
 
             player.accRunSpeed = 15f;
-            player.moveSpeed += .5f;
+            player.moveSpeed += 0.5f;
             player.rocketBoots = player.vanityRocketBoots = 4;
 
             // unique boot effects
@@ -58,7 +56,6 @@ namespace MogMod.Items.Accessories.Wings
                     {
                         var p = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, type, 1, 0f, Main.myPlayer);
                         p.active = true;
-                        //p.ai[2] = 3f; // lunar treads
                     }
                 }
 
@@ -99,7 +96,7 @@ namespace MogMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<UltraBootsOfTravel>(1).
+                AddIngredient<UltraBootsOfTravel>().
                 AddIngredient(ItemID.SoulofFlight, 20).
                 AddIngredient(ItemID.LunarBar, 12).
                 AddIngredient<SoulFragment>(3).

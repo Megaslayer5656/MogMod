@@ -30,7 +30,7 @@ namespace MogMod.Items.Ammo.SorcerySpells.Glintstone
             CreateRecipe()
                 .AddIngredient(ItemID.StoneBlock, 40)
                 .AddIngredient(ItemID.Sapphire, 4)
-                .AddIngredient<Scroll>(1)
+                .AddIngredient<Scroll>()
                 .AddTile(TileID.Bookcases)
                 .Register();
         }

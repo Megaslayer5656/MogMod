@@ -107,6 +107,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
         {
             base.SendExtraAI(projectile, bitWriter, binaryWriter);
+            if (projectile.type == ProjectileID.FallingStar) return;
             SendBloodAI(projectile, bitWriter, binaryWriter);
             binaryWriter.Write(overloadingProj);
             binaryWriter.Write(fireProj);
@@ -128,6 +129,7 @@ namespace MogMod.Projectiles.BaseProjectiles
         public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
         {
             base.ReceiveExtraAI(projectile, bitReader, binaryReader);
+            if (projectile.type == ProjectileID.FallingStar) return;
             ReceiveBloodAI(projectile, bitReader, binaryReader);
             overloadingProj = binaryReader.ReadBoolean();
             fireProj = binaryReader.ReadBoolean();

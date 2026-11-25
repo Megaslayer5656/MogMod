@@ -1,5 +1,5 @@
 MogClientConfig: {
-	DisplayName: Mog Client Config
+	DisplayName: Client Config
 
 	Headers: {
 		Graphics: Graphics Header
@@ -70,10 +70,19 @@ Location: {
 MogServerConfig: {
 	DisplayName: Server Config
 	Denied: You have no permission to change this config
-	Headers.Gameplay: Gameplay Header
+
+	Headers: {
+		Gameplay: Gameplay Header
+		Visual: Visual Header
+	}
 
 	EliteEnemySpawning: {
 		Label: Elite Enemy Spawning
 		Tooltip: "[c/FF0000:DOES NOT SYNC IN MULTIPLAYER CURRENTLY] Allows Elite modifiers to be applied to enemies"
+	}
+
+	Tigz: {
+		Label: Tigz
+		Tooltip: o na tigla foid
 	}
 }

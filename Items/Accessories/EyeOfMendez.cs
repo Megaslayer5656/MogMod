@@ -27,17 +27,17 @@ namespace MogMod.Items.Accessories
             mogPlayer.wearingMendez = true;
             if (player.statLife >= (player.statLifeMax2 * 1))
             {
-                mogPlayer.isWearingGlimmerCape = true;
-                mogPlayer.wearingManaBoots = true;
+                mogPlayer.wearingGlimmerCape = true;
+                mogPlayer.wearingArcaneBoots = true;
                 mogPlayer.wearingSatanic = true;
                 mogPlayer.wearingRefresherOrb = true;
-                mogPlayer.locketActive = true;
-                mogPlayer.wandActive = true;
-                mogPlayer.stickActive = true;
-                mogPlayer.armletActive = true;
+                mogPlayer.wearingHolyLocket = true;
+                mogPlayer.wearingMagicWand = true;
+                mogPlayer.wearingMagicStick = true;
+                mogPlayer.wearingArmlet = true;
                 mogPlayer.wearingHelmOfDominator = true;
                 mogPlayer.wearingHelmOfOverlord = true;
-                mogPlayer.wearingGigaManaBoots = true;
+                mogPlayer.wearingGuardianGreaves = true;
                 mogPlayer.wearingMekansm = true;
                 mogPlayer.wearingShivasGuard = true;
                 mogPlayer.wearingEyeOfSkadi = true;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
-using MogMod.Projectiles.RangedProjectiles;
+using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
 using System;
 using Terraria;
@@ -9,16 +9,16 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Weapons.Ranged
+namespace MogMod.Items.Weapons.Melee
 {
     public class WarriorsSpear : ModItem, ILocalizedModType
     {
-        public new string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetStaticDefaults() => ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         public override void SetDefaults()
         {
             Item.damage = 35;
-            Item.DamageType = DamageClass.Ranged;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.width = 20;
             Item.height = 4;
             Item.scale = .15f;
@@ -54,8 +54,7 @@ namespace MogMod.Items.Weapons.Ranged
                 player.Hurt(PlayerDeathReason.ByCustomReason(MiscUtils.GetText("Status.Death.WarriorsSpear").ToNetworkText(player.name)), Convert.ToInt32(player.statLifeMax2 * .04), -player.direction, false, false, -1, false, 1000, 0, 0);
                 player.immune = false;
                 player.immuneTime = 0;
-                type = ModContent.ProjectileType<WarriorsFireSpearProj>();
-                Projectile.NewProjectile(source, position, velocity, type, (int)(damage * 1.34), knockback * 2f, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, type, (int)(damage * 1.34), knockback * 2f, player.whoAmI, ai2: 5f);
                 return false;
             }
             return true;

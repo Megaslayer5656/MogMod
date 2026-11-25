@@ -14,8 +14,8 @@ namespace MogMod.Items.Accessories
         public new string LocalizationCategory => "Items.Accessories";
         public const float AttackSpeedBoost = 0.1f;
         public const float DamageReduction = 0.15f;
-        public const float BloodMult = 0.2f;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(AttackSpeedBoost.ToPercent(), DamageReduction.ToPercent(), (BloodMult + LordOfBloodsExultation.BloodMult).ToPercent());
+        public const float BloodMult = 0.35f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(AttackSpeedBoost.ToPercent(), DamageReduction.ToPercent(), BloodMult.ToPercent());
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -26,18 +26,19 @@ namespace MogMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
+            MogPlayer mogPlayer = player.MogMod();
             mogPlayer.mercyBladeEquipped = true;
             mogPlayer.exultationEquipped = true;
+            mogPlayer.bloodMult += BloodMult;
             player.GetAttackSpeed<GenericDamageClass>() += AttackSpeedBoost;
             player.GetDamage<GenericDamageClass>() -= DamageReduction;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<LordOfBloodsExultation>(1).
+                AddIngredient<LordOfBloodsExultation>().
                 AddIngredient(ItemID.SoulofFright, 7).
-                AddIngredient<PointBooster>(1).
+                AddIngredient<PointBooster>().
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

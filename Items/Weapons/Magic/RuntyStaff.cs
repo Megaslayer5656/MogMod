@@ -41,7 +41,7 @@ namespace MogMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<RuntyBar>(8).
+                AddIngredient<RuntyBar>(6).
                 AddIngredient<ManaEssence>(1).
                 AddTile(TileID.Anvils).
                 Register();

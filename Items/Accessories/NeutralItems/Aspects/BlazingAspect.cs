@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
+using MogMod.Projectiles.Classless;
 using MogMod.Rarities;
 using MogMod.Utilities;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace MogMod.Items.Accessories.NeutralItems.Aspects
     public class BlazingAspect : NeutralItem
     {
         public const float DamageMult = 0.10f;
+        public const float TrailDamageMult = 0.25f;
         public static Color Colour = new(255f, 84f, 24f);
         public Color DescColor = new(255, 84, 24);
         public override void SetStaticDefaults()
@@ -39,6 +41,17 @@ namespace MogMod.Items.Accessories.NeutralItems.Aspects
             MogPlayer mogPlayer = player.MogMod();
             mogPlayer.wearingBlazing = true;
             mogPlayer.blazingVisual = !hideVisual;
+
+            var type = ModContent.ProjectileType<BlazingTrail>();
+            if (player.whoAmI == Main.myPlayer)
+            {
+                var source = player.GetSource_ItemUse(Item);
+                if (player.ownedProjectileCounts[type] < 1)
+                {
+                    var p = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, type, player.HeldItem.damage, 0f, Main.myPlayer);
+                    p.active = true;
+                }
+            }
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
@@ -51,7 +64,7 @@ namespace MogMod.Items.Accessories.NeutralItems.Aspects
                 if (Main.keyState.PressingShift())
                 {
                     index++;
-                    TooltipLine desc = new(Mod, IHoldShiftTooltipItem.ExtensionIndicatorTooltipID, MiscUtils.GetTextFromModItem<BlazingAspect>("Description").Format(DamageMult.ToPercent()));
+                    TooltipLine desc = new(Mod, IHoldShiftTooltipItem.ExtensionIndicatorTooltipID, MiscUtils.GetTextFromModItem<BlazingAspect>("Description").Format(DamageMult.ToPercent(), TrailDamageMult.ToPercent()));
                     desc.OverrideColor = DescColor;
                     tooltips.Insert(index, desc);
                 }

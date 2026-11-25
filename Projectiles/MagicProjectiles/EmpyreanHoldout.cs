@@ -7,15 +7,13 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
     public class EmpyreanHoldout : BaseHoldoutProjectile
     {
-        public override LocalizedText DisplayName => MiscUtils.GetItemName<EmpyreanBombardment>();
-        public override string Texture => "MogMod/Items/Weapons/Magic/EmpyreanBombardment";
+        public override int AssociatedItemID => ModContent.ItemType<EmpyreanBombardment>();
         public override float RotationOffset => 45;
         public override float HoldoutOffset => Projectile.width / 2;
         public override float TurnSpeed => 0.2f;
@@ -34,18 +32,10 @@ namespace MogMod.Projectiles.MagicProjectiles
         public int windupAnim = 11;
         public int soundTimer = 0;
         public bool discharging = false;
-        public override void SetDefaults()
+        public override void Defaults()
         {
-            Projectile.width = 52;
-            Projectile.height = 50;
-            Projectile.friendly = true;
-            Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Magic;
-            Projectile.ContinuouslyUpdateDamageStats = true;
-            Projectile.ignoreWater = true;
             Projectile.alpha = 255;
-
-            Projectile.netImportant = true;
         }
         public override void HoldoutAI()
         {

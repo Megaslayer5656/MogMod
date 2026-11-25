@@ -11,6 +11,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace MogMod.Projectiles.Melee
 {
@@ -55,12 +56,14 @@ namespace MogMod.Projectiles.Melee
             base.SendExtraAI(writer);
             writer.Write(channelingBurn);
             writer.Write(summonedAura);
+            writer.WriteVector2(angle);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             base.ReceiveExtraAI(reader);
             channelingBurn = reader.ReadBoolean();
             summonedAura = reader.ReadBoolean();
+            angle = reader.ReadVector2();
         }
         public override void AdditionalAI()
         {
@@ -71,6 +74,7 @@ namespace MogMod.Projectiles.Melee
             {
                 AfterImageLength = 0;
                 DustTimer++;
+                // TODO: fix sync in multiplayer
                 angle = new Vector2((Owner.Center - Owner.MogMod().mouseWorld).SafeNormalize(Vector2.UnitX).X > 0 ? 0.000001f : -0.000001f, MathHelper.Lerp(1f, 1.15f, RadiancePower) * Owner.gravDir);
                 if (Projectile.owner == Main.myPlayer)
                 {
@@ -78,7 +82,7 @@ namespace MogMod.Projectiles.Melee
                     int type = ModContent.ProjectileType<RadianceAura>();
                     if (Owner.ownedProjectileCounts[type] < 1 && DustTimer % Projectile.extraUpdates == 0 && !summonedAura)
                     {
-                        Projectile.NewProjectile(source, Owner.Center, Vector2.Zero, type, Projectile.damage, 0f, Projectile.owner);
+                        Projectile.NewProjectile(source, Owner.Center, Vector2.Zero, type, (int)(Projectile.damage * 0.25f), 0f, Projectile.owner);
                         summonedAura = true;
                     }
                     else
@@ -254,13 +258,13 @@ namespace MogMod.Projectiles.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             var tex = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/RadianceGhost").Value;
-            float outlineWidth = (int)(6 * RadiancePower) * 0.5f;
-            if (inSwing || inCooldown)
+            float outlineWidth = (int)(5 * RadiancePower) * 0.5f;
+            //if (inSwing || inCooldown)
             {
                 outlineWidth *= 1 - SwingCompletion;
                 Texture2D swoosh = ModContent.Request<Texture2D>("MogMod/Assets/Textures/VerticalSmearLarge").Value;
                 float rotation = Projectile.rotation - 0.7f * -Projectile.spriteDirection;
-                float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver4 : (MathHelper.TwoPi - MathHelper.PiOver4)) * ((angle.X < 0 ? -1f : 1f) * Owner.gravDir);
+                float rotationOffset = (Owner.GetModPlayer<BaseSwordHoldoutPlayer>().swingNum % 2 == 0 ? MathHelper.PiOver2 : (MathHelper.TwoPi - MathHelper.PiOver2)) * ((angle.X < 0 ? -1f : 1f) * Owner.gravDir);
                 Vector2 spawnPos = Projectile.Center + new Vector2(-angle.X.DirectionalSign(), 70f).RotatedBy(rotation) * Projectile.scale - Main.screenPosition;
                 float fadeIn = Math.Min(1f, Math.Clamp(1f - (CooldownCompletion + 0.5f), 0f, 1f));
                 for (float i = 0; i <= 2; i++) 

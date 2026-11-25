@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MogMod.Utilities;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -10,7 +12,7 @@ namespace MogMod.Projectiles.MagicProjectiles
 {
     public class AghanimPortal : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.MagicProjectiles";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
@@ -57,9 +59,21 @@ namespace MogMod.Projectiles.MagicProjectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = Terraria.GameContent.TextureAssets.Projectile[Type].Value;
-            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.BlueViolet, Projectile.rotation * 1.2f, texture.Size() * 0.5f, Projectile.scale * 1.5f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor * 0.8f), Projectile.rotation * 0.8f, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor * 0.8f), -Projectile.rotation * 0.8f, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.FlipHorizontally, 0);
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Main.spriteBatch.Draw(texture, drawPosition, null, Color.BlueViolet, Projectile.rotation * 1.2f, texture.Size() * 0.5f, Projectile.scale * 1.55f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, drawPosition, null, Projectile.GetAlpha(lightColor * 0.8f), Projectile.rotation * 0.8f, texture.Size() * 0.5f, Projectile.scale * 1.05f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, drawPosition, null, Projectile.GetAlpha(lightColor * 0.8f), -Projectile.rotation * 0.8f, texture.Size() * 0.5f, Projectile.scale * 1.05f, SpriteEffects.FlipHorizontally, 0);
+
+            // draw glow effect
+            Main.spriteBatch.SetBlendState(BlendState.Additive);
+            Texture2D bloomTex = ModContent.Request<Texture2D>("MogMod/Assets/Textures/GlowParticle").Value;
+            for (int i = 0; i < 4; i++)
+            {
+                float increment = MathHelper.Lerp(1f, 1.5f, MathF.Sin(Main.GlobalTimeWrappedHourly * 2) * 0.5f + 0.5f);
+                Main.EntitySpriteDraw(bloomTex, drawPosition, null, Color.Orchid * 0.85f, 0f, bloomTex.Size() * 0.5f, Projectile.scale * 0.7f * increment, SpriteEffects.None);
+                Main.EntitySpriteDraw(bloomTex, drawPosition, null, Color.MediumPurple * 0.1f, 0f, bloomTex.Size() * 0.5f, Projectile.scale * 0.8f * increment, SpriteEffects.None);
+            }
+            Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;
         }
     }

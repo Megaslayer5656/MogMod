@@ -7,15 +7,13 @@ using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
     public class DagonThreeHoldout : BaseHoldoutProjectile
     {
-        public override LocalizedText DisplayName => MiscUtils.GetItemName<DagonThree>();
-        public override string Texture => "MogMod/Items/Weapons/Magic/DagonThree";
+        public override int AssociatedItemID => ModContent.ItemType<DagonThree>();
         public override float RotationOffset => 45;
         public override float HoldoutOffset => Projectile.width / 2;
         public override float TurnSpeed => 0.1f;
@@ -28,18 +26,10 @@ namespace MogMod.Projectiles.MagicProjectiles
         bool coolingDown = false; // cooldown effects
         int MinCharge = 30; // how long before firing proj
         int Cap = 18; // to prevent being unable to fire with enough attack speed
-        public override void SetDefaults()
+        public override void Defaults()
         {
-            Projectile.width = Projectile.height = 32;
-            Projectile.friendly = true;
-            Projectile.ignoreWater = true;
-            Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Magic;
-            Projectile.ContinuouslyUpdateDamageStats = true;
-            Projectile.penetrate = -1;
             Projectile.alpha = 255;
-
-            Projectile.netImportant = true;
         }
         public override void HoldoutAI()
         {

@@ -24,6 +24,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         public ref float ReloadTimer => ref Projectile.ai[1];
         public ref float LastUseTime => ref Projectile.ai[2];
         public int CooldownTimer = 0;
+        public Vector2 shootVelocity = Vector2.Zero;
         public int Cap = 10;
         public int shootTime = Mosin.reloadTime;
         public int attackTime = 0;
@@ -33,17 +34,21 @@ namespace MogMod.Projectiles.RangedProjectiles
         public override void SendExtraAIHoldout(BinaryWriter writer)
         {
             writer.Write(CooldownTimer);
+            writer.WriteVector2(shootVelocity);
             writer.Write(Projectile.spriteDirection);
+            writer.Write(attackTime);
         }
         public override void ReceiveExtraAIHoldout(BinaryReader reader)
         {
             CooldownTimer = reader.ReadInt32();
+            shootVelocity = reader.ReadVector2();
             Projectile.spriteDirection = reader.ReadInt32();
+            attackTime = reader.ReadInt32();
         }
         public override void HoldoutAI()
         {
             MogPlayer mogPlayer = Owner.MogMod();
-            Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * 20;
+            shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * 20;
             var attackSpeed = Main.player[Projectile.owner].GetTotalAttackSpeed(Projectile.DamageType);
             if (attackSpeed > Cap) attackSpeed = Cap;
             if (attackSpeed != 0f) attackSpeed = 1f / attackSpeed;
@@ -72,19 +77,13 @@ namespace MogMod.Projectiles.RangedProjectiles
                 {
                     if (ReloadTimer == 2)
                     {
-                        /*
-                        if (MogClientConfig.Instance.AmmoEjection && Main.netMode != NetmodeID.Server)
-                        {
-                            string goreType = "RigGunMag";
-                            Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, shootVelocity.RotatedBy(2f * -Owner.direction) * Main.rand.NextFloat(0.6f, 0.7f), Mod.Find<ModGore>(goreType).Type);
-                        }
-                        */
                         if (mogPlayer.mosinShots < maxShots) mogPlayer.mosinShots++;
                         Owner.PickAmmo(Owner.HeldItem, out int ammo, out float speed, out int bulletDamage, out float knockback, out _);
                         SoundEngine.PlaySound(SoundID.Item149 with { Pitch = -0.2f }, Owner.Center);
                         SoundEngine.PlaySound(SoundID.Item108 with { Pitch = -0.3f }, Owner.Center);
                         if (MogClientConfig.Instance.GunRecoil) OffsetLengthFromArm -= 4f;
                     }
+                    // TODO: fix this constantly proccing for the client in multiplayer
                     if (ReloadTimer >= (attackTime / maxShots))
                     {
                         if (mogPlayer.mosinShots >= maxShots)
@@ -107,12 +106,12 @@ namespace MogMod.Projectiles.RangedProjectiles
             }
             else
             {
-                if (leftShootChecks) Shoot(shootVelocity);
+                if (leftShootChecks) Shoot();
             }
             if (ShootTimer > 0) ShootTimer--;
             if (CooldownTimer > 0) CooldownTimer--;
         }
-        public void Shoot(Vector2 shootVelocity)
+        public void Shoot()
         {
             MogPlayer mogPlayer = Owner.MogMod();
             if (mogPlayer.mosinShots <= 0)

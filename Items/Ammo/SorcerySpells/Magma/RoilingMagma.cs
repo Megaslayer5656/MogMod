@@ -30,7 +30,7 @@ namespace MogMod.Items.Ammo.SorcerySpells.Magma
             CreateRecipe().
                 AddIngredient(ItemID.HellstoneBar, 8).
                 AddIngredient(ItemID.Dynamite, 5).
-                AddIngredient<Scroll>(1).
+                AddIngredient<Scroll>().
                 AddTile(TileID.Bookcases).
                 Register();
         }

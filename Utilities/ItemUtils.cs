@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MogMod.Utilities
@@ -143,6 +144,10 @@ namespace MogMod.Utilities
                 color = DeathColor;
             else if (debuffId == ModContent.BuffType<TerraFlameDebuff>())
                 color = TerraColor;
+            else if (debuffId == BuffID.OnFire3)
+                color = Color.OrangeRed;
+            else if (debuffId == BuffID.Frostburn)
+                color = Color.SkyBlue;
 
             // If this is actually a beneficial buff, color it as so
             else if (!Main.debuff[debuffId])

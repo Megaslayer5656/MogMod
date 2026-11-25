@@ -5,11 +5,11 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Projectiles.RangedProjectiles
+namespace MogMod.Projectiles.Melee
 {
-    public class BerserkersFireSpearProj : ModProjectile, ILocalizedModType
+    public class BerserkersSpearProj : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override void SetDefaults()
         {
             Projectile.width = 25;
@@ -18,15 +18,15 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.ignoreWater = false;
             Projectile.tileCollide = true;
             Projectile.timeLeft = 300;
-            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
-            Projectile.scale = .5f;
             AIType = ProjectileID.JavelinFriendly;
-            Projectile.penetrate = 1;
-            Projectile.scale = .75f;
+
+            Projectile.scale =  .75f;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            if (Projectile.ai[2] != 5f) return;
             target.AddBuff(BuffID.Oiled, 300);
             target.AddBuff(BuffID.OnFire, 300);
             target.AddBuff(BuffID.OnFire3, 300);
@@ -39,14 +39,13 @@ namespace MogMod.Projectiles.RangedProjectiles
 
             if (target.type != NPCID.TargetDummy)
             {
-                int heal = (int)(player.statLifeMax2 * 0.04);
-                player.statLife += heal;
-                player.HealEffect(heal);
-                if (player.statLife > player.statLifeMax2) player.statLife = player.statLifeMax2;
+                int heal = (int)(player.statLifeMax2 * 0.04f);
+                player.HealLifestealMult(heal);
             }
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
+            if (Projectile.ai[2] != 5f) return;
             target.AddBuff(BuffID.Oiled, 300);
             target.AddBuff(BuffID.OnFire, 300);
             target.AddBuff(BuffID.OnFire3, 300);
@@ -57,11 +56,12 @@ namespace MogMod.Projectiles.RangedProjectiles
             target.AddBuff(ModContent.BuffType<GhostflameDebuff>(), 300);
             Player player = Main.player[Projectile.owner];
 
-            int heal = (int)(player.statLifeMax2 * .0175f);
+            int heal = (int)(player.statLifeMax2 * 0.04f);
             player.HealLifestealMult(heal);
         }
         public override void AI()
         {
+            if (Projectile.ai[2] != 5f) return;
             if (Main.rand.NextBool(3))
             {
                 for (int i = 0; i < 5; i++)

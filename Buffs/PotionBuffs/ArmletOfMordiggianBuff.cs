@@ -16,7 +16,7 @@ namespace MogMod.Buffs.PotionBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             MogPlayer mogPlayer = player.GetModPlayer<MogPlayer>();
-            mogPlayer.armletDebuff = true;
+            mogPlayer.armletActive = true;
             float dim = .02f;
             Lighting.AddLight(player.Center, 136f * dim, 8f * dim, 8f * dim);
         }

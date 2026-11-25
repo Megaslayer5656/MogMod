@@ -18,7 +18,7 @@ namespace MogMod.Items.Weapons.Melee
             Item.width = 80;
             Item.height = 88;
 
-            Item.damage = 38;
+            Item.damage = 40;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 60;
             Item.channel = true;
@@ -34,7 +34,7 @@ namespace MogMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.FossilOre, 20).
-                AddIngredient(ItemID.Leather, 5).
+                AddIngredient(ItemID.Leather, 2).
                 AddIngredient<CraftingRecipe>().
                 AddTile(TileID.Anvils).
                 Register();

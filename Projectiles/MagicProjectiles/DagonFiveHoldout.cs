@@ -7,15 +7,13 @@ using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
     public class DagonFiveHoldout : BaseHoldoutProjectile
     {
-        public override LocalizedText DisplayName => MiscUtils.GetItemName<DagonFive>();
-        public override string Texture => "MogMod/Items/Weapons/Magic/DagonFive";
+        public override int AssociatedItemID => ModContent.ItemType<DagonFive>();
         public override float RotationOffset => 45;
         public override float HoldoutOffset => Projectile.width / 2;
         public override float TurnSpeed => 0.125f;
@@ -30,18 +28,10 @@ namespace MogMod.Projectiles.MagicProjectiles
         int Cap = 18; // to prevent being unable to fire with enough attack speed
         int NumShots = 0; // num of shots fired
         int MaxShots = DagonFive.MaxShots; // max amount of shots fired
-        public override void SetDefaults()
+        public override void Defaults()
         {
-            Projectile.width = Projectile.height = 32;
-            Projectile.friendly = true;
-            Projectile.ignoreWater = true;
-            Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Magic;
-            Projectile.ContinuouslyUpdateDamageStats = true;
-            Projectile.penetrate = -1;
             Projectile.alpha = 255;
-
-            Projectile.netImportant = true;
         }
         public override void HoldoutAI()
         {

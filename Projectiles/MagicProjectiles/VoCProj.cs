@@ -10,14 +10,14 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.MagicProjectiles
 {
     public class VoCProj : BaseHoldoutProjectile
     {
-        public override LocalizedText DisplayName => MiscUtils.GetItemName<VortexOfConflagration>();
+        public override int AssociatedItemID => ModContent.ItemType<VortexOfConflagration>();
+        public override string Texture => "MogMod/Assets/Textures/InvisibleProj";
         public override float HoldoutOffset => Projectile.width;
         public override float TurnSpeed => 0.3f;
         public override int HoldoutHandling => HoldoutStyle.Floaty;

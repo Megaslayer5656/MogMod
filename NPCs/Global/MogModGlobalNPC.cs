@@ -168,7 +168,7 @@ namespace MogMod.NPCs.Global
         }
         public override void SetupTravelShop(int[] shop, ref int nextSlot)
         {
-            if (Main.moonPhase >= 6 && Main.moonPhase <= 2) shop[nextSlot++] = ModContent.ItemType<WeightedDice>();
+            if (Main.moonPhase >= 6 || Main.moonPhase <= 2) shop[nextSlot++] = ModContent.ItemType<WeightedDice>();
             if (Main.moonPhase >= 3 && Main.moonPhase <= 5) shop[nextSlot++] = ModContent.ItemType<GasGrenade>();
             if (Main.moonPhase % 2 == 0) shop[nextSlot++] = ModContent.ItemType<CarianSlicer>();
             if (Main.hardMode && Main.moonPhase % 2 == 1) shop[nextSlot++] = ModContent.ItemType<CarianGreatsword>();
@@ -715,6 +715,7 @@ namespace MogMod.NPCs.Global
         {
             //ChatHelper.SendChatMessageToClient(NetworkText.FromLiteral($"adding {blood} blood damage"), Color.LimeGreen, player.whoAmI);
             MogPlayer mogPlayer = player.MogMod();
+            /*
             if (mogPlayer.exultationEquipped)
                 blood = (int)(blood * (LordOfBloodsExultation.BloodMult + 1));
 
@@ -729,6 +730,9 @@ namespace MogMod.NPCs.Global
 
             if (mogPlayer.wearingBloody)
                 blood = (int)(blood * (BloodyAspect.BloodMult + 1));
+            */
+
+            blood = (int)(blood * mogPlayer.bloodMult);
 
             //ChatHelper.SendChatMessageToClient(NetworkText.FromLiteral($"added {blood} blood damage"), Color.Lime, player.whoAmI);
             return blood;
@@ -750,12 +754,17 @@ namespace MogMod.NPCs.Global
             NetMessage.SendStrikeNPC(npc, hitInfo);
 
             // TODO: fix this not working in multiplayer
+            // the issue is because this is getting called on the server (i think)
+            // find a way to trace this back to the owner
             if (mogPlayer.wearingFlayersBota && npc.type != NPCID.TargetDummy)
             {
-                //ChatHelper.SendChatMessageToClient(NetworkText.FromLiteral($"going to heal {player.name}, mogName = {mogPlayer.Name}"), Color.Green, player.whoAmI);
+                // player.name == the blood procs owner
+                // for some reason it wont proc player.HealLifestealMult()
+                //
+                ChatHelper.SendChatMessageToClient(NetworkText.FromLiteral($"going to heal {player.name}, mogName = {mogPlayer.Name}"), Color.Green, player.whoAmI);
                 int heal = (int)(hitInfo.Damage / 100) + 1;
                 player.HealLifestealMult(heal);
-                //ChatHelper.SendChatMessageToClient(NetworkText.FromLiteral($"healed {player.name} for {heal}"), Color.Green, player.whoAmI);
+                ChatHelper.SendChatMessageToClient(NetworkText.FromLiteral($"healed {player.name} for {heal}"), Color.Green, player.whoAmI);
             }
 
             if (Main.netMode != NetmodeID.SinglePlayer)
@@ -783,7 +792,7 @@ namespace MogMod.NPCs.Global
 
             for (int i = 0; i < 80; i++)
             {
-                int dust = Dust.NewDust(npc.Center, r.Width, r.Height, DustID.Blood, 0f, 0f, 0, default, 2f);
+                int dust = Dust.NewDust(npc.position, r.Width, r.Height, DustID.Blood, 0f, 0f, 0, default, 2f);
                 Main.dust[dust].noGravity = false;
             }
         }
@@ -830,7 +839,7 @@ namespace MogMod.NPCs.Global
                 if (Main.rand.NextBool(5))
                     scale *= 1.4f;
                 Vector2 velocity = Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi) * MathHelper.Lerp(10, 30, Main.rand.NextFloat());
-                Dust d = Dust.NewDustPerfect(npc.Center, Main.rand.NextBool(3) ? DustID.Venom : DustID.Poisoned, velocity, 100, default, scale);
+                Dust d = Dust.NewDustPerfect(npc.position, Main.rand.NextBool(3) ? DustID.Venom : DustID.Poisoned, velocity, 100, default, scale);
                 d.fadeIn += 1.2f;
                 d.noGravity = true;
                 if (Main.rand.NextBool(4))
@@ -859,12 +868,12 @@ namespace MogMod.NPCs.Global
                 ModPacket packet = Mod.GetPacket();
                 packet.Write((byte)MogModMessageType.TrueStrikeProcTextSync);
                 packet.Write(npc.lastInteraction);
-                packet.WriteVector2(npc.Center);
+                packet.WriteVector2(npc.position);
                 packet.Send();
             }
             else
             {
-                TrueStrikeFX(npc.Center);
+                TrueStrikeFX(npc.position);
             }
         }
         public static void TrueStrikeFX(Vector2 position)

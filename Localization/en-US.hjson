@@ -34,6 +34,7 @@ Mods: {
 			GalvanizedZipSlowdown.DisplayName: Galvanized Zip Slowdown
 			AdditionalWeaponKeybindOne.DisplayName: Additional Weapon Keybind One
 			AdditionalWeaponKeybindTwo.DisplayName: Additional Weapon Keybind Two
+			NeutralItemKeybind.DisplayName: Neutral Item Keybind
 		}
 
 		ProjectileModifications.HitMessage: Mods.MogMod.ProjectileModifications.HitMessage
@@ -82,6 +83,8 @@ Mods: {
 					LikeNPC: Ich mag {NPCName}.
 					DislikeNPC: Ich mag {NPCName} nicht.
 					HateNPC: Ich hasse {NPCName}
+					LikeBiome: I like {BiomeName}.
+					HateBiome: I hate {BiomeName}.
 				}
 			}
 
@@ -245,6 +248,8 @@ Mods: {
 				StrongVolatileDagonBolt.DisplayName: Strong Volatile Dagon Bolt
 				KhandaBeam.DisplayName: Khanda Beam
 				AghanimLaser.DisplayName: Aghanim Laser
+				AghanimPortal.DisplayName: Aghanim Portal
+				KaminariTrailHitbox.DisplayName: Kaminari Trail Hitbox
 			}
 
 			RangedProjectiles: {
@@ -395,6 +400,9 @@ Mods: {
 				FlamewallLaser.DisplayName: Inferno Laser
 				SpiritOrb.DisplayName: Spirit Orb
 				RustedHatchetProj.DisplayName: Rusted Hatchet Proj
+				WarriorsSpearProj.DisplayName: Warriors Spear Proj
+				BerserkersSpearProj.DisplayName: Berserkers Spear Proj
+				DaedalusSparkle.DisplayName: Daedalus Sparkle
 			}
 
 			Summon: {
@@ -431,6 +439,8 @@ Mods: {
 				TrailProj.DisplayName: Trail Proj
 				DragonPhantomProj.DisplayName: Dragon Phantom Proj
 				DragonLanceHoldout.DisplayName: Dragon Lance Holdout
+				BlazingTrail.DisplayName: Blazing Trail
+				BlazingTrailHitbox.DisplayName: Blazing Trail Hitbox
 			}
 
 			BossProjectiles: {
@@ -478,7 +488,7 @@ Mods: {
 			WanderingJellyfish: An airborne creature, capable of flight using a combination of gases in its clear hull. Like the Jellyfish on earth, they also use pulsation to aid in locomotion.
 		}
 
-		Condition.HasFoundGiantsMaul: Mods.MogMod.Condition.HasFoundGiantsMaul
+		Condition.HasFoundGiantsMaul: When obtained
 
 		NeutralItemSlot: {
 			Neutral: Neutral Item
@@ -499,6 +509,13 @@ Mods: {
 				Latent.DisplayName: Latent
 				Prestigious.DisplayName: Prestigious
 				Savage.DisplayName: Savage
+			}
+
+			Accessory: {
+				Brutal.DisplayName: Brutal
+				Cruel.DisplayName: Cruel
+				Gory.DisplayName: Gory
+				Grim.DisplayName: Grim
 			}
 		}
 	}

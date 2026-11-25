@@ -7,15 +7,13 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.Tools
 {
     public class ForceStaffHoldout : BaseHoldoutProjectile
     {
-        public override LocalizedText DisplayName => MiscUtils.GetItemName<ForceStaff>();
-        public override string Texture => "MogMod/Items/Tools/ForceStaff";
+        public override int AssociatedItemID => ModContent.ItemType<ForceStaff>();
         public override float RotationOffset => 45;
         public override float HoldoutOffset => Projectile.width / 3;
         public override float TurnSpeed => 0.25f;
@@ -29,15 +27,10 @@ namespace MogMod.Projectiles.Tools
         public bool fullCharge = false;
         public bool playedSound = false;
         public bool launchedPlayer = false;
-        public override void SetDefaults()
+        public override void Defaults()
         {
-            Projectile.width = 74;
-            Projectile.height = 80;
-            Projectile.friendly = true;
-            Projectile.tileCollide = false;
-            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Magic;
             Projectile.alpha = 255;
-            Projectile.netImportant = true;
         }
         public override void HoldoutAI()
         {
@@ -132,7 +125,7 @@ namespace MogMod.Projectiles.Tools
         public override void PreDrawBehind(ref Color lightColor)
         {
             if (Timer < minChargeTime) return;
-            Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Projectiles/Tools/ForceStaffGhost").Value;
+            Texture2D ghost = ModContent.Request<Texture2D>("MogMod/Assets/Ghosts/ForceStaffGhost").Value;
             float drawSpeed = MathF.Sin(Main.GlobalTimeWrappedHourly * (Timer / 100)) * 0.5f + 0.5f;
             float outlineWidth = Timer / 150;
             for (float i = 0; i <= MathHelper.TwoPi; i += MathHelper.TwoPi * 0.25f)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MogMod.Buffs.Debuffs;
 using MogMod.Common.MogModPlayer;
 using MogMod.Utilities;
 using Terraria;
@@ -8,10 +9,7 @@ using Terraria.ModLoader;
 
 namespace MogMod.Projectiles.Classless
 {
-    /// <summary> Intended to be used for projectiles that leave behind a damaging trail. <br/>
-    /// Set Projectile.ai[2] to 5f if you'd like to draw a visual, or 6f if you'd like a dust effect. <br/>
-    /// Certain projectile specific changes are done in here instead of NewProjectileDirect, like with KaminariZipProj.</summary>
-    public class TrailProj : ModProjectile, ILocalizedModType
+    public class BlazingTrailHitbox : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Classless";
         public override string Texture => "MogMod/Assets/Textures/InvisibleProj";
@@ -29,6 +27,7 @@ namespace MogMod.Projectiles.Classless
             Projectile.tileCollide = false;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 15;
+            Projectile.ContinuouslyUpdateDamageStats = true;
         }
         public override void AI()
         {
@@ -41,18 +40,15 @@ namespace MogMod.Projectiles.Classless
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    int fireDust = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.AncientLight, 0f, 0f, 100, Color.White);
-                    Dust dust = Main.dust[fireDust];
+                    int hitboxDust = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.AncientLight, 0f, 0f, 100, Color.White);
+                    Dust dust = Main.dust[hitboxDust];
                     dust.noGravity = true;
                     dust.position = Projectile.Center;
                 }
             }
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            MogPlayer mogPlayer = Owner.MogMod();
-            if (mogPlayer.wearingKaminari && mogPlayer.kaminariActive) target.AddBuff(BuffID.Electrified, 180);
-        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<BlazingDebuff>(), 180);
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<BlazingDebuff>(), 180);
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => MogModUtils.CircularHitboxCollision(Projectile.Center, Size, targetHitbox);
         public override bool PreDraw(ref Color lightColor)
         {

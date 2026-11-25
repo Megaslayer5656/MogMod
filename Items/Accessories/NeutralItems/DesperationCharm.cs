@@ -31,7 +31,7 @@ namespace MogMod.Items.Accessories.NeutralItems
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.CharmofMyths, 1).
+                AddIngredient(ItemID.CharmofMyths).
                 AddIngredient<DabDadBar>(10).
                 AddIngredient<SoulOfMogMod>(5).
                 AddTile(TileID.MythrilAnvil).

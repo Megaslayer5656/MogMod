@@ -2,6 +2,7 @@
 using MogMod.Common.MogModPlayer;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
+using MogMod.Items.Placeable.Bars;
 using MogMod.Projectiles.Classless;
 using Terraria;
 using Terraria.DataStructures;
@@ -75,9 +76,9 @@ namespace MogMod.Items.Accessories.Wings
         {
             CreateRecipe().
                 AddIngredient(ItemID.SoulofFlight, 20).
-                AddIngredient(ItemID.LunarBar, 12).
+                AddIngredient<VoniumBar>(5).
                 AddIngredient<SoulFragment>(3).
-                AddIngredient<SoulOfMogMod>(1).
+                AddIngredient<SoulOfMogMod>().
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

@@ -21,7 +21,7 @@ namespace MogMod.NPCs.Bosses
             NPC.height = 100;
             NPC.damage = 269;
             NPC.defense = 100;
-            NPC.lifeMax = 924000;
+            NPC.lifeMax = 324000;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.value = Item.buyPrice(1, 0, 0, 0);

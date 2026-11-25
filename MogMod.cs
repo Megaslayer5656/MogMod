@@ -28,6 +28,11 @@ namespace MogMod
             GameShaders.Misc["MogMod:MagicMissileRGB"].UseImage0(ModContent.Request<Texture2D>("MogMod/Assets/Trails/MagicMissileRGB", ReLogic.Content.AssetRequestMode.ImmediateLoad));
             GameShaders.Misc["MogMod:MagicMissileRGB"].UseImage1("Images/Extra_194");
             GameShaders.Misc["MogMod:MagicMissileRGB"].UseImage2("Images/Extra_193");
+
+            GameShaders.Misc["MogMod:CometLaserRGB"] = new MiscShaderData(Main.VertexPixelShaderRef, "MagicMissile").UseProjectionMatrix(doUse: true);
+            GameShaders.Misc["MogMod:CometLaserRGB"].UseImage0(ModContent.Request<Texture2D>("MogMod/Assets/Trails/MagicMissileRGB", ReLogic.Content.AssetRequestMode.ImmediateLoad));
+            GameShaders.Misc["MogMod:CometLaserRGB"].UseImage1("Images/Extra_194");
+            GameShaders.Misc["MogMod:CometLaserRGB"].UseImage2("Images/Extra_190");
         }
 
         public override void HandlePacket(BinaryReader reader, int whoAmI)

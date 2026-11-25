@@ -58,14 +58,14 @@ namespace MogMod.Projectiles.RangedProjectiles
             
             foreach (Projectile proj in Main.ActiveProjectiles)
             {
-                if (proj.type == ModContent.ProjectileType<TracerArrow>())
+                if (proj.type == ModContent.ProjectileType<TracerArrow>() && proj.owner == Projectile.owner)
                 {
                     distance = Vector2.Distance(Projectile.Center, proj.Center);
                     if (distance <= homingReq) potentialTarget = proj;
                 }
             }
 
-            if (potentialTarget != null)
+            if (potentialTarget != null && potentialTarget.owner == Projectile.owner)
             {
                 float angularTurnSpeed = MathHelper.ToRadians(2.5f);
                 float idealDirection = Projectile.AngleTo(potentialTarget.Center);

@@ -1,27 +1,27 @@
 ﻿using Microsoft.Xna.Framework;
 using MogMod.Items.Global;
 using MogMod.Items.Placeable.Bars;
-using MogMod.Projectiles.RangedProjectiles;
+using MogMod.Projectiles.Melee;
 using MogMod.Utilities;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MogMod.Items.Weapons.Ranged
+namespace MogMod.Items.Weapons.Melee
 {
     //143x85 21 to 45
     public class BerserkersSpear : ModItem, ILocalizedModType
     {
-        public new string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         // lets you repeatedly right click
         public override void SetStaticDefaults() => ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         public override void SetDefaults()
         {
             Item.damage = 80;
-            Item.DamageType = DamageClass.Ranged;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.width = 20;
             Item.height = 4;
             Item.useTime = Item.useAnimation = 60;
@@ -70,8 +70,7 @@ namespace MogMod.Items.Weapons.Ranged
                 player.immune = false;
                 player.immuneTime = 0;
                 damage = (int)(Item.damage / (percentLifeLeft + 0.3f));
-                type = ModContent.ProjectileType<BerserkersFireSpearProj>();
-                Projectile.NewProjectile(source, position, velocity, type, damage, knockback * 2f, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback * 2f, player.whoAmI, ai2: 5f);
                 return false;
             }
             if (Main.zenithWorld)

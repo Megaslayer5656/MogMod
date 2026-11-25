@@ -6,6 +6,7 @@ using MogMod.Items.Other;
 using MogMod.Items.Placeable.Bars;
 using MogMod.Items.Weapons.Magic;
 using MogMod.Projectiles.RangedProjectiles;
+using MogMod.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -78,7 +79,6 @@ namespace MogMod.Items.Weapons.Ranged
         // fires powershot if right clicked
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-
             if (player.altFunctionUse == 2)
             {
                 SoundEngine.PlaySound(windrunnerShoot); // starts playing at current position, doesnt update the sound with where you are
@@ -89,13 +89,10 @@ namespace MogMod.Items.Weapons.Ranged
 
                 Projectile.NewProjectile(source, position, velocity, type, damage, knockback, Main.myPlayer);
                 // stop player from moving while shooting
-                player.AddBuff(ModContent.BuffType<ChargingShot>(), 70);
+                player.MogMod().chargingItem = 70;
                 return false;
             }
-            else
-            {
-                return true;
-            }
+            else return true;
         }
         // gives variation in shots fired like minislark or switch
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
@@ -115,17 +112,17 @@ namespace MogMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                    if (player.ItemTimeIsZero)
-                    {
-                        return false;
-                    }
+                                        if (player.ItemTimeIsZero)
+                                        {
+                                            return false;
+                                        }
             }
             return true;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.MoltenFury, 1).
+                AddIngredient(ItemID.MoltenFury).
                 AddIngredient<WoodlandFabric>(12).
                 AddIngredient(ItemID.Vine, 10).
                 AddIngredient<FuciumBar>(8).

@@ -368,7 +368,7 @@ Items: {
 					'''
 					Swing an inferno greatsword that inflicts [mogbuff:MogMod/InfernoDebuff]
 					Right click before swinging to hold the weapon upwards, shooting [mogbuff:MogMod/InfernoDebuff] bolts that empower the greatsword
-					Damaging enemies with the [mogbuff:MogMod/BlazingDebuff] bolts empower the greatsword for up to {0}x damage
+					Damaging enemies with the [mogbuff:MogMod/InfernoDebuff] bolts empower the greatsword for up to {0}x damage
 					The greatsword loses power every time an enemy is struck
 					True melee critical strikes deal up to {1}% extra damage
 					'The ultimate endurance test.'
@@ -426,7 +426,7 @@ Items: {
 
 			DaturaLash: {
 				DisplayName: Datura Lash
-				Tooltip: Launches a whip sword that inflicts Venom
+				Tooltip: Launches a whip sword that inflicts [mogBuff:Venom]
 			}
 
 			Nativitas: {
@@ -461,6 +461,16 @@ Items: {
 			RustedHatchet: {
 				DisplayName: Rusted Hatchet
 				Tooltip: Throws a hatchet that bounces off enemies {0} times
+			}
+
+			WarriorsSpear: {
+				Tooltip: ""
+				DisplayName: Warriors Spear
+			}
+
+			BerserkersSpear: {
+				Tooltip: ""
+				DisplayName: Berserkers Spear
 			}
 		}
 
@@ -659,6 +669,7 @@ Items: {
 					Fires a spread of {0} lasers that build up heat in the weapon's heatsink
 					Damage is increased based on how much heat is in the weapon
 					Building up too much heat causes the heatsink to overheat, requiring the heatsink to be replaced
+					Heat gradually cools down overtime when held if the weapon is not overheating
 					Press [KEY] to replace the heatsink
 					Uses {1} gel for every heatsink
 					Ignores {2} points of enemy Defense
@@ -756,7 +767,7 @@ Items: {
 				DisplayName: Jericolt
 				Tooltip:
 					'''
-					Imbues your bullets with Hellfire and Frostburn, alternating every shot
+					Imbues your bullets with [mogbuff:OnFire3] and [mogbuff:Frostburn], alternating every shot
 					[c/62CCF5:'So cold, ][c/F59562:it burns!']
 					'''
 			}
@@ -803,7 +814,7 @@ Items: {
 				DisplayName: Hellfire Maxigun
 				Tooltip:
 					'''
-					Fires a barrage of flaming bullets that build up heat in the weapon
+					Fires a barrage of [mogbuff:OnFire3] bullets that build up heat in the weapon
 					Attack speed is increased based on how much heat is in the weapon
 					Firing for too long overheats the weapon, rendering it unusable until it cools down
 					'''
@@ -1230,7 +1241,7 @@ Items: {
 				Tooltip:
 					'''
 					[c/701228:Sorceries cast 20% slower]
-					[c/DE8F62:Sorceries inflict hellfire]
+					[c/DE8F62:Sorceries inflict ][mogbuff:OnFire3]
 					[c/C46B27:'Staff with a forked tip, embedded with red glintstones.']
 					'''
 			}
@@ -1564,7 +1575,7 @@ Items: {
 
 		IsraelArrow: {
 			DisplayName: Israel Arrow
-			Tooltip: Inflicts Midas on hit and summons a Goy Beam from down under
+			Tooltip: Inflicts [mogBuff:Midas] on hit and summons a Goy Beam from down under
 		}
 
 		BouncyBoulderBullet: {
@@ -1574,7 +1585,7 @@ Items: {
 
 		EndlessGreenTracerPouch: {
 			DisplayName: Endless Green Tracer Pouch
-			Tooltip: ""
+			Tooltip: An infinite supply the true tigla slimer's ammo
 		}
 
 		RuntyArrow: {
@@ -2154,7 +2165,7 @@ Items: {
 
 		BlademailLeggings: {
 			DisplayName: Blademail Leggings
-			Tooltip: tigz +{0}% Movement and Melee Speed
+			Tooltip: +{0}% Movement and Melee Speed
 		}
 
 		UndyingHelm: {
@@ -2371,7 +2382,7 @@ Items: {
 			SetBonusNormal:
 				'''
 				[c/{0}:Immunity to lava]
-				[c/{0}:Attacks inflict hellfire]
+				[c/{0}:Attacks inflict] [mogBuff:OnFire3]
 				[c/{0}:When dealing over {2} damage in a single attack, create a hellfire explosion dealing 4x the damage dealt, with a soft cap of {1}]
 				[c/{0}:Effect has a {3} second cooldown]
 				'''
@@ -2379,20 +2390,13 @@ Items: {
 				'''
 				[c/CC3712:'That was hot!'] - Lina dota2 midlane 1/48/2 triple [i:MogMod/DivineRapierWeapon]
 				[c/{0}:uhhh attacks make explosions when uunder ~ {1} dmage its kinda bad and it has a really long cooldown like {2} minutes- no seconds]
-				[c/{0}:it kinda needs a buff but i dont want to buff it because i think buffing it would be a...]
-				IO mid
-				[c/{0}:i ran out of things to say]
 				[c/12CC41:wPopOff]
 				[c/45F8FF:zoink]
 				[c/FF45FC:doggie]
 				z
 				44
 				8
-				[i:4956] [i:MogMod/HellfireMask] [i:MogMod/ScavVest] 6 7/8
-				dumb
-				dumb
-				dumb
-				sahur
+				[i:4956] [i:MogMod/HellfireMask] [i:MogMod/ScavVest] 6 7/8ths
 				'''
 		}
 

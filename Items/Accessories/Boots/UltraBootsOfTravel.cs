@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using MogMod.Buffs.Summons;
 using MogMod.Items.Global;
 using MogMod.Items.Other;
 using MogMod.Projectiles.Classless;
-using MogMod.Projectiles.Summon;
 using MogMod.Utilities;
 using Terraria;
 using Terraria.ID;
@@ -20,14 +18,13 @@ namespace MogMod.Items.Accessories.Boots
             Item.accessory = true;
             Item.width = 34;
             Item.height = 30;
-            Item.rare = ItemRarityID.LightRed;
-            Item.value = MogGlobalItem.RarityLightRedBuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.value = MogGlobalItem.RarityYellowBuyPrice;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.accRunSpeed = 11f;
-            player.moveSpeed += .38f;
+            player.moveSpeed += 0.38f;
             player.rocketBoots = player.vanityRocketBoots = 3;
 
             // unique boot effects
@@ -52,7 +49,6 @@ namespace MogMod.Items.Accessories.Boots
                     {
                         var p = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, type, 1, 0f, Main.myPlayer);
                         p.active = true;
-                        //p.ai[2] = 2f; // ultra boots of travel
                     }
                 }
 
@@ -72,12 +68,12 @@ namespace MogMod.Items.Accessories.Boots
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<BootsOfTravel>(1).
-                AddIngredient(ItemID.TerrasparkBoots, 1).
-                AddIngredient(ItemID.SandBoots, 1).
+                AddIngredient<BootsOfTravel>().
+                AddIngredient(ItemID.TerrasparkBoots).
+                AddIngredient(ItemID.SandBoots).
                 AddIngredient(ItemID.HellstoneBar, 15).
                 AddIngredient(ItemID.SwiftnessPotion, 5).
-                AddIngredient<CraftingRecipe>(1).
+                AddIngredient<CraftingRecipe>().
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

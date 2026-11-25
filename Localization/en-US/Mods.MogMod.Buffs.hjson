@@ -110,7 +110,7 @@ DrumOfEnduranceBuff: {
 
 EyeOfSkadiDebuff: {
 	DisplayName: Cold Attack
-	Description: Rapidly losing Life!
+	Description: You feel as slow as a glacier!
 }
 
 HolyLocketBuff: {
@@ -304,7 +304,7 @@ WraithPactAura: {
 }
 
 JidiPollenBagDebuff: {
-	DisplayName: Jidi Pollen Bag
+	DisplayName: Terminally Ill
 	Description: Your defense is being torn apart!
 }
 

@@ -34,7 +34,6 @@ namespace MogMod.Items.Ammo.SorcerySpells.Legendary
                 AddIngredient<StarShower>().
                 AddIngredient<FrostEssence>(8).
                 AddIngredient<ManaCore>().
-                AddIngredient<Scroll>().
                 AddTile(TileID.Bookcases).
                 DisableDecraft().
                 Register();

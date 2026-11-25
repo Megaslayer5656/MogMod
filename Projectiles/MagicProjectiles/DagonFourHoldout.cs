@@ -14,8 +14,7 @@ namespace MogMod.Projectiles.MagicProjectiles
 {
     public class DagonFourHoldout : BaseHoldoutProjectile
     {
-        public override LocalizedText DisplayName => MiscUtils.GetItemName<DagonFour>();
-        public override string Texture => "MogMod/Items/Weapons/Magic/DagonFour";
+        public override int AssociatedItemID => ModContent.ItemType<DagonFour>();
         public override float RotationOffset => 45;
         public override float HoldoutOffset => Projectile.width / 2;
         public override float TurnSpeed => 0.125f;
@@ -30,18 +29,10 @@ namespace MogMod.Projectiles.MagicProjectiles
         int Cap = 18; // to prevent being unable to fire with enough attack speed
         int NumShots = 0; // num of shots fired
         int MaxShots = DagonFour.MaxShots; // max amount of shots fired
-        public override void SetDefaults()
+        public override void Defaults()
         {
-            Projectile.width = Projectile.height = 32;
-            Projectile.friendly = true;
-            Projectile.ignoreWater = true;
-            Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Magic;
-            Projectile.ContinuouslyUpdateDamageStats = true;
-            Projectile.penetrate = -1;
             Projectile.alpha = 255;
-
-            Projectile.netImportant = true;
         }
         public override void HoldoutAI()
         {

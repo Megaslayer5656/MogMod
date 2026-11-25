@@ -30,9 +30,11 @@ namespace MogMod.NPCs.TownNpc
             NPCID.Sets.AttackAverageChance[Type] = 8;
             NPC.Happiness
                 .SetBiomeAffection<DesertBiome>(AffectionLevel.Love)
-                .SetBiomeAffection<HallowBiome>(AffectionLevel.Dislike)
+                .SetBiomeAffection<UndergroundBiome>(AffectionLevel.Like)
+                .SetBiomeAffection<HallowBiome>(AffectionLevel.Hate)
                 .SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Love)
                 .SetNPCAffection(NPCID.ArmsDealer, AffectionLevel.Like)
+                .SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Dislike)
                 .SetNPCAffection(NPCID.PartyGirl, AffectionLevel.Dislike)
                 .SetNPCAffection(NPCID.Angler, AffectionLevel.Hate)
             ;
@@ -49,6 +51,7 @@ namespace MogMod.NPCs.TownNpc
             NPC.HitSound = SoundID.NPCHit1;
             NPC.HitSound = SoundID.NPCDeath1;
             NPC.knockBackResist = 0.5f;
+            NPC.lavaImmune = true;
             AnimationType = 48;
         }
         public override bool CanGoToStatue(bool toKingStatue) => true;

@@ -77,21 +77,19 @@ namespace MogMod.Projectiles.RangedProjectiles
             {
                 if (Projectile.ai[0] == MinCharge)
                 {
-                    SoundStyle teleport = (Projectile.ai[2] == 0f ? SoundID.Item114 : SoundID.Item115);
-                    SoundEngine.PlaySound(teleport with { Volume = MathHelper.Clamp(Math.Abs(0.5f - Owner.MogMod().crescentMoonPower), 0.5f, 1f), Pitch = -0.2f, MaxInstances = -1 }, Owner.Center);
                     if (Projectile.owner == Main.myPlayer)
                     {
                         potentialTarget = Projectile.Center.ClosestNPCAt(1500f, true, true);
                         if (potentialTarget != null)
                         {
-                            DustEffect();
+                            DustEffect(true);
                             Vector2 randPos = Main.rand.NextVector2CircularEdge(potentialTarget.width * 3f, potentialTarget.height * 3f);
                             Projectile.Center = potentialTarget.Center + randPos;
                             float angularTurnSpeed = MathHelper.ToRadians(360f);
                             float idealDirection = Projectile.AngleTo(potentialTarget.Center);
                             float updatedDirection = Projectile.velocity.ToRotation().AngleTowards(idealDirection, angularTurnSpeed);
                             Projectile.velocity = updatedDirection.ToRotationVector2() * Projectile.velocity.Length();
-                            DustEffect();
+                            DustEffect(false);
                         }
                         else KillEffect();
                         Projectile.netUpdate = true;
@@ -100,8 +98,13 @@ namespace MogMod.Projectiles.RangedProjectiles
                 Projectile.tileCollide = false;
             }
         }
-        public void DustEffect()
+        public void DustEffect(bool playSound)
         {
+            if (playSound)
+            {
+                SoundStyle teleport = (Projectile.ai[2] == 0f ? SoundID.Item114 : SoundID.Item115);
+                SoundEngine.PlaySound(teleport with { Volume = MathHelper.Clamp(Math.Abs(0.5f - Owner.MogMod().crescentMoonPower), 0.5f, 1f), Pitch = -0.2f, MaxInstances = -1 }, Owner.Center);
+            }
             float dustLoopcheck = 16f;
             int dustIncr = 0;
             while (dustIncr < dustLoopcheck)
@@ -141,7 +144,7 @@ namespace MogMod.Projectiles.RangedProjectiles
         {
             if (!HitEnemy)
             {
-                if (Projectile.ai[0] == MinCharge) DustEffect();
+                if (Projectile.ai[0] == MinCharge) DustEffect(true);
                 Projectile.velocity = Vector2.Zero;
                 Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
                 SoundEngine.PlaySound(SoundID.Item10, Projectile.position);

@@ -4,6 +4,7 @@ using MogMod.Buffs.Debuffs;
 using MogMod.Common.Graphics;
 using MogMod.Utilities;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -38,6 +39,16 @@ namespace MogMod.Projectiles.RangedProjectiles
             Projectile.timeLeft = 1600;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
             AIType = ProjectileID.Bullet;
+        }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(velocityMult);
+            writer.WriteVector2(Projectile.velocity);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            velocityMult = reader.ReadInt32();
+            Projectile.velocity = reader.ReadVector2();
         }
         public override void OnSpawn(IEntitySource source) => velocityMult = Main.zenithWorld ? 0.1f: Main.rand.NextFloat(0.9f, 0.99f);
         public override void AI()

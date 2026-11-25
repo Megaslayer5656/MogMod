@@ -7,6 +7,8 @@ Weapon: {
 	SorceryKnockbackTooltip: "{0}% spell knockback"
 }
 
+Accessory.BleedBuildupTooltip: +{0}% Bleed Buildup
+
 NPC: {
 	Hellfire: Hellfire {0}
 	Overloading: Overloading {0}

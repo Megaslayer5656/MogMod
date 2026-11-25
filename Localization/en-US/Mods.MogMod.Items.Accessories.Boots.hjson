@@ -6,7 +6,7 @@ ArcaneBoots: {
 		The wearer can run super fast
 		Increased Maximum Mana by {0}
 		Slightly Increased Mana Regeneration
-		Pressing [KEY] will restore {1} Mana
+		Pressing [KEY] will restore {1} mana to you and nearby team members
 		[c/2481A6:'Magi equipped with these boots are valued in battle.']
 		'''
 }
@@ -23,7 +23,8 @@ GuardianGreaves: {
 		Greatly Increased Mana regeneration
 		Provides you and nearby team members +{1} Maximum Life, +{2} Maximum Mana, 
 		+{3} HP/s Life regen, {4} Defense and +{5}% Increased Attack Damage
-		Pressing [KEY] will restore {6} Life and {7} Mana
+		Pressing [KEY] will restore {6} life and {7} mana to you and nearby team members
+		If you've been healed by [i:MogMod/Mekansm] Mekansm or [i:MogMod/GuardianGreaves] Guardian Greaves you cannot be healed by them again for {8} seconds
 		[c/1CA396:'One of many holy instruments constructed to honor the Omniscience.']
 		'''
 }

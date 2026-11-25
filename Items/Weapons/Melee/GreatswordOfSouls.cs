@@ -21,10 +21,10 @@ namespace MogMod.Items.Weapons.Melee
             base.SetDefaults();
             Item.width = Item.height = 86;
 
-            Item.damage = 165;
+            Item.damage = 170;
             Item.knockBack = 13f;
             Item.DamageType = DamageClass.Melee;
-            Item.useTime = Item.useAnimation = 40;
+            Item.useTime = Item.useAnimation = 34;
             Item.autoReuse = true;
 
             Item.rare = ItemRarityID.Red;

@@ -6,6 +6,7 @@ using MogMod.Projectiles.BaseProjectiles;
 using MogMod.Utilities;
 using ReLogic.Utilities;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -55,6 +56,16 @@ namespace MogMod.Projectiles.Melee
             AfterImageLength = 10;
             Projectile.timeLeft = 600;
             Projectile.scale *= 1.25f;
+        }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            base.SendExtraAI(writer);
+            writer.WriteVector2(angle);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            base.ReceiveExtraAI(reader);
+            angle = reader.ReadVector2();
         }
         public override void AdditionalAI()
         {
